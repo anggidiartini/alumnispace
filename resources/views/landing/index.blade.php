@@ -115,6 +115,8 @@
     .reveal-d4{transition-delay:.32s;}
     .reveal-pop{transform:translateY(30px) scale(.92);}
     .reveal-pop.in-view{transform:translateY(0) scale(1);}
+    .about-sticker-1{animation:float 4.5s ease-in-out infinite;}
+    .about-sticker-2{animation:float 5.5s ease-in-out infinite;--r:-6deg;animation-delay:.4s;}
   }
 
   /* HERO-SPECIFIC ENTRANCE + AMBIENT ANIMATIONS */
@@ -334,8 +336,8 @@
     box-shadow:var(--shadow-chunky-sm);
   }
 
-  .wave-outer{position:absolute;bottom:-1px;left:0;width:100%;height:70px;overflow:hidden;line-height:0;}
-  .wave-divider{display:block;width:200%;height:70px;}
+  .wave-outer{position:absolute;bottom:-1px;left:0;width:100%;height:42px;overflow:hidden;line-height:0;}
+  .wave-divider{display:block;width:200%;height:42px;}
   @media (prefers-reduced-motion:no-preference){
     .wave-divider{animation:waveDrift 16s linear infinite;}
   }
@@ -386,16 +388,48 @@
   @keyframes audioBar{0%,100%{height:6px;}50%{height:22px;}}
 
   /* ABOUT */
-  .about{background:var(--sky-tint);padding:90px 0;}
-  .about .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;}
+  .about{
+    background:linear-gradient(180deg, var(--paper) 0%, var(--paper) 7%, var(--sky-tint) 22%, var(--dewy-blue) 55%, var(--morning-breeze) 100%);
+    padding:90px 0 0;
+    overflow:hidden;
+  }
+  .about-dots{
+    position:absolute;inset:0;
+    background-image:radial-gradient(var(--ink) 1.5px, transparent 1.5px);
+    background-size:26px 26px;
+    opacity:.06;
+    pointer-events:none;
+  }
+  .about .wrap{position:relative;display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;padding-bottom:70px;}
   .about-visual{position:relative;}
-  .about-frame{
+  .about-frame-backdrop{
+    position:absolute;
+    inset:0;
+    background:var(--sunwashed);
     border:4px solid var(--ink);
     border-radius:var(--radius-lg);
-    background:var(--dewy-blue);
+    transform:rotate(-8deg);
+    z-index:0;
+  }
+  .about-frame{
+    position:relative;
+    z-index:1;
+    border:4px solid var(--ink);
+    border-radius:var(--radius-lg);
+    background:repeating-linear-gradient(135deg, var(--dewy-blue) 0 12px, var(--sky-tint-2) 12px 24px);
     padding:22px;
     box-shadow:var(--shadow-chunky);
     transform:rotate(2deg);
+  }
+  .about-frame-tape{
+    position:absolute;
+    top:-14px;left:50%;
+    transform:translateX(-50%) rotate(-4deg);
+    width:92px;height:28px;
+    background:rgba(255,148,102,.9);
+    border:2px solid var(--ink);
+    border-radius:3px;
+    z-index:2;
   }
   .about-frame img{border-radius:var(--radius-md);border:3px solid var(--ink);background:var(--paper);min-height:220px;}
   .stat-float{
@@ -405,12 +439,111 @@
     padding:14px 18px;box-shadow:var(--shadow-chunky-sm);
     font-family:'Baloo 2',sans-serif;
     text-align:center;
+    z-index:3;
   }
   .stat-float b{display:block;font-size:24px;}
   .stat-float span{font-size:11px;font-weight:600;}
+  .about-badge-2{
+    position:absolute;top:-16px;left:-20px;
+    background:var(--sunwashed);color:var(--ink);
+    border:3px solid var(--ink);border-radius:16px;
+    padding:9px 14px;box-shadow:var(--shadow-chunky-sm);
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;
+    z-index:3;
+  }
+  .about-sticker{
+    position:absolute;
+    width:52px;height:52px;border-radius:50%;
+    background:var(--paper);border:3px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;box-shadow:var(--shadow-chunky-sm);
+    z-index:3;
+  }
+  .about-sticker-1{top:8%;right:-8%;background:var(--sunwashed);}
+  .about-sticker-2{bottom:22%;left:-10%;background:var(--coral);}
+
+  .about-highlights{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-top:22px;
+  }
+  .about-highlight{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--paper);
+    border:2.5px solid var(--ink);
+    border-radius:999px;
+    padding:8px 16px;
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;
+    box-shadow:3px 3px 0 var(--ink);
+  }
 
   .section-title{font-size:clamp(28px,3.6vw,42px);margin-top:14px;}
   .section-text{margin-top:18px;font-size:17px;color:var(--ink-soft);font-weight:600;line-height:1.65;max-width:56ch;}
+
+  /* MARQUEE STRIP */
+.marquee-band {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: var(--ink);
+  border-top: 3px dashed var(--sunwashed);
+  border-bottom: 3px dashed var(--sunwashed);
+  overflow: hidden;
+  padding: 12px 0;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-copy {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marquee-copy span {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--paper);
+  white-space: nowrap;
+  padding: 0 15px;
+}
+
+.marquee-copy .dot {
+  color: var(--sunwashed);
+  padding: 0 10px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marqueeScroll 22s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-copy:nth-child(2) {
+    display: none;
+  }
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
 
   /* COUNT */
   .count{
@@ -684,9 +817,15 @@
 
 <!-- ABOUT -->
 <section class="about" id="about">
+  <div class="about-dots"></div>
   <div class="wrap">
     <div class="about-visual reveal">
+      <span class="about-badge-2">😄 Sejak 2016</span>
+      <span class="about-sticker about-sticker-1">📚</span>
+      <span class="about-sticker about-sticker-2">🎓</span>
+      <div class="about-frame-backdrop"></div>
       <div class="about-frame">
+        <span class="about-frame-tape"></span>
         <img src="{{ asset('assets/images/antares.png') }}" alt="Momen kumpul alumni Antares">
       </div>
       <div class="stat-float float-slow">
@@ -698,6 +837,22 @@
       <span class="eyebrow">💛 Kenalin Dulu, Nih...</span>
       <h2 class="section-title">Bukan Sekadar Grup, Ini Keluarga Kedua Kita!</h2>
       <p class="section-text">Website ini dibuat khusus buat kita semua yang rindu masa-masa sekolah/kuliah dulu. Dari yang awalnya cuma mau nanya "Eh, sekarang sibuk apa?", sampai bisa kolaborasi bareng bikin project keren. Yuk, bikin jejaring silaturahmi kita makin erat dan seru di sini!</p>
+      <div class="about-highlights">
+        <span class="about-highlight">🔗 Networking Lintas Angkatan</span>
+        <span class="about-highlight">💼 Info Karir & Loker</span>
+        <span class="about-highlight">🎉 Reuni Rutin Tiap Tahun</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-band">
+    <div class="marquee-track">
+      <div class="marquee-copy">
+        <span>Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span> Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span> Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span></span>
+      </div>
+      <div class="marquee-copy" aria-hidden="true">
+        <span>Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span> Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span> Tidak Ada Kenangan Yang Lebih Indah Dari Masa-Masa Sekolah <span class="dot">•</span> Tiada Hari Tanpa Canda, Tawa, Sedih <span class="dot">•</span></span>
+      </div>
     </div>
   </div>
 </section>
