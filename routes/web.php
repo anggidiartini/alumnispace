@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/opening', function () {
     return view('opening.index');
 });
-
+    
 Route::get('/landing', function () {
     return view('landing.index');
 });
