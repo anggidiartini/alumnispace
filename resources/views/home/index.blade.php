@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
   </head>
   <body>
     <!-- ===== NAVBAR ===== -->
@@ -44,9 +44,10 @@
     <!-- ===== HERO ===== -->
     <section class="hero" id="beranda">
       <!-- Aset Stiker OMG yang baru kita buat -->
-  <img src="assets/omg2.png" alt="OMG Sticker" class="hero-omg-sticker">
+  <img src="{{ asset('assets/images/omg.png') }}" alt="OMG Sticker" class="hero-omg-sticker">
+
       <!-- TARUH KODE TELEPON DI SINI (DI DALAM HERO) -->
-  <img src="assets/telefon.png" alt="Gagang Telepon" class="hero-phone-hanger">
+  <img src="{{ asset('assets/images/telefon.png') }}" alt="Gagang Telepon" class="hero-phone-hanger">
       <div class="hero-inner">
         <div class="hero-copy">
           <span class="pill-badge"> Halo, Angkatan Seperjuangan!</span>
@@ -62,14 +63,14 @@
 
   <!-- Tombol Pertama + Kancing Kuning -->
   <div class="magnifier-container btn-with-icon">
-    <img src="assets/kancing-kuning.png" alt="Kancing Kuning" class="hero-button-icon">
+    <img src="{{ asset('assets/images/kancing-kuning.png') }}" alt="Kancing Kuning" class="hero-button-icon">
     <a href="#masuk" class="btn btn-fill"><span>Masuk ke Akun Kuy!</span></a>
-    <img src="kaca-pembesar.png" alt="Kaca Pembesar" class="hero-magnifier">
+    <img src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="Kaca Pembesar" class="hero-magnifier">
   </div>
 
   <!-- Tombol Kedua + Kancing Merah -->
   <div class="btn-with-icon">
-    <img src="assets/kancing-merah.png" alt="Kancing Merah" class="hero-button-icon">
+    <img src="{{ asset('assets/images/kancing-merah.png') }}" alt="Kancing Merah" class="hero-button-icon">
     <a href="#daftar" class="btn btn-outline"><span>Jelajahi Bersama</span></a>
   </div>
 
@@ -97,10 +98,10 @@
           <div class="tv-wrapper">
             <!-- Foto Grup di dalam layar TV -->
             <div class="tv-screen-content">
-              <img src="assets/alumni-group.png" alt="Foto Nostalgia Sekolah" />
+              <img src="{{ asset('assets/images/alumni-group.png') }}" alt="Foto Nostalgia Sekolah" />
             </div>
             <!-- Bingkai TV Utama -->
-            <img src="assets/tv-assets.png" alt="Bingkai TV" class="img-tv-frame" />
+            <img src="{{ asset('assets/images/tv-assets.png') }}" alt="Bingkai TV" class="img-tv-frame" />
           </div>
         </div>
         <!-- Banner Panjang Bawah -->
@@ -143,7 +144,7 @@
     <!-- ===== STATS ===== -->
     <section class="stats" id="stats">
       <!-- Aset Lembar Kertas di Kiri -->
-  <img src="assets/lembar-atas.png" alt="Hiasan Lembar Kertas" class="stats-corner-paper">
+  <img src="{{ asset('assets/images/lembar-atas.png') }}" alt="Hiasan Lembar Kertas" class="stats-corner-paper">
       <div class="stats-marquee">
         <div class="stats-track" id="statsTrack">
           <div class="stat-card tint-white">
@@ -210,7 +211,7 @@
 <div class="decor-assets-container">
 
   <!-- 1. Kartu Kuning (Tempat Teks) -->
-  <img src="assets/card-kuning.png" class="decor-item asset-card-biru" alt="Card Biru">
+  <img src="{{ asset('assets/images/card-kuning.png') }}" class="decor-item asset-card-biru" alt="Card Biru">
 
   <!-- 🔥 KONTEN TEKS DI DALAM KARTU (Tanpa inline style) 🔥 -->
   <div class="card-content-box">
@@ -227,39 +228,39 @@
      ========================================== -->
 
     <!-- Aset 1: Jendela -->
-    <img src="assets/foto-jendela.png" alt="Jendela" class="decor-item asset-window animate-up">
+    <img src="{{ asset('assets/images/foto-jendela.png') }}" alt="Jendela" class="decor-item asset-window animate-up">
 
     <!-- Aset 2: Foto di Dalam Jendela -->
-    <img src="assets/fotodijendela copy.png" alt="Foto Jendela" class="decor-item asset-window-photo animate-up">
+    <img src="{{ asset('assets/images/fotodijendela copy.png') }}" alt="Foto Jendela" class="decor-item asset-window-photo animate-up">
 
     <!-- Aset 3: Telepon (Spesial: Wadah luar untuk animasi scroll, gambar dalam untuk ayun) -->
     <div class="decor-item asset-phone-wrapper animate-up" style="position: absolute !important; top: -1px !important; left: 35px !important; z-index: 13 !important;">
-      <img src="assets/telfon-hitam.png" alt="Telepon" class="asset-phone-img" style="width: 180px !important;">
+      <img src="{{ asset('assets/images/telfon-hitam.png') }}" alt="Telepon" class="asset-phone-img" style="width: 180px !important;">
     </div>
 
     <!-- Aset 4: Pegang Buku -->
-    <img src="assets/bukupink.png" alt="Pegang Buku" class="decor-item asset-book animate-up">
+    <img src="{{ asset('assets/images/bukupink.png') }}" alt="Pegang Buku" class="decor-item asset-book animate-up">
 
     <!-- Aset 5: Pegang HP -->
-    <img src="assets/pegang-hp.png" alt="Pegang HP" class="decor-item asset-phone-hand animate-up">
+    <img src="{{ asset('assets/images/pegang-hp.png') }}" alt="Pegang HP" class="decor-item asset-phone-hand animate-up">
 
     <!-- Aset 6: Mata -->
-    <img src="assets/mata.png" alt="Mata" class="decor-item asset-eyes animate-up">
+    <img src="{{ asset('assets/images/mata.png') }}" alt="Mata" class="decor-item asset-eyes animate-up">
 
     <!-- Aset 7: Memories -->
-    <img src="assets/memories.png" alt="Memories" class="decor-item asset-memories animate-up">
+    <img src="{{ asset('assets/images/memories.png') }}" alt="Memories" class="decor-item asset-memories animate-up">
 
     <!-- Aset 8: Gitar -->
-    <img src="assets/gitarmerah.png" alt="Gitar" class="decor-item asset-guitar animate-up">
+    <img src="{{ asset('assets/images/gitarmerah.png') }}" alt="Gitar" class="decor-item asset-guitar animate-up">
 
     <!-- Aset 9: Kamera Pink -->
-    <img src="assets/kamerapink.png" alt="Kamera Pink" class="decor-item asset-camera animate-up">
+    <img src="{{ asset('assets/images/kamerapink.png') }}" alt="Kamera Pink" class="decor-item asset-camera animate-up">
 
     <!-- Aset 10: Polkadot -->
-    <img src="assets/polkadot.png" alt="Polkadot" class="decor-item asset-polkadot animate-up">
+    <img src="{{ asset('assets/images/polkadot.png') }}" alt="Polkadot" class="decor-item asset-polkadot animate-up">
 
     <!-- Aset 11: Omg -->
-    <img src="assets/omg2.png" alt="Omg" class="decor-item asset-omg animate-up">
+    <img src="{{ asset('assets/images/omg2.png') }}" alt="Omg" class="decor-item asset-omg animate-up">
 
   </div>
 </section>
@@ -272,28 +273,28 @@
   <!-- Wadah utama area scrapbook -->
   <div class="scrapbook-container">
     <!-- Masukkan ke-24 aset kamu di sini (Contoh beberapa, ganti src dengan aset kamu) -->
-    <img src="assets/polaroid-biru1.png" class="scrap-item polaroid-biru1" alt="Polaroid Biru 1">
-    <img src="assets/polkadot.png" class="scrap-item polkadot" alt="Polkadot">
-    <img src="assets/panah-merah.png" class="scrap-item panah-merah" alt="Panah Merah">
+    <img src="{{ asset('assets/images/polaroid-biru1.png') }}" class="scrap-item polaroid-biru1" alt="Polaroid Biru 1">
+    <img src="{{ asset('assets/images/polkadot.png') }}" class="scrap-item polkadot" alt="Polkadot">
+    <img src="{{ asset('assets/images/panah-merah.png') }}" class="scrap-item panah-merah" alt="Panah Merah">
 
-    <img src="assets/map-kuning.png" class="scrap-item map-kuning1" alt="Map Kuning1">
-    <img src="assets/polaroid-kuning.png" class="scrap-item polaroid-kuning" alt="Polaroid Kuning">
-    <img src="assets/foto-handball.png" class="scrap-item foto-handball" alt="Foto Handball">
-    <img src="assets/panah-biru.png" class="scrap-item panah-biru" alt="Panah Biru">
-    <img src="assets/map-biru.png" class="scrap-item map-biru" alt="Map Biru">
-    <img src="assets/foto-batik.png" class="scrap-item foto-batik" alt="Foto Batik">
-    <img src="assets/polaroid-biru1.png" class="scrap-item polaroid-biru2" alt="Polaroid Biru 2">
-    <img src="assets/foto-agustus.png" class="scrap-item foto-agustus" alt="Foto Agustus">
-    <img src="assets/panah-biru.png" class="scrap-item panah-biru2" alt="Panah Biru 2">
-    <img src="assets/map-kuning.png" class="scrap-item map-kuning2" alt="Map Kuning 2">
-    <img src="assets/polkadot.png" class="scrap-item polkadot2" alt="Polkadot 2">
-    <img src="assets/mata.png" class="scrap-item mata1" alt="mata1">
-    <img src="assets/mata.png" class="scrap-item mata2" alt="mata2">
-    <img src="assets/mata.png" class="scrap-item mata3" alt="mata3">
-    <img src="assets/kotak-kuning.png" class="scrap-item kotak-kuning1" alt="Kotak Kuning 1">
-    <img src="assets/kotak-kuning.png" class="scrap-item kotak-kuning2" alt="Kotak Kuning 2">
-    <img src="assets/kotak-merah.png" class="scrap-item kotak-merah" alt="Kotak Merah">
-    <img src="assets/telfon-hitam.png" class="scrap-item telfon-hitam" alt="Telfon Hitam">
+    <img src="{{ asset('assets/images/map-kuning.png') }}" class="scrap-item map-kuning1" alt="Map Kuning1">
+    <img src="{{ asset('assets/images/polaroid-kuning.png') }}" class="scrap-item polaroid-kuning" alt="Polaroid Kuning">
+    <img src="{{ asset('assets/images/foto-handball.png') }}" class="scrap-item foto-handball" alt="Foto Handball">
+    <img src="{{ asset('assets/images/panah-biru.png') }}" class="scrap-item panah-biru" alt="Panah Biru">
+    <img src="{{ asset('assets/images/map-biru.png') }}" class="scrap-item map-biru" alt="Map Biru">
+    <img src="{{ asset('assets/images/foto-batik.png') }}" class="scrap-item foto-batik" alt="Foto Batik">
+    <img src="{{ asset('assets/images/polaroid-biru1.png') }}" class="scrap-item polaroid-biru2" alt="Polaroid Biru 2">
+    <img src="{{ asset('assets/images/foto-agustus.png') }}" class="scrap-item foto-agustus" alt="Foto Agustus">
+    <img src="{{ asset('assets/images/panah-biru.png') }}" class="scrap-item panah-biru2" alt="Panah Biru 2">
+    <img src="{{ asset('assets/images/map-kuning.png') }}" class="scrap-item map-kuning2" alt="Map Kuning 2">
+    <img src="{{ asset('assets/images/polkadot.png') }}" class="scrap-item polkadot2" alt="Polkadot 2">
+    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata1" alt="mata1">
+    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata2" alt="mata2">
+    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata3" alt="mata3">
+    <img src="{{ asset('assets/images/kotak-kuning.png') }}" class="scrap-item kotak-kuning1" alt="Kotak Kuning 1">
+    <img src="{{ asset('assets/images/kotak-kuning.png') }}" class="scrap-item kotak-kuning2" alt="Kotak Kuning 2">
+    <img src="{{ asset('assets/images/kotak-merah.png') }}" class="scrap-item kotak-merah" alt="Kotak Merah">
+    <img src="{{ asset('assets/images/telfon-hitam.png') }}" class="scrap-item telfon-hitam" alt="Telfon Hitam">
     <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
     <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
     <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
@@ -387,7 +388,7 @@
       </p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
   window.addEventListener('scroll', function() {
     const navbar = document.querySelector('header.navbar');

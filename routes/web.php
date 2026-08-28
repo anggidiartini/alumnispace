@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/opening', function () {
     return view('opening.index');
 });
-    
+
 Route::get('/landing', function () {
     return view('landing.index');
 });
@@ -17,6 +17,8 @@ Route::get('/login', function () {
 Route::get('/home', function () {
     return view('home.index');
 });
+
+
 
 Route::get('/alumni', function () {
     return view('alumni.index');
