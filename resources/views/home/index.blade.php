@@ -18,20 +18,7 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
   </head>
   <body>
-    <!-- ===== NAVBAR ===== -->
-    <header class="navbar" id="navbar">
-      <div class="nav-inner">
-        <a href="index.html" class="logo-brand">
-  <span class="text-alumni">ALUMNI</span><span class="text-hub">HUB</span>
-</a>
 
-        <nav class="nav-links" id="navLinks">
-  <a href="#beranda" class="active">Beranda</a>
-  <a href="#lowongan">Lowongan</a>
-  <a href="#alumni">Alumni</a>
-  <a href="#event">Event</a>
-  <a href="#album">Album</a>
-</nav>
 
 
 
@@ -121,22 +108,10 @@
     <section class="about" id="about">
       <div class="about-inner">
         <div class="about-visual">
-          <div class="framed-photo">🏫</div>
-          <div class="badge-float">
-            <strong>30+</strong>
-            <span>ANGKATAN TERHUBUNG</span>
-          </div>
-        </div>
 
-        <div class="about-copy">
-          <span class="pill-badge">💛 Cerita di Balik Layar</span>
-          <h2>Bukan Cuma Grup Chat, Ini Keluarga Besar Kita!</h2>
-          <p>
-            Berawal dari rindu kantin sekolah, PR yang menumpuk, hingga cerita
-            kenakalan masa remaja. Portal ini hadir agar silaturahmi kita tidak
-            putus di gerbang kelulusan. Mari saling dukung karier, bangun
-            kolaborasi, dan sebarkan energi positif antarsesama alumni!
-          </p>
+          <div class="badge-float">
+
+          </div>
         </div>
       </div>
     </section>
@@ -357,48 +332,7 @@
       </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer" id="event">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="logo-icon">✦</span>
-          <span class="logo-text">IKASMAJA</span>
-          <p>
-            Satu almamater, sejuta cerita indah. Wadah resmi komunikasi dan
-            kolaborasi seluruh keluarga besar alumni.
-          </p>
-        </div>
-        <div class="footer-links">
-          <div>
-            <h4>Jelajahi</h4>
-            <a href="#lowongan">Lowongan</a>
-            <a href="#alumni">Alumni</a>
-            <a href="#album">Album</a>
-          </div>
-          <div>
-            <h4>Komunitas</h4>
-            <a href="#event">Event</a>
-            <a href="#masuk">Masuk</a>
-            <a href="#daftar">Daftar</a>
-          </div>
-        </div>
-      </div>
-      <p class="footer-bottom">
-        © 2026 IKASMAJA. Dibuat dengan penuh rasa nostalgia & kebersamaan.
-      </p>
-    </footer>
 
-    <script src="{{ asset('js/script.js') }}"></script>
-    <script>
-  window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('header.navbar');
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
-</script>
 <script>
   // Script untuk memicu animasi masuk saat section album/galeri di-scroll ke layar
   document.addEventListener("DOMContentLoaded", function() {
