@@ -165,104 +165,6 @@ button:focus-visible {
     top: -2px; /* Ubah angka minus ini kalau mau lebih naik/turun */
 }
 
-.navbar {
-    position: absolute; /* Mengubah posisi jadi absolute supaya melayang di atas hero */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 50;
-    background: transparent !important;
-    border-bottom: none;
-    transition: all 0.3s ease;
-}
-
-/* Saat di-scroll, navbar berubah jadi fixed/sticky di atas dengan warna putih */
-.navbar.scrolled {
-    position: fixed;
-    background: var(--white) !important;
-    border-bottom: var(--border-w) solid var(--ink);
-    box-shadow: 0 4px 0 rgba(30, 44, 79, 0.12);
-}
-
-.nav-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    gap: 22px;
-}
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--ink);
-    margin-right: auto;
-}
-.logo-icon {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--sunwashed);
-    border: var(--border-w) solid var(--ink);
-    border-radius: 50%;
-    font-size: 1.05rem;
-}
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 26px;
-}
-.nav-links a {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--ink);
-    position: relative;
-}
-.nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 0;
-    height: 3px;
-    background: var(--morning);
-    border-radius: 3px;
-    transition: width 0.2s ease;
-}
-.nav-links a:hover::after {
-    width: 100%;
-}
-.nav-cta {
-    padding: 10px 22px;
-    font-size: 0.9rem;
-}
-
-.burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-}
-.burger span {
-    width: 24px;
-    height: 3px;
-    border-radius: 3px;
-    background: var(--ink);
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-}
-
 .pill-badge {
     display: inline-flex;
     margin-top: 50px;
@@ -473,11 +375,14 @@ button:focus-visible {
 }
 .about-inner {
     max-width: 1180px;
+    background-image: url("../assets/images/bghome.png") !important;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
     gap: 56px;
     align-items: center;
+    min-height: 500px !important; /* Ubah angka ini (misal 900px atau 1000px) untuk memanjangkan area tengahnya ke bawah */
+    padding-bottom: 300px !important; /* Memberikan ruang ekstra ke bawah agar tidak terlalu mepet */
 }
 .about-visual {
     position: relative;
@@ -493,19 +398,7 @@ button:focus-visible {
     justify-content: center;
     font-size: 5rem;
 }
-.badge-float {
-    position: absolute;
-    bottom: -18px;
-    right: -18px;
-    background: var(--morning);
-    border: var(--border-w) solid var(--ink);
-    border-radius: var(--radius-md);
-    box-shadow: 6px 6px 0 var(--ink);
-    padding: 14px 20px;
-    text-align: center;
-    color: var(--ink);
-    font-family: var(--font-display);
-}
+
 .badge-float strong {
     display: block;
     font-size: 1.5rem;
@@ -807,67 +700,6 @@ button:focus-visible {
     font-weight: 700;
     font-size: 0.88rem;
     color: var(--ink);
-}
-
-.footer {
-    background: var(--ink);
-    padding: 50px 24px 26px;
-}
-.footer-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    flex-wrap: wrap;
-    padding-bottom: 28px;
-    border-bottom: 1.5px solid rgba(255, 247, 214, 0.18);
-}
-.footer-brand {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    max-width: 280px;
-}
-.footer-brand .logo-icon {
-    background: var(--sunwashed);
-}
-.footer-brand .logo-text {
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--cloudpuff);
-}
-.footer-brand p {
-    width: 100%;
-    color: var(--dewyblue);
-    font-size: 0.85rem;
-    margin-top: 6px;
-}
-.footer-links {
-    display: flex;
-    gap: 60px;
-}
-.footer-links h4 {
-    color: var(--sunwashed);
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    margin-bottom: 12px;
-}
-.footer-links a {
-    display: block;
-    color: var(--dewyblue);
-    font-size: 0.88rem;
-    margin-bottom: 8px;
-}
-.footer-links a:hover {
-    color: var(--buttercup);
-}
-.footer-bottom {
-    text-align: center;
-    color: var(--dewyblue);
-    font-size: 0.8rem;
-    margin: 22px 0 0;
 }
 
 .reveal {

@@ -10,22 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="brand-logo">
-                ALUMNI<span>HUB</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="#" class="nav-sticker active">Beranda</a></li>
-                <li><a href="#" class="nav-sticker">Lowongan</a></li>
-                <li><a href="#" class="nav-sticker">Alumni</a></li>
-                <li><a href="#" class="nav-sticker">Event</a></li>
-                <li><a href="#" class="nav-sticker">Album</a></li>
-            </ul>
-        </div>
-    </nav>
+    @include('components.navbar')
 
     <!-- SECTION 1: HERO & POLAROID SHOWCASE -->
     <section class="hero-section">
@@ -187,38 +172,6 @@
             </a>
         </div>
     </section>
-
-    <!-- FOOTER (SQUARE & SOLID) -->
-    <footer class="footer-square">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h3>ALUMNIHUB 2024</h3>
-                <p>Ruang Kumpul & Album Kenangan Abadi Angkatan 2024.</p>
-            </div>
-            
-            <div class="footer-search">
-                <div class="search-box">
-                    <input type="text" placeholder="Cari nama alumni atau jurusan...">
-                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <a href="#">Privasi</a>
-                <a href="#">Syarat & Ketentuan</a>
-                <a href="#">Kontak Kami</a>
-            </div>
-
-            <div class="footer-socials">
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 AlumniHub. Created with ❤️ for Alumni Memories.</p>
-        </div>
-    </footer>
-
+    @include('components.footer')
 </body>
 </html>
