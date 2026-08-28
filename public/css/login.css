@@ -1,0 +1,800 @@
+/* ==========================================================================
+   ALUMNI SCRAPBOOK LOGIN PAGE - VANILLA CSS
+   Design: Warm, dreamy, soft, youthful & nostalgic morning sky scrapbook
+   Palette:
+     --buttercup-sky: #FFF2B2
+     --dewy-blue:      #A8C6E7
+     --sunwashed:      #FFE08A
+     --cloud-puff:     #FFF7D6
+     --morning-breeze: #7FA8D6
+     --dark-blue:     #3F5F7D
+   ========================================================================== */
+
+/* 1. CSS VARIABLES */
+:root {
+    /* =========================
+       DOMINAN BIRU
+    ========================= */
+    --buttercup-sky: #4A90D9;
+    --dewy-blue: #BFDDF5;
+    --sunwashed: #FFD966;
+    --cloud-puff: #EAF5FF;
+    --morning-breeze: #6FA8DC;
+    --dark-blue: #315A7D;
+
+    /* =========================
+       WHITE
+    ========================= */
+    --white: #FFFFFF;
+
+    /* =========================
+       FONT
+    ========================= */
+    --font-heading: 'Baloo 2', cursive, sans-serif;
+    --font-body: 'Nunito', sans-serif;
+}
+/* 2. BASE & RESET */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--dark-blue);
+    overflow-x: hidden;
+}
+
+/* 3. MORNING SKY & SUNSHINE GRADIENT BACKGROUND */
+body {
+    background: linear-gradient(135deg, 
+        var(--cloud-puff) 0%, 
+        var(--buttercup-sky) 25%, 
+        var(--dewy-blue) 65%, 
+        var(--morning-breeze) 100%
+    );
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* 4. BACKGROUND FLOATING BLOBS & GLOW ANIMATIONS */
+.bg-glow-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.6;
+    animation: bg-glow-float 16s ease-in-out infinite alternate;
+}
+
+.bg-blob-1 {
+    top: -10%;
+    left: -5%;
+    width: 45vw;
+    height: 45vw;
+    background: radial-gradient(circle, var(--sunwashed) 0%, var(--buttercup-sky) 70%, transparent 100%);
+}
+
+.bg-blob-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--dewy-blue) 0%, var(--morning-breeze) 70%, transparent 100%);
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+.bg-blob-3 {
+    top: 40%;
+    left: 30%;
+    width: 35vw;
+    height: 35vw;
+    background: radial-gradient(circle, var(--cloud-puff) 0%, var(--sunwashed) 80%, transparent 100%);
+    animation-delay: -10s;
+    animation-duration: 22s;
+}
+
+/* Scrapbook Dotted Paper Overlay */
+.scrapbook-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: radial-gradient(var(--morning-breeze) 1.2px, transparent 1.2px);
+    background-size: 28px 28px;
+    opacity: 0.25;
+}
+
+/* 5. DECORATIVE FLOATING ELEMENTS */
+.floating-element {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2;
+    user-select: none;
+    display: inline-block;
+}
+
+.float-item-1 {
+    top: 8%;
+    left: 6%;
+    font-size: 2.2rem;
+    animation: element-float-1 6s ease-in-out infinite;
+}
+
+.float-item-2 {
+    top: 15%;
+    right: 8%;
+    font-size: 1.8rem;
+    animation: element-float-2 7s ease-in-out infinite 1s;
+}
+
+.float-item-3 {
+    bottom: 12%;
+    left: 8%;
+    font-size: 2.4rem;
+    animation: flower-spin 25s linear infinite;
+}
+
+.float-item-4 {
+    bottom: 15%;
+    right: 12%;
+    font-size: 2rem;
+    animation: element-float-3 8s ease-in-out infinite 1.5s;
+}
+
+.sparkle-decor {
+    position: absolute;
+    pointer-events: none;
+    animation: sparkle-pop 3.5s ease-in-out infinite;
+}
+
+/* 6. PAGE CONTAINER & GRID LAYOUT */
+.login-page-container {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 1040px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .login-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+}
+
+/* 7. VISUAL / SCRAPBOOK LEFT SECTION */
+.visual-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media (min-width: 900px) {
+    .visual-section {
+        align-items: flex-start;
+        text-align: left;
+    }
+}
+
+.scrapbook-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--cloud-puff);
+    border: 2.5px solid var(--dark-blue);
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    box-shadow: 3px 3px 0px var(--dark-blue);
+    margin-bottom: 1.25rem;
+    transform: rotate(-1.5deg);
+    transition: transform 0.3s ease;
+}
+
+.scrapbook-badge:hover {
+    transform: rotate(1.5deg) scale(1.02);
+}
+
+.scrapbook-badge-icon {
+    font-size: 1.1rem;
+}
+
+.scrapbook-badge-text {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.scrapbook-badge-tag {
+    background-color: var(--morning-breeze);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    border: 1px solid var(--dark-blue);
+}
+
+.visual-title {
+    font-family: var(--font-heading);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
+    .visual-title {
+        font-size: 2.85rem;
+    }
+}
+
+.visual-description {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    opacity: 0.9;
+    max-width: 420px;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+}
+
+/* POLAROID FRAME */
+.polaroid-container {
+    position: relative;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.polaroid-frame {
+    background-color: var(--white);
+    border: 3px solid var(--dark-blue);
+    border-radius: 16px;
+    padding: 14px 14px 22px 14px;
+    box-shadow: 6px 6px 0px var(--dark-blue);
+    max-width: 310px;
+    transform: rotate(-3deg);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    animation: polaroid-entrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards, polaroid-float 6s ease-in-out infinite 0.9s;
+}
+
+.polaroid-frame:hover {
+    transform: rotate(0deg) scale(1.03) translateY(-4px) !important;
+    box-shadow: 8px 10px 0px var(--dark-blue);
+}
+
+.polaroid-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 2.5px solid var(--dark-blue);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--dewy-blue);
+}
+
+.polaroid-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.polaroid-frame:hover .polaroid-image {
+    transform: scale(1.06);
+}
+
+.polaroid-tag {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(255, 247, 214, 0.92);
+    border: 1.5px solid var(--dark-blue);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.72rem;
+    color: var(--dark-blue);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.polaroid-caption {
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
+.polaroid-caption-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--dark-blue);
+}
+
+.polaroid-caption-sub {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    opacity: 0.8;
+}
+
+/* WASHI TAPES */
+.washi-tape-top {
+    position: absolute;
+    top: -14px;
+    left: 20px;
+    z-index: 20;
+    width: 90px;
+    height: 26px;
+    background-color: rgba(255, 224, 138, 0.92);
+    border-left: 2px dashed rgba(217, 119, 6, 0.35);
+    border-right: 2px dashed rgba(217, 119, 6, 0.35);
+    transform: rotate(-6deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.washi-tape-top span {
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    letter-spacing: 1px;
+}
+
+.washi-tape-bottom {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    z-index: 20;
+    width: 80px;
+    height: 24px;
+    background-color: rgba(168, 198, 231, 0.92);
+    border-left: 2px dashed rgba(63, 95, 125, 0.35);
+    border-right: 2px dashed rgba(63, 95, 125, 0.35);
+    transform: rotate(10deg);
+}
+
+.sticker-badge {
+    position: absolute;
+    top: 45%;
+    right: -24px;
+    z-index: 20;
+    background-color: var(--sunwashed);
+    border: 2px solid var(--dark-blue);
+    color: var(--dark-blue);
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    box-shadow: 2.5px 2.5px 0px var(--dark-blue);
+    transform: rotate(12deg);
+    transition: transform 0.3s ease;
+}
+
+.polaroid-container:hover .sticker-badge {
+    transform: rotate(18deg) scale(1.1);
+}
+
+.alumni-count-note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-top: 0.5rem;
+}
+
+.ping-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--morning-breeze);
+    box-shadow: 0 0 0 3px rgba(127, 168, 214, 0.4);
+}
+
+
+/* 8. FORM SECTION & LOGIN CARD */
+.form-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    background-color: var(--cloud-puff);
+    border: 3px solid var(--dark-blue);
+    border-radius: 24px;
+    padding: 2.25rem 2rem;
+    box-shadow: 6px 6px 0px var(--dark-blue);
+    position: relative;
+    animation: card-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-top-sticker {
+    position: absolute;
+    top: -14px;
+    right: 28px;
+    background-color: var(--buttercup-sky);
+    border: 2px solid var(--dark-blue);
+    padding: 3px 14px;
+    border-radius: 9999px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--dark-blue);
+    box-shadow: 2px 2px 0px var(--dark-blue);
+    transform: rotate(3deg);
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.card-logo-icon {
+    width: 52px;
+    height: 52px;
+    background-color: var(--dewy-blue);
+    border: 2.5px solid var(--dark-blue);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 3px 3px 0px var(--dark-blue);
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    opacity: 0.8;
+}
+
+/* Toast Message */
+.toast-message {
+    margin-bottom: 1.25rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--sunwashed);
+    border: 2px solid var(--dark-blue);
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 2.5px 2.5px 0px var(--dark-blue);
+}
+
+.toast-message.hidden {
+    display: none;
+}
+
+/* FORM FIELDS */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--dark-blue);
+    margin-bottom: 0.4rem;
+}
+
+.form-label .required-star {
+    color: #E11D48;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon-left {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--dark-blue);
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.75rem;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    background-color: var(--white);
+    border: 2.5px solid var(--dark-blue);
+    border-radius: 14px;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.form-input::placeholder {
+    color: var(--dark-blue);
+    opacity: 0.45;
+    font-weight: 500;
+}
+
+/* INPUT FOCUS ANIMATION (#7FA8D6 glow + smooth transition) */
+.form-input:focus {
+    border-color: var(--morning-breeze);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(127, 168, 214, 0.35), 3px 3px 0px var(--dark-blue);
+}
+
+.toggle-password-btn {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--dark-blue);
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toggle-password-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* OPTIONS ROW */
+.form-options-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--dark-blue);
+    border-radius: 5px;
+    accent-color: var(--morning-breeze);
+    cursor: pointer;
+}
+
+.forgot-link {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.forgot-link:hover {
+    color: var(--morning-breeze);
+    text-decoration: underline;
+}
+
+/* BUTTONS */
+.btn-primary {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    background-color: var(--morning-breeze);
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 800;
+    border: 3px solid var(--dark-blue);
+    border-radius: 9999px;
+    box-shadow: 4px 4px 0px var(--dark-blue);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.25s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--sunwashed);
+    color: var(--dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0px var(--dark-blue);
+}
+
+.btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 2px 2px 0px var(--dark-blue);
+}
+
+
+
+
+/* 9. KEYFRAME ANIMATIONS */
+
+/* Background glow float */
+@keyframes bg-glow-float {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(40px, 30px) scale(1.08);
+    }
+    100% {
+        transform: translate(-30px, 50px) scale(0.95);
+    }
+}
+
+/* Floating elements */
+@keyframes element-float-1 {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-12px) rotate(8deg);
+    }
+}
+
+@keyframes element-float-2 {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(-10deg);
+    }
+}
+
+@keyframes element-float-3 {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.1);
+    }
+}
+
+@keyframes flower-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Sparkle pop */
+@keyframes sparkle-pop {
+    0%, 100% {
+        transform: scale(0.8);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2) rotate(15deg);
+        opacity: 1;
+    }
+}
+
+/* Card Entrance (opacity 0->1, translateY down->normal, scale) */
+@keyframes card-entrance {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Polaroid Entrance & Floating */
+@keyframes polaroid-entrance {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) rotate(-8deg) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(-3deg) scale(1);
+    }
+}
+
+@keyframes polaroid-float {
+    0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+    50% {
+        transform: translateY(-8px) rotate(-2deg);
+    }
+}
+
+/* 10. ACCESSIBILITY: REDUCED MOTION PREFERENCE */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .bg-blob,
+    .float-item-1,
+    .float-item-2,
+    .float-item-3,
+    .float-item-4,
+    .sparkle-decor,
+    .login-card,
+    .polaroid-frame {
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}
