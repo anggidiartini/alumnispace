@@ -18,14 +18,14 @@
             <!-- Left Side: Retro Ornaments -->
             <div class="ornament-col">
                 <div class="sticker-text-3d">MEMORIES</div>
-                
+
                 <div class="floating-wrapper">
                     <div class="polaroid-camera float-item">
                         <div class="camera-lens"></div>
                         <div class="flash-btn"></div>
                         <div class="rainbow-stripe"></div>
                     </div>
-                    
+
                     <div class="film-strip float-item-delay-1">
                         <div class="film-hole"></div>
                         <div class="film-frame"><img src="https://picsum.photos/seed/mem1/150/150" alt="Memory"></div>
@@ -173,5 +173,15 @@
         </div>
     </section>
     @include('components.footer')
+    <script>
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('header.navbar');
+    if (window.scrollY > 20) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+</script>
 </body>
 </html>
