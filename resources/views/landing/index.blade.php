@@ -6,7 +6,8 @@
 <title>Alumnispace — Kawan Lama, Cerita Baru</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 <style>
   :root{
     --buttercup:#FFF2B2;
@@ -20,6 +21,10 @@
     --ink-soft:#5B6B8C;
     --paper:#FFFDF7;
     --coral:#FF9466;
+    --hero-panel:#668BA2;
+    --hero-effect:#14537B;
+    --cream-text:#FFF7E1;
+    --about-panel:#668BA2;
     --radius-lg:28px;
     --radius-md:18px;
     --shadow-chunky:6px 6px 0 var(--ink);
@@ -36,17 +41,19 @@
     overflow-x:hidden;
   }
   section[id]{scroll-margin-top:130px;}
-  h1,h2,h3,.display{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:800;
-    line-height:1.08;
-    margin:0;
-  }
+  
+h1, h2, h3, .display {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
   p{margin:0;}
   img{max-width:100%;display:block;}
   a{text-decoration:none;color:inherit;}
   ul{margin:0;padding:0;list-style:none;}
   section{position:relative;}
+  
   .wrap{
     max-width:1180px;
     margin:0 auto;
@@ -115,8 +122,6 @@
     .reveal-d4{transition-delay:.32s;}
     .reveal-pop{transform:translateY(30px) scale(.92);}
     .reveal-pop.in-view{transform:translateY(0) scale(1);}
-    .about-sticker-1{animation:float 4.5s ease-in-out infinite;}
-    .about-sticker-2{animation:float 5.5s ease-in-out infinite;--r:-6deg;animation-delay:.4s;}
   }
 
   .site-nav{
@@ -200,294 +205,309 @@
   }
 
 /* ============================= */
-  /* HERO — Scrapbook Nostalgia    */
+  /* HERO — Buku Kenangan Baru      */
   /* ============================= */
-  .hero{
-    position:relative;
-    overflow:hidden;
-    padding:86px 0 150px;
-    background-position:center;
-    background-size:cover;
-    background-repeat:no-repeat;
-    isolation:isolate;
+.hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--hero-panel); /* Ini jadi background bagian kanan */
+    min-height: 620px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Membagi layar jadi 2 kolom sama besar (50% - 50%) */
+    align-items: center;
   }
-  .hero .wrap{
-    display:grid;
-    grid-template-columns:1.02fr .98fr;
-    gap:36px;
-    align-items:center;
-    position:relative;
-    z-index:2;
+.hero .wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding: 96px 24px 110px;
+  }
+  @media (max-width:960px){
+    .hero .wrap{grid-template-columns:1fr;}
   }
 
-  /* ---- Left copy ---- */
-  .hero-headline{
-    font-size:clamp(32px,4.4vw,54px);
-    margin-top:18px;
-    color:var(--cloud-puff);
-    -webkit-text-stroke:2px #7A3B2E;
-    text-shadow:
-      2px 2px 0 #7A3B2E,
-      4px 4px 0 rgba(122,59,46,.35);
-    letter-spacing:.01em;
+  /* Left striped backdrop — "ditarik" naik dari bawah, seperti halaman baru muncul */
+.hero-bg-left{
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%; /* Pas setengah layar (50% dari total lebar) */
+    height: 100%;
+    background-image: url('{{ asset('assets/anggi/bgkirihero.png') }}');
+    background-repeat: no-repeat; /* Jangan diulang biar gak ada garis putih */
+    background-position: right top; /* Nempel pas di batas tengah kanan */
+    background-size: 100% 100%; /* Membentang penuh di area 50% itu */
+    z-index: 1;
+    transform: translateY(115%);
+    animation: heroBgRise 1.05s cubic-bezier(.16,.86,.24,1) .05s forwards;
   }
-  .hero-headline .accent{
-    -webkit-text-stroke:2px var(--ink);
-    color:var(--ink);
-    background:var(--sunwashed);
-    text-shadow:none;
-    padding:2px 12px;
-    border-radius:8px;
-    border:2.5px solid var(--ink);
-    display:inline-block;
-    box-shadow:4px 4px 0 var(--ink);
-    transform:rotate(-1.5deg);
-  }
-  .hero-sub{
-    margin-top:20px;
-    font-size:18px;
-    color:var(--ink);
-    font-weight:700;
-    max-width:44ch;
-    background:rgba(255,253,247,.55);
-    -webkit-backdrop-filter:blur(2px);
-    backdrop-filter:blur(2px);
-    padding:4px 2px;
-    border-radius:10px;
-  }
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
-
-  /* ---- Typewriter headline animation ---- */
-  .typewriter-line{
-    display:inline-block;
-    vertical-align:bottom;
-    overflow:hidden;
-    white-space:nowrap;
-    width:0;
-    border-right:4px solid transparent;
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .typewriter-line{
-      animation:
-        typeLine var(--dur,.5s) steps(var(--chars,10),end) var(--tw-delay,0s) forwards,
-        showCaret .01s linear var(--tw-delay,0s) forwards,
-        hideCaret .01s linear var(--tw-hide,1s) forwards;
-    }
-    .typewriter-line.tw-last{
-      animation:
-        typeLine var(--dur,.5s) steps(var(--chars,10),end) var(--tw-delay,0s) forwards,
-        showCaret .01s linear var(--tw-delay,0s) forwards,
-        caretBlink .8s step-end var(--tw-hide,1s) infinite;
-    }
+  @keyframes heroBgRise{
+    to{transform:translateY(0);}
   }
   @media (prefers-reduced-motion:reduce){
-    .typewriter-line{width:auto;border-right:none;}
+    .hero-bg-left{transform:translateY(0);animation:none;}
   }
-  @keyframes typeLine{ from{width:0;} to{width:var(--chars,10)ch;} }
-  @keyframes showCaret{ to{border-color:var(--ink);} }
-  @keyframes hideCaret{ to{border-color:transparent;} }
-  @keyframes caretBlink{ 50%{border-color:transparent;} }
+  @media (max-width:900px){
+    .hero-bg-left{width:100%;}
+  }
 
-  .eyebrow.hero-in-1{opacity:0;animation:heroFadeUp .55s ease-out .1s forwards;}
-  .hero-sub{opacity:0;}
-  .hero-sub.hero-sub-in{animation:heroFadeUp .6s ease-out 2.2s forwards;}
-  .hero-cta{opacity:0;}
-  .hero-cta.hero-cta-in{animation:heroFadeUp .6s ease-out 2.4s forwards;}
+  .hero-copy{position:relative;max-width:620px;}
 
-  @keyframes heroFadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
-
-  /* ---- Right visual: scrapbook scene (DISAMAKAN DENGAN CANVA) ---- */
+  /* Visual kanan — mesin ketik & tumpukan foto kenangan */
   .hero-visual{
-    position: relative;
-    width: 100%;
-    max-width: 520px;
-    height: 520px;
-    margin: 0 auto;
+    position:relative;
+    width:100%;
+    max-width:560px;
+    height:560px;
+    margin:0 auto;
+    justify-self:end;
   }
-  .hero-visual > *{position: absolute;}
-
-.hv-base{
-    position: absolute !important; /* Wajib ada supaya top & left jalan */
-    top: -5% !important;
-    left: -50% !important;
-
-    /* 🔥 TAMBAHKAN PROPERTI INI UNTUK MEMAKSA UKURAN BESAR 🔥 */
-    width: 1160px !important;
-    max-width: none !important; /* Mencegah gambar dibatasi ukuran aslinya */
-    height: auto !important;
-
-    transform: rotate(-3deg) !important;
-    animation-delay: 0.1s !important;
-}
-
-  /* 2. Sticker Mata Jenaka (Nempel di kantong mesin ketik) */
-  .hv-eyes{
-    width: 12%;
-    right: 32%;
-    bottom: 12%;
-    z-index: 6;
-    opacity: 0;
-    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.75s forwards, eyeWiggle 3.4s ease-in-out 2.3s infinite;
+  @media (max-width:960px){
+    .hero-visual{justify-self:center;margin-top:36px;height:480px;}
   }
-  @keyframes eyeWiggle{0%,100%{transform:rotate(0deg);}50%{transform:rotate(6deg);}}
+  .hero-visual img{position:absolute;display:block;max-width:none;}
 
-  /* 3. Tumpukan Foto Polaroid Utama */
+  .hv-base{
+    width: 190%;
+    right:-80%;
+    top:0;
+    height:auto;
+    z-index:2;
+    filter:drop-shadow(10px 16px 0 rgba(20,83,123,.16));
+    opacity:0;
+    animation:hvBaseIn .65s cubic-bezier(.22,.9,.28,1) .5s forwards, hvBaseFloat 6s ease-in-out 1.2s infinite;
+  }
+  @keyframes hvBaseIn{
+    from{opacity:0;transform:translateY(26px) scale(.96);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+  @keyframes hvBaseFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+  }
+
   .hv-photo{
-    width: 42%;
-    z-index: 5;
-    opacity: 0;
-    cursor: pointer;
-    transition: transform .3s cubic-bezier(.2,.8,.3,1), filter .3s ease;
-    filter: drop-shadow(5px 8px 0 rgba(46,58,89,.18));
-  }
-  .hv-photo:hover{ transform:translateY(-8px) scale(1.04) !important; z-index:10; filter:drop-shadow(8px 14px 0 rgba(46,58,89,.24)); }
-  
-/* Foto Atas (Grup) */
-.hv-photo-1 { 
-  right: 50%; /* Diperbesar dari 28% supaya bergeser ke KIRI */
-  top: -%;    /* Dikecilkan dari 12% supaya bergeser ke ATAS */
-  width: 170px;
-  height: auto;
-  transform: rotate(3deg); 
-  animation: hvPopGroup1 .5s cubic-bezier(.34,1.56,.64,1) .7s forwards; 
-}
-
-@keyframes hvPopGroup1 {
-  0% {
-    opacity: 0; 
-    transform: scale(.4) rotate(-3deg);
-  }
-  65% {
-    opacity: 1; 
-    transform: scale(1.3) rotate(6deg); /* Diperbesar dari 1.12 jadi 1.3 (atau sesuaikan) */
-  }
-  100% {
-    opacity: 1; 
-    transform: scale(1.15) rotate(3deg); /* Nilai scale akhir diperbesar dari 1 jadi 1.15 agar fotonya lebih gede */
-  }
-}
- /* Foto Bawah (Dimasukkan ke dalam kotak polaroid mesin ketik) */
-  .hv-photo-2 {
-    position: absolute;
-    right: 70px;      /* Atur jarak dari kanan agar pas di atas kotak merah */
-    top: 280px;       /* Atur jarak dari atas (sesuaikan turun-naiknya di sini) */
-    width: 285px;     /* Ukuran lebar foto, sesuaikan biar pas masuk kotak */
-    height: auto;
-    z-index: 3;       /* Pastikan di atas mesin ketik (z-index 2) */
-    animation: hvPopGroup2 .5s cubic-bezier(.34,1.56,.64,1) .9s forwards;
+    height:auto;
+    cursor:pointer;
+    transition:transform .3s cubic-bezier(.2,.8,.3,1), filter .3s ease;
+    filter:drop-shadow(5px 8px 0 rgba(20,83,123,.24));
   }
 
-  @keyframes hvPopGroup2 {
-    0% {
-      opacity: 0;
-      transform: scale(.4) rotate(-10deg);
-    }
-    65% {
-      opacity: 1;
-      transform: scale(1.12) rotate(1deg);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) rotate(0deg); /* Atur kemiringan akhirnya di sini (0deg kalau mau lurus) */
-    }
+  .hv-photo-1{
+    width: 44%;
+    right: 3%;
+    top:8%;
+    z-index:3;
+    opacity:0;
+    animation:hvPop1 .55s cubic-bezier(.34,1.56,.64,1) .85s forwards, hvFloat1 4.5s ease-in-out 1.4s infinite;
+  }
+  .hv-photo-1:hover{
+    transform:translateY(-14px) scale(1.06) rotate(-5deg) !important;
+    z-index:10 !important;
+    filter:drop-shadow(9px 16px 0 rgba(20,83,123,.3));
+  }
+  @keyframes hvPop1{
+    0%{opacity:0;transform:scale(.5) rotate(-6deg) translateY(26px);}
+    65%{opacity:1;}
+    100%{opacity:1;transform:scale(1) rotate(-5deg) translateY(0);}
+  }
+  @keyframes hvFloat1{
+    0%,100%{transform:scale(1) rotate(-5deg) translateY(0);}
+    50%{transform:scale(1) rotate(-6.5deg) translateY(-12px);}
   }
 
-  /* 4. Pin Merah */
-  .hv-pin{
-    width: 7%;
-    right: 48%;
-    top: 32%;
-    z-index: 8;
-    opacity: 0;
-    animation: hvPop .45s cubic-bezier(.34,1.56,.64,1) .65s forwards;
+  .hv-photo-2{
+    width:44%;
+    right:-3%;
+    top:50%;
+    z-index:4;
+    opacity:0;
+    animation:hvPop2 .55s cubic-bezier(.34,1.56,.64,1) 1.05s forwards, hvFloat2 5s ease-in-out 1.6s infinite;
+  }
+  .hv-photo-2:hover{
+    transform:translateY(-14px) scale(1.06) rotate(-2deg) !important;
+    z-index:10 !important;
+    filter:drop-shadow(9px 16px 0 rgba(20,83,123,.3));
+  }
+  @keyframes hvPop2{
+    0%{opacity:0;transform:scale(.5) rotate(-14deg) translateY(26px);}
+    65%{opacity:1;}
+    100%{opacity:1;transform:scale(1) rotate(-2deg) translateY(0);}
+  }
+  @keyframes hvFloat2{
+    0%,100%{transform:scale(1) rotate(-2deg) translateY(0);}
+    50%{transform:scale(1) rotate(-.5deg) translateY(-10px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hv-base, .hv-photo-1, .hv-photo-2{opacity:1;animation:none;transform:none;}
   }
 
-  /* 5. Telepon & Gantungan Kunci */
-  .hv-phone{
-    width: 15%;
-    right: 18%;
-    top: 8%;
-    z-index: 7;
-    opacity: 0;
-    transform-origin: top center;
-    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1s forwards, swingSmall 4.2s ease-in-out 1.6s infinite;
-  }
-  .hv-keychain{
-    width: 16%;
-    right: 52%;
-    top: 22%;
-    z-index: 7;
-    opacity: 0;
-    transform-origin: top center;
-    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.05s forwards, swingSmall 3.6s ease-in-out 1.65s infinite;
-  }
-  @keyframes swingSmall{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
-
-  /* 6. Kaca Pembesar */
+  /* Kaca Pembesar — Di-flip horizontal dan diatur posisinya di atas foto */
   .hv-magnifier{
-    width: 28%;
-    right: 15%;
-    top: 42%;
-    z-index: 9;
-    opacity: 0;
-    animation: hvFadeIn .5s ease-out 1.2s forwards, magBreathe 4.5s ease-in-out 1.75s infinite;
-    filter: drop-shadow(4px 6px 0 rgba(46,58,89,.2));
-  }
-  @keyframes hvFadeIn{from{opacity:0;transform:translate(10px,-10px) scale(.9);}to{opacity:1;transform:translate(0,0) scale(1);}}
-  @keyframes magBreathe{
-    0%,100%{transform:translate(0,0) rotate(0deg) scale(1);}
-    50%{transform:translate(-6px,5px) rotate(-4deg) scale(1.03);}
-  }
-
- /* 7. Raket + Bola Tenis (Di bagian kiri bawah) */
-  .hv-racket{
-    width: 60%;
-    left: -170%;
-    bottom: -23%;
-    z-index: 4;
-    opacity: 0;
-    transform-origin: 60% 60%;
-    animation: hvFadeIn .5s ease-out 1.4s forwards, racketRotate 5s ease-in-out 1.9s infinite;
-  }
-  @keyframes racketRotate{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(4deg);}}
-
-  .hv-ball{
-    width: 20%;
-    z-index: 4;
-    opacity: 0;
-    animation: hvFadeIn .45s ease-out forwards, ballWiggle 3s ease-in-out infinite;
-  }
-  .hv-ball-1{ left: -140%; bottom: -4%; animation-delay:1.4s, 1.85s; }
-  @keyframes ballWiggle{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-9px) rotate(14deg);}}
-
-  /* 8. Kamera Pink */
-  .hv-camera{
-    width: 18%;
-    left: 36%;
-    bottom: -8%;
-    z-index: 5;
-    opacity: 0;
-    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.6s forwards, cameraWiggle 3.8s ease-in-out 2.1s infinite;
-  }
-  @keyframes cameraWiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
-
-  /* Badge "5.000+ Kenangan" */
-  .badge-chip{
     position: absolute;
-    top: 2%;
-    left: 25%;
-    z-index: 9;
-    background: var(--dewy-blue);
-    border: 3px solid var(--ink);
-    border-radius: 16px;
-    padding: 6px 12px;
-    font-family: 'Baloo 2',sans-serif; font-weight: 700; font-size: 12px;
-    box-shadow: 3px 3px 0 var(--ink);
+    width: 70%;
+    right: -50%;
+    top: 32%;
+    z-index: 5;
+transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawahnya*/
+    filter: drop-shadow(-8px 12px 0 rgba(20,83,123,.25));
     opacity: 0;
-    animation: hvFadeIn .5s ease-out 1.9s forwards, float 5s ease-in-out 2.5s infinite;
+    animation: hvMagnifierIn .6s cubic-bezier(.34,1.56,.64,1) 1.25s forwards, hvMagnifierFloat 5.5s ease-in-out 1.9s infinite;
+  }
+  @keyframes hvMagnifierIn{
+    0%{opacity:0;transform: scaleX(-1) rotate(45deg) scale(0.5) translateY(20px);}
+    100%{opacity:1;transform: scaleX(-1) rotate(35deg) scale(1) translateY(0);}
+  }
+  @keyframes hvMagnifierFloat{
+    0%,100%{transform:scaleY(-1) rotate(-35deg) translateY(0);}
+    50%{transform:scaleY(-1) rotate(-33deg) translateY(-9px);}
   }
 
+  /* Badge "Halo, Kawan Lama!" — gaya stempel jahit */
+  .hero-eyebrow{
+    position:relative;
+    display:inline-block;
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    font-weight:400;
+    font-size:15px;
+    letter-spacing:.02em;
+    color:var(--paper);
+    background:var(--hero-effect);
+    padding:10px 24px;
+    border-radius:999px;
+    border:2.5px solid var(--paper);
+  }
+  .hero-eyebrow::after{
+    content:"";
+    position:absolute;inset:3px;
+    border:1.5px dashed rgba(255,255,255,.6);
+    border-radius:999px;
+    pointer-events:none;
+  }
+
+  /* Headline — font Chunk Five, krem dengan outline biru tua tebal */
+  .hero-headline-2{
+    margin-top:20px;
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    font-weight:400;
+    font-size:clamp(34px,4.6vw,58px);
+    line-height:1.18;
+    letter-spacing:.01em;
+  }
+  .hero-headline-2 .h-line,
+  .cream-outline-text{
+    display:block;
+    color:var(--cream-text);
+    -webkit-text-stroke:4px var(--hero-effect);
+    paint-order:stroke fill;
+    text-shadow:6px 6px 0 var(--hero-effect);
+  }
+  .hero-headline-2 .accent-stamp{
+    position:relative;
+    display:inline-block;
+    vertical-align:middle;
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    color:var(--hero-effect);
+    -webkit-text-stroke:0;
+    text-shadow:
+      0 0 10px rgba(20,83,123,.45),
+      0 0 20px rgba(20,83,123,.3);
+    background:#F8EFA0;
+    padding:6px 20px;
+    border-radius:999px;
+    border:2.5px solid var(--hero-effect);
+    box-shadow:4px 4px 0 var(--hero-effect);
+    transform:rotate(-1.5deg);
+  }
+  .hero-headline-2 .accent-stamp::after{
+    content:"";
+    position:absolute;inset:3px;
+    border:1.5px dashed rgba(20,83,123,.6);
+    border-radius:999px;
+    pointer-events:none;
+  }
+
+  .hero-sub-2{
+    margin-top:22px;
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    font-weight:400;
+    font-size:17px;
+    line-height:1.65;
+    color:var(--hero-effect);
+    max-width:46ch;
+  }
+  .hero-sub-2 mark{
+    background:var(--sunwashed);
+    color:var(--hero-effect);
+    padding:1px 5px;
+    border-radius:5px;
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone;
+  }
+
+  .hero-cta-2{display:flex;flex-wrap:wrap;gap:16px;margin-top:34px;}
+
+  .btn-stamp{
+    position:relative;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:'Chunk Five','Baloo 2',sans-serif;font-weight:400;font-size:16px;letter-spacing:.01em;
+    padding:14px 28px;
+    border-radius:999px;
+    border:3px solid var(--paper);
+    box-shadow:5px 5px 0 var(--hero-effect);
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-stamp::after{
+    content:"";
+    position:absolute;inset:4px;
+    border:1.5px dashed rgba(255,255,255,.55);
+    border-radius:999px;
+    pointer-events:none;
+  }
+  .btn-stamp:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--hero-effect);}
+  .btn-stamp:active{transform:translate(1px,1px);box-shadow:3px 3px 0 var(--hero-effect);}
+  .btn-stamp-fill{background:var(--hero-effect);color:var(--paper);}
+  .btn-stamp-outline{
+    background:var(--paper);color:var(--hero-effect);
+    border-color:var(--hero-effect);
+    box-shadow:5px 5px 0 var(--hero-effect);
+  }
+  .btn-stamp-outline::after{border-color:rgba(20,83,123,.4);}
+
+  /* ---- Animasi teks: Muncul (Fade) ---- */
+  .reveal-fade{
+    opacity:0;
+    transform:translateY(16px);
+    animation:heroFadeIn2 .7s ease-out forwards;
+    animation-delay:var(--d,0s);
+  }
+  @keyframes heroFadeIn2{
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ---- Animasi teks: Cetak Timbul (Baseline) — muncul seolah dicetak naik dari garis dasar ---- */
+  .baseline-in{
+    opacity:0;
+    clip-path:inset(0 0 100% 0);
+    transform:translateY(14px);
+    animation:baselineReveal .75s cubic-bezier(.22,.9,.28,1) forwards;
+    animation-delay:var(--d,0s);
+  }
+  @keyframes baselineReveal{
+    0%{opacity:0;clip-path:inset(0 0 100% 0);transform:translateY(14px);}
+    55%{opacity:1;}
+    100%{opacity:1;clip-path:inset(0 0 0% 0);transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .reveal-fade, .baseline-in{opacity:1;transform:none;clip-path:none;animation:none;}
+  }
+
+  @media (max-width:480px){
+    .hero .wrap{padding:64px 20px 80px;}
+  }
   .wave-outer{position:absolute;bottom:-1px;left:0;width:100%;height:42px;overflow:hidden;line-height:0;z-index:3;}
   .wave-divider{display:block;width:200%;height:42px;}
   @media (prefers-reduced-motion:no-preference){
@@ -496,84 +516,101 @@
   @keyframes waveDrift{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 
-  /* ABOUT */
+  /* ============================= */
+  /* ABOUT — Kalender & Kartu Kenangan */
+  /* ============================= */
   .about{
-    background:linear-gradient(180deg, var(--paper) 0%, var(--paper) 7%, var(--sky-tint) 22%, var(--dewy-blue) 55%, var(--morning-breeze) 100%);
-    padding:90px 0 0;
+    background:var(--about-panel);
+    padding:100px 0 0;
     overflow:hidden;
+    isolation:isolate;
   }
-  .about-dots{
-    position:absolute;inset:0;
-    background-image:radial-gradient(var(--ink) 1.5px, transparent 1.5px);
-    background-size:26px 26px;
-    opacity:.06;
-    pointer-events:none;
-  }
-  .about .wrap{position:relative;display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:center;padding-bottom:70px;}
-  .about-visual{position:relative;}
-  .about-frame-backdrop{
-    position:absolute;
-    inset:0;
-    background:var(--sunwashed);
-    border:4px solid var(--ink);
-    border-radius:var(--radius-lg);
-    transform:rotate(-8deg);
-    z-index:0;
-  }
-  .about-frame{
+  .about .wrap{
     position:relative;
-    z-index:1;
-    border:4px solid var(--ink);
-    border-radius:var(--radius-lg);
-    background:repeating-linear-gradient(135deg, var(--dewy-blue) 0 12px, var(--sky-tint-2) 12px 24px);
-    padding:22px;
-    box-shadow:var(--shadow-chunky);
-    transform:rotate(2deg);
-  }
-  .about-frame-tape{
-    position:absolute;
-    top:-14px;left:50%;
-    transform:translateX(-50%) rotate(-4deg);
-    width:92px;height:28px;
-    background:rgba(255,148,102,.9);
-    border:2px solid var(--ink);
-    border-radius:3px;
     z-index:2;
+    display:grid;
+    grid-template-columns:.9fr 1.1fr;
+    gap:56px;
+    align-items:center;
+    padding-bottom:130px;
   }
-  .about-frame img{border-radius:var(--radius-md);border:3px solid var(--ink);background:var(--paper);min-height:220px;}
-  .stat-float{
-    position:absolute;bottom:-26px;right:-18px;
-    background:var(--morning-breeze);color:var(--paper);
-    border:3px solid var(--ink);border-radius:18px;
-    padding:14px 18px;box-shadow:var(--shadow-chunky-sm);
-    font-family:'Baloo 2',sans-serif;
-    text-align:center;
-    z-index:3;
-  }
-  .stat-float b{display:block;font-size:24px;}
-  .stat-float span{font-size:11px;font-weight:600;}
-  .about-badge-2{
-    position:absolute;top:-16px;left:-20px;
-    background:var(--sunwashed);color:var(--ink);
-    border:3px solid var(--ink);border-radius:16px;
-    padding:9px 14px;box-shadow:var(--shadow-chunky-sm);
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:13px;
-    z-index:3;
-  }
-  .about-sticker{
+
+  /* Garis background bawah (bg.about.png) */
+  .about-bg-line{
     position:absolute;
-    width:52px;height:52px;border-radius:50%;
-    background:var(--paper);border:3px solid var(--ink);
-    display:flex;align-items:center;justify-content:center;
-    font-size:22px;box-shadow:var(--shadow-chunky-sm);
-    z-index:3;
+    left:0;right:0;bottom:-2px;
+    width:100%;
+    height:auto;
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
   }
-  .about-sticker-1{top:8%;right:-8%;background:var(--sunwashed);}
-  .about-sticker-2{bottom:22%;left:-10%;background:var(--coral);}
+
+/* Kalender kiri (biar ukurannya besar pas) */
+  .about-visual{position:relative;display:flex;justify-content:center;}
+  .ab-calendar{
+    width: 100%;
+    max-width: 480px; /* Diperbesar dari sebelumnya */
+    height: auto;
+    display: block;
+    filter: drop-shadow(12px 18px 0 rgba(20,83,123,.28));
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .ab-calendar{animation:abCalendarFloat 5.5s ease-in-out infinite;}
+  }
+  @keyframes abCalendarFloat{
+    0%,100%{transform:translateY(0) rotate(-1.5deg);}
+    50%{transform:translateY(-18px) rotate(.5deg);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ab-calendar{animation:none;}
+  }
+
+  /* Kartu teks kanan */
+  .about-copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;}
+  .about-copy .hero-eyebrow{margin-bottom:20px;}
+
+/* Card kanan biar teksnya tidak saling tumpuk */
+  .ab-card {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-chunky);
+  }
+ .ab-card-bg {
+    display: none; /* Buang background gambar card lama yang bikin teks ketumpuk */
+  }
+.ab-card-inner {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0;
+  }
+  .about-title{
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    font-weight:400;
+    font-size:clamp(22px,2.6vw,32px);
+    line-height:1.28;
+    letter-spacing:.01em;
+  }
+  .about-text{
+    font-family:'Chunk Five','Baloo 2',sans-serif;
+    font-weight:400;
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--hero-effect);
+    max-width:42ch;
+  }
 
   .about-highlights{
     display:flex;flex-wrap:wrap;gap:10px;
-    margin-top:22px;
+    margin-top:26px;
   }
   .about-highlight{
     display:inline-flex;align-items:center;gap:8px;
@@ -602,6 +639,7 @@
   overflow: hidden;
   padding: 12px 0;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  z-index:2;
 }
 
 .marquee-track {
@@ -804,7 +842,8 @@
 
   /* RESPONSIVE */
   @media (max-width:960px){
-    .about .wrap{grid-template-columns:1fr;}
+    .about .wrap{grid-template-columns:1fr;padding-bottom:100px;}
+    .about-copy{align-items:center;text-align:center;}
     .count-grid{grid-template-columns:repeat(2,1fr);}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
     .testi-grid{grid-template-columns:1fr;}
@@ -819,6 +858,7 @@
     .count-grid{grid-template-columns:1fr 1fr;gap:16px;}
     .hero{padding:44px 0 80px;}
     .about,.gallery,.testi,.artikel{padding:64px 0;}
+    .about .wrap{padding-bottom:80px;}
   }
 </style>
 </head>
@@ -861,59 +901,32 @@
 </header>
 
 <!-- HERO -->
-<section class="hero" id="beranda" style="background-image:url('{{ asset('assets/anggi/bghero.png') }}');">
+<section class="hero" id="beranda">
+
+  <div class="hero-bg-left" aria-hidden="true"></div>
 
   <div class="wrap">
     <div class="hero-copy">
-      <span class="eyebrow hero-in-1">Halo, Kawan Lama!</span>
-      <h1 class="hero-headline">
-        <span class="typewriter-line" style="--chars:17; --dur:.75s; --tw-delay:.4s; --tw-hide:1.15s;">Siap Bernostalgia</span><br>
-        <span class="typewriter-line" style="--chars:4; --dur:.18s; --tw-delay:1.15s; --tw-hide:1.33s;">dan&nbsp;</span><span class="typewriter-line" style="--chars:14; --dur:.5s; --tw-delay:1.33s; --tw-hide:1.83s;"><span class="accent">Cerita Baru</span></span><br>
-        <span class="typewriter-line tw-last" style="--chars:5; --dur:.25s; --tw-delay:1.83s; --tw-hide:2.08s;">Lagi?</span>
+      <span class="hero-eyebrow reveal-fade" style="--d:.1s">Halo, Kawan Lama!</span>
+      <h1 class="hero-headline-2">
+        <span class="h-line baseline-in" style="--d:.35s">Siap Bernostalgia</span>
+        <span class="h-line baseline-in" style="--d:.55s">dan <span class="accent-stamp">Cerita Baru</span></span>
+        <span class="h-line baseline-in" style="--d:.75s">Lagi?</span>
       </h1>
-      <p class="hero-sub hero-sub-in">Selamat datang di markas digital kita tercinta! Tempat paling pas buat temu kangen, intip kabar terbaru teman seangkatan, dan saling dukung buat melangkah lebih jauh.</p>
-      <div class="hero-cta hero-cta-in">
-        <a href="/login" class="btn btn-primary">Masuk ke Akun Yuk!</a>
-        <a href="#daftar" class="btn btn-ghost">Daftar / Verifikasi Data</a>
-      </div>
-
-      <div class="hero-audio-player" id="audioPlayer">
-        <audio id="heroAudio" src="{{ asset('assets/audio/hero-theme.mp3') }}" loop preload="none"></audio>
-        <button class="audio-toggle" id="audioToggle" type="button" aria-label="Putar musik">
-          <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-        </button>
-        <div class="audio-bars">
-          <span style="height:9px;"></span>
-          <span style="height:16px;"></span>
-          <span style="height:7px;"></span>
-          <span style="height:22px;"></span>
-          <span style="height:12px;"></span>
-          <span style="height:19px;"></span>
-          <span style="height:8px;"></span>
-          <span style="height:15px;"></span>
-          <span style="height:10px;"></span>
-        </div>
+      <p class="hero-sub-2 reveal-fade" style="--d:1s"><mark>Selamat datang di markas digital kita tercinta!</mark> Tempat paling pas buat temu kangen, intip kabar terbaru <mark>teman seangkatan</mark>, dan saling <mark>dukung buat melangkah lebih jauh.</mark></p>
+      <div class="hero-cta-2 reveal-fade" style="--d:1.2s">
+        <a href="/login" class="btn-stamp btn-stamp-fill">Masuk Ke Akun Yuk!</a>
+        <a href="#daftar" class="btn-stamp btn-stamp-outline">Daftar / Verifikasi Data</a>
       </div>
     </div>
 
-    <!-- Scrapbook scene: typewriter + polaroid photos + trinkets + tennis + camera -->
-    <div class="hero-visual">
-      <span class="badge-chip">📸 5.000+ Kenangan</span>
-
-      <img class="hv-racket" src="{{ asset('assets/anggi/raket.png') }}" alt="">
-      <img class="hv-ball hv-ball-1" src="{{ asset('assets/anggi/baseball.png') }}" alt="">
-      <img class="hv-camera" src="{{ asset('assets/images/kamera-pink.png') }}" alt="">
-
+<div class="hero-visual">
       <img class="hv-base" src="{{ asset('assets/anggi/polaroid.png') }}" alt="Mesin ketik dan tumpukan foto kenangan">
-      <img class="hv-eyes" src="{{ asset('assets/images/mata.png') }}" alt="">
-
       <img class="hv-photo hv-photo-1" src="{{ asset('assets/anggi/siswa.png') }}" alt="Foto kenangan alumni 1">
       <img class="hv-photo hv-photo-2" src="{{ asset('assets/anggi/siswa2.png') }}" alt="Foto kenangan alumni 2">
-      <img class="hv-phone" src="{{ asset('assets/images/telefon.png') }}" alt="">
-      <img class="hv-keychain" src="{{ asset('assets/images/gantungan3.png') }}" alt="">
-      <img class="hv-pin" src="{{ asset('assets/images/jarum-merah.png') }}" alt="">
-      <img class="hv-magnifier" src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="">
+      <!-- Elemen Kaca Pembesar yang sudah di-flip -->
+    <img src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="Kaca Pembesar" class="hv-magnifier">
+      <img class="hv-magnifier" src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="Kaca Pembesar">
     </div>
   </div>
 
@@ -926,33 +939,26 @@
 
 <!-- ABOUT -->
 <section class="about" id="about">
-  <div class="about-dots"></div>
+
   <div class="wrap">
-    <div class="about-visual reveal">
-      <span class="about-badge-2">😄 Sejak 2016</span>
-      <span class="about-sticker about-sticker-1">📚</span>
-      <span class="about-sticker about-sticker-2">🎓</span>
-      <div class="about-frame-backdrop"></div>
-      <div class="about-frame">
-        <span class="about-frame-tape"></span>
-        <img src="{{ asset('assets/images/antares.png') }}" alt="Momen kumpul alumni Antares">
-      </div>
-      <div class="stat-float float-slow">
-        <b>25+</b>
-        <span>ANGKATAN GABUNG</span>
-      </div>
+    <div class="about-visual">
+      <img class="ab-calendar" src="{{ asset('assets/anggi/calendar.png') }}" alt="Kalender kenangan alumni" data-aos="fade-left" data-aos-delay="300" data-aos-duration="800">
     </div>
-    <div class="about-copy reveal reveal-d1">
-      <span class="eyebrow">💛 Kenalin Dulu, Nih...</span>
-      <h2 class="section-title">Bukan Sekadar Grup, Ini Keluarga Kedua Kita!</h2>
-      <p class="section-text">Website ini dibuat khusus buat kita semua yang rindu masa-masa sekolah/kuliah dulu. Dari yang awalnya cuma mau nanya "Eh, sekarang sibuk apa?", sampai bisa kolaborasi bareng bikin project keren. Yuk, bikin jejaring silaturahmi kita makin erat dan seru di sini!</p>
-      <div class="about-highlights">
-        <span class="about-highlight">🔗 Networking Lintas Angkatan</span>
-        <span class="about-highlight">💼 Info Karir & Loker</span>
-        <span class="about-highlight">🎉 Reuni Rutin Tiap Tahun</span>
+
+    <div class="about-copy" data-aos="fade-up">
+      <span class="hero-eyebrow" data-aos="fade-up" data-aos-delay="100">Kenalin Dulu, Nih...</span>
+
+      <div class="ab-card" data-aos="fade-left" data-aos-delay="150" data-aos-duration="800">
+        <img class="ab-card-bg" src="{{ asset('assets/anggi/cardabout.png') }}" alt="" aria-hidden="true">
+        <div class="ab-card-inner">
+          <h2 class="about-title cream-outline-text" data-aos="fade-up" data-aos-delay="100">Bukan Sekadar Grup, Ini Keluarga Kedua Kita!</h2>
+          <p class="about-text" data-aos="fade-up" data-aos-delay="300">Website ini dibuat khusus buat kita semua yang rindu masa-masa sekolah/kuliah dulu. Dari yang awalnya cuma mau nanya "Eh, sekarang sibuk apa?", sampai bisa kolaborasi bareng bikin project keren. Yuk, bikin jejaring silaturahmi kita makin erat dan seru di sini!</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <img class="about-bg-line" src="{{ asset('assets/anggi/bg.about.png') }}" alt="" aria-hidden="true">
 
   <div class="marquee-band">
     <div class="marquee-track">
@@ -1103,20 +1109,17 @@
   </div>
 </footer>
 
+<!-- LIBRARY AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
 <!-- JAVASCRIPT -->
 <script>
-  // --- widget musik di Hero ---
-  const heroAudio = document.getElementById('heroAudio');
-  const audioToggle = document.getElementById('audioToggle');
-  const audioPlayer = document.getElementById('audioPlayer');
-  audioToggle.addEventListener('click', () => {
-    if (heroAudio.paused) {
-      heroAudio.play().catch(() => {});
-      audioPlayer.classList.add('playing');
-    } else {
-      heroAudio.pause();
-      audioPlayer.classList.remove('playing');
-    }
+  // --- Inisialisasi AOS (animasi on-scroll) ---
+  AOS.init({
+    duration: 700,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 60
   });
 
   // --- Navbar: shadow pas discroll ---
@@ -1159,7 +1162,7 @@
     });
   });
 
-  // --- Scroll-reveal: fade/slide-in tiap elemen pas masuk viewport ---
+  // --- Scroll-reveal: fade/slide-in tiap elemen pas masuk viewport (section lain selain About) ---
   const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries) => {
