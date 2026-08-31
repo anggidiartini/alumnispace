@@ -1,7 +1,7 @@
 <!-- NAVBAR TRANSPARAN -->
 <header class="navbar-container">
     <div class="navbar-logo">
-        ALUMNI HUB
+        ALUMNISPACE
     </div>
 
     <!-- Tombol Garis Tiga (Hamburger) untuk HP -->

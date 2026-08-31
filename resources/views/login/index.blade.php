@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Pure Vanilla CSS Styling (No Tailwind CSS) -->
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 <body>
     
@@ -79,7 +79,7 @@
                     <div class="polaroid-frame">
                         <div class="polaroid-image-wrapper">
                             <img 
-                                src="/images/alumni-polaroid.png" 
+                                src="{{ asset('assets/images/foto-1.png') }}" 
                                 alt="Foto Kenangan Alumni" 
                                 class="polaroid-image"
                                 loading="eager"

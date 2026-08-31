@@ -20,7 +20,7 @@
 
         <!-- Bagian Tengah (Logo, Tagline, Ikon Sosmed & Ilustrasi Tangan) -->
         <div class="footer-center">
-            <h2 class="footer-logo">Homecourt</h2>
+            <h2 class="footer-logo">AlumniSpace</h2>
             <p class="footer-tagline">It’s like working with an agency, without the agency feel.</p>
 
             <div class="footer-socials">

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>memori. — Our Album</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Fredoka:wght@400;500;600;700&family=Caveat:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap');
 
 :root{
   --buttercup:#FFE08A;
@@ -26,7 +27,7 @@ html{scroll-behavior:smooth;}
 
 body{
   background:var(--cloud);
-  font-family:'DM Sans',sans-serif;
+  font-family:'Baloo 2', sans-serif;
   color:var(--ink);
   overflow-x:hidden;
   position:relative;
@@ -101,11 +102,11 @@ body::before{
 .confetti{position:absolute;pointer-events:none;will-change:transform;}
 .confetti.dot{border-radius:50%;}
 .confetti.square{border-radius:2px;}
-.confetti.star{font-family:'DM Sans';line-height:1;}
+.confetti.star{font-family:'Baloo 2', sans-serif;line-height:1;}
 
 .doodle{
   position:absolute;pointer-events:none;z-index:3;
-  font-family:'Caveat',cursive;font-weight:700;
+  font-family:'Baloo 2', sans-serif;font-weight:700;
   opacity:.85;
 }
 .doodle svg{display:block;overflow:visible;}
@@ -138,82 +139,6 @@ body::before{
   transform:skewX(-6deg);
   z-index:-1;
   border-radius:3px;
-}
-
-/* ---------- NAVBAR ---------- */
-.site-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 40px;
-  background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(16px) saturate(1.4);
-  -webkit-backdrop-filter:blur(16px) saturate(1.4);
-  box-shadow:0 6px 24px rgba(44,62,80,.08);
-}
-.nav-logo{
-  font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;
-  color:var(--ink);letter-spacing:.01em;
-}
-.nav-menu{
-  display:flex;align-items:center;gap:30px;list-style:none;
-}
-.nav-menu a{
-  font-family:'DM Sans',sans-serif;font-weight:600;font-size:13.5px;
-  color:var(--ink);text-decoration:none;
-  transition:opacity .2s ease;
-}
-.nav-menu a:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px;}
-
-@media (max-width:700px){
-  .site-nav{padding:14px 20px;}
-  .nav-menu{gap:16px;}
-  .nav-menu a{font-size:12px;}
-  .nav-logo{font-size:15px;}
-}
-@media (max-width:480px){
-  .nav-menu{gap:11px;}
-}
-
-/* ---------- FOOTER ---------- */
-.site-footer{
-  background:linear-gradient(155deg, var(--dewy) 0%, var(--morning) 100%);
-  position:relative;overflow:hidden;
-  padding:64px 40px 34px;
-}
-.site-footer::before{
-  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.35) 1.5px, transparent 0);
-  background-size:26px 26px;
-}
-.footer-inner{
-  max-width:1180px;margin:0 auto;position:relative;z-index:1;
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;
-}
-.footer-brand-block{max-width:340px;}
-.footer-brand{
-  font-family:'Fredoka',sans-serif;font-weight:600;font-size:21px;color:var(--ink);
-}
-.footer-tagline{
-  font-family:'Caveat',cursive;font-size:17px;color:rgba(255,255,255,.85);
-  margin-top:8px;line-height:1.5;
-}
-.footer-col h4{
-  font-family:'DM Sans';font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(255,255,255,.65);margin-bottom:14px;
-}
-.footer-col a{
-  display:block;font-family:'DM Sans';font-size:14px;color:rgba(255,255,255,.92);
-  text-decoration:none;margin-bottom:10px;transition:opacity .2s ease;
-}
-.footer-col a:hover{opacity:.65;}
-.footer-bottom{
-  position:relative;z-index:1;max-width:1180px;margin:44px auto 0;
-  padding-top:22px;border-top:1px dashed rgba(255,255,255,.35);
-  text-align:center;font-family:'Caveat';font-size:16px;color:rgba(255,255,255,.85);
-}
-@media (max-width:600px){
-  .site-footer{padding:48px 22px 26px;}
-  .footer-inner{gap:30px;}
 }
 
 /* =========================================
@@ -250,7 +175,7 @@ body::before{
   color:#fff;
   border:1px dashed rgba(255,255,255,.75);
   padding:7px 16px;
-  font-family:'DM Sans',sans-serif;
+  font-family:'Baloo 2', sans-serif;
   font-size:11px;
   font-weight:700;
   letter-spacing:2px;
@@ -264,7 +189,7 @@ body::before{
 }
 
 h1.title{
-  font-family:'Fredoka',sans-serif;
+  font-family:'Baloo 2', sans-serif;
   font-size:clamp(36px,4.2vw,54px);
   line-height:1.1;
   letter-spacing:-1px;
@@ -278,7 +203,7 @@ h1.title .pop{
 }
 
 .subtitle{
-  font-family:'DM Sans',sans-serif;
+  font-family:'Baloo 2', sans-serif;
   color:rgba(255,255,255,.9);
   font-size:15.5px;
   line-height:1.75;
@@ -291,7 +216,7 @@ h1.title .pop{
   display:inline-flex;align-items:center;gap:10px;
   margin-top:34px;
   background:var(--buttercup);color:var(--ink);
-  font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;
+  font-family:'Baloo 2', sans-serif;font-weight:600;font-size:15px;
   padding:14px 28px;border-radius:40px;border:3px dashed var(--ink);
   cursor:pointer;letter-spacing:.01em;
   box-shadow:0 10px 24px rgba(44,62,80,.22);
@@ -339,7 +264,7 @@ h1.title .pop{
   right:0;
   bottom:10px;
   text-align:center;
-  font-family:'Caveat',cursive;
+  font-family:'Baloo 2', sans-serif;
   font-size:21px;
   font-weight:700;
   color:var(--ink);
@@ -404,8 +329,6 @@ h1.title .pop{
   display:block;
 }
 
-/* posisi pakai % (bukan px) supaya otomatis ikut menyesuaikan
-   ukuran .photo-stack di setiap breakpoint */
 @keyframes magnifierSearch{
   0%{   top:26%; left:4%;  transform:rotate(-18deg) scale(1);   }
   15%{  top:9%;  left:18%; transform:rotate(8deg)   scale(1.08);}
@@ -417,7 +340,6 @@ h1.title .pop{
   100%{ top:26%; left:4%;  transform:rotate(-18deg) scale(1);   }
 }
 
-/* Responsif: mengecil proporsional mengikuti .photo-stack, bukan hilang */
 @media (max-width:900px){
   .magnifier{ width:140px; height:140px; }
 }
@@ -434,16 +356,16 @@ h1.title .pop{
   border-bottom:2px dashed rgba(44,62,80,.25);padding-bottom:18px;
   position:relative;z-index:2;
 }
-.section-head h2{font-family:'Fredoka',sans-serif;font-size:26px;font-weight:600;}
+.section-head h2{font-family:'Baloo 2', sans-serif;font-size:26px;font-weight:600;}
 .section-head .count{
-  font-family:'DM Sans';font-size:13px;font-weight:600;color:var(--ink);
+  font-family:'Baloo 2', sans-serif;font-size:13px;font-weight:600;color:var(--ink);
   background:var(--dewy);padding:5px 12px;border-radius:20px;
 }
 
 /* filter bar */
 .filter-bar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px;position:relative;z-index:2;}
 .filter-btn{
-  font-family:'Fredoka';font-weight:600;font-size:13.5px;
+  font-family:'Baloo 2', sans-serif;font-weight:600;font-size:13.5px;
   padding:10px 20px;border-radius:30px;border:2.5px dashed var(--ink);
   background:transparent;color:var(--ink);cursor:pointer;
   transition:transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
@@ -452,7 +374,7 @@ h1.title .pop{
 .filter-btn.active{background:var(--ink);color:var(--cloud);}
 .filter-btn.active:hover{transform:translateY(-2px) rotate(2deg);}
 .filter-status{
-  font-family:'Caveat';font-size:17px;color:var(--ink-soft);
+  font-family:'Baloo 2', sans-serif;font-size:17px;color:var(--ink-soft);
   margin-bottom:34px;position:relative;z-index:2;
 }
 .filter-status strong{color:var(--ink);}
@@ -489,7 +411,7 @@ h1.title .pop{
 
 .cat-pill{
   position:absolute;top:10px;left:10px;z-index:5;
-  font-family:'Fredoka';font-weight:600;font-size:11.5px;
+  font-family:'Baloo 2', sans-serif;font-weight:600;font-size:11.5px;
   padding:5px 12px;border-radius:20px;color:var(--navy);
   background:#ffffff;border:2px solid var(--navy);box-shadow:0 3px 8px rgba(0,0,0,.15);
 }
@@ -498,7 +420,7 @@ h1.title .pop{
 .sticker{
   position:absolute;bottom:-14px;right:-10px;width:56px;height:56px;border-radius:50%;
   background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;
-  font-family:'Caveat';font-weight:700;font-size:14px;text-align:center;line-height:1.1;
+  font-family:'Baloo 2', sans-serif;font-weight:700;font-size:14px;text-align:center;line-height:1.1;
   box-shadow:0 6px 14px rgba(44,62,80,.25);z-index:6;border:2.5px solid #fff;
   transition:transform .3s ease;
 }
@@ -506,13 +428,13 @@ h1.title .pop{
 .card:hover .sticker{transform:scale(1.12) rotate(-8deg);}
 
 .card-body{padding-top:18px;}
-.label{font-family:'Caveat';font-weight:600;font-size:16px;color:var(--navy);margin-bottom:2px;}
-.card-body h3{font-family:'Fredoka';font-weight:600;font-size:23px;margin-bottom:4px;}
+.label{font-family:'Baloo 2', sans-serif;font-weight:600;font-size:16px;color:var(--navy);margin-bottom:2px;}
+.card-body h3{font-family:'Baloo 2', sans-serif;font-weight:600;font-size:23px;margin-bottom:4px;}
 .date{font-size:13px;color:var(--ink-soft);font-weight:500;margin-bottom:16px;}
 
 .view-btn{
   display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cloud);
-  font-family:'DM Sans';font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:30px;
+  font-family:'Baloo 2', sans-serif;font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:30px;
   border:2px dashed var(--cloud);letter-spacing:.02em;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease;
 }
 .view-btn svg{transition:transform .2s;}
@@ -606,16 +528,7 @@ h1.title .pop{
 </head>
 <body>
 
-<nav class="site-nav" id="site-nav">
-  <div class="nav-logo">alumni space</div>
-  <ul class="nav-menu">
-    <li><a href="#">Beranda</a></li>
-    <li><a href="#">Lowongan</a></li>
-    <li><a href="#">Alumni</a></li>
-    <li><a href="#">Event</a></li>
-    <li><a href="#">Album</a></li>
-  </ul>
-</nav>
+<x-navbar />
 
 <div class="section-blue">
   <div class="confetti-layer" id="confetti-blue"></div>
@@ -712,7 +625,7 @@ h1.title .pop{
           <span class="cat-pill">Indoor</span>
            <img src="{{ asset('assets/images/foto-6INDOOR.jpg') }}" alt="School Event">
         </div>
-        <div class="sticker alt">panggung<br>seru</div>
+        <div class="sticker alt">asik<br>banget</div>
         <div class="card-body">
           <div class="label">panggung &amp; sorak-sorai</div>
           <h3>School Event</h3>
@@ -729,7 +642,7 @@ h1.title .pop{
           <span class="cat-pill outdoor">Outdoor</span>
            <img src="{{ asset('assets/images/foto-5OUTDOOR.jpg') }}" alt="Class Gathering">
         </div>
-        <div class="sticker">makan<br>bareng</div>
+        <div class="sticker">seru<br>bareng</div>
         <div class="card-body">
           <div class="label">kumpul santai</div>
           <h3>Class Gathering</h3>
@@ -759,25 +672,9 @@ h1.title .pop{
     </div>
   </div>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand-block">
-        <div class="footer-brand">alumni space</div>
-        <p class="footer-tagline">dibuat dengan tawa, keringat, dan sedikit air mata haru ♡</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Navigasi</h4>
-        <a href="#">Beranda</a>
-        <a href="#">Lowongan</a>
-        <a href="#">Alumni</a>
-        <a href="#">Event</a>
-        <a href="#">Album</a>
-      </div>
-    </div>
-    <div class="footer-bottom">© 2026 alumni space — semua kenangan tersimpan di sini</div>
-  </footer>
 </div>
+
+<x-footer />
 
 <script>
 (function(){
@@ -924,7 +821,24 @@ h1.title .pop{
     });
   });
 })();
+ const menuToggle = document.getElementById('menuToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.navbar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+    
 </script>
+<script src="{{ asset('js/script.js') }}"></script>
 
 </body>
 </html>

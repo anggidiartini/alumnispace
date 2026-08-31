@@ -147,7 +147,7 @@ html {
     }
 
     .navbar-menu a {
-        font-size: 0.8rem;
+        font-size: 0.8rem; 
     }
 
     /* Ukuran teks di section menyesuaikan layar HP */
@@ -202,12 +202,7 @@ html {
         right: -100%; /* Sembunyikan menu di luar layar sebelah kanan */
         width: 70%; /* Lebar panel setengah/sebagian layar */
         height: calc(100vh - 70px);
-        background-color: rgba(
-            26,
-            37,
-            48,
-            0.95
-        ); /* Latar belakang gelap transparan */
+        background-color: rgba(255, 255, 255, 0.95); /* Latar belakang gelap transparan */
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
