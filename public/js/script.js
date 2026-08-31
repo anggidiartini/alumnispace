@@ -377,3 +377,8 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(wrapper);
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    initBarcodes();
+    initCardEntrance();
+});

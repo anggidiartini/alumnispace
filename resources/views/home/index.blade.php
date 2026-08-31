@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
 <body>
-
+    <x-navbar />
     <!-- NAVBAR TRANSPARAN -->
 <header class="navbar-container">
     <div class="navbar-logo">
@@ -40,7 +40,7 @@
     <img src="{{ asset('assets/images/telefon.png') }}" alt="Aset Telepon" class="hero-asset asset-telepon">
     <img src="{{ asset('assets/images/polaroid-pink.png') }}" alt="Aset Polaroid" class="hero-asset asset-polaroid">
     <img src="{{ asset('assets/images/polka-kuning.png') }}" alt="Aset Polkadot" class="hero-asset asset-polkadot">
-    <img src="{{ asset('assets/images/foto-kuning.png') }}" alt="Aset Foto" class="hero-asset asset-foto">
+    <img src="{{ asset('assets/images/foto-home.png') }}" alt="Aset Foto" class="hero-asset asset-foto">
 
     <div class="hero-content">
 
@@ -137,69 +137,21 @@ ketawa bareng lagi di sini.
             <div class="photo-grid">
                 <!-- Kotak 1 -->
                 <div class="photo-card" onclick="openLightbox('foto1.jpg')">
-                    <img src="foto1.jpg" alt="Foto 1">
+                    <img src="{{ asset('assets/images/foto-2.png') }}" alt="Foto 1">
                 </div>
                 <!-- Kotak 2 -->
                 <div class="photo-card" onclick="openLightbox('foto2.jpg')">
-                    <img src="foto2.jpg" alt="Foto 2">
+                    <img src="{{ asset('assets/images/foto02.png') }}" alt="Foto 2">
                 </div>
                 <!-- Kotak 3 -->
                 <div class="photo-card" onclick="openLightbox('foto3.jpg')">
-                    <img src="foto3.jpg" alt="Foto 3">
+                    <img src="{{ asset('assets/images/foto03.png') }}" alt="Foto 3">
                 </div>
                 <!-- Kotak 4 -->
                 <div class="photo-card" onclick="openLightbox('foto4.jpg')">
-                    <img src="foto4.jpg" alt="Foto 4">
+                    <img src="{{ asset('assets/images/foto04.png') }}" alt="Foto 4">
                 </div>
             </div>
-        </div>
-
-<!-- Aset Gambar Tunggal di Sisi Kiri Section 4 -->
-<div class="section4-left-image">
-    <img src="/assets/images/card-section4.png" alt="Aset Section 4">
-</div>
-<!-- WRAPPER UNTUK ASET CARD UTAMA & 4 TOMBOLNYA -->
-<div class="card-with-badges-wrapper">
-
-    <!-- 1. Stiker/Badge: Selamat Datang (Pojok Kiri Atas) -->
-    <div class="floating-badge badge-selamat">Selamat Datang</div>
-
-    <!-- 2. Stiker/Badge: Portal Alumni (Pojok Kanan Atas) -->
-    <div class="floating-badge badge-portal">Portal Alumni</div>
-
-    <!-- 3. Tombol: Daftar Sekarang (Di tengah/atas area bawah card) -->
-    <div class="floating-btn btn-daftar-wrapper">
-        <a href="#daftar" class="btn-retro-pink">Daftar Sekarang</a>
-    </div>
-
-    <!-- 4. Tombol: Bagikan Ceritamu (Di bagian bawah card) -->
-    <div class="floating-btn btn-bagikan-wrapper">
-        <a href="#" class="btn-retro-yellow">Bagikan<br>ceritamu</a>
-    </div>
-<!-- KELOMPOK 4 KONTEN TEKS SPESIFIK -->
-<div class="section4-elements-wrapper">
-
-    <!-- 1. Teks Subtitle Atas -->
-    <div class="elem-item elem-subtitle">Scroll Forward reuni & jejaring alumni mempersembahkan</div>
-
-    <!-- 2. Teks Judul Utama -->
-    <div class="elem-item elem-title">Hubungkan &<br>Kenang Lagi.</div>
-
-    <!-- 3. Teks Deskripsi Panjang -->
-    <div class="elem-item elem-desc">
-        Ruang temu buat kita yang pernah melewati masa - masa seru bareng: cerita alumni, info karier, bimbingan, dan acara spesial.
-    </div>
-
-    <!-- 4. Grup Bawah (Ayo! & Dimana?) -->
-    <div class="elem-item elem-bottom-group">
-        <span class="text-ayo">Ayo!</span>
-        <div class="dimana-box">
-            <span class="text-dimana">Dimana?</span>
-            <span class="text-dimana-sub">Website & Grup<br>Alumni.</span>
-        </div>
-    </div>
-
-
 </div>
 </section>
 
@@ -209,18 +161,13 @@ ketawa bareng lagi di sini.
     <img class="lightbox-content" id="lightboxImg">
 </div>
 <!-- Garis Animasi Berjalan Kuning -->
-<div class="running-line-yellow"></div>
-        <section id="section-5" class="content-section bg-5">
 
-        </section>
+
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer-container">
-        <p>&copy; 2026 Alumni Hub. All rights reserved.</p>
-    </footer>
+    <x-footer />
 
-    <!-- JAVASCRIPT SEDERHANA UNTUK TOGGLE MENU -->
+    <!-- Script JavaScript Toggle Menu & JS External -->
     <script>
         const menuToggle = document.getElementById('menuToggle');
         const navbarMenu = document.getElementById('navbarMenu');
@@ -230,7 +177,6 @@ ketawa bareng lagi di sini.
             menuToggle.classList.toggle('active');
         });
 
-        // Menutup menu otomatis ketika salah satu link diklik
         document.querySelectorAll('.navbar-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 navbarMenu.classList.remove('active');
