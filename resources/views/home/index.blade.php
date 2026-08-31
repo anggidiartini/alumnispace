@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
   </head>
   <body>
-
+    @include('components.navbar')
 
 
 
@@ -99,23 +99,18 @@
     <span>Tidak Ada Kenangan Masa Sekolah Yang Lebih Indah Dari Masa - Masa Sekolah , Tiada Hari Tanpa Canda, Tawa, Sedih &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;</span>
   </div>
 </div>
-
-
-
     </section>
+
+    <div class="animated-stripe-divider"></div>
 
     <!-- ===== ABOUT ===== -->
-    <section class="about" id="about">
-      <div class="about-inner">
-        <div class="about-visual">
+<section class="about" id="about">
+  <div class="about-inner"></div>
 
-          <div class="badge-float">
+    <!-- Kolom Kanan: 4 Card Kapsul -->
+     <div class="capsule-cards-wrapper"></div>
 
-          </div>
-        </div>
-      </div>
-    </section>
-
+</section>
     <!-- ===== STATS ===== -->
     <section class="stats" id="stats">
       <!-- Aset Lembar Kertas di Kiri -->
@@ -332,26 +327,36 @@
       </div>
     </section>
 
+@include('components.footer')
 
-<script>
-  // Script untuk memicu animasi masuk saat section album/galeri di-scroll ke layar
-  document.addEventListener("DOMContentLoaded", function() {
-    const albumSection = document.querySelector("#album");
+    <!-- Script khusus animasi album -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const albumSection = document.querySelector("#album");
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // Tambahkan kelas 'active' ke section saat sudah kelihatan di layar
-          albumSection.classList.add("animate-visible");
-          observer.unobserve(entry.target); // Jalankan sekali saja
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              albumSection.classList.add("animate-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.2
+        });
+
+        if (albumSection) {
+          observer.observe(albumSection);
         }
       });
-    }, {
-      threshold: 0.2 // Animasi mulai berjalan saat 20% bagian galeri terlihat di layar
-    });
-
-    if (albumSection) {
-      observer.observe(albumSection);
+    </script>
+    <script>
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('header.navbar');
+    if (window.scrollY > 20) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
     }
   });
 </script>

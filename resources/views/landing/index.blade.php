@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Antares Alumni Club — Kawan Lama, Cerita Baru</title>
+<title>Alumnispace — Kawan Lama, Cerita Baru</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -119,56 +119,6 @@
     .about-sticker-2{animation:float 5.5s ease-in-out infinite;--r:-6deg;animation-delay:.4s;}
   }
 
-  /* HERO-SPECIFIC ENTRANCE + AMBIENT ANIMATIONS */
-  @media (prefers-reduced-motion:no-preference){
-    .hero-in, .hero-pop, .hero-in-fade, .hero-visual-in{opacity:0;}
-    .hero-in{transform:translateY(24px);display:inline-block;}
-    .hero-pop{display:inline-block;transform:scale(.5) rotate(-8deg);}
-    .hero-visual-in{transform:translateX(70px);}
-
-    .hero-in{animation:heroFadeUp .6s cubic-bezier(.2,.8,.3,1) both;}
-    .hero-in-fade{animation:heroFadeIn .7s ease-out both;}
-    .hero-pop{animation:heroPopScale .65s cubic-bezier(.34,1.56,.64,1) both;}
-    .hero-visual-in{animation:heroSlideInRight .8s cubic-bezier(.16,.84,.44,1) both;}
-
-    .hero-in-1{animation-delay:.10s;}
-    .hero-in-2{animation-delay:.26s;}
-    .hero-in-3{animation-delay:.32s;}
-    .hero-in-4{animation-delay:.38s;}
-    .hero-in-5{animation-delay:.44s;}
-    .hero-in-6{animation-delay:.50s;}
-    .hero-in-7{animation-delay:.66s;}
-    .hero-in-8{animation-delay:.72s;}
-    .hero-in-9{animation-delay:.90s;}
-    .hero-in-10{animation-delay:1.05s;}
-    .hero-visual-in{animation-delay:.45s;}
-
-    .rocket-emoji{
-      display:inline-block;
-      width:58px;height:58px;object-fit:contain;
-      vertical-align:-16px;
-      animation: heroFadeUp .5s ease-out .72s both, rocketFloatRotate 2.6s ease-in-out 1.3s infinite;
-    }
-    .badge-float{animation: heroFadeIn .5s ease-out .95s both, float 5s ease-in-out 1.4s infinite;}
-    .polaroid-float{animation: gentleFloatRotate 5s ease-in-out infinite;}
-    .love-pulse{display:inline-block;animation: pulseHeart 1.8s ease-in-out infinite;}
-    .twinkle{animation: twinkleFade 2.6s ease-in-out infinite;}
-    .twinkle-b{animation-delay:.9s;}
-    .swing-float{animation: swingFloat 4.5s ease-in-out infinite;}
-    /* Animasi background hero sudah dihapus agar BG diam */
-  }
-
-  @keyframes heroFadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-  @keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
-  @keyframes heroPopScale{0%{opacity:0;transform:scale(.5) rotate(-8deg);}60%{opacity:1;transform:scale(1.1) rotate(3deg);}100%{opacity:1;transform:scale(1) rotate(0deg);}}
-  @keyframes heroSlideInRight{from{opacity:0;transform:translateX(70px);}to{opacity:1;transform:translateX(0);}}
-  @keyframes rocketFloatRotate{0%,100%{transform:translateY(0) rotate(-10deg);}50%{transform:translateY(-8px) rotate(10deg);}}
-  @keyframes gentleFloatRotate{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-14px) rotate(-4deg);}}
-  @keyframes pulseHeart{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
-  @keyframes twinkleFade{0%,100%{opacity:.45;transform:scale(.85);}50%{opacity:1;transform:scale(1.15);}}
-  @keyframes swingFloat{0%,100%{transform:translateY(0) rotate(-10deg);}50%{transform:translateY(-10px) rotate(12deg);}}
-
-  /* NAVBAR — Sticker Tab Bar */
   .site-nav{
     position:sticky;top:0;z-index:1000;
     background:var(--paper);
@@ -249,143 +199,302 @@
     .nav-burger{display:flex;}
   }
 
-  /* HERO */
+/* ============================= */
+  /* HERO — Scrapbook Nostalgia    */
+  /* ============================= */
   .hero{
-    padding:64px 0 110px;
-    background-color:var(--dewy-blue);
-    background-image:
-      radial-gradient(circle, var(--sunwashed) 0, transparent 30%),
-      radial-gradient(circle, var(--buttercup) 0, transparent 24%),
-      radial-gradient(circle, var(--morning-breeze) 0, transparent 60%);
-    background-repeat:no-repeat;
-    background-size:200% 200%;
-    background-position:88% 10%, 8% 85%, 45% -10%;
     position:relative;
     overflow:hidden;
-    /* Background diam, animasi digeser ke wave-divider di bawah */
+    padding:86px 0 150px;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    isolation:isolate;
   }
   .hero .wrap{
     display:grid;
-    grid-template-columns:1.05fr .95fr;
-    gap:48px;
+    grid-template-columns:1.02fr .98fr;
+    gap:36px;
     align-items:center;
+    position:relative;
+    z-index:2;
   }
+
+  /* ---- Left copy ---- */
   .hero-headline{
-    font-size:clamp(34px,4.6vw,58px);
+    font-size:clamp(32px,4.4vw,54px);
     margin-top:18px;
+    color:var(--cloud-puff);
+    -webkit-text-stroke:2px #7A3B2E;
+    text-shadow:
+      2px 2px 0 #7A3B2E,
+      4px 4px 0 rgba(122,59,46,.35);
+    letter-spacing:.01em;
   }
   .hero-headline .accent{
-    color: var(--coral);
-    background: var(--paper);
-    padding: 0 8px;
-    border-radius: 8px;
-    border: 2px solid var(--ink);
-    display: inline-block;
-    box-shadow: 2px 2px 0 var(--ink);
+    -webkit-text-stroke:2px var(--ink);
+    color:var(--ink);
+    background:var(--sunwashed);
+    text-shadow:none;
+    padding:2px 12px;
+    border-radius:8px;
+    border:2.5px solid var(--ink);
+    display:inline-block;
+    box-shadow:4px 4px 0 var(--ink);
+    transform:rotate(-1.5deg);
   }
   .hero-sub{
-    margin-top:18px;
+    margin-top:20px;
     font-size:18px;
-    color:var(--ink-soft);
-    font-weight:600;
-    max-width:46ch;
+    color:var(--ink);
+    font-weight:700;
+    max-width:44ch;
+    background:rgba(255,253,247,.55);
+    -webkit-backdrop-filter:blur(2px);
+    backdrop-filter:blur(2px);
+    padding:4px 2px;
+    border-radius:10px;
   }
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px;}
 
-  .hero-visual{position:relative;height:460px;margin-top:20px;}
-  .polaroid{
-    position:absolute;
-    background:var(--paper);
-    border:4px solid var(--ink);
-    border-radius:16px;
-    padding:14px 14px 44px;
-    box-shadow:10px 10px 0 var(--ink);
-    width:88%;
-    left:6%;
-    top:38px;
-    transform:rotate(-4deg);
+  /* ---- Typewriter headline animation ---- */
+  .typewriter-line{
+    display:inline-block;
+    vertical-align:bottom;
+    overflow:hidden;
+    white-space:nowrap;
+    width:0;
+    border-right:4px solid transparent;
   }
-  .polaroid img{border-radius:8px;width:100%;height:280px;object-fit:cover;background:var(--sky-tint-2);}
-  .polaroid-cap{
-    position:absolute;bottom:12px;left:16px;right:16px;
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:15px;
-    display:flex;align-items:center;justify-content:space-between;
+  @media (prefers-reduced-motion:no-preference){
+    .typewriter-line{
+      animation:
+        typeLine var(--dur,.5s) steps(var(--chars,10),end) var(--tw-delay,0s) forwards,
+        showCaret .01s linear var(--tw-delay,0s) forwards,
+        hideCaret .01s linear var(--tw-hide,1s) forwards;
+    }
+    .typewriter-line.tw-last{
+      animation:
+        typeLine var(--dur,.5s) steps(var(--chars,10),end) var(--tw-delay,0s) forwards,
+        showCaret .01s linear var(--tw-delay,0s) forwards,
+        caretBlink .8s step-end var(--tw-hide,1s) infinite;
+    }
   }
-  .tape{
-    position:absolute;width:90px;height:30px;
-    background:rgba(255,148,102,.85);
-    border:2px solid var(--ink);
-    top:-14px;left:50%;transform:translateX(-50%) rotate(-3deg);
-    border-radius:3px;
+  @media (prefers-reduced-motion:reduce){
+    .typewriter-line{width:auto;border-right:none;}
   }
-  .pin{
-    position:absolute;width:22px;height:22px;border-radius:50%;
-    background:var(--coral);border:3px solid var(--ink);
-    box-shadow:0 3px 0 rgba(46,58,89,.3);
+  @keyframes typeLine{ from{width:0;} to{width:var(--chars,10)ch;} }
+  @keyframes showCaret{ to{border-color:var(--ink);} }
+  @keyframes hideCaret{ to{border-color:transparent;} }
+  @keyframes caretBlink{ 50%{border-color:transparent;} }
+
+  .eyebrow.hero-in-1{opacity:0;animation:heroFadeUp .55s ease-out .1s forwards;}
+  .hero-sub{opacity:0;}
+  .hero-sub.hero-sub-in{animation:heroFadeUp .6s ease-out 2.2s forwards;}
+  .hero-cta{opacity:0;}
+  .hero-cta.hero-cta-in{animation:heroFadeUp .6s ease-out 2.4s forwards;}
+
+  @keyframes heroFadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
+
+  /* ---- Right visual: scrapbook scene (DISAMAKAN DENGAN CANVA) ---- */
+  .hero-visual{
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    height: 520px;
+    margin: 0 auto;
   }
+  .hero-visual > *{position: absolute;}
+
+.hv-base{
+    position: absolute !important; /* Wajib ada supaya top & left jalan */
+    top: -5% !important;
+    left: -50% !important;
+
+    /* 🔥 TAMBAHKAN PROPERTI INI UNTUK MEMAKSA UKURAN BESAR 🔥 */
+    width: 1160px !important;
+    max-width: none !important; /* Mencegah gambar dibatasi ukuran aslinya */
+    height: auto !important;
+
+    transform: rotate(-3deg) !important;
+    animation-delay: 0.1s !important;
+}
+
+  /* 2. Sticker Mata Jenaka (Nempel di kantong mesin ketik) */
+  .hv-eyes{
+    width: 12%;
+    right: 32%;
+    bottom: 12%;
+    z-index: 6;
+    opacity: 0;
+    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.75s forwards, eyeWiggle 3.4s ease-in-out 2.3s infinite;
+  }
+  @keyframes eyeWiggle{0%,100%{transform:rotate(0deg);}50%{transform:rotate(6deg);}}
+
+  /* 3. Tumpukan Foto Polaroid Utama */
+  .hv-photo{
+    width: 42%;
+    z-index: 5;
+    opacity: 0;
+    cursor: pointer;
+    transition: transform .3s cubic-bezier(.2,.8,.3,1), filter .3s ease;
+    filter: drop-shadow(5px 8px 0 rgba(46,58,89,.18));
+  }
+  .hv-photo:hover{ transform:translateY(-8px) scale(1.04) !important; z-index:10; filter:drop-shadow(8px 14px 0 rgba(46,58,89,.24)); }
+  
+/* Foto Atas (Grup) */
+.hv-photo-1 { 
+  right: 50%; /* Diperbesar dari 28% supaya bergeser ke KIRI */
+  top: -%;    /* Dikecilkan dari 12% supaya bergeser ke ATAS */
+  width: 170px;
+  height: auto;
+  transform: rotate(3deg); 
+  animation: hvPopGroup1 .5s cubic-bezier(.34,1.56,.64,1) .7s forwards; 
+}
+
+@keyframes hvPopGroup1 {
+  0% {
+    opacity: 0; 
+    transform: scale(.4) rotate(-3deg);
+  }
+  65% {
+    opacity: 1; 
+    transform: scale(1.3) rotate(6deg); /* Diperbesar dari 1.12 jadi 1.3 (atau sesuaikan) */
+  }
+  100% {
+    opacity: 1; 
+    transform: scale(1.15) rotate(3deg); /* Nilai scale akhir diperbesar dari 1 jadi 1.15 agar fotonya lebih gede */
+  }
+}
+ /* Foto Bawah (Dimasukkan ke dalam kotak polaroid mesin ketik) */
+  .hv-photo-2 {
+    position: absolute;
+    right: 70px;      /* Atur jarak dari kanan agar pas di atas kotak merah */
+    top: 280px;       /* Atur jarak dari atas (sesuaikan turun-naiknya di sini) */
+    width: 285px;     /* Ukuran lebar foto, sesuaikan biar pas masuk kotak */
+    height: auto;
+    z-index: 3;       /* Pastikan di atas mesin ketik (z-index 2) */
+    animation: hvPopGroup2 .5s cubic-bezier(.34,1.56,.64,1) .9s forwards;
+  }
+
+  @keyframes hvPopGroup2 {
+    0% {
+      opacity: 0;
+      transform: scale(.4) rotate(-10deg);
+    }
+    65% {
+      opacity: 1;
+      transform: scale(1.12) rotate(1deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg); /* Atur kemiringan akhirnya di sini (0deg kalau mau lurus) */
+    }
+  }
+
+  /* 4. Pin Merah */
+  .hv-pin{
+    width: 7%;
+    right: 48%;
+    top: 32%;
+    z-index: 8;
+    opacity: 0;
+    animation: hvPop .45s cubic-bezier(.34,1.56,.64,1) .65s forwards;
+  }
+
+  /* 5. Telepon & Gantungan Kunci */
+  .hv-phone{
+    width: 15%;
+    right: 18%;
+    top: 8%;
+    z-index: 7;
+    opacity: 0;
+    transform-origin: top center;
+    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1s forwards, swingSmall 4.2s ease-in-out 1.6s infinite;
+  }
+  .hv-keychain{
+    width: 16%;
+    right: 52%;
+    top: 22%;
+    z-index: 7;
+    opacity: 0;
+    transform-origin: top center;
+    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.05s forwards, swingSmall 3.6s ease-in-out 1.65s infinite;
+  }
+  @keyframes swingSmall{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+
+  /* 6. Kaca Pembesar */
+  .hv-magnifier{
+    width: 28%;
+    right: 15%;
+    top: 42%;
+    z-index: 9;
+    opacity: 0;
+    animation: hvFadeIn .5s ease-out 1.2s forwards, magBreathe 4.5s ease-in-out 1.75s infinite;
+    filter: drop-shadow(4px 6px 0 rgba(46,58,89,.2));
+  }
+  @keyframes hvFadeIn{from{opacity:0;transform:translate(10px,-10px) scale(.9);}to{opacity:1;transform:translate(0,0) scale(1);}}
+  @keyframes magBreathe{
+    0%,100%{transform:translate(0,0) rotate(0deg) scale(1);}
+    50%{transform:translate(-6px,5px) rotate(-4deg) scale(1.03);}
+  }
+
+ /* 7. Raket + Bola Tenis (Di bagian kiri bawah) */
+  .hv-racket{
+    width: 60%;
+    left: -170%;
+    bottom: -23%;
+    z-index: 4;
+    opacity: 0;
+    transform-origin: 60% 60%;
+    animation: hvFadeIn .5s ease-out 1.4s forwards, racketRotate 5s ease-in-out 1.9s infinite;
+  }
+  @keyframes racketRotate{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(4deg);}}
+
+  .hv-ball{
+    width: 20%;
+    z-index: 4;
+    opacity: 0;
+    animation: hvFadeIn .45s ease-out forwards, ballWiggle 3s ease-in-out infinite;
+  }
+  .hv-ball-1{ left: -140%; bottom: -4%; animation-delay:1.4s, 1.85s; }
+  @keyframes ballWiggle{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-9px) rotate(14deg);}}
+
+  /* 8. Kamera Pink */
+  .hv-camera{
+    width: 18%;
+    left: 36%;
+    bottom: -8%;
+    z-index: 5;
+    opacity: 0;
+    animation: hvPop .5s cubic-bezier(.34,1.56,.64,1) 1.6s forwards, cameraWiggle 3.8s ease-in-out 2.1s infinite;
+  }
+  @keyframes cameraWiggle{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
+
+  /* Badge "5.000+ Kenangan" */
   .badge-chip{
-    position:absolute;
-    top: 4px;
-    right: 12px;
-    z-index: 10;
-    background:var(--dewy-blue);
-    border:3px solid var(--ink);
-    border-radius:16px;
-    padding:10px 16px;
-    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;
-    box-shadow:var(--shadow-chunky-sm);
+    position: absolute;
+    top: 2%;
+    left: 25%;
+    z-index: 9;
+    background: var(--dewy-blue);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-family: 'Baloo 2',sans-serif; font-weight: 700; font-size: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
+    opacity: 0;
+    animation: hvFadeIn .5s ease-out 1.9s forwards, float 5s ease-in-out 2.5s infinite;
   }
 
-  .wave-outer{position:absolute;bottom:-1px;left:0;width:100%;height:42px;overflow:hidden;line-height:0;}
+  .wave-outer{position:absolute;bottom:-1px;left:0;width:100%;height:42px;overflow:hidden;line-height:0;z-index:3;}
   .wave-divider{display:block;width:200%;height:42px;}
   @media (prefers-reduced-motion:no-preference){
     .wave-divider{animation:waveDrift 16s linear infinite;}
   }
   @keyframes waveDrift{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-  /* HERO AUDIO PLAYER */
-  .hero-audio-player{
-    position:absolute;
-    right:-14px;
-    bottom:22px;
-    z-index:12;
-    display:flex;align-items:center;gap:14px;
-    background:var(--ink);
-    border:3px solid var(--paper);
-    border-radius:999px;
-    padding:8px 22px 8px 8px;
-    box-shadow:var(--shadow-chunky-sm);
-  }
-  .audio-toggle{
-    width:42px;height:42px;flex-shrink:0;
-    border-radius:50%;
-    background:var(--sunwashed);
-    border:2.5px solid var(--paper);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    transition:transform .15s ease;
-  }
-  .audio-toggle:hover{transform:scale(1.08);}
-  .audio-toggle svg{width:16px;height:16px;fill:var(--ink);}
-  .audio-toggle .icon-pause{display:none;}
-  .hero-audio-player.playing .icon-play{display:none;}
-  .hero-audio-player.playing .icon-pause{display:block;}
-  .audio-bars{display:flex;align-items:center;gap:3.5px;height:22px;}
-  .audio-bars span{width:3.5px;border-radius:3px;background:var(--paper);opacity:.9;}
-  @media (prefers-reduced-motion:no-preference){
-    .hero-audio-player.playing .audio-bars span{animation:audioBar 1s ease-in-out infinite;}
-    .hero-audio-player.playing .audio-bars span:nth-child(odd){animation-direction:alternate-reverse;}
-    .hero-audio-player.playing .audio-bars span:nth-child(1){animation-delay:0s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(2){animation-delay:.08s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(3){animation-delay:.16s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(4){animation-delay:.24s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(5){animation-delay:.32s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(6){animation-delay:.40s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(7){animation-delay:.48s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(8){animation-delay:.56s;}
-    .hero-audio-player.playing .audio-bars span:nth-child(9){animation-delay:.64s;}
-  }
-  @keyframes audioBar{0%,100%{height:6px;}50%{height:22px;}}
 
   /* ABOUT */
   .about{
@@ -628,7 +737,7 @@
   .testi-card:hover{transform:translateY(-5px);}
   .testi-card:nth-child(2){background:var(--sky-tint-2);}
   .testi-quote{font-size:16.5px;font-weight:700;line-height:1.6;}
-  .testi-quote::before{content:"“";font-family:'Baloo 2',sans-serif;}
+  .testi-quote::before{content:"\201C";font-family:'Baloo 2',sans-serif;}
   .testi-person{display:flex;align-items:center;gap:12px;margin-top:20px;}
   .avatar{
     width:46px;height:46px;border-radius:50%;
@@ -695,8 +804,6 @@
 
   /* RESPONSIVE */
   @media (max-width:960px){
-    .hero .wrap{grid-template-columns:1fr;}
-    .hero-visual{height:360px;margin:0 auto;max-width:420px;width:100%;}
     .about .wrap{grid-template-columns:1fr;}
     .count-grid{grid-template-columns:repeat(2,1fr);}
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
@@ -754,37 +861,20 @@
 </header>
 
 <!-- HERO -->
-<section class="hero" id="beranda">
+<section class="hero" id="beranda" style="background-image:url('{{ asset('assets/anggi/bghero.png') }}');">
 
   <div class="wrap">
     <div class="hero-copy">
-      <span class="eyebrow hero-in hero-in-1">👋 Halo, Kawan Lama!</span>
+      <span class="eyebrow hero-in-1">Halo, Kawan Lama!</span>
       <h1 class="hero-headline">
-        <span class="hero-in hero-in-2">Siap</span>
-        <span class="hero-in hero-in-3">Bernostalgia</span>
-        <span class="hero-in hero-in-4">dan</span>
-        <span class="hero-in hero-in-5">Bikin</span>
-        <span class="accent hero-pop hero-in-6">Cerita Baru</span>
-        <span class="hero-in hero-in-7">Lagi?</span>
-        <img src="{{ asset('assets/icons/military-aircraft.png') }}" alt="" class="rocket-emoji">
+        <span class="typewriter-line" style="--chars:17; --dur:.75s; --tw-delay:.4s; --tw-hide:1.15s;">Siap Bernostalgia</span><br>
+        <span class="typewriter-line" style="--chars:4; --dur:.18s; --tw-delay:1.15s; --tw-hide:1.33s;">dan&nbsp;</span><span class="typewriter-line" style="--chars:14; --dur:.5s; --tw-delay:1.33s; --tw-hide:1.83s;"><span class="accent">Cerita Baru</span></span><br>
+        <span class="typewriter-line tw-last" style="--chars:5; --dur:.25s; --tw-delay:1.83s; --tw-hide:2.08s;">Lagi?</span>
       </h1>
-      <p class="hero-sub hero-in-fade hero-in-9">Selamat datang di markas digital kita tercinta! Tempat paling pas buat temu kangen, intip kabar terbaru teman seangkatan, dan saling dukung buat melangkah lebih jauh.</p>
-      <div class="hero-cta hero-in hero-in-10">
-        <a href="/login" class="btn btn-primary">Masuk ke Akun Kuy! 🚀</a>
+      <p class="hero-sub hero-sub-in">Selamat datang di markas digital kita tercinta! Tempat paling pas buat temu kangen, intip kabar terbaru teman seangkatan, dan saling dukung buat melangkah lebih jauh.</p>
+      <div class="hero-cta hero-cta-in">
+        <a href="/login" class="btn btn-primary">Masuk ke Akun Yuk!</a>
         <a href="#daftar" class="btn btn-ghost">Daftar / Verifikasi Data</a>
-      </div>
-    </div>
-
-    <div class="hero-visual hero-visual-in">
-      <div class="badge-chip badge-float" style="--r:4deg;">📸 5.000+ Kenangan</div>
-      <div class="polaroid polaroid-float">
-        <span class="tape"></span>
-        <span class="pin" style="top:-8px;right:18px;"></span>
-        <img src="{{ asset('assets/images/antares.png') }}" alt="Kumpul bareng alumni Antares">
-        <div class="polaroid-cap">
-          <span>Reuni Akbar 2026</span>
-          <span class="love-pulse">💛</span>
-        </div>
       </div>
 
       <div class="hero-audio-player" id="audioPlayer">
@@ -805,6 +895,25 @@
           <span style="height:10px;"></span>
         </div>
       </div>
+    </div>
+
+    <!-- Scrapbook scene: typewriter + polaroid photos + trinkets + tennis + camera -->
+    <div class="hero-visual">
+      <span class="badge-chip">📸 5.000+ Kenangan</span>
+
+      <img class="hv-racket" src="{{ asset('assets/anggi/raket.png') }}" alt="">
+      <img class="hv-ball hv-ball-1" src="{{ asset('assets/anggi/baseball.png') }}" alt="">
+      <img class="hv-camera" src="{{ asset('assets/images/kamera-pink.png') }}" alt="">
+
+      <img class="hv-base" src="{{ asset('assets/anggi/polaroid.png') }}" alt="Mesin ketik dan tumpukan foto kenangan">
+      <img class="hv-eyes" src="{{ asset('assets/images/mata.png') }}" alt="">
+
+      <img class="hv-photo hv-photo-1" src="{{ asset('assets/anggi/siswa.png') }}" alt="Foto kenangan alumni 1">
+      <img class="hv-photo hv-photo-2" src="{{ asset('assets/anggi/siswa2.png') }}" alt="Foto kenangan alumni 2">
+      <img class="hv-phone" src="{{ asset('assets/images/telefon.png') }}" alt="">
+      <img class="hv-keychain" src="{{ asset('assets/images/gantungan3.png') }}" alt="">
+      <img class="hv-pin" src="{{ asset('assets/images/jarum-merah.png') }}" alt="">
+      <img class="hv-magnifier" src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="">
     </div>
   </div>
 
@@ -1003,10 +1112,10 @@
   audioToggle.addEventListener('click', () => {
     if (heroAudio.paused) {
       heroAudio.play().catch(() => {});
-      audioPlayer.textContent = "Playing...";
+      audioPlayer.classList.add('playing');
     } else {
       heroAudio.pause();
-      audioPlayer.textContent = "Musik";
+      audioPlayer.classList.remove('playing');
     }
   });
 
