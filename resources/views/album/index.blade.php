@@ -292,7 +292,7 @@ h1.title .pop{
   margin-top:34px;
   background:var(--buttercup);color:var(--ink);
   font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;
-  padding:14px 28px;border-radius:40px;border:none;
+  padding:14px 28px;border-radius:40px;border:3px dashed var(--ink);
   cursor:pointer;letter-spacing:.01em;
   box-shadow:0 10px 24px rgba(44,62,80,.22);
   transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease, box-shadow .2s ease;
@@ -319,7 +319,7 @@ h1.title .pop{
 .polaroid{
   position:absolute;
   width:260px;
-  background:#fff;
+  background:#f9cede;
   padding:12px 12px 42px;
   box-shadow:0 18px 35px rgba(0,0,0,.22);
   transform-origin:center center;
@@ -346,23 +346,23 @@ h1.title .pop{
 }
 
 .polaroid.one{
-  left:5px;
-  top:75px;
-  transform:rotate(-10deg);
+  left:0;
+  top:100px;
+  transform:rotate(-12deg);
   animation:polaroidFloat1 4.8s ease-in-out infinite;
 }
 .polaroid.two{
-  left:120px;
-  top:5px;
+  left:150px;
+  top:0;
   z-index:2;
   transform:rotate(3deg);
   animation:polaroidFloat2 5.2s .3s ease-in-out infinite;
 }
 .polaroid.three{
   right:0;
-  top:105px;
+  top:130px;
   z-index:3;
-  transform:rotate(10deg);
+  transform:rotate(12deg);
   animation:polaroidFloat3 4.6s .6s ease-in-out infinite;
 }
 
@@ -388,33 +388,41 @@ h1.title .pop{
   filter:drop-shadow(0 3px 4px rgba(0,0,0,.2));
 }
 
-@keyframes heroTextIn{
-  from{opacity:0;transform:translateX(-45px);}
-  to{opacity:1;transform:translateX(0);}
+/* ---------- MAGNIFYING GLASS (searching over the polaroids) ---------- */
+.magnifier{
+  position:absolute;
+  width:200px;
+  height:200px;
+  z-index:15;
+  pointer-events:none;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.28));
+  animation:magnifierSearch 10s ease-in-out infinite;
 }
-@keyframes heroTitleIn{
-  from{opacity:0;transform:translateY(28px) scale(.97);}
-  to{opacity:1;transform:translateY(0) scale(1);}
+.magnifier img{
+  width:100%;
+  height:100%;
+  display:block;
 }
-@keyframes badgeIn{
-  from{opacity:0;transform:translateY(-12px) rotate(-6deg);}
-  to{opacity:1;transform:translateY(0) rotate(-2deg);}
+
+/* posisi pakai % (bukan px) supaya otomatis ikut menyesuaikan
+   ukuran .photo-stack di setiap breakpoint */
+@keyframes magnifierSearch{
+  0%{   top:26%; left:4%;  transform:rotate(-18deg) scale(1);   }
+  15%{  top:9%;  left:18%; transform:rotate(8deg)   scale(1.08);}
+  30%{  top:33%; left:36%; transform:rotate(-10deg) scale(0.95);}
+  45%{  top:7%;  left:52%; transform:rotate(14deg)  scale(1.1); }
+  60%{  top:35%; left:58%; transform:rotate(-14deg) scale(0.98);}
+  75%{  top:18%; left:30%; transform:rotate(10deg)  scale(1.05);}
+  90%{  top:31%; left:12%; transform:rotate(12deg)  scale(1.05);}
+  100%{ top:26%; left:4%;  transform:rotate(-18deg) scale(1);   }
 }
-@keyframes photoAreaIn{
-  from{opacity:0;transform:translateX(45px) scale(.94);}
-  to{opacity:1;transform:translateX(0) scale(1);}
+
+/* Responsif: mengecil proporsional mengikuti .photo-stack, bukan hilang */
+@media (max-width:900px){
+  .magnifier{ width:140px; height:140px; }
 }
-@keyframes polaroidFloat1{
-  0%,100%{transform:translateY(0) rotate(-10deg);}
-  50%{transform:translateY(-12px) rotate(-7deg);}
-}
-@keyframes polaroidFloat2{
-  0%,100%{transform:translateY(0) rotate(3deg);}
-  50%{transform:translateY(-16px) rotate(5deg);}
-}
-@keyframes polaroidFloat3{
-  0%,100%{transform:translateY(0) rotate(10deg);}
-  50%{transform:translateY(-10px) rotate(7deg);}
+@media (max-width:600px){
+  .magnifier{ width:100px; height:100px; }
 }
 
 /* =========================================
@@ -436,7 +444,7 @@ h1.title .pop{
 .filter-bar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px;position:relative;z-index:2;}
 .filter-btn{
   font-family:'Fredoka';font-weight:600;font-size:13.5px;
-  padding:10px 20px;border-radius:30px;border:2px solid var(--ink);
+  padding:10px 20px;border-radius:30px;border:2.5px dashed var(--ink);
   background:transparent;color:var(--ink);cursor:pointer;
   transition:transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
 }
@@ -505,7 +513,7 @@ h1.title .pop{
 .view-btn{
   display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--cloud);
   font-family:'DM Sans';font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:30px;
-  border:none;letter-spacing:.02em;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease;
+  border:2px dashed var(--cloud);letter-spacing:.02em;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease;
 }
 .view-btn svg{transition:transform .2s;}
 .view-btn:hover{transform:scale(1.06) rotate(-2deg);background:var(--morning);}
@@ -638,15 +646,19 @@ h1.title .pop{
 
       <div class="photo-stack" aria-label="Kumpulan foto kenangan">
         <div class="polaroid one" data-caption="momen kecil ✦">
-          <img src="https://picsum.photos/seed/memories1/700/700" alt="Momen kenangan pertama">
+          <img src="{{ asset('assets/images/foto-1.png') }}" alt="Momen kenangan pertama">
         </div>
         <div class="polaroid two" data-caption="bareng-bareng ♡">
-          <img src="https://picsum.photos/seed/memories2/700/700" alt="Momen kenangan kedua">
+          <img src="{{ asset('assets/images/foto-2.png') }}" alt="Momen kenangan kedua">
         </div>
         <div class="polaroid three" data-caption="never forget ✨">
-          <img src="https://picsum.photos/seed/memories3/700/700" alt="Momen kenangan ketiga">
+          <img src="{{ asset('assets/images/foto-3.png') }}" alt="Momen kenangan ketiga">
           <span class="pin-heart">💛</span>
         </div>
+
+         <div class="magnifier" aria-hidden="true">
+        <img src="{{ asset('assets/icons/kacapembesar.png') }}" alt="">
+    </div>
       </div>
 
     </div>
@@ -681,7 +693,7 @@ h1.title .pop{
       <div class="card" id="c1" data-category="outdoor">
         <div class="card-photo">
           <span class="cat-pill outdoor">Outdoor</span>
-          <img src="https://picsum.photos/seed/classtrip/700/460" alt="Class Trip">
+          <img src="{{ asset('assets/images/foto-4OUTDOOR.jpg') }}" alt="Class Trip">
         </div>
         <div class="sticker">seru<br>banget!</div>
         <div class="card-body">
@@ -698,7 +710,7 @@ h1.title .pop{
       <div class="card" id="c2" data-category="indoor">
         <div class="card-photo">
           <span class="cat-pill">Indoor</span>
-          <img src="https://picsum.photos/seed/schoolevent/700/460" alt="School Event">
+           <img src="{{ asset('assets/images/foto-6INDOOR.jpg') }}" alt="School Event">
         </div>
         <div class="sticker alt">panggung<br>seru</div>
         <div class="card-body">
@@ -715,7 +727,7 @@ h1.title .pop{
       <div class="card" id="c3" data-category="outdoor">
         <div class="card-photo">
           <span class="cat-pill outdoor">Outdoor</span>
-          <img src="https://picsum.photos/seed/gathering/700/460" alt="Class Gathering">
+           <img src="{{ asset('assets/images/foto-5OUTDOOR.jpg') }}" alt="Class Gathering">
         </div>
         <div class="sticker">makan<br>bareng</div>
         <div class="card-body">
@@ -732,7 +744,7 @@ h1.title .pop{
       <div class="card" id="c4" data-category="indoor">
         <div class="card-photo">
           <span class="cat-pill">Indoor</span>
-          <img src="https://picsum.photos/seed/graduation/700/460" alt="Graduation">
+           <img src="{{ asset('assets/images/foto-7INDOOR.jpg') }}" alt="Graduation">
         </div>
         <div class="sticker alt">so<br>proud</div>
         <div class="card-body">
