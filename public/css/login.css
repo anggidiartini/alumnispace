@@ -246,7 +246,7 @@ body {
     font-family: var(--font-heading);
     font-size: 2.25rem;
     font-weight: 800;
-    color: var(--dark-blue);
+    color: #FFFFFF;
     line-height: 1.25;
     margin-bottom: 0.75rem;
 }
