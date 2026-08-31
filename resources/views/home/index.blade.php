@@ -1,364 +1,118 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IKASMAJA — Ruang Kumpul & Cerita Kita</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - Mata Yearbook</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-  </head>
-  <body>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+</head>
+<body>
+
     @include('components.navbar')
 
+    <div class="login-page">
+        <div class="login-wrapper">
 
+            {{-- ============ LEFT SIDE ============ --}}
+            <div class="login-left">
+                <h1 class="welcome-heading">
+                    Selamat Datang<br>Kembali!
+                </h1>
+                <p class="welcome-text">
+                    Yuk, lanjutkan cerita keluarga alumni dan jelajahi kenangan indah masa sekolah.
+                </p>
 
-        <button class="burger" id="burgerBtn" aria-label="Buka menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </header>
-
-    <!-- ===== HERO ===== -->
-    <section class="hero" id="beranda">
-      <!-- Aset Stiker OMG yang baru kita buat -->
-  <img src="{{ asset('assets/images/omg.png') }}" alt="OMG Sticker" class="hero-omg-sticker">
-
-      <!-- TARUH KODE TELEPON DI SINI (DI DALAM HERO) -->
-  <img src="{{ asset('assets/images/telefon.png') }}" alt="Gagang Telepon" class="hero-phone-hanger">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <span class="pill-badge"> Halo, Angkatan Seperjuangan!</span>
-          <h1 class="hero-title">
-            <span class="same-color">Balik Lagi Ke</span><br />
-            <span class="same-color">Masa Paling Seru</span><br />
-            <span class="title-bottom"
-              >Yuk! <span class="highlight">Nostalgia Bareng</span></span
-            >
-          </h1>
-
-          <div class="hero-actions">
-
-  <!-- Tombol Pertama + Kancing Kuning -->
-  <div class="magnifier-container btn-with-icon">
-    <img src="{{ asset('assets/images/kancing-kuning.png') }}" alt="Kancing Kuning" class="hero-button-icon">
-    <a href="#masuk" class="btn btn-fill"><span>Masuk ke Akun Kuy!</span></a>
-    <img src="{{ asset('assets/images/kaca-pembesar.png') }}" alt="Kaca Pembesar" class="hero-magnifier">
-  </div>
-
-  <!-- Tombol Kedua + Kancing Merah -->
-  <div class="btn-with-icon">
-    <img src="{{ asset('assets/images/kancing-merah.png') }}" alt="Kancing Merah" class="hero-button-icon">
-    <a href="#daftar" class="btn btn-outline"><span>Jelajahi Bersama</span></a>
-  </div>
-
-</div>
-          <!-- Audio Player yang sudah dilengkapi tag audio di dalamnya -->
-        <div class="hero-audio">
-          <button class="audio-toggle" aria-label="Putar / jeda">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <rect x="3" y="2" width="3.5" height="12" rx="1" fill="currentColor" />
-            <rect x="9.5" y="2" width="3.5" height="12" rx="1" fill="currentColor" />
-          </svg>
-          </button>
-            <div class="audio-bars" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span>
+                <div class="photo-stack">
+                    <div class="photo-box photo-1"></div>
+                    <div class="photo-box photo-2"></div>
+                </div>
             </div>
-            <audio id="bg-audio" src="music.mp3" loop></audio>
-          </div>
-        </div>
 
+            {{-- ============ RIGHT SIDE ============ --}}
+            <div class="login-right">
+                <div class="login-card">
 
+                    <h2 class="form-title">Masuk</h2>
+                    <p class="form-subtitle">Senang melihatmu kembali!</p>
 
-        <div class="hero-visual">
-          <div class="tv-wrapper">
-            <!-- Foto Grup di dalam layar TV -->
-            <div class="tv-screen-content">
-              <img src="{{ asset('assets/images/alumni-group.png') }}" alt="Foto Nostalgia Sekolah" />
+                    <form action="{{ route('login') ?? '#' }}" method="POST">
+                        @csrf
+
+                        <div class="field-group">
+                            <label for="email">Email alumni</label>
+                            <div class="input-with-icon">
+                                <span class="icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 6h18v12H3z"/>
+                                        <path d="M3 6l9 7 9-7"/>
+                                    </svg>
+                                </span>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="namamu@alumni.sch.id"
+                                    value="{{ old('email') }}"
+                                    required
+                                    autofocus
+                                >
+                            </div>
+                            @error('email')
+                                <small style="color:#ffe08a;">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="field-group">
+                            <label for="password">Kata Sandi</label>
+                            <div class="input-with-icon">
+                                <span class="icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="5" y="11" width="14" height="9" rx="2"/>
+                                        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+                                    </svg>
+                                </span>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Masukkan kata sandi"
+                                    required
+                                >
+                            </div>
+                            @error('password')
+                                <small style="color:#ffe08a;">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="form-options">
+                            <label class="remember-me">
+                                <input type="checkbox" name="remember" id="remember">
+                                Ingat saya
+                            </label>
+                            <a href="{{ route('password.request') ?? '#' }}" class="forgot-password">
+                                Lupa password?
+                            </a>
+                        </div>
+
+                        <button type="submit" class="btn-login">masuk</button>
+                    </form>
+
+                    <p class="register-note">
+                        Belum punya akun? <a href="{{ route('register') ?? '#' }}">Daftar</a>
+                    </p>
+
+                </div>
             </div>
-            <!-- Bingkai TV Utama -->
-            <img src="{{ asset('assets/images/tv-assets.png') }}" alt="Bingkai TV" class="img-tv-frame" />
-          </div>
+
         </div>
-        <!-- Banner Panjang Bawah -->
-        <div class="hero-ticker-banner">
-  <div class="ticker-track">
-    <span>Tidak Ada Kenangan Masa Sekolah Yang Lebih Indah Dari Masa - Masa Sekolah , Tiada Hari Tanpa Canda, Tawa, Sedih &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;</span>
-    <span>Tidak Ada Kenangan Masa Sekolah Yang Lebih Indah Dari Masa - Masa Sekolah , Tiada Hari Tanpa Canda, Tawa, Sedih &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;</span>
-    <span>Tidak Ada Kenangan Masa Sekolah Yang Lebih Indah Dari Masa - Masa Sekolah , Tiada Hari Tanpa Canda, Tawa, Sedih &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;</span>
-  </div>
-</div>
-    </section>
-
-    <div class="animated-stripe-divider"></div>
-
-    <!-- ===== ABOUT ===== -->
-<section class="about" id="about">
-  <div class="about-inner"></div>
-
-    <!-- Kolom Kanan: 4 Card Kapsul -->
-     <div class="capsule-cards-wrapper"></div>
-
-</section>
-    <!-- ===== STATS ===== -->
-    <section class="stats" id="stats">
-      <!-- Aset Lembar Kertas di Kiri -->
-  <img src="{{ asset('assets/images/lembar-atas.png') }}" alt="Hiasan Lembar Kertas" class="stats-corner-paper">
-      <div class="stats-marquee">
-        <div class="stats-track" id="statsTrack">
-          <div class="stat-card tint-white">
-            <span class="stat-icon">🎉</span>
-            <span class="stat-number" data-count="3800">0</span
-            ><span class="plus">+</span>
-            <p>Alumni Terdaftar Aktif</p>
-          </div>
-          <div class="stat-card tint-blue">
-            <span class="stat-icon">🤝</span>
-            <span class="stat-number" data-count="30">0</span
-            ><span class="plus">+</span>
-            <p>Angkatan Tergabung</p>
-          </div>
-          <div class="stat-card tint-gold">
-            <span class="stat-icon">💼</span>
-            <span class="stat-number" data-count="120">0</span
-            ><span class="plus">+</span>
-            <p>Peluang Karier & Bisnis</p>
-          </div>
-          <div class="stat-card tint-white">
-            <span class="stat-icon">✦</span>
-            <span class="stat-number" data-count="45">0</span
-            ><span class="plus">+</span>
-            <p>Agenda & Reuni Sukses</p>
-          </div>
-          <!-- duplicate set for seamless scrolling -->
-          <div class="stat-card tint-white" aria-hidden="true">
-            <span class="stat-icon">🎉</span>
-            <span class="stat-number" data-count="3800">0</span
-            ><span class="plus">+</span>
-            <p>Alumni Terdaftar Aktif</p>
-          </div>
-          <div class="stat-card tint-blue" aria-hidden="true">
-            <span class="stat-icon">🤝</span>
-            <span class="stat-number" data-count="30">0</span
-            ><span class="plus">+</span>
-            <p>Angkatan Tergabung</p>
-          </div>
-          <div class="stat-card tint-gold" aria-hidden="true">
-            <span class="stat-icon">💼</span>
-            <span class="stat-number" data-count="120">0</span
-            ><span class="plus">+</span>
-            <p>Peluang Karier & Bisnis</p>
-          </div>
-          <div class="stat-card tint-white" aria-hidden="true">
-            <span class="stat-icon">✦</span>
-            <span class="stat-number" data-count="45">0</span
-            ><span class="plus">+</span>
-            <p>Agenda & Reuni Sukses</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TAMBAHAN BARIS PITA BERGERAK DI BAWAHNYA ===== -->
-<div class="running-stripe-bar"></div>
-    <!-- ===== GALLERY / ALBUM ===== -->
-<section class="gallery" id="album">
-  <!-- DIV KHUSUS BACKGROUND (Biar bisa dipanjangkan ke bawah lewat CSS) -->
-  <div class="album-bg-extension"></div>
-
-  <!-- Kumpulan Aset Dekorasi Estetik -->
-<div class="decor-assets-container">
-
-  <!-- 1. Kartu Kuning (Tempat Teks) -->
-  <img src="{{ asset('assets/images/card-kuning.png') }}" class="decor-item asset-card-biru" alt="Card Biru">
-
-  <!-- 🔥 KONTEN TEKS DI DALAM KARTU (Tanpa inline style) 🔥 -->
-  <div class="card-content-box">
-    <h2 class="card-title">Ketawa Bareng<br>Lagi di Sini</h2>
-    <p class="card-desc">
-      Nggak kerasa waktu cepat banget mutar. Dari yang dulunya rebutan bangku di kelas paling belakang, nyontek PR pas pagi-pagi buta, sampai sekarang masing-masing udah sibuk sama jalan hidupnya. Yuk, intip lagi galeri momen terbaik kita!
-    </p>
-    <div class="card-btn">Momen Bersama</div>
-
-
-</div>
-    <!-- ==========================================
-     2. 10 ASET DEKORASI
-     ========================================== -->
-
-    <!-- Aset 1: Jendela -->
-    <img src="{{ asset('assets/images/foto-jendela.png') }}" alt="Jendela" class="decor-item asset-window animate-up">
-
-    <!-- Aset 2: Foto di Dalam Jendela -->
-    <img src="{{ asset('assets/images/fotodijendela copy.png') }}" alt="Foto Jendela" class="decor-item asset-window-photo animate-up">
-
-    <!-- Aset 3: Telepon (Spesial: Wadah luar untuk animasi scroll, gambar dalam untuk ayun) -->
-    <div class="decor-item asset-phone-wrapper animate-up" style="position: absolute !important; top: -1px !important; left: 35px !important; z-index: 13 !important;">
-      <img src="{{ asset('assets/images/telfon-hitam.png') }}" alt="Telepon" class="asset-phone-img" style="width: 180px !important;">
     </div>
 
-    <!-- Aset 4: Pegang Buku -->
-    <img src="{{ asset('assets/images/bukupink.png') }}" alt="Pegang Buku" class="decor-item asset-book animate-up">
+    @include('components.footer')
 
-    <!-- Aset 5: Pegang HP -->
-    <img src="{{ asset('assets/images/pegang-hp.png') }}" alt="Pegang HP" class="decor-item asset-phone-hand animate-up">
-
-    <!-- Aset 6: Mata -->
-    <img src="{{ asset('assets/images/mata.png') }}" alt="Mata" class="decor-item asset-eyes animate-up">
-
-    <!-- Aset 7: Memories -->
-    <img src="{{ asset('assets/images/memories.png') }}" alt="Memories" class="decor-item asset-memories animate-up">
-
-    <!-- Aset 8: Gitar -->
-    <img src="{{ asset('assets/images/gitarmerah.png') }}" alt="Gitar" class="decor-item asset-guitar animate-up">
-
-    <!-- Aset 9: Kamera Pink -->
-    <img src="{{ asset('assets/images/kamerapink.png') }}" alt="Kamera Pink" class="decor-item asset-camera animate-up">
-
-    <!-- Aset 10: Polkadot -->
-    <img src="{{ asset('assets/images/polkadot.png') }}" alt="Polkadot" class="decor-item asset-polkadot animate-up">
-
-    <!-- Aset 11: Omg -->
-    <img src="{{ asset('assets/images/omg2.png') }}" alt="Omg" class="decor-item asset-omg animate-up">
-
-  </div>
-</section>
-
-    <!-- ===== SECTION MOMENTS DENGAN GARIS BERGERAK KUNING ===== -->
-<section class="testimoni" id="moments" style="position: relative; overflow: hidden;">
-  <!-- Garis berjalan warna kuning di atas section -->
-  <div class="moving-stripe-bar"></div>
-
-  <!-- Wadah utama area scrapbook -->
-  <div class="scrapbook-container">
-    <!-- Masukkan ke-24 aset kamu di sini (Contoh beberapa, ganti src dengan aset kamu) -->
-    <img src="{{ asset('assets/images/polaroid-biru1.png') }}" class="scrap-item polaroid-biru1" alt="Polaroid Biru 1">
-    <img src="{{ asset('assets/images/polkadot.png') }}" class="scrap-item polkadot" alt="Polkadot">
-    <img src="{{ asset('assets/images/panah-merah.png') }}" class="scrap-item panah-merah" alt="Panah Merah">
-
-    <img src="{{ asset('assets/images/map-kuning.png') }}" class="scrap-item map-kuning1" alt="Map Kuning1">
-    <img src="{{ asset('assets/images/polaroid-kuning.png') }}" class="scrap-item polaroid-kuning" alt="Polaroid Kuning">
-    <img src="{{ asset('assets/images/foto-handball.png') }}" class="scrap-item foto-handball" alt="Foto Handball">
-    <img src="{{ asset('assets/images/panah-biru.png') }}" class="scrap-item panah-biru" alt="Panah Biru">
-    <img src="{{ asset('assets/images/map-biru.png') }}" class="scrap-item map-biru" alt="Map Biru">
-    <img src="{{ asset('assets/images/foto-batik.png') }}" class="scrap-item foto-batik" alt="Foto Batik">
-    <img src="{{ asset('assets/images/polaroid-biru1.png') }}" class="scrap-item polaroid-biru2" alt="Polaroid Biru 2">
-    <img src="{{ asset('assets/images/foto-agustus.png') }}" class="scrap-item foto-agustus" alt="Foto Agustus">
-    <img src="{{ asset('assets/images/panah-biru.png') }}" class="scrap-item panah-biru2" alt="Panah Biru 2">
-    <img src="{{ asset('assets/images/map-kuning.png') }}" class="scrap-item map-kuning2" alt="Map Kuning 2">
-    <img src="{{ asset('assets/images/polkadot.png') }}" class="scrap-item polkadot2" alt="Polkadot 2">
-    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata1" alt="mata1">
-    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata2" alt="mata2">
-    <img src="{{ asset('assets/images/mata.png') }}" class="scrap-item mata3" alt="mata3">
-    <img src="{{ asset('assets/images/kotak-kuning.png') }}" class="scrap-item kotak-kuning1" alt="Kotak Kuning 1">
-    <img src="{{ asset('assets/images/kotak-kuning.png') }}" class="scrap-item kotak-kuning2" alt="Kotak Kuning 2">
-    <img src="{{ asset('assets/images/kotak-merah.png') }}" class="scrap-item kotak-merah" alt="Kotak Merah">
-    <img src="{{ asset('assets/images/telfon-hitam.png') }}" class="scrap-item telfon-hitam" alt="Telfon Hitam">
-    <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
-    <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
-    <img src="assets/aset-4.png" class="scrap-item item-4" alt="Aset 4">
-
-
-  </div>
-
-  <!-- Kosong total sesuai permintaan sebelumnya -->
-</section>
-
-    <!-- ===== BLOG / ARTIKEL ===== -->
-    <section class="blog" id="lowongan">
-      <div class="section-head">
-        <span class="pill-badge">📰 Wawasan & Kabar</span>
-        <h2>Informasi Karier & Cerita Inspiratif ✨</h2>
-        <p>
-          Update info dunia kerja, tips pengembangan diri, dan kisah sukses dari
-          kakak/adik tingkat yang berkiprah di berbagai bidang.
-        </p>
-      </div>
-
-      <div class="blog-grid">
-        <article class="blog-card">
-          <div class="blog-cover cover-blue">💼</div>
-          <span class="tag">KARIER</span>
-          <h3>
-            Strategi Menembus Perusahaan Impian Berdasarkan Pengalaman Alumni
-          </h3>
-          <p>
-            Simak tips dan trik langsung dari para profesional senior seputar
-            persiapan CV, wawancara kerja, dan membangun relasi...
-          </p>
-          <a href="#" class="read-more">Baca selengkapnya →</a>
-        </article>
-        <article class="blog-card">
-          <div class="blog-cover cover-orange">🎯</div>
-          <span class="tag">AGENDA</span>
-          <h3>
-            Persiapan Reuni Akbar Mendatang: Catat Tanggal & Kejutan Serunya!
-          </h3>
-          <p>
-            Rencana temu akbar tahun ini bakal lebih meriah dengan berbagai
-            kegiatan menarik dan doorprize spesial. Jangan sampai ketinggalan!
-          </p>
-          <a href="#" class="read-more">Baca selengkapnya →</a>
-        </article>
-        <article class="blog-card">
-          <div class="blog-cover cover-blue">💡</div>
-          <span class="tag">BISNIS</span>
-          <h3>
-            Kisah Sukses UMKM Alumni: Dari Hobi Sampingan Jadi Bisnis Skala
-            Besar
-          </h3>
-          <p>
-            Perjalanan inspiratif merintis usaha kuliner dan kreatif dari nol
-            hingga sukses menembus pasar nasional.
-          </p>
-          <a href="#" class="read-more">Baca selengkapnya →</a>
-        </article>
-      </div>
-    </section>
-
-@include('components.footer')
-
-    <!-- Script khusus animasi album -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const albumSection = document.querySelector("#album");
-
-        const observer = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              albumSection.classList.add("animate-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        }, {
-          threshold: 0.2
-        });
-
-        if (albumSection) {
-          observer.observe(albumSection);
-        }
-      });
-    </script>
-    <script>
-  window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('header.navbar');
-    if (window.scrollY > 20) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
-</script>
-  </body>
+</body>
 </html>
