@@ -156,3 +156,224 @@ window.addEventListener("scroll", function () {
         }
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const musicBtn = document.getElementById("musicToggleBtn");
+    const bgMusic = document.getElementById("bgMusic");
+
+    if (!musicBtn || !bgMusic) return; // Mencegah error jika elemen tidak ada di halaman lain
+
+    const iconPause = musicBtn.querySelector(".icon-pause");
+    const iconPlay = musicBtn.querySelector(".icon-play");
+
+    musicBtn.addEventListener("click", function () {
+        // Cek status saat ini
+        if (musicBtn.classList.contains("playing")) {
+            // Ubah ke status PAUSE (Berhenti gerak & berhenti suara)
+            musicBtn.classList.remove("playing");
+            if (iconPause) iconPause.style.display = "none";
+            if (iconPlay) iconPlay.style.display = "block";
+            bgMusic.pause();
+        } else {
+            // Ubah ke status PLAY (Bergerak & bersuara)
+            musicBtn.classList.add("playing");
+            if (iconPause) iconPause.style.display = "block";
+            if (iconPlay) iconPlay.style.display = "none";
+            bgMusic.play().catch((error) => {
+                console.log("Autoplay dicegah browser, butuh interaksi user.");
+            });
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navbar = document.querySelector(".navbar-container");
+
+    if (navbar) {
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const section3 = document.querySelector("#section-3");
+
+    if (section3) {
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        section3.classList.add("section-visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 },
+        );
+
+        observer.observe(section3);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const section2 = document.querySelector("#section-2");
+    const statsContainer = document.querySelector(".stats-container");
+    const numbers = document.querySelectorAll(".stat-number");
+    let animated = false;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !animated) {
+                    // 1. Munculkan container dari bawah
+                    statsContainer.classList.add("visible");
+
+                    // 2. Jalankan animasi hitung angka (Counter)
+                    numbers.forEach((num) => {
+                        const target = +num.getAttribute("data-target");
+                        const suffix = num.getAttribute("data-suffix") || "";
+                        let count = 0;
+
+                        // Kecepatan hitung (semakin kecil durasi/langkah, semakin cepat)
+                        const duration = 1500; // 1.5 detik
+                        const increment = target / (duration / 16);
+
+                        const updateCount = () => {
+                            count += increment;
+                            if (count < target) {
+                                num.innerText = Math.floor(count) + suffix;
+                                requestAnimationFrame(updateCount);
+                            } else {
+                                num.innerText = target + suffix;
+                            }
+                        };
+
+                        updateCount();
+                    });
+
+                    animated = true;
+                }
+            });
+        },
+        { threshold: 0.3 },
+    ); // Memicu animasi saat section 2 terlihat 30% di layar
+
+    if (section2) {
+        observer.observe(section2);
+    }
+});
+
+// Fungsi Membuka Lightbox saat Foto Diklik
+function openLightbox(imageSrc) {
+    const modal = document.getElementById("imageLightbox");
+    const modalImg = document.getElementById("lightboxImg");
+    modal.style.display = "block";
+    modalImg.src = imageSrc;
+}
+
+// Fungsi Menutup Lightbox
+function closeLightbox() {
+    document.getElementById("imageLightbox").style.display = "none";
+}
+
+// Script Animasi Masuk dari Bawah saat Di-scroll
+document.addEventListener("DOMContentLoaded", function () {
+    const sectionContainer = document.querySelector(".section4-container");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    sectionContainer.classList.add("show-animate");
+                }
+            });
+        },
+        { threshold: 0.2 },
+    );
+
+    if (sectionContainer) {
+        observer.observe(sectionContainer);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const leftCard = document.querySelector(".section4-left-card");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    leftCard.classList.add("show-animate");
+                }
+            });
+        },
+        { threshold: 0.2 },
+    );
+
+    if (leftCard) {
+        observer.observe(leftCard);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const leftImage = document.querySelector(".section4-left-image");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    leftImage.classList.add("show-animate");
+                }
+            });
+        },
+        { threshold: 0.2 },
+    );
+
+    if (leftImage) {
+        observer.observe(leftImage);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cardWrapper = document.querySelector(".card-with-badges-wrapper");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    cardWrapper.classList.add("show-animate");
+                }
+            });
+        },
+        { threshold: 0.2 },
+    );
+
+    if (cardWrapper) {
+        observer.observe(cardWrapper);
+    }
+});
+
+// JavaScript untuk Animasi Scroll Konsisten
+document.addEventListener("DOMContentLoaded", function () {
+    const wrapper = document.querySelector(".section4-elements-wrapper");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    wrapper.classList.add("show-animate");
+                }
+            });
+        },
+        { threshold: 0.2 },
+    );
+
+    if (wrapper) {
+        observer.observe(wrapper);
+    }
+});

@@ -3,116 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - Mata Yearbook</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <title>Alumni Hub</title>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
 <body>
 
-    @include('components.navbar')
+    <!-- NAVBAR TRANSPARAN -->
+<header class="navbar-container">
+    <div class="navbar-logo">
+        ALUMNI HUB
+    </div>
 
-    <div class="login-page">
-        <div class="login-wrapper">
+    <!-- Tombol Garis Tiga (Hamburger) untuk HP -->
+    <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-            {{-- ============ LEFT SIDE ============ --}}
-            <div class="login-left">
-                <h1 class="welcome-heading">
-                    Selamat Datang<br>Kembali!
-                </h1>
-                <p class="welcome-text">
-                    Yuk, lanjutkan cerita keluarga alumni dan jelajahi kenangan indah masa sekolah.
-                </p>
+    <!-- Menu Navbar (Href dikosongkan/diatur ke # agar tidak pindah section) -->
+    <nav class="navbar-menu" id="navbarMenu">
+        <a href="#" class="active">Beranda</a>
+        <a href="#">Lowongan</a>
+        <a href="#">Alumni</a>
+        <a href="#">Event</a>
+        <a href="#">Album</a>
+    </nav>
+</header>
 
-                <div class="photo-stack">
-                    <div class="photo-box photo-1"></div>
-                    <div class="photo-box photo-2"></div>
+    <!-- KONTEN UTAMA: 5 SECTION -->
+    <main>
+       <!-- Di bagian dalam <section id="section-1" class="content-section bg-1"> -->
+<section id="section-1" class="content-section bg-1">
+<!-- 4 ASET DEKORASI -->
+    <img src="{{ asset('assets/images/telefon.png') }}" alt="Aset Telepon" class="hero-asset asset-telepon">
+    <img src="{{ asset('assets/images/polaroid-pink.png') }}" alt="Aset Polaroid" class="hero-asset asset-polaroid">
+    <img src="{{ asset('assets/images/polka-kuning.png') }}" alt="Aset Polkadot" class="hero-asset asset-polkadot">
+    <img src="{{ asset('assets/images/foto-kuning.png') }}" alt="Aset Foto" class="hero-asset asset-foto">
+
+    <div class="hero-content">
+
+
+        <h1 class="hero-title">
+    Balik Lagi Ke<br>
+    Masa Paling Seru<br>
+    <span class="text-yuk">Yuk!</span> <span class="title-bottom">Nostalgia Bareng</span>
+</h1>
+
+        <!-- Tombol Aksi -->
+        <div class="hero-buttons">
+            <a href="#" class="btn-primary-custom">Masuk ke Akun Kuy!</a>
+            <a href="#" class="btn-secondary-custom">Jelajahi Bersama</a>
+        </div>
+
+
+</div>
+    </div>
+</section>
+
+
+
+       <section id="section-2" class="content-section bg-2">
+
+       <img src="{{ asset('assets/images/lembaratas.png') }}" alt="Aset Lembaran" class="asset-lembaran">
+    <div class="section-inner">
+        <div class="stats-container">
+            <div class="stat-box">
+                <h2 class="stat-number" data-target="36" data-suffix="">0</h2>
+                <p class="stat-label">Angkatan</p>
+            </div>
+            <div class="stat-box">
+                <h2 class="stat-number" data-target="1025" data-suffix="+">0</h2>
+                <p class="stat-label">Total Alumni</p>
+            </div>
+            <div class="stat-box">
+                <h2 class="stat-number" data-target="24" data-suffix="+">0</h2>
+                <p class="stat-label">Lowongan Kerja</p>
+            </div>
+            <div class="stat-box">
+                <h2 class="stat-number" data-target="538" data-suffix="">0</h2>
+                <p class="stat-label">Alumni Tersebar</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PEMBATAS GARIS BERGERAK ANTARA SECTION 2 & 3 -->
+
+<div class="moving-stripe-divider"></div>
+        <section id="section-3" class="content-section bg-3">
+
+    <!-- 9 Aset di Section 3 -->
+    <img src="{{ asset('assets/images/telfon-hitam.png') }}" alt="Telepon Hitam" class="asset-item asset-telepon">
+    <img src="{{ asset('assets/images/jendela-pink.png') }}" alt="Jendela Pink" class="asset-item asset-jendela">
+    <img src="{{ asset('assets/images/card-kuning.png') }}" alt="Card Kuning" class="asset-item asset-card">
+    <img src="{{ asset('assets/images/fotodijendela.png') }}" alt="Foto" class="asset-item asset-foto">
+    <img src="{{ asset('assets/images/mata.png') }}" alt="Mata" class="asset-item asset-mata">
+    <img src="{{ asset('assets/images/gitarmerah.png') }}" alt="Gitar" class="asset-item asset-gitar">
+    <img src="{{ asset('assets/images/polkadot.png') }}" alt="Polkadot Pink" class="asset-item asset-polkadot">
+    <img src="{{ asset('assets/images/kamerapink.png') }}" alt="Kamera Pink" class="asset-item asset-kamera">
+     <img src="{{ asset('assets/images/bukupink.png') }}" alt="Pegang Buku" class="asset-item asset-buku">
+
+    <!-- Konten Teks & Button di dalam Card -->
+<div class="card-content-inner">
+ <h3 class="card-title">Ketawa Bareng Lagi Disini</h3>
+ <p class="card-desc">
+Balik lagi ke sudut jendela ini, tempat kita dulu rebutan
+bangku, nyontek PR, gaduh, sampai berantem lalu baikan lagi.
+Waktu boleh bikin sibuk, tapi kita selalu punya alasan buat
+ketawa bareng lagi di sini.
+</p>
+ <a href="#jendela" class="card-btn">Jelajahi Kelas</a>
+</div>
+</div>
+</section>
+
+<!-- GARIS BELANG-BELANG PINK BERGERAK -->
+<div class="pink-stripe-marquee"></div>
+
+        <!-- SECTION 4 -->
+<section id="section-4" class="content-section bg-4">
+    <!-- Panel Kiri: Polkadot -->
+    <div class="bg-4-left"></div>
+
+    <!-- Panel Kanan: Garis-garis -->
+    <div class="bg-4-right"></div>
+
+    <!-- Tempat Aset & Konten Section 4 -->
+    <div class="section-inner">
+
+        <div class="section4-container">
+            <div class="photo-grid">
+                <!-- Kotak 1 -->
+                <div class="photo-card" onclick="openLightbox('foto1.jpg')">
+                    <img src="foto1.jpg" alt="Foto 1">
+                </div>
+                <!-- Kotak 2 -->
+                <div class="photo-card" onclick="openLightbox('foto2.jpg')">
+                    <img src="foto2.jpg" alt="Foto 2">
+                </div>
+                <!-- Kotak 3 -->
+                <div class="photo-card" onclick="openLightbox('foto3.jpg')">
+                    <img src="foto3.jpg" alt="Foto 3">
+                </div>
+                <!-- Kotak 4 -->
+                <div class="photo-card" onclick="openLightbox('foto4.jpg')">
+                    <img src="foto4.jpg" alt="Foto 4">
                 </div>
             </div>
+        </div>
 
-            {{-- ============ RIGHT SIDE ============ --}}
-            <div class="login-right">
-                <div class="login-card">
+<!-- Aset Gambar Tunggal di Sisi Kiri Section 4 -->
+<div class="section4-left-image">
+    <img src="/assets/images/card-section4.png" alt="Aset Section 4">
+</div>
+<!-- WRAPPER UNTUK ASET CARD UTAMA & 4 TOMBOLNYA -->
+<div class="card-with-badges-wrapper">
 
-                    <h2 class="form-title">Masuk</h2>
-                    <p class="form-subtitle">Senang melihatmu kembali!</p>
+    <!-- 1. Stiker/Badge: Selamat Datang (Pojok Kiri Atas) -->
+    <div class="floating-badge badge-selamat">Selamat Datang</div>
 
-                    <form action="{{ route('login') ?? '#' }}" method="POST">
-                        @csrf
+    <!-- 2. Stiker/Badge: Portal Alumni (Pojok Kanan Atas) -->
+    <div class="floating-badge badge-portal">Portal Alumni</div>
 
-                        <div class="field-group">
-                            <label for="email">Email alumni</label>
-                            <div class="input-with-icon">
-                                <span class="icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 6h18v12H3z"/>
-                                        <path d="M3 6l9 7 9-7"/>
-                                    </svg>
-                                </span>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="namamu@alumni.sch.id"
-                                    value="{{ old('email') }}"
-                                    required
-                                    autofocus
-                                >
-                            </div>
-                            @error('email')
-                                <small style="color:#ffe08a;">{{ $message }}</small>
-                            @enderror
-                        </div>
+    <!-- 3. Tombol: Daftar Sekarang (Di tengah/atas area bawah card) -->
+    <div class="floating-btn btn-daftar-wrapper">
+        <a href="#daftar" class="btn-retro-pink">Daftar Sekarang</a>
+    </div>
 
-                        <div class="field-group">
-                            <label for="password">Kata Sandi</label>
-                            <div class="input-with-icon">
-                                <span class="icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="5" y="11" width="14" height="9" rx="2"/>
-                                        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-                                    </svg>
-                                </span>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Masukkan kata sandi"
-                                    required
-                                >
-                            </div>
-                            @error('password')
-                                <small style="color:#ffe08a;">{{ $message }}</small>
-                            @enderror
-                        </div>
+    <!-- 4. Tombol: Bagikan Ceritamu (Di bagian bawah card) -->
+    <div class="floating-btn btn-bagikan-wrapper">
+        <a href="#" class="btn-retro-yellow">Bagikan<br>ceritamu</a>
+    </div>
+<!-- KELOMPOK 4 KONTEN TEKS SPESIFIK -->
+<div class="section4-elements-wrapper">
 
-                        <div class="form-options">
-                            <label class="remember-me">
-                                <input type="checkbox" name="remember" id="remember">
-                                Ingat saya
-                            </label>
-                            <a href="{{ route('password.request') ?? '#' }}" class="forgot-password">
-                                Lupa password?
-                            </a>
-                        </div>
+    <!-- 1. Teks Subtitle Atas -->
+    <div class="elem-item elem-subtitle">Scroll Forward reuni & jejaring alumni mempersembahkan</div>
 
-                        <button type="submit" class="btn-login">masuk</button>
-                    </form>
+    <!-- 2. Teks Judul Utama -->
+    <div class="elem-item elem-title">Hubungkan &<br>Kenang Lagi.</div>
 
-                    <p class="register-note">
-                        Belum punya akun? <a href="{{ route('register') ?? '#' }}">Daftar</a>
-                    </p>
+    <!-- 3. Teks Deskripsi Panjang -->
+    <div class="elem-item elem-desc">
+        Ruang temu buat kita yang pernah melewati masa - masa seru bareng: cerita alumni, info karier, bimbingan, dan acara spesial.
+    </div>
 
-                </div>
-            </div>
-
+    <!-- 4. Grup Bawah (Ayo! & Dimana?) -->
+    <div class="elem-item elem-bottom-group">
+        <span class="text-ayo">Ayo!</span>
+        <div class="dimana-box">
+            <span class="text-dimana">Dimana?</span>
+            <span class="text-dimana-sub">Website & Grup<br>Alumni.</span>
         </div>
     </div>
 
-    @include('components.footer')
 
+</div>
+</section>
+
+<!-- MODAL LIGHTBOX -->
+<div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightboxImg">
+</div>
+<!-- Garis Animasi Berjalan Kuning -->
+<div class="running-line-yellow"></div>
+        <section id="section-5" class="content-section bg-5">
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-container">
+        <p>&copy; 2026 Alumni Hub. All rights reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT SEDERHANA UNTUK TOGGLE MENU -->
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navbarMenu = document.getElementById('navbarMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navbarMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Menutup menu otomatis ketika salah satu link diklik
+        document.querySelectorAll('.navbar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+    </script>
+
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
