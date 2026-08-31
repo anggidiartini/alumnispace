@@ -28,20 +28,25 @@
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    font-family:'Nunito', sans-serif;
-    color:var(--ink);
-    background:var(--sky-tint);
-    overflow-x:hidden;
+ body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    color: #124d82;
+    background: var(--sky-tint);
+    overflow-x: hidden;
   }
-  
   h1,h2,h3,.display{
     font-family:'Baloo 2', sans-serif;
     font-weight:800;
     line-height:1.08;
     margin:0;
   }
+
+  /* Pastikan elemen judul dan teks ikut menggunakan warna #124d82 */
+  h1, h2, h3, .display, .loker-title, .loker-sub, .counter-text, .company-name, .job-desc, .sidebar-title {
+    color: #124d82;
+  }
+
   p{margin:0;}
   a{text-decoration:none;color:inherit;}
   ul{margin:0;padding:0;list-style:none;}
@@ -112,16 +117,31 @@
     margin-top:16px;
     color: var(--ink);
   }
-  .loker-title .accent{
-    color:var(--coral);
-    background:var(--paper);
-    padding:0 10px;
-    border-radius:10px;
-    border:3px solid var(--ink);
-    display:inline-block;
-    box-shadow:3px 3px 0 var(--ink);
-    transform:rotate(-2deg);
+.loker-title .accent {
+    color: #f7efbf !important;
+    background: #124d82;
+    padding: 4px 18px;
+    border-radius: 999px;
+    border: 3px solid #ffffff;
+    display: inline-block;
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-3deg);
+    position: relative;
   }
+
+  /* Garis putus-putus di dalam badge Keluarga Sendiri */
+  .loker-title .accent::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 2px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
   .loker-sub{
     margin-top:16px;
     font-size:18px;
@@ -130,25 +150,67 @@
     line-height:1.6;
   }
 
-/* PEMBATAS ANTARA HERO DAN KONTEN */
+/* HERO BADGE UTAMA (ATAS) */
+  .hero-badge-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--paper);
+    background-color: #124d82;
+    padding: 12px 32px;
+    border-radius: 999px;
+    border: 3px solid #ffffff;
+    box-shadow: 4px 4px 0 var(--ink);
+    position: relative;
+  }
+ .hero-badge-box::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 2px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+/* PEMBATAS ANTARA HERO DAN KONTEN (DISESUAIKAN DENGAN WARNA BARU) */
   .section-divider{
     width: 100%;
-    height: 28px;
-    background-image: 
-      linear-gradient(45deg, var(--sky-tint) 25%, transparent 25%), 
-      linear-gradient(-45deg, var(--sky-tint) 25%, transparent 25%), 
-      linear-gradient(45deg, transparent 75%, var(--sky-tint) 75%), 
-      linear-gradient(-45deg, transparent 75%, var(--sky-tint) 75%);
-    background-size: 28px 28px;
-    background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
-    background-color: var(--paper);
-    border-top: 4px solid var(--ink);
-    border-bottom: 4px solid var(--ink);
+    height: 36px;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    background-color: #6497c0;
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    background: repeating-linear-gradient(
+      135deg, 
+      #124d82, 
+      #124d82 35px, 
+      #ffffff 35px, 
+      #ffffff 70px
+    );
+    background-size: 200% 100%;
+    animation: slideStripes 20s linear infinite;
   }
-  /* KONTEN UTAMA */
+@keyframes slideStripes {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  /* KONTEN UTAMA LOKER */
   .loker-content{
-    background:var(--sky-tint);
-    padding:60px 0 100px;
+    background: #6497c0;
+    padding: 60px 0 100px;
   }
 
   .loker-layout{
@@ -158,70 +220,109 @@
     align-items:start;
   }
 
-  /* SIDEBAR FILTER KIRI */
+/* SIDEBAR FILTER KIRI (BACKGROUND PUTIH) */
   .loker-sidebar{
-    background:var(--paper);
-    border:3px solid var(--ink);
-    border-radius:var(--radius-md);
-    padding:24px;
-    box-shadow:var(--shadow-chunky-sm);
-    position:sticky;
-    top:24px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-chunky-sm);
+    position: sticky;
+    top: 24px;
   }
-  .sidebar-title{
-    font-size:18px;
-    margin-bottom:14px;
-    display:flex;
-    align-items:center;
-    gap:8px;
+
+  /* KELUARGA SENDIRI: BERBENTUK HERO-BADGE MIRING & FONT #ffe08a */
+  .loker-title .accent {
+    color: #ffe08a !important;
+    background: #124d82;
+    padding: 4px 18px;
+    border-radius: 999px;
+    border: 3px solid #ffffff;
+    display: inline-block;
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-3deg);
+    position: relative;
   }
-  .sidebar-group{
-    margin-bottom:24px;
+
+  /* Garis putus-putus di dalam badge Keluarga Sendiri */
+  .loker-title .accent::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 2px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+.sidebar-title{
+    font-size: 18px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #124d82;
+  }
+ .sidebar-group{
+    margin-bottom: 24px;
   }
   .sidebar-group:last-child{
     margin-bottom:0;
   }
-  .filter-btn-list{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+.filter-btn-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
+/* KELAS DASAR TOMBOL FILTER */
   .f-filter-btn{
-    text-align:left;
-    font-family:'Baloo 2',sans-serif;
-    font-weight:700;
-    font-size:15px;
-    padding:10px 16px;
-    border-radius:12px;
-    border:2px solid var(--ink);
-    background:#e2ecf5;
-    cursor:pointer;
-    transition:all .15s ease;
-    color:var(--ink);
+    text-align: left;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+    color: #124d82;
+    box-shadow: 2px 2px 0 var(--ink);
   }
+
+  /* VARIASI WARNA W-WARNIP TIAP TOMBOL */
+  .f-filter-btn:nth-child(1) { background: #6497c0; color: #ffffff; }
+  .f-filter-btn:nth-child(2) { background: #f7efbf; }
+  .f-filter-btn:nth-child(3) { background: #f3c2c6; }
+  .f-filter-btn:nth-child(4) { background: #6497c0; color: #ffffff; }
+  .f-filter-btn:nth-child(5) { background: #f3c2c6; }
+
+/* EFEK HOVER & ACTIVE */
   .f-filter-btn:hover, .f-filter-btn.active{
-    background:var(--morning-breeze);
-    color:var(--paper);
-    box-shadow:2px 2px 0 var(--ink);
-    transform:translate(-1px,-1px);
+    background: #124d82 !important;
+    color: #ffffff !important;
+    box-shadow: 3px 3px 0 var(--ink);
+    transform: translate(-1px, -1px);
   }
 
-  .search-input{
-    width:100%;
-    padding:12px 16px;
-    border:2px solid var(--ink);
-    border-radius:12px;
-    font-family:'Nunito',sans-serif;
-    font-weight:600;
-    background:#e2ecf5;
-    color:var(--ink);
-    outline:none;
-  }
-  .search-input:focus{
-    background:var(--paper);
-    box-shadow:2px 2px 0 var(--ink);
+.search-input{
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    background: #ffffff;
+    color: #124d82;
+    outline: none;
+    box-shadow: 2px 2px 0 var(--ink);
   }
 
+.search-input:focus{
+    background: #ffffff;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
   /* KANAN: HEADER INFO & GRID KARTU */
   .right-content-header{
     display:flex;
@@ -355,43 +456,148 @@
     font-weight:700;
   }
 
-  /* SHARE BANNER */
-  .share-banner{
-    margin-top:50px;
-    background: linear-gradient(135deg, var(--dewy-blue) 0%, var(--morning-breeze) 100%);
-    color: var(--paper);
-    border:3px solid var(--ink);
-    border-radius:var(--radius-lg);
-    padding:40px;
-    box-shadow:var(--shadow-chunky);
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .share-banner h3{
-    font-size:28px;
-    margin-bottom:10px;
-    color: var(--paper);
-    text-shadow: 2px 2px 0 var(--ink);
-  }
-  .share-banner p{
-    font-size:16px;
-    font-weight:700;
-    color: var(--paper);
-    max-width:55ch;
-    margin:0 auto 24px;
-    text-shadow: 1px 1px 0 var(--ink);
-  }
-  .share-banner .btn-ghost{
-    background: var(--paper);
-    color: var(--ink);
+ /* SHARE BANNER (GAYA TIKET BARU) */
+  .share-banner-ticket {
+    position: relative;
+    display: flex;
+    margin-top: 80px;
+    margin-bottom: 40px;
+    border-radius: 16px;
+    box-shadow: 5px 5px 0 var(--ink, #124d82);
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
   }
 
-  /* RESPONSIVE */
+  .ticket-left {
+    background-color: #f2e0d6; 
+    padding: 40px 60px;
+    border: 3px solid #124d82;
+    border-right: none;
+    border-radius: 16px 0 0 16px;
+    flex: 3;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ticket-right {
+    background-color: #e5dbb9;
+    border: 3px solid #124d82;
+    border-left: 4px dashed #124d82;
+    border-radius: 0 16px 16px 0;
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .share-banner-ticket h3 {
+    font-size: 26px;
+    color: #124d82;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    text-shadow: none;
+  }
+
+  .share-banner-ticket p {
+    font-size: 16px;
+    color: #124d82;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.5;
+    max-width: 55ch;
+    text-shadow: none;
+  }
+
+  /* STIKER / BADGE MELAYANG */
+  .badge-float {
+    position: absolute;
+    padding: 8px 16px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    border: 3px solid #124d82;
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 #124d82;
+    z-index: 10;
+  }
+
+  .badge-float::after, .btn-ticket::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px; right: 4px; bottom: 4px;
+    border: 2px dashed rgba(18, 77, 130, 0.5);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .badge-top-left {
+    top: -20px;
+    left: -20px;
+    background-color: #b8cdd6;
+    color: #124d82;
+    transform: rotate(-12deg);
+  }
+
+  .badge-right {
+    top: 40%;
+    right: 8%;
+    transform: rotate(10deg);
+    background-color: #eebac0;
+    color: #124d82;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* TOMBOL DI DALAM TIKET */
+  .btn-ticket {
+    background-color: #ffe08a;
+    color: #124d82;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: 3px solid #124d82;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 #124d82;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-ticket:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #124d82;
+    background-color: #f3c2c6;
+  }
+
+  /* RESPONSIVE (BAGIAN BAWAH KODE KAMU TETAP DIPAKAI) */
   @media(max-width:992px){
     .loker-layout{grid-template-columns:1fr;}
     .loker-sidebar{position:static;}
     .loker-grid{grid-template-columns:1fr;}
+    
+    /* Tambahan agar bentuk tiket aman pas dibuka di HP kecil */
+    .share-banner-ticket {
+      flex-direction: column;
+    }
+    .ticket-left {
+      border-radius: 16px 16px 0 0;
+      border-right: 3px solid #124d82;
+      padding: 30px 20px;
+    }
+    .ticket-right {
+      height: 40px;
+      border-radius: 0 0 16px 16px;
+      border-left: 3px solid #124d82;
+      border-top: 4px dashed #124d82;
+    }
+    .badge-right {
+      display: none; /* Sembunyikan stiker kanan di layar HP kecil supaya tidak menumpuk */
+    }
   }
 </style>
 </head>
@@ -704,11 +910,23 @@
 
         </div>
 
-        <div class="share-banner">
-          <h3>Punya Info Lowongan di Perusahaanmu Juga?</h3>
-          <p>Jangan simpan sendirian! Bantu kawan-kawan se-almamater kita yang lagi berjuang mencari peluang karier baru. Berbagi kebaikan, rezeki makin lancar!</p>
-          <a href="#" class="btn btn-ghost">Bagikan Info Loker Di Sini</a>
-        </div>
+       <div class="share-banner-ticket">
+  <!-- Stiker Kiri Atas -->
+  <div class="badge-float badge-top-left">Daftar Sekarang</div>
+  
+  <!-- Stiker Kanan -->
+  <div class="badge-float badge-right">Bagikan Ceritamu<br>Bersama Kami!</div>
+
+  <!-- Bagian Kiri Tiket (Isi Utama) -->
+  <div class="ticket-left">
+    <h3>Punya Info Lowongan di Perusahaanmu Juga?</h3>
+    <p>Jangan simpan sendirian! Bantu kawan-kawan se-almamater kita yang lagi berjuang mencari peluang karier baru. Berbagi kebaikan, rezeki makin lancar!</p>
+    <a href="#" class="btn-ticket">Hubungi kami!</a>
+  </div>
+
+  <!-- Bagian Kanan Tiket (Sobekan) -->
+  <div class="ticket-right"></div>
+</div>
 
       </div>
 
