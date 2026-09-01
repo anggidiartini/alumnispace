@@ -18,8 +18,6 @@ Route::get('/home', function () {
     return view('home.index');
 });
 
-
-
 Route::get('/alumni', function () {
     return view('alumni.index');
 });
