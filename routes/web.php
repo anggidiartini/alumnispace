@@ -12,7 +12,7 @@ Route::get('/landing', function () {
 
 Route::get('/login', function () {
     return view('login.index');
-});
+})->name('login');
 
 Route::get('/home', function () {
     return view('home.index');
