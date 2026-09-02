@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 <body>
-    
 
     <!-- 1. MORNING SKY GRADIENT & GLOW BACKGROUND BLOBS -->
     <div class="bg-glow-container" aria-hidden="true">
@@ -27,11 +26,17 @@
     <!-- Dotted Paper Overlay Texture -->
     <div class="scrapbook-overlay" aria-hidden="true"></div>
 
-    <!-- 2. DECORATIVE FLOATING ELEMENTS (⭐ ✨ ☁️ 🌼) -->
-    <div class="floating-element float-item-1" aria-hidden="true">🌼</div>
-    <div class="floating-element float-item-2" aria-hidden="true">✨</div>
-    <div class="floating-element float-item-3" aria-hidden="true">☁️</div>
-    <div class="floating-element float-item-4" aria-hidden="true">⭐</div>
+    <!-- 2. DECORATIVE FLOATING ELEMENTS (kept sparse: 2 items, soft opacity) -->
+    <div class="floating-element float-item-1" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 3c1 2.2 2.4 3.6 4.6 4.6C14.4 8.6 13 10 12 12.2 11 10 9.6 8.6 7.4 7.6 9.6 6.6 11 5.2 12 3z"/>
+        </svg>
+    </div>
+    <div class="floating-element float-item-4" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 3c1 2.2 2.4 3.6 4.6 4.6C14.4 8.6 13 10 12 12.2 11 10 9.6 8.6 7.4 7.6 9.6 6.6 11 5.2 12 3z"/>
+        </svg>
+    </div>
 
     <!-- 3. MAIN PAGE CONTAINER -->
     <main class="login-page-container">
@@ -42,60 +47,54 @@
 
                 <!-- Tag / Badge Header -->
                 <div class="scrapbook-badge">
-                    <span class="scrapbook-badge-icon"></span>
                     <span class="scrapbook-badge-text">Buku Kenangan Alumni</span>
                     <span class="scrapbook-badge-tag">EST. 2026</span>
                 </div>
 
                 <!-- Judul Utama -->
                 <h1 class="visual-title">
-                    Selamat Datang <br>Kembali! 👋
+                    Selamat datang<br>kembali
                 </h1>
 
                 <!-- Deskripsi Singkat -->
                 <p class="visual-description">
-                    Yuk, lanjutkan cerita bersama keluarga alumni dan jelajahi kenangan indah masa sekolah.
+                    Lanjutkan cerita bersama keluarga alumni dan jelajahi kenangan indah masa sekolah.
                 </p>
 
                 <!-- Polaroid Scrapbook Card -->
                 <div class="polaroid-container">
-                    
-                    <!-- Washi Tapes -->
+
+                    <!-- Washi Tape (single, top only) -->
                     <div class="washi-tape-top" aria-hidden="true">
                         <span>MEMORIES</span>
                     </div>
-                    <div class="washi-tape-bottom" aria-hidden="true"></div>
 
                     <!-- Sticker Badge -->
                     <div class="sticker-badge">
-                        Class of '24 📸
+                        Class of &rsquo;24
                     </div>
-
-                    <!-- Sparkles around Polaroid -->
-                    <div class="sparkle-decor" style="top: -20px; right: -15px; font-size: 1.5rem;" aria-hidden="true">⭐</div>
-                    <div class="sparkle-decor" style="bottom: 10px; left: -25px; font-size: 1.6rem; animation-delay: 1.2s;" aria-hidden="true">✨</div>
 
                     <!-- Polaroid Frame Component -->
                     <div class="polaroid-frame">
                         <div class="polaroid-image-wrapper">
-                            <img 
-                                src="{{ asset('assets/images/foto-1.png') }}" 
-                                alt="Foto Kenangan Alumni" 
+                            <img
+                                src="{{ asset('assets/images/foto-1.png') }}"
+                                alt="Foto Kenangan Alumni"
                                 class="polaroid-image"
                                 loading="eager"
                             >
                             <div class="polaroid-tag">
-                                💖 Reunian
+                                Reunian
                             </div>
                         </div>
 
                         <!-- Caption inside Polaroid -->
                         <div class="polaroid-caption">
                             <div class="polaroid-caption-title">
-                                "Sahabat Selamanya ✨"
+                                Sahabat selamanya
                             </div>
                             <div class="polaroid-caption-sub">
-                                Reuni Akbar & Temu Kangen Alumni
+                                Reuni Akbar &amp; Temu Kangen Alumni
                             </div>
                         </div>
                     </div>
@@ -105,7 +104,7 @@
                 <!-- Subtle Alumni Note -->
                 <div class="alumni-count-note">
                     <span class="ping-dot"></span>
-                    <span>1,200+ Alumni Sudah Terhubung!</span>
+                    <span>1.200+ alumni sudah terhubung</span>
                 </div>
 
             </section>
@@ -113,26 +112,31 @@
 
             <!-- ================= BAGIAN KANAN (Form Login Card) ================= -->
             <section class="form-section">
-                
+
                 <div class="login-card">
 
                     <!-- Top Corner Decorative Sticker -->
-                    <div class="card-top-sticker">
-                        Portal Resmi 🌟
-                    </div>
+                    <div class="card-top-sticker">Portal Resmi</div>
 
                     <!-- Card Header -->
                     <div class="card-header">
-                        <div class="card-logo-icon">
-                            🎓
+                        <div class="card-logo-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 3 2 8l10 5 10-5-10-5z"/>
+                                <path d="M6 10.5V16c0 1.1 2.7 3 6 3s6-1.9 6-3v-5.5"/>
+                                <path d="M22 8v6" stroke-linecap="round"/>
+                            </svg>
                         </div>
-                        <h2 class="card-title">Masuk ke Akun</h2>
-                        <p class="card-subtitle">Senang melihatmu kembali!</p>
+                        <h2 class="card-title">Masuk ke akun</h2>
+                        <p class="card-subtitle">Senang melihatmu kembali</p>
                     </div>
 
                     <!-- Notification Toast Feedback -->
-                    <div id="login-toast" class="toast-message hidden" role="status">
-                        <span id="toast-icon" style="font-size: 1.1rem;">🚀</span>
+                    <div id="login-toast" class="toast-message hidden" role="status" aria-live="polite">
+                        <svg id="toast-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                         <span id="toast-message">Memproses data login...</span>
                     </div>
 
@@ -143,7 +147,7 @@
                         <!-- Field Email -->
                         <div class="form-group">
                             <label for="email" class="form-label">
-                                Email Alumni <span class="required-star">*</span>
+                                Email alumni <span class="required-star">*</span>
                             </label>
                             <div class="input-container">
                                 <div class="input-icon-left" aria-hidden="true">
@@ -151,11 +155,11 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                 </div>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
-                                    required 
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
                                     placeholder="namamu@alumni.sch.id"
                                     class="form-input"
                                 >
@@ -165,7 +169,7 @@
                         <!-- Field Password -->
                         <div class="form-group">
                             <label for="password" class="form-label">
-                                Kata Sandi <span class="required-star">*</span>
+                                Kata sandi <span class="required-star">*</span>
                             </label>
                             <div class="input-container">
                                 <div class="input-icon-left" aria-hidden="true">
@@ -173,17 +177,17 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>
                                 </div>
-                                <input 
-                                    type="password" 
-                                    id="password" 
-                                    name="password" 
-                                    required 
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    required
                                     placeholder="••••••••"
                                     class="form-input"
                                 >
                                 <!-- Toggle Password Button -->
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     id="toggle-password"
                                     onclick="togglePasswordVisibility()"
                                     aria-label="Tampilkan atau sembunyikan kata sandi"
@@ -203,10 +207,10 @@
                         <!-- Form Options Row (Ingat saya & Lupa password) -->
                         <div class="form-options-row">
                             <label class="checkbox-label">
-                                <input 
-                                    type="checkbox" 
-                                    id="remember_me" 
-                                    name="remember" 
+                                <input
+                                    type="checkbox"
+                                    id="remember_me"
+                                    name="remember"
                                     class="custom-checkbox"
                                 >
                                 <span>Ingat saya</span>
@@ -218,13 +222,16 @@
                         </div>
 
                         <!-- Main Submit Button -->
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             id="submit-btn"
                             class="btn-primary"
                         >
                             <span>Masuk</span>
-                            <span>🚀</span>
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+                                <path d="M5 12h13" stroke-linecap="round"/>
+                                <path d="M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </button>
 
                     </form>
@@ -261,10 +268,8 @@
             const submitBtn = document.getElementById('submit-btn');
             const toast = document.getElementById('login-toast');
             const toastMessage = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
 
             toast.classList.remove('hidden');
-            toastIcon.innerText = '⌛';
             toastMessage.innerText = 'Memeriksa data kredensial alumni...';
 
             submitBtn.disabled = true;
@@ -272,9 +277,8 @@
             submitBtn.style.cursor = 'not-allowed';
 
             setTimeout(() => {
-                toastIcon.innerText = '🎉';
-                toastMessage.innerText = 'Login Berhasil! Selamat datang kembali di Portal Alumni.';
-                toast.style.backgroundColor = 'var(--dewy-blue)';
+                toastMessage.innerText = 'Login berhasil, selamat datang kembali.';
+                toast.classList.add('toast-success');
 
                 setTimeout(() => {
                     submitBtn.disabled = false;

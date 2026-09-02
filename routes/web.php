@@ -30,6 +30,10 @@ Route::get('/lowongan', function () {
     return view('lowongan.index');
 });
 
+Route::get('/lowongan/detail/{slug}', function ($slug) {
+    return view('lowongan.detail', ['slug' => $slug]);
+});
+
 Route::get('/event', function () {
     return view('event.index');
 });
