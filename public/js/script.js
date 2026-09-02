@@ -59,7 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
      * ------------------------------------------------------------------ */
     const AUTH_KEY = "ac_logged_in";
     const AUTH_EMAIL_KEY = "ac_user_email";
-    let isLoggedIn = localStorage.getItem(AUTH_KEY) === "true";
+    const isServerLoggedIn = document.querySelector('meta[name="user-logged-in"]')?.content === "true";
+    if (isServerLoggedIn) {
+        localStorage.setItem(AUTH_KEY, "true");
+    }
+    let isLoggedIn = isServerLoggedIn || localStorage.getItem(AUTH_KEY) === "true";
 
     const guestActions = document.getElementById("guest-actions");
     const userActions = document.getElementById("user-actions");
@@ -69,24 +73,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileLogoutBtn = document.getElementById("mobile-logout-btn");
     const lockedTeaser = document.getElementById("locked-teaser");
     const authSections = [...document.querySelectorAll(".auth-section")];
-    const lockIcons = [
-        ...document.querySelectorAll('[data-auth-link] i[data-lucide="lock"]'),
-    ];
 
     const applyAuthState = ({ animate = false } = {}) => {
+        isLoggedIn = document.querySelector('meta[name="user-logged-in"]')?.content === "true" || localStorage.getItem(AUTH_KEY) === "true";
         const email = localStorage.getItem(AUTH_EMAIL_KEY) || "";
 
         if (isLoggedIn) {
-            guestActions.classList.add("hidden");
-            userActions.classList.remove("hidden");
-            userActions.classList.add("flex");
-            mobileOpenLogin.classList.add("hidden");
-            mobileLogoutBtn.classList.remove("hidden");
-            mobileLogoutBtn.classList.add("flex");
-            userEmailLabel.textContent = email ? email.split("@")[0] : "Alumni";
-            userAvatar.textContent = (email ? email[0] : "A").toUpperCase();
+            guestActions?.classList.add("hidden");
+            userActions?.classList.remove("hidden");
+            userActions?.classList.add("flex");
+            mobileOpenLogin?.classList.add("hidden");
+            mobileLogoutBtn?.classList.remove("hidden");
+            mobileLogoutBtn?.classList.add("flex");
+            if (userEmailLabel && email) userEmailLabel.textContent = email.split("@")[0];
+            if (userAvatar && email) userAvatar.textContent = email[0].toUpperCase();
 
-            lockedTeaser.classList.add("hidden-teaser");
+            lockedTeaser?.classList.add("hidden-teaser");
             authSections.forEach((section, i) => {
                 if (!section.classList.contains("unlocked")) {
                     if (animate) {
@@ -95,18 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     section.classList.add("unlocked");
                 }
             });
-            lockIcons.forEach(
-                (icon) => icon.closest("[data-lucide]") && icon.remove(),
-            );
         } else {
-            guestActions.classList.remove("hidden");
-            userActions.classList.add("hidden");
-            userActions.classList.remove("flex");
-            mobileOpenLogin.classList.remove("hidden");
-            mobileLogoutBtn.classList.add("hidden");
-            mobileLogoutBtn.classList.remove("flex");
+            guestActions?.classList.remove("hidden");
+            userActions?.classList.add("hidden");
+            userActions?.classList.remove("flex");
+            mobileOpenLogin?.classList.remove("hidden");
+            mobileLogoutBtn?.classList.add("hidden");
+            mobileLogoutBtn?.classList.remove("flex");
 
-            lockedTeaser.classList.remove("hidden-teaser");
+            lockedTeaser?.classList.remove("hidden-teaser");
             authSections.forEach((section) =>
                 section.classList.remove("unlocked"),
             );
@@ -139,9 +138,20 @@ document.addEventListener("DOMContentLoaded", () => {
         isLoggedIn = false;
         localStorage.setItem(AUTH_KEY, "false");
         localStorage.removeItem(AUTH_EMAIL_KEY);
-        applyAuthState();
-        showToast("Kamu telah keluar dari akun.");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/logout";
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        if (csrfToken) {
+            const csrfInput = document.createElement("input");
+            csrfInput.type = "hidden";
+            csrfInput.name = "_token";
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+        }
+        document.body.appendChild(form);
+        form.submit();
     };
 
     document.getElementById("logout-btn")?.addEventListener("click", doLogout);

@@ -131,17 +131,24 @@
                         <p class="card-subtitle">Senang melihatmu kembali</p>
                     </div>
 
-                    <!-- Notification Toast Feedback -->
-                    <div id="login-toast" class="toast-message hidden" role="status" aria-live="polite">
-                        <svg id="toast-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <circle cx="12" cy="12" r="9"/>
-                            <path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span id="toast-message">Memproses data login...</span>
-                    </div>
+                    <!-- Notification Toast / Error Feedback -->
+                    @if ($errors->any())
+                        <div id="login-toast" class="toast-message" role="alert" style="margin-bottom: 1rem; color: #991b1b; background-color: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <div>
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Login Form -->
-                    <form id="alumni-login-form" action="#" method="POST" onsubmit="handleLogin(event)">
+                    <form id="alumni-login-form" action="{{ route('login.post') }}" method="POST">
                         @csrf
 
                         <!-- Field Email -->
@@ -159,6 +166,7 @@
                                     type="email"
                                     id="email"
                                     name="email"
+                                    value="{{ old('email') }}"
                                     required
                                     placeholder="namamu@alumni.sch.id"
                                     class="form-input"
@@ -259,33 +267,6 @@
                 eyeShow.style.display = 'inline';
                 eyeHide.style.display = 'none';
             }
-        }
-
-        // Demo Login Handler with Interactive Feedback Toast
-        function handleLogin(event) {
-            event.preventDefault();
-
-            const submitBtn = document.getElementById('submit-btn');
-            const toast = document.getElementById('login-toast');
-            const toastMessage = document.getElementById('toast-message');
-
-            toast.classList.remove('hidden');
-            toastMessage.innerText = 'Memeriksa data kredensial alumni...';
-
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.7';
-            submitBtn.style.cursor = 'not-allowed';
-
-            setTimeout(() => {
-                toastMessage.innerText = 'Login berhasil, selamat datang kembali.';
-                toast.classList.add('toast-success');
-
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = '1';
-                    submitBtn.style.cursor = 'pointer';
-                }, 1500);
-            }, 1000);
         }
     </script>
 

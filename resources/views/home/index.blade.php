@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="user-logged-in" content="{{ Auth::check() ? 'true' : 'false' }}">
   <title>Alumni Connect</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
@@ -32,9 +34,15 @@
               <span>Komunitas</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
             </button>
             <div id="community-menu" class="drop-menu absolute left-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
-              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">
-                <span>Alumni</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
-              </a>
+              @guest
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">
+                  <span>Alumni</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+                </a>
+              @else
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni">
+                  <span>Alumni</span>
+                </a>
+              @endguest
               <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#testimoni" data-target="#testimoni">Testimoni</a>
             </div>
           </div>
@@ -45,9 +53,15 @@
             <div id="media-menu" class="drop-menu absolute left-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
               <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
               <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
-              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto">
-                <span>Album</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
-              </a>
+              @guest
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto">
+                  <span>Album</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+                </a>
+              @else
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album">
+                  <span>Album</span>
+                </a>
+              @endguest
             </div>
           </div>
           <div class="nav-drop relative">
@@ -55,31 +69,49 @@
               <span>Informasi</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
             </button>
             <div id="info-menu" class="drop-menu absolute right-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
-              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja">
-                <span>Lowongan</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
-              </a>
-              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event">
-                <span>Event</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
-              </a>
+              @guest
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja">
+                  <span>Lowongan</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+                </a>
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event">
+                  <span>Event</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+                </a>
+              @else
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan">
+                  <span>Lowongan</span>
+                </a>
+                <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event">
+                  <span>Event</span>
+                </a>
+              @endguest
             </div>
           </div>
         </div>
-       <div class="flex items-center gap-2">
-    <div id="guest-actions" class="flex items-center gap-2">
-        <a href="{{ route('login') }}" class="focus-ring rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg inline-block text-center">
-            Login
-        </a>
-    </div>
-</div>
-          <div id="user-actions" class="hidden items-center gap-2">
-            <span class="hidden items-center gap-2 rounded-xl bg-[#eaf3ff] px-3 py-2 text-sm font-bold text-[#153563] sm:flex">
-              <span id="user-avatar" class="grid h-7 w-7 place-items-center rounded-full bg-[#2e72ec] text-xs text-white">A</span>
-              <span id="user-email-label">Alumni</span>
-            </span>
-            <button id="logout-btn" type="button" class="focus-ring rounded-xl border-2 border-[#2e72ec] px-3 py-2.5 text-sm font-bold text-[#2e72ec] transition hover:-translate-y-0.5" title="Keluar">
-              <i data-lucide="log-out" class="h-4 w-4"></i>
-            </button>
-          </div>
+        <div class="flex items-center gap-2">
+          @guest
+            <div id="guest-actions" class="flex items-center gap-2">
+              <a href="{{ route('login') }}" class="focus-ring rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg inline-block text-center">
+                Login
+              </a>
+            </div>
+          @else
+            <div id="user-actions" class="flex items-center gap-2">
+              @if(Auth::user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="focus-ring rounded-xl bg-amber-500 px-3 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-amber-600">
+                  Dashboard Admin
+                </a>
+              @endif
+              <span class="flex items-center gap-2 rounded-xl bg-[#eaf3ff] px-3 py-2 text-sm font-bold text-[#153563] sm:flex">
+                <span id="user-avatar" class="grid h-7 w-7 place-items-center rounded-full bg-[#2e72ec] text-xs text-white">
+                  {{ strtoupper(substr(Auth::user()->name ?? Auth::user()->email, 0, 1)) }}
+                </span>
+                <span id="user-email-label">{{ Auth::user()->name ?? Auth::user()->email }}</span>
+              </span>
+              <button id="logout-btn" type="button" class="focus-ring rounded-xl border-2 border-[#2e72ec] px-3 py-2.5 text-sm font-bold text-[#2e72ec] transition hover:-translate-y-0.5" title="Keluar">
+                <i data-lucide="log-out" class="h-4 w-4"></i>
+              </button>
+            </div>
+          @endguest
           <button id="mobile-toggle" class="mobile-toggle focus-ring rounded-xl p-2 text-[#153563]" type="button" aria-label="Buka menu" aria-expanded="false">
             <i data-lucide="menu" class="h-6 w-6"></i>
           </button>
@@ -91,20 +123,39 @@
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#tentang" data-target="#tentang">Tentang</a>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#statistik" data-target="#statistik">Statistik</a>
           <p class="mobile-group-label">Komunitas</p>
-          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni"><span>Alumni</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @guest
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni"><span>Alumni</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @else
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni"><span>Alumni</span></a>
+          @endguest
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#testimoni" data-target="#testimoni">Testimoni</a>
           <p class="mobile-group-label">Media</p>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
-          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto"><span>Album</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @guest
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto"><span>Album</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @else
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album"><span>Album</span></a>
+          @endguest
           <p class="mobile-group-label">Informasi</p>
-          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja"><span>Lowongan</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
-          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event"><span>Event</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @guest
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja"><span>Lowongan</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event"><span>Event</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          @else
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan"><span>Lowongan</span></a>
+            <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event"><span>Event</span></a>
+          @endguest
           <div class="mt-2 border-t border-blue-100 pt-3">
-            <button id="mobile-open-login" type="button" class="focus-ring w-full rounded-xl bg-[#2e72ec] px-4 py-3 text-sm font-bold text-white">Login</button>
-            <button id="mobile-logout-btn" type="button" class="focus-ring hidden w-full items-center justify-center gap-2 rounded-xl border-2 border-[#2e72ec] px-4 py-3 text-sm font-bold text-[#2e72ec]">
-              <i data-lucide="log-out" class="h-4 w-4"></i> Keluar
-            </button>
+            @guest
+              <a href="{{ route('login') }}" class="focus-ring block w-full rounded-xl bg-[#2e72ec] px-4 py-3 text-center text-sm font-bold text-white">Login</a>
+            @else
+              @if(Auth::user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="focus-ring mb-2 block w-full rounded-xl bg-amber-500 px-4 py-3 text-center text-sm font-bold text-white">Dashboard Admin</a>
+              @endif
+              <button id="mobile-logout-btn" type="button" class="focus-ring flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#2e72ec] px-4 py-3 text-sm font-bold text-[#2e72ec]">
+                <i data-lucide="log-out" class="h-4 w-4"></i> Keluar
+              </button>
+            @endguest
           </div>
         </div>
       </div>
@@ -233,7 +284,7 @@
         </div>
       </section>
 
-      <section id="locked-teaser" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="locked-teaser" class="mx-auto max-w-7xl px-5 py-20 md:px-8 @auth hidden-teaser @endauth">
         <div class="reveal-onscroll rounded-[2.5rem] border-2 border-dashed border-[#a8d3ff] bg-[#f8fbff] p-6 md:p-10">
           <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -272,7 +323,7 @@
         </div>
       </section>
 
-      <section id="alumni" class="auth-section mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="alumni" class="auth-section @auth unlocked @endauth mx-auto max-w-7xl px-5 py-20 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
           <div>
             <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Direktori alumni</p>
@@ -423,7 +474,7 @@
         </div>
       </section>
 
-      <section id="album" class="auth-section bg-[#f5f9ff] py-20">
+      <section id="album" class="auth-section @auth unlocked @endauth bg-[#f5f9ff] py-20">
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
             <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
@@ -453,7 +504,7 @@
         </div>
       </section>
 
-      <section id="lowongan" class="auth-section mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="lowongan" class="auth-section @auth unlocked @endauth mx-auto max-w-7xl px-5 py-20 md:px-8">
         <div class="reveal-onscroll">
           <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Karier &amp; peluang</p>
           <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Lowongan pilihan untukmu.</h2>
@@ -496,7 +547,7 @@
         </div>
       </section>
 
-      <section id="event" class="auth-section bg-[#eaf3ff] py-20">
+      <section id="event" class="auth-section @auth unlocked @endauth bg-[#eaf3ff] py-20">
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
             <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Agenda komunitas</p>
@@ -593,9 +644,12 @@
         <button id="close-login" class="focus-ring rounded-xl p-2" type="button" aria-label="Tutup login"><i data-lucide="x" class="h-5 w-5"></i></button>
       </div>
       <p class="mt-3 leading-relaxed text-[#355277]">Login untuk membuka Direktori Alumni, Album, Lowongan, dan Event.</p>
-      <form id="login-form" class="mt-6">
+      <form id="login-form" class="mt-6" action="{{ route('login.post') }}" method="POST">
+        @csrf
         <label class="mb-2 block text-sm font-bold text-[#153563]" for="login-email">Email</label>
-        <input id="login-email" class="focus-ring w-full rounded-xl border border-blue-200 px-4 py-3" type="email" placeholder="nama@email.com" required>
+        <input id="login-email" name="email" class="focus-ring w-full rounded-xl border border-blue-200 px-4 py-3" type="email" placeholder="nama@email.com" required>
+        <label class="mb-2 mt-4 block text-sm font-bold text-[#153563]" for="login-password">Kata Sandi</label>
+        <input id="login-password" name="password" class="focus-ring w-full rounded-xl border border-blue-200 px-4 py-3" type="password" placeholder="••••••••" required>
         <button class="focus-ring mt-4 w-full rounded-xl bg-[#2e72ec] px-4 py-3 font-bold text-white transition hover:-translate-y-0.5" type="submit">Lanjutkan</button>
       </form>
       <p id="login-result" class="mt-4 text-center text-sm text-[#355277]">Halaman ini menggunakan tampilan demo dan tidak menyimpan data akun ke server.</p>
@@ -625,6 +679,15 @@
 
   <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
+  <script>
+    @auth
+      localStorage.setItem("ac_logged_in", "true");
+      localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
+    @else
+      localStorage.setItem("ac_logged_in", "false");
+      localStorage.removeItem("ac_user_email");
+    @endauth
+  </script>
   <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
