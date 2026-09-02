@@ -61,23 +61,14 @@ h6 {
 }
 
 .highlight {
-    color: var(--primary-blue);
-    position: relative;
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    transform: none !important;
+    color: inherit !important; /* Mengikuti warna teks di sekitarnya */
 }
-
-.highlight::after {
-    content: "";
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background-color: var(--accent-yellow);
-    z-index: -1;
-    opacity: 0.6;
-    border-radius: 4px;
-}
-
 .badge-tag {
     display: inline-block !important;
     width: max-content !important;
@@ -402,11 +393,10 @@ h6 {
     padding: 0 !important;
 }
 
-/* Sisi Kiri: Background Garis-garis Vertikal */
+/* Sisi Kiri: Background Garis-garis Vertikal (TANPA ANIMASI) */
 #hero .hero-text {
     flex: 1 !important;
     width: 50% !important;
-    padding: 80px 60px !important;
     background-color: #ffffff !important;
     background-image: repeating-linear-gradient(
         90deg,
@@ -419,32 +409,34 @@ h6 {
     flex-direction: column !important;
     justify-content: center !important;
     padding: 160px 60px 80px 60px !important;
+    animation: none !important; /* Background kiri diam statis */
 }
+
 /* Efek teks tebal retro dengan bayangan/stroke putih dan gelap */
 .hero-text h1 {
     font-size: 3rem !important;
     font-weight: 800 !important;
     line-height: 1.25 !important;
-    color: #fff7e1 !important; /* Warna teks utama */
+    color: #fff7e1 !important;
     text-shadow:
         -2px -2px 0 #14537b,
         2px -2px 0 #14537b,
         -2px 2px 0 #14537b,
         2px 2px 0 #14537b,
-        4px 4px 0px #14537b; /* Efek bayangan solid di bawah */
+        4px 4px 0px #14537b;
     margin-bottom: 20px !important;
 }
 
 /* Kotak kapsul kuning bergaris putus-putus untuk kata "Cerita Baru" */
 .hero-text h1 .badge-capsule {
     display: inline-block !important;
-    background-color: #f8efa0 !important; /* Warna latar kuning pastel */
+    background-color: #f8efa0 !important;
     color: #1e3a5f !important;
     padding: 2px 16px !important;
     border-radius: 50px !important;
     border: 2px dashed #1e3a5f !important;
-    text-shadow: none !important; /* Menghilangkan bayangan teks di dalam kapsul agar bersih */
-    box-shadow: 3px 3px 0px #1e3a5f !important; /* Efek bayangan pada kapsul */
+    text-shadow: none !important;
+    box-shadow: 3px 3px 0px #1e3a5f !important;
     vertical-align: middle;
     font-family: inherit !important;
     transform: rotate(-2deg) !important;
@@ -455,26 +447,23 @@ h6 {
     color: var(--text-muted);
     margin-bottom: 30px;
 }
+
 /* Efek highlight kotak latar belakang kuning untuk teks tertentu */
 .hero-text p .highlight-box {
-    background-color: #fef29b !important; /* Warna kuning pastel */
-    color: #1e3a5f !important; /* Warna teks agar kontras & jelas */
-    padding: 2px 6px !important;
-    border-radius: 4px !important; /* Membuat sudut kotaknya sedikit melengkung rapi */
+    background-color: #fef29b !important;
+    color: #1e3a5f !important;
+    border-radius: 4px !important;
     font-weight: 600 !important;
     display: inline-block;
     margin: 0 2px;
-    /* Ubah padding menjadi sangat kecil, misal 0px untuk atas-bawah dan 2px untuk kiri-kanan */
     padding: 0px 2px !important;
-
-    /* Opsional: Sedikit menyesuaikan tinggi baris agar tidak ikut membesar */
     line-height: 1.1 !important;
 }
 
 /* Memperbesar jarak antar tombol */
 .hero-buttons {
     display: flex !important;
-    gap: 24px !important; /* Ubah angka ini sesuai kebutuhan (misal 24px atau 30px) */
+    gap: 24px !important;
     align-items: center !important;
     margin-bottom: 40px !important;
 }
@@ -490,13 +479,10 @@ h6 {
     color: #ffffff !important;
     border: 2px solid #1e3a5f !important;
     border-radius: 50px !important;
-
-    /* Pakai ukuran padding dan tinggi yang seragam */
     padding: 12px 28px !important;
     height: 48px !important;
-
     font-weight: 700 !important;
-    text-decoration: none !important; /* Menghilangkan garis bawah pada link */
+    text-decoration: none !important;
     box-shadow: 4px 6px 0px #1e3a5f !important;
     transition: all 0.2s ease !important;
     transform: translateY(0) !important;
@@ -510,12 +496,13 @@ h6 {
     color: #ffffff !important;
 }
 
-/* Efek saat tombol diklik (sedikit menekan ke bawah) */
+/* Efek saat tombol diklik */
 .hero-buttons .btn-primary-glow:active,
 .hero-buttons .btn-secondary-outline:active {
     transform: translateY(-1px) !important;
     box-shadow: 4px 6px 0px #1e3a5f !important;
 }
+
 .hero-avatars {
     display: flex;
     align-items: center;
@@ -539,7 +526,23 @@ h6 {
     margin-left: 0;
 }
 
-/* Sisi Kanan: Background Solid Dusty Blue */
+/* ================= ANIMASI KONTEN KIRI (NAIK LURUS) ================= */
+@keyframes contentSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Menerapkan animasi naik lurus ke elemen-elemen isi teks di sebelah kiri */
+#hero .hero-text > * {
+    animation: contentSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 #hero .hero-image-wrapper {
     flex: 1 !important;
     width: 50% !important;
@@ -548,6 +551,8 @@ h6 {
     justify-content: center;
     align-items: center;
     padding: 40px;
+    animation: none !important;
+    overflow: visible !important;
 }
 
 .main-hero-img {
@@ -558,16 +563,228 @@ h6 {
     height: 450px;
 }
 
-@keyframes floatAnim {
-    0%,
-    100% {
-        transform: translateY(0);
+/* ==========================================
+   HERO RIGHT ASSETS SECTION & ANIMASI NAIK LURUS
+   ========================================== */
+
+.hero-right-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible !important;
+    animation: none !important;
+}
+
+.hero-assets-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+    /* Terapkan animasi halus ke seluruh kotak pembungkus aset sekaligus */
+    animation: smoothSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animasi naik lurus yang halus dan seragam untuk seluruh pembungkus aset */
+@keyframes smoothSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
     }
-    50% {
-        transform: translateY(-10px);
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+/* Style dasar aset gambar (tanpa animasi terpisah agar tidak patah-patah) */
+.hero-asset {
+    position: absolute;
+    object-fit: contain;
+    transition:
+        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.35s ease;
+}
+
+/* Efek Hover tetap mulus */
+.hero-asset:hover {
+    transform: translateY(-8px) scale(1.04);
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.2));
+    z-index: 10;
+}
+
+/* Jeda waktu animasi agar aset kanan munculnya rapi berurutan */
+.hero-asset.asset-1 {
+    animation-delay: 0.1s;
+}
+.hero-asset.asset-2 {
+    animation-delay: 0.2s;
+}
+.hero-asset.asset-3 {
+    animation-delay: 0.3s;
+}
+
+/* ------------------------------------------
+   PENGATURAN POSISI & UKURAN MASING-MASING ASET
+   ------------------------------------------ */
+
+.hero-asset.asset-1 {
+    width: 145%;
+    top: -1%;
+    left: -25%;
+    z-index: 2;
+}
+
+.hero-asset.asset-2 {
+    width: 125%;
+    top: 5%;
+    left: -9%;
+    z-index: 3;
+}
+
+.hero-asset.asset-3 {
+    width: 40%;
+    bottom: 82%;
+    right: 30%;
+    z-index: 3;
+}
+/* ==========================================
+   RESPONSIVITAS (LAYOUT KHUSUS HP & TABLET)
+   ========================================== */
+
+@media (max-width: 991px) {
+    /* 1. Beri jarak aman di atas agar konten tidak tertutup navbar */
+    #hero.hero-section {
+        min-height: auto !important;
+        padding-top: 70px !important; /* Sesuaikan dengan tinggi navbar kamu */
+    }
+
+    #hero .container.hero-grid {
+        flex-direction: column !important;
+    }
+
+    /* Bagian Teks Kiri */
+    #hero .hero-text {
+        width: 100% !important;
+        padding: 20px 24px !important;
+        text-align: center;
+        align-items: center; /* Agar elemen di dalamnya rata tengah secara rapi */
+    }
+
+    /* 2. Ukuran judul diperkecil agar pas & proporsional di HP */
+    .hero-text h1 {
+        font-size: 0.8rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-text p {
+        font-size: 0.7rem !important;
+    }
+
+    /* Jarak tombol */
+    .hero-buttons {
+        justify-content: center !important;
+        width: 40%;
+    }
+
+    .hero-avatars {
+        justify-content: center !important;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Bagian Gambar Kanan */
+    #hero .hero-image-wrapper {
+        width: 100% !important;
+        min-height: 350px !important;
+        padding: 20px !important;
+    }
+
+    .hero-assets-wrapper {
+        max-width: 320px !important;
+        height: 280px !important;
+    }
+
+    /* === PERBAIKAN POSISI ASET DI LAYAR KECIL / HP KECIL === */
+    .hero-asset.asset-1 {
+        width: 115% !important;
+        top: 5% !important;
+        left: -7% !important;
+    }
+
+    .hero-asset.asset-2 {
+        width: 100% !important;
+        top: 10% !important;
+        left: -2% !important;
+    }
+
+    .hero-asset.asset-3 {
+        width: 45% !important;
+        bottom: 70% !important;
+        right: 25% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    #hero.hero-section {
+        padding-top: 80px !important;
+    }
+
+    #hero .hero-text {
+        padding: 30px 18px !important;
+    }
+
+    .hero-text h1 {
+        font-size: 1.7rem !important;
+    }
+
+    /* 3. ATUR TOMBOL UTAMA AGAR TIDAK IKUT MELAR */
+    .hero-buttons {
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100%;
+    }
+
+    /* Pastikan HANYA tombol di dalam .hero-buttons yang melebar penuh, tombol navbar AMAN */
+    .hero-buttons .btn-primary-glow,
+    .hero-buttons .btn-secondary-outline {
+        width: 100% !important;
+        max-width: 280px !important; /* Dibatasi agar tidak kepanjangan/kebesaran banget */
+        height: 44px !important;
+        font-size: 0.95rem !important;
+        padding: 10px 20px !important;
+    }
+
+    .hero-image-wrapper {
+        min-height: 280px !important;
+    }
+
+    .hero-assets-wrapper {
+        max-width: 260px !important;
+        height: 230px !important;
+    }
+
+    .hero-asset.asset-1 {
+        width: 160% !important;
+        top: 0% !important;
+        left: -31% !important;
+    }
+
+    .hero-asset.asset-2 {
+        width: 145% !important;
+        top: 3% !important;
+        left: -16% !important;
+    }
+
+    .hero-asset.asset-3 {
+        width: 55% !important;
+        bottom: 79% !important;
+        right: 20% !important;
+    }
+}
 /* ================= SECTION COMMON ================= */
 .section-padding {
     padding: 90px 0;
@@ -577,16 +794,24 @@ h6 {
     background-color: #f4f2ec;
 }
 
+/* Styling khusus untuk judul section */
 .section-title h2 {
-    font-size: 2.5rem;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    color: #fff7e1 !important; /* Warna bagian dalam teks */
+    text-shadow:
+        -2px -2px 0 #14537b,
+        2px -2px 0 #14537b,
+        -2px 2px 0 #14537b,
+        2px 2px 0 #14537b,
+        4px 4px 0px #14537b !important; /* Efek kerangka/garis tepi dan bayangan solid */
 }
 
 .section-title p {
-    color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto;
+    color: rgb(47, 47, 47) !important;
+    max-width: 650px !important;
+    text-align: left !important; /* Membuat teks jadi rata kiri */
+    margin: 15px 0 35px 0 !important; /* Jarak atas (ke judul) 15px, jarak bawah (ke konten) 35px */
 }
 
 .grid-3 {
@@ -603,17 +828,22 @@ h6 {
 
 /* ================= TENTANG & FEATURE CARDS ================= */
 .feature-card {
-    background: white;
-    padding: 40px 30px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s;
-    border: 1px solid var(--border-color);
+    background: #ffffff !important;
+    padding: 40px 30px !important;
+    border-radius: 20px !important;
+    border: 2px solid #14537b !important;
+    box-shadow: 4px 6px 0px #14537b !important;
+
+    /* PENTING: Gunakan transition khusus untuk hover saja agar animasi AOS tidak rusak */
+    transition:
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.75s ease !important;
 }
 
+/* Efek saat kursor diarahkan (Card terangkat) */
 .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #14537b !important;
 }
 
 .feature-icon {
@@ -646,10 +876,6 @@ h6 {
 .text-pink {
     color: #e06d6d;
 }
-.text-orange {
-    color: #ff7043;
-}
-
 /* ================= STATS SECTION ================= */
 .stats-section {
     background: linear-gradient(135deg, var(--dark-navy), #0f172a);
@@ -675,57 +901,158 @@ h6 {
     font-size: 0.95rem;
 }
 
-/* ================= GALLERY SECTION ================= */
+/* ================= GALLERY SECTION (DASHED CARD STYLE & 3 ROWS ALTERNATING) ================= */
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 24px; /* Jarak kiri-kanan antar kolom */
+    margin-bottom: 30px !important; /* Memberikan jarak atas-bawah antar baris galeri */
 }
 
-.gallery-item {
-    position: relative;
-    border-radius: var(--radius-md);
+.gallery-card {
+    background: #ffffff !important;
+    padding: 16px !important;
+    border-radius: 20px !important;
+    display: flex;
+    flex-direction: column;
+    transition:
+        transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.25s ease !important;
+}
+
+/* --- BARIS PERTAMA (Card 1 & 3: Biru | Card 2 & 4: Kuning) --- */
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(1),
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(3) {
+    border: 2px dashed #14537b !important;
+    box-shadow: 4px 6px 0px #14537b !important;
+}
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(1):hover,
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(3):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #14537b !important;
+}
+
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(2),
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(4) {
+    border: 2px dashed #e8de90 !important;
+    box-shadow: 4px 6px 0px #e8de90 !important;
+}
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(2):hover,
+.gallery-grid:nth-of-type(1) .gallery-card:nth-child(4):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #e8de90 !important;
+}
+
+/* --- BARIS KEDUA (Card 1 & 3: Kuning | Card 2 & 4: Biru) --- */
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(1),
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(3) {
+    border: 2px dashed #e8de90 !important;
+    box-shadow: 4px 6px 0px #e8de90 !important;
+}
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(1):hover,
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(3):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #e8de90 !important;
+}
+
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(2),
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(4) {
+    border: 2px dashed #14537b !important;
+    box-shadow: 4px 6px 0px #14537b !important;
+}
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(2):hover,
+.gallery-grid:nth-of-type(2) .gallery-card:nth-child(4):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #14537b !important;
+}
+
+/* --- BARIS KETIGA (Card 1 & 3: Biru | Card 2 & 4: Kuning) --- */
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(1),
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(3) {
+    border: 2px dashed #14537b !important;
+    box-shadow: 4px 6px 0px #14537b !important;
+}
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(1):hover,
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(3):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #14537b !important;
+}
+
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(2),
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(4) {
+    border: 2px dashed #e8de90 !important;
+    box-shadow: 4px 6px 0px #e8de90 !important;
+}
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(2):hover,
+.gallery-grid:nth-of-type(3) .gallery-card:nth-child(4):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 4px 12px 0px #e8de90 !important;
+}
+
+/* Efek umum saat kursor diarahkan ke card */
+.gallery-card:hover {
+    transform: translateY(-8px) !important;
+}
+
+.gallery-image-wrapper {
+    width: 100%;
+    height: 180px;
+    border-radius: 12px;
     overflow: hidden;
-    height: 280px;
-    box-shadow: var(--shadow-sm);
+    border: none !important;
 }
 
-.gallery-item img {
+.gallery-image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
 
-.gallery-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    color: white;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
+.gallery-card:hover .gallery-image-wrapper img {
+    transform: scale(1.05);
 }
 
-.gallery-item:hover img {
-    transform: scale(1.1);
+.gallery-content {
+    padding-top: 14px;
+    text-align: left;
 }
 
-.gallery-item:hover .gallery-overlay {
-    transform: translateY(0);
+.gallery-content h5 {
+    color: #14537b !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 4px !important;
 }
 
-.gallery-overlay h5 {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 4px;
+.gallery-content p {
+    font-size: 0.85rem !important;
+    color: #64748b !important;
+    margin: 0 !important;
 }
 
-.gallery-overlay p {
-    font-size: 0.85rem;
-    color: var(--accent-yellow);
+/* Mengatur kecepatan durasi animasi AOS agar lebih lambat dan elegan */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body[data-aos-easing] [data-aos],
+[data-aos][data-aos-easing] {
+    transition-duration: 1200ms !important;
+}
+
+/* Responsif untuk layar kecil (Tablet & Mobile) */
+@media (max-width: 992px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* ================= TESTIMONI ================= */
@@ -752,6 +1079,39 @@ h6 {
     margin-bottom: 25px;
 }
 
+/* Mengatur kecepatan durasi animasi AOS agar lebih lambat dan elegan */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body[data-aos-easing] [data-aos],
+[data-aos][data-aos-easing] {
+    transition-duration: 1200ms !important;
+}
+
+/* ================= TESTIMONI ================= */
+.testimonial-card {
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.stars {
+    color: #f6ad55;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.testimonial-card p {
+    font-style: italic;
+    color: var(--text-main);
+    margin-bottom: 25px;
+}
 .testi-author {
     display: flex;
     align-items: center;

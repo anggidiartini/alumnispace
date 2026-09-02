@@ -200,3 +200,59 @@ document.addEventListener("DOMContentLoaded", function () {
         generationFilter.addEventListener("change", filterAlumni);
     }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const counters = document.querySelectorAll(".counter");
+    let animated = false;
+
+    // Fungsi untuk menjalankan animasi hitung
+    const runCounter = () => {
+        counters.forEach((counter) => {
+            const target = +counter.getAttribute("data-target");
+            let count = 0;
+            // Kecepatan hitung (semakin kecil angka pembagi, semakin cepat)
+            const speed = target / 50;
+
+            const updateCount = () => {
+                count += speed;
+                if (count < target) {
+                    // Jika angkanya ribuan, tambahkan format koma
+                    if (target >= 1000) {
+                        counter.innerText =
+                            Math.floor(count).toLocaleString("en-US") + "+";
+                    } else {
+                        counter.innerText = Math.floor(count) + "+";
+                    }
+                    setTimeout(updateCount, 30);
+                } else {
+                    if (target >= 1000) {
+                        counter.innerText =
+                            target.toLocaleString("en-US") + "+";
+                    } else {
+                        counter.innerText = target + "+";
+                    }
+                }
+            };
+            updateCount();
+        });
+    };
+
+    // Trigger animasi berdasarkan posisi scroll agar pas saat sectionnya terlihat
+    const statsSection = document.querySelector("#angka");
+
+    const observer = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !animated) {
+                    runCounter();
+                    animated = true; // Supaya animasi hanya berjalan sekali saat discroll ke sini
+                }
+            });
+        },
+        { threshold: 0.4 },
+    ); // Berjalan ketika 40% section terlihat di layar
+
+    if (statsSection) {
+        observer.observe(statsSection);
+    }
+});

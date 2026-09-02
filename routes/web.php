@@ -11,7 +11,7 @@ Route::get('/landing', function () {
 });
 
 Route::get('/login', function () {
-    return view('auth.login');
+    return view('auth.login'); // Sesuaikan dengan folder resources/views/auth/login.blade.php
 })->name('login');
 
 Route::get('/home', function () {
@@ -28,6 +28,10 @@ Route::get('/alumni/detail', function () {
 
 Route::get('/lowongan', function () {
     return view('lowongan.index');
+});
+
+Route::get('/lowongan/detail/{slug}', function ($slug) {
+    return view('lowongan.detail', ['slug' => $slug]);
 });
 
 Route::get('/event', function () {
