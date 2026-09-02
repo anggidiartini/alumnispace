@@ -116,68 +116,36 @@ document.addEventListener("DOMContentLoaded", () => {
     applyAuthState();
 
     /* ------------------------------------------------------------------
-     * Modal login
+     * Redirect ke halaman login terpisah (login.blade.php)
      * ------------------------------------------------------------------ */
-    const modal = document.getElementById("login-modal");
-    const loginEmailInput = document.getElementById("login-email");
-
-    const openLoginModal = () => {
-        modal.classList.add("open");
-        setTimeout(() => loginEmailInput && loginEmailInput.focus(), 150);
+    const redirectToLogin = () => {
+        window.location.href = "/login"; // Sesuaikan dengan route halaman login Anda
     };
-    const closeLoginModal = () => modal.classList.remove("open");
 
     document
         .getElementById("open-login")
-        .addEventListener("click", openLoginModal);
-    mobileOpenLogin.addEventListener("click", () => {
+        ?.addEventListener("click", redirectToLogin);
+
+    mobileOpenLogin?.addEventListener("click", () => {
         closeMobileNav();
-        openLoginModal();
+        redirectToLogin();
     });
+
     document
         .getElementById("teaser-login-btn")
-        ?.addEventListener("click", openLoginModal);
-    document
-        .getElementById("close-login")
-        .addEventListener("click", closeLoginModal);
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeLoginModal();
-    });
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.classList.contains("open"))
-            closeLoginModal();
-    });
-
-    document
-        .getElementById("login-form")
-        .addEventListener("submit", (event) => {
-            event.preventDefault();
-            const email = loginEmailInput.value.trim();
-            document.getElementById("login-result").textContent =
-                "Login berhasil! Semua fitur alumni kini terbuka. 🎉";
-
-            isLoggedIn = true;
-            localStorage.setItem(AUTH_KEY, "true");
-            localStorage.setItem(AUTH_EMAIL_KEY, email);
-            applyAuthState({ animate: true });
-
-            setTimeout(() => {
-                closeLoginModal();
-                showToast(
-                    "Selamat datang kembali! Direktori Alumni, Album, Lowongan & Event sudah terbuka.",
-                );
-            }, 700);
-        });
+        ?.addEventListener("click", redirectToLogin);
 
     const doLogout = () => {
         isLoggedIn = false;
         localStorage.setItem(AUTH_KEY, "false");
+        localStorage.removeItem(AUTH_EMAIL_KEY);
         applyAuthState();
         showToast("Kamu telah keluar dari akun.");
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    document.getElementById("logout-btn").addEventListener("click", doLogout);
-    mobileLogoutBtn.addEventListener("click", () => {
+
+    document.getElementById("logout-btn")?.addEventListener("click", doLogout);
+    mobileLogoutBtn?.addEventListener("click", () => {
         closeMobileNav();
         doLogout();
     });
@@ -202,8 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .getElementById("alumni-empty")
             .classList.toggle("hidden", shown !== 0);
     };
-    yearFilter.addEventListener("change", filterAlumni);
-    fieldFilter.addEventListener("change", filterAlumni);
+    yearFilter?.addEventListener("change", filterAlumni);
+    fieldFilter?.addEventListener("change", filterAlumni);
 
     /* ------------------------------------------------------------------
      * Tab media (Artikel / Galeri)
@@ -221,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .querySelectorAll(".media-panel")
             .forEach((panel) => panel.classList.remove("active"));
         targetBtn.setAttribute("aria-selected", "true");
-        document.getElementById(tabName).classList.add("active");
+        document.getElementById(tabName)?.classList.add("active");
     };
 
     document
@@ -238,20 +206,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const testimonials = [...document.querySelectorAll(".testimonial")];
     let testimonialIndex = 0;
     const showTestimonial = (next) => {
+        if (testimonials.length === 0) return;
         testimonials[testimonialIndex].classList.remove("active");
         testimonialIndex = (next + testimonials.length) % testimonials.length;
         testimonials[testimonialIndex].classList.add("active");
     };
     document
         .getElementById("prev-testimonial")
-        .addEventListener("click", () => showTestimonial(testimonialIndex - 1));
+        ?.addEventListener("click", () =>
+            showTestimonial(testimonialIndex - 1),
+        );
     document
         .getElementById("next-testimonial")
-        .addEventListener("click", () => showTestimonial(testimonialIndex + 1));
+        ?.addEventListener("click", () =>
+            showTestimonial(testimonialIndex + 1),
+        );
 
     /* ------------------------------------------------------------------
      * Navigasi terpadu (nav desktop, mobile, footer, tombol CTA)
-     * - Jika link butuh login (data-auth-link) & belum login -> tampilkan notif + buka modal
+     * - Jika link butuh login (data-auth-link) & belum login -> notif + arahkan ke halaman login
      * - Jika sudah login / link publik -> scroll halus + aktifkan tab bila perlu
      * ------------------------------------------------------------------ */
     document.querySelectorAll(".js-nav-link").forEach((link) => {
@@ -266,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 closeMobileNav();
                 const label = link.dataset.authLabel || "fitur ini";
                 showToast(`🔒 Silakan login dulu untuk mengakses ${label}`);
-                openLoginModal();
+                redirectToLogin();
                 return;
             }
 
@@ -326,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const target = parseInt(el.dataset.count, 10) || 0;
         const suffix = el.dataset.suffix || "";
         const numberEl = el.querySelector(".stat-number");
+        if (!numberEl) return;
         const duration = 1400;
         const start = performance.now();
         const step = (now) => {
@@ -375,9 +349,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (waBubble) waBubble.classList.add("show");
     }, 2200);
 
-    waButton.addEventListener("click", () => waBubble.classList.remove("show"));
-    waBubbleClose.addEventListener("click", () =>
-        waBubble.classList.remove("show"),
+    waButton?.addEventListener("click", () =>
+        waBubble?.classList.remove("show"),
+    );
+    waBubbleClose?.addEventListener("click", () =>
+        waBubble?.classList.remove("show"),
     );
 
     /* ------------------------------------------------------------------
@@ -385,10 +361,10 @@ document.addEventListener("DOMContentLoaded", () => {
      * ------------------------------------------------------------------ */
     const backToTop = document.getElementById("back-to-top");
     const toggleBackToTop = () =>
-        backToTop.classList.toggle("show", window.scrollY > 420);
+        backToTop?.classList.toggle("show", window.scrollY > 420);
     window.addEventListener("scroll", toggleBackToTop, { passive: true });
     toggleBackToTop();
-    backToTop.addEventListener("click", () =>
+    backToTop?.addEventListener("click", () =>
         window.scrollTo({ top: 0, behavior: "smooth" }),
     );
 });

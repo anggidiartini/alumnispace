@@ -64,10 +64,13 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <div id="guest-actions" class="flex items-center gap-2">
-            <button id="open-login" type="button" class="focus-ring rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">Login</button>
-          </div>
+       <div class="flex items-center gap-2">
+    <div id="guest-actions" class="flex items-center gap-2">
+        <a href="{{ route('login') }}" class="focus-ring rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg inline-block text-center">
+            Login
+        </a>
+    </div>
+</div>
           <div id="user-actions" class="hidden items-center gap-2">
             <span class="hidden items-center gap-2 rounded-xl bg-[#eaf3ff] px-3 py-2 text-sm font-bold text-[#153563] sm:flex">
               <span id="user-avatar" class="grid h-7 w-7 place-items-center rounded-full bg-[#2e72ec] text-xs text-white">A</span>
