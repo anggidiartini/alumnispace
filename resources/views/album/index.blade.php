@@ -590,7 +590,7 @@ h1.title .pop{
   <div class="wrap">
     <div class="section-head">
       <h2>Pilih Album <span class="marker">Kamu</span></h2>
-      <div class="count">4 albums</div>
+      <div class="count">{{ count($albums) }} albums</div>
     </div>
 
     <div class="filter-bar">
@@ -601,74 +601,29 @@ h1.title .pop{
     <div class="filter-status">Menampilkan <strong id="filter-label">semua album</strong></div>
 
     <div class="album-grid">
-
-      <!-- CLASS TRIP -->
-      <div class="card" id="c1" data-category="outdoor">
+      @forelse($albums as $index => $album)
+      <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}">
         <div class="card-photo">
-          <span class="cat-pill outdoor">Outdoor</span>
-          <img src="{{ asset('assets/images/foto-4OUTDOOR.jpg') }}" alt="Class Trip">
+          <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
+          <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-        <div class="sticker">seru<br>banget!</div>
+        @if($album->sticker_tag)
+        <div class="sticker {{ $index % 2 == 1 ? 'alt' : '' }}">{!! nl2br(e($album->sticker_tag)) !!}</div>
+        @endif
         <div class="card-body">
-          <div class="label">liburan sekelas</div>
-          <h3>Class Trip</h3>
-          <div class="date">14 Maret 2026 · Bandung</div>
+          <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
+          <h3>{{ $album->title }}</h3>
+          <div class="date">{{ $album->date_display ?? ($album->location ?? 'Memori') }}</div>
           <button class="view-btn">View Album
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </button>
         </div>
       </div>
-
-      <!-- SCHOOL EVENT -->
-      <div class="card" id="c2" data-category="indoor">
-        <div class="card-photo">
-          <span class="cat-pill">Indoor</span>
-           <img src="{{ asset('assets/images/foto-6INDOOR.jpg') }}" alt="School Event">
-        </div>
-        <div class="sticker alt">asik<br>banget</div>
-        <div class="card-body">
-          <div class="label">panggung &amp; sorak-sorai</div>
-          <h3>School Event</h3>
-          <div class="date">2 Mei 2026 · Aula Sekolah</div>
-          <button class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
-        </div>
+      @empty
+      <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
+        <p style="font-size: 18px; font-weight:700;">Belum ada album kenangan.</p>
       </div>
-
-      <!-- CLASS GATHERING -->
-      <div class="card" id="c3" data-category="outdoor">
-        <div class="card-photo">
-          <span class="cat-pill outdoor">Outdoor</span>
-           <img src="{{ asset('assets/images/foto-5OUTDOOR.jpg') }}" alt="Class Gathering">
-        </div>
-        <div class="sticker">seru<br>bareng</div>
-        <div class="card-body">
-          <div class="label">kumpul santai</div>
-          <h3>Class Gathering</h3>
-          <div class="date">19 Juni 2026 · Cafe Rumah Kayu</div>
-          <button class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- GRADUATION -->
-      <div class="card" id="c4" data-category="indoor">
-        <div class="card-photo">
-          <span class="cat-pill">Indoor</span>
-           <img src="{{ asset('assets/images/foto-7INDOOR.jpg') }}" alt="Graduation">
-        </div>
-        <div class="sticker alt">so<br>proud</div>
-        <div class="card-body">
-          <div class="label">akhir dari sebuah babak</div>
-          <h3>Graduation</h3>
-          <div class="date">28 Juli 2026 · Gedung Serbaguna</div>
-          <button class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
-        </div>
-      </div>
+      @endforelse
     </div>
   </div>
 

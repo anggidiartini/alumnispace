@@ -127,12 +127,22 @@
       font-size: .875rem;
     }
 
+<<<<<<< HEAD
     .primary-button {
       display: inline-flex;
       align-items: center;
       gap: .5rem;
       padding: .75rem 1.25rem;
     }
+=======
+    <div class="filter-bar">
+      <div class="category-pills" id="filterList">
+        <button class="pill-btn active" data-filter="all">Semua Event ({{ count($events) }})</button>
+        <button class="pill-btn" data-filter="Meetup">Temu Kangen & Meetup</button>
+        <button class="pill-btn" data-filter="Webinar">Webinar & Tech Talk</button>
+        <button class="pill-btn" data-filter="Workshop">Workshop & Coding</button>
+      </div>
+>>>>>>> a185f3c9136af7b5ed12841a6e4573d7d7609776
 
     .detail-button {
       display: inline-flex;
@@ -145,6 +155,7 @@
       font-size: .875rem;
     }
 
+<<<<<<< HEAD
     .reset-button {
       width: 100%;
       padding: .75rem 1rem;
@@ -220,6 +231,29 @@
       align-items: center;
       gap: 3rem;
     }
+=======
+    <div class="photo-grid" id="photoGrid">
+      @forelse($events as $event)
+      <div class="photo-card" data-category="{{ $event->category }}">
+        <div class="photo-wrapper">{{ Str::limit($event->title, 20) }}</div>
+        <div class="photo-meta">
+          <span>{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}</span>
+          <span>{{ $event->venue ?? 'Online' }}</span>
+        </div>
+        <h2 class="photo-title">{{ $event->title }}</h2>
+        <p class="photo-desc">{{ $event->description }}</p>
+        <div class="photo-footer">
+          <span class="badge-tag">{{ $event->category }}</span>
+          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="{{ $event->title }}" data-date="{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}" data-location="{{ $event->venue ?? 'Online' }}" data-title="{{ $event->title }}" data-desc="{{ $event->description }}" data-tag="{{ $event->category }}">Lihat Foto</button>
+        </div>
+      </div>
+      @empty
+      <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
+        <p style="font-size: 18px; font-weight:700;">Belum ada event yang sesuai.</p>
+      </div>
+      @endforelse
+    </div>
+>>>>>>> a185f3c9136af7b5ed12841a6e4573d7d7609776
 
     .hero-orb {
       position: absolute;
