@@ -28,7 +28,7 @@
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body {
+ body {
     margin: 0;
     font-family: 'Nunito', sans-serif;
     color: #124d82;
@@ -42,6 +42,7 @@
     margin:0;
   }
 
+  /* Pastikan elemen judul dan teks ikut menggunakan warna #124d82 */
   h1, h2, h3, .display, .loker-title, .loker-sub, .counter-text, .company-name, .job-desc, .sidebar-title {
     color: #124d82;
   }
@@ -93,6 +94,7 @@
   .btn-ghost{background:var(--paper);color:var(--ink);}
   .btn-sm{padding:8px 18px;font-size:14px;}
 
+  /* HERO HEADER DENGAN GAMBAR DAN RADIAL GRADIENT */
   .loker-hero{
     padding:60px 0 80px;
     background: 
@@ -115,8 +117,8 @@
     margin-top:16px;
     color: var(--ink);
   }
-  .loker-title .accent {
-    color: #ffe08a !important;
+.loker-title .accent {
+    color: #f7efbf !important;
     background: #124d82;
     padding: 4px 18px;
     border-radius: 999px;
@@ -127,6 +129,7 @@
     position: relative;
   }
 
+  /* Garis putus-putus di dalam badge Keluarga Sendiri */
   .loker-title .accent::after {
     content: '';
     position: absolute;
@@ -147,6 +150,7 @@
     line-height:1.6;
   }
 
+/* HERO BADGE UTAMA (ATAS) */
   .hero-badge-box {
     display: inline-flex;
     align-items: center;
@@ -162,7 +166,7 @@
     box-shadow: 4px 4px 0 var(--ink);
     position: relative;
   }
-  .hero-badge-box::after {
+ .hero-badge-box::after {
     content: '';
     position: absolute;
     top: 5px;
@@ -174,6 +178,7 @@
     pointer-events: none;
   }
 
+/* PEMBATAS ANTARA HERO DAN KONTEN (DISESUAIKAN DENGAN WARNA BARU) */
   .section-divider{
     width: 100%;
     height: 36px;
@@ -193,11 +198,16 @@
     background-size: 200% 100%;
     animation: slideStripes 20s linear infinite;
   }
-  @keyframes slideStripes {
-    0% { background-position: 0 0; }
-    100% { background-position: -100% 0; }
+@keyframes slideStripes {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
   }
 
+  /* KONTEN UTAMA LOKER */
   .loker-content{
     background: #6497c0;
     padding: 60px 0 100px;
@@ -209,54 +219,64 @@
     gap:30px;
     align-items:start;
   }
-.loker-sidebar{
+
+/* SIDEBAR FILTER KIRI (BACKGROUND PUTIH) */
+  .loker-sidebar{
     background: var(--paper);
     border: 3px solid var(--ink);
     border-radius: var(--radius-md);
-    padding: 20px;
+    padding: 24px;
     box-shadow: var(--shadow-chunky-sm);
     position: sticky;
     top: 24px;
-    max-height: calc(100vh - 48px);
-    overflow-y: auto; /* Membuat isi sidebar bisa di-scroll ke bawah */
   }
 
-/* Kustomisasi scrollbar sidebar agar tetap estetik ala neo-brutalisme */
-  .loker-sidebar::-webkit-scrollbar {
-    width: 6px;
+  /* KELUARGA SENDIRI: BERBENTUK HERO-BADGE MIRING & FONT #ffe08a */
+  .loker-title .accent {
+    color: #ffe08a !important;
+    background: #124d82;
+    padding: 4px 18px;
+    border-radius: 999px;
+    border: 3px solid #ffffff;
+    display: inline-block;
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(-3deg);
+    position: relative;
   }
 
-  .loker-sidebar::-webkit-scrollbar-track {
-    background: var(--paper);
-    border-radius: 8px;
-  }
-  .loker-sidebar::-webkit-scrollbar-thumb {
-    background: var(--ink);
-    border-radius: 8px;
+  /* Garis putus-putus di dalam badge Keluarga Sendiri */
+  .loker-title .accent::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 2px dashed rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    pointer-events: none;
   }
 
 .sidebar-title{
-    font-size: 16px;
-    margin-bottom: 6px;
+    font-size: 18px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 8px;
     color: #124d82;
   }
  .sidebar-group{
-    margin-bottom: 14px;
+    margin-bottom: 24px;
   }
-
   .sidebar-group:last-child{
     margin-bottom:0;
   }
-  
-  .filter-btn-list{
+.filter-btn-list{
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
-  
+/* KELAS DASAR TOMBOL FILTER */
   .f-filter-btn{
     text-align: left;
     font-family: 'Baloo 2', sans-serif;
@@ -269,9 +289,16 @@
     transition: all .15s ease;
     color: #124d82;
     box-shadow: 2px 2px 0 var(--ink);
-    background: #f7efbf;
   }
 
+  /* VARIASI WARNA W-WARNIP TIAP TOMBOL */
+  .f-filter-btn:nth-child(1) { background: #6497c0; color: #ffffff; }
+  .f-filter-btn:nth-child(2) { background: #f7efbf; }
+  .f-filter-btn:nth-child(3) { background: #f3c2c6; }
+  .f-filter-btn:nth-child(4) { background: #6497c0; color: #ffffff; }
+  .f-filter-btn:nth-child(5) { background: #f3c2c6; }
+
+/* EFEK HOVER & ACTIVE */
   .f-filter-btn:hover, .f-filter-btn.active{
     background: #124d82 !important;
     color: #ffffff !important;
@@ -279,7 +306,7 @@
     transform: translate(-1px, -1px);
   }
 
-  .search-input, .search-select {
+.search-input{
     width: 100%;
     padding: 12px 16px;
     border: 2px solid var(--ink);
@@ -291,10 +318,12 @@
     outline: none;
     box-shadow: 2px 2px 0 var(--ink);
   }
-  .search-input:focus, .search-select:focus {
+
+.search-input:focus{
+    background: #ffffff;
     box-shadow: 3px 3px 0 var(--ink);
   }
-
+  /* KANAN: HEADER INFO & GRID KARTU */
   .right-content-header{
     display:flex;
     justify-content:space-between;
@@ -427,6 +456,7 @@
     font-weight:700;
   }
 
+ /* SHARE BANNER (GAYA TIKET BARU) */
   .share-banner-ticket {
     position: relative;
     display: flex;
@@ -468,6 +498,7 @@
     color: #124d82;
     margin-bottom: 16px;
     line-height: 1.3;
+    text-shadow: none;
   }
 
   .share-banner-ticket p {
@@ -477,8 +508,10 @@
     margin-bottom: 24px;
     line-height: 1.5;
     max-width: 55ch;
+    text-shadow: none;
   }
 
+  /* STIKER / BADGE MELAYANG */
   .badge-float {
     position: absolute;
     padding: 8px 16px;
@@ -518,6 +551,7 @@
     line-height: 1.2;
   }
 
+  /* TOMBOL DI DALAM TIKET */
   .btn-ticket {
     background-color: #ffe08a;
     color: #124d82;
@@ -540,14 +574,30 @@
     background-color: #f3c2c6;
   }
 
+  /* RESPONSIVE (BAGIAN BAWAH KODE KAMU TETAP DIPAKAI) */
   @media(max-width:992px){
     .loker-layout{grid-template-columns:1fr;}
     .loker-sidebar{position:static;}
     .loker-grid{grid-template-columns:1fr;}
-    .share-banner-ticket { flex-direction: column; }
-    .ticket-left { border-radius: 16px 16px 0 0; border-right: 3px solid #124d82; padding: 30px 20px; }
-    .ticket-right { height: 40px; border-radius: 0 0 16px 16px; border-left: 3px solid #124d82; border-top: 4px dashed #124d82; }
-    .badge-right { display: none; }
+    
+    /* Tambahan agar bentuk tiket aman pas dibuka di HP kecil */
+    .share-banner-ticket {
+      flex-direction: column;
+    }
+    .ticket-left {
+      border-radius: 16px 16px 0 0;
+      border-right: 3px solid #124d82;
+      padding: 30px 20px;
+    }
+    .ticket-right {
+      height: 40px;
+      border-radius: 0 0 16px 16px;
+      border-left: 3px solid #124d82;
+      border-top: 4px dashed #124d82;
+    }
+    .badge-right {
+      display: none; /* Sembunyikan stiker kanan di layar HP kecil supaya tidak menumpuk */
+    }
   }
 </style>
 </head>
@@ -568,44 +618,14 @@
 
     <div class="loker-layout">
 
-      <!-- SIDEBAR FILTER DIPERBARUI -->
       <aside class="loker-sidebar">
         
         <div class="sidebar-group">
-          <h3 class="sidebar-title">Cari Posisi / Skill</h3>
+          <h3 class="sidebar-title">Cari Posisi</h3>
           <input type="text" id="searchInput" class="search-input" placeholder="Ketik skill / judul...">
         </div>
 
-        <div class="sidebar-group">
-          <h3 class="sidebar-title">Nama Perusahaan</h3>
-          <select id="companySelect" class="search-select">
-            <option value="all">Semua Perusahaan</option>
-            <option value="Kreasi Digital Nusantara">Kreasi Digital Nusantara</option>
-            <option value="Solusi Pintar Edukasi">Solusi Pintar Edukasi</option>
-            <option value="Matchora Brand">Matchora Brand</option>
-            <option value="Antares Organizer">Antares Organizer</option>
-            <option value="Nusantara Media">Nusantara Media</option>
-            <option value="Matchora Studio">Matchora Studio</option>
-            <option value="Sinergi Teknologi">Sinergi Teknologi</option>
-            <option value="Ngobrol Bareng Alumni">Ngobrol Bareng Alumni</option>
-            <option value="Logistik Kawan">Logistik Kawan</option>
-            <option value="Edukasi Digital">Edukasi Digital</option>
-          </select>
-        </div>
-
-        <div class="sidebar-group">
-          <h3 class="sidebar-title">Lokasi / Sistem Kerja</h3>
-          <select id="locationSelect" class="search-select">
-            <option value="all">Semua Lokasi / Sistem</option>
-            <option value="Remote">Remote / WFH</option>
-            <option value="Hybrid">Hybrid</option>
-            <option value="Jakarta">Jakarta (WFO/Studio)</option>
-            <option value="Bandung">Bandung</option>
-            <option value="Surabaya">Surabaya</option>
-          </select>
-        </div>
-
-        <hr style="border:2px dashed rgba(46,58,89,.15); margin:16px 0;">
+        <hr style="border:2px dashed rgba(46,58,89,.15); margin:20px 0;">
 
         <div class="sidebar-group">
           <h3 class="sidebar-title">Kategori Loker</h3>
@@ -618,256 +638,71 @@
           </div>
         </div>
 
-        <div class="sidebar-group" style="margin-top: 20px;">
-          <button id="resetBtn" class="btn btn-ghost btn-sm" style="width: 100%; border: 2px solid var(--ink);">Reset Filter</button>
-        </div>
-
       </aside>
 
       <div>
         <div class="right-content-header">
-          <span class="counter-text" id="counterText">Menampilkan 10 Lowongan Aktif</span>
+          <span class="counter-text" id="counterText">Menampilkan {{ count($jobs) }} Lowongan Aktif</span>
           <span style="font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13px; color:var(--ink-soft);">Antares Job Board</span>
         </div>
 
         <div class="loker-grid" id="lokerGrid">
-
-          <div class="loker-card" data-category="Full-Time" data-company="Matchora Brand" data-location="Jakarta">
-            <span class="card-top-badge" style="background:var(--dewy-blue); color:var(--ink);">Fresh Grad</span>
+          @forelse($jobs as $job)
+          <div class="loker-card" data-category="{{ $job->job_type }}">
+            @if($job->highlight_badge)
+            <span class="card-top-badge">{{ $job->highlight_badge }}</span>
+            @endif
             <div>
               <div class="loker-header">
-                <div class="company-logo">CM</div>
+                <div class="company-logo">{{ $job->initials }}</div>
                 <div>
-                  <h2 class="job-title">Content & Social Media Specialist</h2>
-                  <div class="company-name">Matchora Brand • (Kak Dewi, 2020)</div>
+                  <h2 class="job-title">{{ $job->title }}</h2>
+                  <div class="company-name">{{ $job->company_name }} • ({{ $job->alumni_contact ?? 'Alumni Partner' }})</div>
                 </div>
               </div>
               <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">WFO Jakarta</span>
-                <span class="j-badge">Copywriting</span>
+                <span class="j-badge">{{ $job->job_type }}</span>
+                <span class="j-badge">{{ $job->workplace_type }}</span>
+                @if(is_array($job->skills_tags))
+                  @foreach(array_slice($job->skills_tags, 0, 2) as $st)
+                    <span class="j-badge">{{ $st }}</span>
+                  @endforeach
+                @endif
               </div>
-              <p class="job-desc">Suka bikin konten seru, ngerti tren TikTok/Reels, dan hobi nulis caption yang jenaka? Jenama kuliner milik alumni kita lagi berkembang pesat dan butuh talenta kreatif yang asyik diajak kerja bareng. Segera daftarkan dirimu!</p>
+              <p class="job-desc">{{ $job->description }}</p>
             </div>
             <div class="job-footer">
               <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 4.0M - 5.5M / bln
+                <span>{{ $job->salary_type === 'incentive' ? 'Insentif:' : 'Estimasi Gaji:' }}</span>
+                {{ $job->salary_display ?? 'Kompetitif' }}
               </div>
-              <a href="/lowongan/detail/matchora-brand" class="btn btn-primary btn-sm">Lamar</a>
+              <a href="{{ route('lowongan.show', $job->slug) }}" class="btn btn-primary btn-sm">Lamar</a>
             </div>
           </div>
-
-          <div class="loker-card" data-category="Full-Time" data-company="Antares Organizer" data-location="Bandung">
-            <span class="card-top-badge" style="background:var(--coral);">Special Opening</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">AO</div>
-                <div>
-                  <h2 class="job-title">Community & Event Manager</h2>
-                  <div class="company-name">Antares Organizer • (Pengurus Pusat)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">Bandung / Remote</span>
-                <span class="j-badge">Event</span>
-              </div>
-              <p class="job-desc">Punya bakat ngumpulin orang, seru, dan hobi bikin acara kumpul-kumpul yang pecah? Yuk, gabung jadi penggerak utama di balik layar berbagai event seru dan temu kangen alumni kita selanjutnya! Suasana kerja dijamin seru ala keluarga sendiri.</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 5.0M - 7.0M / bln
-              </div>
-              <a href="/lowongan/detail/antares-organizer" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
+          @empty
+          <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
+            <p style="font-size: 18px; font-weight:700;">Belum ada lowongan pekerjaan yang sesuai.</p>
           </div>
-
-          <div class="loker-card" data-category="Remote" data-company="Nusantara Media" data-location="Remote">
-            <span class="card-top-badge" style="background:var(--morning-breeze);">Fast Growth</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">DM</div>
-                <div>
-                  <h2 class="job-title">Digital Marketing Growth Specialist</h2>
-                  <div class="company-name">Nusantara Media • (Kak Bayu, 2016)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">Remote</span>
-                <span class="j-badge">Ads & Analytics</span>
-              </div>
-              <p class="job-desc">Mau ngebantu brand lokal milik alumni melesat tinggi lewat strategi iklan digital dan analisis data yang ciamik? Posisi ini pas banget buat kamu yang hobi eksperimen campaign dan baca tren market terkini!</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 6.0M - 8.5M / bln
-              </div>
-              <a href="/lowongan/detail/nusantara-media" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
-          </div>
-
-          <div class="loker-card" data-category="Magang" data-company="Matchora Studio" data-location="Hybrid">
-            <span class="card-top-badge" style="background:var(--dewy-blue); color:var(--ink);">Intern Program</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">GI</div>
-                <div>
-                  <h2 class="job-title">Graphic Design Intern</h2>
-                  <div class="company-name">Matchora Studio • (Kak Dewi, 2020)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Magang</span>
-                <span class="j-badge">Hybrid</span>
-                <span class="j-badge">Illustrator</span>
-              </div>
-              <p class="job-desc">Buat adik-adik tingkat atau fresh graduate yang mau nyari pengalaman nyata di industri kreatif, yuk magang bareng kita! Bakalan dibimbing langsung cara bikin visual brand produk makanan dan minuman yang gemesin.</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Insentif:</span>
-                Rp 2.0M - 3.0M / bln
-              </div>
-              <a href="/lowongan/detail/matchora-studio" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
-          </div>
-
-          <div class="loker-card" data-category="Full-Time" data-company="Sinergi Teknologi" data-location="Remote">
-            <span class="card-top-badge">Tech Lead</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">SF</div>
-                <div>
-                  <h2 class="job-title">Senior Fullstack Engineer</h2>
-                  <div class="company-name">Sinergi Teknologi • (Kak Fajar, 2015)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">Remote</span>
-                <span class="j-badge">Laravel & Vue</span>
-              </div>
-              <p class="job-desc">Punya pengalaman matang di framework Laravel dan terbiasa merancang arsitektur sistem skala besar? Senior kita lagi bangun tim impian dan butuh tangan kanan handal buat nakhodain project-project skala nasional!</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 10M - 14M / bln
-              </div>
-              <a href="/lowongan/detail/sinergi-teknologi" class="btn btn-primary btn-sm">Ambil</a>
-            </div>
-          </div>
-
-          <div class="loker-card" data-category="Freelance" data-company="Ngobrol Bareng Alumni" data-location="Jakarta">
-            <span class="card-top-badge" style="background:var(--morning-breeze);">Kreatif & Seru</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">PH</div>
-                <div>
-                  <h2 class="job-title">Podcast Host & Copywriter</h2>
-                  <div class="company-name">Ngobrol Bareng Alumni • (Tim Media)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Freelance</span>
-                <span class="j-badge">Studio Jakarta</span>
-                <span class="j-badge">Public Speaking</span>
-              </div>
-              <p class="job-desc">Pede ngomong di depan kamera/mikrofon, punya suara renyah, dan hobi ngulik cerita unik dari para alumni sukses? Gabung jadi host program bincang-bincang santai kita yuk! Pastinya seru dan nambah relasi luas.</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Sistem Bayar:</span>
-                Per Episode
-              </div>
-              <a href="/lowongan/detail/ngobrol-bareng-alumni" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
-          </div>
-
-          <div class="loker-card" data-category="Full-Time" data-company="Logistik Kawan" data-location="Surabaya">
-            <span class="card-top-badge" style="background:var(--coral);">Hot Demand</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">LK</div>
-                <div>
-                  <h2 class="job-title">Operations & Supply Chain Lead</h2>
-                  <div class="company-name">Logistik Kawan • (Kak Reza, 2017)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">On-Site Surabaya</span>
-                <span class="j-badge">Supply Chain</span>
-              </div>
-              <p class="job-desc">Jago ngatur logistik, manajemen gudang, dan koordinasi mitra bisnis dengan efisien? Perusahaan ekspedisi milik alumni kita lagi butuh sosok pemimpin operasional yang cekatan dan solutif.</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 7.5M - 10M / bln
-              </div>
-              <a href="/lowongan/detail/logistik-kawan" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
-          </div>
-
-          <div class="loker-card" data-category="Remote" data-company="Edukasi Digital" data-location="Remote">
-            <span class="card-top-badge" style="background:var(--dewy-blue); color:var(--ink);">Junior Friendly</span>
-            <div>
-              <div class="loker-header">
-                <div class="company-logo">CH</div>
-                <div>
-                  <h2 class="job-title">Customer Happiness Officer</h2>
-                  <div class="company-name">Edukasi Digital • (Tim Alumni)</div>
-                </div>
-              </div>
-              <div class="job-badges">
-                <span class="j-badge">Full-Time</span>
-                <span class="j-badge">Remote</span>
-                <span class="j-badge">Communication</span>
-              </div>
-              <p class="job-desc">Punya empati tinggi, sabar, ramah, dan suka bantu orang lain mecahin masalah seputar aplikasi belajar online? Posisi ini sangat ramah buat fresh graduate yang mau merintis karier di dunia startup edukasi.</p>
-            </div>
-            <div class="job-footer">
-              <div class="salary-box">
-                <span>Estimasi Gaji:</span>
-                Rp 3.8M - 5.0M / bln
-              </div>
-              <a href="/lowongan/detail/edukasi-digital" class="btn btn-primary btn-sm">Lamar</a>
-            </div>
-          </div>
-
+          @endforelse
         </div>
 
-        <div class="share-banner-ticket">
-          <div class="badge-float badge-top-left">Daftar Sekarang</div>
-          <div class="badge-float badge-right">Bagikan Ceritamu<br>Bersama Kami!</div>
+       <div class="share-banner-ticket">
+  <!-- Stiker Kiri Atas -->
+  <div class="badge-float badge-top-left">Daftar Sekarang</div>
+  
+  <!-- Stiker Kanan -->
+  <div class="badge-float badge-right">Bagikan Ceritamu<br>Bersama Kami!</div>
 
-          <div class="ticket-left">
-            <h3>Punya Info Lowongan di Perusahaanmu Juga?</h3>
-            <p>Jangan simpan sendirian! Bantu kawan-kawan se-almamater kita yang lagi berjuang mencari peluang karier baru. Berbagi kebaikan, rezeki makin lancar!</p>
-            <a href="#" class="btn-ticket">Hubungi kami!</a>
-          </div>
-          <div class="ticket-right"></div>
-        </div>
-        
+  <!-- Bagian Kiri Tiket (Isi Utama) -->
+  <div class="ticket-left">
+    <h3>Punya Info Lowongan di Perusahaanmu Juga?</h3>
+    <p>Jangan simpan sendirian! Bantu kawan-kawan se-almamater kita yang lagi berjuang mencari peluang karier baru. Berbagi kebaikan, rezeki makin lancar!</p>
+    <a href="#" class="btn-ticket">Hubungi kami!</a>
+  </div>
 
-        </div>
-
-        <div class="share-banner-ticket">
-          <div class="badge-float badge-top-left">Daftar Sekarang</div>
-          <div class="badge-float badge-right">Bagikan Ceritamu<br>Bersama Kami!</div>
-
-          <div class="ticket-left">
-            <h3>Punya Info Lowongan di Perusahaanmu Juga?</h3>
-            <p>Jangan simpan sendirian! Bantu kawan-kawan se-almamater kita yang lagi berjuang mencari peluang karier baru. Berbagi kebaikan, rezeki makin lancar!</p>
-            <a href="#" class="btn-ticket">Hubungi kami!</a>
-          </div>
-          <div class="ticket-right"></div>
-        </div>
+  <!-- Bagian Kanan Tiket (Sobekan) -->
+  <div class="ticket-right"></div>
+</div>
 
       </div>
 
@@ -881,30 +716,21 @@
   const cards = document.querySelectorAll('.loker-card');
   const counterText = document.getElementById('counterText');
   const searchInput = document.getElementById('searchInput');
-  const companySelect = document.getElementById('companySelect');
-  const locationSelect = document.getElementById('locationSelect');
-  const resetBtn = document.getElementById('resetBtn');
 
   let currentCategory = 'all';
 
   function filterCards() {
     const searchTerm = searchInput.value.toLowerCase();
-    const selectedCompany = companySelect.value;
-    const selectedLocation = locationSelect.value;
     let visibleCount = 0;
 
     cards.forEach(card => {
       const category = card.getAttribute('data-category');
-      const company = card.getAttribute('data-company');
-      const location = card.getAttribute('data-location');
       const cardText = card.innerText.toLowerCase();
       
       const matchesCategory = (currentCategory === 'all' || category === currentCategory);
       const matchesSearch = cardText.includes(searchTerm);
-      const matchesCompany = (selectedCompany === 'all' || company === selectedCompany);
-      const matchesLocation = (selectedLocation === 'all' || location.includes(selectedLocation));
 
-      if (matchesCategory && matchesSearch && matchesCompany && matchesLocation) {
+      if (matchesCategory && matchesSearch) {
         card.style.display = 'flex';
         visibleCount++;
       } else {
@@ -925,18 +751,6 @@
   });
 
   searchInput.addEventListener('input', filterCards);
-  companySelect.addEventListener('change', filterCards);
-  locationSelect.addEventListener('change', filterCards);
-
-  resetBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    companySelect.value = 'all';
-    locationSelect.value = 'all';
-    currentCategory = 'all';
-    filterBtns.forEach(b => b.classList.remove('active'));
-    filterBtns[0].classList.add('active');
-    filterCards();
-  });
 </script>
 
 </body>

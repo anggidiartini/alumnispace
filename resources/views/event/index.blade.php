@@ -501,7 +501,7 @@
 
     <div class="filter-bar">
       <div class="category-pills" id="filterList">
-        <button class="pill-btn active" data-filter="all">Semua Album (9)</button>
+        <button class="pill-btn active" data-filter="all">Semua Event ({{ count($events) }})</button>
         <button class="pill-btn" data-filter="Meetup">Temu Kangen & Meetup</button>
         <button class="pill-btn" data-filter="Webinar">Webinar & Tech Talk</button>
         <button class="pill-btn" data-filter="Workshop">Workshop & Coding</button>
@@ -513,133 +513,25 @@
     </div>
 
     <div class="photo-grid" id="photoGrid">
-
-      <div class="photo-card" data-category="Meetup">
-        <div class="photo-wrapper">Gathering Bali</div>
+      @forelse($events as $event)
+      <div class="photo-card" data-category="{{ $event->category }}">
+        <div class="photo-wrapper">{{ Str::limit($event->title, 20) }}</div>
         <div class="photo-meta">
-          <span>15 Agustus 2026</span>
-          <span>Denpasar, Bali</span>
+          <span>{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}</span>
+          <span>{{ $event->venue ?? 'Online' }}</span>
         </div>
-        <h2 class="photo-title">Gathering Santai Edisi Kemerdekaan</h2>
-        <p class="photo-desc">Keseruan kumpul-kumpul sambil ngobrolin seputar perkembangan dunia kerja kreatif lintas angkatan di salah satu cafe hits Bali.</p>
+        <h2 class="photo-title">{{ $event->title }}</h2>
+        <p class="photo-desc">{{ $event->description }}</p>
         <div class="photo-footer">
-          <span class="badge-tag">Meetup</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Gathering Bali" data-date="15 Agustus 2026" data-location="Denpasar, Bali" data-title="Gathering Santai Edisi Kemerdekaan" data-desc="Keseruan kumpul-kumpul sambil ngobrolin seputar perkembangan dunia kerja kreatif lintas angkatan di salah satu cafe hits Bali." data-tag="Meetup">Lihat Foto</button>
+          <span class="badge-tag">{{ $event->category }}</span>
+          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="{{ $event->title }}" data-date="{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}" data-location="{{ $event->venue ?? 'Online' }}" data-title="{{ $event->title }}" data-desc="{{ $event->description }}" data-tag="{{ $event->category }}">Lihat Foto</button>
         </div>
       </div>
-
-      <div class="photo-card" data-category="Webinar">
-        <div class="photo-wrapper">UI/UX & AI</div>
-        <div class="photo-meta">
-          <span>28 Juli 2026</span>
-          <span>Online via Zoom</span>
-        </div>
-        <h2 class="photo-title">Webinar UI/UX & AI Integration</h2>
-        <p class="photo-desc">Sesi sharing intensif bersama para alumni senior yang membedah bagaimana memanfaatkan AI untuk efisiensi desain produk.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Webinar</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="UI/UX & AI" data-date="28 Juli 2026" data-location="Online via Zoom" data-title="Webinar UI/UX & AI Integration" data-desc="Sesi sharing intensif bersama para alumni senior yang membedah bagaimana memanfaatkan AI untuk efisiensi desain produk." data-tag="Webinar">Lihat Foto</button>
-        </div>
+      @empty
+      <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
+        <p style="font-size: 18px; font-weight:700;">Belum ada event yang sesuai.</p>
       </div>
-
-      <div class="photo-card" data-category="Workshop">
-        <div class="photo-wrapper">PHP & XAMPP</div>
-        <div class="photo-meta">
-          <span>10 Juni 2026</span>
-          <span>Lab Komputer Utama</span>
-        </div>
-        <h2 class="photo-title">Workshop Kilat: Ngoding Bareng PHP & XAMPP</h2>
-        <p class="photo-desc">Peserta tampak antusias serius ngulik database dan debugging kode bersama mentor alumni di lab kampus.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Workshop</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="PHP & XAMPP" data-date="10 Juni 2026" data-location="Lab Komputer Utama" data-title="Workshop Kilat: Ngoding Bareng PHP & XAMPP" data-desc="Peserta tampak antusias serius ngulik database dan debugging kode bersama mentor alumni di lab kampus." data-tag="Workshop">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Meetup">
-        <div class="photo-wrapper">Buka Bersama</div>
-        <div class="photo-meta">
-          <span>20 Mei 2026</span>
-          <span>Jakarta Selatan</span>
-        </div>
-        <h2 class="photo-title">Buka Bersama & Silaturahmi Alumni</h2>
-        <p class="photo-desc">Momen hangat melepas rindu sambil menikmati hidangan lezat dan bernostalgia masa-masa kuliah dulu.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Meetup</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Buka Bersama" data-date="20 Mei 2026" data-location="Jakarta Selatan" data-title="Buka Bersama & Silaturahmi Alumni" data-desc="Momen hangat melepas rindu sambil menikmati hidangan lezat dan bernostalgia masa-masa kuliah dulu." data-tag="Meetup">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Webinar">
-        <div class="photo-wrapper">Remote Job</div>
-        <div class="photo-meta">
-          <span>14 April 2026</span>
-          <span>Online Google Meet</span>
-        </div>
-        <h2 class="photo-title">Karier Series: Tembus Remote Job</h2>
-        <p class="photo-desc">Bedah tips praktis menyusun portofolio digital yang memikat client internasional dari rumah.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Webinar</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Remote Job" data-date="14 April 2026" data-location="Online Google Meet" data-title="Karier Series: Tembus Remote Job" data-desc="Bedah tips praktis menyusun portofolio digital yang memikat client internasional dari rumah." data-tag="Webinar">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Workshop">
-        <div class="photo-wrapper">Matchora Design</div>
-        <div class="photo-meta">
-          <span>02 Maret 2026</span>
-          <span>Bandung Creative Hub</span>
-        </div>
-        <h2 class="photo-title">Pelatihan Branding & Desain Produk Matchora</h2>
-        <p class="photo-desc">Studi kasus nyata pembuatan identitas visual produk kuliner lokal yang sukses meluncur ke pasaran.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Workshop</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Matchora Design" data-date="02 Maret 2026" data-location="Bandung Creative Hub" data-title="Pelatihan Branding & Desain Produk Matchora" data-desc="Studi kasus nyata pembuatan identitas visual produk kuliner lokal yang sukses meluncur ke pasaran." data-tag="Workshop">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Meetup">
-        <div class="photo-wrapper">Beach Cleanup</div>
-        <div class="photo-meta">
-          <span>12 Januari 2026</span>
-          <span>Pantai Sanur, Bali</span>
-        </div>
-        <h2 class="photo-title">Fun Outing & Beach Cleanup Bareng</h2>
-        <p class="photo-desc">Aksi bersih-bersih pantai dilanjutkan games seru dan barbeque sore hari buat mempererat kekompakan.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Meetup</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Beach Cleanup" data-date="12 Januari 2026" data-location="Pantai Sanur, Bali" data-title="Fun Outing & Beach Cleanup Bareng" data-desc="Aksi bersih-bersih pantai dilanjutkan games seru dan barbeque sore hari buat mempererat kekompakan." data-tag="Meetup">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Webinar">
-        <div class="photo-wrapper">Tech Trends 2026</div>
-        <div class="photo-meta">
-          <span>18 Desember 2025</span>
-          <span>Online Live Streaming</span>
-        </div>
-        <h2 class="photo-title">Akhir Tahun Review: Tren Teknologi 2026</h2>
-        <p class="photo-desc">Diskusi panel santai membahas prediksi dan proyeksi teknologi apa saja yang bakal booming di tahun depan.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Webinar</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Tech Trends 2026" data-date="18 Desember 2025" data-location="Online Live Streaming" data-title="Akhir Tahun Review: Tren Teknologi 2026" data-desc="Diskusi panel santai membahas prediksi dan proyeksi teknologi apa saja yang bakal booming di tahun depan." data-tag="Webinar">Lihat Foto</button>
-        </div>
-      </div>
-
-      <div class="photo-card" data-category="Workshop">
-        <div class="photo-wrapper">Mini Hackathon</div>
-        <div class="photo-meta">
-          <span>05 November 2025</span>
-          <span>Kampus Utama Antares</span>
-        </div>
-        <h2 class="photo-title">Hackathon Mini: Bikin MVP dalam 6 Jam</h2>
-        <p class="photo-desc">Adu cepat dan kreatif ngebut bikin purwarupa aplikasi pemecah masalah sosial bareng tim lintas jurusan.</p>
-        <div class="photo-footer">
-          <span class="badge-tag">Workshop</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="Mini Hackathon" data-date="05 November 2025" data-location="Kampus Utama Antares" data-title="Hackathon Mini: Bikin MVP dalam 6 Jam" data-desc="Adu cepat dan kreatif ngebut bikin purwarupa aplikasi pemecah masalah sosial bareng tim lintas jurusan." data-tag="Workshop">Lihat Foto</button>
-        </div>
-      </div>
-
+      @endforelse
     </div>
 
   </div>
