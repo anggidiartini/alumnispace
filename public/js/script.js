@@ -1,258 +1,394 @@
-/* ==========================================================
-   JEJAK KELUARGA ALUMNI PLATFORM - SCRIPT.JS
-   Interactive logic for view switching, login simulation, filtering, and AOS init
-   ========================================================== */
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Initialize AOS Animation Library
-    AOS.init({
-        once: true,
-        offset: 50,
-        duration: 800,
-        easing: "ease-in-out",
-    });
-
-    // DOM Elements
-    const landingView = document.getElementById("landingView");
-    const homeView = document.getElementById("homeView");
-
-    const loggedOutState = document.getElementById("loggedOutState");
-    const loggedInState = document.getElementById("loggedInState");
-
-    const loginBtn = document.getElementById("loginBtn");
-    const heroLoginTrigger = document.getElementById("heroLoginTrigger");
-    const loginModal = document.getElementById("loginModal");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const loginForm = document.getElementById("loginForm");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    const userProfileBadge = document.getElementById("userProfileDropdown");
-    const userDropdownMenu = document.getElementById("userDropdownMenu");
-
-    // Header scroll shadow effect
-    window.addEventListener("scroll", function () {
-        const header = document.getElementById("mainHeader");
-        if (window.scrollY > 40) {
-            header.classList.add("scrolled");
-        } else {
-            header.classList.remove("scrolled");
-        }
-    });
-
-    // Modal Trigger
-    function openLoginModal() {
-        loginModal.classList.add("active");
-    }
-
-    function closeLoginModal() {
-        loginModal.classList.remove("active");
-    }
-
-    if (loginBtn) loginBtn.addEventListener("click", openLoginModal);
-    if (heroLoginTrigger)
-        heroLoginTrigger.addEventListener("click", openLoginModal);
-    if (closeModalBtn) closeModalBtn.addEventListener("click", closeLoginModal);
-
-    // Close modal when clicking outside
-    loginModal.addEventListener("click", function (e) {
-        if (e.target === loginModal) {
-            closeLoginModal();
-        }
-    });
-
-    // Simulate Login Action
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault();
-        closeLoginModal();
-        switchToHomeView();
-    });
-
-    // Switch to Home View (Logged In state)
-    function switchToHomeView() {
-        // Toggle Auth Action state
-        loggedOutState.classList.add("hidden");
-        loggedInState.classList.remove("hidden");
-
-        // Toggle Views
-        landingView.classList.remove("active-view");
-        homeView.classList.add("active-view");
-
-        // Scroll to top smoothly
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        // Refresh AOS animations
-        setTimeout(() => {
-            AOS.refresh();
-        }, 200);
-    }
-
-    // Simulate Logout Action
-    logoutBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        switchToLandingView();
-    });
-
-    // Switch to Landing View (Logged Out state)
-    function switchToLandingView() {
-        // Toggle Auth Action state
-        loggedInState.classList.add("hidden");
-        loggedOutState.classList.remove("hidden");
-
-        // Toggle Views
-        homeView.classList.remove("active-view");
-        landingView.classList.add("active-view");
-
-        // Close dropdown if open
-        if (userDropdownMenu) {
-            userDropdownMenu.classList.remove("show");
-        }
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        setTimeout(() => {
-            AOS.refresh();
-        }, 200);
-    }
-
-    // User Profile Dropdown Toggle
-    if (userProfileBadge) {
-        userProfileBadge.addEventListener("click", function (e) {
-            e.stopPropagation();
-            userDropdownMenu.classList.toggle("show");
-        });
-    }
-
-    window.addEventListener("click", function () {
-        if (userDropdownMenu) {
-            userDropdownMenu.classList.remove("show");
-        }
-    });
-
-    // Job Category Filter Functionality
-    const filterBtns = document.querySelectorAll(".filter-btn");
-    const jobCards = document.querySelectorAll(".job-card-item");
-
-    filterBtns.forEach((btn) => {
-        btn.addEventListener("click", function () {
-            filterBtns.forEach((b) => b.classList.remove("active"));
-            this.classList.add("active");
-
-            const filterValue = this.getAttribute("data-filter");
-
-            jobCards.forEach((card) => {
-                const cardCategory = card.getAttribute("data-category");
-                if (filterValue === "all" || cardCategory === filterValue) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
-    });
-
-    // Job Search Input Filter
-    const jobSearchInput = document.getElementById("jobSearchInput");
-    if (jobSearchInput) {
-        jobSearchInput.addEventListener("input", function (e) {
-            const term = e.target.value.toLowerCase();
-            jobCards.forEach((card) => {
-                const text = card.innerText.toLowerCase();
-                if (text.includes(term)) {
-                    card.style.display = "block";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
-    }
-
-    // Alumni Search & Filter Simulation
-    const searchAlumniBtn = document.getElementById("searchAlumniBtn");
-    const alumniSearch = document.getElementById("alumniSearch");
-    const generationFilter = document.getElementById("generationFilter");
-    const alumniCards = document.querySelectorAll(".alumni-card");
-
-    function filterAlumni() {
-        const searchTerm = alumniSearch ? alumniSearch.value.toLowerCase() : "";
-        const genValue = generationFilter ? generationFilter.value : "";
-
-        alumniCards.forEach((card) => {
-            const cardText = card.innerText.toLowerCase();
-            const matchesSearch = cardText.includes(searchTerm);
-            const matchesGen = genValue === "" || cardText.includes(genValue);
-
-            if (matchesSearch && matchesGen) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
-        });
-    }
-
-    if (searchAlumniBtn) {
-        searchAlumniBtn.addEventListener("click", filterAlumni);
-    }
-    if (alumniSearch) {
-        alumniSearch.addEventListener("input", filterAlumni);
-    }
-    if (generationFilter) {
-        generationFilter.addEventListener("change", filterAlumni);
-    }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll(".counter");
-    let animated = false;
+    lucide.createIcons();
 
-    // Fungsi untuk menjalankan animasi hitung
-    const runCounter = () => {
-        counters.forEach((counter) => {
-            const target = +counter.getAttribute("data-target");
-            let count = 0;
-            // Kecepatan hitung (semakin kecil angka pembagi, semakin cepat)
-            const speed = target / 50;
+    const showToast = (message) => {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove("show"), 2600);
+    };
 
-            const updateCount = () => {
-                count += speed;
-                if (count < target) {
-                    // Jika angkanya ribuan, tambahkan format koma
-                    if (target >= 1000) {
-                        counter.innerText =
-                            Math.floor(count).toLocaleString("en-US") + "+";
-                    } else {
-                        counter.innerText = Math.floor(count) + "+";
-                    }
-                    setTimeout(updateCount, 30);
-                } else {
-                    if (target >= 1000) {
-                        counter.innerText =
-                            target.toLocaleString("en-US") + "+";
-                    } else {
-                        counter.innerText = target + "+";
-                    }
-                }
-            };
-            updateCount();
+    /* ------------------------------------------------------------------
+     * Dropdown menu navigasi (desktop)
+     * ------------------------------------------------------------------ */
+    const closeAllDropdowns = () => {
+        document.querySelectorAll(".nav-drop").forEach((el) => {
+            el.classList.remove("open");
+            const btn = el.querySelector("[data-dropdown]");
+            if (btn) btn.setAttribute("aria-expanded", "false");
         });
     };
 
-    // Trigger animasi berdasarkan posisi scroll agar pas saat sectionnya terlihat
-    const statsSection = document.querySelector("#angka");
+    document.querySelectorAll("[data-dropdown]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const parent = button.closest(".nav-drop");
+            const isOpen = parent.classList.toggle("open");
+            button.setAttribute("aria-expanded", String(isOpen));
+            document.querySelectorAll(".nav-drop").forEach((other) => {
+                if (other !== parent) {
+                    other.classList.remove("open");
+                    other
+                        .querySelector("[data-dropdown]")
+                        .setAttribute("aria-expanded", "false");
+                }
+            });
+        });
+    });
 
-    const observer = new IntersectionObserver(
-        (entries, observer) => {
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".nav-drop")) closeAllDropdowns();
+    });
+
+    /* ------------------------------------------------------------------
+     * Menu mobile
+     * ------------------------------------------------------------------ */
+    const mobileToggle = document.getElementById("mobile-toggle");
+    const mobileNav = document.getElementById("mobile-nav");
+    mobileToggle.addEventListener("click", () => {
+        const open = mobileNav.classList.toggle("open");
+        mobileToggle.setAttribute("aria-expanded", String(open));
+    });
+    const closeMobileNav = () => {
+        mobileNav.classList.remove("open");
+        mobileToggle.setAttribute("aria-expanded", "false");
+    };
+
+    /* ------------------------------------------------------------------
+     * AUTH: status login sederhana (disimpan di localStorage utk demo)
+     * ------------------------------------------------------------------ */
+    const AUTH_KEY = "ac_logged_in";
+    const AUTH_EMAIL_KEY = "ac_user_email";
+    let isLoggedIn = localStorage.getItem(AUTH_KEY) === "true";
+
+    const guestActions = document.getElementById("guest-actions");
+    const userActions = document.getElementById("user-actions");
+    const userEmailLabel = document.getElementById("user-email-label");
+    const userAvatar = document.getElementById("user-avatar");
+    const mobileOpenLogin = document.getElementById("mobile-open-login");
+    const mobileLogoutBtn = document.getElementById("mobile-logout-btn");
+    const lockedTeaser = document.getElementById("locked-teaser");
+    const authSections = [...document.querySelectorAll(".auth-section")];
+    const lockIcons = [
+        ...document.querySelectorAll('[data-auth-link] i[data-lucide="lock"]'),
+    ];
+
+    const applyAuthState = ({ animate = false } = {}) => {
+        const email = localStorage.getItem(AUTH_EMAIL_KEY) || "";
+
+        if (isLoggedIn) {
+            guestActions.classList.add("hidden");
+            userActions.classList.remove("hidden");
+            userActions.classList.add("flex");
+            mobileOpenLogin.classList.add("hidden");
+            mobileLogoutBtn.classList.remove("hidden");
+            mobileLogoutBtn.classList.add("flex");
+            userEmailLabel.textContent = email ? email.split("@")[0] : "Alumni";
+            userAvatar.textContent = (email ? email[0] : "A").toUpperCase();
+
+            lockedTeaser.classList.add("hidden-teaser");
+            authSections.forEach((section, i) => {
+                if (!section.classList.contains("unlocked")) {
+                    if (animate) {
+                        section.style.animationDelay = `${i * 0.08}s`;
+                    }
+                    section.classList.add("unlocked");
+                }
+            });
+            lockIcons.forEach(
+                (icon) => icon.closest("[data-lucide]") && icon.remove(),
+            );
+        } else {
+            guestActions.classList.remove("hidden");
+            userActions.classList.add("hidden");
+            userActions.classList.remove("flex");
+            mobileOpenLogin.classList.remove("hidden");
+            mobileLogoutBtn.classList.add("hidden");
+            mobileLogoutBtn.classList.remove("flex");
+
+            lockedTeaser.classList.remove("hidden-teaser");
+            authSections.forEach((section) =>
+                section.classList.remove("unlocked"),
+            );
+        }
+    };
+
+    applyAuthState();
+
+    /* ------------------------------------------------------------------
+     * Modal login
+     * ------------------------------------------------------------------ */
+    const modal = document.getElementById("login-modal");
+    const loginEmailInput = document.getElementById("login-email");
+
+    const openLoginModal = () => {
+        modal.classList.add("open");
+        setTimeout(() => loginEmailInput && loginEmailInput.focus(), 150);
+    };
+    const closeLoginModal = () => modal.classList.remove("open");
+
+    document
+        .getElementById("open-login")
+        .addEventListener("click", openLoginModal);
+    mobileOpenLogin.addEventListener("click", () => {
+        closeMobileNav();
+        openLoginModal();
+    });
+    document
+        .getElementById("teaser-login-btn")
+        ?.addEventListener("click", openLoginModal);
+    document
+        .getElementById("close-login")
+        .addEventListener("click", closeLoginModal);
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeLoginModal();
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("open"))
+            closeLoginModal();
+    });
+
+    document
+        .getElementById("login-form")
+        .addEventListener("submit", (event) => {
+            event.preventDefault();
+            const email = loginEmailInput.value.trim();
+            document.getElementById("login-result").textContent =
+                "Login berhasil! Semua fitur alumni kini terbuka. 🎉";
+
+            isLoggedIn = true;
+            localStorage.setItem(AUTH_KEY, "true");
+            localStorage.setItem(AUTH_EMAIL_KEY, email);
+            applyAuthState({ animate: true });
+
+            setTimeout(() => {
+                closeLoginModal();
+                showToast(
+                    "Selamat datang kembali! Direktori Alumni, Album, Lowongan & Event sudah terbuka.",
+                );
+            }, 700);
+        });
+
+    const doLogout = () => {
+        isLoggedIn = false;
+        localStorage.setItem(AUTH_KEY, "false");
+        applyAuthState();
+        showToast("Kamu telah keluar dari akun.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    document.getElementById("logout-btn").addEventListener("click", doLogout);
+    mobileLogoutBtn.addEventListener("click", () => {
+        closeMobileNav();
+        doLogout();
+    });
+
+    /* ------------------------------------------------------------------
+     * Filter alumni berdasarkan angkatan & bidang
+     * ------------------------------------------------------------------ */
+    const yearFilter = document.getElementById("year-filter");
+    const fieldFilter = document.getElementById("field-filter");
+    const filterAlumni = () => {
+        let shown = 0;
+        document.querySelectorAll("#alumni-list article").forEach((card) => {
+            const okay =
+                (yearFilter.value === "all" ||
+                    card.dataset.year === yearFilter.value) &&
+                (fieldFilter.value === "all" ||
+                    card.dataset.field === fieldFilter.value);
+            card.classList.toggle("hidden", !okay);
+            if (okay) shown++;
+        });
+        document
+            .getElementById("alumni-empty")
+            .classList.toggle("hidden", shown !== 0);
+    };
+    yearFilter.addEventListener("change", filterAlumni);
+    fieldFilter.addEventListener("change", filterAlumni);
+
+    /* ------------------------------------------------------------------
+     * Tab media (Artikel / Galeri)
+     * ------------------------------------------------------------------ */
+    const activateTab = (tabName) => {
+        if (!tabName) return;
+        const targetBtn = document.querySelector(
+            `.tab-btn[data-tab="${tabName}"]`,
+        );
+        if (!targetBtn) return;
+        document
+            .querySelectorAll(".tab-btn")
+            .forEach((tab) => tab.setAttribute("aria-selected", "false"));
+        document
+            .querySelectorAll(".media-panel")
+            .forEach((panel) => panel.classList.remove("active"));
+        targetBtn.setAttribute("aria-selected", "true");
+        document.getElementById(tabName).classList.add("active");
+    };
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach((button) =>
+            button.addEventListener("click", () =>
+                activateTab(button.dataset.tab),
+            ),
+        );
+
+    /* ------------------------------------------------------------------
+     * Carousel testimoni
+     * ------------------------------------------------------------------ */
+    const testimonials = [...document.querySelectorAll(".testimonial")];
+    let testimonialIndex = 0;
+    const showTestimonial = (next) => {
+        testimonials[testimonialIndex].classList.remove("active");
+        testimonialIndex = (next + testimonials.length) % testimonials.length;
+        testimonials[testimonialIndex].classList.add("active");
+    };
+    document
+        .getElementById("prev-testimonial")
+        .addEventListener("click", () => showTestimonial(testimonialIndex - 1));
+    document
+        .getElementById("next-testimonial")
+        .addEventListener("click", () => showTestimonial(testimonialIndex + 1));
+
+    /* ------------------------------------------------------------------
+     * Navigasi terpadu (nav desktop, mobile, footer, tombol CTA)
+     * - Jika link butuh login (data-auth-link) & belum login -> tampilkan notif + buka modal
+     * - Jika sudah login / link publik -> scroll halus + aktifkan tab bila perlu
+     * ------------------------------------------------------------------ */
+    document.querySelectorAll(".js-nav-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const targetSelector =
+                link.dataset.target || link.getAttribute("href");
+            const needsAuth = link.hasAttribute("data-auth-link");
+
+            if (needsAuth && !isLoggedIn) {
+                e.preventDefault();
+                closeAllDropdowns();
+                closeMobileNav();
+                const label = link.dataset.authLabel || "fitur ini";
+                showToast(`🔒 Silakan login dulu untuk mengakses ${label}`);
+                openLoginModal();
+                return;
+            }
+
+            e.preventDefault();
+            closeAllDropdowns();
+            closeMobileNav();
+            if (link.dataset.tabTarget) activateTab(link.dataset.tabTarget);
+            const target = document.querySelector(targetSelector);
+            if (target) {
+                requestAnimationFrame(() =>
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    }),
+                );
+            }
+        });
+    });
+
+    /* ------------------------------------------------------------------
+     * Tombol-tombol aksi demo (belum terhubung ke fungsi nyata)
+     * ------------------------------------------------------------------ */
+    document
+        .querySelectorAll(".demo-action")
+        .forEach((button) =>
+            button.addEventListener("click", () =>
+                showToast("Ini adalah aksi demo yang siap dikembangkan."),
+            ),
+        );
+
+    /* ------------------------------------------------------------------
+     * Scroll reveal animation (IntersectionObserver)
+     * ------------------------------------------------------------------ */
+    const revealObserver = new IntersectionObserver(
+        (entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting && !animated) {
-                    runCounter();
-                    animated = true; // Supaya animasi hanya berjalan sekali saat discroll ke sini
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("in-view");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+    );
+
+    const observeReveals = () => {
+        document
+            .querySelectorAll(".reveal-onscroll:not(.in-view)")
+            .forEach((el) => revealObserver.observe(el));
+    };
+    observeReveals();
+
+    /* ------------------------------------------------------------------
+     * Counter animasi untuk section statistik
+     * ------------------------------------------------------------------ */
+    const animateCount = (el) => {
+        const target = parseInt(el.dataset.count, 10) || 0;
+        const suffix = el.dataset.suffix || "";
+        const numberEl = el.querySelector(".stat-number");
+        const duration = 1400;
+        const start = performance.now();
+        const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            numberEl.textContent =
+                Math.round(eased * target).toLocaleString("id-ID") + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+    };
+
+    const statObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animateCount(entry.target);
+                    statObserver.unobserve(entry.target);
                 }
             });
         },
         { threshold: 0.4 },
-    ); // Berjalan ketika 40% section terlihat di layar
+    );
+    document
+        .querySelectorAll(".stat-card[data-count]")
+        .forEach((el) => statObserver.observe(el));
 
-    if (statsSection) {
-        observer.observe(statsSection);
-    }
+    /* ------------------------------------------------------------------
+     * Ketika section gated dibuka setelah login, aktifkan reveal utk elemen barunya
+     * ------------------------------------------------------------------ */
+    const authObserver = new MutationObserver(() => observeReveals());
+    authSections.forEach((section) =>
+        authObserver.observe(section, {
+            attributes: true,
+            attributeFilter: ["class"],
+        }),
+    );
+
+    /* ------------------------------------------------------------------
+     * Floating WhatsApp widget
+     * ------------------------------------------------------------------ */
+    const waBubble = document.getElementById("wa-bubble");
+    const waButton = document.getElementById("wa-button");
+    const waBubbleClose = document.getElementById("wa-bubble-close");
+
+    setTimeout(() => {
+        if (waBubble) waBubble.classList.add("show");
+    }, 2200);
+
+    waButton.addEventListener("click", () => waBubble.classList.remove("show"));
+    waBubbleClose.addEventListener("click", () =>
+        waBubble.classList.remove("show"),
+    );
+
+    /* ------------------------------------------------------------------
+     * Tombol kembali ke atas
+     * ------------------------------------------------------------------ */
+    const backToTop = document.getElementById("back-to-top");
+    const toggleBackToTop = () =>
+        backToTop.classList.toggle("show", window.scrollY > 420);
+    window.addEventListener("scroll", toggleBackToTop, { passive: true });
+    toggleBackToTop();
+    backToTop.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+    );
 });

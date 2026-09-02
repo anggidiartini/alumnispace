@@ -1,726 +1,627 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JejakKeluarga - Platform Alumni SMA Ceria</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alumni Connect</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
 <body>
-
-    <header class="header-nav" id="mainHeader">
-        <div class="nav-container">
-            <div class="logo-brand">
-                <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                <span class="brand-name">Jejak<span class="highlight">Keluarga</span></span>
+  <div class="page-wrap">
+    <header class="sticky top-0 z-50 border-b border-blue-100 bg-[#fffdf7]/95 backdrop-blur">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 md:px-8" aria-label="Navigasi utama">
+        <a href="#beranda" class="js-nav-link focus-ring flex items-center gap-2 rounded-xl" data-target="#beranda">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-[#2e72ec] text-lg text-white shadow-sm logo-spin">✦</span>
+          <span class="font-bold tracking-tight text-[#153563]">Alumni Connect</span>
+        </a>
+        <div class="desktop-nav flex items-center gap-1 text-sm font-semibold">
+          <div class="nav-drop relative">
+            <button class="focus-ring nav-link flex items-center gap-1 rounded-lg px-3 py-2 text-[#153563]" type="button" data-dropdown aria-expanded="false" aria-controls="beranda-menu">
+              <span>Beranda</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </button>
+            <div id="beranda-menu" class="drop-menu absolute left-0 top-full mt-2 w-44 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
+              <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#tentang" data-target="#tentang">Tentang</a>
+              <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#statistik" data-target="#statistik">Statistik</a>
             </div>
-
-            <nav class="nav-links" id="navLinks">
-    <!-- 1. Beranda / Profil -->
-    <div class="dropdown">
-        <a href="#beranda" class="nav-item drop-btn">Beranda / Profil <i class="fa-solid fa-chevron-down"></i></a>
-        <ul class="dropdown-menu">
-            <li><a href="#tentang">Tentang</a></li>
-            <li><a href="#angka">Statistik</a></li>
-        </ul>
-    </div>
-
-    <!-- 2. Komunitas -->
-    <div class="dropdown">
-        <a href="#komunitas" class="nav-item drop-btn">Komunitas <i class="fa-solid fa-chevron-down"></i></a>
-        <ul class="dropdown-menu">
-            <li><a href="#alumni">Alumni</a></li>
-            <li><a href="#testimoni">Testimoni</a></li>
-        </ul>
-    </div>
-
-    <!-- 3. Media & Berita -->
-    <div class="dropdown">
-        <a href="#media" class="nav-item drop-btn">Media & Berita <i class="fa-solid fa-chevron-down"></i></a>
-        <ul class="dropdown-menu">
-            <li><a href="#artikel">Artikel</a></li>
-            <li><a href="#galeri">Galeri</a></li>
-            <li><a href="#album">Album</a></li>
-        </ul>
-    </div>
-
-    <!-- 4. Informasi -->
-    <div class="dropdown">
-        <a href="#informasi" class="nav-item drop-btn">Informasi <i class="fa-solid fa-chevron-down"></i></a>
-        <ul class="dropdown-menu">
-            <li><a href="#lowongan">Lowongan</a></li>
-            <li><a href="#event">Event</a></li>
-        </ul>
-    </div>
-</nav>
-
-            <div class="auth-action">
-                <div id="loggedOutState">
-                    <a href="{{ route('login') }}" class="btn-login" id="loginBtn">
-                        <i class="fa-solid fa-right-to-bracket"></i> Masuk
-                    </a>
-                </div>
-                <div id="loggedInState" class="hidden">
-                    <div class="user-profile-badge" id="userProfileDropdown">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="Avatar" class="avatar-img">
-                        <span class="user-name">Kanya Salsabila</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="user-dropdown-menu" id="userDropdownMenu">
-                        <a href="#profil-saya"><i class="fa-solid fa-user"></i> Profil Saya</a>
-                        <a href="#pengaturan"><i class="fa-solid fa-gear"></i> Pengaturan</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" id="logoutBtn" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
-                    </div>
-                </div>
-                <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+          </div>
+          <div class="nav-drop relative">
+            <button class="focus-ring nav-link flex items-center gap-1 rounded-lg px-3 py-2 text-[#153563]" type="button" data-dropdown aria-expanded="false" aria-controls="community-menu">
+              <span>Komunitas</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </button>
+            <div id="community-menu" class="drop-menu absolute left-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
+              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">
+                <span>Alumni</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+              </a>
+              <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#testimoni" data-target="#testimoni">Testimoni</a>
             </div>
+          </div>
+          <div class="nav-drop relative">
+            <button class="focus-ring nav-link flex items-center gap-1 rounded-lg px-3 py-2 text-[#153563]" type="button" data-dropdown aria-expanded="false" aria-controls="media-menu">
+              <span>Media</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </button>
+            <div id="media-menu" class="drop-menu absolute left-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
+              <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
+              <a class="js-nav-link focus-ring block rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
+              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto">
+                <span>Album</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+              </a>
+            </div>
+          </div>
+          <div class="nav-drop relative">
+            <button class="focus-ring nav-link flex items-center gap-1 rounded-lg px-3 py-2 text-[#153563]" type="button" data-dropdown aria-expanded="false" aria-controls="info-menu">
+              <span>Informasi</span><i data-lucide="chevron-down" class="h-4 w-4"></i>
+            </button>
+            <div id="info-menu" class="drop-menu absolute right-0 top-full mt-2 w-52 rounded-2xl border border-blue-100 bg-white p-2 shadow-xl">
+              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja">
+                <span>Lowongan</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+              </a>
+              <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event">
+                <span>Event</span><i data-lucide="lock" class="h-3.5 w-3.5 text-[#2e72ec]"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div id="guest-actions" class="flex items-center gap-2">
+            <button id="open-login" type="button" class="focus-ring rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">Login</button>
+          </div>
+          <div id="user-actions" class="hidden items-center gap-2">
+            <span class="hidden items-center gap-2 rounded-xl bg-[#eaf3ff] px-3 py-2 text-sm font-bold text-[#153563] sm:flex">
+              <span id="user-avatar" class="grid h-7 w-7 place-items-center rounded-full bg-[#2e72ec] text-xs text-white">A</span>
+              <span id="user-email-label">Alumni</span>
+            </span>
+            <button id="logout-btn" type="button" class="focus-ring rounded-xl border-2 border-[#2e72ec] px-3 py-2.5 text-sm font-bold text-[#2e72ec] transition hover:-translate-y-0.5" title="Keluar">
+              <i data-lucide="log-out" class="h-4 w-4"></i>
+            </button>
+          </div>
+          <button id="mobile-toggle" class="mobile-toggle focus-ring rounded-xl p-2 text-[#153563]" type="button" aria-label="Buka menu" aria-expanded="false">
+            <i data-lucide="menu" class="h-6 w-6"></i>
+          </button>
+        </div>
+      </nav>
+      <div id="mobile-nav" class="mobile-nav border-t border-blue-100 bg-white px-5">
+        <div class="grid gap-1 py-4 text-sm font-semibold">
+          <p class="mobile-group-label">Beranda</p>
+          <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#tentang" data-target="#tentang">Tentang</a>
+          <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#statistik" data-target="#statistik">Statistik</a>
+          <p class="mobile-group-label">Komunitas</p>
+          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni"><span>Alumni</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#testimoni" data-target="#testimoni">Testimoni</a>
+          <p class="mobile-group-label">Media</p>
+          <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
+          <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
+          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#album" data-target="#album" data-auth-link data-auth-label="Album Foto"><span>Album</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          <p class="mobile-group-label">Informasi</p>
+          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja"><span>Lowongan</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event"><span>Event</span><i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i></a>
+          <div class="mt-2 border-t border-blue-100 pt-3">
+            <button id="mobile-open-login" type="button" class="focus-ring w-full rounded-xl bg-[#2e72ec] px-4 py-3 text-sm font-bold text-white">Login</button>
+            <button id="mobile-logout-btn" type="button" class="focus-ring hidden w-full items-center justify-center gap-2 rounded-xl border-2 border-[#2e72ec] px-4 py-3 text-sm font-bold text-[#2e72ec]">
+              <i data-lucide="log-out" class="h-4 w-4"></i> Keluar
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main class="main-content-wrapper">
-
-        <div id="landingView" class="view-section active-view">
-
-            <section class="hero-section" id="hero">
-
-                <div class="hero-blob blob-1"></div>
-    <div class="hero-blob blob-2"></div>
-    <div class="container hero-grid">
-        <!-- Hapus data-aos="fade-right" di sini -->
-        <div class="hero-text">
-            <span class="badge-tag">✨ Platform Alumni Generasi Baru</span>
-            <h1>
-                Siap Bernostalgia <br>
-                dan <span class="badge-capsule">Cerita Baru</span> <br>
-                Lagi?
-            </h1>
-            <p class="hero-desc">
-                Selamat datang di <span class="highlight-box">markas digital kita tercinta!</span> Tempat paling pas buat <span class="highlight-box">temu kangen,</span> intip kabar terbaru teman seangkatan, dan saling dukung buat <span class="highlight-box">melangkah lebih jauh.</span>
-            </p>
-            <div class="hero-buttons">
-                <button class="btn-primary-glow" id="heroLoginTrigger">Gabung Sekarang <i class="fa-solid fa-arrow-right"></i></button>
-                <a href="#tentang" class="btn-secondary-outline">Pelajari Dulu <i class="fa-solid fa-compass"></i></a>
+    <main>
+      <section id="beranda" class="grid-paper relative isolate overflow-hidden">
+        <div class="blob blob-drift absolute -left-20 top-12 h-56 w-56 bg-[#ffd9e7] opacity-80"></div>
+        <div class="absolute right-8 top-16 text-4xl text-[#f2b600] spin-slow">✦</div>
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
+          <div class="relative z-10 reveal">
+            <p class="mb-4 inline-flex rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563]">✦ Ruang hangat untuk kita</p>
+            <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">Satu komunitas, banyak cerita</h1>
+            <p class="mt-6 max-w-lg text-lg leading-relaxed text-[#355277]">Tempat pulang untuk terhubung, bertukar kabar, dan tumbuh bersama alumni lintas angkatan.</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a class="js-nav-link focus-ring rounded-2xl bg-[#2e72ec] px-5 py-3.5 font-bold text-white shadow-lg transition hover:-translate-y-1" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Jelajahi Komunitas</a>
+              <a class="js-nav-link focus-ring rounded-2xl border-2 bg-white px-5 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="#testimoni" data-target="#testimoni">Bagikan Cerita</a>
             </div>
-            <div class="hero-avatars">
-                <div class="avatar-group">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="">
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="">
+            <div class="mt-9 flex items-center gap-3">
+              <div class="flex -space-x-2" aria-label="Avatar komunitas">
+                <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#ffafca] text-xs font-bold">NA</span>
+                <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#ffe88b] text-xs font-bold">RY</span>
+                <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#a8d3ff] text-xs font-bold">DP</span>
+              </div>
+              <p class="text-sm font-medium text-[#355277]">12.000+ teman sudah terhubung</p>
+            </div>
+          </div>
+          <div class="relative mx-auto w-full max-w-lg reveal" style="animation-delay:.15s">
+            <div class="checker blob aspect-square p-7 shadow-[0_24px_55px_rgba(31,93,182,.16)]">
+              <div class="relative h-full overflow-hidden rounded-[2rem] bg-[#2e72ec] p-6">
+                <span class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#fff0a9]"></span>
+                <span class="absolute -bottom-12 -left-8 h-40 w-40 rounded-full bg-[#ffb8d0]"></span>
+                <div class="relative flex h-full flex-col justify-between">
+                  <div class="flex items-start justify-between">
+                    <span class="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#153563]">ALUMNI STORY</span>
+                    <span class="text-3xl text-[#fff0a9]">✦</span>
+                  </div>
+                  <div class="rounded-[1.5rem] bg-white p-5 shadow-xl">
+                    <div class="flex items-center gap-3">
+                      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-[#ffd9e7] font-bold">SA</span>
+                      <div>
+                        <p class="font-bold text-[#153563]">Salma Aulia</p>
+                        <p class="mt-0.5 text-sm text-[#355277]">Angkatan 2016 · Product Designer</p>
+                      </div>
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                      <span class="h-2 flex-1 rounded-full bg-[#a8d3ff]"></span><span class="h-2 w-12 rounded-full bg-[#fff0a9]"></span>
+                    </div>
+                  </div>
+                  <p class="max-w-[14rem] text-2xl font-bold leading-tight text-white">Kenangan lama, koneksi baru.</p>
                 </div>
-                <p>Bergabung dengan <strong>2,500+</strong> alumni aktif!</p>
+              </div>
             </div>
+            <div class="floaty absolute -left-4 bottom-7 rounded-2xl bg-white px-4 py-3 shadow-lg">
+              <p class="text-sm font-bold text-[#153563]">💌 Ada 8 cerita baru</p>
+            </div>
+            <div class="floaty-slow absolute -right-4 top-10 grid h-16 w-16 place-items-center rounded-full border-4 border-white bg-[#ffb8d0] text-2xl shadow-lg">✿</div>
+          </div>
         </div>
-                   <!-- AREA KANAN: Tempat 3 aset dimasukkan di dalam hero-image-wrapper -->
-                    <div class="hero-image-wrapper">
-                        <div class="hero-right-container">
-                           <div class="hero-assets-wrapper">
-    <!-- Aset 1 -->
-    <img src="{{ asset('assets/images/polaroidputih.png') }}"
-         alt="Hero Asset 1"
-         class="hero-asset asset-1">
+      </section>
 
-    <!-- Aset 2 -->
-    <img src="{{ asset('assets/images/foto-home.png') }}"
-         alt="Hero Asset 2"
-         class="hero-asset asset-2">
-
-    <!-- Aset 3 -->
-    <img src="{{ asset('assets/images/polkadot.png') }}"
-         alt="Hero Asset 3"
-         class="hero-asset asset-3">
-</div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-
-
-            <section class="section-padding bg-light-tint" id="tentang">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Kenalin Dulu, Nih..</span>
-                        <h2>Bukan Sekadar Grup, Ini  <span class="highlight">Keluarga Kedua Kita!</span></h2>
-                        <p>Website ini dibuat khusus buat kita semua yang rindu masa-masa sekolah/kuliah dulu. Dari yang awalnya cuma mau nanya "Eh, sekarang sibuk apa?", sampai bisa kolaborasi bareng bikin project keren. Yuk, bikin jejaring silaturahmi kita makin erat dan seru di sini!</p>
-                    </div>
-                    <div class="grid-3 mt-5">
-                        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="feature-icon bg-blue-light"><i class="fa-solid fa-network-wired text-blue"></i></div>
-                            <h3>Networking Gampang</h3>
-                            <p>Temukan alumni satu almamater yang berkarier di industri impianmu. Tanya-tanya info loker jadi lebih gampang.</p>
-                        </div>
-                        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="feature-icon bg-yellow-light"><i class="fa-solid fa-calendar-star text-yellow"></i></div>
-                            <h3>Event & Reuni Seru</h3>
-                            <p>Ikuti berbagai keseruan mulai dari ngobrol santai, webinar karir, sampai reuni akbar sekolah yang anti-bosan.</p>
-                        </div>
-                        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="feature-icon bg-pink-light"><i class="fa-solid fa-bullhorn text-pink"></i></div>
-                            <h3>Update Kabar & Kolaborasi</h3>
-                            <p>Jangan sampai ketinggalan prestasi teman-temanmu. Kolaborasi bikin project bareng jadi makin sat-set.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding stats-section" id="angka">
-    <div class="container">
-        <div class="stats-grid" data-aos="zoom-in">
-            <div class="stat-box">
-                <h3 class="counter" data-target="2540">0</h3>
-                <p>Total Alumni Terdaftar</p>
+      <section id="tentang" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-center">
+          <div class="relative reveal-onscroll">
+            <div class="blob aspect-[4/3] bg-[#ffd9e7] p-5">
+              <div class="flex h-full flex-col justify-between rounded-[2rem] bg-[#153563] p-7 text-white">
+                <span class="text-4xl text-[#fff0a9]">☻</span>
+                <p class="max-w-[13rem] text-3xl font-bold leading-tight">Dari kampus, untuk selamanya.</p>
+                <div class="flex gap-2"><span class="h-2 w-10 rounded-full bg-[#ffb8d0]"></span><span class="h-2 w-16 rounded-full bg-[#fff0a9]"></span></div>
+              </div>
             </div>
-            <div class="stat-box">
-                <h3 class="counter" data-target="45">0</h3>
-                <p>Angkatan Sekolah</p>
+            <div class="absolute -bottom-5 -right-3 rotate-6 rounded-2xl bg-[#fff0a9] px-4 py-3 font-bold shadow-md wiggle">✦ hello!</div>
+          </div>
+          <div class="reveal-onscroll" style="transition-delay:.1s">
+            <p class="mb-4 inline-flex rounded-full bg-[#ffd9e7] px-4 py-2 text-sm font-bold text-[#153563]">Tentang kami</p>
+            <h2 class="text-4xl font-bold leading-tight text-[#153563] md:text-5xl">Jalin kembali koneksi yang berarti.</h2>
+            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[#355277]">Alumni Connect adalah ruang komunitas yang memudahkanmu menemukan teman lama, membuka peluang baru, dan merayakan setiap langkah bersama.</p>
+            <div class="mt-8 grid gap-4 sm:grid-cols-3">
+              <article class="pop-card rounded-[1.5rem] bg-[#eaf3ff] p-5">
+                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#a8d3ff] text-xl">⌁</span>
+                <h3 class="text-xl font-bold text-[#153563]">Terhubung</h3>
+                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Sapa teman lintas angkatan.</p>
+              </article>
+              <article class="pop-card rounded-[1.5rem] bg-[#fffbed] p-5" style="transition-delay:.05s">
+                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">↗</span>
+                <h3 class="text-xl font-bold text-[#153563]">Bertumbuh</h3>
+                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Temukan peluang yang tepat.</p>
+              </article>
+              <article class="pop-card rounded-[1.5rem] bg-[#fff5f8] p-5" style="transition-delay:.1s">
+                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#ffd9e7] text-xl">♡</span>
+                <h3 class="text-xl font-bold text-[#153563]">Berbagi</h3>
+                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Rayakan cerita dan karya.</p>
+              </article>
             </div>
-            <div class="stat-box">
-                <h3 class="counter" data-target="180">0</h3>
-                <p>Lowongan Pekerjaan</p>
-            </div>
-            <div class="stat-box">
-                <h3 class="counter" data-target="35">0</h3>
-                <p>Negara Perantauan</p>
-            </div>
+          </div>
         </div>
-    </div>
-</section>
+      </section>
 
-            <section class="section-padding" id="galeri">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Momen Seru</span>
-                        <h2>Galeri <span class="highlight">Alumni Ceria</span></h2>
-                        <p>Kilas balik keseruan kumpul-kumpul dari masa sekolah sampai sekarang.</p>
-                    </div>
-                    <div class="gallery-grid mt-5">
-    <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500" alt="Gallery 1">
-                </div>
-                <div class="gallery-content">
-                    <h5>Reuni Akbar 2025</h5>
-                    <p>GBK Senayan</p>
-                </div>
+      <section id="statistik" class="bg-[#eaf3ff] py-20">
+        <div class="mx-auto max-w-7xl px-5 md:px-8">
+          <div class="mb-9 flex flex-wrap items-end justify-between gap-4 reveal-onscroll">
+            <div>
+              <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Angka yang bikin senyum</p>
+              <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kita tumbuh bareng.</h2>
             </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500" alt="Gallery 2">
-                </div>
-                <div class="gallery-content">
-                    <h5>Gathering Angkatan 2017</h5>
-                    <p>Cafe Rooftop SCBD</p>
-                </div>
-            </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=500" alt="Gallery 3">
-                </div>
-                <div class="gallery-content">
-                    <h5>Webinar Karir Tech</h5>
-                    <p>Online Zoom Live</p>
-                </div>
-            </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="400">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500" alt="Gallery 4">
-                </div>
-                <div class="gallery-content">
-                    <h5>Charity Run Alumni</h5>
-                    <p>Monas Jakarta</p>
-                </div>
-            </div>
+            <p class="max-w-sm text-sm leading-relaxed text-[#355277]">Data contoh komunitas yang bisa kamu sesuaikan kapan saja.</p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <article class="stat-card reveal-onscroll rounded-[1.75rem] bg-white p-6" data-count="12000" data-suffix="+">
+              <p class="stat-number text-4xl font-bold text-[#2e72ec]">0</p>
+              <p class="mt-2 font-medium text-[#153563]">Alumni terhubung</p>
+            </article>
+            <article class="stat-card reveal-onscroll rounded-[1.75rem] bg-[#fff0a9] p-6" style="transition-delay:.05s" data-count="48" data-suffix="">
+              <p class="stat-number text-4xl font-bold text-[#153563]">0</p>
+              <p class="mt-2 font-medium text-[#153563]">Angkatan</p>
+            </article>
+            <article class="stat-card reveal-onscroll rounded-[1.75rem] bg-[#ffd9e7] p-6" style="transition-delay:.1s" data-count="320" data-suffix="+">
+              <p class="stat-number text-4xl font-bold text-[#153563]">0</p>
+              <p class="mt-2 font-medium text-[#153563]">Cerita dibagikan</p>
+            </article>
+            <article class="stat-card reveal-onscroll rounded-[1.75rem] bg-[#cce8de] p-6" style="transition-delay:.15s" data-count="85" data-suffix="">
+              <p class="stat-number text-4xl font-bold text-[#153563]">0</p>
+              <p class="mt-2 font-medium text-[#153563]">Event seru</p>
+            </article>
+          </div>
         </div>
+      </section>
 
-        <!-- BARIS KEDUA (Kuning, Biru, Kuning, Biru) -->
-        <div class="gallery-grid mt-4">
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500" alt="Gallery 5">
-                </div>
-                <div class="gallery-content">
-                    <h5>Diskusi Santai & Mentoring</h5>
-                    <p>Kantin Kampus Lama</p>
-                </div>
+      <section id="locked-teaser" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="reveal-onscroll rounded-[2.5rem] border-2 border-dashed border-[#a8d3ff] bg-[#f8fbff] p-6 md:p-10">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p class="mb-3 inline-flex items-center gap-2 rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563]"><i data-lucide="lock" class="h-4 w-4"></i> Khusus alumni terdaftar</p>
+              <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">4 fitur seru menanti setelah kamu login.</h2>
+              <p class="mt-2 max-w-lg text-sm leading-relaxed text-[#355277]">Direktori alumni, album kenangan, lowongan, dan agenda event hanya bisa dibuka oleh alumni yang sudah login.</p>
             </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=500" alt="Gallery 6">
-                </div>
-                <div class="gallery-content">
-                    <h5>Workshop UI/UX Alumni</h5>
-                    <p>Coworking Space Sudirman</p>
-                </div>
+            <button id="teaser-login-btn" type="button" class="focus-ring shrink-0 rounded-2xl bg-[#2e72ec] px-5 py-3.5 font-bold text-white shadow-lg transition hover:-translate-y-1">Login sekarang</button>
+          </div>
+          <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="teaser-card rounded-[1.5rem] bg-white p-5 shadow-sm">
+              <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#a8d3ff] text-xl">👥</span>
+              <h3 class="mt-4 font-bold text-[#153563]">Direktori Alumni</h3>
+              <p class="mt-1 text-sm text-[#355277]">Cari & sapa teman seangkatan.</p>
+              <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="300">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500" alt="Gallery 7">
-                </div>
-                <div class="gallery-content">
-                    <h5>Pameran UMKM Alumni</h5>
-                    <p>Grand Hall Jakarta</p>
-                </div>
+            <div class="teaser-card rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.05s">
+              <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#ffd9e7] text-xl">🖼️</span>
+              <h3 class="mt-4 font-bold text-[#153563]">Album Foto</h3>
+              <p class="mt-1 text-sm text-[#355277]">Kenangan reuni & kegiatan.</p>
+              <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="gallery-card" data-aos="fade-up" data-aos-delay="400">
-                <div class="gallery-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500" alt="Gallery 8">
-                </div>
-                <div class="gallery-content">
-                    <h5>Buka Bersama Lintas Angkatan</h5>
-                    <p>Hotel Sultan Jakarta</p>
-                </div>
+            <div class="teaser-card rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.1s">
+              <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">💼</span>
+              <h3 class="mt-4 font-bold text-[#153563]">Lowongan Kerja</h3>
+              <p class="mt-1 text-sm text-[#355277]">Peluang karier dari sesama alumni.</p>
+              <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
+            <div class="teaser-card rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.15s">
+              <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#cce8de] text-xl">📅</span>
+              <h3 class="mt-4 font-bold text-[#153563]">Agenda Event</h3>
+              <p class="mt-1 text-sm text-[#355277]">Meetup & workshop terdekat.</p>
+              <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
+            </div>
+          </div>
         </div>
+      </section>
 
-
-
-    </div>
-</section>
-            <section class="section-padding" id="artikel">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Bacaan Seru</span>
-                        <h2>Artikel & <span class="highlight">Kabar Almamater</span></h2>
-                        <p>Update info terkini seputar sekolah dan tips dunia kerja.</p>
-                    </div>
-                    <div class="grid-3 mt-5">
-                        <div class="article-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="article-img">
-                                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500" alt="">
-                                <span class="article-tag">Sekolah</span>
-                            </div>
-                            <div class="article-body">
-                                <small><i class="fa-regular fa-calendar"></i> 28 Agustus 2026</small>
-                                <h4>Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</h4>
-                                <p>Fasilitas makin canggih buat adik-adik kelas belajar coding dan AI di sekolah.</p>
-                                <a href="#" class="read-more">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="article-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="article-img">
-                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500" alt="">
-                                <span class="article-tag">Karier</span>
-                            </div>
-                            <div class="article-body">
-                                <small><i class="fa-regular fa-calendar"></i> 25 Agustus 2026</small>
-                                <h4>Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</h4>
-                                <p>Bongkar rahasia HRD saat menyaring CV fresh graduate berpengalaman organisasi.</p>
-                                <a href="#" class="read-more">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                        <div class="article-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="article-img">
-                                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500" alt="">
-                                <span class="article-tag">Reuni</span>
-                            </div>
-                            <div class="article-body">
-                                <small><i class="fa-regular fa-calendar"></i> 20 Agustus 2026</small>
-                                <h4>Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</h4>
-                                <p>Panitia angkatan 2010 siap mengguncang stadion utama dengan konsep festival musik.</p>
-                                <a href="#" class="read-more">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+      <section id="alumni" class="auth-section mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
+          <div>
+            <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Direktori alumni</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Temukan teman seperjalanan.</h2>
+          </div>
+          <p class="max-w-sm text-sm leading-relaxed text-[#355277]">Profil berikut adalah konten demo yang mudah diganti.</p>
         </div>
-
-
-        <div id="homeView" class="view-section">
-
-            <section class="user-welcome-banner">
-                <div class="container">
-                    <div class="welcome-banner-content" data-aos="fade-down">
-                        <div class="welcome-text">
-                            <span class="badge-tag">✨ Status: Terverifikasi Alumni</span>
-                            <h1>Hai, Kanya Salsabila! 👋</h1>
-                            <p>Selamat datang kembali di dashboard utama. Cek lowongan kerja terbaru atau sapa teman seangkatanmu hari ini!</p>
-                        </div>
-                        <div class="welcome-quick-stats">
-                            <div class="quick-pill"><i class="fa-solid fa-fire text-orange"></i> <strong>12</strong> Pesan Baru</div>
-                            <div class="quick-pill"><i class="fa-solid fa-bell text-yellow"></i> <strong>3</strong> Event Mendatang</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding" id="lowongan">
-                <div class="container">
-                    <div class="section-header-flex">
-                        <div>
-                            <span class="badge-tag">Peluang Karir</span>
-                            <h2>Bursa Lowongan & <span class="highlight">Magang</span></h2>
-                        </div>
-                        <button class="btn-primary-glow" id="postJobModalBtn"><i class="fa-solid fa-plus"></i> Pasang Loker</button>
-                    </div>
-
-                    <div class="lowongan-layout mt-4">
-                        <div class="filter-sidebar" data-aos="fade-right">
-                            <div class="filter-box">
-                                <h3>Cari Posisi</h3>
-                                <div class="search-input-group">
-                                    <i class="fa-solid fa-search"></i>
-                                    <input type="text" id="jobSearchInput" placeholder="Ketik skill / judul...">
-                                </div>
-                            </div>
-                            <div class="filter-box mt-4">
-                                <h3>Kategori Loker</h3>
-                                <div class="filter-categories" id="jobCategories">
-                                    <button class="filter-btn active" data-filter="all">Semua Loker (10)</button>
-                                    <button class="filter-btn" data-filter="Full-Time">Full-Time</button>
-                                    <button class="filter-btn" data-filter="Remote">Remote / WFH</button>
-                                    <button class="filter-btn" data-filter="Freelance">Freelance / Project</button>
-                                    <button class="filter-btn" data-filter="Magang">Magang / Internship</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="job-cards-grid" id="jobCardsContainer">
-                            <div class="job-card-item" data-category="Full-Time" data-aos="fade-up" data-aos-delay="100">
-                                <div class="job-card-header">
-                                    <div class="company-badge-icon">DM</div>
-                                    <div>
-                                        <h4>Digital Marketing Specialist</h4>
-                                        <p>Nusantara Media • (Kak Bayu, 2016)</p>
-                                    </div>
-                                    <span class="badge-label tag-lead">Tech Lead</span>
-                                </div>
-                                <div class="job-tags">
-                                    <span class="tag-pill">Full-Time</span>
-                                    <span class="tag-pill">Remote</span>
-                                    <span class="tag-pill">Ads & Analytics</span>
-                                </div>
-                                <p class="job-desc">Mau ngebantu brand lokal milik alumni melesat tinggi lewat strategi iklan digital dan analisis data yang ciamik? Posisi ini pas banget buat kamu yang hobi eksperimen campaign dan baca tren market terkini!</p>
-                                <div class="job-footer">
-                                    <div>
-                                        <small>Estimasi Gaji:</small>
-                                        <strong>Rp 6.0M - 8.5M / bln</strong>
-                                    </div>
-                                    <button class="btn-lamar" onclick="alert('Lamaran terkirim ke Kak Bayu!')">Lamar Sekarang</button>
-                                </div>
-                            </div>
-
-                            <div class="job-card-item" data-category="Magang" data-aos="fade-up" data-aos-delay="200">
-                                <div class="job-card-header">
-                                    <div class="company-badge-icon bg-pink-light text-pink">GI</div>
-                                    <div>
-                                        <h4>Graphic Design Intern</h4>
-                                        <p>Matchora Studio • (Kak Dewi, 2020)</p>
-                                    </div>
-                                </div>
-                                <div class="job-tags">
-                                    <span class="tag-pill">Magang</span>
-                                    <span class="tag-pill">Hybrid</span>
-                                    <span class="tag-pill">Illustrator</span>
-                                </div>
-                                <p class="job-desc">Buat adik-adik tingkat atau fresh graduate yang mau nyari pengalaman nyata di industri kreatif, yuk magang bareng kita! Bakalan dibimbing langsung cara bikin visual brand produk makanan dan minuman yang gemesin.</p>
-                                <div class="job-footer">
-                                    <div>
-                                        <small>Insentif:</small>
-                                        <strong>Rp 2.0M - 3.0M / bln</strong>
-                                    </div>
-                                    <button class="btn-lamar btn-daftar" onclick="alert('Pendaftaran magang berhasil dikirim!')">Daftar</button>
-                                </div>
-                            </div>
-
-                            <div class="job-card-item" data-category="Full-Time" data-aos="fade-up" data-aos-delay="300">
-                                <div class="job-card-header">
-                                    <div class="company-badge-icon bg-blue-light text-blue">SF</div>
-                                    <div>
-                                        <h4>Senior Fullstack Engineer</h4>
-                                        <p>Sinergi Teknologi • (Kak Fajar, 2015)</p>
-                                    </div>
-                                    <span class="badge-label tag-lead">Tech Lead</span>
-                                </div>
-                                <div class="job-tags">
-                                    <span class="tag-pill">Full-Time</span>
-                                    <span class="tag-pill">Remote</span>
-                                    <span class="tag-pill">Laravel & Vue</span>
-                                </div>
-                                <p class="job-desc">Punya pengalaman matang di framework Laravel dan terbiasa merancang arsitektur sistem skala besar? Senior kita lagi bangun tim impian dan butuh tangan kanan handal buat nakhodain project-project skala nasional!</p>
-                                <div class="job-footer">
-                                    <div>
-                                        <small>Estimasi Gaji:</small>
-                                        <strong>Rp 10M - 14M / bln</strong>
-                                    </div>
-                                    <button class="btn-lamar" onclick="alert('CV Anda telah diteruskan ke Kak Fajar!')">Ambil</button>
-                                </div>
-                            </div>
-
-                            <div class="job-card-item" data-category="Freelance" data-aos="fade-up" data-aos-delay="400">
-                                <div class="job-card-header">
-                                    <div class="company-badge-icon bg-yellow-light text-yellow">PH</div>
-                                    <div>
-                                        <h4>Podcast Host & Copywriter</h4>
-                                        <p>Ngobrol Bareng Alumni • (Tim Media)</p>
-                                    </div>
-                                    <span class="badge-label tag-kreatif">Kreatif & Seru</span>
-                                </div>
-                                <div class="job-tags">
-                                    <span class="tag-pill">Freelance</span>
-                                    <span class="tag-pill">Studio Jakarta</span>
-                                    <span class="tag-pill">Public Speaking</span>
-                                </div>
-                                <p class="job-desc">Pede ngomong di depan kamera/mikrofon, punya suara renyah, dan hobi ngulik cerita unik dari para alumni sukses? Gabung jadi host program bincang-bincang santai kita yuk! Pastinya seru dan nambah relasi luas.</p>
-                                <div class="job-footer">
-                                    <div>
-                                        <small>Sistem Bayar:</small>
-                                        <strong>Per Episode</strong>
-                                    </div>
-                                    <button class="btn-lamar btn-demo" onclick="alert('Silakan upload link demo suara Anda.')">Kirim Demo</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding bg-light-tint" id="alumni">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Direktori Almamater</span>
-                        <h2>Temukan <span class="highlight">Teman Sekelasmu</span></h2>
-                        <p>Cari berdasarkan angkatan, kota domisili, atau profesi saat ini.</p>
-                    </div>
-
-                    <div class="alumni-search-bar mt-4" data-aos="fade-up">
-                        <input type="text" id="alumniSearch" placeholder="Cari nama alumni, angkatan (misal: 2017), atau profesi...">
-                        <select id="generationFilter">
-                            <option value="">Semua Angkatan</option>
-                            <option value="2022">Angkatan 2022</option>
-                            <option value="2020">Angkatan 2020</option>
-                            <option value="2018">Angkatan 2018</option>
-                            <option value="2015">Angkatan 2015</option>
-                            <option value="2010">Angkatan 2010</option>
-                        </select>
-                        <button class="btn-primary-glow" id="searchAlumniBtn"><i class="fa-solid fa-search"></i> Cari</button>
-                    </div>
-
-                    <div class="grid-4 mt-5" id="alumniGrid">
-                        <div class="alumni-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="alumni-avatar-wrap">
-                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" alt="">
-                                <span class="status-dot online"></span>
-                            </div>
-                            <h4>Kanya Salsabila</h4>
-                            <p class="alumni-role">UI/UX Lead Designer</p>
-                            <span class="badge-angkatan">Angkatan 2019</span>
-                            <div class="alumni-socials">
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-                            </div>
-                            <button class="btn-chat-alumni" onclick="alert('Membuka ruang obrolan dengan Kanya!')"><i class="fa-solid fa-comment-dots"></i> Sapa</button>
-                        </div>
-
-                        <div class="alumni-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="alumni-avatar-wrap">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300" alt="">
-                                <span class="status-dot online"></span>
-                            </div>
-                            <h4>Rangga Pratama</h4>
-                            <p class="alumni-role">Software Engineer</p>
-                            <span class="badge-angkatan">Angkatan 2015</span>
-                            <div class="alumni-socials">
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                                <a href="#"><i class="fa-brands fa-github"></i></a>
-                                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-                            </div>
-                            <button class="btn-chat-alumni" onclick="alert('Membuka ruang obrolan dengan Rangga!')"><i class="fa-solid fa-comment-dots"></i> Sapa</button>
-                        </div>
-
-                        <div class="alumni-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="alumni-avatar-wrap">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300" alt="">
-                                <span class="status-dot offline"></span>
-                            </div>
-                            <h4>Nabila Zahra</h4>
-                            <p class="alumni-role">Product Manager</p>
-                            <span class="badge-angkatan">Angkatan 2018</span>
-                            <div class="alumni-socials">
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-                            </div>
-                            <button class="btn-chat-alumni" onclick="alert('Membuka ruang obrolan dengan Nabila!')"><i class="fa-solid fa-comment-dots"></i> Sapa</button>
-                        </div>
-
-                        <div class="alumni-card" data-aos="fade-up" data-aos-delay="400">
-                            <div class="alumni-avatar-wrap">
-                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300" alt="">
-                                <span class="status-dot online"></span>
-                            </div>
-                            <h4>Dimas Anggara</h4>
-                            <p class="alumni-role">Content Creator & Founder</p>
-                            <span class="badge-angkatan">Angkatan 2020</span>
-                            <div class="alumni-socials">
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-                            </div>
-                            <button class="btn-chat-alumni" onclick="alert('Membuka ruang obrolan dengan Dimas!')"><i class="fa-solid fa-comment-dots"></i> Sapa</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding" id="event">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Agenda Mendatang</span>
-                        <h2>Event & <span class="highlight">Gathering Alumni</span></h2>
-                        <p>Catat tanggalnya dan jangan sampai ketinggalan keseruannya!</p>
-                    </div>
-
-                    <div class="grid-3 mt-5">
-                        <div class="event-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="event-date-badge">
-                                <span class="date-num">15</span>
-                                <span class="date-month">SEP 2026</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500" alt="Event">
-                            <div class="event-body">
-                                <span class="badge-tag">Webinar Karir</span>
-                                <h4>Ngobrol Santai: Menembus Karir Tech Global Tanpa Harus Kuliah IT</h4>
-                                <p><i class="fa-regular fa-clock"></i> 19:30 - 21:00 WIB via Zoom</p>
-                                <button class="btn-primary-glow w-100 mt-3" onclick="alert('Anda berhasil terdaftar di event ini!')">Ikuti Event</button>
-                            </div>
-                        </div>
-
-                        <div class="event-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="event-date-badge">
-                                <span class="date-num">28</span>
-                                <span class="date-month">SEP 2026</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500" alt="Event">
-                            <div class="event-body">
-                                <span class="badge-tag">Gathering Offline</span>
-                                <h4>Mini Reunion & Futsal Cup Antar Angkatan 2015-2020</h4>
-                                <p><i class="fa-regular fa-location-dot"></i> Lapangan Pancoran Soccer Field</p>
-                                <button class="btn-primary-glow w-100 mt-3" onclick="alert('Tiket kehadiran berhasil dipesan!')">Amankan Tiket</button>
-                            </div>
-                        </div>
-
-                        <div class="event-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="event-date-badge">
-                                <span class="date-num">10</span>
-                                <span class="date-month">OKT 2026</span>
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=500" alt="Event">
-                            <div class="event-body">
-                                <span class="badge-tag">Workshop</span>
-                                <h4>Mastering Personal Branding di LinkedIn & IG untuk Profesional</h4>
-                                <p><i class="fa-regular fa-clock"></i> 13:00 - 16:00 WIB • Co-working Space Jaksel</p>
-                                <button class="btn-primary-glow w-100 mt-3" onclick="alert('Pendaftaran workshop dikonfirmasi!')">Daftar Slot</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section-padding bg-light-tint" id="album">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Arsip Nostalgia</span>
-                        <h2>Album <span class="highlight">Kenangan SMA</span></h2>
-                        <p>Kumpulan foto jadok (jaman dulu) sewaktu kita masih seragam putih abu-abu.</p>
-                    </div>
-
-                    <div class="album-grid mt-5">
-                        <div class="album-item" data-aos="zoom-in" data-aos-delay="100">
-                            <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=500" alt="Album">
-                            <div class="album-caption">
-                                <h5>Upacara Bendera Senin Pagi</h5>
-                                <p>Angkatan 2018</p>
-                            </div>
-                        </div>
-                        <div class="album-item" data-aos="zoom-in" data-aos-delay="200">
-                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500" alt="Album">
-                            <div class="album-caption">
-                                <h5>Suasana Belajar di Kelas XII IPA 2</h5>
-                                <p>Angkatan 2019</p>
-                            </div>
-                        </div>
-                        <div class="album-item" data-aos="zoom-in" data-aos-delay="300">
-                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500" alt="Album">
-                            <div class="album-caption">
-                                <h5>Pensi Sekolah (Pentas Seni Akhir Tahun)</h5>
-                                <p>Semua Angkatan</p>
-                            </div>
-                        </div>
-                        <div class="album-item" data-aos="zoom-in" data-aos-delay="400">
-                            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=500" alt="Album">
-                            <div class="album-caption">
-                                <h5>Perpisahan & Lempar Toga</h5>
-                                <p>Angkatan 2017</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+        <div class="mt-8 flex flex-wrap gap-3 rounded-[1.5rem] border border-blue-100 bg-[#f8fbff] p-3 reveal-onscroll">
+          <label class="sr-only" for="year-filter">Filter angkatan</label>
+          <select id="year-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+            <option value="all">Semua angkatan</option>
+            <option value="2014">Angkatan 2014</option>
+            <option value="2016">Angkatan 2016</option>
+            <option value="2018">Angkatan 2018</option>
+          </select>
+          <label class="sr-only" for="field-filter">Filter bidang</label>
+          <select id="field-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+            <option value="all">Semua bidang</option>
+            <option value="teknologi">Teknologi</option>
+            <option value="kreatif">Kreatif</option>
+            <option value="sosial">Sosial</option>
+          </select>
+          <p class="self-center px-2 text-sm text-[#355277]">Pilih filter untuk menemukan orangmu.</p>
         </div>
+        <div id="alumni-list" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="alumni-card reveal-onscroll rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-sm" data-year="2014" data-field="teknologi">
+            <div class="flex items-start justify-between">
+              <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold">NA</span>
+              <span class="rounded-full bg-[#eaf3ff] px-3 py-1 text-xs font-bold">2014</span>
+            </div>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">Nadia Arum</h3>
+            <p class="mt-1 text-sm text-[#355277]">Software Engineer · Teknologi</p>
+            <p class="mt-3 text-sm font-medium text-[#153563]">📍 Jakarta</p>
+            <button class="demo-action focus-ring mt-5 w-full rounded-xl bg-[#eaf3ff] px-3 py-2.5 text-sm font-bold text-[#153563]" type="button">Lihat profil</button>
+          </article>
+          <article class="alumni-card reveal-onscroll rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-sm" style="transition-delay:.05s" data-year="2016" data-field="kreatif">
+            <div class="flex items-start justify-between">
+              <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#ffd9e7] font-bold">RA</span>
+              <span class="rounded-full bg-[#fff5f8] px-3 py-1 text-xs font-bold">2016</span>
+            </div>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">Raka Aditya</h3>
+            <p class="mt-1 text-sm text-[#355277]">Brand Strategist · Kreatif</p>
+            <p class="mt-3 text-sm font-medium text-[#153563]">📍 Bandung</p>
+            <button class="demo-action focus-ring mt-5 w-full rounded-xl bg-[#eaf3ff] px-3 py-2.5 text-sm font-bold text-[#153563]" type="button">Lihat profil</button>
+          </article>
+          <article class="alumni-card reveal-onscroll rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-sm" style="transition-delay:.1s" data-year="2018" data-field="sosial">
+            <div class="flex items-start justify-between">
+              <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#fff0a9] font-bold">DP</span>
+              <span class="rounded-full bg-[#fffbed] px-3 py-1 text-xs font-bold">2018</span>
+            </div>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">Dina Prameswari</h3>
+            <p class="mt-1 text-sm text-[#355277]">Program Manager · Sosial</p>
+            <p class="mt-3 text-sm font-medium text-[#153563]">📍 Surabaya</p>
+            <button class="demo-action focus-ring mt-5 w-full rounded-xl bg-[#eaf3ff] px-3 py-2.5 text-sm font-bold text-[#153563]" type="button">Lihat profil</button>
+          </article>
+          <article class="alumni-card reveal-onscroll rounded-[1.75rem] border border-blue-100 bg-white p-5 shadow-sm" style="transition-delay:.15s" data-year="2016" data-field="teknologi">
+            <div class="flex items-start justify-between">
+              <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#cce8de] font-bold">FK</span>
+              <span class="rounded-full bg-[#effaf5] px-3 py-1 text-xs font-bold">2016</span>
+            </div>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">Farhan Kurnia</h3>
+            <p class="mt-1 text-sm text-[#355277]">Data Analyst · Teknologi</p>
+            <p class="mt-3 text-sm font-medium text-[#153563]">📍 Yogyakarta</p>
+            <button class="demo-action focus-ring mt-5 w-full rounded-xl bg-[#eaf3ff] px-3 py-2.5 text-sm font-bold text-[#153563]" type="button">Lihat profil</button>
+          </article>
+        </div>
+        <p id="alumni-empty" class="mt-8 hidden rounded-2xl bg-[#fff5f8] p-5 text-center font-medium text-[#153563]">Belum ada alumni dengan filter ini. Coba pilihan lain, ya!</p>
+      </section>
 
+      <section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">
+        <span class="absolute left-8 top-8 text-5xl text-[#fff0a9] floaty-slow">✦</span>
+        <span class="absolute bottom-5 right-10 text-7xl text-[#ffb8d0] floaty">⌁</span>
+        <div class="mx-auto max-w-5xl px-5 text-center md:px-8">
+          <p class="mb-4 inline-flex rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563] reveal-onscroll">Cerita dari teman</p>
+          <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
+          <div class="relative mx-auto mt-10 max-w-3xl reveal-onscroll">
+            <article class="testimonial active rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
+              <p class="text-2xl font-bold leading-relaxed">"Lewat Alumni Connect, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek."</p>
+              <div class="mt-7 flex items-center gap-3">
+                <span class="grid h-11 w-11 place-items-center rounded-full bg-[#ffd9e7] font-bold">AL</span>
+                <p class="text-sm font-bold text-[#355277]">Alya Lestari · Angkatan 2015</p>
+              </div>
+            </article>
+            <article class="testimonial rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
+              <p class="text-2xl font-bold leading-relaxed">"Rasanya seperti pulang ke kampus, hanya saja sekarang kami datang membawa banyak cerita baru."</p>
+              <div class="mt-7 flex items-center gap-3">
+                <span class="grid h-11 w-11 place-items-center rounded-full bg-[#fff0a9] font-bold">IM</span>
+                <p class="text-sm font-bold text-[#355277]">Imam Mahendra · Angkatan 2012</p>
+              </div>
+            </article>
+            <article class="testimonial rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
+              <p class="text-2xl font-bold leading-relaxed">"Paling suka dengan event kecilnya—hangat, relevan, dan bikin semangat belajar lagi."</p>
+              <div class="mt-7 flex items-center gap-3">
+                <span class="grid h-11 w-11 place-items-center rounded-full bg-[#a8d3ff] font-bold">TS</span>
+                <p class="text-sm font-bold text-[#355277]">Tasya Sari · Angkatan 2019</p>
+              </div>
+            </article>
+            <div class="mt-6 flex justify-center gap-3">
+              <button id="prev-testimonial" class="focus-ring grid h-11 w-11 place-items-center rounded-full bg-white text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Testimoni sebelumnya"><i data-lucide="arrow-left" class="h-5 w-5"></i></button>
+              <button id="next-testimonial" class="focus-ring grid h-11 w-11 place-items-center rounded-full bg-[#ffb8d0] text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Testimoni berikutnya"><i data-lucide="arrow-right" class="h-5 w-5"></i></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="media" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
+          <div>
+            <p class="mb-3 inline-flex rounded-full bg-[#ffd9e7] px-4 py-2 text-sm font-bold text-[#153563]">Media komunitas</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Ada yang baru di sini.</h2>
+          </div>
+          <div class="flex rounded-2xl bg-[#eaf3ff] p-1.5" role="tablist" aria-label="Kategori media">
+            <button class="tab-btn focus-ring rounded-xl px-4 py-2 text-sm font-bold bg-[#2e72ec] text-white" type="button" role="tab" aria-selected="true" data-tab="articles">Artikel</button>
+            <button class="tab-btn focus-ring rounded-xl px-4 py-2 text-sm font-bold text-[#153563]" type="button" role="tab" aria-selected="false" data-tab="gallery">Galeri</button>
+          </div>
+        </div>
+        <div id="articles" class="media-panel active mt-9">
+          <div class="grid gap-5 md:grid-cols-3">
+            <article class="pop-card rounded-[1.75rem] bg-[#eaf3ff] p-6">
+              <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#2e72ec]">KABAR KAMPUS</span>
+              <h3 class="mt-4 text-2xl font-bold text-[#153563]">Reuni yang jadi awal kolaborasi</h3>
+              <p class="mt-3 leading-relaxed text-[#355277]">Tiga alumni mengubah obrolan reuni menjadi proyek kreatif yang seru.</p>
+              <p class="mt-5 text-sm font-bold text-[#153563]">28 Agustus 2026</p>
+            </article>
+            <article class="pop-card rounded-[1.75rem] bg-[#fffbed] p-6" style="transition-delay:.05s">
+              <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#9d7800]">KARIER</span>
+              <h3 class="mt-4 text-2xl font-bold text-[#153563]">Networking tanpa terasa canggung</h3>
+              <p class="mt-3 leading-relaxed text-[#355277]">Tips ringan untuk mulai ngobrol dan membangun koneksi autentik.</p>
+              <p class="mt-5 text-sm font-bold text-[#153563]">20 Agustus 2026</p>
+            </article>
+            <article class="pop-card rounded-[1.75rem] bg-[#fff5f8] p-6" style="transition-delay:.1s">
+              <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#c8517d]">KOMUNITAS</span>
+              <h3 class="mt-4 text-2xl font-bold text-[#153563]">Membuat ruang aman untuk bertumbuh</h3>
+              <p class="mt-3 leading-relaxed text-[#355277]">Cerita di balik sesi berbagi ilmu dari alumni untuk alumni.</p>
+              <p class="mt-5 text-sm font-bold text-[#153563]">12 Agustus 2026</p>
+            </article>
+          </div>
+        </div>
+        <div id="gallery" class="media-panel mt-9">
+          <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+            <div class="checker pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#a8d3ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Campus Day</span></div>
+            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#ffd9e7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Mini Reunion</span></div>
+            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#fff0a9] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Creative Lab</span></div>
+            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#cce8de] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Volunteer Day</span></div>
+            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#b8c9ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Career Talk</span></div>
+            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#ffcfb7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Weekend Club</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="album" class="auth-section bg-[#f5f9ff] py-20">
+        <div class="mx-auto max-w-7xl px-5 md:px-8">
+          <div class="reveal-onscroll">
+            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
+            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto khusus untuk alumni yang sudah login.</p>
+          </div>
+          <div class="mt-9 grid gap-5 md:grid-cols-3">
+            <article class="pop-card reveal-onscroll rounded-[1.75rem] bg-[#eaf3ff] p-6">
+              <span class="text-4xl">✿</span>
+              <h3 class="mt-8 text-2xl font-bold text-[#153563]">Reuni Akbar 2026</h3>
+              <p class="mt-2 text-[#355277]">128 foto pilihan</p>
+              <button class="demo-action focus-ring mt-6 rounded-xl bg-[#153563] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat album</button>
+            </article>
+            <article class="pop-card reveal-onscroll rounded-[1.75rem] bg-[#fffbed] p-6" style="transition-delay:.05s">
+              <span class="text-4xl">☀</span>
+              <h3 class="mt-8 text-2xl font-bold text-[#153563]">Summer Getaway</h3>
+              <p class="mt-2 text-[#355277]">64 foto pilihan</p>
+              <button class="demo-action focus-ring mt-6 rounded-xl bg-[#153563] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat album</button>
+            </article>
+            <article class="pop-card reveal-onscroll rounded-[1.75rem] bg-[#fff5f8] p-6" style="transition-delay:.1s">
+              <span class="text-4xl">★</span>
+              <h3 class="mt-8 text-2xl font-bold text-[#153563]">Alumni Awards</h3>
+              <p class="mt-2 text-[#355277]">92 foto pilihan</p>
+              <button class="demo-action focus-ring mt-6 rounded-xl bg-[#153563] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat album</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="lowongan" class="auth-section mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="reveal-onscroll">
+          <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Karier &amp; peluang</p>
+          <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Lowongan pilihan untukmu.</h2>
+          <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Info lowongan dari sesama alumni, khusus untuk yang sudah login.</p>
+        </div>
+        <div class="mt-9 grid gap-4 md:grid-cols-3">
+          <article class="job-card reveal-onscroll rounded-[1.5rem] bg-white p-5 shadow-sm">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h4 class="text-xl font-bold text-[#153563]">Product Designer</h4>
+                <p class="mt-1 text-[#355277]">Kawan Studio</p>
+              </div>
+              <span class="rounded-full bg-[#eaf3ff] px-3 py-1 text-xs font-bold text-[#2e72ec]">Full-time</span>
+            </div>
+            <p class="mt-4 text-sm text-[#355277]">Jakarta · Hybrid · Teknologi</p>
+            <button class="demo-action focus-ring mt-4 rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat lowongan</button>
+          </article>
+          <article class="job-card reveal-onscroll rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.05s">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h4 class="text-xl font-bold text-[#153563]">Partnership Associate</h4>
+                <p class="mt-1 text-[#355277]">Ruang Tumbuh</p>
+              </div>
+              <span class="rounded-full bg-[#fff0a9] px-3 py-1 text-xs font-bold text-[#745900]">Remote</span>
+            </div>
+            <p class="mt-4 text-sm text-[#355277]">Surabaya · Remote · Komunitas</p>
+            <button class="demo-action focus-ring mt-4 rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat lowongan</button>
+          </article>
+          <article class="job-card reveal-onscroll rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.1s">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h4 class="text-xl font-bold text-[#153563]">Community Manager</h4>
+                <p class="mt-1 text-[#355277]">Balik Kampus</p>
+              </div>
+              <span class="rounded-full bg-[#ffd9e7] px-3 py-1 text-xs font-bold text-[#c8517d]">Part-time</span>
+            </div>
+            <p class="mt-4 text-sm text-[#355277]">Yogyakarta · Onsite · Sosial</p>
+            <button class="demo-action focus-ring mt-4 rounded-xl bg-[#2e72ec] px-4 py-2.5 text-sm font-bold text-white" type="button">Lihat lowongan</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="event" class="auth-section bg-[#eaf3ff] py-20">
+        <div class="mx-auto max-w-7xl px-5 md:px-8">
+          <div class="reveal-onscroll">
+            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Agenda komunitas</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Jangan sampai ketinggalan momennya.</h2>
+            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Meetup, workshop, dan agenda seru khusus alumni yang sudah login.</p>
+          </div>
+          <div class="mt-9 grid gap-4 md:grid-cols-3">
+            <article class="event-card reveal-onscroll flex gap-4 rounded-[1.5rem] bg-white p-5 shadow-sm">
+              <div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#ffd9e7] text-center">
+                <span class="font-bold text-[#153563]" style="line-height:1">14<br>SEP</span>
+              </div>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#c8517d]">MEETUP</span>
+                <h4 class="mt-1 text-xl font-bold text-[#153563]">Coffee &amp; Catch Up</h4>
+                <p class="mt-1 text-sm text-[#355277]">Kota Lama, Surabaya</p>
+                <button class="demo-action focus-ring mt-3 rounded-xl bg-[#153563] px-4 py-2 text-sm font-bold text-white" type="button">Daftar</button>
+              </div>
+            </article>
+            <article class="event-card reveal-onscroll flex gap-4 rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.05s">
+              <div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#fff0a9] text-center">
+                <span class="font-bold text-[#153563]" style="line-height:1">22<br>SEP</span>
+              </div>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#9d7800]">WORKSHOP</span>
+                <h4 class="mt-1 text-xl font-bold text-[#153563]">Personal Branding 101</h4>
+                <p class="mt-1 text-sm text-[#355277]">Online via Zoom</p>
+                <button class="demo-action focus-ring mt-3 rounded-xl bg-[#153563] px-4 py-2 text-sm font-bold text-white" type="button">Daftar</button>
+              </div>
+            </article>
+            <article class="event-card reveal-onscroll flex gap-4 rounded-[1.5rem] bg-white p-5 shadow-sm" style="transition-delay:.1s">
+              <div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-[#cce8de] text-center">
+                <span class="font-bold text-[#153563]" style="line-height:1">05<br>OKT</span>
+              </div>
+              <div class="min-w-0">
+                <span class="text-xs font-bold text-[#2e7d5e]">OLAHRAGA</span>
+                <h4 class="mt-1 text-xl font-bold text-[#153563]">Alumni Sports Day</h4>
+                <p class="mt-1 text-sm text-[#355277]">GOR Kampus Utama</p>
+                <button class="demo-action focus-ring mt-3 rounded-xl bg-[#153563] px-4 py-2 text-sm font-bold text-white" type="button">Daftar</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="reveal-onscroll relative overflow-hidden rounded-[2.5rem] bg-[#2e72ec] p-8 text-center md:p-14">
+          <span class="absolute left-8 top-7 text-4xl text-[#fff0a9] floaty-slow">✦</span>
+          <span class="absolute bottom-4 right-10 text-5xl text-[#ffb8d0] floaty">✿</span>
+          <h2 class="relative mx-auto max-w-2xl text-4xl font-bold text-white md:text-5xl">Masih ada tempat untuk ceritamu di sini.</h2>
+          <p class="relative mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[#eaf3ff]">Datang, sapa teman lama, dan buka kesempatan baru bersama komunitas alumni.</p>
+          <a class="js-nav-link focus-ring relative mt-7 inline-block rounded-2xl bg-[#fff0a9] px-6 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Gabung komunitas</a>
+        </div>
+      </section>
     </main>
 
-    <footer class="footer-section">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo-brand">
-                        <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <span class="brand-name text-white">Jejak<span class="highlight">Keluarga</span></span>
-                    </div>
-                    <p>Platform jejaring alumni SMA Ceria paling hits, interaktif, dan penuh warna. Menghubungkan ribuan cerita dalam satu genggaman.</p>
-                    <div class="social-links-footer">
-                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Navigasi Cepat</h4>
-                    <ul>
-                        <li><a href="#tentang">Tentang Kami</a></li>
-                        <li><a href="#angka">Statistik</a></li>
-                        <li><a href="#galeri">Galeri Momen</a></li>
-                        <li><a href="#artikel">Artikel Almamater</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Fitur Eksklusif</h4>
-                    <ul>
-                        <li><a href="#lowongan">Bursa Lowongan Kerja</a></li>
-                        <li><a href="#alumni">Direktori Angkatan</a></li>
-                        <li><a href="#event">Agenda & Gathering</a></li>
-                        <li><a href="#album">Album Kenangan Jadul</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Kontak & Sekretariat</h4>
-                    <p><i class="fa-solid fa-location-dot"></i> Jl. Pendidikan Ceria No. 45, Jakarta Selatan</p>
-                    <p><i class="fa-solid fa-envelope"></i> halo@jejakkeluarga.alumni.id</p>
-                    <p><i class="fa-solid fa-phone"></i> +62 812-3456-7890</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 JejakKeluarga Alumni SMA Ceria. Dibuat dengan penuh cinta & semangat Gen-Z 🚀</p>
-            </div>
+    <footer class="border-t border-blue-100 bg-white">
+      <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:grid-cols-[1.3fr_1fr_1fr] md:px-8">
+        <div>
+          <p class="text-2xl font-bold text-[#153563]">✦ Alumni Connect</p>
+          <p class="mt-2 max-w-xs text-sm leading-relaxed text-[#355277]">Koneksi yang terasa dekat, meski sudah jauh dari kampus.</p>
         </div>
+        <div>
+          <h2 class="font-bold text-[#153563]">Jelajahi</h2>
+          <div class="mt-3 grid gap-2 text-sm">
+            <a class="js-nav-link focus-ring rounded-lg text-[#355277] hover:text-[#2e72ec]" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Alumni</a>
+            <a class="js-nav-link focus-ring rounded-lg text-[#355277] hover:text-[#2e72ec]" href="#media" data-target="#media">Media</a>
+            <a class="js-nav-link focus-ring rounded-lg text-[#355277] hover:text-[#2e72ec]" href="#lowongan" data-target="#lowongan" data-auth-link data-auth-label="Lowongan Kerja">Lowongan</a>
+            <a class="js-nav-link focus-ring rounded-lg text-[#355277] hover:text-[#2e72ec]" href="#event" data-target="#event" data-auth-link data-auth-label="Agenda Event">Event</a>
+          </div>
+        </div>
+        <div>
+          <h2 class="font-bold text-[#153563]">Sapa kami</h2>
+          <div class="mt-3 flex gap-2">
+            <button class="demo-action focus-ring grid h-10 w-10 place-items-center rounded-xl bg-[#fff5f8] text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Instagram"><i data-lucide="instagram" class="h-4 w-4"></i></button>
+            <button class="demo-action focus-ring grid h-10 w-10 place-items-center rounded-xl bg-[#eaf3ff] text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="LinkedIn"><i data-lucide="linkedin" class="h-4 w-4"></i></button>
+            <button class="demo-action focus-ring grid h-10 w-10 place-items-center rounded-xl bg-[#fffbed] text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Email"><i data-lucide="mail" class="h-4 w-4"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-blue-100 px-5 py-5 text-center">
+        <p class="text-sm text-[#355277]">© 2026 Alumni Connect · Dibuat dengan banyak cerita baik.</p>
+      </div>
     </footer>
+  </div>
 
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal fixed inset-0 z-[60] grid place-items-center bg-[#153563]/45 p-5" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="modal-card w-full max-w-md rounded-[2rem] bg-white p-7 shadow-2xl">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="inline-block rounded-full bg-[#fff0a9] px-3 py-1 text-xs font-bold text-[#153563]">LOGIN ALUMNI</p>
+          <h2 id="login-title" class="mt-3 text-3xl font-bold text-[#153563]">Halo, teman alumni!</h2>
+        </div>
+        <button id="close-login" class="focus-ring rounded-xl p-2" type="button" aria-label="Tutup login"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+      <p class="mt-3 leading-relaxed text-[#355277]">Login untuk membuka Direktori Alumni, Album, Lowongan, dan Event.</p>
+      <form id="login-form" class="mt-6">
+        <label class="mb-2 block text-sm font-bold text-[#153563]" for="login-email">Email</label>
+        <input id="login-email" class="focus-ring w-full rounded-xl border border-blue-200 px-4 py-3" type="email" placeholder="nama@email.com" required>
+        <button class="focus-ring mt-4 w-full rounded-xl bg-[#2e72ec] px-4 py-3 font-bold text-white transition hover:-translate-y-0.5" type="submit">Lanjutkan</button>
+      </form>
+      <p id="login-result" class="mt-4 text-center text-sm text-[#355277]">Halaman ini menggunakan tampilan demo dan tidak menyimpan data akun ke server.</p>
+    </div>
+  </div>
 
+  <!-- Floating action buttons: tombol scroll-ke-atas & WhatsApp sejajar di baris yang sama -->
+  <div id="fab-row" class="fixed bottom-5 right-5 z-[65] flex items-center gap-3 md:bottom-8 md:right-8">
+    <button id="back-to-top" type="button" class="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#153563] text-white shadow-xl md:h-12 md:w-12" aria-label="Kembali ke atas">
+      <i data-lucide="arrow-up" class="h-5 w-5"></i>
+    </button>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
+    <div id="wa-widget" class="relative shrink-0">
+      <div id="wa-bubble" class="wa-bubble absolute bottom-full right-0 mb-3 w-60 rounded-2xl bg-white p-4 shadow-2xl sm:w-64">
+        <div class="flex items-start justify-between gap-2">
+          <p class="text-sm font-bold text-[#153563]">Ada pertanyaan?</p>
+          <button id="wa-bubble-close" type="button" class="focus-ring rounded-lg p-1 text-[#355277]" aria-label="Tutup"><i data-lucide="x" class="h-4 w-4"></i></button>
+        </div>
+        <p class="mt-1 text-sm leading-relaxed text-[#355277]">Chat kami di WhatsApp, kami siap bantu 👋</p>
+        <p class="mt-2 text-sm font-bold text-[#2e72ec]">+62 812-3456-7890</p>
+      </div>
+      <a id="wa-button" href="https://wa.me/6281234567890?text=Halo%20Alumni%20Connect%2C%20saya%20ingin%20bertanya" target="_blank" rel="noopener" class="focus-ring wa-pulse grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-xl" aria-label="Hubungi kami via WhatsApp">
+        <i data-lucide="message-circle" class="h-7 w-7"></i>
+      </a>
+    </div>
+  </div>
+
+  <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+
+  <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>
