@@ -11,14 +11,12 @@ Route::get('/landing', function () {
 });
 
 Route::get('/login', function () {
-    return view('login.index');
-});
+    return view('auth.login'); // Sesuaikan dengan folder resources/views/auth/login.blade.php
+})->name('login');
 
 Route::get('/home', function () {
     return view('home.index');
 });
-
-
 
 Route::get('/alumni', function () {
     return view('alumni.index');

@@ -41,7 +41,7 @@
     overflow-x:hidden;
   }
   section[id]{scroll-margin-top:130px;}
-  
+
 h1, h2, h3, .display {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
@@ -53,7 +53,7 @@ h1, h2, h3, .display {
   a{text-decoration:none;color:inherit;}
   ul{margin:0;padding:0;list-style:none;}
   section{position:relative;}
-  
+
   .wrap{
     max-width:1180px;
     margin:0 auto;
