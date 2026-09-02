@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alumni Connect — Dashboard & Portal Alumni</title>
+  <title>Alumni Space — Dashboard & Portal Alumni</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
       <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 md:px-8" aria-label="Navigasi utama">
         <a href="#beranda" class="js-nav-link focus-ring flex items-center gap-2 rounded-xl" data-target="#beranda">
           <span class="grid h-9 w-9 place-items-center rounded-xl bg-[#2e72ec] text-lg text-white shadow-sm logo-spin">✦</span>
-          <span class="font-bold tracking-tight text-[#153563]">Alumni Connect</span>
+          <span class="font-bold tracking-tight text-[#153563]">Alumni Space</span>
         </a>
 
         <div class="desktop-nav flex items-center gap-1 text-sm font-semibold">
@@ -87,9 +87,9 @@
         <div class="flex items-center gap-2">
           @guest
           <div id="guest-actions" class="flex items-center gap-2">
-            <a href="{{ route('login') }}" class="focus-ring inline-block rounded-xl bg-[#2e72ec] px-5 py-2.5 text-center text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-              Masuk / Login
-            </a>
+            <a href="{{ route('login') }}" class="custom-pill-btn px-6 py-2.5 text-sm">
+    Masuk &rarr;
+</a>
           </div>
           @else
           <div id="user-actions" class="flex items-center gap-2">
@@ -122,14 +122,14 @@
           <p class="mobile-group-label">Beranda</p>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#tentang" data-target="#tentang">Tentang</a>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#statistik" data-target="#statistik">Statistik</a>
-          
+
           <p class="mobile-group-label">Komunitas</p>
           <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#alumni" data-target="#alumni" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest>
             <span>Alumni</span>
             @guest<i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i>@endguest
           </a>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#testimoni" data-target="#testimoni">Testimoni</a>
-          
+
           <p class="mobile-group-label">Media</p>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
           <a class="js-nav-link focus-ring rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
@@ -137,7 +137,7 @@
             <span>Album</span>
             @guest<i data-lucide="lock" class="h-4 w-4 text-[#2e72ec]"></i>@endguest
           </a>
-          
+
           <p class="mobile-group-label">Informasi</p>
           <a class="js-nav-link focus-ring flex items-center justify-between rounded-xl px-3 py-2.5 hover:bg-blue-50 text-[#153563]" href="#lowongan" data-target="#lowongan" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest>
             <span>Lowongan</span>
@@ -182,15 +182,15 @@
               <a class="js-nav-link focus-ring rounded-2xl border-2 bg-white px-5 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="#lowongan" data-target="#lowongan">Lihat Lowongan</a>
             </div>
             @else
-            <p class="mb-4 inline-flex rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563]">✦ {{ $contents['hero_banner']->meta_data['badge'] ?? 'Ruang hangat untuk kita' }}</p>
+            <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold"> {{ $contents['hero_banner']->meta_data['badge'] ?? 'Ruang hangat untuk kita' }}</p>
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Satu komunitas, banyak cerita' }}</h1>
             <p class="mt-6 max-w-lg text-lg leading-relaxed text-[#355277]">{{ $contents['hero_banner']->subtitle ?? 'Tempat pulang untuk terhubung, bertukar kabar, dan tumbuh bersama alumni lintas angkatan.' }}</p>
-            <div class="mt-8 flex flex-wrap gap-3">
-              <a class="focus-ring rounded-2xl bg-[#2e72ec] px-5 py-3.5 font-bold text-white shadow-lg transition hover:-translate-y-1" href="{{ route('login') }}">Masuk untuk Membuka Fitur</a>
-              <a class="js-nav-link focus-ring rounded-2xl border-2 bg-white px-5 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="#tentang" data-target="#tentang">Pelajari Dulu</a>
-            </div>
+           <div class="mt-8 flex flex-wrap gap-3">
+  <a class="js-nav-link custom-pill-btn px-6 py-3.5 text-base" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Masuk Untuk Membuka Fitur &rarr;</a>
+  <a class="js-nav-link custom-white-pill-btn px-6 py-3.5 text-base" href="#testimoni" data-target="#testimoni">Jelajahi Dulu</a>
+</div>
             @endauth
-            
+
             <div class="mt-9 flex items-center gap-3">
               <div class="flex -space-x-2" aria-label="Avatar komunitas">
                 <span class="grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-[#ffafca] text-xs font-bold">KS</span>
@@ -200,39 +200,41 @@
               <p class="text-sm font-medium text-[#355277]"><strong>{{ number_format($stats['total_alumni'] ?? 2540) }}+</strong> teman alumni sudah terdaftar!</p>
             </div>
           </div>
-          
-          <div class="relative mx-auto w-full max-w-lg reveal" style="animation-delay:.15s">
-            <div class="checker blob aspect-square p-7 shadow-[0_24px_55px_rgba(31,93,182,.16)]">
-              <div class="relative h-full overflow-hidden rounded-[2rem] bg-[#2e72ec] p-6">
-                <span class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#fff0a9]"></span>
-                <span class="absolute -bottom-12 -left-8 h-40 w-40 rounded-full bg-[#ffb8d0]"></span>
-                <div class="relative flex h-full flex-col justify-between">
-                  <div class="flex items-start justify-between">
-                    <span class="rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#153563]">ALUMNI SPOTLIGHT</span>
-                    <span class="text-3xl text-[#fff0a9]">✦</span>
-                  </div>
-                  <div class="rounded-[1.5rem] bg-white p-5 shadow-xl">
-                    <div class="flex items-center gap-3">
-                      <span class="grid h-12 w-12 place-items-center rounded-2xl bg-[#ffd9e7] font-bold">KS</span>
-                      <div>
-                        <p class="font-bold text-[#153563]">Kanya Salsabila</p>
-                        <p class="mt-0.5 text-sm text-[#355277]">Angkatan 2019 · Lead UI/UX Designer</p>
-                      </div>
-                    </div>
-                    <div class="mt-4 flex gap-2">
-                      <span class="h-2 flex-1 rounded-full bg-[#a8d3ff]"></span><span class="h-2 w-12 rounded-full bg-[#fff0a9]"></span>
-                    </div>
-                  </div>
-                  <p class="max-w-[14rem] text-2xl font-bold leading-tight text-white">Kenangan lama, koneksi baru.</p>
+         <div class="relative mx-auto w-full max-w-lg reveal flex items-center justify-center" style="animation-delay:.15s">
+    <!-- 1. Blob latar belakang biru muda asli -->
+    <div class="checker blob aspect-square w-full max-w-[480px] p-7 flex items-center justify-center">
+
+        <!-- 2. Container Foto dengan Ukuran Lebih Besar (Sedikit Keluar dari Blob) -->
+        <div class="relative z-20 flex items-center justify-center">
+            <div class="relative w-[410px] h-[410px] md:w-[480px] md:h-[480px] flex items-center justify-center drop-shadow-2xl">
+
+                <!-- Aksen Bunga Kecil Dekoratif -->
+                <span class="absolute -top-2 right-6 z-30 text-pink-400 text-3xl animate-pulse">🌸</span>
+                <span class="absolute -bottom-2 left-4 z-30 text-pink-400 text-2xl animate-bounce">🌸</span>
+
+                <!-- Lapisan Luar Border Putih Bergelombang -->
+                <div class="absolute inset-0 bg-white shadow-xl transition hover:scale-105 duration-300"
+                     style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
                 </div>
-              </div>
+
+                <!-- Lapisan Garis Tepi/Border Kuning -->
+                <div class="absolute inset-[9px] bg-[#fff0a9]"
+                     style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
+                </div>
+
+                <!-- Foto Alumni di Tengah -->
+                <div class="absolute inset-[18px] overflow-hidden bg-white"
+                     style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
+                    <img src="{{ asset('assets/images/foto04.png') }}"
+                         alt="Alumni Spotlight"
+                         class="h-full w-full object-cover">
+                </div>
+
             </div>
-            <div class="floaty absolute -left-4 bottom-7 rounded-2xl bg-white px-4 py-3 shadow-lg">
-              <p class="text-sm font-bold text-[#153563]">💌 {{ count($jobs ?? []) }} lowongan kerja aktif</p>
-            </div>
-            <div class="floaty-slow absolute -right-4 top-10 grid h-16 w-16 place-items-center rounded-full border-4 border-white bg-[#ffb8d0] text-2xl shadow-lg">✿</div>
-          </div>
         </div>
+
+    </div>
+</div>
       </section>
 
       <!-- TENTANG KAMI -->
@@ -249,9 +251,9 @@
             <div class="absolute -bottom-5 -right-3 rotate-6 rounded-2xl bg-[#fff0a9] px-4 py-3 font-bold shadow-md wiggle">✦ hello alumni!</div>
           </div>
           <div class="reveal-onscroll" style="transition-delay:.1s">
-            <p class="mb-4 inline-flex rounded-full bg-[#ffd9e7] px-4 py-2 text-sm font-bold text-[#153563]">{{ $contents['about_section']->meta_data['badge'] ?? 'Tentang kami' }}</p>
+            <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">{{ $contents['about_section']->meta_data['badge'] ?? 'Tentang kami' }}</p>
             <h2 class="text-4xl font-bold leading-tight text-[#153563] md:text-5xl">{{ $contents['about_section']->title ?? 'Jalin kembali koneksi yang berarti.' }}</h2>
-            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[#355277]">{{ $contents['about_section']->subtitle ?? 'Alumni Connect adalah ruang komunitas yang memudahkanmu menemukan teman lama, membuka peluang baru, dan merayakan setiap langkah bersama.' }}</p>
+            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[#355277]">{{ $contents['about_section']->subtitle ?? 'Alumni Space adalah ruang komunitas yang memudahkanmu menemukan teman lama, membuka peluang baru, dan merayakan setiap langkah bersama.' }}</p>
             <div class="mt-8 grid gap-4 sm:grid-cols-3">
               <article class="pop-card rounded-[1.5rem] bg-[#eaf3ff] p-5">
                 <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#a8d3ff] text-xl">⌁</span>
@@ -278,7 +280,7 @@
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="mb-9 flex flex-wrap items-end justify-between gap-4 reveal-onscroll">
             <div>
-              <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Angka yang bikin senyum</p>
+              <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Angka yang bikin senyum</p>
               <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kita tumbuh bareng.</h2>
             </div>
             <p class="max-w-sm text-sm leading-relaxed text-[#355277]">Data statistik komunitas alumni yang selalu aktif diperbarui.</p>
@@ -310,11 +312,11 @@
         <div class="reveal-onscroll rounded-[2.5rem] border-2 border-dashed border-[#a8d3ff] bg-[#f8fbff] p-6 md:p-10">
           <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p class="mb-3 inline-flex items-center gap-2 rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563]"><i data-lucide="lock" class="h-4 w-4"></i> {{ $contents['locked_teaser']->meta_data['badge'] ?? 'Khusus alumni terdaftar' }}</p>
+              <p class="mb-3 inline-flex items-center gap-2 rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold"><i data-lucide="lock" class="h-4 w-4"></i> {{ $contents['locked_teaser']->meta_data['badge'] ?? 'Khusus alumni terdaftar' }}</p>
               <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">{{ $contents['locked_teaser']->title ?? '4 fitur seru menanti setelah kamu login.' }}</h2>
               <p class="mt-2 max-w-lg text-sm leading-relaxed text-[#355277]">{{ $contents['locked_teaser']->subtitle ?? 'Direktori alumni, album kenangan, lowongan, dan agenda event hanya bisa dibuka oleh alumni yang sudah login.' }}</p>
             </div>
-            <a href="{{ route('login') }}" class="focus-ring shrink-0 rounded-2xl bg-[#2e72ec] px-5 py-3.5 font-bold text-white shadow-lg transition hover:-translate-y-1">{{ $contents['locked_teaser']->meta_data['button_text'] ?? 'Login sekarang 🚀' }}</a>
+            <a href="{{ route('login') }}" class="custom-pill-btn px-6 py-3.5 text-base shrink-0">{{ $contents['locked_teaser']->meta_data['button_text'] ?? 'Login sekarang 🚀' }}</a>
           </div>
           <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="teaser-card rounded-[1.5rem] bg-white p-5 shadow-sm">
@@ -403,7 +405,7 @@
         <span class="absolute left-8 top-8 text-5xl text-[#fff0a9] floaty-slow">✦</span>
         <span class="absolute bottom-5 right-10 text-7xl text-[#ffb8d0] floaty">⌁</span>
         <div class="mx-auto max-w-5xl px-5 text-center md:px-8">
-          <p class="mb-4 inline-flex rounded-full bg-[#fff0a9] px-4 py-2 text-sm font-bold text-[#153563] reveal-onscroll">Cerita dari teman</p>
+          <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold reveal-onscroll">Cerita dari teman</p>
           <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
           <div class="relative mx-auto mt-10 max-w-3xl reveal-onscroll">
             @forelse($testimonials ?? [] as $index => $testi)
@@ -416,7 +418,7 @@
             </article>
             @empty
             <article class="testimonial active rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
-              <p class="text-2xl font-bold leading-relaxed">"Lewat Alumni Connect, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!"</p>
+              <p class="text-2xl font-bold leading-relaxed">"Lewat Alumni Space, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!"</p>
               <div class="mt-7 flex items-center gap-3">
                 <span class="grid h-11 w-11 place-items-center rounded-full bg-[#ffd9e7] font-bold">AL</span>
                 <p class="text-sm font-bold text-[#355277]">Alya Lestari · Angkatan 2015</p>
@@ -436,7 +438,7 @@
       <section id="media" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
           <div>
-            <p class="mb-3 inline-flex rounded-full bg-[#ffd9e7] px-4 py-2 text-sm font-bold text-[#153563]">Media komunitas</p>
+            <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Media komunitas</p>
             <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Ada yang baru di sini.</h2>
           </div>
           <div class="flex rounded-2xl bg-[#eaf3ff] p-1.5" role="tablist" aria-label="Kategori media">
@@ -444,7 +446,7 @@
             <button class="tab-btn focus-ring rounded-xl px-4 py-2 text-sm font-bold text-[#153563]" type="button" role="tab" aria-selected="false" data-tab="gallery">Galeri</button>
           </div>
         </div>
-        
+
         <div id="articles" class="media-panel active mt-9">
           <div class="grid gap-5 md:grid-cols-3">
             @forelse($articles ?? [] as $index => $article)
@@ -562,7 +564,7 @@
           <h2 class="relative mx-auto max-w-2xl text-4xl font-bold text-white md:text-5xl">{{ $contents['cta_footer']->title ?? 'Masih ada tempat untuk ceritamu di sini.' }}</h2>
           <p class="relative mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[#eaf3ff]">{{ $contents['cta_footer']->subtitle ?? 'Datang, sapa teman lama, dan buka kesempatan baru bersama komunitas alumni.' }}</p>
           @guest
-          <a class="focus-ring relative mt-7 inline-block rounded-2xl bg-[#fff0a9] px-6 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="{{ route('login') }}">{{ $contents['cta_footer']->meta_data['button_text'] ?? 'Masuk ke Komunitas' }}</a>
+          <a class="relative mt-7 px-7 py-3.5 text-base custom-white-pill-btn" href="{{ route('login') }}">{{ $contents['cta_footer']->meta_data['button_text'] ?? 'Masuk ke Komunitas' }} &rarr;</a>
           @else
           <a class="js-nav-link focus-ring relative mt-7 inline-block rounded-2xl bg-[#fff0a9] px-6 py-3.5 font-bold text-[#153563] transition hover:-translate-y-1" href="#alumni" data-target="#alumni">Jelajahi Direktori Alumni</a>
           @endguest
@@ -573,7 +575,7 @@
     <footer class="border-t border-blue-100 bg-white">
       <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:grid-cols-[1.3fr_1fr_1fr] md:px-8">
         <div>
-          <p class="text-2xl font-bold text-[#153563]">✦ {{ $settings['brand_name'] ?? 'Alumni Connect' }}</p>
+          <p class="text-2xl font-bold text-[#153563]">✦ {{ $settings['brand_name'] ?? 'Alumni Space' }}</p>
           <p class="mt-2 max-w-xs text-sm leading-relaxed text-[#355277]">{{ $settings['footer_tagline'] ?? 'Koneksi yang terasa dekat, meski sudah jauh dari almamater.' }}</p>
         </div>
         <div>
@@ -595,7 +597,7 @@
         </div>
       </div>
       <div class="border-t border-blue-100 px-5 py-5 text-center">
-        <p class="text-sm text-[#355277]">© 2026 {{ $settings['brand_name'] ?? 'Alumni Connect' }} · Dibuat dengan banyak cerita baik.</p>
+        <p class="text-sm text-[#355277]">© 2026 {{ $settings['brand_name'] ?? 'Alumni Space' }} · Dibuat dengan banyak cerita baik.</p>
       </div>
     </footer>
   </div>
