@@ -89,43 +89,66 @@
             <section class="hero-section" id="hero">
 
                 <div class="hero-blob blob-1"></div>
-                <div class="hero-blob blob-2"></div>
-                <div class="container hero-grid">
-                    <div class="hero-text" data-aos="fade-right" data-aos-duration="800">
-                        <span class="badge-tag">✨ Platform Alumni Generasi Baru</span>
-                        <h1>
-    Siap Bernostalgia <br>
-    dan <span class="badge-capsule">Cerita Baru</span> <br>
-    Lagi?
-</h1>
-                        <p class="hero-desc">
-    Selamat datang di <span class="highlight-box">markas digital kita tercinta!</span> Tempat paling pas buat <span class="highlight-box">temu kangen,</span> intip kabar terbaru teman seangkatan, dan saling dukung buat <span class="highlight-box">melangkah lebih jauh.</span>
-</p>
-                        <div class="hero-buttons">
-                            <button class="btn-primary-glow" id="heroLoginTrigger">Gabung Sekarang <i class="fa-solid fa-arrow-right"></i></button>
-                            <a href="#tentang" class="btn-secondary-outline">Pelajari Dulu <i class="fa-solid fa-compass"></i></a>
-                        </div>
-                        <div class="hero-avatars">
-                            <div class="avatar-group">
-                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="">
-                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="">
-                            </div>
-                            <p>Bergabung dengan <strong>2,500+</strong> alumni aktif!</p>
+    <div class="hero-blob blob-2"></div>
+    <div class="container hero-grid">
+        <!-- Hapus data-aos="fade-right" di sini -->
+        <div class="hero-text">
+            <span class="badge-tag">✨ Platform Alumni Generasi Baru</span>
+            <h1>
+                Siap Bernostalgia <br>
+                dan <span class="badge-capsule">Cerita Baru</span> <br>
+                Lagi?
+            </h1>
+            <p class="hero-desc">
+                Selamat datang di <span class="highlight-box">markas digital kita tercinta!</span> Tempat paling pas buat <span class="highlight-box">temu kangen,</span> intip kabar terbaru teman seangkatan, dan saling dukung buat <span class="highlight-box">melangkah lebih jauh.</span>
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-primary-glow" id="heroLoginTrigger">Gabung Sekarang <i class="fa-solid fa-arrow-right"></i></button>
+                <a href="#tentang" class="btn-secondary-outline">Pelajari Dulu <i class="fa-solid fa-compass"></i></a>
+            </div>
+            <div class="hero-avatars">
+                <div class="avatar-group">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="">
+                </div>
+                <p>Bergabung dengan <strong>2,500+</strong> alumni aktif!</p>
+            </div>
+        </div>
+                   <!-- AREA KANAN: Tempat 3 aset dimasukkan di dalam hero-image-wrapper -->
+                    <div class="hero-image-wrapper">
+                        <div class="hero-right-container">
+                           <div class="hero-assets-wrapper">
+    <!-- Aset 1 -->
+    <img src="{{ asset('assets/images/polaroidputih.png') }}"
+         alt="Hero Asset 1"
+         class="hero-asset asset-1">
+
+    <!-- Aset 2 -->
+    <img src="{{ asset('assets/images/foto-home.png') }}"
+         alt="Hero Asset 2"
+         class="hero-asset asset-2">
+
+    <!-- Aset 3 -->
+    <img src="{{ asset('assets/images/polkadot.png') }}"
+         alt="Hero Asset 3"
+         class="hero-asset asset-3">
+</div>
                         </div>
                     </div>
-                    <div class="hero-image-wrapper" data-aos="fade-left" data-aos-duration="800">
 
                 </div>
             </section>
 
+
+
             <section class="section-padding bg-light-tint" id="tentang">
                 <div class="container">
                     <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Tentang Kami</span>
-                        <h2>Kenapa Sih Harus Pakai <span class="highlight">JejakKeluarga</span>?</h2>
-                        <p>Bukan cuma buku tahunan digital biasa. Ini ekosistem digital anak SMA jaman now.</p>
+                        <span class="badge-tag">Kenalin Dulu, Nih..</span>
+                        <h2>Bukan Sekadar Grup, Ini  <span class="highlight">Keluarga Kedua Kita!</span></h2>
+                        <p>Website ini dibuat khusus buat kita semua yang rindu masa-masa sekolah/kuliah dulu. Dari yang awalnya cuma mau nanya "Eh, sekarang sibuk apa?", sampai bisa kolaborasi bareng bikin project keren. Yuk, bikin jejaring silaturahmi kita makin erat dan seru di sini!</p>
                     </div>
                     <div class="grid-3 mt-5">
                         <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
@@ -148,27 +171,27 @@
             </section>
 
             <section class="section-padding stats-section" id="angka">
-                <div class="container">
-                    <div class="stats-grid" data-aos="zoom-in">
-                        <div class="stat-box">
-                            <h3>2,540+</h3>
-                            <p>Total Alumni Terdaftar</p>
-                        </div>
-                        <div class="stat-box">
-                            <h3>45+</h3>
-                            <p>Angkatan Sekolah</p>
-                        </div>
-                        <div class="stat-box">
-                            <h3>180+</h3>
-                            <p>Lowongan Pekerjaan</p>
-                        </div>
-                        <div class="stat-box">
-                            <h3>35+</h3>
-                            <p>Negara Perantauan</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <div class="container">
+        <div class="stats-grid" data-aos="zoom-in">
+            <div class="stat-box">
+                <h3 class="counter" data-target="2540">0</h3>
+                <p>Total Alumni Terdaftar</p>
+            </div>
+            <div class="stat-box">
+                <h3 class="counter" data-target="45">0</h3>
+                <p>Angkatan Sekolah</p>
+            </div>
+            <div class="stat-box">
+                <h3 class="counter" data-target="180">0</h3>
+                <p>Lowongan Pekerjaan</p>
+            </div>
+            <div class="stat-box">
+                <h3 class="counter" data-target="35">0</h3>
+                <p>Negara Perantauan</p>
+            </div>
+        </div>
+    </div>
+</section>
 
             <section class="section-padding" id="galeri">
                 <div class="container">
@@ -178,83 +201,88 @@
                         <p>Kilas balik keseruan kumpul-kumpul dari masa sekolah sampai sekarang.</p>
                     </div>
                     <div class="gallery-grid mt-5">
-                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500" alt="Gallery 1">
-                            <div class="gallery-overlay">
-                                <h5>Reuni Akbar 2025</h5>
-                                <p>GBK Senayan</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500" alt="Gallery 2">
-                            <div class="gallery-overlay">
-                                <h5>Gathering Angkatan 2017</h5>
-                                <p>Cafe Rooftop SCBD</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                            <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=500" alt="Gallery 3">
-                            <div class="gallery-overlay">
-                                <h5>Webinar Karir Tech</h5>
-                                <p>Online Zoom Live</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="400">
-                            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500" alt="Gallery 4">
-                            <div class="gallery-overlay">
-                                <h5>Charity Run Alumni</h5>
-                                <p>Monas Jakarta</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500" alt="Gallery 1">
                 </div>
-            </section>
-
-            <section class="section-padding bg-light-tint" id="testimoni">
-                <div class="container">
-                    <div class="section-title text-center" data-aos="fade-up">
-                        <span class="badge-tag">Kata Mereka</span>
-                        <h2>Apa Kata <span class="highlight">Alumni Hits</span>?</h2>
-                        <p>Testimoni jujur dari mereka yang udah merasakan manfaat platform ini.</p>
-                    </div>
-                    <div class="grid-3 mt-5">
-                        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <p>"Berkat JejakKeluarga, aku bisa nyambung lagi sama ketua geng kelasku dulu dan sekarang malah jadi partner bisnis startup!"</p>
-                            <div class="testi-author">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="">
-                                <div>
-                                    <h5>Rangga Pratama</h5>
-                                    <small>Angkatan 2015 • Software Engineer</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <p>"Informasi lowongan kerja di sini valid banget karena langsung direkomendasikan sama kakak tingkat yang udah senior di korporat."</p>
-                            <div class="testi-author">
-                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="">
-                                <div>
-                                    <h5>Nabila Zahra</h5>
-                                    <small>Angkatan 2018 • Product Manager</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <p>"Tampilan web-nya gemesin banget, pas banget sama selera anak muda dan gak ngebosenin pas dibuka di HP."</p>
-                            <div class="testi-author">
-                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="">
-                                <div>
-                                    <h5>Dimas Anggara</h5>
-                                    <small>Angkatan 2020 • Content Creator</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="gallery-content">
+                    <h5>Reuni Akbar 2025</h5>
+                    <p>GBK Senayan</p>
                 </div>
-            </section>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500" alt="Gallery 2">
+                </div>
+                <div class="gallery-content">
+                    <h5>Gathering Angkatan 2017</h5>
+                    <p>Cafe Rooftop SCBD</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=500" alt="Gallery 3">
+                </div>
+                <div class="gallery-content">
+                    <h5>Webinar Karir Tech</h5>
+                    <p>Online Zoom Live</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=500" alt="Gallery 4">
+                </div>
+                <div class="gallery-content">
+                    <h5>Charity Run Alumni</h5>
+                    <p>Monas Jakarta</p>
+                </div>
+            </div>
+        </div>
 
+        <!-- BARIS KEDUA (Kuning, Biru, Kuning, Biru) -->
+        <div class="gallery-grid mt-4">
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500" alt="Gallery 5">
+                </div>
+                <div class="gallery-content">
+                    <h5>Diskusi Santai & Mentoring</h5>
+                    <p>Kantin Kampus Lama</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=500" alt="Gallery 6">
+                </div>
+                <div class="gallery-content">
+                    <h5>Workshop UI/UX Alumni</h5>
+                    <p>Coworking Space Sudirman</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=500" alt="Gallery 7">
+                </div>
+                <div class="gallery-content">
+                    <h5>Pameran UMKM Alumni</h5>
+                    <p>Grand Hall Jakarta</p>
+                </div>
+            </div>
+            <div class="gallery-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500" alt="Gallery 8">
+                </div>
+                <div class="gallery-content">
+                    <h5>Buka Bersama Lintas Angkatan</h5>
+                    <p>Hotel Sultan Jakarta</p>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>
             <section class="section-padding" id="artikel">
                 <div class="container">
                     <div class="section-title text-center" data-aos="fade-up">
@@ -690,30 +718,7 @@
         </div>
     </footer>
 
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-card" data-aos="zoom-in">
-            <button class="modal-close" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
-            <div class="text-center mb-4">
-                <div class="logo-icon mx-auto mb-2"><i class="fa-solid fa-graduation-cap"></i></div>
-                <h3>Masuk Portal Alumni</h3>
-                <p>Masukkan akun email almamater atau akun terdaftar kamu.</p>
-            </div>
-            <form id="loginForm">
-                <div class="form-group mb-3">
-                    <label>Email / Nomor Anggota</label>
-                    <input type="email" id="loginEmail" class="form-control-custom" value="kanya.salsabila@alumni.id" required>
-                </div>
-                <div class="form-group mb-4">
-                    <label>Kata Sandi</label>
-                    <input type="password" id="loginPassword" class="form-control-custom" value="password123" required>
-                </div>
-                <button type="submit" class="btn-primary-glow w-100 py-3">Masuk Sekarang 🚀</button>
-            </form>
-            <div class="text-center mt-3">
-                <small class="text-muted">Simulasi: Cukup klik tombol di atas untuk langsung masuk ke mode Home!</small>
-            </div>
-        </div>
-    </div>
+
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="{{ asset('js/script.js') }}"></script>
