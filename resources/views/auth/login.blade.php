@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Alumni - Masuk dan lanjutkan cerita serta kenangan indah bersama keluarga alumni.">
-    <title>Masuk | Portal Alumni</title>
+<x-guest-layout>
+    <!-- Session Status -->
+    <x-auth-session-status class="mb-4" :status="session('status')" />
 
+<<<<<<< HEAD
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+=======
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,6 +131,7 @@
                         <p class="card-subtitle">Senang melihatmu kembali</p>
                     </div>
 
+<<<<<<< HEAD
                     <!-- Notification Toast / Error Feedback -->
                     @if ($errors->any())
                         <div id="login-toast" class="toast-message" role="alert" style="margin-bottom: 1rem; color: #991b1b; background-color: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -149,6 +150,22 @@
 
                     <!-- Login Form -->
                     <form id="alumni-login-form" action="{{ route('login.post') }}" method="POST">
+=======
+                    <!-- Notification Toast Feedback -->
+                    @if($errors->any())
+                    <div class="toast-message" role="alert" style="display:flex; margin-bottom:16px; background:#fde8e8; border:1.5px solid #f98080; color:#9b1c1c; border-radius:12px; padding:12px 14px; font-size:13.5px; font-weight:700; gap:8px; align-items:center;">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <span>{{ $errors->first() }}</span>
+                    </div>
+                    @endif
+
+                    <!-- Login Form -->
+                    <form id="alumni-login-form" action="{{ route('login') }}" method="POST">
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
                         @csrf
 
                         <!-- Field Email -->
@@ -166,7 +183,11 @@
                                     type="email"
                                     id="email"
                                     name="email"
+<<<<<<< HEAD
                                     value="{{ old('email') }}"
+=======
+                                    value="{{ old('email', 'kanya.salsabila@alumni.id') }}"
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
                                     required
                                     placeholder="namamu@alumni.sch.id"
                                     class="form-input"
@@ -189,6 +210,7 @@
                                     type="password"
                                     id="password"
                                     name="password"
+                                    value="password123"
                                     required
                                     placeholder="••••••••"
                                     class="form-input"
@@ -224,8 +246,8 @@
                                 <span>Ingat saya</span>
                             </label>
 
-                            <a href="#lupa-password" onclick="alert('Silakan hubungi administrator alumni sekolah untuk reset password!')" class="forgot-link">
-                                Lupa password?
+                            <a href="#lupa-password" onclick="alert('Gunakan email: kanya.salsabila@alumni.id dan password: password123')" class="forgot-link">
+                                Butuh bantuan?
                             </a>
                         </div>
 
@@ -235,29 +257,44 @@
                             id="submit-btn"
                             class="btn-primary"
                         >
-                            <span>Masuk</span>
+                            <span>Masuk Sekarang</span>
                             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
                                 <path d="M5 12h13" stroke-linecap="round"/>
                                 <path d="M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </button>
 
+                        <!-- Quick Demo Credentials Selector -->
+                        <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #d1d5db; text-align:center;">
+                            <p style="font-size:12px; font-weight:700; color:#4b5563; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.04em;">Akun Demo Siap Masuk (Klik):</p>
+                            <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                                <button type="button" onclick="setDemo('kanya.salsabila@alumni.id', 'password123')" style="background:#eaf3ff; border:1px solid #93c5fd; color:#1e40af; border-radius:999px; padding:5px 12px; font-size:12px; font-weight:700; cursor:pointer;">
+                                    🎓 Alumni: Kanya (2019)
+                                </button>
+                                <button type="button" onclick="setDemo('admin@alumnispace.id', 'password123')" style="background:#fef3c7; border:1px solid #fcd34d; color:#92400e; border-radius:999px; padding:5px 12px; font-size:12px; font-weight:700; cursor:pointer;">
+                                    ⚡ Administrator
+                                </button>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
 
             </section>
+>>>>>>> a185f3c9136af7b5ed12841a6e4573d7d7609776
 
+        <!-- Email Address -->
+        <div>
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-    </main>
 
-    <!-- Vanilla JavaScript Interactions -->
-    <script>
-        // Password Visibility Toggle Logic
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const eyeShow = document.getElementById('eye-icon-show');
-            const eyeHide = document.getElementById('eye-icon-hide');
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
 
+<<<<<<< HEAD
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 eyeShow.style.display = 'none';
@@ -267,8 +304,46 @@
                 eyeShow.style.display = 'inline';
                 eyeHide.style.display = 'none';
             }
+=======
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="current-password" />
+
+<<<<<<< HEAD
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Remember Me -->
+        <div class="block mt-4">
+            <label for="remember_me" class="inline-flex items-center">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            @if (Route::has('password.request'))
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
+
+            <x-primary-button class="ms-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
+=======
+        // Fill Demo Account
+        function setDemo(email, pass) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = pass;
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
         }
     </script>
 
 </body>
 </html>
+>>>>>>> a185f3c9136af7b5ed12841a6e4573d7d7609776

@@ -978,22 +978,22 @@ transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawa
     <div class="count-grid">
       <div class="count-card reveal reveal-pop">
         <div class="emoji">🎉</div>
-        <div class="num">5.000+</div>
+        <div class="num">{{ number_format($stats['total_alumni'] ?? 5000) }}+</div>
         <div class="label">Alumni Hebat Terdaftar</div>
       </div>
       <div class="count-card reveal reveal-pop reveal-d1">
         <div class="emoji">🤝</div>
-        <div class="num">25+</div>
+        <div class="num">{{ $stats['total_generations'] ?? 25 }}+</div>
         <div class="label">Angkatan Seru Bergabung</div>
       </div>
       <div class="count-card reveal reveal-pop reveal-d2">
         <div class="emoji">💼</div>
-        <div class="num">150+</div>
+        <div class="num">{{ $stats['total_jobs'] ?? 150 }}+</div>
         <div class="label">Perusahaan Partner Loker</div>
       </div>
       <div class="count-card reveal reveal-pop reveal-d3">
         <div class="emoji">✨</div>
-        <div class="num">40+</div>
+        <div class="num">{{ $stats['total_events'] ?? 40 }}+</div>
         <div class="label">Keseruan Event Telah Usai</div>
       </div>
     </div>
@@ -1044,6 +1044,18 @@ transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawa
     </div>
 
     <div class="testi-grid">
+      @forelse($testimonials ?? [] as $index => $testi)
+      <div class="testi-card reveal {{ $index > 0 ? 'reveal-d' . $index : '' }}">
+        <p class="testi-quote">"{{ $testi->quote }}"</p>
+        <div class="testi-person">
+          <div class="avatar">{{ substr($testi->name, 0, 1) }}</div>
+          <div>
+            <div class="name">{{ $testi->name }}</div>
+            <div class="angkatan">{{ $testi->profession ?? ('Angkatan ' . ($testi->graduation_year ?? 'Alumni')) }}</div>
+          </div>
+        </div>
+      </div>
+      @empty
       <div class="testi-card reveal">
         <p class="testi-quote">Sumpah ngebantu banget! Lewat web ini akhirnya bisa kontakan lagi sama geng sekelas dulu. Malah kemarin sempat nongkrong bareng lagi. Asyik banget!</p>
         <div class="testi-person">
@@ -1064,6 +1076,7 @@ transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawa
           </div>
         </div>
       </div>
+      @endforelse
     </div>
   </div>
 </section>
@@ -1078,6 +1091,16 @@ transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawa
     </div>
 
     <div class="art-grid">
+      @forelse($articles ?? [] as $article)
+      <a href="{{ url('/home#artikel') }}" class="art-card reveal">
+        <div class="art-thumb">💼</div>
+        <div class="art-body">
+          <span class="art-tag">{{ strtoupper($article->category) }}</span>
+          <div class="art-title">{{ $article->title }}</div>
+          <p class="art-excerpt">{{ $article->excerpt ?? Str::limit(strip_tags($article->content), 90) }}</p>
+        </div>
+      </a>
+      @empty
       <a href="#" class="art-card reveal">
         <div class="art-thumb">💼</div>
         <div class="art-body">
@@ -1086,6 +1109,7 @@ transform: scaleY(-1) rotate(-35deg); /* Pakai scaleY(-1) buat balikin atas-bawa
           <p class="art-excerpt">Mau tahu rahasia lolos interview kerja di perusahaan impian? Intip tips dari kakak tingkatmu di sini...</p>
         </div>
       </a>
+      @endforelse
     </div>
   </div>
 </section>

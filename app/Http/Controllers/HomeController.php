@@ -33,6 +33,18 @@ class HomeController extends Controller
             'total_countries' => 35,
         ];
 
+<<<<<<< HEAD
         return view('home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats'));
+=======
+        $contents = \App\Models\PageContent::where('page_slug', 'home')
+            ->where('is_active', true)
+            ->get()
+            ->keyBy('section_key');
+
+        $settings = \App\Models\SiteSetting::where('is_public', true)
+            ->pluck('value', 'key');
+
+        return view('home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats', 'contents', 'settings'));
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
     }
 }

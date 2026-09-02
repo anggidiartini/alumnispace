@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = localStorage.getItem(AUTH_EMAIL_KEY) || "";
 
         if (isLoggedIn) {
+<<<<<<< HEAD
             guestActions?.classList.add("hidden");
             userActions?.classList.remove("hidden");
             userActions?.classList.add("flex");
@@ -89,6 +90,26 @@ document.addEventListener("DOMContentLoaded", () => {
             if (userAvatar && email) userAvatar.textContent = email[0].toUpperCase();
 
             lockedTeaser?.classList.add("hidden-teaser");
+=======
+            if (guestActions) guestActions.classList.add("hidden");
+            if (userActions) {
+                userActions.classList.remove("hidden");
+                userActions.classList.add("flex");
+            }
+            if (mobileOpenLogin) mobileOpenLogin.classList.add("hidden");
+            if (mobileLogoutBtn) {
+                mobileLogoutBtn.classList.remove("hidden");
+                mobileLogoutBtn.classList.add("flex");
+            }
+            if (userEmailLabel && !userEmailLabel.textContent.trim()) {
+                userEmailLabel.textContent = email ? email.split("@")[0] : "Alumni";
+            }
+            if (userAvatar && !userAvatar.textContent.trim()) {
+                userAvatar.textContent = (email ? email[0] : "A").toUpperCase();
+            }
+
+            if (lockedTeaser) lockedTeaser.classList.add("hidden-teaser");
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
             authSections.forEach((section, i) => {
                 if (!section.classList.contains("unlocked")) {
                     if (animate) {
@@ -98,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         } else {
+<<<<<<< HEAD
             guestActions?.classList.remove("hidden");
             userActions?.classList.add("hidden");
             userActions?.classList.remove("flex");
@@ -106,6 +128,20 @@ document.addEventListener("DOMContentLoaded", () => {
             mobileLogoutBtn?.classList.remove("flex");
 
             lockedTeaser?.classList.remove("hidden-teaser");
+=======
+            if (guestActions) guestActions.classList.remove("hidden");
+            if (userActions) {
+                userActions.classList.add("hidden");
+                userActions.classList.remove("flex");
+            }
+            if (mobileOpenLogin) mobileOpenLogin.classList.remove("hidden");
+            if (mobileLogoutBtn) {
+                mobileLogoutBtn.classList.add("hidden");
+                mobileLogoutBtn.classList.remove("flex");
+            }
+
+            if (lockedTeaser) lockedTeaser.classList.remove("hidden-teaser");
+>>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
             authSections.forEach((section) =>
                 section.classList.remove("unlocked"),
             );
