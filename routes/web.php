@@ -11,7 +11,7 @@ Route::get('/landing', function () {
 });
 
 Route::get('/login', function () {
-    return view('login.index');
+    return view('auth.login');
 })->name('login');
 
 Route::get('/home', function () {
