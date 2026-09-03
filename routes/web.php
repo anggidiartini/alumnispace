@@ -43,6 +43,10 @@ Route::get('/album/{slug}', [AlbumController::class, 'show'])->name('album.show'
 Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
 Route::get('/alumni/{id}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
 
+// Artikel
+Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel.show');
+
 
 // Admin Protected Group
 Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
@@ -56,5 +60,5 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::delete('/content/{id}', [\App\Http\Controllers\Admin\ContentManagementController::class, 'destroy'])->name('content.destroy');
     Route::put('/settings', [\App\Http\Controllers\Admin\ContentManagementController::class, 'updateSettings'])->name('settings.update');
 
-Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
+
 });
