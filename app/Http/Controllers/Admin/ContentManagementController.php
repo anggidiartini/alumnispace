@@ -30,6 +30,33 @@ class ContentManagementController extends Controller
         return view('admin.content.index', compact('contents', 'settings'));
     }
 
+    public function dashboard()
+    {
+        $count = [
+            'alumni' => \App\Models\Album::count(),
+            'event' => \App\Models\Event::count(),
+            'job_vacancy' => \App\Models\JobVacancy::count(),
+            'Article' => \App\Models\Article::count(),
+        ];
+
+        // Bagian ambil data list/tabel terbaru untuk ditampilkan di dashboard admin
+        $recentAlumni = \App\Models\AlumniProfile::with('user')->latest()->take(5)->get();
+        $upcomingAcara = \App\Models\Event::latest()->take(5)->get();
+        $latestArticles = \App\Models\Article::latest()->take(5)->get();
+        $recentTestimonies = \App\Models\Testimony::latest()->take(5)->get();
+        $recentPrestasi = \App\Models\Prestasi::latest()->take(5)->get();
+        
+
+        return view('dashboard', compact(
+            'counts',
+            'recentAlumni',
+            'upcomingAcara',
+            'latestArticles',
+            'recentTestimonies',
+            'recentPrestasi'
+        ));
+    }
+
     /**
      * Store new page content section.
      */

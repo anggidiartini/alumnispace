@@ -44,8 +44,8 @@ Route::get('/alumni/{id}', [AlumniDirectoryController::class, 'show'])->name('al
 
 // Admin Protected Group
 Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('admin.content.index');
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard.index');
     })->name('dashboard');
 
     Route::get('/content', [\App\Http\Controllers\Admin\ContentManagementController::class, 'index'])->name('content.index');
