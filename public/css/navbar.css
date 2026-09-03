@@ -1,8 +1,60 @@
 /* =========================================
-   DESKTOP NAVBAR & DROPDOWN STYLES
+   CUSTOM NAVBAR STYLES (Tanpa Tailwind)
    ========================================= */
 
-/* Efek Putar Logo Bintang (✦) */
+.custom-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid #dbeafe;
+    background-color: rgba(255, 253, 247, 0.95);
+    backdrop-filter: blur(8px);
+    font-family: "DM Sans", sans-serif;
+}
+
+.custom-nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .custom-nav-container {
+        padding: 0.875rem 2rem;
+    }
+}
+
+.custom-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    border-radius: 0.75rem;
+}
+
+.logo-icon {
+    display: grid;
+    height: 2.25rem;
+    width: 2.25rem;
+    place-items: center;
+    border-radius: 0.75rem;
+    background-color: #2e72ec;
+    font-size: 1.125rem;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.logo-text {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #153563;
+    font-size: 1.1rem;
+}
+
+/* Efek Putar Logo */
 .logo-spin {
     transition: transform 0.5s ease;
 }
@@ -10,17 +62,39 @@
     transform: rotate(20deg) scale(1.08);
 }
 
-/* Link Navigasi */
-.nav-link {
-    border: 2px solid transparent;
-    border-radius: 9999px !important;
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        background-color 0.2s ease;
+.desktop-nav {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
 }
-.nav-link:hover {
+
+@media (min-width: 768px) {
+    .desktop-nav {
+        display: flex;
+    }
+}
+
+.nav-drop {
+    position: relative;
+}
+
+.nav-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 9999px;
+    color: #153563;
+    background: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.nav-link-btn:hover {
     color: #0a4174;
     border-color: #f8edb8;
     background-color: rgba(248, 237, 184, 0.35);
@@ -29,12 +103,29 @@
 
 /* Dropdown Menu */
 .drop-menu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    width: 11rem;
+    border-radius: 1rem;
+    border: 1px solid #dbeafe;
+    background-color: #ffffff;
+    padding: 0.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
     transition: 0.2s ease;
     pointer-events: none;
 }
+
+.drop-right {
+    left: auto;
+    right: 0;
+    width: 13rem;
+}
+
 .nav-drop.open .drop-menu,
 .nav-drop:hover .drop-menu {
     opacity: 1;
@@ -43,17 +134,150 @@
     pointer-events: auto;
 }
 
-/* Fokus Ring untuk Aksesibilitas Keyboard (Tab) */
-.focus-ring:focus-visible {
-    outline: 3px solid #f5b5cb;
-    outline-offset: 3px;
+.drop-item {
+    display: block;
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: #153563;
+    text-decoration: none;
+    transition: background 0.15s;
 }
 
-/* =========================================
-   MOBILE NAVBAR STYLES
-   ========================================= */
+.drop-item:hover {
+    background-color: #eff6ff;
+}
 
-/* Label Grup Menu di HP */
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Tombol Aksi Kanan */
+.nav-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.625rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #2e72ec;
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(46, 114, 236, 0.2);
+    transition: background 0.2s;
+}
+.btn-primary:hover {
+    background-color: #255bc4;
+}
+
+.user-action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-admin {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 0.75rem;
+    background-color: #fff0a9;
+    border: 1px solid #fde047;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #153563;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: #eaf3ff;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #153563;
+}
+
+.user-avatar {
+    display: grid;
+    height: 1.75rem;
+    width: 1.75rem;
+    place-items: center;
+    border-radius: 9999px;
+    background-color: #2e72ec;
+    font-size: 0.75rem;
+    color: #ffffff;
+}
+
+.btn-outline-danger {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 0.75rem;
+    border: 2px solid #2e72ec;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #2e72ec;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-outline-danger:hover {
+    background-color: #eff6ff;
+}
+
+.mobile-toggle-btn {
+    display: block;
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    color: #153563;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .mobile-toggle-btn {
+        display: none;
+    }
+}
+
+/* Mobile Nav Styles */
+.mobile-nav-container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    border-top: 1px solid #dbeafe;
+    background-color: #ffffff;
+    padding: 0 1.25rem;
+}
+.mobile-nav-container.open {
+    max-height: 720px;
+    overflow-y: auto;
+}
+
+.mobile-nav-content {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
 .mobile-group-label {
     margin-top: 0.5rem;
     padding: 0 0.75rem;
@@ -63,36 +287,68 @@
     text-transform: uppercase;
     color: #7c93b8;
 }
-.mobile-group-label:first-child {
-    margin-top: 0;
+
+.mobile-link {
+    display: block;
+    border-radius: 0.75rem;
+    padding: 0.625rem 0.75rem;
+    color: #153563;
+    text-decoration: none;
+}
+.mobile-link:hover {
+    background-color: #eff6ff;
 }
 
-/* Animasi Buka-Tutup Menu HP */
-.mobile-nav {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-}
-.mobile-nav.open {
-    max-height: 720px;
-    overflow-y: auto;
+.mobile-auth-footer {
+    margin-top: 0.5rem;
+    border-top: 1px solid #dbeafe;
+    padding-top: 0.75rem;
 }
 
-/* =========================================
-   RESPONSIVE NAVBAR (MEDIA QUERIES)
-   ========================================= */
-
-/* Sembunyikan menu deret di HP */
-@media (max-width: 767px) {
-    .desktop-nav {
-        display: none;
-    }
+.btn-primary-block {
+    display: block;
+    width: 100%;
+    border-radius: 0.75rem;
+    background-color: #2e72ec;
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
 }
 
-/* Sembunyikan tombol hamburger & menu HP di Laptop */
-@media (min-width: 768px) {
-    .mobile-toggle,
-    .mobile-nav {
-        display: none;
+.btn-outline-block {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid #2e72ec;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #2e72ec;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Utility Helpers */
+.icon-sm {
+    height: 1rem;
+    width: 1rem;
+}
+.icon-md {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.text-blue {
+    color: #2e72ec;
+}
+
+@media (max-width: 640px) {
+    .hide-mobile {
+        display: none !important;
     }
 }
