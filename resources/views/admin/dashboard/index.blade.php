@@ -9,56 +9,47 @@
     }
 
     $sidebarItems = [
-        ['key' => 'alumni', 'title' => 'Data Alumni', 'icon' => 'fa-user-graduate', 'color' => 'text-blue-400'],
-        ['key' => 'angkatan', 'title' => 'Tahun Angkatan', 'icon' => 'fa-graduation-cap', 'color' => 'text-amber-400'],
-        ['key' => 'kelas', 'title' => 'Daftar Kelas', 'icon' => 'fa-chalkboard-user', 'color' => 'text-emerald-400'],
-        ['key' => 'users', 'title' => 'Users / Akun', 'icon' => 'fa-users', 'color' => 'text-purple-400'],
-        [
-            'key' => 'periode_kepengurusan',
-            'title' => 'Periode Kepengurusan',
-            'icon' => 'fa-calendar-check',
-            'color' => 'text-teal-400',
-        ],
-        ['key' => 'pengurus_alumni', 'title' => 'Pengurus Alumni', 'icon' => 'fa-user-tie', 'color' => 'text-rose-400'],
-        ['key' => 'prestasi_alumni', 'title' => 'Prestasi Alumni', 'icon' => 'fa-trophy', 'color' => 'text-yellow-400'],
-        ['key' => 'artikels', 'title' => 'Artikel & Berita', 'icon' => 'fa-newspaper', 'color' => 'text-cyan-400'],
-        ['key' => 'acara', 'title' => 'Acara & Agenda', 'icon' => 'fa-calendar-days', 'color' => 'text-orange-400'],
-        ['key' => 'albums', 'title' => 'Album Foto', 'icon' => 'fa-images', 'color' => 'text-pink-400'],
-        ['key' => 'galleries', 'title' => 'Galeri Foto', 'icon' => 'fa-camera-retro', 'color' => 'text-indigo-400'],
-        [
-            'key' => 'testimonies',
-            'title' => 'Testimoni Alumni',
-            'icon' => 'fa-comment-dots',
-            'color' => 'text-teal-300',
-        ],
-        ['key' => 'contents', 'title' => 'Konten Halaman', 'icon' => 'fa-file-lines', 'color' => 'text-sky-400'],
+        // Data Alumni & Akademik
+        ['key' => 'alumnis', 'title' => 'Data Alumni', 'icon' => 'fa-user-graduate', 'color' => '#7bbde8'],
+        ['key' => 'graduations', 'title' => 'Tahun Angkatan', 'icon' => 'fa-graduation-cap', 'color' => '#fae588'],
+        ['key' => 'schoolclasses', 'title' => 'Daftar Kelas', 'icon' => 'fa-chalkboard-user', 'color' => '#7bbde8'],
+        ['key' => 'alumni_achievements', 'title' => 'Prestasi Alumni', 'icon' => 'fa-trophy', 'color' => '#fae588'],
+        
+        // Kepengurusan Alumni
+        ['key' => 'board_periods', 'title' => 'Periode Kepengurusan', 'icon' => 'fa-calendar-check', 'color' => '#7bbde8'],
+        ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'icon' => 'fa-user-tie', 'color' => '#fae588'],
+        
+        // Karir & Lowongan Kerja
+        ['key' => 'job_categories', 'title' => 'Kategori Pekerjaan', 'icon' => 'fa-layer-group', 'color' => '#7bbde8'],
+        ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'icon' => 'fa-briefcase', 'color' => '#fae588'],
+
+        // Informasi, Media & Acara
+        ['key' => 'articles', 'title' => 'Artikel & Berita', 'icon' => 'fa-newspaper', 'color' => '#7bbde8'],
+        ['key' => 'event', 'title' => 'Acara & Agenda', 'icon' => 'fa-calendar-days', 'color' => '#fae588'],
+        ['key' => 'albums', 'title' => 'Album Foto', 'icon' => 'fa-images', 'color' => '#7bbde8'],
+        ['key' => 'galleries', 'title' => 'Galeri Foto', 'icon' => 'fa-camera-retro', 'color' => '#fae588'],
+        ['key' => 'contents', 'title' => 'Konten Halaman', 'icon' => 'fa-file-lines', 'color' => '#7bbde8'],
     ];
 @endphp
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'AlumniHub') - Portal Database Alumni</title>
 
-    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <!-- Google Fonts (UI Sans-Serif Standar Admin) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Vite compiled Tailwind CSS -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <!-- Alpine.js v3.14.1 -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 
-    <!-- Theme & Text Size Persistent Script (Prevents FOUC) -->
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -69,12 +60,7 @@
             }
 
             const savedSize = localStorage.getItem('textSize') || 'normal';
-            const scaleMap = {
-                'small': '14px',
-                'normal': '16px',
-                'large': '18px',
-                'xlarge': '20px'
-            };
+            const scaleMap = { 'small': '14px', 'normal': '16px', 'large': '18px', 'xlarge': '20px' };
             if (scaleMap[savedSize]) {
                 document.documentElement.style.fontSize = scaleMap[savedSize];
             }
@@ -82,38 +68,425 @@
     </script>
 
     <style>
+        :root {
+            /* Palette Core */
+            --color-primary: #0a4174;
+            --color-secondary: #7bbde8;
+            --color-accent: #fae588;
+
+            /* Light Mode Variables */
+            --bg-main: #f0f7fc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #0a4174;
+            --bg-sidebar-header: #062b4f;
+            --bg-sidebar-hover: #125493;
+            --text-main: #0a4174;
+            --text-muted: #4e7194;
+            --text-sidebar: #e0f2fe;
+            --border-color: #cbdbe8;
+            --border-dark: #125493;
+            
+            --active-item-bg: #fae588;
+            --active-item-text: #0a4174;
+            --badge-bg: rgba(250, 229, 136, 0.25);
+            --badge-text: #fae588;
+        }
+
+        html.dark {
+            --bg-main: #041221;
+            --bg-card: #081d33;
+            --bg-sidebar: #06192d;
+            --bg-sidebar-header: #030e1a;
+            --bg-sidebar-hover: #0c2d4e;
+            --text-main: #f0f7fc;
+            --text-muted: #7bbde8;
+            --text-sidebar: #b3dcfa;
+            --border-color: #12375c;
+            --border-dark: #0d2843;
+
+            --active-item-bg: #0a4174;
+            --active-item-text: #fae588;
+            --badge-bg: rgba(123, 189, 232, 0.2);
+            --badge-text: #7bbde8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Font khusus Admin Dashboard */
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3, .brand-text h1 {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            color: var(--text-sidebar);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-dark);
+            z-index: 20;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-header {
+            height: 64px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-sidebar-header);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: var(--color-accent);
+            color: #0a4174;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand-text h1 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: #ffffff;
+        }
+
+        .brand-text p {
+            font-size: 11px;
+            color: var(--color-secondary);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+        }
+
+        .menu-category {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--color-secondary);
+            margin-bottom: 8px;
+            padding: 0 8px;
+            display: flex;
+            justify-content: space-between;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-sidebar);
+            text-decoration: none;
+            margin-bottom: 3px;
+            transition: all 0.15s ease;
+        }
+
+        .nav-item:hover {
+            background-color: var(--bg-sidebar-hover);
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background-color: var(--active-item-bg);
+            color: var(--active-item-text);
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-item-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .active .badge {
+            background-color: rgba(10, 65, 116, 0.15);
+            color: var(--active-item-text);
+        }
+
+        html.dark .active .badge {
+            background-color: rgba(250, 229, 136, 0.2);
+            color: var(--color-accent);
+        }
+
+        /* Sidebar Footer / Profile */
+        .sidebar-footer {
+            padding: 12px;
+            border-top: 1px solid var(--border-dark);
+            background-color: var(--bg-sidebar-header);
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-dark);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background-color: var(--color-accent);
+            color: #0a4174;
+            font-weight: 700;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
+        /* Main Wrapper */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Navbar */
+        .navbar {
+            height: 64px;
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .breadcrumb span.active {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        html.dark .btn-icon:hover {
+            color: var(--color-accent);
+        }
+
+        .btn-text-size {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s ease;
+        }
+
+        .btn-text-size:hover {
+            border-color: var(--color-secondary);
+        }
+
+        /* Profile Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 44px;
+            width: 200px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 6px 0;
+            z-index: 30;
+        }
+
+        .dropdown-header {
+            padding: 8px 14px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 8px 14px;
+            font-size: 12px;
+            color: #e11d48;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(225, 29, 72, 0.1);
+        }
+
+        /* Content Body */
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .alert-success {
+            padding: 12px 16px;
+            border-radius: 8px;
+            background-color: rgba(123, 189, 232, 0.15);
+            border: 1px solid var(--color-secondary);
+            color: var(--color-primary);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        html.dark .alert-success {
+            background-color: rgba(250, 229, 136, 0.1);
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* Responsive Utilities */
+        @media (max-width: 1024px) {
+            .sidebar-desktop { display: none; }
+            .mobile-toggle { display: block !important; }
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 
-<body
-    class="h-full text-slate-800 dark:text-slate-100 antialiased flex flex-col bg-slate-50/80 dark:bg-[#070b13] transition-colors duration-200"
-    x-data="{
+<body x-data="{
         mobileSidebarOpen: false,
         darkMode: document.documentElement.classList.contains('dark'),
         textSize: localStorage.getItem('textSize') || 'normal',
         get textSizeLabel() {
             switch (this.textSize) {
-                case 'large':
-                    return 'Teks: Besar';
-                case 'xlarge':
-                    return 'Teks: Ekstra';
-                case 'small':
-                    return 'Teks: Kecil';
-                default:
-                    return 'Teks: Normal';
+                case 'large': return 'Teks: Besar';
+                case 'xlarge': return 'Teks: Ekstra';
+                case 'small': return 'Teks: Kecil';
+                default: return 'Teks: Normal';
             }
         },
         toggleDarkMode() {
             this.darkMode = !this.darkMode;
             localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
-            if (this.darkMode) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+            document.documentElement.classList.toggle('dark', this.darkMode);
         },
         cycleTextSize() {
             const sizes = ['normal', 'large', 'xlarge', 'small'];
@@ -125,251 +498,129 @@
         }
     }">
 
-    <div class="flex h-screen overflow-hidden">
+    <div class="layout-wrapper">
         <!-- SIDEBAR FOR DESKTOP -->
-        <aside
-            class="hidden lg:flex lg:flex-col lg:w-64 bg-[#0d1322] text-slate-200 border-r border-slate-800/80 shadow-2xl z-20">
-            <!-- Brand Logo -->
-            <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800/60 bg-[#090d17]">
-                <a href="/admin/dashboard" class="flex items-center gap-3 group">
-                    <div
-                        class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-graduation-cap text-base"></i>
+        <aside class="sidebar sidebar-desktop">
+            <div class="sidebar-header">
+                <a href="/admin/dashboard" class="brand-logo">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
                     </div>
-                    <div>
-                        <h1 class="font-bold text-sm text-white tracking-tight leading-tight">AlumniHub</h1>
-                        <p class="text-[10px] text-indigo-300 font-medium">Portal Database Alumni</p>
+                    <div class="brand-text">
+                        <h1>AlumniHub</h1>
+                        <p>Portal Database Alumni</p>
                     </div>
                 </a>
             </div>
 
-            <!-- Navigation Links -->
-            <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 custom-scrollbar">
-
-                <!-- Overview Category -->
-                <div>
-                    <div class="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        Overview
-                    </div>
-                    <a href="/admin/dashboard"
-                    
-                        class="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-xs transition-all duration-150 {{ request()->routeIs('dashboard') ? 'text-white shadow-md shadow-indigo-500/30 font-semibold' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}">
-                        <i
-                            class="fa-solid fa-chart-pie w-4 text-center {{ request()->routeIs('dashboard') ? 'text-indigo-400' : '' }}"></i>
-                        <span>Dashboard Utama</span>
+            <div class="sidebar-menu">
+                <div style="margin-bottom: 20px;">
+                    <div class="menu-category">Overview</div>
+                    <a href="/admin/dashboard" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <div class="nav-item-content">
+                            <i class="fa-solid fa-chart-pie" style="width: 16px; text-align: center;"></i>
+                            <span>Dashboard Utama</span>
+                        </div>
                     </a>
                 </div>
 
-                <!-- Master Data Tables Category -->
                 <div>
-                    <div
-                        class="px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                    <div class="menu-category">
                         <span>Master Database</span>
-                        <span
-                            class="text-[10px] bg-slate-800/90 text-slate-300 px-2 py-0.5 rounded font-mono font-medium">13
-                            TABEL</span>
+                        <span style="font-family: 'Inter', sans-serif;">{{ count($sidebarItems) }} TABEL</span>
                     </div>
 
-                    <div class="space-y-0.5">
-                        @foreach ($sidebarItems as $item)
-                            @php
-                                $isActive = request()->is('table/' . $item['key']);
-                                $count = $counts[$item['key']] ?? 0;
-                            @endphp
-                            <a href="#"
-                                class="flex items-center justify-between px-3 py-2 rounded-xl font-medium text-xs transition-all duration-150 group {{ $isActive ? 'bg-[#4f46e5] text-white shadow-md shadow-indigo-500/30 font-semibold' : 'text-slate-300 hover:bg-slate-800/60 hover:text-white' }}">
-                                <div class="flex items-center gap-2.5 truncate">
-                                    <i
-                                        class="fa-solid {{ $item['icon'] }} w-4 text-center {{ $isActive ? 'text-white' : $item['color'] }}"></i>
-                                    <span class="truncate">{{ $item['title'] }}</span>
-                                </div>
-                                <span
-                                    class="text-[11px] font-semibold px-2 py-0.5 rounded-md transition-colors {{ $isActive ? 'bg-indigo-800 text-white' : 'bg-slate-800/80 text-slate-400 group-hover:text-slate-200' }}">
-                                    {{ $count }}
-                                </span>
-                            </a>
-                        @endforeach
-                    </div>
+                    @foreach ($sidebarItems as $item)
+                        @php
+                            $isActive = request()->is('admin/table/' . $item['key']) || request()->is('table/' . $item['key']);
+                            $count = $counts[$item['key']] ?? 0;
+                        @endphp
+                        <a href="{{ url('admin/table/' . $item['key']) }}" class="nav-item {{ $isActive ? 'active' : '' }}">
+                            <div class="nav-item-content">
+                                <i class="fa-solid {{ $item['icon'] }}" style="width: 16px; text-align: center; color: {{ $isActive ? 'var(--active-item-text)' : $item['color'] }};"></i>
+                                <span>{{ $item['title'] }}</span>
+                            </div>
+                            <span class="badge">{{ $count }}</span>
+                        </a>
+                    @endforeach
                 </div>
-
             </div>
 
-            <!-- Bottom User Profile Card -->
-            <div class="p-3 border-t border-slate-800/60 bg-[#090d17]">
-                <div
-                    class="flex items-center justify-between px-2 py-1.5 rounded-xl bg-slate-900/60 border border-slate-800/50">
-                    <div class="flex items-center gap-2.5 min-w-0">
-                        <div
-                            class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-sm">
-                            AD
-                        </div>
-                        <div class="truncate">
-                            <p class="text-xs font-bold text-white leading-tight truncate">
-                                {{ Auth::user()->username ?? 'admin' }}</p>
-                            <p class="text-[10px] text-slate-400 font-medium capitalize">
-                                {{ Auth::user()->role ?? 'Admin' }}</p>
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="avatar">AD</div>
+                        <div>
+                            <p style="font-size: 12px; font-weight: 600; color: #ffffff;">{{ Auth::user()->username ?? 'admin' }}</p>
+                            <p style="font-size: 11px; color: var(--color-secondary); text-transform: capitalize;">{{ Auth::user()->role ?? 'Admin' }}</p>
                         </div>
                     </div>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" title="Logout"
-                            class="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-slate-800 transition-colors">
-                            <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                        <button type="submit" style="background: none; border: none; color: var(--color-secondary); cursor: pointer;" title="Logout">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </button>
                     </form>
                 </div>
             </div>
         </aside>
 
-        <!-- MOBILE SIDEBAR DRAWER -->
-        <div x-cloak x-show="mobileSidebarOpen" class="fixed inset-0 z-50 lg:hidden flex" role="dialog"
-            aria-modal="true">
-            <div x-show="mobileSidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
-                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0" @click="mobileSidebarOpen = false"
-                class="fixed inset-0 bg-slate-950/80"></div>
-
-            <div x-show="mobileSidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform"
-                x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
-                x-transition:leave="transition ease-in-out duration-300 transform"
-                x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
-                class="relative flex-1 flex flex-col max-w-xs w-full bg-[#0d1322] text-slate-200">
-
-                <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800 bg-[#090d17]">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                        </div>
-                        <span class="font-bold text-white text-sm">AlumniHub</span>
-                    </div>
-                    <button @click="mobileSidebarOpen = false" class="text-slate-400 hover:text-white p-2">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-
-                <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-4 custom-scrollbar">
-                    <a href="/admin/dashboard"debarOpen = false"
-                        class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium {{ request()->routeIs('dashboard') ? 'bg-[#4f46e5] text-white font-semibold' : 'text-slate-300 hover:bg-slate-800' }}">
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-chart-pie"></i>
-                            <span>Dashboard Utama</span>
-                        </div>
-                    </a>
-
-                    <div class="space-y-0.5">
-                        @foreach ($sidebarItems as $item)
-                            <a href="#" @click="mobileSidebarOpen = false"
-                                class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium {{ request()->is('table/' . $item['key']) ? 'bg-[#4f46e5] text-white font-semibold' : 'text-slate-300 hover:bg-slate-800' }}">
-                                <div class="flex items-center gap-2.5 truncate">
-                                    <i class="fa-solid {{ $item['icon'] }} w-4 text-center"></i>
-                                    <span>{{ $item['title'] }}</span>
-                                </div>
-                                <span
-                                    class="text-[11px] bg-slate-800 px-2 py-0.5 rounded">{{ $counts[$item['key']] ?? 0 }}</span>
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- MAIN CONTENT WRAPPER -->
-        <div class="flex-1 flex flex-col overflow-hidden bg-slate-50/80 dark:bg-[#070b13]">
-
+        <div class="main-wrapper">
             <!-- TOP NAVBAR -->
-            <header
-                class="h-16 bg-white dark:bg-[#0e1626] border-b border-slate-200/80 dark:border-slate-800/80 px-4 sm:px-8 flex items-center justify-between z-10 shadow-xs transition-colors duration-200">
-                <!-- Left: Mobile Toggle & Breadcrumb -->
-                <div class="flex items-center gap-3 sm:gap-4 min-w-0">
-                    <button @click="mobileSidebarOpen = true"
-                        class="lg:hidden text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <i class="fa-solid fa-bars-staggered text-base"></i>
+            <header class="navbar">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button @click="mobileSidebarOpen = true" class="mobile-toggle">
+                        <i class="fa-solid fa-bars-staggered"></i>
                     </button>
 
-                    <div
-                        class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium truncate">
-                        <a href="/admin/dashboard"
-                            class="hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5 flex-shrink-0">
-                            <i class="fa-solid fa-house text-xs"></i>
-                            <span>Home</span>
-                        </a>
-                        <i
-                            class="fa-solid fa-chevron-right text-[10px] text-slate-300 dark:text-slate-600 flex-shrink-0"></i>
-                        <span class="font-bold text-slate-800 dark:text-slate-100 truncate">@yield('page_title', 'Dashboard Overview')</span>
+                    <div class="breadcrumb">
+                        <a href="/admin/dashboard"><i class="fa-solid fa-house"></i> Home</a>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
+                        <span class="active">@yield('page_title', 'Dashboard Overview')</span>
                     </div>
                 </div>
 
-                <!-- Right Header Actions -->
-                <div class="flex items-center gap-2.5 sm:gap-3 ml-auto">
-                    <!-- Text Size Toggle Button -->
-                    <button type="button" @click="cycleTextSize()" title="Klik untuk mengubah ukuran teks tampilan"
-                        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shadow-2xs cursor-pointer">
-                        <span class="font-black text-indigo-600 dark:text-indigo-400 text-xs">A</span>
-                        <span class="text-[11px]" x-text="textSizeLabel">Teks: Normal</span>
+                <div class="nav-actions">
+                    <button type="button" @click="cycleTextSize()" class="btn-text-size">
+                        <span style="color: var(--color-primary); font-weight: 800;">A</span>
+                        <span x-text="textSizeLabel">Teks: Normal</span>
                     </button>
 
-                    <!-- Dark Mode Toggle Button -->
-                    <button type="button" @click="toggleDarkMode()"
-                        :title="darkMode ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'"
-                        class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer shadow-2xs">
-                        <i
-                            :class="darkMode ? 'fa-solid fa-sun text-amber-400 text-xs' :
-                                'fa-solid fa-moon text-slate-600 text-xs'"></i>
+                    <button type="button" @click="toggleDarkMode()" class="btn-icon" title="Ganti Mode Tampilan">
+                        <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'" :style="darkMode ? 'color: #fae588;' : 'color: #0a4174;'"></i>
                     </button>
 
-                    <!-- Refresh Button -->
-                    <a href="{{ url()->current() }}" title="Refresh Halaman"
-                        class="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors shadow-2xs">
-                        <i class="fa-solid fa-rotate text-xs"></i>
+                    <a href="{{ url()->current() }}" class="btn-icon" title="Refresh Halaman">
+                        <i class="fa-solid fa-rotate"></i>
                     </a>
 
-                    <!-- Admin Profile Badge -->
-                    <div class="flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800"
-                        x-data="{ profileOpen: false }">
-                        <div class="relative">
-                            <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false"
-                                class="flex items-center gap-2 group">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-xs ring-2 ring-indigo-500/20 shadow-sm">
-                                    AD
-                                </div>
-                                <div class="hidden xl:block text-left">
-                                    <p class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
-                                        {{ Auth::user()->username ?? 'admin' }}</p>
-                                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium capitalize">
-                                        {{ Auth::user()->role ?? 'Admin' }}</p>
-                                </div>
-                            </button>
+                    <div class="dropdown" x-data="{ profileOpen: false }">
+                        <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <div class="avatar">AD</div>
+                        </button>
 
-                            <div x-cloak x-show="profileOpen" x-transition:enter="transition ease-out duration-150"
-                                x-transition:enter-start="opacity-0 -translate-y-1"
-                                x-transition:enter-end="opacity-100 translate-y-0"
-                                class="absolute right-0 mt-3 w-48 bg-white dark:bg-[#0e1626] rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 py-1.5 z-30">
-                                <div class="px-3.5 py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <p class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">
-                                        {{ Auth::user()->email ?? 'admin@alumni.com' }}</p>
-                                    <p class="text-[10px] text-slate-400">Masuk sebagai Administrator</p>
-                                </div>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit"
-                                        class="w-full text-left px-3.5 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 flex items-center gap-2">
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                        <span>Logout</span>
-                                    </button>
-                                </form>
+                        <div x-cloak x-show="profileOpen" class="dropdown-menu">
+                            <div class="dropdown-header">
+                                <strong>{{ Auth::user()->email ?? 'admin@alumni.com' }}</strong>
+                                <div style="font-size: 11px; color: var(--text-muted);">Administrator</div>
                             </div>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </header>
 
             <!-- MAIN BODY CONTENT -->
-            <main class="flex-1 overflow-y-auto p-4 sm:p-7 custom-scrollbar">
+            <main class="content-body">
                 @if (session('success'))
-                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
-                        class="max-w-7xl mx-auto mb-5 px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-semibold flex items-center gap-2 shadow-xs">
+                    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="alert-success">
                         <i class="fa-solid fa-circle-check"></i>
                         <span>{{ session('success') }}</span>
                     </div>
@@ -378,7 +629,6 @@
             </main>
         </div>
     </div>
-
 </body>
 
 </html>
