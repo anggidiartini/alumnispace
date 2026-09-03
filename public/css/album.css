@@ -29,6 +29,11 @@
     --home-grid-line: rgba(46, 114, 236, 0.06);
     --home-font-heading: 'Fredoka', sans-serif;
     --home-font-body: 'DM Sans', sans-serif;
+
+    /* Warna tombol pill sesuai request: pinggiran navy, isi putih, hover kuning */
+    --btn-border: #0a4174;
+    --btn-fill: #ffffff;
+    --btn-hover: #fae588;
     }
 
     html {
@@ -328,30 +333,30 @@
     align-items: center;
     gap: 10px;
     margin-top: 34px;
-    background: var(--home-yellow);
-    color: var(--home-navy);
+    background: #7bbde8;
+    color: var(--btn-border);
     font-family: var(--home-font-body);
     font-weight: 700;
     font-size: 15px;
     padding: 14px 28px;
     border-radius: 9999px;
-    border: 3px solid var(--home-navy);
+    border: 3px solid var(--btn-border);
     cursor: pointer;
     letter-spacing: .01em;
-    box-shadow: 0 6px 0 var(--home-navy);
+    box-shadow: 0 6px 0 var(--btn-border);
     transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
     animation: fadeUp .9s .5s ease both;
     }
 
     .hero-cta:hover {
-    background: var(--home-pink);
+    background: var(--btn-hover);
     transform: translateY(-3px);
-    box-shadow: 0 9px 0 var(--home-navy);
+    box-shadow: 0 9px 0 var(--btn-border);
     }
 
     .hero-cta:active {
     transform: translateY(2px);
-    box-shadow: 0 3px 0 var(--home-navy);
+    box-shadow: 0 3px 0 var(--btn-border);
     }
 
     .hero-cta svg {
@@ -532,25 +537,35 @@
     font-size: 13.5px;
     padding: 10px 20px;
     border-radius: 30px;
-    border: 2.5px dashed var(--ink);
-    background: transparent;
-    color: var(--ink);
+    border: 3px solid var(--btn-border);
+    background: var(--btn-fill);
+    color: var(--btn-border);
     cursor: pointer;
+    box-shadow: 0 6px 0 var(--btn-border);
     transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
     }
 
     .filter-btn:hover {
-    transform: translateY(-2px) rotate(-2deg);
-    box-shadow: 0 6px 0 rgba(44, 62, 80, .15);
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+    }
+
+    .filter-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
     }
 
     .filter-btn.active {
-    background: var(--ink);
-    color: var(--cloud);
+    background: var(--btn-border);
+    color: #ffffff;
+    box-shadow: 0 6px 0 var(--btn-border);
     }
 
     .filter-btn.active:hover {
-    transform: translateY(-2px) rotate(2deg);
+    background: var(--btn-border);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
     }
 
     .filter-status {
@@ -712,30 +727,34 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--ink);
-    color: var(--cloud);
+    background: var(--btn-fill);
+    color: var(--btn-border);
     font-family: 'Baloo 2', sans-serif;
     font-weight: 600;
     font-size: 13.5px;
     padding: 10px 18px;
     border-radius: 30px;
-    border: 2px dashed var(--cloud);
+    border: 3px solid var(--btn-border);
     letter-spacing: .02em;
     cursor: pointer;
-    transition: transform .18s cubic-bezier(.34, 1.56, .64, 1), background .2s ease;
+    box-shadow: 0 6px 0 var(--btn-border);
+    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
     }
 
     .view-btn svg {
+    stroke: #0a4174;
     transition: transform .2s;
     }
 
     .view-btn:hover {
-    transform: scale(1.06) rotate(-2deg);
-    background: var(--morning);
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
     }
 
     .view-btn:active {
-    transform: scale(.93);
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
     }
 
     .card:hover .view-btn svg {

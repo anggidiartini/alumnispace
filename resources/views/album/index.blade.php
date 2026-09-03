@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
   
 </head>
-<body>
+<body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
 <x-navbar />
 
