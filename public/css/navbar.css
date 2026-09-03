@@ -1,0 +1,98 @@
+/* =========================================
+   DESKTOP NAVBAR & DROPDOWN STYLES
+   ========================================= */
+
+/* Efek Putar Logo Bintang (✦) */
+.logo-spin {
+    transition: transform 0.5s ease;
+}
+.logo-spin:hover {
+    transform: rotate(20deg) scale(1.08);
+}
+
+/* Link Navigasi */
+.nav-link {
+    border: 2px solid transparent;
+    border-radius: 9999px !important;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+.nav-link:hover {
+    color: #0a4174;
+    border-color: #f8edb8;
+    background-color: rgba(248, 237, 184, 0.35);
+    transform: translateY(-1px);
+}
+
+/* Dropdown Menu */
+.drop-menu {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: 0.2s ease;
+    pointer-events: none;
+}
+.nav-drop.open .drop-menu,
+.nav-drop:hover .drop-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Fokus Ring untuk Aksesibilitas Keyboard (Tab) */
+.focus-ring:focus-visible {
+    outline: 3px solid #f5b5cb;
+    outline-offset: 3px;
+}
+
+/* =========================================
+   MOBILE NAVBAR STYLES
+   ========================================= */
+
+/* Label Grup Menu di HP */
+.mobile-group-label {
+    margin-top: 0.5rem;
+    padding: 0 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7c93b8;
+}
+.mobile-group-label:first-child {
+    margin-top: 0;
+}
+
+/* Animasi Buka-Tutup Menu HP */
+.mobile-nav {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+.mobile-nav.open {
+    max-height: 720px;
+    overflow-y: auto;
+}
+
+/* =========================================
+   RESPONSIVE NAVBAR (MEDIA QUERIES)
+   ========================================= */
+
+/* Sembunyikan menu deret di HP */
+@media (max-width: 767px) {
+    .desktop-nav {
+        display: none;
+    }
+}
+
+/* Sembunyikan tombol hamburger & menu HP di Laptop */
+@media (min-width: 768px) {
+    .mobile-toggle,
+    .mobile-nav {
+        display: none;
+    }
+}

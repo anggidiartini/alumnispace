@@ -79,14 +79,6 @@ h3 {
     animation: spin-slow 12s linear infinite;
 }
 
-.logo-spin {
-    transition: transform 0.5s ease;
-}
-
-.logo-spin:hover {
-    transform: rotate(20deg) scale(1.08);
-}
-
 @keyframes spin-slow {
     from {
         transform: rotate(0deg);
@@ -108,46 +100,6 @@ h3 {
     50% {
         transform: rotate(-4deg);
     }
-}
-
-.nav-link {
-    transition:
-        color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.nav-link:hover {
-    color: #6f9fe8;
-    transform: translateY(-1px);
-}
-
-.drop-menu {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(8px);
-    transition: 0.2s ease;
-    pointer-events: none;
-}
-
-.nav-drop.open .drop-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.mobile-group-label {
-    margin-top: 0.5rem;
-    padding: 0 0.75rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #7c93b8;
-}
-
-.mobile-group-label:first-child {
-    margin-top: 0;
 }
 
 .floaty {
