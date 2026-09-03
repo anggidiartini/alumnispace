@@ -88,7 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 mobileLogoutBtn.classList.add("flex");
             }
             if (userEmailLabel && !userEmailLabel.textContent.trim()) {
-                userEmailLabel.textContent = email ? email.split("@")[0] : "Alumni";
+                userEmailLabel.textContent = email
+                    ? email.split("@")[0]
+                    : "Alumni";
             }
             if (userAvatar && !userAvatar.textContent.trim()) {
                 userAvatar.textContent = (email ? email[0] : "A").toUpperCase();
@@ -379,4 +381,29 @@ document.addEventListener("DOMContentLoaded", () => {
     backToTop?.addEventListener("click", () =>
         window.scrollTo({ top: 0, behavior: "smooth" }),
     );
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const isGuest = document.body.getAttribute("data-isGuest") === "true";
+
+    document.addEventListener("click", function (e) {
+        const authTrigger = e.target.closest("[data-auth-link]");
+
+        // Pastikan hanya berjalan jika elemen punya atribut data-auth-link dan user adalah guest
+        if (authTrigger && isGuest) {
+            e.preventDefault();
+            e.stopPropagation();
+            const label =
+                authTrigger.getAttribute("data-auth-label") || "halaman ini";
+            if (
+                confirm(
+                    "Anda harus masuk terlebih dahulu untuk mengakses " +
+                        label +
+                        ". Lanjut ke halaman login?",
+                )
+            ) {
+                window.location.href = "/login";
+            }
+        }
+    });
 });
