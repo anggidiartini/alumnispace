@@ -21,7 +21,7 @@
   </script>
   @endauth
 </head>
-<body>
+<body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
   <div class="page-wrap">
     <x-navbar />
 
@@ -122,7 +122,7 @@
                 <p class="mt-2 text-sm leading-relaxed text-[#355277]">Sapa teman lintas angkatan dengan mudah.</p>
               </article>
               <article class="pop-card rounded-[1.5rem] bg-[#fffbed] p-5" style="transition-delay:.05s">
-                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">↗</span>
+                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">↗️</span>
                 <h3 class="text-xl font-bold text-[#153563]">Bertumbuh</h3>
                 <p class="mt-2 text-sm leading-relaxed text-[#355277]">Temukan peluang karier dan mentoring.</p>
               </article>
@@ -459,6 +459,26 @@
 
   <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
-  <script src="{{ asset('js/script.js') }}"></script>
+ <script src="{{ asset('js/script.js') }}"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const isGuest = document.body.getAttribute('data-isGuest') === 'true';
+
+      // Menangkap semua klik pada link atau tombol yang membutuhkan autentikasi
+      document.addEventListener('click', function (e) {
+        const authTrigger = e.target.closest('[data-auth-link]');
+
+        if (authTrigger && isGuest) {
+          e.preventDefault();
+          e.stopPropagation();
+          const label = authTrigger.getAttribute('data-auth-label') || 'halaman ini';
+          if (confirm('Anda harus masuk terlebih dahulu untuk mengakses ' + label + '. Lanjut ke halaman login?')) {
+            window.location.href = "{{ route('login') }}";
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
