@@ -11,23 +11,23 @@
     $sidebarItems = [
         // Data Alumni & Akademik
         ['key' => 'alumnis', 'title' => 'Data Alumni', 'icon' => 'fa-user-graduate', 'color' => '#7bbde8'],
-        ['key' => 'graduations', 'title' => 'Tahun Angkatan', 'icon' => 'fa-graduation-cap', 'color' => '#fae588'],
+        ['key' => 'graduations', 'title' => 'Tahun Angkatan', 'icon' => 'fa-graduation-cap', 'color' => '#7bbde8'],
         ['key' => 'schoolclasses', 'title' => 'Daftar Kelas', 'icon' => 'fa-chalkboard-user', 'color' => '#7bbde8'],
-        ['key' => 'alumni_achievements', 'title' => 'Prestasi Alumni', 'icon' => 'fa-trophy', 'color' => '#fae588'],
+        ['key' => 'alumni_achievements', 'title' => 'Prestasi Alumni', 'icon' => 'fa-trophy', 'color' => '#7bbde8'],
         
         // Kepengurusan Alumni
         ['key' => 'board_periods', 'title' => 'Periode Kepengurusan', 'icon' => 'fa-calendar-check', 'color' => '#7bbde8'],
-        ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'icon' => 'fa-user-tie', 'color' => '#fae588'],
+        ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'icon' => 'fa-user-tie', 'color' => '#7bbde8'],
         
         // Karir & Lowongan Kerja
         ['key' => 'job_categories', 'title' => 'Kategori Pekerjaan', 'icon' => 'fa-layer-group', 'color' => '#7bbde8'],
-        ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'icon' => 'fa-briefcase', 'color' => '#fae588'],
+        ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'icon' => 'fa-briefcase', 'color' => '#7bbde8'],
 
         // Informasi, Media & Acara
         ['key' => 'articles', 'title' => 'Artikel & Berita', 'icon' => 'fa-newspaper', 'color' => '#7bbde8'],
-        ['key' => 'event', 'title' => 'Acara & Agenda', 'icon' => 'fa-calendar-days', 'color' => '#fae588'],
+        ['key' => 'event', 'title' => 'Acara & Agenda', 'icon' => 'fa-calendar-days', 'color' => '#7bbde8'],
         ['key' => 'albums', 'title' => 'Album Foto', 'icon' => 'fa-images', 'color' => '#7bbde8'],
-        ['key' => 'galleries', 'title' => 'Galeri Foto', 'icon' => 'fa-camera-retro', 'color' => '#fae588'],
+        ['key' => 'galleries', 'title' => 'Galeri Foto', 'icon' => 'fa-camera-retro', 'color' => '#7bbde8'],
         ['key' => 'contents', 'title' => 'Konten Halaman', 'icon' => 'fa-file-lines', 'color' => '#7bbde8'],
     ];
 @endphp
@@ -39,7 +39,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'AlumniHub') - Portal Database Alumni</title>
 
-    <!-- Google Fonts (UI Sans-Serif Standar Admin) -->
+    <!-- Google Fonts (Inter & Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -69,29 +69,29 @@
 
     <style>
         :root {
-            /* Palette Core */
+            /* Palette Utama */
             --color-primary: #0a4174;
             --color-secondary: #7bbde8;
-            --color-accent: #fae588;
 
-            /* Light Mode Variables */
-            --bg-main: #f0f7fc;
+            /* Light Mode */
+            --bg-main: #f4f8fb;
             --bg-card: #ffffff;
             --bg-sidebar: #0a4174;
             --bg-sidebar-header: #062b4f;
             --bg-sidebar-hover: #125493;
             --text-main: #0a4174;
-            --text-muted: #4e7194;
+            --text-muted: #527597;
             --text-sidebar: #e0f2fe;
-            --border-color: #cbdbe8;
+            --border-color: #d0e1f0;
             --border-dark: #125493;
             
-            --active-item-bg: #fae588;
+            --active-item-bg: #7bbde8;
             --active-item-text: #0a4174;
-            --badge-bg: rgba(250, 229, 136, 0.25);
-            --badge-text: #fae588;
+            --badge-bg: rgba(123, 189, 232, 0.25);
+            --badge-text: #7bbde8;
         }
 
+        /* Dark Mode */
         html.dark {
             --bg-main: #041221;
             --bg-card: #081d33;
@@ -104,9 +104,9 @@
             --border-color: #12375c;
             --border-dark: #0d2843;
 
-            --active-item-bg: #0a4174;
-            --active-item-text: #fae588;
-            --badge-bg: rgba(123, 189, 232, 0.2);
+            --active-item-bg: #125493;
+            --active-item-text: #ffffff;
+            --badge-bg: rgba(123, 189, 232, 0.15);
             --badge-text: #7bbde8;
         }
 
@@ -116,14 +116,13 @@
             padding: 0;
         }
 
-        /* Font khusus Admin Dashboard */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
             height: 100vh;
             overflow: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         h1, h2, h3, .brand-text h1 {
@@ -145,7 +144,7 @@
             flex-direction: column;
             border-right: 1px solid var(--border-dark);
             z-index: 20;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.25s ease;
         }
 
         .sidebar-header {
@@ -170,13 +169,12 @@
             width: 36px;
             height: 36px;
             border-radius: 8px;
-            background-color: var(--color-accent);
+            background-color: var(--color-secondary);
             color: #0a4174;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
         .brand-text h1 {
@@ -207,7 +205,7 @@
             display: flex;
             justify-content: space-between;
             letter-spacing: 0.5px;
-            opacity: 0.9;
+            opacity: 0.85;
         }
 
         .nav-item {
@@ -231,8 +229,7 @@
         .nav-item.active {
             background-color: var(--active-item-bg);
             color: var(--active-item-text);
-            font-weight: 600;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            font-weight: 700;
         }
 
         .nav-item-content {
@@ -250,20 +247,19 @@
             border-radius: 4px;
             background-color: var(--badge-bg);
             color: var(--badge-text);
-            font-family: 'Inter', sans-serif;
         }
 
         .active .badge {
-            background-color: rgba(10, 65, 116, 0.15);
+            background-color: rgba(10, 65, 116, 0.2);
             color: var(--active-item-text);
         }
 
         html.dark .active .badge {
-            background-color: rgba(250, 229, 136, 0.2);
-            color: var(--color-accent);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
 
-        /* Sidebar Footer / Profile */
+        /* Sidebar Footer */
         .sidebar-footer {
             padding: 12px;
             border-top: 1px solid var(--border-dark);
@@ -284,7 +280,7 @@
             width: 32px;
             height: 32px;
             border-radius: 6px;
-            background-color: var(--color-accent);
+            background-color: var(--color-secondary);
             color: #0a4174;
             font-weight: 700;
             font-size: 12px;
@@ -311,7 +307,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
         }
 
         .breadcrumb {
@@ -359,7 +355,7 @@
         }
 
         html.dark .btn-icon:hover {
-            color: var(--color-accent);
+            color: var(--color-secondary);
         }
 
         .btn-text-size {
@@ -422,7 +418,7 @@
         }
 
         .dropdown-item:hover {
-            background-color: rgba(225, 29, 72, 0.1);
+            background-color: rgba(225, 29, 72, 0.08);
         }
 
         /* Content Body */
@@ -447,9 +443,9 @@
         }
 
         html.dark .alert-success {
-            background-color: rgba(250, 229, 136, 0.1);
-            border-color: var(--color-accent);
-            color: var(--color-accent);
+            background-color: rgba(123, 189, 232, 0.1);
+            border-color: var(--color-secondary);
+            color: var(--color-secondary);
         }
 
         /* Responsive Utilities */
@@ -499,7 +495,7 @@
     }">
 
     <div class="layout-wrapper">
-        <!-- SIDEBAR FOR DESKTOP -->
+        <!-- SIDEBAR -->
         <aside class="sidebar sidebar-desktop">
             <div class="sidebar-header">
                 <a href="/admin/dashboard" class="brand-logo">
@@ -527,7 +523,7 @@
                 <div>
                     <div class="menu-category">
                         <span>Master Database</span>
-                        <span style="font-family: 'Inter', sans-serif;">{{ count($sidebarItems) }} TABEL</span>
+                        <span>{{ count($sidebarItems) }} TABEL</span>
                     </div>
 
                     @foreach ($sidebarItems as $item)
@@ -565,7 +561,7 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT WRAPPER -->
+        <!-- MAIN WRAPPER -->
         <div class="main-wrapper">
             <!-- TOP NAVBAR -->
             <header class="navbar">
@@ -588,7 +584,7 @@
                     </button>
 
                     <button type="button" @click="toggleDarkMode()" class="btn-icon" title="Ganti Mode Tampilan">
-                        <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'" :style="darkMode ? 'color: #fae588;' : 'color: #0a4174;'"></i>
+                        <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'" style="color: var(--text-main);"></i>
                     </button>
 
                     <a href="{{ url()->current() }}" class="btn-icon" title="Refresh Halaman">
@@ -617,7 +613,7 @@
                 </div>
             </header>
 
-            <!-- MAIN BODY CONTENT -->
+            <!-- CONTENT BODY -->
             <main class="content-body">
                 @if (session('success'))
                     <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="alert-success">

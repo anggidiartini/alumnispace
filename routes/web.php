@@ -8,7 +8,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlumniDirectoryController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\ArticleController;
 
 // Landing & Intro
 Route::get('/', [LandingController::class, 'index'])->name('landing');
