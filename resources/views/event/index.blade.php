@@ -1,640 +1,423 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galeri Keseruan Event — Antares Alumni Club</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --buttercup:#FFF2B2;
-    --sunwashed:#FFE08A;
-    --cloud-puff:#FFF7D6;
-    --dewy-blue:#A8C6E7;
-    --morning-breeze:#124d82;
-    --sky-tint:#E9F1FB;
-    --sky-tint-2:#D3E4F6;
-    --ink:#2E3A59;
-    --ink-soft:#5B6B8C;
-    --paper:#FFFDF7;
-    --coral:#FF9466;
-    --mint:#A3E4D7;
-    --radius-lg:24px;
-    --radius-md:14px;
-    --shadow-chunky:6px 6px 0 var(--ink);
-    --shadow-chunky-sm:4px 4px 0 var(--ink);
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    font-family:'Nunito', sans-serif;
-    color:var(--ink);
-    background:var(--sky-tint);
-    overflow-x:hidden;
-  }
-
-  h1,h2,h3,.display{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:800;
-    line-height:1.08;
-    margin:0;
-  }
-  p{margin:0;}
-  a{text-decoration:none;color:inherit;}
-
-  .wrap{
-    max-width:1240px;
-    margin:0 auto;
-    padding:0 24px;
-  }
-
-  /* HERO BADGE ATAS */
-  .hero-badge-box {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: clamp(21px, 3vw, 27px);
-    color: var(--paper);
-    background-color: #124d82;
-    padding: 20px 48px;
-    border-radius: 999px;
-    border: 3px solid #ffffff;
-    box-shadow: 4px 4px 0 var(--ink);
-    position: relative;
-  }
-  .hero-badge-box::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border: 2px dashed rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
-    pointer-events: none;
-  }
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:15px;
-    padding:12px 24px;
-    border-radius:999px;
-    border:3px solid var(--ink);
-    box-shadow:var(--shadow-chunky-sm);
-    cursor:pointer;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
-  .btn:active{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink);}
-  .btn-primary{background:#124d82;color:var(--paper);}
-  .btn-ghost{background:var(--paper);color:var(--ink);}
-
-  /* HERO HEADER */
-  .gallery-hero{
-    padding:50px 0 70px;
-    background:
-      radial-gradient(circle at 85% 20%, var(--buttercup) 0, transparent 30%),
-      radial-gradient(circle at 15% 75%, var(--mint) 0, transparent 28%),
-      var(--dewy-blue);
-    border-bottom:4px solid var(--ink);
-    text-align:center;
-    position:relative;
-  }
-  .gallery-hero .wrap{max-width:850px;position:relative;z-index:2;}
-  
-  .gallery-title{
-    font-size:clamp(32px, 4.5vw, 48px);
-    margin-top:16px;
-    color: #124d82;
-  }
-
-  /* KOTAK BADGE "Alumni" */
-  .gallery-title .alumni-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: clamp(24px, 3.5vw, 40px);
-    background-color: #124d82;
-    padding: 8px 28px;
-    border-radius: 999px;
-    border: 3px solid #ffffff;
-    box-shadow: 4px 4px 0 var(--ink);
-    position: relative;
-    transform: rotate(-1.5deg);
-    margin-top: 10px;
-  }
-  .gallery-title .alumni-badge::after {
-    content: '';
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    border: 2px dashed rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
-    pointer-events: none;
-  }
-
-  .gallery-sub{
-    margin-top:16px;
-    font-size:16px;
-    font-weight:600;
-    color: #124d82;
-  }
-
-  /* STYLING SECTION DIVIDER BERGERAK */
-  .moving-divider {
-    width: 100%;
-    height: 35px; /* Tinggi garis pembatas */
-    overflow: hidden;
-    position: relative;
-    border-top: 3px solid #2E3A59; /* Garis batas ala neo-brutalist kamu */
-    border-bottom: 3px solid #2E3A59;
-    background-color: #ffffff;
-  }
-
-  .moving-track {
-    display: flex;
-    width: 200%;
-    height: 100%;
-    /* Animasi bergerak ke samping, durasi 8 detik (bisa dipercepat/diperlambat) */
-    animation: slideStripes 8s linear infinite;
-  }
-
-  .stripe-pattern {
-    width: 50%;
-    height: 100%;
-    /* Membuat pola garis diagonal (stripes) warna putih dan #f3c2c6 */
-    background: repeating-linear-gradient(
-      -45deg,
-      #ffffff,
-      #ffffff 30px,
-      #f3c2c6 30px,
-      #f3c2c6 60px
-    );
-  }
-
-  /* Keyframes buat looping geser ke samping */
-  @keyframes slideStripes {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-    
-  /* MAIN LAYOUT GALERI */
-  .gallery-content{
-    padding:50px 0 90px;
-  }
-
-  .filter-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:16px;
-    margin-bottom:35px;
-    background:var(--paper);
-    border:3px solid var(--ink);
-    padding:16px 24px;
-    border-radius:var(--radius-md);
-    box-shadow:var(--shadow-chunky-sm);
-  }
-  .category-pills{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .pill-btn{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:14px;
-    padding:8px 16px;
-    border-radius:999px;
-    border:2.5px solid var(--ink);
-    background:var(--sky-tint);
-    cursor:pointer;
-    transition:all .15s ease;
-    box-shadow:2px 2px 0 var(--ink);
-    color:var(--ink);
-  }
-  .pill-btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
-  .pill-btn.active{
-    background:#124d82;
-    color:var(--paper);
-    box-shadow:4px 4px 0 var(--ink);
-    transform:translate(-2px,-2px);
-  }
-
-  .search-box{
-    position:relative;
-    min-width:260px;
-  }
-  .search-input{
-    width:100%;
-    padding:10px 16px;
-    border:2.5px solid var(--ink);
-    border-radius:999px;
-    font-family:'Nunito',sans-serif;
-    font-weight:600;
-    background:var(--sky-tint);
-    color:var(--ink);
-    outline:none;
-  }
-  .search-input:focus{background:var(--paper);box-shadow:2px 2px 0 var(--ink);}
-
-  /* GRID ALBUM FOTO */
-  .photo-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:30px;
-  }
-
-  .photo-card{
-    background:var(--paper);
-    border:3px solid var(--ink);
-    border-radius:var(--radius-lg);
-    padding:16px 16px 20px 16px;
-    box-shadow:var(--shadow-chunky);
-    transition:transform .2s ease, box-shadow .2s ease;
-    display:flex;
-    flex-direction:column;
-    position:relative;
-  }
-  .photo-card:hover{
-    transform:translate(-4px,-4px) rotate(-1deg);
-    box-shadow:10px 10px 0 var(--ink);
-  }
-  .photo-card:nth-child(4n+1){background:var(--paper);transform:rotate(0.5deg);}
-  .photo-card:nth-child(4n+2){background:var(--cloud-puff);transform:rotate(-0.8deg);}
-  .photo-card:nth-child(4n+3){background:var(--sky-tint-2);transform:rotate(1deg);}
-  .photo-card:nth-child(4n+4){background:var(--buttercup);transform:rotate(-0.5deg);}
-
-  .photo-card::before{
-    content:"";
-    position:absolute;
-    top:-10px;
-    left:50%;
-    transform:translateX(-50%);
-    width:90px;
-    height:22px;
-    background:rgba(255,255,255,0.6);
-    border:2px dashed var(--ink);
-    border-radius:4px;
-    z-index:2;
-  }
-
-  .photo-wrapper{
-    width:100%;
-    height:220px;
-    background:var(--dewy-blue);
-    border:3px solid var(--ink);
-    border-radius:12px;
-    overflow:hidden;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:20px;
-    color:var(--paper);
-    margin-bottom:14px;
-    text-shadow: 2px 2px 0 var(--ink);
-  }
-
-  .photo-meta{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:12.5px;
-    font-weight:700;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-
-  .photo-title{
-    font-size:18px;
-    margin-bottom:8px;
-    color:#124d82;
-  }
-
-  .photo-desc{
-    font-size:13.5px;
-    color:var(--ink-soft);
-    font-weight:600;
-    line-height:1.4;
-    margin-bottom:16px;
-    flex-grow:1;
-  }
-
-  .photo-footer{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-top:10px;
-    border-top:2px dashed rgba(46,58,89,.2);
-  }
-
-  .badge-tag{
-    font-family:'Baloo 2',sans-serif;
-    font-weight:700;
-    font-size:11.5px;
-    background:var(--sky-tint);
-    border:2px solid var(--ink);
-    padding:2px 10px;
-    border-radius:6px;
-  }
-
-  /* MODAL LIGHTBOX STYLES */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(46, 58, 89, 0.7);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s ease;
-    padding: 24px;
-  }
-  .modal-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .modal-container {
-    background: var(--paper);
-    border: 3px solid var(--ink);
-    border-radius: var(--radius-lg);
-    max-width: 600px;
-    width: 100%;
-    padding: 24px;
-    box-shadow: 8px 8px 0 var(--ink);
-    position: relative;
-    transform: scale(0.95) rotate(0.5deg);
-    transition: transform .25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .modal-overlay.active .modal-container {
-    transform: scale(1) rotate(0deg);
-  }
-  .modal-close {
-    position: absolute;
-    top: -16px;
-    right: -16px;
-    width: 40px;
-    height: 40px;
-    background: var(--coral);
-    color: var(--paper);
-    border: 3px solid var(--ink);
-    border-radius: 50%;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow-chunky-sm);
-    transition: transform .15s ease;
-  }
-  .modal-close:hover {
-    transform: scale(1.1) rotate(90deg);
-  }
-  .modal-img-wrapper {
-    width: 100%;
-    height: 280px;
-    background: var(--dewy-blue);
-    border: 3px solid var(--ink);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 800;
-    font-size: 28px;
-    color: var(--paper);
-    margin-bottom: 16px;
-    text-shadow: 2px 2px 0 var(--ink);
-  }
-  .modal-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    margin-bottom: 8px;
-  }
-  .modal-title {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #124d82;
-  }
-  .modal-desc {
-    font-size: 15px;
-    color: var(--ink-soft);
-    font-weight: 600;
-    line-height: 1.5;
-    margin-bottom: 20px;
-  }
-  .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    padding-top: 14px;
-    border-top: 2px dashed rgba(46,58,89,.2);
-  }
-
-  @media(max-width:992px){
-    .photo-grid{grid-template-columns:repeat(2,1fr);}
-  }
-  @media(max-width:768px){
-    .photo-grid{grid-template-columns:1fr;}
-    .filter-bar{flex-direction:column;align-items:stretch;}
-    .search-box{width:100%;}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Album Kenangan & Dokumentasi</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+  <link rel="stylesheet" href="{{ asset('css/event.css') }}?v={{ file_exists(public_path('css/event.css')) ? filemtime(public_path('css/event.css')) : time() }}">
 </head>
 <body>
+  <div class="site-shell page-wrap">
+    <x-navbar />
 
-<section class="gallery-hero">
-  <div class="wrap">
-    <div class="hero-badge-box">Album Kenangan & Dokumentasi</div>
-    <h1 class="gallery-title" style="margin-top: 16px;">
-      Jejak Keseruan & Momen Indah <br>
-      <span class="alumni-badge" style="color: #ffe08a !important;">Alumni</span>
-    </h1>
-    <p class="gallery-sub">Kumpulan potret hangat dari berbagai acara temu kangen, webinar inspiratif, hingga workshop bareng. Yuk intip, siapa tahu ada muka kamu di sini!</p>
-  </div>
-</section>
+    <main>
+      <!-- HERO -->
+      <section id="beranda" class="hero-section grid-paper" aria-labelledby="hero-title">
+        <div class="hero-blob-pink blob blob-drift" aria-hidden="true"></div>
+        <span class="hero-orb-yellow spin-slow" aria-hidden="true"></span>
+        <span class="hero-sparkle wiggle" aria-hidden="true">✦</span>
 
-<!-- SECTION DIVIDER BERGERAK -->
-<div class="moving-divider">
-  <div class="moving-track">
-    <div class="stripe-pattern"></div>
-    <div class="stripe-pattern"></div>
-  </div>
-</div>
+        <div class="page-width hero-layout">
+          <div class="hero-copy reveal">
+            <span class="badge-dashed-pill">
+              <i data-lucide="sparkles" width="16" height="16"></i>
+              Kumpulan cerita yang tak terlupa
+            </span>
+            <h1 id="hero-title" class="hero-title">Album Kenangan &amp; Dokumentasi</h1>
+            <p class="hero-subtitle">Temukan dokumentasi event, momen berharga, dan cerita terbaik dari komunitas yang terus bertumbuh.</p>
 
-<section class="gallery-content">
-  <div class="wrap">
+            <div class="hero-actions">
+              <button type="button" id="heroCta" class="custom-pill-btn focus-ring">
+                Jelajahi Event
+                <i data-lucide="arrow-down" width="16" height="16"></i>
+              </button>
+              <span class="hero-note">Pilih momen yang ingin kamu kenang</span>
+            </div>
 
-    <div class="filter-bar">
-      <div class="category-pills" id="filterList">
-        <button class="pill-btn active" data-filter="all">Semua Event ({{ count($events) }})</button>
-        <button class="pill-btn" data-filter="Meetup">Temu Kangen & Meetup</button>
-        <button class="pill-btn" data-filter="Webinar">Webinar & Tech Talk</button>
-        <button class="pill-btn" data-filter="Workshop">Workshop & Coding</button>
-      </div>
+            <div class="hero-stats">
+              <div class="stat-pill">
+                <span class="stat-pill-number">36+</span>
+                <span class="stat-pill-label">Event terdokumentasi</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-pill-number">4.8K</span>
+                <span class="stat-pill-label">Momen tersimpan</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-pill-number">1.2K</span>
+                <span class="stat-pill-label">Cerita komunitas</span>
+              </div>
+            </div>
+          </div>
 
-      <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="Cari nama event / tahun...">
-      </div>
-    </div>
-
-    <div class="photo-grid" id="photoGrid">
-      @forelse($events as $event)
-      <div class="photo-card" data-category="{{ $event->category }}">
-        <div class="photo-wrapper">{{ Str::limit($event->title, 20) }}</div>
-        <div class="photo-meta">
-          <span>{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}</span>
-          <span>{{ $event->venue ?? 'Online' }}</span>
+          <div class="hero-visual reveal delay-2">
+            <div class="hero-photo-frame">
+              <img loading="lazy" src="https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sekelompok anak muda tertawa bersama di luar ruangan pada siang hari">
+              <div class="hero-photo-caption">
+                <strong>Momen yang lebih dari sekadar hadir</strong>
+                <span>Kembali rasakan energi, karya, dan kebersamaan kami.</span>
+              </div>
+            </div>
+            <div class="hero-sticker floaty">Ada cerita baru!</div>
+          </div>
         </div>
-        <h2 class="photo-title">{{ $event->title }}</h2>
-        <p class="photo-desc">{{ $event->description }}</p>
-        <div class="photo-footer">
-          <span class="badge-tag">{{ $event->category }}</span>
-          <button class="btn btn-primary open-modal-btn" style="padding:6px 14px; font-size:13px;" data-preview="{{ $event->title }}" data-date="{{ \Carbon\Carbon::parse($event->event_date)->translatedFormat('d F Y') }}" data-location="{{ $event->venue ?? 'Online' }}" data-title="{{ $event->title }}" data-desc="{{ $event->description }}" data-tag="{{ $event->category }}">Lihat Foto</button>
+      </section>
+
+      <!-- KATALOG EVENT -->
+      <section id="event" class="page-width catalog" aria-labelledby="catalog-title">
+        <div class="section-heading reveal-onscroll">
+          <div>
+            <p class="section-kicker">Katalog event</p>
+            <h2 id="catalog-title" class="section-title">Temukan momen terbaik</h2>
+            <p class="section-desc">Jelajahi agenda mendatang atau buka kembali dokumentasi dari momen yang sudah berlalu.</p>
+          </div>
+          <p id="resultCount" class="result-count" aria-live="polite"></p>
         </div>
-      </div>
-      @empty
-      <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
-        <p style="font-size: 18px; font-weight:700;">Belum ada event yang sesuai.</p>
-      </div>
-      @endforelse
-    </div>
 
+        <div class="catalog-layout">
+          <!-- Filter kategori & status, dipindah ke kiri sesuai gaya lowongan -->
+          <aside class="filter-panel reveal-onscroll" aria-label="Filter event">
+            <div class="filter-panel-heading">
+              <h3 style="margin:0; font-size:1.15rem;">Filter Event</h3>
+              <i data-lucide="sliders-horizontal" width="19" height="19"></i>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-legend" for="eventSearchInput">Cari event</label>
+              <div class="search-wrap">
+                <i data-lucide="search" width="18" height="18"></i>
+                <input id="eventSearchInput" class="field-control" type="search" placeholder="Cari nama event atau lokasi">
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-legend">Pilih kategori</span>
+              <div class="filter-row" id="categoryFilters">
+                <button data-filter-category="all" type="button" class="filter-button is-active">Semua</button>
+                <button data-filter-category="Seminar" type="button" class="filter-button">Seminar</button>
+                <button data-filter-category="Workshop" type="button" class="filter-button">Workshop</button>
+                <button data-filter-category="Gathering" type="button" class="filter-button">Gathering</button>
+                <button data-filter-category="Festival" type="button" class="filter-button">Festival</button>
+                <button data-filter-category="Kompetisi" type="button" class="filter-button">Kompetisi</button>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-legend">Status event</span>
+              <div class="filter-row" id="statusFilters">
+                <button data-filter-status="all" type="button" class="filter-button is-active">Semua status</button>
+                <button data-filter-status="Upcoming" type="button" class="filter-button">Upcoming</button>
+                <button data-filter-status="Completed" type="button" class="filter-button">Completed</button>
+              </div>
+            </div>
+          </aside>
+
+          <div>
+            <div id="eventGrid" class="event-grid">
+
+              <!-- Event 1 -->
+              <article class="event-card reveal-onscroll" data-category="Workshop" data-status="Upcoming" data-search="kreatif lab ide jadi aksi workshop studio kreativa denpasar">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tim berkolaborasi dalam pertemuan kreatif di ruang kerja modern">
+                  <span class="event-status upcoming">Upcoming</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Workshop</span>
+                    <span class="event-quota">40 kuota</span>
+                  </div>
+                  <a class="event-title" href="/event/kreatif-lab-workshop" target="_blank" rel="noopener noreferrer">Kreatif Lab: Ide Jadi Aksi</a>
+                  <p class="event-desc">Ruang praktik seru untuk merancang ide kreatif bersama mentor dan teman baru.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>18 September 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>09.00 – 15.00 WITA</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Studio Kreativa Denpasar</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/kreatif-lab-workshop" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+              <!-- Event 2 -->
+              <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Seminar" data-status="Upcoming" data-search="masa depan digital bali seminar aula dharma negara alaya">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Peserta duduk memperhatikan presentasi dalam konferensi indoor">
+                  <span class="event-status upcoming">Upcoming</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Seminar</span>
+                    <span class="event-quota">120 kuota</span>
+                  </div>
+                  <a class="event-title" href="/event/masa-depan-digital" target="_blank" rel="noopener noreferrer">Masa Depan Digital Bali</a>
+                  <p class="event-desc">Obrolan inspiratif tentang inovasi, talenta, dan peluang di dunia digital.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>26 September 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>13.00 – 17.00 WITA</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Aula Dharma Negara Alaya</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/masa-depan-digital" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+              <!-- Event 3 -->
+              <article class="event-card reveal-onscroll" data-category="Gathering" data-status="Completed" data-search="reuni cerita kita 2026 gathering taman inspirasi mertasari">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sekelompok teman muda menikmati waktu bersama di luar ruangan">
+                  <span class="event-status completed">Completed</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Gathering</span>
+                    <span class="event-quota">Kuota penuh</span>
+                  </div>
+                  <a class="event-title" href="/event/reuni-cerita-kita" target="_blank" rel="noopener noreferrer">Reuni Cerita Kita 2026</a>
+                  <p class="event-desc">Sore penuh tawa, permainan ringan, dan kisah yang kembali dekat di hati.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>24 Agustus 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>15.30 – 19.00 WITA</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Taman Inspirasi Mertasari</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/reuni-cerita-kita" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+              <!-- Event 4 -->
+              <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Festival" data-status="Completed" data-search="festival nada kota lapangan puputan badung">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Band tampil di atas panggung dengan penonton dan cahaya konser yang meriah">
+                  <span class="event-status completed">Completed</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Festival</span>
+                    <span class="event-quota">800 pengunjung</span>
+                  </div>
+                  <a class="event-title" href="/event/festival-nada-kota" target="_blank" rel="noopener noreferrer">Festival Nada Kota</a>
+                  <p class="event-desc">Selebrasi musik, karya lokal, dan energi baik dalam satu malam yang penuh warna.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>12 Juli 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>16.00 – 22.00 WITA</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Lapangan Puputan Badung</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/festival-nada-kota" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+              <!-- Event 5 -->
+              <article class="event-card reveal-onscroll" data-category="Kompetisi" data-status="Upcoming" data-search="code sprint nusantara kompetisi bali tech hub sanur">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dua perempuan bekerja bersama menyusun program di komputer">
+                  <span class="event-status upcoming">Upcoming</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Kompetisi</span>
+                    <span class="event-quota">60 tim</span>
+                  </div>
+                  <a class="event-title" href="/event/code-sprint-nusantara" target="_blank" rel="noopener noreferrer">Code Sprint Nusantara</a>
+                  <p class="event-desc">Tantang idemu, bentuk tim terbaikmu, dan ciptakan solusi berdampak dalam 24 jam.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>4 Oktober 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>08.00 WITA – selesai</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Bali Tech Hub, Sanur</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/code-sprint-nusantara" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+              <!-- Event 6 -->
+              <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Seminar" data-status="Completed" data-search="berani bertumbuh seminar kampus kreatif renon">
+                <div class="event-card-media">
+                  <img loading="lazy" src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sekelompok profesional berkolaborasi dalam rapat di ruang kerja modern">
+                  <span class="event-status completed">Completed</span>
+                </div>
+                <div class="event-card-body">
+                  <div class="event-card-top">
+                    <span class="event-category">Seminar</span>
+                    <span class="event-quota">150 kuota</span>
+                  </div>
+                  <a class="event-title" href="/event/berani-bertumbuh" target="_blank" rel="noopener noreferrer">Berani Bertumbuh</a>
+                  <p class="event-desc">Rangkuman pembelajaran, koneksi, dan inspirasi dari para penggerak muda.</p>
+                  <div class="event-meta">
+                    <p class="event-meta-row"><i data-lucide="calendar" width="16" height="16"></i><span>20 Juni 2026</span></p>
+                    <p class="event-meta-row"><i data-lucide="clock" width="16" height="16"></i><span>09.30 – 14.30 WITA</span></p>
+                    <p class="event-meta-row"><i data-lucide="map-pin" width="16" height="16"></i><span>Kampus Kreatif Renon</span></p>
+                  </div>
+                  <a class="event-detail-link focus-ring" href="/event/berani-bertumbuh" target="_blank" rel="noopener noreferrer">Lihat Detail</a>
+                </div>
+              </article>
+
+            </div>
+
+            <p id="emptyState" class="empty-state">Belum ada event yang sesuai dengan pilihan filter ini. Coba kategori atau status lain, ya!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTTOM CTA -->
+      <section id="tentang" class="page-width bottom-cta-section">
+        <div class="bottom-cta reveal-onscroll">
+          <div class="bottom-cta-blob-1" aria-hidden="true"></div>
+          <div class="bottom-cta-blob-2" aria-hidden="true"></div>
+          <div class="bottom-cta-content">
+            <span class="bottom-cta-kicker">Masih banyak cerita</span>
+            <h2 class="bottom-cta-title">Setiap event punya kenangan untuk dibawa pulang.</h2>
+            <p class="bottom-cta-desc">Cari event yang membuatmu penasaran, lalu hadirkan cerita terbaikmu bersama kami.</p>
+            <button type="button" id="bottomCta" class="custom-white-pill-btn focus-ring">
+              Jelajahi Semua Event
+              <i data-lucide="arrow-right" width="16" height="16"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <x-footer />
   </div>
-</section>
 
-<div class="modal-overlay" id="photoModal">
-  <div class="modal-container">
-    <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-img-wrapper" id="modalPreview">Dokumentasi Event</div>
-    <div class="modal-meta">
-      <span id="modalDate">Tanggal</span>
-      <span id="modalLocation">Lokasi</span>
-    </div>
-    <h2 class="modal-title" id="modalTitle">Judul Event</h2>
-    <p class="modal-desc" id="modalDesc">Deskripsi lengkap dari event yang dipilih akan muncul di sini dengan detail interaktif.</p>
-    <div class="modal-actions">
-      <span class="badge-tag" id="modalTag">Kategori</span>
-      <button class="btn btn-ghost" id="modalCloseBtn" style="padding: 6px 16px; font-size: 13.5px;">Tutup</button>
+  <!-- Floating action buttons: back-to-top & WhatsApp, sama seperti lowongan -->
+  <div id="fab-row" class="fab-row">
+    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+      <i data-lucide="arrow-up" width="20" height="20"></i>
+    </button>
+
+    <div id="wa-widget">
+      <div id="wa-bubble" class="wa-bubble">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+          <p class="wa-bubble-title">Ada pertanyaan?</p>
+          <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i data-lucide="x" width="16" height="16"></i></button>
+        </div>
+        <p class="wa-bubble-text">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+        <p class="wa-bubble-number">+62 812-3456-7890</p>
+      </div>
+      <a id="wa-button" href="https://wa.me/6281234567890?text=Halo%20Ruang%20Kenangan" target="_blank" rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+        <i data-lucide="message-circle" width="26" height="26"></i>
+      </a>
     </div>
   </div>
-</div>
 
-<script>
-  const filterBtns = document.querySelectorAll('.pill-btn');
-  const cards = document.querySelectorAll('.photo-card');
-  const searchInput = document.getElementById('searchInput');
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var eventSection = document.getElementById("event");
+      var cards = Array.prototype.slice.call(document.querySelectorAll("#eventGrid .event-card"));
+      var resultCount = document.getElementById("resultCount");
+      var emptyState = document.getElementById("emptyState");
+      var searchInput = document.getElementById("eventSearchInput");
+      var category = "all";
+      var status = "all";
+      var fadeTimers = new WeakMap();
 
-  let currentCategory = 'all';
-
-  function filterGallery() {
-    const searchTerm = searchInput.value.toLowerCase();
-
-    cards.forEach(card => {
-      const category = card.getAttribute('data-category');
-      const cardText = card.innerText.toLowerCase();
-
-      const matchesCategory = (currentCategory === 'all' || category === currentCategory);
-      const matchesSearch = cardText.includes(searchTerm);
-
-      if (matchesCategory && matchesSearch) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
+      // ---------- scroll ke katalog event ----------
+      function scrollToEvents() {
+        eventSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
+      ["heroCta", "bottomCta"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener("click", scrollToEvents);
+      });
+
+      // ---------- pencarian + filter kategori & status, dengan fade halus ----------
+      function applyFilters() {
+        var query = searchInput.value.trim().toLowerCase();
+        var visible = 0;
+
+        cards.forEach(function (card) {
+          var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
+          var matchesCategory = category === "all" || card.dataset.category === category;
+          var matchesStatus = status === "all" || card.dataset.status === status;
+          var show = matchesQuery && matchesCategory && matchesStatus;
+
+          if (fadeTimers.has(card)) {
+            clearTimeout(fadeTimers.get(card));
+            fadeTimers.delete(card);
+          }
+
+          if (show) {
+            card.classList.remove("is-hidden");
+            requestAnimationFrame(function () { card.classList.remove("is-fading"); });
+            visible += 1;
+          } else if (!card.classList.contains("is-hidden")) {
+            card.classList.add("is-fading");
+            var timer = setTimeout(function () {
+              card.classList.add("is-hidden");
+            }, 260);
+            fadeTimers.set(card, timer);
+          }
+        });
+
+        resultCount.textContent = visible + " event ditemukan";
+        emptyState.classList.toggle("show", visible === 0);
+      }
+
+      searchInput.addEventListener("input", applyFilters);
+
+      document.querySelectorAll("[data-filter-category]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          category = button.dataset.filterCategory;
+          document.querySelectorAll("[data-filter-category]").forEach(function (item) {
+            item.classList.toggle("is-active", item === button);
+          });
+          applyFilters();
+        });
+      });
+
+      document.querySelectorAll("[data-filter-status]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          status = button.dataset.filterStatus;
+          document.querySelectorAll("[data-filter-status]").forEach(function (item) {
+            item.classList.toggle("is-active", item === button);
+          });
+          applyFilters();
+        });
+      });
+
+      // ---------- scroll reveal per-section, sama seperti home & lowongan ----------
+      var revealEls = document.querySelectorAll(".reveal-onscroll");
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+      revealEls.forEach(function (el, i) {
+        if (!el.style.transitionDelay) {
+          el.style.transitionDelay = (i % 3) * 0.1 + "s";
+        }
+        revealObserver.observe(el);
+      });
+
+      // ---------- back to top ----------
+      var backToTop = document.getElementById("back-to-top");
+      window.addEventListener("scroll", function () {
+        backToTop.classList.toggle("show", window.scrollY > 400);
+      }, { passive: true });
+      backToTop.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // ---------- WhatsApp bubble ----------
+      var waButton = document.getElementById("wa-button");
+      var waBubble = document.getElementById("wa-bubble");
+      var waBubbleClose = document.getElementById("wa-bubble-close");
+      var waTimer = setTimeout(function () { waBubble.classList.add("show"); }, 1800);
+
+      waButton.addEventListener("mouseenter", function () {
+        clearTimeout(waTimer);
+        waBubble.classList.add("show");
+      });
+      waBubbleClose.addEventListener("click", function (e) {
+        e.preventDefault();
+        waBubble.classList.remove("show");
+      });
+
+      lucide.createIcons();
+      applyFilters();
     });
-  }
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCategory = btn.getAttribute('data-filter');
-      filterGallery();
-    });
-  });
-
-  searchInput.addEventListener('input', filterGallery);
-
-  /* MODAL LOGIC */
-  const modalOverlay = document.getElementById('photoModal');
-  const modalClose = document.getElementById('modalClose');
-  const modalCloseBtn = document.getElementById('modalCloseBtn');
-  const openModalBtns = document.querySelectorAll('.open-modal-btn');
-
-  const modalPreview = document.getElementById('modalPreview');
-  const modalDate = document.getElementById('modalDate');
-  const modalLocation = document.getElementById('modalLocation');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
-  const modalTag = document.getElementById('modalTag');
-
-  openModalBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modalPreview.innerText = btn.getAttribute('data-preview');
-      modalDate.innerText = btn.getAttribute('data-date');
-      modalLocation.innerText = btn.getAttribute('data-location');
-      modalTitle.innerText = btn.getAttribute('data-title');
-      modalDesc.innerText = btn.getAttribute('data-desc');
-      modalTag.innerText = btn.getAttribute('data-tag');
-
-      modalOverlay.classList.add('active');
-    });
-  });
-
-  function closeModal() {
-    modalOverlay.classList.remove('active');
-  }
-
-  modalClose.addEventListener('click', closeModal);
-  modalCloseBtn.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) {
-      closeModal();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-      closeModal();
-    }
-  });
-</script>
-
+  </script>
 </body>
 </html>
