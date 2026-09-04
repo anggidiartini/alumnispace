@@ -357,6 +357,16 @@ h3 {
     .wa-bubble {
         width: 14.5rem;
     }
+
+    /* --- Responsive fixes: hero avatar frame no longer fixed 410px on phones --- */
+    .w-\[410px\] {
+        width: 78vw;
+        max-width: 320px;
+    }
+    .h-\[410px\] {
+        height: 78vw;
+        max-height: 320px;
+    }
 }
 
 @media (max-width: 360px) {
@@ -367,6 +377,15 @@ h3 {
     #back-to-top {
         height: 2.5rem;
         width: 2.5rem;
+    }
+
+    .w-\[410px\] {
+        width: 70vw;
+        max-width: 260px;
+    }
+    .h-\[410px\] {
+        height: 70vw;
+        max-height: 260px;
     }
 }
 
@@ -771,6 +790,7 @@ h3 {
 }
 .grid {
     display: grid;
+    grid-template-columns: 1fr;
 }
 .hidden {
     display: none;
@@ -1332,4 +1352,197 @@ h3 {
 }
 .w-3\.5 {
     width: 0.875rem;
+}
+
+/* ===== Card color variants (4 warna, dipakai bergiliran di berbagai section) ===== */
+.card-v1,
+.card-v2,
+.card-v3,
+.card-v4 {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-v1::before,
+.card-v2::before,
+.card-v3::before,
+.card-v4::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+}
+
+.card-v1 {
+    background-color: #eaf3ff;
+}
+.card-v1::before {
+    background-color: #4f86e0;
+}
+
+.card-v2 {
+    background-color: #fdf0f5;
+}
+.card-v2::before {
+    background-color: #e77aa4;
+}
+
+.card-v3 {
+    background-color: #fffbe9;
+}
+.card-v3::before {
+    background-color: #f2c34c;
+}
+
+.card-v4 {
+    background-color: #eaf0fb;
+}
+.card-v4::before {
+    background-color: #153563;
+}
+
+/* Hanya stat-card (section Statistik) & event-card (section Agenda Event) yang bg-nya putih */
+.stat-card.card-v1,
+.stat-card.card-v2,
+.stat-card.card-v3,
+.stat-card.card-v4,
+.event-card.card-v1,
+.event-card.card-v2,
+.event-card.card-v3,
+.event-card.card-v4 {
+    background-color: #ffffff;
+}
+
+.card-btn {
+    margin-top: 1.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    font-size: 0.875rem;
+}
+
+/* =========================================================
+   CHEERFUL ENHANCEMENTS — garis animasi, marquee, dekorasi
+   ========================================================= */
+
+@media (min-width: 768px) {
+    .md\:block {
+        display: block;
+    }
+}
+
+/* ---- Garis pembatas antar section yang "berjalan" ---- */
+.divider-dash-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem;
+}
+
+.divider-dash {
+    flex: 1 1 auto;
+    height: 4px;
+    border-radius: 4px;
+    background-image: linear-gradient(90deg, currentColor 50%, transparent 50%);
+    background-size: 28px 4px;
+    background-repeat: repeat-x;
+    animation: dash-run 2.2s linear infinite;
+    color: #6f9fe8;
+}
+
+.divider-dash--pink {
+    color: #f2a4c0;
+}
+
+.divider-dash--yellow {
+    color: #f2c34c;
+}
+
+.divider-dash__icon {
+    flex-shrink: 0;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #153563;
+}
+
+@keyframes dash-run {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 28px 0;
+    }
+}
+
+/* ---- Marquee: teks berjalan sebagai pembatas section ---- */
+.marquee-strip {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #eaf3ff;
+    border-top: 3px dashed #a8d3ff;
+    border-bottom: 3px dashed #a8d3ff;
+    padding: 0.875rem 0;
+}
+
+.marquee-track {
+    display: inline-flex;
+    width: max-content;
+    animation: marquee-scroll 26s linear infinite;
+}
+
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #153563;
+}
+
+@keyframes marquee-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ---- Dekorasi tepi section: lapisan parallax (JS) + item floaty (CSS) ---- */
+.deco-layer {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    transition: transform 0.15s ease-out;
+}
+
+.deco-dot {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.section-deco-host {
+    position: relative;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-track,
+    .divider-dash {
+        animation: none !important;
+    }
 }
