@@ -26,7 +26,7 @@
         <a class="nav-link" href="{{ route('lowongan.index') }}">Lowongan</a>
         <a class="nav-link" href="#perusahaan">Perusahaan</a>
       </nav>
-
+  
       <div class="nav-desktop">
         @auth
           <span class="btn btn-secondary">{{ Auth::user()->name }}</span>
