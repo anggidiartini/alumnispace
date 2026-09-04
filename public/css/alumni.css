@@ -56,31 +56,54 @@ html {
 }
 
 /* ---------- DECORATIVE ---------- */
+/* Pattern digambar lewat ::before (bukan background-image langsung di elemen),
+   supaya tidak pernah ketimpa oleh inline style="background: ..." yang ada di HTML.
+   Inline style selalu menang atas class dari file CSS eksternal. */
 .dot-grid {
-    background-image: radial-gradient(#b9d6f8 1px, transparent 1px);
-    background-size: 18px 18px;
+    position: relative;
+}
+.dot-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(46, 117, 221, 0.09) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(46, 117, 221, 0.09) 1px,
+            transparent 1px
+        );
+    background-size: 25px 25px;
 }
 .hero-shape {
     position: absolute;
     pointer-events: none;
     border-radius: 999px;
     opacity: 0.82;
+    z-index: 1;
 }
 .shape-pink {
-    width: 180px;
-    height: 180px;
+    width: 220px;
+    height: 220px;
     background: var(--pink);
-    top: -70px;
-    left: -60px;
+    top: -90px;
+    left: -90px;
 }
 .shape-yellow {
-    width: 92px;
-    height: 92px;
+    width: 128px;
+    height: 128px;
     background: var(--yellow);
-    right: 8%;
-    top: 48px;
-    transform: rotate(24deg);
-    border-radius: 28px;
+    right: -40px;
+    top: -30px;
+    transform: rotate(18deg);
+    border-radius: 32px;
 }
 .shape-mint {
     width: 140px;
@@ -97,6 +120,7 @@ html {
 }
 .hero-container {
     position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 72rem;
     margin: 0 auto;
@@ -653,79 +677,4 @@ html {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-}
-
-/* Pastikan file public/css/footer.css berisi seperti ini */
-.site-footer {
-    background-color: #153563; /* Sesuaikan warna latar belakang footer */
-    color: #ffffff;
-    padding: 4rem 1.25rem 2rem;
-    margin-top: 4rem;
-}
-
-.site-footer .footer-container {
-    max-w: 1280px;
-    margin: 0 auto;
-    display: grid;
-    gap: 2.5rem;
-    grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-    .site-footer .footer-container {
-        grid-template-columns: 2fr 1fr 1fr;
-    }
-}
-
-.site-footer .footer-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff0a9;
-}
-
-.site-footer .footer-tagline {
-    margin-top: 0.75rem;
-    color: #cbd5e1;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.site-footer h3 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 1rem;
-}
-
-.site-footer .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.site-footer .footer-links a,
-.site-footer .footer-socials a {
-    color: #cbd5e1;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.site-footer .footer-links a:hover,
-.site-footer .footer-socials a:hover {
-    color: #ffffff;
-}
-
-.site-footer .footer-socials {
-    display: flex;
-    gap: 0.75rem;
-}
-
-.site-footer .footer-bottom {
-    max-width: 1280px;
-    margin: 3rem auto 0;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-    color: #94a3b8;
-    font-size: 0.875rem;
 }
