@@ -14,11 +14,16 @@
         ['key' => 'graduations', 'title' => 'Tahun Angkatan', 'icon' => 'fa-graduation-cap', 'color' => '#7bbde8'],
         ['key' => 'schoolclasses', 'title' => 'Daftar Kelas', 'icon' => 'fa-chalkboard-user', 'color' => '#7bbde8'],
         ['key' => 'alumni_achievements', 'title' => 'Prestasi Alumni', 'icon' => 'fa-trophy', 'color' => '#7bbde8'],
-        
+
         // Kepengurusan Alumni
-        ['key' => 'board_periods', 'title' => 'Periode Kepengurusan', 'icon' => 'fa-calendar-check', 'color' => '#7bbde8'],
+        [
+            'key' => 'board_periods',
+            'title' => 'Periode Kepengurusan',
+            'icon' => 'fa-calendar-check',
+            'color' => '#7bbde8',
+        ],
         ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'icon' => 'fa-user-tie', 'color' => '#7bbde8'],
-        
+
         // Karir & Lowongan Kerja
         ['key' => 'job_categories', 'title' => 'Kategori Pekerjaan', 'icon' => 'fa-layer-group', 'color' => '#7bbde8'],
         ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'icon' => 'fa-briefcase', 'color' => '#7bbde8'],
@@ -42,12 +47,14 @@
     <!-- Google Fonts (Inter & Plus Jakarta Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome Icons (via CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Alpine.js v3.14.1 -->
+    <!-- Alpine.js (via CDN) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 
     <script>
@@ -60,7 +67,12 @@
             }
 
             const savedSize = localStorage.getItem('textSize') || 'normal';
-            const scaleMap = { 'small': '14px', 'normal': '16px', 'large': '18px', 'xlarge': '20px' };
+            const scaleMap = {
+                'small': '14px',
+                'normal': '16px',
+                'large': '18px',
+                'xlarge': '20px'
+            };
             if (scaleMap[savedSize]) {
                 document.documentElement.style.fontSize = scaleMap[savedSize];
             }
@@ -84,11 +96,15 @@
             --text-sidebar: #e0f2fe;
             --border-color: #d0e1f0;
             --border-dark: #125493;
-            
+
             --active-item-bg: #7bbde8;
             --active-item-text: #0a4174;
             --badge-bg: rgba(123, 189, 232, 0.25);
             --badge-text: #7bbde8;
+
+            /* Hero Banner Light Theme */
+            --hero-bg: linear-gradient(135deg, #062b4f 0%, #0a4174 50%, #125493 100%);
+            --hero-border: #125493;
         }
 
         /* Dark Mode */
@@ -108,6 +124,10 @@
             --active-item-text: #ffffff;
             --badge-bg: rgba(123, 189, 232, 0.15);
             --badge-text: #7bbde8;
+
+            /* Hero Banner Dark Theme */
+            --hero-bg: linear-gradient(135deg, #030e1a 0%, #06192d 50%, #081d33 100%);
+            --hero-border: #122c44;
         }
 
         * {
@@ -125,7 +145,10 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        h1, h2, h3, .brand-text h1 {
+        h1,
+        h2,
+        h3,
+        .brand-text h1 {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
         }
 
@@ -448,10 +471,129 @@
             color: var(--color-secondary);
         }
 
+        /* Custom Hero Banner (Pure CSS) */
+        .hero-banner {
+            background: var(--hero-bg);
+            border: 1px solid var(--hero-border);
+            border-radius: 12px;
+            padding: 28px;
+            color: #ffffff;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background-color: rgba(123, 189, 232, 0.2);
+            border: 1px solid var(--color-secondary);
+            color: var(--color-secondary);
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .hero-title-highlight {
+            color: var(--color-secondary);
+        }
+
+        .hero-desc {
+            font-size: 13px;
+            color: #d0e1f0;
+            max-width: 650px;
+            line-height: 1.5;
+        }
+
+        /* Custom Chart Component (Pure CSS) */
+        .chart-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 220px;
+            padding: 0 8px;
+            border-bottom: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+        }
+
+        .chart-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            height: 100%;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            top: -28px;
+            background-color: var(--bg-sidebar-header);
+            color: #ffffff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .chart-bar-group:hover .chart-tooltip {
+            opacity: 1;
+        }
+
+        .chart-bar {
+            width: 36px;
+            background-color: var(--color-primary);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease-out, background-color 0.2s ease;
+        }
+
+        .chart-bar-group:hover .chart-bar {
+            background-color: var(--color-secondary);
+        }
+
+        .chart-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
         /* Responsive Utilities */
         @media (max-width: 1024px) {
-            .sidebar-desktop { display: none; }
-            .mobile-toggle { display: block !important; }
+            .sidebar-desktop {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
         }
 
         .mobile-toggle {
@@ -463,36 +605,42 @@
             cursor: pointer;
         }
 
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
 <body x-data="{
-        mobileSidebarOpen: false,
-        darkMode: document.documentElement.classList.contains('dark'),
-        textSize: localStorage.getItem('textSize') || 'normal',
-        get textSizeLabel() {
-            switch (this.textSize) {
-                case 'large': return 'Teks: Besar';
-                case 'xlarge': return 'Teks: Ekstra';
-                case 'small': return 'Teks: Kecil';
-                default: return 'Teks: Normal';
-            }
-        },
-        toggleDarkMode() {
-            this.darkMode = !this.darkMode;
-            localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
-            document.documentElement.classList.toggle('dark', this.darkMode);
-        },
-        cycleTextSize() {
-            const sizes = ['normal', 'large', 'xlarge', 'small'];
-            const nextIdx = (sizes.indexOf(this.textSize) + 1) % sizes.length;
-            this.textSize = sizes[nextIdx];
-            localStorage.setItem('textSize', this.textSize);
-            const scaleMap = { 'small': '14px', 'normal': '16px', 'large': '18px', 'xlarge': '20px' };
-            document.documentElement.style.fontSize = scaleMap[this.textSize] || '16px';
+    mobileSidebarOpen: false,
+    darkMode: document.documentElement.classList.contains('dark'),
+    textSize: localStorage.getItem('textSize') || 'normal',
+    get textSizeLabel() {
+        switch (this.textSize) {
+            case 'large':
+                return 'Teks: Besar';
+            case 'xlarge':
+                return 'Teks: Ekstra';
+            case 'small':
+                return 'Teks: Kecil';
+            default:
+                return 'Teks: Normal';
         }
-    }">
+    },
+    toggleDarkMode() {
+        this.darkMode = !this.darkMode;
+        localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', this.darkMode);
+    },
+    cycleTextSize() {
+        const sizes = ['normal', 'large', 'xlarge', 'small'];
+        const nextIdx = (sizes.indexOf(this.textSize) + 1) % sizes.length;
+        this.textSize = sizes[nextIdx];
+        localStorage.setItem('textSize', this.textSize);
+        const scaleMap = { 'small': '14px', 'normal': '16px', 'large': '18px', 'xlarge': '20px' };
+        document.documentElement.style.fontSize = scaleMap[this.textSize] || '16px';
+    }
+}">
 
     <div class="layout-wrapper">
         <!-- SIDEBAR -->
@@ -528,12 +676,15 @@
 
                     @foreach ($sidebarItems as $item)
                         @php
-                            $isActive = request()->is('admin/table/' . $item['key']) || request()->is('table/' . $item['key']);
+                            $isActive =
+                                request()->is('admin/table/' . $item['key']) || request()->is('table/' . $item['key']);
                             $count = $counts[$item['key']] ?? 0;
                         @endphp
-                        <a href="{{ url('admin/table/' . $item['key']) }}" class="nav-item {{ $isActive ? 'active' : '' }}">
+                        <a href="{{ url('admin/table/' . $item['key']) }}"
+                            class="nav-item {{ $isActive ? 'active' : '' }}">
                             <div class="nav-item-content">
-                                <i class="fa-solid {{ $item['icon'] }}" style="width: 16px; text-align: center; color: {{ $isActive ? 'var(--active-item-text)' : $item['color'] }};"></i>
+                                <i class="fa-solid {{ $item['icon'] }}"
+                                    style="width: 16px; text-align: center; color: {{ $isActive ? 'var(--active-item-text)' : $item['color'] }};"></i>
                                 <span>{{ $item['title'] }}</span>
                             </div>
                             <span class="badge">{{ $count }}</span>
@@ -547,13 +698,17 @@
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div class="avatar">AD</div>
                         <div>
-                            <p style="font-size: 12px; font-weight: 600; color: #ffffff;">{{ Auth::user()->username ?? 'admin' }}</p>
-                            <p style="font-size: 11px; color: var(--color-secondary); text-transform: capitalize;">{{ Auth::user()->role ?? 'Admin' }}</p>
+                            <p style="font-size: 12px; font-weight: 600; color: #ffffff;">
+                                {{ Auth::user()->username ?? 'admin' }}</p>
+                            <p style="font-size: 11px; color: var(--color-secondary); text-transform: capitalize;">
+                                {{ Auth::user()->role ?? 'Admin' }}</p>
                         </div>
                     </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" style="background: none; border: none; color: var(--color-secondary); cursor: pointer;" title="Logout">
+                        <button type="submit"
+                            style="background: none; border: none; color: var(--color-secondary); cursor: pointer;"
+                            title="Logout">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </button>
                     </form>
@@ -584,7 +739,8 @@
                     </button>
 
                     <button type="button" @click="toggleDarkMode()" class="btn-icon" title="Ganti Mode Tampilan">
-                        <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'" style="color: var(--text-main);"></i>
+                        <i :class="darkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"
+                            style="color: var(--text-main);"></i>
                     </button>
 
                     <a href="{{ url()->current() }}" class="btn-icon" title="Refresh Halaman">
@@ -592,7 +748,8 @@
                     </a>
 
                     <div class="dropdown" x-data="{ profileOpen: false }">
-                        <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                        <button @click="profileOpen = !profileOpen" @click.outside="profileOpen = false"
+                            style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                             <div class="avatar">AD</div>
                         </button>
 
@@ -621,7 +778,50 @@
                         <span>{{ session('success') }}</span>
                     </div>
                 @endif
-                @yield('content')
+
+                <!-- WELCOME HERO BANNER (PURE CSS) -->
+                <div class="hero-banner">
+                    <div class="hero-badge">
+                        Sistem Database Alumni Terintegrasi
+                    </div>
+                    <h2 class="hero-title">
+                        Selamat Datang di <span class="hero-title-highlight">Portal Database Alumni</span>
+                    </h2>
+                    <p class="hero-desc">
+                        Kelola, pantau, dan eksplorasi data alumni, kepengurusan, prestasi, serta konten informasi
+                        institusi secara terpadu melalui panel manajemen database.
+                    </p>
+                </div>
+
+                <!-- BOX GRAFIK STATISTIK (PURE CSS) -->
+                <div class="chart-card">
+                    <h3 class="chart-title">
+                        Statistik Pengunjung Hari Ini
+                    </h3>
+
+                    <div class="chart-container" x-data="{
+                        dataPengunjung: {{ json_encode($data ?? []) }},
+                        jam: {{ json_encode($labels ?? []) }},
+                        maxData: {{ isset($data) && count($data) > 0 ? max($data) : 100 }}
+                    }"> 
+                    <template
+                        x-for="(nilai, index) in dataPengunjung">
+                        <div class="chart-bar-group">
+                            <div class="chart-tooltip" x-text="nilai + ' org'"></div>
+                            <div class="chart-bar" :style="`height: ${(nilai / maxData) * 100}%`"
+                                x-init="$el.style.height = '0%';
+                                setTimeout(() => $el.style.height = `${(nilai / maxData) * 100}%`, 100)">
+                            </div>
+                            <span class="chart-label" x-text="jam[index]"></span>
+                        </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC CONTENT (Untuk Halaman Child) -->
+                <div>
+                    @yield('content')
+                </div>
             </main>
         </div>
     </div>

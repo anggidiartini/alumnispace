@@ -8,6 +8,8 @@ use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Visitor;
 
 class ContentManagementController extends Controller
 {
@@ -44,16 +46,30 @@ class ContentManagementController extends Controller
         $upcomingAcara = \App\Models\Event::latest()->take(5)->get();
         $latestArticles = \App\Models\Article::latest()->take(5)->get();
         $recentTestimonies = \App\Models\Testimony::latest()->take(5)->get();
-        $recentPrestasi = \App\Models\Prestasi::latest()->take(5)->get();
         
+        $statistikHariIni = \App\Models\Visitor::whereDate('created_at', today())
+            ->selectRaw('HOUR(created_at) as jam, COUNT(*) as total')
+            ->groupBy('jam')
+            ->orderBy('jam', 'asc')
+            ->get();
 
-        return view('dashboard', compact(
-            'counts',
+        $labels = [];
+        $data = [];
+
+        foreach ($statistikHariIni as $row) {
+            $labels[] = sprintf('%02d:00', $row->jam);
+            $data[] = $row->total;
+        }
+
+        return view('admin.dashboard.index', compact(
+            'count',
             'recentAlumni',
             'upcomingAcara',
             'latestArticles',
-            'recentTestimonies',
-            'recentPrestasi'
+            'recentTestimonials',
+            'recentPrestasi',
+            'labels',  
+            'data'    
         ));
     }
 
