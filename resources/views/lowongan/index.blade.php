@@ -43,17 +43,20 @@
             <div class="checker blob" style="position:absolute; inset:0; opacity:.5; z-index:0;" aria-hidden="true"></div>
             <div class="preview-wrap">
               <div class="preview-label">PILIHAN MINGGU INI</div>
-              <article class="preview-card floaty">
-                <div class="preview-top">
-                  <div class="preview-monogram">RK</div>
-                  <span class="job-badge" style="background:var(--yellow); color:var(--ink);">Remote</span>
-                </div>
-                <h2 style="margin:0; font-size:1.4rem;">Product Designer</h2>
-                <p style="margin:.4rem 0 0; color:#355277; font-weight:700;">Ruang Kreatif · Jakarta</p>
-                <div class="progress-track" aria-hidden="true">
-                  <div class="progress-bar"></div>
-                </div>
-              </article>
+              @if($jobs->count())
+                @php $featured = $jobs->first(); @endphp
+                <article class="preview-card floaty">
+                  <div class="preview-top">
+                    <div class="preview-monogram">{{ $featured->initials }}</div>
+                    <span class="job-badge" style="background:var(--yellow); color:var(--ink);">{{ $featured->job_type }}</span>
+                  </div>
+                  <h2 style="margin:0; font-size:1.4rem;">{{ $featured->title }}</h2>
+                  <p style="margin:.4rem 0 0; color:#355277; font-weight:700;">{{ $featured->company_name }} · {{ $featured->location }}</p>
+                  <div class="progress-track" aria-hidden="true">
+                    <div class="progress-bar"></div>
+                  </div>
+                </article>
+              @endif
               <div class="hero-note wiggle">Ada peluang baru!</div>
             </div>
           </div>
@@ -90,12 +93,9 @@
                 <label class="field-label" for="company-filter">Perusahaan</label>
                 <select id="company-filter" class="field-control">
                   <option value="">Semua Perusahaan</option>
-                  <option value="Ruang Kreatif">Ruang Kreatif</option>
-                  <option value="Nusantara Labs">Nusantara Labs</option>
-                  <option value="Kawan Studio">Kawan Studio</option>
-                  <option value="Satu Data">Satu Data</option>
-                  <option value="Pasar Hijau">Pasar Hijau</option>
-                  <option value="Orbit People">Orbit People</option>
+                  @foreach ($jobs->pluck('company_name')->unique() as $company)
+                    <option value="{{ $company }}">{{ $company }}</option>
+                  @endforeach
                 </select>
               </div>
 
@@ -103,11 +103,9 @@
                 <label class="field-label" for="location-filter">Lokasi</label>
                 <select id="location-filter" class="field-control">
                   <option value="">Semua Lokasi</option>
-                  <option value="Jakarta">Jakarta</option>
-                  <option value="Bandung">Bandung</option>
-                  <option value="Remote">Remote</option>
-                  <option value="Surabaya">Surabaya</option>
-                  <option value="Yogyakarta">Yogyakarta</option>
+                  @foreach ($jobs->pluck('location')->filter()->unique() as $loc)
+                    <option value="{{ $loc }}">{{ $loc }}</option>
+                  @endforeach
                 </select>
               </div>
 
@@ -132,93 +130,23 @@
             </div>
 
             <div id="jobs-grid" class="jobs-grid">
-              <article class="job-card reveal-onscroll" data-company="Ruang Kreatif" data-location="Jakarta" data-type="Full-Time" data-search="product designer ruang kreatif jakarta full time desain produk aplikasi digital">
-                <div class="job-card-head">
-                  <span class="job-badge">Desain</span><span class="job-symbol">✳</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/product-designer">Product Designer</a>
-                <a class="company-link" href="/lowongan/detail/product-designer">Ruang Kreatif</a>
-                <p class="job-meta">Jakarta · Full-Time · 2 hari lalu</p>
-                <p class="job-description">Rancang pengalaman produk digital yang hangat dan mudah digunakan.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/product-designer">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" style="transition-delay:.05s" data-company="Nusantara Labs" data-location="Bandung" data-type="Remote" data-search="frontend developer nusantara labs bandung remote react javascript teknologi">
-                <div class="job-card-head">
-                  <span class="job-badge">Teknologi</span><span class="job-symbol">⌘</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/frontend-developer">Frontend Developer</a>
-                <a class="company-link" href="/lowongan/detail/frontend-developer">Nusantara Labs</a>
-                <p class="job-meta">Bandung · Remote · 3 hari lalu</p>
-                <p class="job-description">Bangun antarmuka web cepat dan rapi bersama tim produk kolaboratif.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/frontend-developer">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" style="transition-delay:.1s" data-company="Kawan Studio" data-location="Jakarta" data-type="Full-Time" data-search="community manager kawan studio jakarta full time komunitas event engagement">
-                <div class="job-card-head">
-                  <span class="job-badge">Komunitas</span><span class="job-symbol">☻</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/community-manager">Community Manager</a>
-                <a class="company-link" href="/lowongan/detail/community-manager">Kawan Studio</a>
-                <p class="job-meta">Jakarta · Full-Time · 4 hari lalu</p>
-                <p class="job-description">Rawat percakapan, program, dan hubungan bermakna di komunitas kreatif.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/community-manager">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" data-company="Satu Data" data-location="Remote" data-type="Full-Time" data-search="data analyst satu data remote full time sql dashboard insight bisnis">
-                <div class="job-card-head">
-                  <span class="job-badge">Data</span><span class="job-symbol">◫</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/data-analyst">Data Analyst</a>
-                <a class="company-link" href="/lowongan/detail/data-analyst">Satu Data</a>
-                <p class="job-meta">Remote · Full-Time · 5 hari lalu</p>
-                <p class="job-description">Ubah data menjadi insight untuk keputusan bisnis yang lebih baik.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/data-analyst">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" style="transition-delay:.05s" data-company="Pasar Hijau" data-location="Yogyakarta" data-type="Freelance" data-search="copywriter pasar hijau yogyakarta freelance konten brand kampanye">
-                <div class="job-card-head">
-                  <span class="job-badge">Konten</span><span class="job-symbol">✎</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/copywriter">Copywriter</a>
-                <a class="company-link" href="/lowongan/detail/copywriter">Pasar Hijau</a>
-                <p class="job-meta">Yogyakarta · Freelance · 1 hari lalu</p>
-                <p class="job-description">Ciptakan suara brand yang segar untuk kampanye produk ramah lingkungan.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/copywriter">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" style="transition-delay:.1s" data-company="Ruang Kreatif" data-location="Remote" data-type="Full-Time" data-search="ux researcher ruang kreatif remote full time riset pengguna produk">
-                <div class="job-card-head">
-                  <span class="job-badge">Riset</span><span class="job-symbol">◉</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/ux-researcher">UX Researcher</a>
-                <a class="company-link" href="/lowongan/detail/ux-researcher">Ruang Kreatif</a>
-                <p class="job-meta">Remote · Full-Time · 6 hari lalu</p>
-                <p class="job-description">Temukan kebutuhan pengguna melalui riset yang tajam dan penuh empati.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/ux-researcher">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" data-company="Orbit People" data-location="Surabaya" data-type="Full-Time" data-search="hr specialist orbit people surabaya full time sumber daya manusia rekrutmen">
-                <div class="job-card-head">
-                  <span class="job-badge">People</span><span class="job-symbol">♡</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/hr-specialist">HR Specialist</a>
-                <a class="company-link" href="/lowongan/detail/hr-specialist">Orbit People</a>
-                <p class="job-meta">Surabaya · Full-Time · 1 minggu lalu</p>
-                <p class="job-description">Bangun pengalaman kandidat dan karyawan yang bertumbuh bersama.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/hr-specialist">Lamar</a>
-              </article>
-
-              <article class="job-card reveal-onscroll" style="transition-delay:.05s" data-company="Nusantara Labs" data-location="Jakarta" data-type="Magang" data-search="social media strategist nusantara labs jakarta magang konten kampanye digital">
-                <div class="job-card-head">
-                  <span class="job-badge">Media Sosial</span><span class="job-symbol">✦</span>
-                </div>
-                <a class="job-title-link" href="/lowongan/detail/social-media-strategist">Social Media Strategist</a>
-                <a class="company-link" href="/lowongan/detail/social-media-strategist">Nusantara Labs</a>
-                <p class="job-meta">Jakarta · Magang · 1 hari lalu</p>
-                <p class="job-description">Kembangkan strategi sosial yang relevan, ceria, dan berbasis komunitas.</p>
-                <a class="apply-button custom-pill-btn" href="/lowongan/detail/social-media-strategist">Lamar</a>
-              </article>
+              @foreach ($jobs as $i => $job)
+                <article class="job-card reveal-onscroll"
+                  style="transition-delay: {{ ($i % 3) * 0.05 }}s"
+                  data-company="{{ $job->company_name }}"
+                  data-location="{{ $job->location }}"
+                  data-type="{{ $job->job_type }}"
+                  data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
+                  <div class="job-card-head">
+                    <span class="job-badge">{{ $job->category }}</span><span class="job-symbol">✳</span>
+                  </div>
+                  <a class="job-title-link" href="{{ route('lowongan.show', $job->slug) }}">{{ $job->title }}</a>
+                  <a class="company-link" href="{{ route('lowongan.show', $job->slug) }}">{{ $job->company_name }}</a>
+                  <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at->diffForHumans() }}</p>
+                  <p class="job-description">{{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
+                  <a class="apply-button custom-pill-btn" href="{{ route('lowongan.show', $job->slug) }}#lamar">Lamar</a>
+                </article>
+              @endforeach
             </div>
 
             <section id="empty-state" class="empty-state" aria-live="polite">
@@ -283,7 +211,6 @@
       var activeType = "";
       var fadeTimers = new WeakMap();
 
-      // ---------- filter lowongan, dengan fade halus (bukan hilang instan) ----------
       function filterJobs() {
         var query = searchInput.value.trim().toLowerCase();
         var company = companyFilter.value;
@@ -304,7 +231,6 @@
 
           if (matches) {
             card.classList.remove("is-hidden");
-            // beri 1 frame supaya transisi fade-in kepakai
             requestAnimationFrame(function () { card.classList.remove("is-fading"); });
             count += 1;
           } else if (!card.classList.contains("is-hidden")) {
@@ -361,7 +287,6 @@
       resetButton.addEventListener("click", resetFilters);
       emptyResetButton.addEventListener("click", resetFilters);
 
-      // ---------- scroll reveal, sama seperti home ----------
       var revealEls = document.querySelectorAll(".reveal-onscroll");
       var revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -378,7 +303,6 @@
         revealObserver.observe(el);
       });
 
-      // ---------- back to top ----------
       var backToTop = document.getElementById("back-to-top");
       window.addEventListener("scroll", function () {
         backToTop.classList.toggle("show", window.scrollY > 400);
@@ -387,7 +311,6 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      // ---------- WhatsApp bubble ----------
       var waButton = document.getElementById("wa-button");
       var waBubble = document.getElementById("wa-bubble");
       var waBubbleClose = document.getElementById("wa-bubble-close");
@@ -407,4 +330,4 @@
     });
   </script>
 </body>
-</html>
+</html> 

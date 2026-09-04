@@ -366,6 +366,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
   display: grid;
   gap: 28px;
   padding: 36px 20px;
+  align-items: start;
 }
 
 .detail-main { display: flex; flex-direction: column; gap: 16px; }

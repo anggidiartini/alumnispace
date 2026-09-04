@@ -50,7 +50,7 @@ class JobVacancyController extends Controller
             ->take(3)
             ->get();
 
-        return view('detail.lowongan', compact('job', 'relatedJobs'));
+        return view('lowongan.detail', compact('job', 'relatedJobs'));
     }
 
     public function apply(Request $request, $id)
