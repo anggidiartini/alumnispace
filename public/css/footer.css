@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600&display=swap");
+
+:root {
+    --as-navy-deepest: #0a1f3d;
+    --as-blue-accent: #2e6fb0;
+    --as-blue-light: #8fc1e8;
+    --as-blue-pale: #eaf4ff;
+    --as-cyan: #4fd1e8;
+    --as-gold: #f5c84c;
+}
+
+.as-footer {
+    width: 100%;
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--as-navy-deepest);
+    color: var(--as-blue-pale);
+}
+
+.as-footer * {
+    box-sizing: border-box;
+}
+
+.as-footer__inner {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 40px 24px;
+}
+
+/* ===== Top: brand + columns ===== */
+.as-footer__top {
+    display: grid;
+    grid-template-columns: 1.5fr 2fr;
+    gap: 48px;
+}
+
+.as-footer__logo {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--as-gold);
+    margin: 0 0 12px;
+}
+
+.as-footer__headline {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 800;
+    font-size: 1.65rem;
+    line-height: 1.25;
+    color: #fff;
+    margin: 0 0 12px;
+}
+
+.as-footer__headline span {
+    color: var(--as-cyan);
+}
+
+.as-footer__desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--as-blue-light);
+    margin: 0 0 20px;
+    max-width: 38ch;
+}
+
+.as-footer__subscribe {
+    display: flex;
+    max-width: 360px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(143, 193, 232, 0.35);
+}
+
+.as-footer__subscribe input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px 18px;
+    color: #fff;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.as-footer__subscribe input::placeholder {
+    color: rgba(234, 244, 255, 0.5);
+}
+
+.as-footer__subscribe button {
+    border: none;
+    background: var(--as-cyan);
+    color: var(--as-navy-deepest);
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 12px 22px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.as-footer__subscribe button:hover {
+    background: #7fe0f0;
+}
+
+/* ===== Link columns ===== */
+.as-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.as-footer__col-title {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 16px;
+}
+
+.as-footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.as-footer__links a {
+    color: var(--as-blue-light);
+    text-decoration: none;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    transition: color 0.15s ease;
+}
+
+.as-footer__links a:hover {
+    color: var(--as-cyan);
+}
+
+/* ===== Divider ===== */
+.as-footer__divider {
+    height: 1px;
+    background: rgba(143, 193, 232, 0.2);
+    margin: 32px 0 20px;
+}
+
+/* ===== Bottom bar ===== */
+.as-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.as-footer__copyright {
+    margin: 0;
+    font-size: 0.78rem;
+    color: rgba(234, 244, 255, 0.55);
+}
+
+.as-footer__socials {
+    display: flex;
+    gap: 20px;
+}
+
+.as-footer__socials a {
+    color: var(--as-blue-light);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.as-footer__socials a:hover {
+    color: var(--as-cyan);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .as-footer__top {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    .as-footer__columns {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .as-footer__inner {
+        padding: 32px 22px 20px;
+    }
+    .as-footer__columns {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+    .as-footer__headline {
+        font-size: 1.4rem;
+    }
+    .as-footer__subscribe {
+        max-width: 100%;
+    }
+    .as-footer__bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 420px) {
+    .as-footer__columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .as-footer__links a,
+    .as-footer__socials a,
+    .as-footer__subscribe button {
+        transition: none;
+    }
+}
