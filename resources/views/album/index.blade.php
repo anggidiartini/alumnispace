@@ -102,9 +102,9 @@
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
           <h3>{{ $album->title }}</h3>
           <div class="date">{{ $album->date_display ?? ($album->location ?? 'Memori') }}</div>
-          <button class="view-btn">View Album
+          <a href="{{ route('album.show', $album->slug) }}" class="view-btn">View Album
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
+          </a>
         </div>
       </div>
       @empty
