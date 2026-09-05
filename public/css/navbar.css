@@ -1,11 +1,17 @@
 /* =========================================
    CUSTOM NAVBAR STYLES (Tanpa Tailwind)
    ========================================= */
+body {
+    /* Mencegah konten paling atas tertutup navbar yang bersifat fixed */
+    padding-top: 75px;
+}
 
 .custom-header {
-    position: sticky;
+    position: fixed; /* Berubah dari sticky menjadi fixed agar mutlak menempel */
     top: 0;
-    z-index: 50;
+    left: 0;
+    width: 100%; /* Memastikan navbar merentang penuh selebar layar */
+    z-index: 9999; /* Z-index tinggi agar selalu berada di atas elemen lain */
     border-bottom: 1px solid #dbeafe;
     background-color: rgba(255, 253, 247, 0.95);
     backdrop-filter: blur(8px);

@@ -1102,6 +1102,9 @@ h3 {
 .text-left {
     text-align: left;
 }
+.text-right {
+    text-align: right;
+}
 
 .text-white {
     color: #ffffff;

@@ -47,7 +47,7 @@
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Satu komunitas, banyak cerita' }}</h1>
             <p class="mt-6 max-w-lg text-lg leading-relaxed text-[#355277]">{{ $contents['hero_banner']->subtitle ?? 'Tempat pulang untuk terhubung, bertukar kabar, dan tumbuh bersama alumni lintas angkatan.' }}</p>
            <div class="mt-8 flex flex-wrap gap-3">
-  <a class="js-nav-link custom-pill-btn px-6 py-3.5 text-base" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Masuk Untuk Membuka Fitur &rarr;</a>
+  <a class="js-nav-link custom-pill-btn px-6 py-3.5 text-base" href="#alumni" data-target="#alumni" data-auth-link data-auth-label="Direktori Alumni">Masuk Untuk Membuka Fitur</a>
   <a class="js-nav-link custom-white-pill-btn px-6 py-3.5 text-base" href="#testimoni" data-target="#testimoni">Jelajahi Dulu</a>
 </div>
             @endauth
@@ -239,7 +239,7 @@
           <p class="self-center px-2 text-sm text-[#355277]">Pilih filter untuk menemukan orangmu.</p>
         </div>
         <div id="alumni-list" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          @forelse($alumni ?? [] as $index => $alum)
+          @forelse(collect($alumni ?? [])->take(4) as $index => $alum)
           <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}">
             <div class="flex items-start justify-between">
               @if($alum->avatar)
@@ -259,6 +259,9 @@
           @endforelse
         </div>
         <p id="alumni-empty" class="mt-8 hidden rounded-2xl bg-[#fff5f8] p-5 text-center font-medium text-[#153563]">Belum ada alumni dengan filter ini. Coba pilihan lain, ya!</p>
+       <div class="mt-6 text-right reveal-onscroll">
+  <a href="{{ route('alumni.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+</div>
       </section>
 
       <!-- TESTIMONI -->
@@ -326,6 +329,9 @@
             </article>
             @endforelse
           </div>
+          <div class="mt-6 text-right reveal-onscroll">
+            <a href="{{ route('artikel.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+          </div>
         </div>
 
         <div id="gallery" class="media-panel mt-9">
@@ -360,6 +366,9 @@
             <p class="text-sm text-[#355277]">Belum ada album foto.</p>
             @endforelse
           </div>
+          <div class="mt-6 text-right reveal-onscroll">
+            <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+          </div>
         </div>
       </section>
 
@@ -371,7 +380,7 @@
           <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Info bursa kerja & magang terverifikasi dari perusahaan partner alumni.</p>
         </div>
         <div class="mt-9 grid gap-4 md:grid-cols-3">
-          @forelse($jobs ?? [] as $index => $job)
+          @forelse(collect($jobs ?? [])->take(3) as $index => $job)
           <article class="job-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.5rem] p-5 shadow-sm">
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -386,6 +395,9 @@
           @empty
           <p class="text-sm text-[#355277]">Belum ada lowongan kerja aktif.</p>
           @endforelse
+        </div>
+        <div class="mt-6 text-right reveal-onscroll">
+          <a href="{{ route('lowongan.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
         </div>
       </section>
 
@@ -414,21 +426,9 @@
             <p class="text-sm text-[#355277]">Belum ada agenda event mendatang.</p>
             @endforelse
           </div>
-        </div>
-      </section>
-
-      <!-- CALL TO ACTION -->
-      <section class="mx-auto max-w-7xl px-5 py-20 md:px-8">
-        <div class="reveal-onscroll relative overflow-hidden rounded-[2.5rem] bg-[#2e72ec] p-8 text-center md:p-14">
-          <span class="absolute left-8 top-7 text-4xl text-[#fff0a9] floaty-slow">✦</span>
-          <span class="absolute bottom-4 right-10 text-5xl text-[#ffb8d0] floaty">✿</span>
-          <h2 class="relative mx-auto max-w-2xl text-4xl font-bold text-white md:text-5xl">{{ $contents['cta_footer']->title ?? 'Masih ada tempat untuk ceritamu di sini.' }}</h2>
-          <p class="relative mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[#eaf3ff]">{{ $contents['cta_footer']->subtitle ?? 'Datang, sapa teman lama, dan buka kesempatan baru bersama komunitas alumni.' }}</p>
-          @guest
-          <a class="relative mt-7 px-7 py-3.5 text-base custom-white-pill-btn" href="{{ route('login') }}">{{ $contents['cta_footer']->meta_data['button_text'] ?? 'Masuk ke Komunitas' }} &rarr;</a>
-          @else
-          <a class="relative mt-7 px-7 py-3.5 text-base custom-white-pill-btn" href="#alumni" data-target="#alumni">Jelajahi Direktori Alumni</a>
-          @endguest
+          <div class="mt-6 text-right reveal-onscroll">
+            <a href="{{ route('event.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+          </div>
         </div>
       </section>
     </main>
