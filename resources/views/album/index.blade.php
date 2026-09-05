@@ -71,32 +71,36 @@
   <div class="confetti-layer" id="confetti-yellow"></div>
 
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal-pop">
       <h2>Pilih Album <span class="marker">Kamu</span></h2>
       <div class="count">{{ count($albums) }} albums</div>
     </div>
 
     <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">Semua</button>
-      <button class="filter-btn" data-filter="indoor">Indoor</button>
-      <button class="filter-btn" data-filter="outdoor">Outdoor</button>
+      <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
+      <button class="filter-btn reveal-pop" data-filter="indoor" style="--pop-delay:.15s">Indoor</button>
+      <button class="filter-btn reveal-pop" data-filter="outdoor" style="--pop-delay:.25s">Outdoor</button>
     </div>
-    <div class="filter-status">Menampilkan <strong id="filter-label">semua album</strong></div>
+    <div class="filter-status reveal-fade" style="--pop-delay:.35s">Menampilkan <strong id="filter-label">semua album</strong></div>
 
     <div class="album-grid">
       @forelse($albums as $index => $album)
       <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}">
         <div class="card-photo">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
+          <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
         @if($album->sticker_tag)
-        <div class="sticker {{ $index % 2 == 1 ? 'alt' : '' }}">{!! nl2br(e($album->sticker_tag)) !!}</div>
+          <div class="sticker {{ $index % 2 == 1 ? 'alt' : '' }}">{!! nl2br(e($album->sticker_tag)) !!}</div>
         @endif
         <div class="card-body">
-          <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
           <h3>{{ $album->title }}</h3>
+          <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
           <div class="date">{{ $album->date_display ?? ($album->location ?? 'Memori') }}</div>
+          @if($album->description)
+            <p class="card-desc">{{ \Illuminate\Support\Str::limit($album->description, 90) }}</p>
+          @endif
           <a href="{{ route('album.show', $album->slug) }}" class="view-btn">View Album
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -182,7 +186,24 @@
       }
     });
   }, { threshold: 0.15 });
-  cards.forEach(function(c){ io.observe(c); });
+  cards.forEach(function(c){
+    io.observe(c);
+    c.addEventListener('animationend', function(e){
+      if(e.animationName === 'popBounceIn'){ c.classList.add('popped'); }
+    });
+  });
+
+  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / STATUS ----------
+  var popEls = document.querySelectorAll('.reveal-pop, .reveal-fade');
+  var popIo = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        popIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  popEls.forEach(function(el){ popIo.observe(el); });
 
   // ---------- FILTER BUTTONS ----------
   var filterBtns = document.querySelectorAll('.filter-btn');
@@ -200,43 +221,6 @@
         var match = filter === 'all' || card.dataset.category === filter;
         card.classList.toggle('filtered-out', !match);
       });
-    });
-  });
-
-  // ---------- CLICK CONFETTI BURST ON VIEW-BTN ----------
-  function burst(x, y){
-    var pieces = 16;
-    for(var i=0;i<pieces;i++){
-      var piece = document.createElement('div');
-      piece.className = 'burst-piece';
-      var size = 5 + Math.random()*6;
-      var color = colors[Math.floor(Math.random()*colors.length)];
-      var angle = Math.random()*Math.PI*2;
-      var dist = 60 + Math.random()*70;
-      var tx = Math.cos(angle)*dist + 'px';
-      var ty = Math.sin(angle)*dist + 'px';
-      var tr = (Math.random()*360) + 'deg';
-
-      piece.style.width = size + 'px';
-      piece.style.height = size + 'px';
-      piece.style.background = color;
-      piece.style.left = x + 'px';
-      piece.style.top = y + 'px';
-      piece.style.setProperty('--tx', tx);
-      piece.style.setProperty('--ty', ty);
-      piece.style.setProperty('--tr', tr);
-      piece.style.animation = 'burstFly .8s ease-out forwards';
-
-      document.body.appendChild(piece);
-      (function(p){
-        setTimeout(function(){ p.remove(); }, 850);
-      })(piece);
-    }
-  }
-
-  document.querySelectorAll('.view-btn').forEach(function(btn){
-    btn.addEventListener('click', function(e){
-      burst(e.clientX, e.clientY);
     });
   });
 
