@@ -459,6 +459,73 @@ input:focus-visible {
 
 .filter-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
+/* ---------- status tabs (pengganti filter status di sidebar) ---------- */
+
+.status-tabs {
+    display: inline-flex;
+    gap: 0.4rem;
+    padding: 0.35rem;
+    margin-bottom: 1.5rem;
+    border-radius: 999px;
+    background: var(--soft);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.status-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.status-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.65rem 1.35rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--muted);
+    background: transparent;
+    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+    scroll-snap-align: start;
+}
+
+.status-tab svg {
+    flex-shrink: 0;
+}
+
+.status-tab:hover {
+    color: var(--ink);
+}
+
+.status-tab.is-active {
+    background: #ffffff;
+    box-shadow: 0 6px 14px rgba(29, 74, 146, 0.14);
+}
+
+.status-tab.is-active[data-filter-status="Upcoming"] {
+    color: #187143;
+}
+
+.status-tab.is-active[data-filter-status="Completed"] {
+    color: #6650a5;
+}
+
+@media (max-width: 480px) {
+    .status-tabs {
+        display: flex;
+        width: 100%;
+        scroll-snap-type: x mandatory;
+    }
+    .status-tab {
+        flex: 1 1 50%;
+        justify-content: center;
+    }
+}
+
 .filter-button {
     border: 2px solid #d4dfed;
     border-radius: 999px;
@@ -492,6 +559,8 @@ input:focus-visible {
 }
 
 .event-card {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     border-radius: 1.5rem;
     border-top: 6px solid var(--blue);
@@ -540,18 +609,13 @@ input:focus-visible {
 
 .event-card-media { position: relative; }
 .event-card-media img { height: 12.5rem; width: 100%; object-fit: cover; }
-.event-status {
-    position: absolute;
-    left: 1rem; top: 1rem;
-    border-radius: 999px;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.72rem;
-    font-weight: 800;
-}
-.event-status.upcoming { background: #dcfce7; color: #187143; }
-.event-status.completed { background: #eee8ff; color: #6650a5; }
 
-.event-card-body { padding: 1.4rem; }
+.event-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.4rem;
+}
 .event-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
 .event-category { border-radius: 999px; padding: 0.32rem 0.8rem; font-size: 0.72rem; font-weight: 800; }
 .event-quota { font-size: 0.75rem; font-weight: 700; color: #b68100; }
@@ -582,7 +646,7 @@ input:focus-visible {
 .event-meta-row svg { flex-shrink: 0; margin-top: 2px; color: var(--blue-deep); }
 
 .event-detail-link {
-    margin-top: 1.2rem;
+    margin-top: auto;
     width: 100%;
     font-size: 0.9rem;
     padding: 0.68rem 1.15rem;

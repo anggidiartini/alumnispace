@@ -156,17 +156,26 @@
               <button id="empty-reset" class="custom-pill-btn" type="button" style="margin-top:1rem;">Reset Filter</button>
             </section>
 
-            <section class="ticket-banner reveal-onscroll">
-              <span class="ticket-divider" aria-hidden="true"></span>
-              <div class="ticket-content">
-                <div class="ticket-copy">
-                  <p class="section-kicker" style="color:var(--yellow);">PANGGILAN KOMUNITAS</p>
-                  <h2 class="ticket-title">Bagikan peluang untuk sesama alumni</h2>
-                  <p class="ticket-description">Kenalkan posisi terbuka di perusahaanmu dan bantu alumni lain menemukan langkah berikutnya.</p>
-                </div>
-                <a class="ticket-cta" href="/lowongan">Lihat Lowongan</a>
-              </div>
-            </section>
+            <section class="share-banner reveal-onscroll">
+  <span class="share-banner-orb" aria-hidden="true"></span>
+
+  <div class="share-banner-icon" aria-hidden="true">
+    <i data-lucide="message-circle" width="26" height="26"></i>
+  </div>
+
+  <div class="share-banner-content">
+    <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
+    <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
+    <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
+  </div>
+
+  <a class="share-banner-cta custom-pill-btn"
+     href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
+     target="_blank" rel="noopener">
+    <i data-lucide="message-circle" width="18" height="18"></i>
+    Kirim via WhatsApp
+  </a>
+</section>
           </div>
         </div>
       </section>

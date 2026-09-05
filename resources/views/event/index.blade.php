@@ -105,24 +105,27 @@
               </div>
             </div>
 
-            <div class="filter-group">
-              <span class="filter-legend">Status event</span>
-              <div class="filter-row" id="statusFilters">
-                <button data-filter-status="all" type="button" class="filter-button is-active">Semua status</button>
-                <button data-filter-status="Upcoming" type="button" class="filter-button">Upcoming</button>
-                <button data-filter-status="Completed" type="button" class="filter-button">Completed</button>
-              </div>
-            </div>
           </aside>
 
           <div>
+            <div class="status-tabs" role="tablist" aria-label="Filter status event">
+  <button type="button" class="status-tab is-active" data-filter-status="Upcoming" role="tab" aria-selected="true">
+    <i data-lucide="calendar-clock" width="16" height="16"></i>
+    Upcoming
+  </button>
+  <button type="button" class="status-tab" data-filter-status="Completed" role="tab" aria-selected="false">
+    <i data-lucide="check-circle-2" width="16" height="16"></i>
+    Completed
+  </button>
+</div>
+
+<div id="eventGrid" class="event-grid">
             <div id="eventGrid" class="event-grid">
 
               <!-- Event 1 -->
               <article class="event-card reveal-onscroll" data-category="Workshop" data-status="Upcoming" data-search="kreatif lab ide jadi aksi workshop studio kreativa denpasar">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Tim berkolaborasi dalam pertemuan kreatif di ruang kerja modern">
-                  <span class="event-status upcoming">Upcoming</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -144,7 +147,6 @@
               <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Seminar" data-status="Upcoming" data-search="masa depan digital bali seminar aula dharma negara alaya">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Peserta duduk memperhatikan presentasi dalam konferensi indoor">
-                  <span class="event-status upcoming">Upcoming</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -166,7 +168,6 @@
               <article class="event-card reveal-onscroll" data-category="Gathering" data-status="Completed" data-search="reuni cerita kita 2026 gathering taman inspirasi mertasari">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sekelompok teman muda menikmati waktu bersama di luar ruangan">
-                  <span class="event-status completed">Completed</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -188,7 +189,6 @@
               <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Festival" data-status="Completed" data-search="festival nada kota lapangan puputan badung">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Band tampil di atas panggung dengan penonton dan cahaya konser yang meriah">
-                  <span class="event-status completed">Completed</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -210,7 +210,6 @@
               <article class="event-card reveal-onscroll" data-category="Kompetisi" data-status="Upcoming" data-search="code sprint nusantara kompetisi bali tech hub sanur">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dua perempuan bekerja bersama menyusun program di komputer">
-                  <span class="event-status upcoming">Upcoming</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -232,7 +231,6 @@
               <article class="event-card reveal-onscroll" style="transition-delay:.05s" data-category="Seminar" data-status="Completed" data-search="berani bertumbuh seminar kampus kreatif renon">
                 <div class="event-card-media">
                   <img loading="lazy" src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sekelompok profesional berkolaborasi dalam rapat di ruang kerja modern">
-                  <span class="event-status completed">Completed</span>
                 </div>
                 <div class="event-card-body">
                   <div class="event-card-top">
@@ -307,7 +305,7 @@
       var emptyState = document.getElementById("emptyState");
       var searchInput = document.getElementById("eventSearchInput");
       var category = "all";
-      var status = "all";
+     var status = "Upcoming";
       var fadeTimers = new WeakMap();
 
       // ---------- scroll ke katalog event ----------
@@ -364,15 +362,17 @@
         });
       });
 
-      document.querySelectorAll("[data-filter-status]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          status = button.dataset.filterStatus;
-          document.querySelectorAll("[data-filter-status]").forEach(function (item) {
-            item.classList.toggle("is-active", item === button);
-          });
-          applyFilters();
-        });
-      });
+     document.querySelectorAll("[data-filter-status]").forEach(function (button) {
+  button.addEventListener("click", function () {
+    status = button.dataset.filterStatus;
+    document.querySelectorAll("[data-filter-status]").forEach(function (item) {
+      var isActive = item === button;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-selected", String(isActive));
+    });
+    applyFilters();
+  });
+});
 
       // ---------- scroll reveal per-section, sama seperti home & lowongan ----------
       var revealEls = document.querySelectorAll(".reveal-onscroll");

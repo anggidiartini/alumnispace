@@ -811,68 +811,85 @@ input:focus-visible {
     font-size: 1.5rem;
 }
 
-/* ---------- ticket banner ---------- */
+/* ---------- share vacancy banner (pengganti ticket-banner) ---------- */
 
-.ticket-banner {
-    position: relative;
-    margin-top: 2rem;
-    overflow: hidden;
-    border-radius: 2rem;
-    padding: 2rem;
-    color: white;
-    background: #2e72ec;
-}
-
-.ticket-banner::before,
-.ticket-banner::after {
-    position: absolute;
-    left: 34%;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: #fffdf7;
-    content: "";
-}
-
-.ticket-banner::before { top: -1rem; }
-.ticket-banner::after { bottom: -1rem; }
-
-.ticket-divider {
-    position: absolute;
-    top: 1rem;
-    bottom: 1rem;
-    left: 34%;
-    border-left: 2px dashed rgba(255, 255, 255, 0.75);
-}
-
-.ticket-content {
+.share-banner {
     position: relative;
     display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 1.5rem;
-    grid-template-columns: 1fr auto;
+    gap: 1.75rem;
+    margin-top: 2rem;
+    padding: 2.25rem 2rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    color: white;
+    background: linear-gradient(135deg, #2e72ec, #1d4ed8);
 }
 
-.ticket-copy {
-    padding-right: 4rem;
+.share-banner-orb {
+    position: absolute;
+    top: -3rem;
+    right: -3rem;
+    width: 9rem;
+    height: 9rem;
+    border-radius: 48% 52% 40% 60% / 55% 40% 60% 45%;
+    background: rgba(255, 255, 255, 0.12);
 }
 
-.ticket-title {
+.share-banner-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    flex-shrink: 0;
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+}
+
+.share-banner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.share-banner-title {
     margin: 0.45rem 0 0;
     font-weight: 700;
-    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-size: clamp(1.5rem, 3vw, 2.05rem);
 }
 
-.ticket-description {
-    max-width: 42rem;
-    margin: 0.55rem 0 0;
+.share-banner-description {
+    max-width: 34rem;
+    margin: 0.6rem 0 0;
     line-height: 1.6;
     color: #eaf3ff;
 }
 
-.ticket-cta {
+.share-banner-cta {
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
     background-color: #ffd84a;
     box-shadow: 0 6px 0 #0a4174;
+}
+
+@media (max-width: 720px) {
+    .share-banner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .share-banner-icon {
+        margin: 0 auto;
+    }
+
+    .share-banner-cta {
+        justify-self: center;
+    }
 }
 
 /* =========================================================
