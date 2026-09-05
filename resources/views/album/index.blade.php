@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — Our Album</title>
-    
+
     <!-- CSS File Calls -->
-
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
-  
-
-    <!-- 2. Wajib ada untuk manggil style khusus navbar buatanmu -->
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
-  
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
@@ -33,7 +28,7 @@
       <div class="hero-copy">
         <div class="greet-badge"><span>✦</span> OUR MEMORIES</div>
         <h1 class="title">
-          Tentang Kita, Tentang Momen yang <span class="pop">Nggak Akan Terulang</span> Lagi 
+          Tentang Kita, Tentang Momen yang <span class="pop">Nggak Akan Terulang</span> Lagi
         </h1>
         <p class="subtitle">
           Potongan kecil dari hari-hari yang pernah kita jalani bersama,
@@ -103,7 +98,7 @@
           <h3>{{ $album->title }}</h3>
           <div class="date">{{ $album->date_display ?? ($album->location ?? 'Memori') }}</div>
           <a href="{{ route('album.show', $album->slug) }}" class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFF7D6" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
       </div>
