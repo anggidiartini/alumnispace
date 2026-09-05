@@ -678,3 +678,160 @@ html {
         scroll-behavior: auto !important;
     }
 }
+
+/* =========================================================
+   PATCH: tempel blok ini menggantikan bagian
+   "ALUMNI GRID / CARD" yang lama di public/css/alumni.css
+   (mulai dari .directory-card sampai .profile-link:hover)
+   ========================================================= */
+
+.directory-card {
+    border: 0;
+    border-top: 6px solid var(--blue);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 14px 30px rgba(47, 102, 164, 0.1);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    animation: cardIn 0.45s both;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+.directory-card:hover,
+.directory-card:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(47, 102, 164, 0.16);
+}
+
+/* Palet pastel bergantian 4 warna, sama pola-nya dengan job-card */
+#alumni-grid .directory-card:nth-child(4n + 1) {
+    border-top-color: var(--blue);
+    background: color-mix(in srgb, var(--sky) 55%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(4n + 1) .badge {
+    background: var(--sky);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(4n + 2) {
+    border-top-color: #c8517d;
+    background: color-mix(in srgb, var(--pink) 45%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(4n + 2) .badge {
+    background: var(--pink);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(4n + 3) {
+    border-top-color: #9d7800;
+    background: color-mix(in srgb, var(--yellow) 45%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(4n + 3) .badge {
+    background: var(--yellow);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(4n + 4) {
+    border-top-color: var(--ink);
+    background: color-mix(in srgb, var(--blue) 16%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(4n + 4) .badge {
+    background: var(--blue);
+    color: #ffffff;
+}
+
+.card-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.card-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    object-fit: cover;
+    background: #dceeff;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(18, 53, 107, 0.15);
+}
+.badge {
+    border-radius: 999px;
+    background: #eaf4ff;
+    color: #2865b4;
+    font-size: 0.69rem;
+    font-weight: 800;
+    padding: 0.32rem 0.58rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.card-name-link {
+    display: inline-block;
+    margin-top: 0.15rem;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: none;
+}
+.card-name-link:hover {
+    text-decoration: underline;
+}
+
+.card-role {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin: -0.35rem 0 0;
+}
+
+.card-quote {
+    font-size: 0.875rem;
+    color: #55799f;
+    line-height: 1.375;
+    margin: 0;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #6280a4;
+    font-size: 0.78rem;
+    margin: 0;
+}
+
+.profile-link {
+    align-self: flex-start;
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.6rem 1.1rem;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.82rem;
+    text-decoration: none;
+    box-shadow: 0 5px 0 var(--ink);
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+.profile-link:hover {
+    background: var(--yellow);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--ink);
+}
+.profile-link:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--ink);
+}
