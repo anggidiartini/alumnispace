@@ -42,7 +42,7 @@ Route::get('/album/{slug}', [AlbumController::class, 'show'])->name('album.show'
 
 // Alumni Directory
 Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
-Route::get('/alumni/{id}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
+Route::get('/alumni/{slug}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
 
 //Articles
 Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
