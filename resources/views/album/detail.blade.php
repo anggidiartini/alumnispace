@@ -6,7 +6,7 @@
     <title>memori. — {{ $album->title }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 </head>
 <body>
 
@@ -30,8 +30,8 @@
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">
             {{ ucfirst($album->category) }}
           </span>
-          <img src="{{ asset($album->cover_photo) }}" alt="{{ $album->title }}">
-          <span class="detail-sticker">{{ \Illuminate\Support\Str::of($album->date_display ?? '')->limit(9, '') ?: '✦' }}</span>
+          <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
+          <span class="detail-sticker">{{ $album->date_display ? \Illuminate\Support\Str::limit($album->date_display, 9, '') : '✦' }}</span>
         </div>
       </div>
 
@@ -62,13 +62,13 @@
     </div>
 
     @if(isset($relatedAlbums) && $relatedAlbums->count())
-    <div class="related-head">
+    <div class="related-head reveal-pop">
       <h2>Album <span class="marker">Lainnya</span></h2>
     </div>
 
     <div class="related-grid">
-      @foreach($relatedAlbums as $related)
-        <div class="related-card">
+      @foreach($relatedAlbums as $i => $related)
+        <div class="related-card reveal-pop" style="--pop-delay: {{ $i * 0.15 }}s">
           <div class="related-photo">
             <span class="cat-pill {{ $related->category === 'outdoor' ? 'outdoor' : '' }}">
               {{ ucfirst($related->category) }}
@@ -92,6 +92,48 @@
 </div><!-- /.detail-page-wrap -->
 
 <x-footer />
+
+<script>
+(function(){
+  // ---------- SCROLL REVEAL UNTUK RELATED-HEAD / RELATED-CARD ----------
+  var popEls = document.querySelectorAll('.reveal-pop');
+  if(popEls.length){
+    var popIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          popIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    popEls.forEach(function(el){
+      popIo.observe(el);
+      el.addEventListener('animationend', function(e){
+        if(e.animationName === 'popBounceIn'){ el.classList.add('popped'); }
+      });
+    });
+  }
+
+})();
+
+const menuToggle = document.getElementById('menuToggle');
+const navbarMenu = document.getElementById('navbarMenu');
+
+if (menuToggle && navbarMenu) {
+  menuToggle.addEventListener('click', () => {
+    navbarMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.navbar-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      navbarMenu.classList.remove('active');
+      menuToggle.classList.remove('active');
+    });
+  });
+}
+</script>
+<script src="{{ asset('js/script.js') }}"></script>
 
 </body>
 </html>

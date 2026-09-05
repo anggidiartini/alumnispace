@@ -30,6 +30,14 @@
     --home-font-heading: 'Fredoka', sans-serif;
     --home-font-body: 'DM Sans', sans-serif;
 
+    /* ===== Warna PERSIS dari lowongan.css milik temen — dipakai khusus utk card album ===== */
+    --jc-ink: #203b68;
+    --jc-blue: #6f9fe8;
+    --jc-soft: #e7f0ff;
+    --jc-pink: #f5dce8;
+    --jc-yellow: #f8edb8;
+    --jc-cream: #f9fbff;
+
     /* Warna tombol pill: pinggiran navy, isi putih, hover kuning */
     --btn-border: #0a4174;
     --btn-fill: #ffffff;
@@ -84,22 +92,13 @@ body::before {
     overflow: hidden;
 }
 
+/* Section 2 (album) — polos putih, tanpa animasi bintik-bintik background */
 .section-yellow {
     background: #ffffff;
     position: relative;
     padding-top: 10px;
     overflow: hidden;
     scroll-margin-top: 80px;
-}
-
-.section-yellow::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background-image: radial-gradient(circle at 1px 1px, rgba(44, 62, 80, 0.09) 1.5px, transparent 0);
-    background-size: 26px 26px;
 }
 
 .section-blue::after {
@@ -180,9 +179,10 @@ body::before {
     font-weight: 700;
     opacity: .85;
     color: var(--home-accent-star);
+    animation: floatUpDown 3.2s ease-in-out infinite;
 }
 
-.doodle svg { display: block; overflow: visible; }
+.doodle svg { display: block; overflow: visible; animation: spinSlow 7s linear infinite; transform-origin: center; }
 
 @keyframes floatUpDown {
     0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
@@ -219,7 +219,7 @@ body::before {
     position: relative;
     max-width: 1180px;
     margin: 0 auto;
-    padding: 90px 40px 105px;
+    padding: 50px 40px 105px;
     z-index: 1;
 }
 
@@ -303,8 +303,8 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 
 .hero-cta:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
 .hero-cta:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-border); }
-.hero-cta svg { transition: transform .25s ease; }
-.hero-cta:hover svg { transform: translateY(3px); }
+.hero-cta svg { transition: transform .25s ease; animation: arrowNudge 1.3s ease-in-out infinite; }
+.hero-cta:hover svg { transform: translateY(3px); animation-play-state: paused; }
 
 /* ---------- POLAROID STACK ---------- */
 .photo-stack {
@@ -366,8 +366,9 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     right: -10px;
     font-size: 26px;
     z-index: 11;
-    transform: rotate(12deg);
     filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .2));
+    animation: pinHeartWiggle 1.8s ease-in-out infinite;
+    display: inline-block;
 }
 
 /* ---------- MAGNIFYING GLASS ---------- */
@@ -382,6 +383,92 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .magnifier img { width: 100%; height: 100%; display: block; }
+
+@keyframes heroTextIn {
+    0% { opacity: 0; transform: translateY(30px); }
+    60% { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes badgeIn {
+    0% { opacity: 0; transform: scale(.3) rotate(-15deg); }
+    60% { opacity: 1; transform: scale(1.15) rotate(4deg); }
+    80% { transform: scale(.95) rotate(-2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes heroTitleIn {
+    0% { opacity: 0; transform: translateY(45px) scale(.94); }
+    55% { opacity: 1; transform: translateY(-6px) scale(1.015); }
+    75% { transform: translateY(2px) scale(.995); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes photoAreaIn {
+    0% { opacity: 0; transform: translateX(60px) scale(.9); }
+    60% { opacity: 1; transform: translateX(-8px) scale(1.02); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes polaroidFloat1 {
+    0%, 100% { transform: rotate(-12deg) translateY(0); }
+    50% { transform: rotate(-16deg) translateY(-14px); }
+}
+
+@keyframes polaroidFloat2 {
+    0%, 100% { transform: rotate(3deg) translateY(0); }
+    50% { transform: rotate(7deg) translateY(-18px); }
+}
+
+@keyframes polaroidFloat3 {
+    0%, 100% { transform: rotate(12deg) translateY(0); }
+    50% { transform: rotate(8deg) translateY(-12px); }
+}
+
+@keyframes pinHeartWiggle {
+    0%, 100% { transform: rotate(12deg) scale(1); }
+    50% { transform: rotate(-6deg) scale(1.15); }
+}
+
+@keyframes arrowNudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
+@keyframes arrowNudgeX {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+}
+
+@keyframes stickerWiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-6deg); }
+    75% { transform: rotate(6deg); }
+}
+
+@keyframes iconWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(14deg) scale(1.15); }
+}
+
+@keyframes popBounceIn {
+    0% { opacity: 0; transform: translateY(28px) scale(.85); }
+    55% { opacity: 1; transform: translateY(-6px) scale(1.05); }
+    80% { transform: translateY(2px) scale(.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes photoPopIn {
+    0% { opacity: 0; transform: scale(.85) rotate(-2deg); }
+    60% { opacity: 1; transform: scale(1.03) rotate(1deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes stickerPopIn {
+    0% { opacity: 0; transform: scale(0) rotate(0deg); }
+    65% { opacity: 1; transform: scale(1.2) rotate(-10deg); }
+    100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
 
 @keyframes magnifierSearch {
     0% { top: 26%; left: 4%; transform: rotate(-18deg) scale(1); }
@@ -473,23 +560,27 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     z-index: 2;
 }
 
-/* Card ala "home": background pastel lembut + border-top aksen, shadow blur lembut (bukan outline tebal) */
+/* Card — 1:1 mengikuti rumus .job-card milik temen (warna, radius, shadow) */
 .card {
     position: relative;
     border-radius: 1.5rem;
-    border-top: 6px solid var(--home-blue);
-    padding: 16px 16px 20px;
+    border-top: 6px solid var(--jc-blue);
+    padding: 1.4rem;
+    background: #ffffff;
     box-shadow: 0 12px 28px rgba(29, 74, 146, 0.09);
     cursor: default;
     opacity: 0;
     transform: translateY(40px);
-    transition: transform .3s ease, box-shadow .3s ease, opacity .3s ease, background-color .3s ease;
+    transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, opacity .3s ease;
 }
 
 .card.in-view {
-    animation: riseIn .7s cubic-bezier(.2, .8, .2, 1) forwards;
+    animation: popBounceIn .75s cubic-bezier(.34, 1.56, .64, 1) forwards;
     animation-delay: var(--row-delay, 0s);
 }
+
+/* Setelah animasi masuk selesai, animasi dimatiin biar :hover transform (naik) bisa jalan normal */
+.card.popped { animation: none; opacity: 1; transform: none; }
 
 .card:hover {
     transform: translateY(-6px) scale(1.01);
@@ -497,30 +588,34 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 .card.filtered-out { display: none; }
 
-/* Palet berputar 4 warna pastel, disamakan persis dengan job-card temen */
+/* Palet 4 warna & persentase color-mix PERSIS sama dengan job-card temen */
 .card:nth-of-type(4n+1) {
-    border-top-color: var(--home-blue);
-    background: color-mix(in srgb, var(--home-blue-soft) 60%, #ffffff);
+    border-top-color: var(--jc-blue);
+    background: color-mix(in srgb, var(--jc-soft) 55%, #ffffff);
 }
-.card:nth-of-type(4n+1) .cat-pill { background: var(--home-blue-soft); }
+.card:nth-of-type(4n+1) .cat-pill { background: var(--jc-soft); color: var(--jc-ink); }
+.card:nth-of-type(4n+1) .card-symbol { color: var(--jc-blue); }
 
 .card:nth-of-type(4n+2) {
-    border-top-color: var(--home-pink-strong);
-    background: color-mix(in srgb, var(--home-pink) 55%, #ffffff);
+    border-top-color: var(--jc-pink);
+    background: color-mix(in srgb, var(--jc-pink) 40%, #ffffff);
 }
-.card:nth-of-type(4n+2) .cat-pill { background: var(--home-pink); }
+.card:nth-of-type(4n+2) .cat-pill { background: var(--jc-pink); color: var(--jc-ink); }
+.card:nth-of-type(4n+2) .card-symbol { color: #c8517d; }
 
 .card:nth-of-type(4n+3) {
-    border-top-color: var(--home-yellow-strong);
-    background: color-mix(in srgb, var(--home-yellow) 55%, #ffffff);
+    border-top-color: var(--jc-yellow);
+    background: color-mix(in srgb, var(--jc-yellow) 40%, #ffffff);
 }
-.card:nth-of-type(4n+3) .cat-pill { background: var(--home-yellow); }
+.card:nth-of-type(4n+3) .cat-pill { background: var(--jc-yellow); color: var(--jc-ink); }
+.card:nth-of-type(4n+3) .card-symbol { color: #9d7800; }
 
 .card:nth-of-type(4n+4) {
-    border-top-color: var(--navy);
-    background: color-mix(in srgb, var(--home-blue-light) 45%, #ffffff);
+    border-top-color: var(--jc-ink);
+    background: color-mix(in srgb, var(--jc-blue) 16%, #ffffff);
 }
-.card:nth-of-type(4n+4) .cat-pill { background: var(--home-blue-light); }
+.card:nth-of-type(4n+4) .cat-pill { background: var(--jc-blue); color: #ffffff; }
+.card:nth-of-type(4n+4) .card-symbol { color: var(--jc-ink); }
 
 .card-photo {
     width: 100%;
@@ -537,22 +632,38 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 .card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
 .card:hover .card-photo img { transform: scale(1.08); }
 
+/* Badge kategori — identik job-badge (radius, padding, size, weight) */
 .cat-pill {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 5;
     font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 11.5px;
-    padding: 5px 12px;
+    display: inline-block;
     border-radius: 999px;
-    color: var(--navy);
+    padding: 0.32rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--jc-ink);
     background: #ffffff;
 }
 
 .cat-pill.outdoor { background: #ffffff; }
 
+/* Simbol kecil pengganti "job-symbol" temen, ditaruh di pojok kanan atas foto */
+.card-symbol {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    font-size: 1.15rem;
+    color: var(--jc-blue);
+    line-height: 1;
+    display: inline-block;
+    animation: iconWiggle 2.6s ease-in-out infinite;
+}
+
+/* Sticker bulat gaya awal, ditempatkan di pojok kanan bawah foto */
 .sticker {
     position: absolute;
     bottom: -14px;
@@ -560,7 +671,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: var(--navy);
+    background: var(--jc-ink);
     color: #fff;
     display: flex;
     align-items: center;
@@ -576,27 +687,47 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     transition: transform .3s ease;
 }
 
-.sticker.alt { background: var(--navy); }
-.card:hover .sticker { transform: scale(1.12) rotate(-8deg); }
+.sticker.alt { background: var(--jc-ink); }
+.sticker { animation: stickerWiggle 3s ease-in-out infinite; }
+.card:hover .sticker { animation-play-state: paused; transform: scale(1.12) rotate(-8deg); }
 
-.card-body { padding-top: 18px; }
+.card-body { padding-top: 18px; font-family: 'Baloo 2', sans-serif; }
 
+.card-body h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 1.28rem;
+    line-height: 1.2;
+    color: var(--jc-ink);
+    margin-bottom: 4px;
+}
+
+/* Label sekarang tampil DI BAWAH judul (h3), bukan lagi di atas */
 .label {
     font-family: 'Baloo 2', sans-serif;
     font-weight: 600;
-    font-size: 16px;
-    color: var(--navy);
-    margin-bottom: 2px;
+    font-size: 13px;
+    color: var(--jc-ink);
+    opacity: .75;
+    margin-bottom: 4px;
 }
 
-.card-body h3 { font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 23px; margin-bottom: 4px; }
+.date { font-size: 13px; color: var(--ink-soft); font-weight: 500; margin-bottom: 8px; font-family: 'Baloo 2', sans-serif; }
 
-.date { font-size: 13px; color: var(--ink-soft); font-weight: 500; margin-bottom: 16px; }
+/* Sedikit cuplikan deskripsi dari database, senada job-description temen */
+.card-desc {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #355277;
+    margin: 4px 0 0;
+}
 
 .view-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    margin-top: 14px;
     background: var(--btn-fill);
     color: var(--btn-border);
     font-family: 'Baloo 2', sans-serif;
@@ -611,13 +742,32 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
 }
 
-.view-btn svg { stroke: #0a4174; transition: transform .2s; }
+.view-btn svg { stroke: #0a4174; transition: transform .2s; animation: arrowNudgeX 1.4s ease-in-out infinite; }
 .view-btn:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
 .view-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-border); }
-.card:hover .view-btn svg { transform: translateX(4px); }
+.card:hover .view-btn svg { transform: translateX(4px); animation-play-state: paused; }
 
-/* ---------- CONFETTI BURST ---------- */
-.burst-piece { position: fixed; pointer-events: none; z-index: 999; border-radius: 2px; }
+/* ---------- GENERIC SCROLL-REVEAL (bounce) UNTUK HEADING/FILTER/RELATED ---------- */
+.reveal-pop {
+    opacity: 0;
+    transform: translateY(28px) scale(.85);
+}
+
+.reveal-pop.in-view {
+    animation: popBounceIn .7s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    animation-delay: var(--pop-delay, 0s);
+}
+
+/* Versi lebih halus, tanpa bounce/scale — dipakai buat filter-status */
+.reveal-fade {
+    opacity: 0;
+    transform: translateY(14px);
+}
+
+.reveal-fade.in-view {
+    animation: fadeUp .55s ease forwards;
+    animation-delay: var(--pop-delay, 0s);
+}
 
 /* =========================================
    KEYFRAMES
@@ -626,7 +776,6 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 @keyframes twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.85); } }
 @keyframes swayFlag { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
 @keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
-@keyframes burstFly { to { transform: translate(var(--tx), var(--ty)) rotate(var(--tr)); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
     * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -664,7 +813,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     .album-grid { grid-template-columns: 1fr; gap: 24px; padding-bottom: 60px; }
     .card-photo { height: 200px; }
     .sticker { width: 46px; height: 46px; font-size: 11.5px; }
-    .card-body h3 { font-size: 20px; }
+    .card-body h3 { font-size: 1.1rem; }
 }
 
 /* =========================================
@@ -685,6 +834,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     position: relative;
     z-index: 2;
     text-decoration: none;
+    animation: heroTextIn .6s ease both;
 }
 
 .back-link:hover { text-decoration: underline; }
@@ -710,7 +860,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     box-shadow: 0 6px 14px rgba(44, 62, 80, .25);
     z-index: 6;
     border: 2.5px solid #fff;
-    transform: rotate(-6deg);
+    animation: stickerPopIn .8s .55s cubic-bezier(.34, 1.56, .64, 1) both, stickerWiggle 3s 1.4s ease-in-out infinite;
 }
 
 /* Badge kecil versi mini dari .greet-badge di hero */
@@ -718,6 +868,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     margin-bottom: 14px;
     font-size: 11px;
     padding: 6px 14px;
+    animation: badgeIn .7s .1s cubic-bezier(.34, 1.56, .64, 1) both;
 }
 
 .marker-title {
@@ -754,7 +905,14 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     border: 2px solid var(--navy);
     border-radius: 999px;
     padding: 6px 12px;
+    opacity: 0;
+    animation: popBounceIn .6s cubic-bezier(.34, 1.56, .64, 1) both;
 }
+
+.meta-item:nth-child(1) { animation-delay: .35s; }
+.meta-item:nth-child(2) { animation-delay: .48s; }
+.meta-item:nth-child(3) { animation-delay: .61s; }
+.meta-item:nth-child(4) { animation-delay: .74s; }
 
 /* Deskripsi dibungkus quote-box, aksen garis kiri warna-warni */
 .desc-quote {
@@ -764,6 +922,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     background: #ffffff;
     border-radius: 14px;
     border-left: 5px solid var(--home-yellow-strong);
+    animation: fadeUp .7s .85s cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .desc-quote .detail-desc {
@@ -789,6 +948,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     overflow: hidden;
     border: 2.5px solid var(--navy);
     box-shadow: 8px 8px 0 var(--navy);
+    animation: photoPopIn .8s cubic-bezier(.34, 1.56, .64, 1) both;
 }
 
 .detail-photo-col .detail-photo img {
@@ -810,6 +970,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     font-weight: 700;
     font-size: 32px;
     margin: 6px 0 4px;
+    animation: heroTitleIn .8s .2s cubic-bezier(.34, 1.56, .64, 1) both;
 }
 
 .detail-info-col .label {
@@ -884,6 +1045,8 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .related-card:hover { transform: translateY(-5px); box-shadow: 6px 6px 0 var(--navy); }
+.related-card.reveal-pop { transform: translateY(28px) scale(.85); }
+.related-card.reveal-pop.popped { animation: none; opacity: 1; transform: none; }
 
 .related-photo {
     position: relative;
