@@ -12,20 +12,12 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'author_id',
+        'user_id',
         'title',
         'slug',
-        'category',
-        'thumbnail',
-        'excerpt',
-        'content',
-        'published_at',
-        'is_published',
-    ];
-
-    protected $casts = [
-        'published_at' => 'datetime',
-        'is_published' => 'boolean',
+        'kategori',
+        'gambar_utama',
+        'konten',
     ];
 
     protected static function boot()
@@ -39,8 +31,8 @@ class Article extends Model
         });
     }
 
-    public function author(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -45,6 +45,8 @@ Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni
 Route::get('/alumni/{id}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
 
 Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel.show');
+
 
 
 // Admin Protected Group
