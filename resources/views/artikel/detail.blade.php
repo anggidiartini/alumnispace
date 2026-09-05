@@ -18,9 +18,7 @@
 
 <body>
 
-    <!-- =========================================
-       HEADER & NAVIGATION
-       ========================================= -->
+
     <header class="site-header" data-animate="fade-down">
         <div class="header-inner">
             <a href="{{ url('/') }}" class="brand" aria-label="Alumni Space">
@@ -59,9 +57,7 @@
 
     <main id="beranda">
 
-        <!-- =========================================
-         BREADCRUMB & HERO AREA ARTIKEL
-         ========================================= -->
+
         <section class="wrap breadcrumb-wrap" data-animate="fade-up">
             <nav aria-label="Breadcrumb">
                 <ol class="breadcrumb">
@@ -122,9 +118,7 @@
             </div>
         </section>
 
-        <!-- =========================================
-         DETAIL GRID CONTENT
-         ========================================= -->
+        
         <section class="wrap detail-grid">
             <div class="detail-main">
 
