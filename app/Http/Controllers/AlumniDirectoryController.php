@@ -33,9 +33,9 @@ class AlumniDirectoryController extends Controller
         return view('alumni.index', compact('alumni', 'generations'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $profile = AlumniProfile::with('user')->findOrFail($id);
+        $profile = AlumniProfile::with('user')->findOrFail($slug);
         return view('alumni.detail', compact('profile'));
     }
 }

@@ -1,0 +1,312 @@
+/* =========================================================
+   DETAIL ALUMNI — public/css/detail-alumni.css
+   Dipakai bareng alumni.css (variabel warna & font sudah
+   didefinisikan di :root pada alumni.css).
+   Breakpoint mengikuti pola yang sama: sm=640px, lg=1024px.
+   ========================================================= */
+
+.ad-section {
+    width: 100%;
+    padding: 2rem 1.25rem 3rem;
+}
+.ad-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+/* ---------- BREADCRUMB ---------- */
+.ad-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6280a4;
+    margin-bottom: 1.5rem;
+}
+.ad-breadcrumb a {
+    color: #6280a4;
+    text-decoration: none;
+}
+.ad-breadcrumb a:hover {
+    color: var(--blue);
+    text-decoration: underline;
+}
+.ad-breadcrumb-current {
+    color: var(--ink);
+    font-weight: 800;
+}
+
+/* ---------- HERO CARD ---------- */
+.ad-hero-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: 0 18px 40px rgba(42, 98, 155, 0.11);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+.ad-hero-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+}
+.ad-hero-info {
+    flex: 1;
+}
+
+.ad-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: #6b5510;
+    font-weight: 800;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 0.85rem;
+}
+
+.ad-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin: 0;
+}
+.ad-verified-icon {
+    color: var(--blue);
+    flex-shrink: 0;
+}
+
+.ad-subtitle {
+    margin-top: 0.5rem;
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.ad-meta-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+.ad-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #55799f;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.ad-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+.ad-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.3rem;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: 0;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+.ad-btn:hover {
+    transform: translateY(-2px);
+}
+.ad-btn-outline {
+    background: #fff;
+    color: var(--ink);
+    border: 2px solid var(--line);
+}
+.ad-btn-outline:hover {
+    border-color: var(--blue);
+}
+.ad-btn-solid {
+    background: var(--ink);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(18, 53, 107, 0.25);
+}
+
+.ad-hero-avatar-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+}
+.ad-hero-avatar {
+    width: 118px;
+    height: 118px;
+    border-radius: 32px;
+    object-fit: cover;
+    border: 6px solid #fff;
+    box-shadow: 8px 9px 0 var(--yellow);
+}
+
+/* ---------- INFO CARDS ---------- */
+.ad-info-grid {
+    display: grid;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+.ad-info-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.1rem 1.2rem;
+    box-shadow: 0 8px 18px rgba(47, 102, 164, 0.06);
+}
+.ad-info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--sky);
+    color: var(--blue);
+    margin-bottom: 0.6rem;
+}
+.ad-info-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #6682a4;
+    letter-spacing: 0.03em;
+    margin: 0;
+}
+.ad-info-value {
+    margin-top: 0.2rem;
+    font-weight: 800;
+    color: var(--ink);
+    font-size: 1rem;
+}
+
+/* ---------- BIO + KONTAK ---------- */
+.ad-content-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+.ad-content-main,
+.ad-side-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 20px rgba(47, 102, 164, 0.06);
+}
+.ad-section-title {
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin: 0 0 0.75rem;
+}
+.ad-bio-text {
+    color: #4c7198;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.ad-side-title {
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0 0 0.9rem;
+}
+.ad-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #55799f;
+    font-size: 0.88rem;
+    margin: 0 0 0.6rem;
+}
+.ad-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+}
+.ad-social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--sky);
+    color: var(--blue);
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+.ad-social-icon:hover {
+    background: #d5eaff;
+    transform: translateY(-2px);
+}
+
+/* ---------- BACK LINK ---------- */
+.ad-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #245b9d;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+.ad-back-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (min-width: 640px) {
+    .ad-section {
+        padding: 2.5rem 2rem 4rem;
+    }
+    .ad-hero-card {
+        padding: 2.25rem;
+    }
+    .ad-hero-top {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .ad-hero-avatar-wrap {
+        justify-content: flex-end;
+    }
+    .ad-info-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .ad-content-grid {
+        grid-template-columns: 1.6fr 1fr;
+        align-items: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ad-btn,
+    .ad-social-icon {
+        transition-duration: 0.01ms !important;
+    }
+}
