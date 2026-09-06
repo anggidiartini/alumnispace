@@ -33,8 +33,8 @@ Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->nam
 
 // Events & Gatherings
 Route::get('/event', [EventController::class, 'index'])->name('event.index');
+Route::match(['get', 'post'], '/event/{id}/register', [EventController::class, 'register'])->name('event.register');
 Route::get('/event/{slug}', [EventController::class, 'show'])->name('event.show');
-Route::post('/event/{id}/register', [EventController::class, 'register'])->name('event.register');
 
 // Photo Albums & Memories
 Route::get('/album', [AlbumController::class, 'index'])->name('album.index');

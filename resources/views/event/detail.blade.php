@@ -29,6 +29,7 @@
 --}}
 <!doctype html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,8 +39,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" defer></script>
 
-    <link rel="stylesheet" href="{{ asset('css/event-detail.css') }}">
+    <link rel="stylesheet" href="/css/event-detail.css">
+
 </head>
+
 <body>
     <div class="app-wrapper">
 
@@ -109,7 +112,8 @@
                                 </span>
                                 <div class="metadata-text">
                                     <span class="metadata-label">Tanggal</span>
-                                    <span class="metadata-value">{{ $event->event_date->translatedFormat('d F Y') }}</span>
+                                    <span
+                                        class="metadata-value">{{ $event->event_date->translatedFormat('d F Y') }}</span>
                                 </div>
                             </div>
                             <div class="metadata-item">
@@ -187,11 +191,8 @@
                                 <div class="gallery-grid">
                                     @foreach ($event->galleries as $item)
                                         <figure class="gallery-item reveal">
-                                            <img
-                                                src="{{ $item->image_url }}"
-                                                alt="{{ $item->caption ?? $event->title }}"
-                                                loading="lazy"
-                                            >
+                                            <img src="{{ $item->image_url }}"
+                                                alt="{{ $item->caption ?? $event->title }}" loading="lazy">
                                             @if ($item->caption)
                                                 <figcaption>{{ $item->caption }}</figcaption>
                                             @endif
@@ -199,7 +200,8 @@
                                     @endforeach
                                 </div>
                             @else
-                                <p class="section-text section-text-muted">Dokumentasi acara akan segera ditambahkan.</p>
+                                <p class="section-text section-text-muted">Dokumentasi acara akan segera ditambahkan.
+                                </p>
                             @endif
                         </section>
                     @endif
@@ -222,23 +224,15 @@
                                     <span id="quota-count" class="quota-count" aria-live="polite"></span>
                                 </div>
                                 <div class="progress-track" aria-label="Progress kuota pendaftaran">
-                                    <div
-                                        id="quota-progress"
-                                        class="progress-bar"
-                                        data-quota="{{ $event->quota }}"
-                                        data-registered="{{ $event->registered_count }}"
-                                    ></div>
+                                    <div id="quota-progress" class="progress-bar" data-quota="{{ $event->quota }}"
+                                        data-registered="{{ $event->registered_count }}"></div>
                                 </div>
                                 <p id="quota-helper" class="quota-helper" aria-live="polite"></p>
                             </div>
 
-                            <button
-                                id="register-button"
-                                class="action-button register-button"
-                                type="button"
+                            <button id="register-button" class="action-button register-button" type="button"
                                 data-event-id="{{ $event->id }}"
-                                data-action="{{ route('event.register', $event->id) }}"
-                            >
+                                data-action="{{ route('event.register', $event->id) }}">
                                 <span>Daftar sekarang</span>
                                 <i data-lucide="ticket" width="18" height="18" aria-hidden="true"></i>
                             </button>
@@ -257,7 +251,8 @@
                                 </span>
                                 <div>
                                     <span class="summary-stat-label">Total peserta hadir</span>
-                                    <span class="summary-stat-value">{{ $event->participant_count ?? '-' }} orang</span>
+                                    <span class="summary-stat-value">{{ $event->participant_count ?? '-' }}
+                                        orang</span>
                                 </div>
                             </div>
 
@@ -278,7 +273,8 @@
 
     {{-- ================= MODAL PENDAFTARAN (hanya dipakai saat upcoming) ================= --}}
     @if ($event->status === 'upcoming')
-        <div id="registration-modal" class="modal-layer" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div id="registration-modal" class="modal-layer" role="dialog" aria-modal="true"
+            aria-labelledby="modal-title" aria-hidden="true">
             <div class="modal-panel surface-card">
                 <div class="modal-header">
                     <div>
@@ -287,7 +283,8 @@
                         </span>
                         <h2 id="modal-title" class="modal-title">Daftar event</h2>
                     </div>
-                    <button id="modal-close-button" class="icon-button" type="button" aria-label="Tutup formulir pendaftaran">
+                    <button id="modal-close-button" class="icon-button" type="button"
+                        aria-label="Tutup formulir pendaftaran">
                         <i data-lucide="x" width="18" height="18" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -318,4 +315,5 @@
 
     <script src="{{ asset('js/event-detail.js') }}" defer></script>
 </body>
+
 </html>
