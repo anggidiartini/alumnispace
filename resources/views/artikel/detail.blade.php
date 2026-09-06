@@ -1,212 +1,130 @@
 <!doctype html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $article->title }} | Alumni Space</title>
+    <title>memori. — {{ $article->title }}</title>
 
-    <link rel="preconnect" href="https://googleapis.com">
-    <link
-        href="https://googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap"
-        rel="stylesheet">
-    <script src="https://unpkg.com" defer></script>
+    <link rel="stylesheet" href="{{ asset('css/album.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    <link rel="stylesheet" href="{{ asset('css/artikel.css') }}?v={{ file_exists(public_path('css/artikel.css')) ? filemtime(public_path('css/artikel.css')) : time() }}">
 
-    <link rel="stylesheet" href="{{ asset('css/detail-lowongan.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 </head>
-
 <body>
 
+<x-navbar />
 
-    <header class="site-header" data-animate="fade-down">
-        <div class="header-inner">
-            <a href="{{ url('/') }}" class="brand" aria-label="Alumni Space">
-                <span class="brand-badge">A</span>
-                <span class="brand-name">ALUMNI SPACE ARTIKEL</span>
-            </a>
+<div class="section-yellow detail-page-wrap" id="article-detail">
 
-            <nav class="nav-desktop" aria-label="Navigasi utama">
-                <a class="nav-link" href="{{ url('/') }}">Beranda</a>
-                <a class="nav-link" href="{{ route('artikel.index') }}">Artikel</a>
-            </nav>
+  <!-- doodles, senada dengan detail album -->
+  <div class="doodle" style="top:110px;left:3%;--r:-8deg;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="#f2b600"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
+  </div>
+  <div class="doodle" style="top:55%;right:2%;--r:10deg;color:var(--home-pink-strong);font-size:24px;">♡</div>
 
-            <div class="nav-desktop">
-                @auth
-                    <span class="btn btn-secondary">{{ Auth::user()->name }}</span>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-secondary">Masuk</a>
-                @endauth
-            </div>
+  <div class="wrap">
 
-            <button id="menu-toggle" type="button" class="menu-toggle" aria-label="Buka menu" aria-expanded="false">
-                <i data-lucide="menu" width="21" height="21"></i>
-            </button>
+    <a href="{{ route('artikel.index') }}" class="back-link">&larr; Kembali ke Artikel</a>
+
+    <div class="article-head reveal-pop">
+      <span class="cat-pill">{{ $article->category }}</span>
+      <h1 class="article-title marker-title">{{ $article->title }}</h1>
+      <div class="article-date">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a5a6a" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        {{ $article->published_at?->translatedFormat('d-m-Y') ?? $article->created_at?->translatedFormat('d-m-Y') ?? '-' }}
+      </div>
+    </div>
+
+    <div class="article-cover reveal-pop" style="--pop-delay:.1s">
+      @if($article->thumbnail)
+        <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}">
+      @else
+        <i data-lucide="newspaper" class="no-cover-icon" style="width:90px;height:90px;"></i>
+      @endif
+    </div>
+
+    <div class="article-layout">
+
+      <div class="article-content-col">
+        <div class="info-card article-body-card reveal-pop" style="--pop-delay:.15s">
+          <div class="article-prose">
+            {!! $article->content !!}
+          </div>
         </div>
+      </div>
 
-        <nav id="mobile-menu" class="nav-mobile" aria-label="Navigasi mobile">
-            <a class="nav-link nav-link-mobile" href="{{ url('/') }}">Beranda</a>
-            <a class="nav-link nav-link-mobile" href="{{ route('artikel.index') }}">Artikel</a>
-            @auth
-                <span class="btn btn-secondary btn-block">{{ Auth::user()->name }}</span>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-secondary btn-block">Masuk</a>
-            @endauth
-        </nav>
-    </header>
+      <aside class="article-sidebar-col">
 
-    <main id="beranda">
+        @if($relatedArticles->count())
+        <div class="sidebar-block reveal-pop" style="--pop-delay:.2s">
+          <h3 class="sidebar-title">Artikel <span class="marker">Terkait</span></h3>
+          @foreach($relatedArticles as $related)
+            <a href="{{ route('artikel.show', $related->slug) }}" class="sidebar-item">
+              <div class="sidebar-thumb">
+                @if($related->thumbnail)
+                  <img src="{{ asset('storage/' . $related->thumbnail) }}" alt="{{ $related->title }}">
+                @else
+                  <i data-lucide="newspaper" style="width:22px;height:22px;opacity:.4;color:var(--jc-ink);"></i>
+                @endif
+              </div>
+              <div class="sidebar-text">
+                <span class="cat-pill mini">{{ $related->category }}</span>
+                <p class="sidebar-item-title">{{ $related->title }}</p>
+                <span class="sidebar-item-date">{{ $related->published_at?->translatedFormat('d-m-Y') ?? $related->created_at?->translatedFormat('d-m-Y') ?? '-' }}</span>
+              </div>
+            </a>
+          @endforeach
+        </div>
+        @endif
 
+        @if($latestArticles->count())
+        <div class="sidebar-block reveal-pop" style="--pop-delay:.3s">
+          <h3 class="sidebar-title">Artikel <span class="marker">Terbaru</span></h3>
+          @foreach($latestArticles as $latest)
+            <a href="{{ route('artikel.show', $latest->slug) }}" class="sidebar-item">
+              <div class="sidebar-thumb">
+                @if($latest->thumbnail)
+                  <img src="{{ asset('storage/' . $latest->thumbnail) }}" alt="{{ $latest->title }}">
+                @else
+                  <i data-lucide="newspaper" style="width:22px;height:22px;opacity:.4;color:var(--jc-ink);"></i>
+                @endif
+              </div>
+              <div class="sidebar-text">
+                <span class="cat-pill mini">{{ $latest->category }}</span>
+                <p class="sidebar-item-title">{{ $latest->title }}</p>
+                <span class="sidebar-item-date">{{ $latest->published_at?->translatedFormat('d-m-Y') ?? $latest->created_at?->translatedFormat('d-m-Y') ?? '-' }}</span>
+              </div>
+            </a>
+          @endforeach
+        </div>
+        @endif
 
-        <section class="wrap breadcrumb-wrap" data-animate="fade-up">
-            <nav aria-label="Breadcrumb">
-                <ol class="breadcrumb">
-                    <li><a href="{{ url('/') }}">Beranda</a></li>
-                    <li aria-hidden="true">/</li>
-                    <li><a href="{{ route('artikel.index') }}">Artikel</a></li>
-                    <li aria-hidden="true">/</li>
-                    <li class="breadcrumb-current">{{ $article->title }}</li>
-                </ol>
-            </nav>
+      </aside>
+    </div>
 
-            <section class="job-hero reveal" data-animate="fade-up">
-                <div class="job-hero-blob job-hero-blob-1"></div>
-                <div class="job-hero-blob job-hero-blob-2"></div>
+  </div>
+</div><!-- /.detail-page-wrap -->
 
-                <div class="job-hero-inner">
-                    <div class="job-hero-main">
-                        <span class="tag tag-sun">{{ $article->kategori }}</span>
-                        <h1 class="job-title">{{ $article->title }}</h1>
-                        <p class="job-company">Oleh: {{ $article->user->name ?? 'Anonim' }}</p>
+<x-footer />
 
-                        <span class="job-meta-item">
-                            <i data-lucide="clock-3" width="17"></i>
-                            Dipublikasikan
-                            {{ $article->created_at ? $article->created_at->diffForHumans() : 'Baru saja' }}
-                        </span>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.lucide) lucide.createIcons();
 
-                    </div>
-
-                    <div class="job-hero-actions">
-                        <a href="{{ route('artikel.index') }}" class="btn btn-secondary">
-                            <i data-lucide="arrow-left" width="18"></i>
-                            <span>Kembali</span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Summary Card Artikel -->
-            <div class="summary-grid reveal" data-animate="fade-up" data-delay="1">
-                <article class="summary-card">
-                    <i data-lucide="tag" width="19"></i>
-                    <p class="summary-label">Kategori</p>
-                    <p class="summary-value">{{ $article->kategori }}</p>
-                </article>
-                <article class="summary-card">
-                    <i data-lucide="user" width="19"></i>
-                    <p class="summary-label">Penulis</p>
-                    <p class="summary-value">{{ $article->user->name ?? 'Anonim' }}</p>
-                </article>
-                <article class="summary-card">
-                    <i data-lucide="calendar" width="19"></i>
-                    <p class="summary-label">Tanggal Rilis</p>
-                    <p class="summary-value">
-                        {{ $article->created_at ? $article->created_at->translatedFormat('d M Y') : '-' }}</p>
-                </article>
-
-            </div>
-        </section>
-
-        
-        <section class="wrap detail-grid">
-            <div class="detail-main">
-
-                <section class="accordion-card reveal" data-animate="fade-up">
-                    <button type="button" class="accordion-button" aria-expanded="true">
-                        <span>Isi Konten Artikel</span>
-                        <i data-lucide="chevron-down" width="22"></i>
-                    </button>
-                    <div class="accordion-panel" style="padding: 20px; color: #333;">
-
-                        <!-- Gambar Utama Artikel jika ada di DB -->
-                        @if ($article->gambar_utama)
-                            <div
-                                style="margin-bottom: 25px; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0;">
-                                <img src="{{ asset('storage/' . $article->gambar_utama) }}"
-                                    alt="{{ $article->title }}" style="width: 100%; height: auto; display: block;">
-                            </div>
-                        @endif
-
-                        <!-- Konten Utama Teks Editor -->
-                        <div style="line-height: 1.8; font-size: 17px;">
-                            {!! $article->konten !!}
-                        </div>
-
-                    </div>
-                </section>
-            </div>
-
-            <!-- SIDEBAR (Profil Kontributor senada dengan panel perusahaan) -->
-            <aside id="perusahaan" class="company-panel reveal" data-animate="fade-left">
-                <div class="company-body">
-                    <div class="company-head">
-                        <div class="company-avatar"
-                            style="background: #1e40af; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px;">
-                            {{ strtoupper(substr($article->user->name ?? 'A', 0, 1)) }}
-                        </div>
-                        <div>
-                            <h3 class="company-kicker">Profil Penulis</h3>
-                            <h2 class="company-name">{{ $article->user->name ?? 'Anonim' }}</h2>
-                            <p class="company-industry">Kontributor Komunitas</p>
-                        </div>
-                    </div>
-
-                    <p class="company-desc" style="margin-top: 15px; font-size: 14px; color: #555; line-height: 1.6;">
-                        Terima kasih telah membaca artikel ini. Terus pantau linimasa untuk mendapatkan tips karier,
-                        kabar alumni terbaru, dan kenangan indah lainnya seputar ruang lingkup alumni kita.
-                    </p>
-
-                    <div class="divider" style="margin: 20px 0; border-top: 1px dashed #cbd5e1;"></div>
-
-                    <a href="{{ route('artikel.index') }}" class="company-profile-link">Lihat semua artikel alumni
-                        →</a>
-                </div>
-            </aside>
-        </section>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-
-            // Handler Menu Navigasi Mobile
-            const menuToggle = document.getElementById("menu-toggle");
-            const mobileMenu = document.getElementById("mobile-menu");
-            if (menuToggle && mobileMenu) {
-                menuToggle.addEventListener("click", function() {
-                    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-                    menuToggle.setAttribute("aria-expanded", !expanded);
-                    mobileMenu.classList.toggle("is-open", !expanded);
-                });
-            }
-
-            // Handler Buka-Tutup Panel Accordion Isi Artikel
-            document.querySelectorAll(".accordion-button").forEach(button => {
-                button.addEventListener("click", () => {
-                    const expanded = button.getAttribute("aria-expanded") === "true";
-                    button.setAttribute("aria-expanded", !expanded);
-                    const panel = button.nextElementSibling;
-                    if (panel) {
-                        panel.style.display = expanded ? "none" : "block";
-                    }
-                });
-            });
-        });
-    </script>
+  var popEls = document.querySelectorAll('.reveal-pop');
+  var popIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        popIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  popEls.forEach(function (el) { popIo.observe(el); });
+});
+</script>
+<script src="{{ asset('js/script.js') }}"></script>
 
 </body>
-
 </html>

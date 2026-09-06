@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap");
 
 :root {
-    --buttercup: #FFE08A;
-    --dewy: #A8C6E7;
-    --sunwashed: #FFE08A;
-    --cloud: #FFF7D6;
-    --morning: #7FA8D6;
+    --buttercup: #ffe08a;
+    --dewy: #a8c6e7;
+    --sunwashed: #ffe08a;
+    --cloud: #fff7d6;
+    --morning: #7fa8d6;
     --ink: #2c3e50;
     --ink-soft: #4a5a6a;
     --navy: #124d82;
@@ -27,8 +27,8 @@
     --home-text-soft: #355277;
     --home-accent-star: #f2b600;
     --home-grid-line: rgba(46, 114, 236, 0.06);
-    --home-font-heading: 'Fredoka', sans-serif;
-    --home-font-body: 'DM Sans', sans-serif;
+    --home-font-heading: "Fredoka", sans-serif;
+    --home-font-body: "DM Sans", sans-serif;
 
     /* ===== Warna PERSIS dari lowongan.css milik temen — dipakai khusus utk card album ===== */
     --jc-ink: #203b68;
@@ -56,7 +56,7 @@ html {
 
 body {
     background: var(--cloud);
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     color: var(--ink);
     overflow-x: hidden;
     position: relative;
@@ -66,7 +66,11 @@ body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background-image: radial-gradient(circle at 1px 1px, rgba(44, 62, 80, 0.035) 1px, transparent 0);
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        rgba(44, 62, 80, 0.035) 1px,
+        transparent 0
+    );
     background-size: 22px 22px;
     pointer-events: none;
     z-index: 0;
@@ -130,7 +134,9 @@ body::before {
 }
 
 @media (max-width: 900px) {
-    .wave-divider { height: 55px; }
+    .wave-divider {
+        height: 55px;
+    }
 }
 
 /* ---------- BUNTING GARLAND ---------- */
@@ -149,13 +155,22 @@ body::before {
     border-left: 13px solid transparent;
     border-right: 13px solid transparent;
     border-top: 20px solid var(--cloud);
-    opacity: .9;
+    opacity: 0.9;
     animation: swayFlag 2.6s ease-in-out infinite;
 }
 
-.garland .flag:nth-child(2n) { border-top-color: var(--sunwashed); animation-delay: .2s; }
-.garland .flag:nth-child(3n) { border-top-color: var(--buttercup); animation-delay: .4s; }
-.garland .flag:nth-child(4n) { border-top-color: #ffffff; animation-delay: .6s; }
+.garland .flag:nth-child(2n) {
+    border-top-color: var(--sunwashed);
+    animation-delay: 0.2s;
+}
+.garland .flag:nth-child(3n) {
+    border-top-color: var(--buttercup);
+    animation-delay: 0.4s;
+}
+.garland .flag:nth-child(4n) {
+    border-top-color: #ffffff;
+    animation-delay: 0.6s;
+}
 
 /* ---------- CONFETTI + DOODLES ---------- */
 .confetti-layer {
@@ -166,10 +181,21 @@ body::before {
     overflow: hidden;
 }
 
-.confetti { position: absolute; pointer-events: none; will-change: transform; }
-.confetti.dot { border-radius: 50%; }
-.confetti.square { border-radius: 2px; }
-.confetti.star { font-family: 'Baloo 2', sans-serif; line-height: 1; }
+.confetti {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+}
+.confetti.dot {
+    border-radius: 50%;
+}
+.confetti.square {
+    border-radius: 2px;
+}
+.confetti.star {
+    font-family: "Baloo 2", sans-serif;
+    line-height: 1;
+}
 
 .doodle {
     position: absolute;
@@ -177,27 +203,56 @@ body::before {
     z-index: 3;
     font-family: var(--home-font-heading);
     font-weight: 700;
-    opacity: .85;
+    opacity: 0.85;
     color: var(--home-accent-star);
     animation: floatUpDown 3.2s ease-in-out infinite;
 }
 
-.doodle svg { display: block; overflow: visible; animation: spinSlow 7s linear infinite; transform-origin: center; }
+.doodle svg {
+    display: block;
+    overflow: visible;
+    animation: spinSlow 7s linear infinite;
+    transform-origin: center;
+}
 
 @keyframes floatUpDown {
-    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
-    50% { transform: translateY(-16px) rotate(calc(var(--r, 0deg) + 8deg)); }
+    0%,
+    100% {
+        transform: translateY(0) rotate(var(--r, 0deg));
+    }
+    50% {
+        transform: translateY(-16px) rotate(calc(var(--r, 0deg) + 8deg));
+    }
 }
 
-@keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes spinSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 @keyframes popIn {
-    0% { opacity: 0; transform: scale(0) rotate(0deg); }
-    70% { opacity: 1; transform: scale(1.15) rotate(var(--r, 0deg)); }
-    100% { opacity: 1; transform: scale(1) rotate(var(--r, 0deg)); }
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.15) rotate(var(--r, 0deg));
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--r, 0deg));
+    }
 }
 
-.marker { position: relative; white-space: nowrap; }
+.marker {
+    position: relative;
+    white-space: nowrap;
+}
 .marker::before {
     content: "";
     position: absolute;
@@ -206,7 +261,7 @@ body::before {
     bottom: 2px;
     height: 38%;
     background: var(--sunwashed);
-    opacity: .55;
+    opacity: 0.55;
     transform: skewX(-6deg);
     z-index: -1;
     border-radius: 3px;
@@ -237,7 +292,7 @@ body::before {
     z-index: 4;
     max-width: 600px;
     text-align: left;
-    animation: heroTextIn .9s cubic-bezier(.2, .8, .2, 1) both;
+    animation: heroTextIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .greet-badge {
@@ -254,10 +309,13 @@ body::before {
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 22px;
-    animation: badgeIn .8s .15s ease both;
+    animation: badgeIn 0.8s 0.15s ease both;
 }
 
-.greet-badge span { font-size: 16px; display: inline-block; }
+.greet-badge span {
+    font-size: 16px;
+    display: inline-block;
+}
 
 h1.title {
     font-family: var(--home-font-heading);
@@ -266,10 +324,13 @@ h1.title {
     letter-spacing: -1px;
     color: var(--home-navy);
     text-shadow: none;
-    animation: heroTitleIn 1s .15s cubic-bezier(.2, .8, .2, 1) both;
+    animation: heroTitleIn 1s 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-h1.title .pop { color: var(--home-blue); display: inline-block; }
+h1.title .pop {
+    color: var(--home-blue);
+    display: inline-block;
+}
 
 .subtitle {
     font-family: var(--home-font-body);
@@ -278,7 +339,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     line-height: 1.75;
     max-width: 530px;
     margin: 22px 0 0;
-    animation: fadeUp .9s .35s ease both;
+    animation: fadeUp 0.9s 0.35s ease both;
 }
 
 .hero-cta {
@@ -295,16 +356,32 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     border-radius: 9999px;
     border: 3px solid var(--btn-border);
     cursor: pointer;
-    letter-spacing: .01em;
+    letter-spacing: 0.01em;
     box-shadow: 0 6px 0 var(--btn-border);
-    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
-    animation: fadeUp .9s .5s ease both;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+    animation: fadeUp 0.9s 0.5s ease both;
 }
 
-.hero-cta:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
-.hero-cta:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-border); }
-.hero-cta svg { transition: transform .25s ease; animation: arrowNudge 1.3s ease-in-out infinite; }
-.hero-cta:hover svg { transform: translateY(3px); animation-play-state: paused; }
+.hero-cta:hover {
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+}
+.hero-cta:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
+}
+.hero-cta svg {
+    transition: transform 0.25s ease;
+    animation: arrowNudge 1.3s ease-in-out infinite;
+}
+.hero-cta:hover svg {
+    transform: translateY(3px);
+    animation-play-state: paused;
+}
 
 /* ---------- POLAROID STACK ---------- */
 .photo-stack {
@@ -312,7 +389,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     width: min(100%, 500px);
     height: 450px;
     justify-self: end;
-    animation: photoAreaIn 1s .25s cubic-bezier(.2, .8, .2, 1) both;
+    animation: photoAreaIn 1s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .polaroid {
@@ -320,9 +397,11 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     width: 260px;
     background: var(--home-pink);
     padding: 12px 12px 42px;
-    box-shadow: 0 18px 35px rgba(0, 0, 0, .22);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
     transform-origin: center center;
-    transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s ease;
+    transition:
+        transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.45s ease;
     cursor: pointer;
 }
 
@@ -331,7 +410,9 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     height: 270px;
     display: block;
     object-fit: cover;
-    transition: transform .6s ease, filter .6s ease;
+    transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
 }
 
 .polaroid::after {
@@ -347,18 +428,38 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     color: var(--home-navy);
 }
 
-.polaroid.one { left: 0; top: 100px; transform: rotate(-12deg); animation: polaroidFloat1 4.8s ease-in-out infinite; }
-.polaroid.two { left: 150px; top: 0; z-index: 2; transform: rotate(3deg); animation: polaroidFloat2 5.2s .3s ease-in-out infinite; }
-.polaroid.three { right: 0; top: 130px; z-index: 3; transform: rotate(12deg); animation: polaroidFloat3 4.6s .6s ease-in-out infinite; }
+.polaroid.one {
+    left: 0;
+    top: 100px;
+    transform: rotate(-12deg);
+    animation: polaroidFloat1 4.8s ease-in-out infinite;
+}
+.polaroid.two {
+    left: 150px;
+    top: 0;
+    z-index: 2;
+    transform: rotate(3deg);
+    animation: polaroidFloat2 5.2s 0.3s ease-in-out infinite;
+}
+.polaroid.three {
+    right: 0;
+    top: 130px;
+    z-index: 3;
+    transform: rotate(12deg);
+    animation: polaroidFloat3 4.6s 0.6s ease-in-out infinite;
+}
 
 .polaroid:hover {
     z-index: 10;
     transform: translateY(-18px) rotate(0deg) scale(1.06) !important;
-    box-shadow: 0 30px 55px rgba(0, 0, 0, .28);
+    box-shadow: 0 30px 55px rgba(0, 0, 0, 0.28);
     animation-play-state: paused;
 }
 
-.polaroid:hover img { transform: scale(1.04); filter: saturate(1.1); }
+.polaroid:hover img {
+    transform: scale(1.04);
+    filter: saturate(1.1);
+}
 
 .pin-heart {
     position: absolute;
@@ -366,7 +467,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     right: -10px;
     font-size: 26px;
     z-index: 11;
-    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, .2));
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.2));
     animation: pinHeartWiggle 1.8s ease-in-out infinite;
     display: inline-block;
 }
@@ -378,111 +479,267 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     height: 200px;
     z-index: 15;
     pointer-events: none;
-    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .28));
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.28));
     animation: magnifierSearch 10s ease-in-out infinite;
 }
 
-.magnifier img { width: 100%; height: 100%; display: block; }
+.magnifier img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 
 @keyframes heroTextIn {
-    0% { opacity: 0; transform: translateY(30px); }
-    60% { opacity: 1; }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes badgeIn {
-    0% { opacity: 0; transform: scale(.3) rotate(-15deg); }
-    60% { opacity: 1; transform: scale(1.15) rotate(4deg); }
-    80% { transform: scale(.95) rotate(-2deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-15deg);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.15) rotate(4deg);
+    }
+    80% {
+        transform: scale(0.95) rotate(-2deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
 }
 
 @keyframes heroTitleIn {
-    0% { opacity: 0; transform: translateY(45px) scale(.94); }
-    55% { opacity: 1; transform: translateY(-6px) scale(1.015); }
-    75% { transform: translateY(2px) scale(.995); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateY(45px) scale(0.94);
+    }
+    55% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.015);
+    }
+    75% {
+        transform: translateY(2px) scale(0.995);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes photoAreaIn {
-    0% { opacity: 0; transform: translateX(60px) scale(.9); }
-    60% { opacity: 1; transform: translateX(-8px) scale(1.02); }
-    100% { opacity: 1; transform: translateX(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateX(60px) scale(0.9);
+    }
+    60% {
+        opacity: 1;
+        transform: translateX(-8px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
 }
 
 @keyframes polaroidFloat1 {
-    0%, 100% { transform: rotate(-12deg) translateY(0); }
-    50% { transform: rotate(-16deg) translateY(-14px); }
+    0%,
+    100% {
+        transform: rotate(-12deg) translateY(0);
+    }
+    50% {
+        transform: rotate(-16deg) translateY(-14px);
+    }
 }
 
 @keyframes polaroidFloat2 {
-    0%, 100% { transform: rotate(3deg) translateY(0); }
-    50% { transform: rotate(7deg) translateY(-18px); }
+    0%,
+    100% {
+        transform: rotate(3deg) translateY(0);
+    }
+    50% {
+        transform: rotate(7deg) translateY(-18px);
+    }
 }
 
 @keyframes polaroidFloat3 {
-    0%, 100% { transform: rotate(12deg) translateY(0); }
-    50% { transform: rotate(8deg) translateY(-12px); }
+    0%,
+    100% {
+        transform: rotate(12deg) translateY(0);
+    }
+    50% {
+        transform: rotate(8deg) translateY(-12px);
+    }
 }
 
 @keyframes pinHeartWiggle {
-    0%, 100% { transform: rotate(12deg) scale(1); }
-    50% { transform: rotate(-6deg) scale(1.15); }
+    0%,
+    100% {
+        transform: rotate(12deg) scale(1);
+    }
+    50% {
+        transform: rotate(-6deg) scale(1.15);
+    }
 }
 
 @keyframes arrowNudge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(4px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(4px);
+    }
 }
 
 @keyframes arrowNudgeX {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(5px); }
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
 }
 
 @keyframes stickerWiggle {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-6deg); }
-    75% { transform: rotate(6deg); }
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-6deg);
+    }
+    75% {
+        transform: rotate(6deg);
+    }
 }
 
 @keyframes iconWiggle {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(14deg) scale(1.15); }
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(14deg) scale(1.15);
+    }
 }
 
 @keyframes popBounceIn {
-    0% { opacity: 0; transform: translateY(28px) scale(.85); }
-    55% { opacity: 1; transform: translateY(-6px) scale(1.05); }
-    80% { transform: translateY(2px) scale(.98); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.85);
+    }
+    55% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.05);
+    }
+    80% {
+        transform: translateY(2px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes photoPopIn {
-    0% { opacity: 0; transform: scale(.85) rotate(-2deg); }
-    60% { opacity: 1; transform: scale(1.03) rotate(1deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    0% {
+        opacity: 0;
+        transform: scale(0.85) rotate(-2deg);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.03) rotate(1deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
 }
 
 @keyframes stickerPopIn {
-    0% { opacity: 0; transform: scale(0) rotate(0deg); }
-    65% { opacity: 1; transform: scale(1.2) rotate(-10deg); }
-    100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    65% {
+        opacity: 1;
+        transform: scale(1.2) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(-6deg);
+    }
 }
 
 @keyframes magnifierSearch {
-    0% { top: 26%; left: 4%; transform: rotate(-18deg) scale(1); }
-    15% { top: 9%; left: 18%; transform: rotate(8deg) scale(1.08); }
-    30% { top: 33%; left: 36%; transform: rotate(-10deg) scale(0.95); }
-    45% { top: 7%; left: 52%; transform: rotate(14deg) scale(1.1); }
-    60% { top: 35%; left: 58%; transform: rotate(-14deg) scale(0.98); }
-    75% { top: 18%; left: 30%; transform: rotate(10deg) scale(1.05); }
-    90% { top: 31%; left: 12%; transform: rotate(12deg) scale(1.05); }
-    100% { top: 26%; left: 4%; transform: rotate(-18deg) scale(1); }
+    0% {
+        top: 26%;
+        left: 4%;
+        transform: rotate(-18deg) scale(1);
+    }
+    15% {
+        top: 9%;
+        left: 18%;
+        transform: rotate(8deg) scale(1.08);
+    }
+    30% {
+        top: 33%;
+        left: 36%;
+        transform: rotate(-10deg) scale(0.95);
+    }
+    45% {
+        top: 7%;
+        left: 52%;
+        transform: rotate(14deg) scale(1.1);
+    }
+    60% {
+        top: 35%;
+        left: 58%;
+        transform: rotate(-14deg) scale(0.98);
+    }
+    75% {
+        top: 18%;
+        left: 30%;
+        transform: rotate(10deg) scale(1.05);
+    }
+    90% {
+        top: 31%;
+        left: 12%;
+        transform: rotate(12deg) scale(1.05);
+    }
+    100% {
+        top: 26%;
+        left: 4%;
+        transform: rotate(-18deg) scale(1);
+    }
 }
 
-@media (max-width: 900px) { .magnifier { width: 140px; height: 140px; } }
-@media (max-width: 600px) { .magnifier { width: 100px; height: 100px; } }
+@media (max-width: 900px) {
+    .magnifier {
+        width: 140px;
+        height: 140px;
+    }
+}
+@media (max-width: 600px) {
+    .magnifier {
+        width: 100px;
+        height: 100px;
+    }
+}
 
 /* =========================================
    ALBUM SECTION (index) — card gaya "home": putih + aksen border atas
@@ -494,16 +751,20 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     margin: 44px 0 24px;
     flex-wrap: wrap;
     gap: 10px;
-    border-bottom: 2px dashed rgba(44, 62, 80, .25);
+    border-bottom: 2px dashed rgba(44, 62, 80, 0.25);
     padding-bottom: 18px;
     position: relative;
     z-index: 2;
 }
 
-.section-head h2 { font-family: 'Baloo 2', sans-serif; font-size: 26px; font-weight: 600; }
+.section-head h2 {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+}
 
 .section-head .count {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 13px;
     font-weight: 600;
     color: var(--ink);
@@ -522,7 +783,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .filter-btn {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 13.5px;
     padding: 10px 20px;
@@ -532,16 +793,35 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     color: var(--btn-border);
     cursor: pointer;
     box-shadow: 0 6px 0 var(--btn-border);
-    transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.filter-btn:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
-.filter-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-border); }
-.filter-btn.active { background: var(--btn-border); color: #ffffff; box-shadow: 0 6px 0 var(--btn-border); }
-.filter-btn.active:hover { background: var(--btn-border); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
+.filter-btn:hover {
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+}
+.filter-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
+}
+.filter-btn.active {
+    background: var(--btn-border);
+    color: #ffffff;
+    box-shadow: 0 6px 0 var(--btn-border);
+}
+.filter-btn.active:hover {
+    background: var(--btn-border);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+}
 
 .filter-status {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 17px;
     color: var(--ink-soft);
     margin-bottom: 34px;
@@ -549,7 +829,9 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     z-index: 2;
 }
 
-.filter-status strong { color: var(--ink); }
+.filter-status strong {
+    color: var(--ink);
+}
 
 .album-grid {
     position: relative;
@@ -571,51 +853,81 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     cursor: default;
     opacity: 0;
     transform: translateY(40px);
-    transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease, opacity .3s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease,
+        opacity 0.3s ease;
 }
 
 .card.in-view {
-    animation: popBounceIn .75s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    animation: popBounceIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     animation-delay: var(--row-delay, 0s);
 }
 
 /* Setelah animasi masuk selesai, animasi dimatiin biar :hover transform (naik) bisa jalan normal */
-.card.popped { animation: none; opacity: 1; transform: none; }
+.card.popped {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
 
 .card:hover {
     transform: translateY(-6px) scale(1.01);
     box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
 }
-.card.filtered-out { display: none; }
+.card.filtered-out {
+    display: none;
+}
 
 /* Palet 4 warna & persentase color-mix PERSIS sama dengan job-card temen */
-.card:nth-of-type(4n+1) {
+.card:nth-of-type(4n + 1) {
     border-top-color: var(--jc-blue);
     background: color-mix(in srgb, var(--jc-soft) 55%, #ffffff);
 }
-.card:nth-of-type(4n+1) .cat-pill { background: var(--jc-soft); color: var(--jc-ink); }
-.card:nth-of-type(4n+1) .card-symbol { color: var(--jc-blue); }
+.card:nth-of-type(4n + 1) .cat-pill {
+    background: var(--jc-soft);
+    color: var(--jc-ink);
+}
+.card:nth-of-type(4n + 1) .card-symbol {
+    color: var(--jc-blue);
+}
 
-.card:nth-of-type(4n+2) {
+.card:nth-of-type(4n + 2) {
     border-top-color: var(--jc-pink);
     background: color-mix(in srgb, var(--jc-pink) 40%, #ffffff);
 }
-.card:nth-of-type(4n+2) .cat-pill { background: var(--jc-pink); color: var(--jc-ink); }
-.card:nth-of-type(4n+2) .card-symbol { color: #c8517d; }
+.card:nth-of-type(4n + 2) .cat-pill {
+    background: var(--jc-pink);
+    color: var(--jc-ink);
+}
+.card:nth-of-type(4n + 2) .card-symbol {
+    color: #c8517d;
+}
 
-.card:nth-of-type(4n+3) {
+.card:nth-of-type(4n + 3) {
     border-top-color: var(--jc-yellow);
     background: color-mix(in srgb, var(--jc-yellow) 40%, #ffffff);
 }
-.card:nth-of-type(4n+3) .cat-pill { background: var(--jc-yellow); color: var(--jc-ink); }
-.card:nth-of-type(4n+3) .card-symbol { color: #9d7800; }
+.card:nth-of-type(4n + 3) .cat-pill {
+    background: var(--jc-yellow);
+    color: var(--jc-ink);
+}
+.card:nth-of-type(4n + 3) .card-symbol {
+    color: #9d7800;
+}
 
-.card:nth-of-type(4n+4) {
+.card:nth-of-type(4n + 4) {
     border-top-color: var(--jc-ink);
     background: color-mix(in srgb, var(--jc-blue) 16%, #ffffff);
 }
-.card:nth-of-type(4n+4) .cat-pill { background: var(--jc-blue); color: #ffffff; }
-.card:nth-of-type(4n+4) .card-symbol { color: var(--jc-ink); }
+.card:nth-of-type(4n + 4) .cat-pill {
+    background: var(--jc-blue);
+    color: #ffffff;
+}
+.card:nth-of-type(4n + 4) .card-symbol {
+    color: var(--jc-ink);
+}
 
 .card-photo {
     width: 100%;
@@ -629,8 +941,16 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     background: #ffffff;
 }
 
-.card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
-.card:hover .card-photo img { transform: scale(1.08); }
+.card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+.card:hover .card-photo img {
+    transform: scale(1.08);
+}
 
 /* Badge kategori — identik job-badge (radius, padding, size, weight) */
 .cat-pill {
@@ -638,7 +958,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     top: 10px;
     left: 10px;
     z-index: 5;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     display: inline-block;
     border-radius: 999px;
     padding: 0.32rem 0.8rem;
@@ -648,7 +968,9 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     background: #ffffff;
 }
 
-.cat-pill.outdoor { background: #ffffff; }
+.cat-pill.outdoor {
+    background: #ffffff;
+}
 
 /* Simbol kecil pengganti "job-symbol" temen, ditaruh di pojok kanan atas foto */
 .card-symbol {
@@ -676,25 +998,35 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 14px;
     text-align: center;
     line-height: 1.1;
-    box-shadow: 0 6px 14px rgba(44, 62, 80, .25);
+    box-shadow: 0 6px 14px rgba(44, 62, 80, 0.25);
     z-index: 6;
     border: 2.5px solid #fff;
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
 }
 
-.sticker.alt { background: var(--jc-ink); }
-.sticker { animation: stickerWiggle 3s ease-in-out infinite; }
-.card:hover .sticker { animation-play-state: paused; transform: scale(1.12) rotate(-8deg); }
+.sticker.alt {
+    background: var(--jc-ink);
+}
+.sticker {
+    animation: stickerWiggle 3s ease-in-out infinite;
+}
+.card:hover .sticker {
+    animation-play-state: paused;
+    transform: scale(1.12) rotate(-8deg);
+}
 
-.card-body { padding-top: 18px; font-family: 'Baloo 2', sans-serif; }
+.card-body {
+    padding-top: 18px;
+    font-family: "Baloo 2", sans-serif;
+}
 
 .card-body h3 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 1.28rem;
     line-height: 1.2;
@@ -704,19 +1036,25 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 
 /* Label sekarang tampil DI BAWAH judul (h3), bukan lagi di atas */
 .label {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 13px;
     color: var(--jc-ink);
-    opacity: .75;
+    opacity: 0.75;
     margin-bottom: 4px;
 }
 
-.date { font-size: 13px; color: var(--ink-soft); font-weight: 500; margin-bottom: 8px; font-family: 'Baloo 2', sans-serif; }
+.date {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: "Baloo 2", sans-serif;
+}
 
 /* Sedikit cuplikan deskripsi dari database, senada job-description temen */
 .card-desc {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 0.85rem;
     line-height: 1.55;
     color: #355277;
@@ -730,31 +1068,48 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     margin-top: 14px;
     background: var(--btn-fill);
     color: var(--btn-border);
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 13.5px;
     padding: 10px 18px;
     border-radius: 30px;
     border: 3px solid var(--btn-border);
-    letter-spacing: .02em;
+    letter-spacing: 0.02em;
     cursor: pointer;
     box-shadow: 0 6px 0 var(--btn-border);
-    transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.view-btn svg { stroke: #0a4174; transition: transform .2s; animation: arrowNudgeX 1.4s ease-in-out infinite; }
-.view-btn:hover { background: var(--btn-hover); transform: translateY(-3px); box-shadow: 0 9px 0 var(--btn-border); }
-.view-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--btn-border); }
-.card:hover .view-btn svg { transform: translateX(4px); animation-play-state: paused; }
+.view-btn svg {
+    stroke: #0a4174;
+    transition: transform 0.2s;
+    animation: arrowNudgeX 1.4s ease-in-out infinite;
+}
+.view-btn:hover {
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+}
+.view-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
+}
+.card:hover .view-btn svg {
+    transform: translateX(4px);
+    animation-play-state: paused;
+}
 
 /* ---------- GENERIC SCROLL-REVEAL (bounce) UNTUK HEADING/FILTER/RELATED ---------- */
 .reveal-pop {
     opacity: 0;
-    transform: translateY(28px) scale(.85);
+    transform: translateY(28px) scale(0.85);
 }
 
 .reveal-pop.in-view {
-    animation: popBounceIn .7s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    animation: popBounceIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     animation-delay: var(--pop-delay, 0s);
 }
 
@@ -765,55 +1120,165 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .reveal-fade.in-view {
-    animation: fadeUp .55s ease forwards;
+    animation: fadeUp 0.55s ease forwards;
     animation-delay: var(--pop-delay, 0s);
 }
 
 /* =========================================
    KEYFRAMES
    ========================================= */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes twinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(.85); } }
-@keyframes swayFlag { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
-@keyframes riseIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes twinkle {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+}
+@keyframes swayFlag {
+    0%,
+    100% {
+        transform: rotate(-6deg);
+    }
+    50% {
+        transform: rotate(6deg);
+    }
+}
+@keyframes riseIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* =========================================
    RESPONSIVE (hero + index)
    ========================================= */
 @media (max-width: 900px) {
-    .hero { padding: 70px 25px 85px; }
-    .wrap { padding-left: 26px; padding-right: 26px; }
-    .hero-inner { grid-template-columns: 1fr; gap: 35px; min-height: auto; }
-    .hero-copy { max-width: 680px; text-align: center; margin: 0 auto; }
-    .subtitle { margin-left: auto; margin-right: auto; }
-    .photo-stack { justify-self: center; width: min(100%, 480px); height: 410px; }
-    .doodle { display: none; }
+    .hero {
+        padding: 70px 25px 85px;
+    }
+    .wrap {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
+    .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        min-height: auto;
+    }
+    .hero-copy {
+        max-width: 680px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .subtitle {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .photo-stack {
+        justify-self: center;
+        width: min(100%, 480px);
+        height: 410px;
+    }
+    .doodle {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
-    .hero { padding: 55px 18px 70px; }
-    h1.title { font-size: clamp(34px, 10vw, 46px); line-height: 1.08; }
-    .subtitle { font-size: 13.5px; line-height: 1.7; }
-    .greet-badge { font-size: 9px; padding: 6px 12px; }
-    .photo-stack { width: 100%; max-width: 360px; height: 330px; }
-    .polaroid { width: 175px; padding: 8px 8px 31px; }
-    .polaroid img { height: 185px; }
-    .polaroid::after { bottom: 5px; font-size: 16px; }
-    .polaroid.one { left: 0; top: 70px; }
-    .polaroid.two { left: 50%; top: 8px; transform: translateX(-50%) rotate(3deg); }
-    .polaroid.three { right: 0; top: 82px; }
-    .polaroid.two:hover { transform: translateX(-50%) translateY(-18px) rotate(0deg) scale(1.06) !important; }
+    .hero {
+        padding: 55px 18px 70px;
+    }
+    h1.title {
+        font-size: clamp(34px, 10vw, 46px);
+        line-height: 1.08;
+    }
+    .subtitle {
+        font-size: 13.5px;
+        line-height: 1.7;
+    }
+    .greet-badge {
+        font-size: 9px;
+        padding: 6px 12px;
+    }
+    .photo-stack {
+        width: 100%;
+        max-width: 360px;
+        height: 330px;
+    }
+    .polaroid {
+        width: 175px;
+        padding: 8px 8px 31px;
+    }
+    .polaroid img {
+        height: 185px;
+    }
+    .polaroid::after {
+        bottom: 5px;
+        font-size: 16px;
+    }
+    .polaroid.one {
+        left: 0;
+        top: 70px;
+    }
+    .polaroid.two {
+        left: 50%;
+        top: 8px;
+        transform: translateX(-50%) rotate(3deg);
+    }
+    .polaroid.three {
+        right: 0;
+        top: 82px;
+    }
+    .polaroid.two:hover {
+        transform: translateX(-50%) translateY(-18px) rotate(0deg) scale(1.06) !important;
+    }
 
-    .section-head h2 { font-size: 21px; }
-    .filter-btn { padding: 8px 16px; font-size: 12.5px; }
-    .album-grid { grid-template-columns: 1fr; gap: 24px; padding-bottom: 60px; }
-    .card-photo { height: 200px; }
-    .sticker { width: 46px; height: 46px; font-size: 11.5px; }
-    .card-body h3 { font-size: 1.1rem; }
+    .section-head h2 {
+        font-size: 21px;
+    }
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 12.5px;
+    }
+    .album-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding-bottom: 60px;
+    }
+    .card-photo {
+        height: 200px;
+    }
+    .sticker {
+        width: 46px;
+        height: 46px;
+        font-size: 11.5px;
+    }
+    .card-body h3 {
+        font-size: 1.1rem;
+    }
 }
 
 /* =========================================
@@ -826,7 +1291,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 
 .back-link {
     display: inline-block;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 14px;
     color: var(--navy);
@@ -834,10 +1299,12 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     position: relative;
     z-index: 2;
     text-decoration: none;
-    animation: heroTextIn .6s ease both;
+    animation: heroTextIn 0.6s ease both;
 }
 
-.back-link:hover { text-decoration: underline; }
+.back-link:hover {
+    text-decoration: underline;
+}
 
 /* Sticker kecil nempel di pojok foto detail, senada sama .sticker di card index */
 .detail-sticker {
@@ -853,14 +1320,16 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 12px;
     text-align: center;
-    box-shadow: 0 6px 14px rgba(44, 62, 80, .25);
+    box-shadow: 0 6px 14px rgba(44, 62, 80, 0.25);
     z-index: 6;
     border: 2.5px solid #fff;
-    animation: stickerPopIn .8s .55s cubic-bezier(.34, 1.56, .64, 1) both, stickerWiggle 3s 1.4s ease-in-out infinite;
+    animation:
+        stickerPopIn 0.8s 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+        stickerWiggle 3s 1.4s ease-in-out infinite;
 }
 
 /* Badge kecil versi mini dari .greet-badge di hero */
@@ -868,7 +1337,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     margin-bottom: 14px;
     font-size: 11px;
     padding: 6px 14px;
-    animation: badgeIn .7s .1s cubic-bezier(.34, 1.56, .64, 1) both;
+    animation: badgeIn 0.7s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .marker-title {
@@ -897,7 +1366,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 13.5px;
     font-weight: 600;
     color: var(--home-text-soft);
@@ -906,13 +1375,21 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     border-radius: 999px;
     padding: 6px 12px;
     opacity: 0;
-    animation: popBounceIn .6s cubic-bezier(.34, 1.56, .64, 1) both;
+    animation: popBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-.meta-item:nth-child(1) { animation-delay: .35s; }
-.meta-item:nth-child(2) { animation-delay: .48s; }
-.meta-item:nth-child(3) { animation-delay: .61s; }
-.meta-item:nth-child(4) { animation-delay: .74s; }
+.meta-item:nth-child(1) {
+    animation-delay: 0.35s;
+}
+.meta-item:nth-child(2) {
+    animation-delay: 0.48s;
+}
+.meta-item:nth-child(3) {
+    animation-delay: 0.61s;
+}
+.meta-item:nth-child(4) {
+    animation-delay: 0.74s;
+}
 
 /* Deskripsi dibungkus quote-box, aksen garis kiri warna-warni */
 .desc-quote {
@@ -922,7 +1399,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     background: #ffffff;
     border-radius: 14px;
     border-left: 5px solid var(--home-yellow-strong);
-    animation: fadeUp .7s .85s cubic-bezier(.2, .8, .2, 1) both;
+    animation: fadeUp 0.7s 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .desc-quote .detail-desc {
@@ -948,7 +1425,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     overflow: hidden;
     border: 2.5px solid var(--navy);
     box-shadow: 8px 8px 0 var(--navy);
-    animation: photoPopIn .8s cubic-bezier(.34, 1.56, .64, 1) both;
+    animation: photoPopIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .detail-photo-col .detail-photo img {
@@ -966,15 +1443,15 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .detail-info-col h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 32px;
     margin: 6px 0 4px;
-    animation: heroTitleIn .8s .2s cubic-bezier(.34, 1.56, .64, 1) both;
+    animation: heroTitleIn 0.8s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .detail-info-col .label {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 15px;
     color: var(--navy);
@@ -988,7 +1465,7 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 }
 
 .detail-desc {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 16px;
     line-height: 1.8;
     color: var(--ink-soft);
@@ -1004,8 +1481,12 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
 
 @media (max-width: 600px) {
     .detail-photo-col .detail-photo,
-    .detail-photo-col .detail-photo img { min-height: 240px; }
-    .detail-info-col h1 { font-size: 26px; }
+    .detail-photo-col .detail-photo img {
+        min-height: 240px;
+    }
+    .detail-info-col h1 {
+        font-size: 26px;
+    }
 }
 
 /* ---------- ALBUM LAINNYA (related) ---------- */
@@ -1013,13 +1494,13 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     max-width: 1080px;
     margin: 0 auto 20px;
     padding-top: 10px;
-    border-top: 2px dashed rgba(44, 62, 80, .25);
+    border-top: 2px dashed rgba(44, 62, 80, 0.25);
     position: relative;
     z-index: 2;
 }
 
 .related-head h2 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 22px;
     font-weight: 600;
     margin-top: 20px;
@@ -1041,12 +1522,23 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     border: 2px solid var(--navy);
     box-shadow: 4px 4px 0 var(--navy);
     overflow: hidden;
-    transition: transform .25s ease, box-shadow .25s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.related-card:hover { transform: translateY(-5px); box-shadow: 6px 6px 0 var(--navy); }
-.related-card.reveal-pop { transform: translateY(28px) scale(.85); }
-.related-card.reveal-pop.popped { animation: none; opacity: 1; transform: none; }
+.related-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 6px 6px 0 var(--navy);
+}
+.related-card.reveal-pop {
+    transform: translateY(28px) scale(0.85);
+}
+.related-card.reveal-pop.popped {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
 
 .related-photo {
     position: relative;
@@ -1054,13 +1546,34 @@ h1.title .pop { color: var(--home-blue); display: inline-block; }
     border-bottom: 2px solid var(--navy);
 }
 
-.related-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.related-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-.related-body { padding: 14px 16px 18px; }
-.related-body .label { font-size: 12.5px; font-weight: 600; color: var(--navy); }
-.related-body h3 { font-family: 'Baloo 2', sans-serif; font-size: 17px; font-weight: 600; margin: 2px 0 12px; }
-.related-body .view-btn { font-size: 12px; padding: 8px 14px; }
+.related-body {
+    padding: 14px 16px 18px;
+}
+.related-body .label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy);
+}
+.related-body h3 {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 2px 0 12px;
+}
+.related-body .view-btn {
+    font-size: 12px;
+    padding: 8px 14px;
+}
 
 @media (max-width: 700px) {
-    .related-grid { grid-template-columns: 1fr; }
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
 }

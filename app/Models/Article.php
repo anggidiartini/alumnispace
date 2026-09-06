@@ -11,13 +11,25 @@ class Article extends Model
 {
     use HasFactory;
 
+    /**
+     * FIX: sebelumnya berisi 'user_id', 'kategori', 'gambar_utama', 'konten'
+     * yang tidak ada di tabel (kolom asli hasil Schema::getColumnListing:
+     * author_id, category, thumbnail, content). Field lama itu bikin
+     * mass-assignment gagal diam-diam (silent fail).
+     */
     protected $fillable = [
-        'user_id',
+        'author_id',
         'title',
         'slug',
-        'kategori',
-        'gambar_utama',
-        'konten',
+        'category',
+        'thumbnail',
+        'excerpt',
+        'content',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
     ];
 
     protected static function boot()
@@ -31,8 +43,12 @@ class Article extends Model
         });
     }
 
+    /**
+     * FIX: FK sebelumnya 'user_id' (tidak ada di tabel).
+     * Kolom asli adalah 'author_id'.
+     */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 }
