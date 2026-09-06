@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-    use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'ip_address',
+        'user_agent',
+    ];
 }
