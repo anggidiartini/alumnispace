@@ -1,31 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (window.lucide) lucide.createIcons();
 
-  initMobileMenu();
+  // Catatan: toggle hamburger/menu mobile TIDAK lagi ditangani di sini —
+  // sekarang halaman pakai <x-navbar />, jadi interaksi menu jadi
+  // tanggung jawab komponen navbar itu sendiri.
+
   initSaveButton();
-  initScrollToApply();
   initAccordions();
   initRevealOnScroll();
-  initApplicationForm();
+  initBackToTop();
+  initWaBubble();
 });
 
 /* =========================================================
-   1. Menu mobile
-   ========================================================= */
-function initMobileMenu() {
-  const toggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-  if (!toggle || !menu) return;
-
-  toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
-  });
-}
-
-/* =========================================================
-   2. Tombol simpan lowongan (disimpan di localStorage per slug)
+   Tombol simpan lowongan (disimpan di localStorage per slug)
    ========================================================= */
 function initSaveButton() {
   const button = document.getElementById('save-button');
@@ -65,23 +53,7 @@ function toggleSavedUI(button, saved) {
 }
 
 /* =========================================================
-   3. Scroll halus ke form lamaran
-   ========================================================= */
-function initScrollToApply() {
-  document.querySelectorAll('[data-scroll-apply]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const target = document.getElementById('lamar');
-      if (!target) return;
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => {
-        document.getElementById('cover-letter')?.focus({ preventScroll: true });
-      }, 550);
-    });
-  });
-}
-
-/* =========================================================
-   4. Accordion (animasi tinggi halus lewat CSS grid-template-rows)
+   Accordion (animasi tinggi halus lewat CSS grid-template-rows)
    ========================================================= */
 function initAccordions() {
   document.querySelectorAll('.accordion-button').forEach((button) => {
@@ -93,10 +65,10 @@ function initAccordions() {
 }
 
 /* =========================================================
-   5. Reveal animasi lambat saat section masuk viewport
+   Reveal animasi saat section masuk viewport
    ========================================================= */
 function initRevealOnScroll() {
-  const items = document.querySelectorAll('.reveal');
+  const items = document.querySelectorAll('.reveal-onscroll');
   if (!items.length) return;
 
   if (!('IntersectionObserver' in window)) {
@@ -120,129 +92,41 @@ function initRevealOnScroll() {
 }
 
 /* =========================================================
-   6. Form lamaran — cover_letter + portfolio_url saja
-      (menyesuaikan JobVacancyController::apply, applicant
-      diambil dari user yang sedang login di server)
+   Tombol back-to-top
    ========================================================= */
-function initApplicationForm() {
-  const form = document.getElementById('application-form');
-  if (!form) return;
+function initBackToTop() {
+  const backToTop = document.getElementById('back-to-top');
+  if (!backToTop) return;
 
-  const coverLetterField = document.getElementById('cover-letter');
-  const portfolioField = document.getElementById('portfolio-url');
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('show', window.scrollY > 400);
+  }, { passive: true });
 
-  ['cover-letter', 'portfolio-url'].forEach((id) => {
-    const field = document.getElementById(id);
-    if (!field) return;
-    field.addEventListener('input', () => clearError(id));
-    field.addEventListener('change', () => clearError(id));
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/* =========================================================
+   Bubble notifikasi WhatsApp (muncul otomatis + bisa ditutup)
+   ========================================================= */
+function initWaBubble() {
+  const waButton = document.getElementById('wa-button');
+  const waBubble = document.getElementById('wa-bubble');
+  const waBubbleClose = document.getElementById('wa-bubble-close');
+  if (!waButton || !waBubble || !waBubbleClose) return;
+
+  const waTimer = window.setTimeout(() => waBubble.classList.add('show'), 1800);
+
+  waButton.addEventListener('mouseenter', () => {
+    window.clearTimeout(waTimer);
+    waBubble.classList.add('show');
   });
 
-  form.addEventListener('submit', async (event) => {
+  waBubbleClose.addEventListener('click', (event) => {
     event.preventDefault();
-
-    // Belum login -> jangan submit, arahkan ke halaman login
-    if (form.dataset.authenticated === '0') {
-      window.location.href = form.dataset.loginUrl;
-      return;
-    }
-
-    clearError('cover-letter');
-    clearError('portfolio-url');
-    let valid = true;
-
-    const coverLetter = coverLetterField.value.trim();
-    const portfolioUrl = portfolioField.value.trim();
-
-    if (coverLetter.length > 2000) {
-      setError('cover-letter');
-      valid = false;
-    }
-
-    if (portfolioUrl) {
-      try {
-        new URL(portfolioUrl);
-      } catch {
-        setError('portfolio-url');
-        valid = false;
-      }
-    }
-
-    const status = document.getElementById('form-status');
-
-    if (!valid) {
-      status.textContent = 'Periksa kembali field yang diberi tanda.';
-      status.classList.remove('hidden');
-      return;
-    }
-
-    const submitButton = document.getElementById('submit-application');
-    submitButton.disabled = true;
-    status.textContent = 'Mengirim lamaran...';
-    status.classList.remove('hidden');
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-    const applyUrl = form.dataset.applyUrl;
-
-    try {
-      const response = await fetch(applyUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-CSRF-TOKEN': csrfToken || '',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-        body: JSON.stringify({
-          cover_letter: coverLetter,
-          portfolio_url: portfolioUrl,
-        }),
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (response.status === 401) {
-        window.location.href = result.redirect || form.dataset.loginUrl;
-        return;
-      }
-
-      if (response.ok) {
-        document.getElementById('application-form-wrap').classList.add('hidden');
-        const success = document.getElementById('success-state');
-        success.classList.remove('hidden');
-        if (window.lucide) lucide.createIcons();
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else if (response.status === 422 && result.errors) {
-        applyServerErrors(result.errors);
-        status.textContent = 'Periksa kembali field yang diberi tanda.';
-      } else {
-        status.textContent = result.message || 'Lamaran belum terkirim. Silakan coba lagi.';
-      }
-    } catch (error) {
-      status.textContent = 'Terjadi kesalahan jaringan. Silakan coba lagi.';
-    } finally {
-      submitButton.disabled = false;
-    }
+    waBubble.classList.remove('show');
   });
-}
-
-function applyServerErrors(errors) {
-  const map = {
-    cover_letter: 'cover-letter',
-    portfolio_url: 'portfolio-url',
-  };
-  Object.keys(errors).forEach((key) => {
-    const id = map[key];
-    if (id) setError(id);
-  });
-}
-
-function clearError(fieldId) {
-  document.getElementById(fieldId)?.closest('.form-field')?.classList.remove('has-error');
-}
-
-function setError(fieldId) {
-  document.getElementById(fieldId)?.closest('.form-field')?.classList.add('has-error');
 }
 
 /* =========================================================

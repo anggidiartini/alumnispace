@@ -1,319 +1,252 @@
-{{--
-    resources/views/events/show.blade.php
+@php
+    // Catatan: sesuaikan nilai string status ini dengan enum/kolom status
+    // yang benar-benar dipakai di tabel events (mis. upcoming / ongoing / completed).
+    $statusValue   = strtolower((string) $event->status);
+    $isCompleted   = in_array($statusValue, ['completed', 'ended', 'selesai']);
+    $isUpcoming    = in_array($statusValue, ['upcoming', 'open', 'akan datang']);
+    $isOngoing     = in_array($statusValue, ['ongoing', 'berlangsung']);
 
-    Halaman detail event — dinamis berdasarkan $event->status ('upcoming' | 'completed').
-    Struktur data Eloquent yang diharapkan (sesuaikan nama relasi/kolom dengan model kamu):
+    $quota         = (int) ($event->quota ?? 0);
+    $registered    = (int) $event->registered_count;
+    $remaining     = max($quota - $registered, 0);
+    $percentFilled = $quota > 0 ? min(100, round(($registered / $quota) * 100)) : 0;
+    $isFull        = $quota > 0 && $registered >= $quota;
+    $canRegister   = $isUpcoming && ! $isFull;
 
-    Event
-    ├── slug                 string   (route key)
-    ├── title                string
-    ├── category             string   (mis. "Design & Creative")
-    ├── short_description    string   (dipakai di hero)
-    ├── about_description    string   (dipakai di section "Tentang event ini")
-    ├── status               enum     'upcoming' | 'completed'
-    ├── event_date           date     -> ->translatedFormat('d F Y')
-    ├── location_type        string   (mis. "Offline" / "Online" / "Hybrid")
-    ├── time_info            string   (mis. "Sepanjang hari" / "09:00 - 16:00 WIB")
-    ├── venue                string
-    ├── quota                int|null (hanya relevan saat upcoming)
-    ├── registered_count     int|null (hanya relevan saat upcoming)
-    ├── summary_text         string|null (ringkasan kegiatan, hanya relevan saat completed)
-    ├── participant_count    int|null (jumlah peserta yang hadir, hanya relevan saat completed)
-    ├── benefits             hasMany EventBenefit { icon, title, description, color }
-    └── galleries            hasMany EventGallery { image_url, caption }
+    $tags = $event->badge_tag
+        ? array_filter(array_map('trim', explode(',', $event->badge_tag)))
+        : [];
 
-    Route yang sudah ada:
-    Route::get('/event', [EventController::class, 'index'])->name('event.index');
-    Route::get('/event/{slug}', [EventController::class, 'show'])->name('event.show');
-    Route::post('/event/{id}/register', [EventController::class, 'register'])->name('event.register');
---}}
+    $bannerUrl = $event->banner_image
+        ? (\Illuminate\Support\Str::startsWith($event->banner_image, ['http://', 'https://'])
+            ? $event->banner_image
+            : asset('storage/' . $event->banner_image))
+        : asset('images/event-placeholder.jpg');
+
+    // Galeri dokumentasi: pakai relasi $event->galleries jika sudah tersedia,
+    // kalau belum ada tabelnya accessor di model masih mengembalikan collection kosong.
+    $galleryImages = collect($event->galleries)->map(function ($item) {
+        return is_string($item) ? $item : ($item->image_path ?? $item->url ?? null);
+    })->filter()->values();
+@endphp
 <!doctype html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $event->title }} — Alumn Space Career Hub</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" defer></script>
-
-    <link rel="stylesheet" href="/css/event-detail.css">
-
+    <title>{{ $event->title }} — Alumni Space</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    <link rel="stylesheet" href="{{ asset('css/detail-event.css') }}?v={{ file_exists(public_path('css/detail-event.css')) ? filemtime(public_path('css/detail-event.css')) : time() }}">
 </head>
-
 <body>
-    <div class="app-wrapper">
+<div class="site-shell page-wrap">
+    <x-navbar />
 
-        {{-- ================= NAVBAR ================= --}}
-        <header class="nav-glass">
-            <nav class="navbar" aria-label="Navigasi utama">
-                <a href="{{ route('event.index') }}" class="brand" aria-label="Alumn Space Career Hub beranda">
-                    <span class="brand-mark" aria-hidden="true">
-                        <i data-lucide="sparkles" width="17" height="17"></i>
-                    </span>
-                    <span class="brand-name">ALUMN SPACE CAREER HUB</span>
-                </a>
+    <main>
+        <div class="page-width">
+
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ url('/') }}">Beranda</a><span>/</span>
+                <a href="{{ route('event.index') }}">Event</a><span>/</span>
+                <span>{{ $event->title }}</span>
             </nav>
-        </header>
 
-        <main id="top" class="page-main">
+            <section class="event-panel is-active" aria-label="Detail event {{ $event->title }}">
 
-            {{-- ================= HERO ================= --}}
-            <section class="hero-card reveal" aria-labelledby="event-title">
-                <span class="hero-orb" aria-hidden="true"></span>
-                <i class="hero-spark" data-lucide="sparkles" width="37" height="37" aria-hidden="true"></i>
-
-                <div class="hero-content">
-                    <div class="hero-top-row">
-                        <span class="tag tag-yellow">Featured Event</span>
-
-                        @if ($event->status === 'upcoming')
-                            <span class="tag tag-white">
-                                <span class="status-dot" aria-hidden="true"></span>
-                                <span>Open for registration</span>
-                            </span>
-                        @else
-                            <span class="tag tag-white tag-muted">
-                                <span class="status-dot status-dot-muted" aria-hidden="true"></span>
-                                <span>Event selesai</span>
-                            </span>
-                        @endif
-                    </div>
-
+                {{-- ================= HERO ================= --}}
+                <section class="hero-card" data-reveal>
                     <div class="hero-copy">
-                        <span class="hero-category">{{ $event->category }}</span>
-                        <h1 id="event-title" class="hero-title">{{ $event->title }}</h1>
-                        <p class="hero-description">{{ $event->short_description }}</p>
-                    </div>
-                </div>
-            </section>
+                        @if($event->category)
+                            <span class="category-badge">{{ $event->category }}</span>
+                        @endif
 
-            <div class="content-grid">
+                        <h1 class="event-title">{{ $event->title }}</h1>
 
-                {{-- ================= KOLOM UTAMA ================= --}}
-                <div class="content-main">
-
-                    {{-- ---- Tentang event ---- --}}
-                    <section class="surface-card reveal" aria-labelledby="about-title">
-                        <div class="section-heading">
-                            <span class="icon-badge icon-badge-lavender" aria-hidden="true">
-                                <i data-lucide="heart-handshake" width="19" height="19"></i>
-                            </span>
-                            <h2 id="about-title" class="section-title">Tentang event ini</h2>
-                        </div>
-                        <p class="section-text">{{ $event->about_description }}</p>
-
-                        <div class="metadata-row">
-                            <div class="metadata-item">
-                                <span class="metadata-icon" aria-hidden="true">
-                                    <i data-lucide="calendar-days" width="17" height="17"></i>
-                                </span>
-                                <div class="metadata-text">
-                                    <span class="metadata-label">Tanggal</span>
-                                    <span
-                                        class="metadata-value">{{ $event->event_date->translatedFormat('d F Y') }}</span>
-                                </div>
-                            </div>
-                            <div class="metadata-item">
-                                <span class="metadata-icon" aria-hidden="true">
-                                    <i data-lucide="map-pin" width="17" height="17"></i>
-                                </span>
-                                <div class="metadata-text">
-                                    <span class="metadata-label">Lokasi</span>
-                                    <span class="metadata-value">{{ $event->location_type }}</span>
-                                </div>
-                            </div>
-                            <div class="metadata-item">
-                                <span class="metadata-icon" aria-hidden="true">
-                                    <i data-lucide="clock-3" width="17" height="17"></i>
-                                </span>
-                                <div class="metadata-text">
-                                    <span class="metadata-label">Waktu</span>
-                                    <span class="metadata-value">{{ $event->time_info }}</span>
-                                </div>
-                            </div>
-                            <div class="metadata-item">
-                                <span class="metadata-icon" aria-hidden="true">
-                                    <i data-lucide="building-2" width="17" height="17"></i>
-                                </span>
-                                <div class="metadata-text">
-                                    <span class="metadata-label">Venue</span>
-                                    <span class="metadata-value">{{ $event->venue }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {{-- ---- Manfaat / benefits (opsional, tampil di kedua status) ---- --}}
-                    @if ($event->benefits && $event->benefits->count())
-                        <section class="surface-card reveal" aria-labelledby="benefits-title">
-                            <div class="section-heading-row">
-                                <div>
-                                    <h2 id="benefits-title" class="section-title">Yang akan kamu dapatkan</h2>
-                                    <p class="section-subtitle">Tiga bekal sederhana untuk langkah kreatifmu.</p>
-                                </div>
-                                <span class="decor-blob" aria-hidden="true"></span>
-                            </div>
-
-                            <div class="benefit-grid">
-                                @foreach ($event->benefits as $benefit)
-                                    <article class="benefit-item benefit-{{ $benefit->color ?? 'yellow' }}">
-                                        <span class="benefit-icon" aria-hidden="true">
-                                            <i data-lucide="{{ $benefit->icon }}" width="18" height="18"></i>
-                                        </span>
-                                        <div>
-                                            <h3 class="benefit-title">{{ $benefit->title }}</h3>
-                                            <p class="benefit-text">{{ $benefit->description }}</p>
-                                        </div>
-                                    </article>
+                        @if(count($tags))
+                            <div class="tag-list">
+                                @foreach($tags as $tag)
+                                    <span class="tag">{{ $tag }}</span>
                                 @endforeach
                             </div>
-                        </section>
-                    @endif
+                        @endif
 
-                    {{-- ---- Galeri dokumentasi — HANYA saat status completed ---- --}}
-                    @if ($event->status === 'completed')
-                        <section class="surface-card reveal" aria-labelledby="gallery-title">
-                            <div class="section-heading">
-                                <span class="icon-badge icon-badge-mint" aria-hidden="true">
-                                    <i data-lucide="images" width="19" height="19"></i>
+                        <p class="event-summary">{{ \Illuminate\Support\Str::limit($event->description, 180) }}</p>
+
+                        <div class="hero-actions">
+                            @if($isCompleted)
+                                <span class="status-chip status-ended"><span class="status-dot"></span>Event Selesai</span>
+                                <a href="#dokumentasi-kegiatan" class="primary-button">Lihat Dokumentasi</a>
+                            @elseif($canRegister)
+                                <span class="status-chip status-open"><span class="status-dot"></span>Pendaftaran Dibuka</span>
+                                <button type="button" id="registerBtn" class="primary-button" data-event-id="{{ $event->id }}">
+                                    Daftar Sekarang
+                                </button>
+                            @elseif($isUpcoming && $isFull)
+                                <span class="status-chip status-soon"><span class="status-dot"></span>Kuota Penuh</span>
+                                <span class="disabled-button" aria-disabled="true">Kuota Penuh</span>
+                            @else
+                                <span class="status-chip status-soon"><span class="status-dot"></span>Sedang Berlangsung</span>
+                                <span class="disabled-button" aria-disabled="true">Pendaftaran Ditutup</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="hero-media">
+                        <img src="{{ $bannerUrl }}" alt="{{ $event->title }}" loading="lazy">
+
+                        @if($isCompleted)
+                            <span class="hero-sticker floaty">Ada cerita baru!</span>
+                        @else
+                            <span class="media-status">Terbuka untuk seluruh alumni</span>
+                        @endif
+                    </div>
+                </section>
+
+                {{-- ================= INFO RINGKAS ================= --}}
+                <section class="info-grid" aria-label="Informasi ringkas event">
+                    <article class="info-card" data-reveal="scale">
+                        <span class="info-icon" aria-hidden="true"><i data-lucide="calendar" width="18" height="18"></i></span>
+                        <span class="info-label">Tanggal Event</span>
+                        <span class="info-value">
+                            {{ $event->event_date ? $event->event_date->translatedFormat('l, d F Y') : '-' }}
+                        </span>
+                    </article>
+                    <article class="info-card" data-reveal="scale">
+                        <span class="info-icon" aria-hidden="true"><i data-lucide="clock" width="18" height="18"></i></span>
+                        <span class="info-label">Waktu</span>
+                        <span class="info-value">{{ $event->time_info }}</span>
+                    </article>
+                    <article class="info-card" data-reveal="scale">
+                        <span class="info-icon" aria-hidden="true"><i data-lucide="{{ $event->location_type === 'online' ? 'wifi' : 'map-pin' }}" width="18" height="18"></i></span>
+                        <span class="info-label">Lokasi</span>
+                        <span class="info-value">{{ $event->venue ?: '-' }}</span>
+                    </article>
+                    <article class="info-card" data-reveal="scale">
+                        <span class="info-icon" aria-hidden="true"><i data-lucide="users" width="18" height="18"></i></span>
+                        <span class="info-label">Kuota</span>
+                        <span class="info-value" data-role="info-quota">
+                            <span data-role="animated-number">0</span> dari {{ $quota }} peserta
+                        </span>
+                    </article>
+                </section>
+
+                <div class="main-layout">
+
+                    {{-- ================= KONTEN ================= --}}
+                    <div class="article-stack">
+                        <article class="content-card" data-reveal>
+                            <h2 class="card-heading">Tentang Event</h2>
+                            <p class="card-copy">{{ $event->description }}</p>
+                        </article>
+
+                        <article class="content-card" data-reveal>
+                            <h2 class="card-heading">Detail Lokasi</h2>
+                            <div class="location-type">
+                                <span class="location-symbol" aria-hidden="true">
+                                    <i data-lucide="{{ $event->location_type === 'online' ? 'wifi' : 'map-pin' }}" width="18" height="18"></i>
                                 </span>
-                                <h2 id="gallery-title" class="section-title">Dokumentasi acara</h2>
+                                <span>{{ $event->location_type === 'online' ? 'Online Event' : 'Offline Event' }}</span>
+                            </div>
+                            <p class="location-venue">{{ $event->venue ?: 'Online Event' }}</p>
+                            <p class="card-copy">
+                                {{ $event->location_type === 'online'
+                                    ? 'Link akses akan tersedia setelah pendaftaran berhasil dikonfirmasi.'
+                                    : $event->venue }}
+                            </p>
+                        </article>
+                    </div>
+
+                    {{-- ================= SIDEBAR: PENDAFTARAN atau DOKUMENTASI ================= --}}
+                    @if($isCompleted)
+                        <aside class="registration-card documentation-card" id="dokumentasi-kegiatan" aria-label="Dokumentasi kegiatan" data-reveal>
+                            <h2 class="card-heading">Dokumentasi Kegiatan</h2>
+                            <p class="small-copy">Kilas balik momen dari acara ini.</p>
+
+                            <div class="documentation-cover">
+                                <img src="{{ $bannerUrl }}" alt="Dokumentasi {{ $event->title }}">
                             </div>
 
-                            @if ($event->summary_text)
-                                <p class="section-text">{{ $event->summary_text }}</p>
-                            @endif
-
-                            @if ($event->galleries && $event->galleries->count())
+                            @if($galleryImages->count())
                                 <div class="gallery-grid">
-                                    @foreach ($event->galleries as $item)
-                                        <figure class="gallery-item reveal">
-                                            <img src="{{ $item->image_url }}"
-                                                alt="{{ $item->caption ?? $event->title }}" loading="lazy">
-                                            @if ($item->caption)
-                                                <figcaption>{{ $item->caption }}</figcaption>
-                                            @endif
-                                        </figure>
+                                    @foreach($galleryImages as $image)
+                                        <div class="gallery-item">
+                                            <img src="{{ $image }}" alt="Dokumentasi {{ $event->title }}" loading="lazy">
+                                        </div>
                                     @endforeach
                                 </div>
                             @else
-                                <p class="section-text section-text-muted">Dokumentasi acara akan segera ditambahkan.
-                                </p>
+                                <div class="gallery-empty">Galeri foto tambahan belum tersedia untuk event ini.</div>
                             @endif
-                        </section>
-                    @endif
-
-                </div>
-
-                {{-- ================= SIDEBAR ================= --}}
-                <aside class="content-side">
-                    @if ($event->status === 'upcoming')
-                        {{-- ---- Kartu pendaftaran — HANYA saat status upcoming ---- --}}
-                        <section class="surface-card registration-card reveal" aria-label="Pendaftaran event">
-                            <div class="tag tag-mint">
-                                <span class="status-dot" aria-hidden="true"></span>
-                                <span>Pendaftaran dibuka</span>
-                            </div>
-
-                            <div class="quota-block">
-                                <div class="quota-heading">
-                                    <span class="quota-title">Kapasitas pendaftaran</span>
-                                    <span id="quota-count" class="quota-count" aria-live="polite"></span>
-                                </div>
-                                <div class="progress-track" aria-label="Progress kuota pendaftaran">
-                                    <div id="quota-progress" class="progress-bar" data-quota="{{ $event->quota }}"
-                                        data-registered="{{ $event->registered_count }}"></div>
-                                </div>
-                                <p id="quota-helper" class="quota-helper" aria-live="polite"></p>
-                            </div>
-
-                            <button id="register-button" class="action-button register-button" type="button"
-                                data-event-id="{{ $event->id }}"
-                                data-action="{{ route('event.register', $event->id) }}">
-                                <span>Daftar sekarang</span>
-                                <i data-lucide="ticket" width="18" height="18" aria-hidden="true"></i>
-                            </button>
-                        </section>
+                        </aside>
                     @else
-                        {{-- ---- Ringkasan kegiatan — HANYA saat status completed ---- --}}
-                        <section class="surface-card summary-card reveal" aria-label="Ringkasan kegiatan">
-                            <div class="tag tag-muted-solid">
-                                <i data-lucide="badge-check" width="14" height="14" aria-hidden="true"></i>
-                                <span>Event telah selesai</span>
+                        <aside class="registration-card" aria-label="Pendaftaran event" data-reveal>
+                            <h2 class="card-heading">
+                                {{ $canRegister ? 'Amankan Kursimu' : ($isFull ? 'Kuota Penuh' : 'Pendaftaran Belum Dibuka') }}
+                            </h2>
+                            <p class="small-copy">
+                                {{ $canRegister
+                                    ? 'Bergabunglah bersama alumni lintas bidang dalam acara ini.'
+                                    : 'Simpan halaman ini dan pantau terus perkembangan pendaftaran.' }}
+                            </p>
+
+                            <div class="quota-row">
+                                <span>Keterisian kuota</span>
+                                <span data-role="quota-count"><span data-role="animated-number">0</span> / {{ $quota }}</span>
+                            </div>
+                            <div class="progress-track" aria-label="{{ $percentFilled }} persen kuota telah terisi">
+                                <div class="progress-fill" data-target-width="{{ $percentFilled }}%"></div>
+                            </div>
+                            <div class="remaining-box">
+                                <strong data-role="remaining-count">
+                                    {{ $remaining > 0 ? $remaining . ' kursi tersisa' : 'Kuota telah terpenuhi' }}
+                                </strong>
+                                <span class="small-copy">Pendaftaran ditutup saat kuota terpenuhi.</span>
                             </div>
 
-                            <div class="summary-stat">
-                                <span class="summary-stat-icon" aria-hidden="true">
-                                    <i data-lucide="users-round" width="18" height="18"></i>
-                                </span>
-                                <div>
-                                    <span class="summary-stat-label">Total peserta hadir</span>
-                                    <span class="summary-stat-value">{{ $event->participant_count ?? '-' }}
-                                        orang</span>
-                                </div>
-                            </div>
-
-                            <a href="{{ route('event.index') }}" class="action-button ghost-button">
-                                <span>Lihat event lainnya</span>
-                                <i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i>
-                            </a>
-                        </section>
+                            @if($canRegister)
+                                <span class="status-chip status-open"><span class="status-dot"></span>Pendaftaran Dibuka</span>
+                                <button type="button" id="registerBtnSidebar" class="primary-button sidebar-cta"
+                                        data-event-id="{{ $event->id }}"
+                                        onclick="document.getElementById('registerBtn')?.click()">
+                                    Daftar Sekarang
+                                </button>
+                            @elseif($isFull)
+                                <span class="status-chip status-soon"><span class="status-dot"></span>Kuota Penuh</span>
+                                <span class="disabled-button sidebar-cta" aria-disabled="true">Kuota Penuh</span>
+                            @else
+                                <span class="status-chip status-soon"><span class="status-dot"></span>Sedang Berlangsung</span>
+                                <span class="disabled-button sidebar-cta" aria-disabled="true">Pendaftaran Ditutup</span>
+                            @endif
+                        </aside>
                     @endif
-                </aside>
-            </div>
-        </main>
-
-        <footer class="site-footer">
-            <p>ALUMN SPACE CAREER HUB · Temukan ruang untuk tumbuh bersama.</p>
-        </footer>
-    </div>
-
-    {{-- ================= MODAL PENDAFTARAN (hanya dipakai saat upcoming) ================= --}}
-    @if ($event->status === 'upcoming')
-        <div id="registration-modal" class="modal-layer" role="dialog" aria-modal="true"
-            aria-labelledby="modal-title" aria-hidden="true">
-            <div class="modal-panel surface-card">
-                <div class="modal-header">
-                    <div>
-                        <span class="icon-badge icon-badge-yellow" aria-hidden="true">
-                            <i data-lucide="ticket" width="21" height="21"></i>
-                        </span>
-                        <h2 id="modal-title" class="modal-title">Daftar event</h2>
-                    </div>
-                    <button id="modal-close-button" class="icon-button" type="button"
-                        aria-label="Tutup formulir pendaftaran">
-                        <i data-lucide="x" width="18" height="18" aria-hidden="true"></i>
-                    </button>
                 </div>
-
-                <p id="modal-description" class="modal-description">
-                    Isi data singkat kamu untuk mengamankan kursi di <strong>{{ $event->title }}</strong>.
-                </p>
-
-                <form id="registration-form" novalidate>
-                    <div class="form-field">
-                        <label for="participant-name">Nama lengkap</label>
-                        <input id="participant-name" name="name" type="text" required autocomplete="name">
-                    </div>
-                    <div class="form-field">
-                        <label for="participant-email">Email</label>
-                        <input id="participant-email" name="email" type="email" required autocomplete="email">
-                    </div>
-
-                    <p id="registration-feedback" class="form-feedback" role="status"></p>
-
-                    <button id="registration-submit" class="action-button" type="submit">
-                        <span>Konfirmasi pendaftaran</span>
-                    </button>
-                </form>
-            </div>
+            </section>
         </div>
-    @endif
+    </main>
 
-    <script src="{{ asset('js/event-detail.js') }}" defer></script>
+    <x-footer />
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    {{-- Lightbox untuk galeri dokumentasi --}}
+    <div class="lightbox-overlay" id="lightbox">
+        <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
+        <img id="lightboxImage" src="" alt="">
+    </div>
+</div>
+
+<script>
+    window.EventDetailConfig = {
+        registerUrl: @json(route('event.register', $event->id)),
+        loginUrl: @json(\Illuminate\Support\Facades\Route::has('login') ? route('login') : null),
+        csrfToken: @json(csrf_token()),
+        quota: {{ $quota }},
+        registered: {{ $registered }}
+    };
+</script>
+<script src="{{ asset('js/detail-event.js') }}"></script>
 </body>
-
 </html>

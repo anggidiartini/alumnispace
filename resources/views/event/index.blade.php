@@ -27,9 +27,8 @@
                 <span class="hero-sparkle wiggle" aria-hidden="true">✦</span>
 
                 <div class="page-width hero-layout">
-                    <div class="hero-copy reveal">
+                    <div class="hero-copy hero-pop-left">
                         <span class="badge-dashed-pill">
-                            <i data-lucide="sparkles" width="16" height="16"></i>
                             Kumpulan cerita yang tak terlupa
                         </span>
                         <h1 id="hero-title" class="hero-title">Album Kenangan &amp; Dokumentasi</h1>
@@ -39,32 +38,31 @@
                         <div class="hero-actions">
                             <button type="button" id="heroCta" class="custom-pill-btn focus-ring">
                                 Jelajahi Event
-                                <i data-lucide="arrow-down" width="16" height="16"></i>
                             </button>
                             <span class="hero-note">Pilih momen yang ingin kamu kenang</span>
                         </div>
 
-                        <div class="hero-stats">
+                        <div class="hero-stats" id="heroStats">
                             <div class="stat-pill">
-                                <span class="stat-pill-number">36+</span>
+                                <span class="stat-pill-number" data-count-to="36" data-suffix="+">0+</span>
                                 <span class="stat-pill-label">Event terdokumentasi</span>
                             </div>
                             <div class="stat-pill">
-                                <span class="stat-pill-number">4.8K</span>
+                                <span class="stat-pill-number" data-count-to="4.8" data-suffix="K">0K</span>
                                 <span class="stat-pill-label">Momen tersimpan</span>
                             </div>
                             <div class="stat-pill">
-                                <span class="stat-pill-number">1.2K</span>
+                                <span class="stat-pill-number" data-count-to="1.2" data-suffix="K">0K</span>
                                 <span class="stat-pill-label">Cerita komunitas</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="hero-visual reveal delay-2">
+                    <div class="hero-visual hero-pop-right">
+                        <div class="hero-visual-backdrop checker blob blob-drift" aria-hidden="true"></div>
                         <div class="hero-photo-frame">
-                            <img loading="lazy"
-                                src="https://images.pexels.com/photos/708440/pexels-photo-708440.jpeg?auto=compress&cs=tinysrgb&w=800"
-                                alt="Sekelompok anak muda tertawa bersama di luar ruangan pada siang hari">
+                            <img loading="lazy" src="{{ asset('assets/images/antares.png') }}"
+                                alt="Antares, maskot Alumni Space">
                             <div class="hero-photo-caption">
                                 <strong>Momen yang lebih dari sekadar hadir</strong>
                                 <span>Kembali rasakan energi, karya, dan kebersamaan kami.</span>
@@ -89,7 +87,7 @@
 
                 <div class="catalog-layout">
                     <!-- Filter kategori & status, dipindah ke kiri sesuai gaya lowongan -->
-                    <aside class="filter-panel reveal-onscroll" aria-label="Filter event">
+                    <aside class="filter-panel reveal-onscroll reveal-left" aria-label="Filter event">
                         <div class="filter-panel-heading">
                             <h3 style="margin:0; font-size:1.15rem;">Filter Event</h3>
                             <i data-lucide="sliders-horizontal" width="19" height="19"></i>
@@ -140,7 +138,7 @@
 
                         <div id="eventGrid" class="event-grid">
   @foreach($events as $index => $event)
-    <article class="event-card reveal-onscroll" 
+    <article class="event-card reveal-onscroll {{ $index % 2 === 0 ? 'reveal-left' : 'reveal-right' }}"
             style="{{ $index % 2 !== 0 ? 'transition-delay:.05s' : '' }}" 
             data-category="{{ $event->category }}" 
             data-status="{{ $event->status }}" 
@@ -157,7 +155,7 @@
           <span class="event-quota">{{ $event->quota }} kuota</span>
         </div>
         
-        <a class="event-title" href="{{ route('event.show', $event->slug) }}" target="_blank" rel="noopener noreferrer">
+        <a class="event-title" href="{{ route('event.show', $event->slug) }}">
           {{ $event->title }}
         </a>
         
@@ -178,7 +176,7 @@
           </p>
         </div>
         
-        <a class="event-detail-link focus-ring" href="{{ route('event.show', $event->slug) }}" target="_blank" rel="noopener noreferrer">
+        <a class="event-detail-link focus-ring" href="{{ route('event.show', $event->slug) }}">
           Lihat Detail
         </a>
       </div>
@@ -198,12 +196,13 @@
                 <div class="bottom-cta reveal-onscroll">
                     <div class="bottom-cta-blob-1" aria-hidden="true"></div>
                     <div class="bottom-cta-blob-2" aria-hidden="true"></div>
+                    <div class="bottom-cta-wave" aria-hidden="true"></div>
                     <div class="bottom-cta-content">
-                        <span class="bottom-cta-kicker">Masih banyak cerita</span>
-                        <h2 class="bottom-cta-title">Setiap event punya kenangan untuk dibawa pulang.</h2>
-                        <p class="bottom-cta-desc">Cari event yang membuatmu penasaran, lalu hadirkan cerita terbaikmu
-                            bersama kami.</p>
-                        <button type="button" id="bottomCta" class="custom-white-pill-btn focus-ring">
+                        <span class="bottom-cta-kicker">Yuk, ikutan juga</span>
+                        <h2 class="bottom-cta-title">Event serunya nggak berhenti di sini.</h2>
+                        <p class="bottom-cta-desc">Masih banyak momen seru menantimu — cari agenda berikutnya dan
+                            jadi bagian dari ceritanya.</p>
+                        <button type="button" id="bottomCta" class="custom-white-pill-btn cta-pulse focus-ring">
                             Jelajahi Semua Event
                             <i data-lucide="arrow-right" width="16" height="16"></i>
                         </button>
@@ -320,7 +319,9 @@
                 });
             });
 
-            // ---------- scroll reveal per-section, sama seperti home & lowongan ----------
+            // ---------- scroll reveal per-section: fade-up di tengah,
+            // slide-in dari kiri/kanan untuk elemen yang dikasih
+            // class .reveal-left / .reveal-right ----------
             var revealEls = document.querySelectorAll(".reveal-onscroll");
             var revealObserver = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -338,6 +339,72 @@
                     el.style.transitionDelay = (i % 3) * 0.1 + "s";
                 }
                 revealObserver.observe(el);
+            });
+
+            // ---------- number counter dengan efek bounce ----------
+            function easeOutBack(t) {
+                var c1 = 1.70158, c3 = c1 + 1;
+                return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+            }
+            function animateCounter(el) {
+                var target = parseFloat(el.dataset.countTo);
+                var suffix = el.dataset.suffix || "";
+                var isDecimal = String(el.dataset.countTo).indexOf(".") !== -1;
+                var duration = 1100;
+                var start = null;
+                function step(ts) {
+                    if (!start) start = ts;
+                    var progress = Math.min((ts - start) / duration, 1);
+                    var eased = easeOutBack(progress);
+                    var current = Math.max(target * eased, 0);
+                    el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current)) + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+            var heroStats = document.getElementById("heroStats");
+            if (heroStats) {
+                var countersDone = false;
+                var counterObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting && !countersDone) {
+                            countersDone = true;
+                            heroStats.querySelectorAll("[data-count-to]").forEach(function(el, i) {
+                                setTimeout(function() { animateCounter(el); }, i * 120);
+                            });
+                            counterObserver.disconnect();
+                        }
+                    });
+                }, { threshold: 0.4 });
+                counterObserver.observe(heroStats);
+            }
+
+            // ---------- efek 3D tilt + ripple pada card event ----------
+            cards.forEach(function(card) {
+                card.addEventListener("mousemove", function(e) {
+                    var rect = card.getBoundingClientRect();
+                    var x = e.clientX - rect.left;
+                    var y = e.clientY - rect.top;
+                    var rotateX = ((y / rect.height) - 0.5) * -8;
+                    var rotateY = ((x / rect.width) - 0.5) * 8;
+                    card.style.transform = "perspective(900px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
+                });
+                card.addEventListener("mouseleave", function() {
+                    card.style.transform = "";
+                });
+                card.addEventListener("click", function(e) {
+                    var rect = card.getBoundingClientRect();
+                    var ripple = document.createElement("span");
+                    ripple.className = "card-ripple";
+                    ripple.style.left = (e.clientX - rect.left) + "px";
+                    ripple.style.top = (e.clientY - rect.top) + "px";
+                    card.appendChild(ripple);
+                    setTimeout(function() { ripple.remove(); }, 650);
+                });
             });
 
             // ---------- back to top ----------

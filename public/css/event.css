@@ -46,6 +46,9 @@ img { display: block; max-width: 100%; }
 .page-wrap,
 .site-shell {
     width: 100%;
+    /* overflow-x: hidden sengaja TIDAK dipasang di sini — supaya
+       position: sticky pada .filter-panel tetap ikut turun saat
+       halaman di-scroll (lihat catatan yang sama di lowongan.css). */
 }
 
 .page-width {
@@ -97,6 +100,12 @@ img { display: block; max-width: 100%; }
 .floaty-slow { animation: floaty 5s ease-in-out 0.6s infinite; }
 @keyframes floaty { 50% { transform: translateY(-10px) rotate(2deg); } }
 
+/* =========================================================
+   ANIMASI — fondasi fade-in dikombinasikan dengan slide-in
+   dari kiri/kanan supaya section terasa "meluncur" ke tengah
+   saat dibuka, plus efek pop/letupan untuk hero.
+   ========================================================= */
+
 .reveal { animation: rise 0.6s both; }
 .reveal.delay-1 { animation-delay: .12s; }
 .reveal.delay-2 { animation-delay: .2s; }
@@ -105,8 +114,8 @@ img { display: block; max-width: 100%; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Scroll reveal per-section — tiap section punya animasi masuk,
-   sama persis pola & timing dengan home + lowongan */
+/* Scroll reveal per-section — default: fade-up dari bawah (untuk
+   elemen yang berdiri sendiri / full width, seperti heading & CTA) */
 .reveal-onscroll {
     opacity: 0;
     transform: translateY(30px);
@@ -117,7 +126,16 @@ img { display: block; max-width: 100%; }
 
 .reveal-onscroll.in-view {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0);
+}
+
+/* Varian slide-in: dipakai untuk elemen berpasangan (filter di kiri,
+   card di grid) supaya meluncur dari kiri/kanan ke tengah */
+.reveal-onscroll.reveal-left {
+    transform: translate(-52px, 16px);
+}
+.reveal-onscroll.reveal-right {
+    transform: translate(52px, 16px);
 }
 
 .focus-ring:focus-visible,
@@ -127,6 +145,37 @@ select:focus-visible,
 input:focus-visible {
     outline: 3px solid #f5b5cb;
     outline-offset: 3px;
+}
+
+/* ---------- hero: pop-in + staggered fade ---------- */
+
+.hero-pop-left {
+    animation: heroPopLeft 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.hero-pop-right {
+    animation: heroPopRight 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+}
+@keyframes heroPopLeft {
+    from { opacity: 0; transform: translateX(-52px) scale(0.94); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes heroPopRight {
+    from { opacity: 0; transform: translateX(52px) scale(0.94); }
+    to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.hero-copy > * {
+    opacity: 0;
+    animation: heroChildFade 0.7s ease forwards;
+}
+.hero-copy > *:nth-child(1) { animation-delay: .05s; }
+.hero-copy > *:nth-child(2) { animation-delay: .16s; }
+.hero-copy > *:nth-child(3) { animation-delay: .27s; }
+.hero-copy > *:nth-child(4) { animation-delay: .38s; }
+.hero-copy > *:nth-child(5) { animation-delay: .49s; }
+@keyframes heroChildFade {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -304,32 +353,60 @@ input:focus-visible {
 }
 .stat-pill-label { display: block; margin-top: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
 
-.hero-visual { position: relative; z-index: 1; margin: 0 auto; width: 100%; max-width: 27rem; }
+/* ---------- hero visual: foto Antares di atas backdrop checker/blob,
+   sticker "Ada cerita baru!" nempel di sudut kanan atas foto ---------- */
+
+.hero-visual {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 26rem;
+    padding: 1.5rem;
+}
+
+.hero-visual-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: .9;
+}
+
 .hero-photo-frame {
     position: relative;
-    overflow: hidden;
-    border-radius: 2.5rem;
-    background: #fff;
-    padding: 0.75rem;
-    box-shadow: 0 24px 48px rgba(29, 74, 146, .16);
-    transition: transform .25s ease, box-shadow .25s ease;
+    z-index: 1;
+    overflow: visible;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
 }
-.hero-photo-frame:hover { transform: translateY(-6px); box-shadow: 0 28px 52px rgba(29,74,146,.2); }
-.hero-photo-frame img { height: 21rem; width: 100%; border-radius: 2rem; object-fit: cover; }
+.hero-photo-frame img {
+    width: 100%;
+    height: auto;
+    max-height: 22rem;
+    object-fit: contain;
+    border-radius: 1.5rem;
+    filter: drop-shadow(0 22px 30px rgba(29, 74, 146, .22));
+}
 .hero-photo-caption {
-    position: absolute;
-    left: 1.75rem; right: 1.75rem; bottom: 1.75rem;
+    position: relative;
+    z-index: 1;
+    margin: -1.25rem 1.25rem 0;
     border-radius: 1.4rem;
     padding: 1rem 1.25rem;
-    background: rgba(255,255,255,.92);
+    background: rgba(255,255,255,.94);
     backdrop-filter: blur(4px);
+    box-shadow: 0 12px 24px rgba(29,74,146,.12);
 }
 .hero-photo-caption strong { display: block; font-family: "Fredoka", sans-serif; font-weight: 700; color: var(--ink); }
 .hero-photo-caption span { display: block; margin-top: 0.25rem; font-size: 0.8rem; color: var(--muted); }
+
 .hero-sticker {
     position: absolute;
-    right: -0.75rem; bottom: 2.5rem;
-    transform: rotate(6deg);
+    right: 0.25rem;
+    top: -0.5rem;
+    z-index: 2;
+    transform: rotate(-6deg);
     border-radius: 1rem;
     padding: 0.75rem 1rem;
     background: #ffb8d0;
@@ -550,7 +627,7 @@ input:focus-visible {
     box-shadow: 0 4px 0 #0a4174;
 }
 
-/* ---------- event grid — 2 kolom, gaya job-card ---------- */
+/* ---------- event grid — 2 kolom, gaya job-card, dengan 3D tilt + ripple ---------- */
 
 .event-grid {
     display: grid;
@@ -561,26 +638,47 @@ input:focus-visible {
 .event-card {
     display: flex;
     flex-direction: column;
+    position: relative;
     overflow: hidden;
     border-radius: 1.5rem;
     border-top: 6px solid var(--blue);
     background: #fff;
     box-shadow: 0 12px 28px rgba(29, 74, 146, .09);
-    transition: transform .25s ease, box-shadow .25s ease, opacity .3s ease;
+    transition: box-shadow .25s ease, opacity .3s ease, transform .15s ease;
+    will-change: transform;
 }
 
+/* Transform saat hover/tilt dikendalikan lewat JS (perspective +
+   rotateX/rotateY), CSS cukup menaikkan shadow-nya saja supaya
+   tidak bentrok dengan efek 3D tilt. */
 .event-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 18px 35px rgba(29, 74, 146, .13);
+    box-shadow: 0 20px 38px rgba(29, 74, 146, .16);
 }
 
 .event-card.is-fading {
     opacity: 0;
-    transform: scale(0.96);
+    transform: scale(0.96) !important;
     pointer-events: none;
 }
 
 .event-card.is-hidden { display: none; }
+
+/* Ripple kecil saat card diklik */
+.card-ripple {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin: -7px 0 0 -7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .6);
+    transform: scale(0);
+    animation: cardRippleAnim .6s ease-out;
+    pointer-events: none;
+    z-index: 5;
+}
+@keyframes cardRippleAnim {
+    to { transform: scale(20); opacity: 0; }
+}
 
 /* Palet event-card berputar dari palet root, tetap dominan biru */
 #eventGrid .event-card:nth-child(4n+1) {
@@ -666,7 +764,7 @@ input:focus-visible {
 }
 .empty-state.show { display: block; }
 
-/* ---------- bottom CTA (identik gaya ticket-banner home/lowongan) ---------- */
+/* ---------- bottom CTA: blob + wave bergelombang + tombol berdenyut ---------- */
 
 .bottom-cta-section { padding: 0 0 5rem; }
 
@@ -675,16 +773,42 @@ input:focus-visible {
     overflow: hidden;
     border-radius: 2rem;
     background: var(--blue-deep);
-    padding: 3.5rem 1.75rem;
+    padding: 3.5rem 1.75rem 4.5rem;
     text-align: center;
 }
 .bottom-cta-blob-1 { position: absolute; left: -2.5rem; top: 1.25rem; height: 8rem; width: 8rem; border-radius: 50%; background: rgba(255,255,255,.15); }
 .bottom-cta-blob-2 { position: absolute; right: -2rem; top: -2.5rem; height: 10rem; width: 10rem; border-radius: 50%; background: rgba(248,237,184,.7); }
-.bottom-cta-content { position: relative; max-width: 40rem; margin: 0 auto; }
+
+.bottom-cta-wave {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 4.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 60'%3E%3Cpath d='M0 30C50 60 100 0 150 30C200 60 250 0 300 30C350 60 400 0 400 30V60H0Z' fill='white' fill-opacity='0.16'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 400px 60px;
+    animation: waveDrift 14s linear infinite;
+    pointer-events: none;
+}
+@keyframes waveDrift {
+    from { background-position-x: 0; }
+    to { background-position-x: -400px; }
+}
+
+.bottom-cta-content { position: relative; z-index: 1; max-width: 40rem; margin: 0 auto; }
 .bottom-cta-kicker { font-size: 0.85rem; font-weight: 800; letter-spacing: .06em; color: var(--yellow); }
 .bottom-cta-title { margin-top: 0.75rem; font-size: clamp(1.55rem, 3vw, 2.15rem); font-weight: 700; line-height: 1.25; color: #fff; }
 .bottom-cta-desc { margin-top: 1rem; font-size: 1.05rem; line-height: 1.6; color: #e5f3ff; }
 .bottom-cta .custom-white-pill-btn { margin-top: 1.75rem; }
+
+/* Tombol CTA berdenyut pelan supaya menarik perhatian tanpa berlebihan */
+.cta-pulse {
+    animation: ctaPulseRing 2.6s ease-out infinite;
+}
+@keyframes ctaPulseRing {
+    0% { box-shadow: 0 6px 0 #0a4174, 0 0 0 0 rgba(255,255,255,.45); }
+    70% { box-shadow: 0 6px 0 #0a4174, 0 0 0 16px rgba(255,255,255,0); }
+    100% { box-shadow: 0 6px 0 #0a4174, 0 0 0 0 rgba(255,255,255,0); }
+}
 
 /* =========================================================
    Floating action row: back-to-top & WhatsApp — identik 1:1
