@@ -34,7 +34,7 @@
           <div class="relative z-10 reveal">
             @auth
             <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
-              <span>✨</span> Selamat datang, {{ Auth::user()->name }}! (Alumni Terverifikasi)
+              <span></span> Selamat datang, {{ Auth::user()->name }}! (Alumni Terverifikasi)
             </p>
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Ruang temu kita semua.' }}</h1>
             <p class="mt-6 max-w-lg text-lg leading-relaxed text-[#355277]">{{ $contents['hero_banner']->subtitle ?? 'Seluruh fitur direktori, album kenangan, bursa lowongan, dan agenda gathering kini terbuka untukmu!' }}</p>
@@ -65,77 +65,56 @@
 
 
          <div class="relative mx-auto w-full max-w-lg reveal flex items-center justify-center" style="animation-delay:.15s">
-    <!-- 1. Blob latar belakang biru muda asli -->
     <div class="checker blob aspect-square w-full max-w-[480px] p-7 flex items-center justify-center">
-
-        <!-- 2. Container Foto dengan Ukuran Lebih Besar (Sedikit Keluar dari Blob) -->
         <div class="relative z-20 flex items-center justify-center">
             <div class="relative w-[410px] h-[410px] md:w-[480px] md:h-[480px] flex items-center justify-center drop-shadow-2xl">
-
-                <!-- Aksen Bunga Kecil Dekoratif -->
                 <span class="absolute -top-2 right-6 z-30 text-pink-400 text-3xl animate-pulse">🌸</span>
                 <span class="absolute -bottom-2 left-4 z-30 text-pink-400 text-2xl animate-bounce">🌸</span>
-
-                <!-- Lapisan Luar Border Putih Bergelombang -->
                 <div class="absolute inset-0 bg-white shadow-xl transition hover:scale-105 duration-300"
                      style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
                 </div>
-
-                <!-- Lapisan Garis Tepi/Border Kuning -->
                 <div class="absolute inset-[9px] bg-[#fff0a9]"
                      style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
                 </div>
-
-                <!-- Foto Alumni di Tengah -->
                 <div class="absolute inset-[18px] overflow-hidden bg-white"
                      style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
                     <img src="{{ asset('assets/images/foto04.png') }}"
                          alt="Alumni Spotlight"
                          class="h-full w-full object-cover">
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
       </section>
 
       <!-- TENTANG KAMI -->
-      <section id="tentang" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
-        <div class="grid gap-10 md:grid-cols-[.8fr_1.2fr] md:items-center">
-          <div class="relative reveal-onscroll">
-            <div class="blob aspect-[4/3] bg-[#ffd9e7] p-5">
-              <div class="flex h-full flex-col justify-between rounded-[2rem] bg-[#153563] p-7 text-white">
-                <span class="text-4xl text-[#fff0a9]">☻</span>
-                <p class="max-w-[13rem] text-3xl font-bold leading-tight">Dari sekolah, untuk selamanya.</p>
-                <div class="flex gap-2"><span class="h-2 w-10 rounded-full bg-[#ffb8d0]"></span><span class="h-2 w-16 rounded-full bg-[#fff0a9]"></span></div>
+      <section id="tentang" class="mx-auto max-w-7xl px-5 py-20">
+        <div class="tentang-container">
+
+          <!-- KOLASE DI KIRI -->
+          <div class="kolase-wrapper reveal-onscroll">
+            <div class="blob-bg"></div>
+            <div class="kolase-grid">
+              <div class="kolase-col">
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto01.png') }}" alt="Foto 1"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto02.png') }}" alt="Foto 2"></div>
+              </div>
+              <div class="kolase-col pt-4">
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto03.png') }}" alt="Foto 3"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto04.png') }}" alt="Foto 4"></div>
               </div>
             </div>
-            <div class="absolute -bottom-5 -right-3 rotate-6 rounded-2xl bg-[#fff0a9] px-4 py-3 font-bold shadow-md wiggle">✦ hello alumni!</div>
+            <div class="badge-hello">✦ hello alumni!</div>
           </div>
-          <div class="reveal-onscroll" style="transition-delay:.1s">
+
+          <!-- TEKS DI KANAN -->
+          <div class="teks-wrapper reveal-onscroll">
             <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">{{ $contents['about_section']->meta_data['badge'] ?? 'Tentang kami' }}</p>
-            <h2 class="text-4xl font-bold leading-tight text-[#153563] md:text-5xl">{{ $contents['about_section']->title ?? 'Jalin kembali koneksi yang berarti.' }}</h2>
-            <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[#355277]">{{ $contents['about_section']->subtitle ?? 'Alumni Space adalah ruang komunitas yang memudahkanmu menemukan teman lama, membuka peluang baru, dan merayakan setiap langkah bersama.' }}</p>
-            <div class="mt-8 grid gap-4 sm:grid-cols-3">
-              <article class="pop-card card-v1 rounded-[1.5rem] p-5">
-                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#a8d3ff] text-xl">⌁</span>
-                <h3 class="text-xl font-bold text-[#153563]">Terhubung</h3>
-                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Sapa teman lintas angkatan dengan mudah.</p>
-              </article>
-              <article class="pop-card card-v2 rounded-[1.5rem] p-5" style="transition-delay:.05s">
-                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#ffd9e7] text-xl">↗️</span>
-                <h3 class="text-xl font-bold text-[#153563]">Bertumbuh</h3>
-                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Temukan peluang karier dan mentoring.</p>
-              </article>
-              <article class="pop-card card-v3 rounded-[1.5rem] p-5" style="transition-delay:.1s">
-                <span class="mb-4 grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">♡</span>
-                <h3 class="text-xl font-bold text-[#153563]">Berbagi</h3>
-                <p class="mt-2 text-sm leading-relaxed text-[#355277]">Rayakan cerita nostalgia dan karya.</p>
-              </article>
-            </div>
+            <h2 class="text-3xl font-bold leading-tight text-[#153563] md:text-4xl lg:text-5xl">{{ $contents['about_section']->title ?? 'Jalin kembali koneksi yang berarti.' }}</h2>
+            <p class="mt-4 text-base leading-relaxed text-[#355277] md:text-lg">{{ $contents['about_section']->subtitle ?? 'Alumni Space adalah ruang komunitas yang memudahkanmu menemukan teman lama, membuka peluang baru, dan merayakan setiap langkah bersama.' }}</p>
           </div>
+
         </div>
       </section>
 
@@ -301,23 +280,38 @@
         </div>
       </section>
 
-      <!-- MEDIA & ARTIKEL -->
-      <section id="media" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <!-- SECTION 1: GALERI (KOLASE) -->
+<section id="galeri" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+  <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
+    <div>
+      <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Media komunitas</p>
+      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Galeri momen pilihan.</h2>
+    </div>
+  </div>
+
+  <div class="mt-9 galeri-kolase-grid">
+    <div class="checker g-item pop-card flex items-end rounded-[1.75rem] bg-[#a8d3ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Campus Day</span></div>
+    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffd9e7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Mini Reunion</span></div>
+    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#fff0a9] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Creative Lab</span></div>
+    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#cce8de] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Volunteer Day</span></div>
+    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#b8c9ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Career Talk</span></div>
+    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffcfb7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Weekend Club</span></div>
+  </div>
+</section>
+
+      <!-- SECTION 2: ARTIKEL (Diperluas jarak bawahnya menjadi pb-32) -->
+      <section id="artikel-section" class="mx-auto max-w-7xl px-5 pb-32 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
           <div>
-            <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Media komunitas</p>
-            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Ada yang baru di sini.</h2>
-          </div>
-          <div class="flex rounded-2xl bg-[#eaf3ff] p-1.5" role="tablist" aria-label="Kategori media">
-            <button class="tab-btn focus-ring rounded-xl px-4 py-2 text-sm font-bold bg-[#2e72ec] text-white" type="button" role="tab" aria-selected="true" data-tab="articles">Artikel</button>
-            <button class="tab-btn focus-ring rounded-xl px-4 py-2 text-sm font-bold text-[#153563]" type="button" role="tab" aria-selected="false" data-tab="gallery">Galeri</button>
+            <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Bacaan santai</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Artikel & kabar terbaru.</h2>
           </div>
         </div>
 
-        <div id="articles" class="media-panel active mt-9">
+        <div class="mt-9">
           <div class="grid gap-5 md:grid-cols-3">
             @forelse($articles ?? [] as $index => $article)
-            <article class="pop-card card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6">
+            <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
               <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">{{ strtoupper($article->category) }}</span>
               <h3 class="mt-4 text-2xl font-bold text-[#153563]">{{ $article->title }}</h3>
               <p class="mt-3 leading-relaxed text-[#355277]">{{ $article->excerpt ?? Str::limit(strip_tags($article->content), 80) }}</p>
@@ -334,17 +328,6 @@
           </div>
           <div class="mt-6 text-right reveal-onscroll">
             <a href="{{ route('artikel.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-          </div>
-        </div>
-
-        <div id="gallery" class="media-panel mt-9">
-          <div class="grid grid-cols-2 gap-4 md:grid-cols-3">
-            <div class="checker pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#a8d3ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Campus Day</span></div>
-            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#ffd9e7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Mini Reunion</span></div>
-            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#fff0a9] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Creative Lab</span></div>
-            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#cce8de] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Volunteer Day</span></div>
-            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#b8c9ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Career Talk</span></div>
-            <div class="pop-card flex aspect-square items-end rounded-[1.75rem] bg-[#ffcfb7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Weekend Club</span></div>
           </div>
         </div>
       </section>

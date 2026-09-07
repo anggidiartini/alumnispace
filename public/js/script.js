@@ -300,10 +300,26 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const observeReveals = () => {
+        const groups = new Map();
         document
             .querySelectorAll(".reveal-onscroll:not(.in-view)")
-            .forEach((el) => revealObserver.observe(el));
+            .forEach((el) => {
+                const parent = el.parentElement;
+                if (!groups.has(parent)) groups.set(parent, []);
+                groups.get(parent).push(el);
+            });
+
+        groups.forEach((els) => {
+            els.forEach((el, i) => {
+                // hormati delay manual yang sudah ada di inline style (mis. stat-card)
+                if (!el.style.transitionDelay) {
+                    el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
+                }
+                revealObserver.observe(el);
+            });
+        });
     };
+
     observeReveals();
 
     /* ------------------------------------------------------------------
@@ -406,4 +422,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const nextBtn = document.getElementById("next-testimonial");
+
+    if (nextBtn) {
+        const intervalTime = 2500; // Durasi lebih cepat (2.5 detik). Ubah ke 2000 kalau mau 2 detik.
+
+        setInterval(() => {
+            nextBtn.click();
+        }, intervalTime);
+    }
 });

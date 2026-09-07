@@ -122,32 +122,34 @@ h3 {
 }
 
 .reveal {
-    animation: rise 0.6s both;
+    animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes rise {
     from {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(32px) scale(0.96);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
-/* Scroll reveal (IntersectionObserver driven) */
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(46px) scale(0.94);
+    filter: blur(3px);
     transition:
-        opacity 0.7s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 0.6s ease-out;
 }
 
 .reveal-onscroll.in-view {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0);
 }
 
 .stat-card,
@@ -423,6 +425,7 @@ h3 {
     align-items: center;
     justify-content: center;
     text-align: center;
+    text-decoration: none;
 }
 
 .custom-pill-btn:hover {
@@ -451,6 +454,7 @@ h3 {
     align-items: center;
     justify-content: center;
     text-align: center;
+    text-decoration: none;
 }
 
 .custom-white-pill-btn:hover {
@@ -479,6 +483,7 @@ h3 {
     align-items: center;
     justify-content: center;
     text-align: center;
+    text-decoration: none;
 }
 
 .custom-yellow-pill-btn:hover {
@@ -1547,5 +1552,165 @@ h3 {
     .marquee-track,
     .divider-dash {
         animation: none !important;
+    }
+}
+
+#artikel-section {
+    padding-bottom: 6rem; /* Sesuaikan nilainya sesuai selera (misal 6rem, 8rem, atau 10rem) */
+}
+
+/* Layout Utama Section Tentang Kami */
+.tentang-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    width: 100%;
+}
+
+/* Kolase Foto Kiri (Dibuat lebih besar) */
+.kolase-wrapper {
+    position: relative;
+    width: 48%; /* Lebar area kiri diperbesar */
+    max-width: 500px; /* Batas maksimal diperbesar */
+    flex-shrink: 0;
+}
+
+.blob-bg {
+    position: absolute;
+    inset: -1.5rem;
+    background-color: #ffd9e7;
+    opacity: 0.75;
+    border-radius: 2.5rem;
+    z-index: 0;
+}
+
+.kolase-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem; /* Jarak antar foto diperbesar */
+    padding: 0.75rem;
+}
+
+.kolase-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.kolase-img-box {
+    overflow: hidden;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border: 3px solid white;
+}
+
+.kolase-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.kolase-img-box img:hover {
+    transform: scale(1.05);
+}
+
+.badge-hello {
+    position: absolute;
+    bottom: -1rem;
+    right: -0.5rem;
+    transform: rotate(6deg);
+    background-color: #fff0a9;
+    padding: 0.6rem 1rem;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #153563;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+/* Teks Kanan (Ukuran font judul dan deskripsi diperbesar) */
+.teks-wrapper {
+    width: 50%;
+}
+
+.teks-wrapper h2 {
+    font-size: 3rem !important; /* Judul dibuat jauh lebih besar */
+    line-height: 1.2 !important;
+}
+
+.teks-wrapper p.text-base,
+.teks-wrapper p.md\:text-lg {
+    font-size: 1.2rem !important; /* Deskripsi diperbesar agar mudah dibaca */
+    line-height: 1.7 !important;
+}
+
+/* Responsif untuk layar HP */
+@media (max-width: 768px) {
+    .tentang-container {
+        flex-direction: column;
+    }
+    .kolase-wrapper,
+    .teks-wrapper {
+        width: 100%;
+    }
+    .teks-wrapper h2 {
+        font-size: 2.2rem !important;
+    }
+}
+
+/* ===== Galeri: layout kolase (ukuran variatif) ===== */
+.galeri-kolase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 1rem;
+}
+
+.galeri-kolase-grid .g-item:nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+} /* besar */
+.galeri-kolase-grid .g-item:nth-child(2) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+.galeri-kolase-grid .g-item:nth-child(3) {
+    grid-column: 4 / 5;
+    grid-row: 1 / 3;
+} /* tinggi */
+.galeri-kolase-grid .g-item:nth-child(4) {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+.galeri-kolase-grid .g-item:nth-child(5) {
+    grid-column: 1 / 3;
+    grid-row: 3 / 5;
+} /* besar */
+.galeri-kolase-grid .g-item:nth-child(6) {
+    grid-column: 3 / 5;
+    grid-row: 3 / 5;
+} /* besar */
+
+/* Responsif: HP jadi 2 kolom rata biar ga berantakan */
+@media (max-width: 640px) {
+    .galeri-kolase-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 160px;
+    }
+    .galeri-kolase-grid .g-item:nth-child(1),
+    .galeri-kolase-grid .g-item:nth-child(2),
+    .galeri-kolase-grid .g-item:nth-child(3),
+    .galeri-kolase-grid .g-item:nth-child(4),
+    .galeri-kolase-grid .g-item:nth-child(5),
+    .galeri-kolase-grid .g-item:nth-child(6) {
+        grid-column: auto;
+        grid-row: auto;
     }
 }
