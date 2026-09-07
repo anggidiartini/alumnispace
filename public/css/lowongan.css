@@ -814,11 +814,13 @@ input:focus-visible {
 /* ---------- share vacancy banner (pengganti ticket-banner) ---------- */
 
 .share-banner {
+    grid-column: 1 / -1;   /* <-- tambahin baris ini */
     position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1.75rem;
+    text-align: center;
+    gap: 1rem;
     margin-top: 2rem;
     padding: 2.25rem 2rem;
     border-radius: 2rem;

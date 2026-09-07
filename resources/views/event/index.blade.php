@@ -17,7 +17,7 @@
 
 <body>
     <div class="site-shell page-wrap">
-        <x-navbar />
+        <x-navbar-inner/>
 
         <main>
             <!-- HERO -->
@@ -211,7 +211,7 @@
             </section>
         </main>
 
-        <x-footer />
+        <x-footer-inner/>
     </div>
 
     <!-- Floating action buttons: back-to-top & WhatsApp, sama seperti lowongan -->

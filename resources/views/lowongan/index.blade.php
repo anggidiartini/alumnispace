@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="site-shell page-wrap">
-    <x-navbar />
+    <x-navbar-inner/>
 
     <main>
       <!-- HERO -->
@@ -73,7 +73,7 @@
           <span class="jobs-note">Diperbarui secara berkala</span>
         </div>
 
-        <div class="jobs-layout">
+                <div class="jobs-layout">
           <!-- Filter kategori tetap di kiri, sticky mengikuti scroll -->
           <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
             <div class="filter-panel-heading">
@@ -155,33 +155,36 @@
               <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua peluang.</p>
               <button id="empty-reset" class="custom-pill-btn" type="button" style="margin-top:1rem;">Reset Filter</button>
             </section>
+          </div>
+        </div>
 
-            <section class="share-banner reveal-onscroll">
-  <span class="share-banner-orb" aria-hidden="true"></span>
+        <section class="share-banner reveal-onscroll">
+          <span class="share-banner-orb" aria-hidden="true"></span>
 
-  <div class="share-banner-icon" aria-hidden="true">
-    <i data-lucide="message-circle" width="26" height="26"></i>
-  </div>
+          <div class="share-banner-icon" aria-hidden="true">
+            <i data-lucide="message-circle" width="26" height="26"></i>
+          </div>
 
-  <div class="share-banner-content">
-    <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
-    <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
-    <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
-  </div>
+          <div class="share-banner-content">
+            <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
+            <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
+            <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
+          </div>
 
-  <a class="share-banner-cta custom-pill-btn"
-     href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
-     target="_blank" rel="noopener">
-    <i data-lucide="message-circle" width="18" height="18"></i>
-    Kirim via WhatsApp
-  </a>
-</section>
+          <a class="share-banner-cta custom-pill-btn"
+             href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
+             target="_blank" rel="noopener">
+            <i data-lucide="message-circle" width="18" height="18"></i>
+            Kirim via WhatsApp
+          </a>
+        </section>
+
           </div>
         </div>
       </section>
     </main>
 
-    <x-footer />
+    <x-footer-inner/>
   </div>
 
   <!-- Floating action buttons: sekarang murni pakai class, disamakan dgn home -->

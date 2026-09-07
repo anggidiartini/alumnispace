@@ -28,10 +28,10 @@
                 <div class="as-footer__col">
                     <h5 class="as-footer__col-title">Jelajahi Fitur</h5>
                     <ul class="as-footer__links">
-                        <li><a href="{{ url('/direktori') }}">Direktori Alumni</a></li>
-                        <li><a href="{{ url('/album') }}">Album Kenangan</a></li>
-                        <li><a href="{{ url('/lowongan') }}">Bursa Lowongan</a></li>
-                        <li><a href="{{ url('/agenda') }}">Agenda Event</a></li>
+                        <li><a href="{{ route('alumni.index') }}">Direktori Alumni</a></li>
+                        <li><a href="{{ route('album.index') }}">Album Kenangan</a></li>
+                        <li><a href="{{ route('lowongan.index') }}">Bursa Lowongan</a></li>
+                        <li><a href="{{ route('event.index') }}">Agenda Event</a></li>
                     </ul>
                 </div>
 
@@ -48,9 +48,9 @@
                 <div class="as-footer__col">
                     <h5 class="as-footer__col-title">Artikel Terbaru</h5>
                     <ul class="as-footer__links">
-                        <li><a href="{{ url('/artikel/peresmian-lab-komputer') }}">Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</a></li>
-                        <li><a href="{{ url('/artikel/tips-interview-unicorn') }}">Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</a></li>
-                        <li><a href="{{ url('/artikel/grand-reunion-2027') }}">Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</a></li>
+                        <li><a href="{{ route('artikel.index') }}">Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</a></li>
+                        <li><a href="{{ route('artikel.index') }}">Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</a></li>
+                        <li><a href="{{ route('artikel.index') }}">Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</a></li>
                     </ul>
                 </div>
 
