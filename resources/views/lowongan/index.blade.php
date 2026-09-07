@@ -149,7 +149,7 @@
                     <img class="company-logo"
                          src="{{ !empty($job->company_logo) ? asset('storage/' . $job->company_logo) : asset('assets/anggi/imagedefault.png') }}"
                          alt="Logo {{ $job->company_name }}" loading="lazy">
-                    <a class="company-link" href="{{ route('perusahaan.show', \Illuminate\Support\Str::slug($job->company_name)) }}">{{ $job->company_name }}</a>
+                    <a class="company-link" href="{{ route('perusahaan.index', \Illuminate\Support\Str::slug($job->company_name)) }}">{{ $job->company_name }}</a>
                   </div>
 
                   <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at->diffForHumans() }}</p>

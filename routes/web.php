@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\TableController;
+use App\Http\Controllers\CompanyController;
 
 // Landing & Intro
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -31,6 +32,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/lowongan', [JobVacancyController::class, 'index'])->name('lowongan.index');
 Route::get('/lowongan/{slug}', [JobVacancyController::class, 'show'])->name('lowongan.show');
 Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->name('lowongan.apply');
+Route::get('/perusahaan/{slug}', [\App\Http\Controllers\CompanyController::class, 'index'])->name('perusahaan.index');
 
 // Events & Gatherings
 Route::get('/event', [EventController::class, 'index'])->name('event.index');
