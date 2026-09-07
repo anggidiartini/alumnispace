@@ -33,7 +33,7 @@
 <body>
     <div class="page-wrap">
 
-        <x-navbar-inner />
+        <x-navbar/>
 
         <main id="top">
 

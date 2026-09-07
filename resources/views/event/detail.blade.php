@@ -43,7 +43,7 @@
 </head>
 <body>
 <div class="site-shell page-wrap">
-    <x-navbar-inner />
+    <x-navbar />
 
     <main>
         <div class="page-width">

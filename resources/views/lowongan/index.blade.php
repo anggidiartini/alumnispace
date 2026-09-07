@@ -12,11 +12,7 @@
 </head>
 <body>
   <div class="site-shell page-wrap">
-<<<<<<< HEAD
-    <x-navbar-inner />
-=======
     <x-navbar />
->>>>>>> 968cbb02bf68d0cf831b4f1c847cfd248de7308e
 
     <main>
       <!-- HERO -->
