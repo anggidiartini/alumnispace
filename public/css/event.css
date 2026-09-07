@@ -1,12 +1,11 @@
 /* =========================================================
-   event.css — disamakan penuh dengan design system home.css
-   & lowongan.css: variabel warna, tombol, blob/checker, filter
-   sidebar, grid card 2 kolom, dan floating WA/back-to-top.
+   event.css — disamakan penuh dengan design system lowongan.css:
+   variabel warna, tombol, blob/checker, filter sidebar (chip-list
+   + reset-button), grid card (job-card look), dan floating WA/
+   back-to-top. HERO section TIDAK diubah dari versi sebelumnya.
 
    Catatan: navbar & footer TIDAK punya CSS di sini — halaman
-   pakai <x-navbar /> dan <x-footer /> (style-nya sudah
-   ditangani navbar.css / komponennya sendiri), sama seperti
-   lowongan.blade.php.
+   pakai <x-navbar /> dan <x-footer />.
    ========================================================= */
 
 :root {
@@ -48,7 +47,7 @@ img { display: block; max-width: 100%; }
     width: 100%;
     /* overflow-x: hidden sengaja TIDAK dipasang di sini — supaya
        position: sticky pada .filter-panel tetap ikut turun saat
-       halaman di-scroll (lihat catatan yang sama di lowongan.css). */
+       halaman di-scroll (sama seperti catatan di lowongan.css). */
 }
 
 .page-width {
@@ -56,7 +55,7 @@ img { display: block; max-width: 100%; }
     margin: 0 auto;
 }
 
-/* ---------- shared decorative patterns (mirror home.css) ---------- */
+/* ---------- shared decorative patterns (mirror lowongan.css) ---------- */
 
 .grid-paper {
     background-image:
@@ -100,12 +99,6 @@ img { display: block; max-width: 100%; }
 .floaty-slow { animation: floaty 5s ease-in-out 0.6s infinite; }
 @keyframes floaty { 50% { transform: translateY(-10px) rotate(2deg); } }
 
-/* =========================================================
-   ANIMASI — fondasi fade-in dikombinasikan dengan slide-in
-   dari kiri/kanan supaya section terasa "meluncur" ke tengah
-   saat dibuka, plus efek pop/letupan untuk hero.
-   ========================================================= */
-
 .reveal { animation: rise 0.6s both; }
 .reveal.delay-1 { animation-delay: .12s; }
 .reveal.delay-2 { animation-delay: .2s; }
@@ -114,8 +107,6 @@ img { display: block; max-width: 100%; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Scroll reveal per-section — default: fade-up dari bawah (untuk
-   elemen yang berdiri sendiri / full width, seperti heading & CTA) */
 .reveal-onscroll {
     opacity: 0;
     transform: translateY(30px);
@@ -129,15 +120,6 @@ img { display: block; max-width: 100%; }
     transform: translate(0, 0);
 }
 
-/* Varian slide-in: dipakai untuk elemen berpasangan (filter di kiri,
-   card di grid) supaya meluncur dari kiri/kanan ke tengah */
-.reveal-onscroll.reveal-left {
-    transform: translate(-52px, 16px);
-}
-.reveal-onscroll.reveal-right {
-    transform: translate(52px, 16px);
-}
-
 .focus-ring:focus-visible,
 button:focus-visible,
 a:focus-visible,
@@ -147,7 +129,7 @@ input:focus-visible {
     outline-offset: 3px;
 }
 
-/* ---------- hero: pop-in + staggered fade ---------- */
+/* ---------- hero: TIDAK DIUBAH dari versi sebelumnya ---------- */
 
 .hero-pop-left {
     animation: heroPopLeft 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -187,9 +169,10 @@ input:focus-visible {
     }
 }
 
-/* ---------- tombol seragam (identik home & lowongan) ---------- */
+/* ---------- tombol seragam (identik lowongan.css) ---------- */
 
 .custom-pill-btn,
+.apply-button,
 .event-detail-link,
 .ticket-cta {
     background-color: #7bbde8;
@@ -210,6 +193,7 @@ input:focus-visible {
 }
 
 .custom-pill-btn:hover,
+.apply-button:hover,
 .event-detail-link:hover,
 .ticket-cta:hover {
     background-color: #fae588;
@@ -218,6 +202,7 @@ input:focus-visible {
 }
 
 .custom-pill-btn:active,
+.apply-button:active,
 .event-detail-link:active,
 .ticket-cta:active {
     transform: translateY(2px);
@@ -268,7 +253,7 @@ input:focus-visible {
     font-size: 0.85rem;
 }
 
-/* ---------- hero (blob + sparkle, seirama home/lowongan) ---------- */
+/* ---------- hero (blob + sparkle) — TIDAK DIUBAH ---------- */
 
 .hero-section {
     width: 100%;
@@ -353,9 +338,6 @@ input:focus-visible {
 }
 .stat-pill-label { display: block; margin-top: 0.25rem; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
 
-/* ---------- hero visual: foto Antares di atas backdrop checker/blob,
-   sticker "Ada cerita baru!" nempel di sudut kanan atas foto ---------- */
-
 .hero-visual {
     position: relative;
     z-index: 1;
@@ -415,7 +397,8 @@ input:focus-visible {
     box-shadow: 0 10px 20px rgba(29,74,146,.15);
 }
 
-/* ---------- catalog / jobs-style layout ---------- */
+/* ---------- catalog: layout & filter panel disamakan 1:1 dengan
+   .jobs-section / .filter-panel / .filter-form di lowongan.css ---------- */
 
 .catalog {
     padding-bottom: 5rem;
@@ -446,21 +429,13 @@ input:focus-visible {
     max-width: 34rem;
 }
 
-.section-desc {
-    margin-top: 0.6rem;
-    max-width: 34rem;
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.result-count {
+.jobs-note {
     border-radius: 999px;
     padding: 0.55rem 1rem;
     font-size: 0.85rem;
-    font-weight: 700;
-    background: var(--soft);
-    color: var(--blue-deep);
-    white-space: nowrap;
+    font-weight: 600;
+    background: #eaf3ff;
+    color: var(--muted);
 }
 
 .catalog-layout {
@@ -469,8 +444,7 @@ input:focus-visible {
     grid-template-columns: 270px minmax(0, 1fr);
 }
 
-/* filter kategori & status, dipindah ke kiri — identik struktur
-   filter-panel milik lowongan.css, sticky mengikuti scroll */
+/* filter panel: sama persis dengan lowongan.css (posisi, radius, shadow, sticky) */
 .filter-panel {
     height: fit-content;
     border-radius: 1.75rem;
@@ -479,9 +453,20 @@ input:focus-visible {
     box-shadow: 0 12px 28px rgba(29, 74, 146, .09);
     position: sticky;
     top: 6rem;
+    transition: box-shadow 0.3s ease;
 }
 
-/* ---------- pencarian event (identik search-wrap lowongan) ---------- */
+.filter-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.filter-form {
+    display: grid;
+    gap: 1.25rem;
+}
 
 .field-label {
     display: block;
@@ -517,218 +502,176 @@ input:focus-visible {
 
 .search-wrap .field-control { padding-left: 2.55rem; }
 
-.filter-panel-heading {
+/* chip-list & filter-chip: identik dengan tombol kategori cepat lowongan */
+.chip-list {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.5rem;
 }
 
-.filter-group + .filter-group { margin-top: 1.5rem; }
-
-.filter-legend {
-    display: block;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--ink);
-}
-
-.filter-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-/* ---------- status tabs (pengganti filter status di sidebar) ---------- */
-
-.status-tabs {
-    display: inline-flex;
-    gap: 0.4rem;
-    padding: 0.35rem;
-    margin-bottom: 1.5rem;
-    border-radius: 999px;
-    background: var(--soft);
-    max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.status-tabs::-webkit-scrollbar {
-    display: none;
-}
-
-.status-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    flex-shrink: 0;
-    border: 0;
-    border-radius: 999px;
-    padding: 0.65rem 1.35rem;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--muted);
-    background: transparent;
-    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
-    scroll-snap-align: start;
-}
-
-.status-tab svg {
-    flex-shrink: 0;
-}
-
-.status-tab:hover {
-    color: var(--ink);
-}
-
-.status-tab.is-active {
-    background: #ffffff;
-    box-shadow: 0 6px 14px rgba(29, 74, 146, 0.14);
-}
-
-.status-tab.is-active[data-filter-status="Upcoming"] {
-    color: #187143;
-}
-
-.status-tab.is-active[data-filter-status="Completed"] {
-    color: #6650a5;
-}
-
-@media (max-width: 480px) {
-    .status-tabs {
-        display: flex;
-        width: 100%;
-        scroll-snap-type: x mandatory;
-    }
-    .status-tab {
-        flex: 1 1 50%;
-        justify-content: center;
-    }
-}
-
-.filter-button {
+.filter-chip {
     border: 2px solid #d4dfed;
     border-radius: 999px;
-    padding: 0.5rem 0.9rem;
-    font-size: 0.8rem;
-    font-weight: 700;
+    padding: 0.5rem 0.85rem;
     background: #fff;
     color: var(--ink);
-    transition: transform .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.filter-button:hover {
+.filter-chip:hover {
     border-color: var(--yellow);
     background-color: rgba(248, 237, 184, .35);
     transform: translateY(-1px);
 }
 
-.filter-button.is-active {
+.filter-chip.is-active {
     border-color: #0a4174;
     background: #7bbde8;
     color: #0a4174;
     box-shadow: 0 4px 0 #0a4174;
 }
 
-/* ---------- event grid — 2 kolom, gaya job-card, dengan 3D tilt + ripple ---------- */
+.results-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
 
-.event-grid {
+.results-count {
+    margin: 0;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.filter-summary {
+    margin: 0;
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    background: #eaf3ff;
+    color: #35608f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+/* =========================================================
+   EVENT GRID — dibangun di atas .jobs-grid & .job-card supaya
+   tampilan kartu (radius, shadow, hover, badge) identik dengan
+   lowongan.css. .event-card menambahkan bagian media (foto)
+   & meta khusus event di atas struktur job-card.
+   ========================================================= */
+
+.jobs-grid.event-grid {
     display: grid;
     gap: 1.25rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.event-card {
+.event-card.job-card {
     display: flex;
     flex-direction: column;
-    position: relative;
     overflow: hidden;
     border-radius: 1.5rem;
     border-top: 6px solid var(--blue);
+    padding: 0;
     background: #fff;
     box-shadow: 0 12px 28px rgba(29, 74, 146, .09);
-    transition: box-shadow .25s ease, opacity .3s ease, transform .15s ease;
-    will-change: transform;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
 }
 
-/* Transform saat hover/tilt dikendalikan lewat JS (perspective +
-   rotateX/rotateY), CSS cukup menaikkan shadow-nya saja supaya
-   tidak bentrok dengan efek 3D tilt. */
-.event-card:hover {
-    box-shadow: 0 20px 38px rgba(29, 74, 146, .16);
+.event-card.job-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
 }
 
-.event-card.is-fading {
+.event-card.job-card.is-fading {
     opacity: 0;
-    transform: scale(0.96) !important;
+    transform: scale(0.96);
     pointer-events: none;
 }
 
-.event-card.is-hidden { display: none; }
+.event-card.job-card.is-hidden { display: none; }
 
-/* Ripple kecil saat card diklik */
-.card-ripple {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    margin: -7px 0 0 -7px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .6);
-    transform: scale(0);
-    animation: cardRippleAnim .6s ease-out;
-    pointer-events: none;
-    z-index: 5;
-}
-@keyframes cardRippleAnim {
-    to { transform: scale(20); opacity: 0; }
+.event-card.job-card > *:not(.event-card-media) {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
 }
 
-/* Palet event-card berputar dari palet root, tetap dominan biru */
+.event-card.job-card .job-card-head { margin-top: 1.4rem; }
+.event-card.job-card .apply-button { margin-bottom: 1.4rem; }
+
+/* Palet card berputar dari palet root, tetap dominan biru — sama
+   filosofinya dengan rotasi warna job-card di lowongan.css */
 #eventGrid .event-card:nth-child(4n+1) {
     border-top-color: var(--blue);
     background: color-mix(in srgb, var(--soft) 55%, #ffffff);
 }
-#eventGrid .event-card:nth-child(4n+1) .event-category { background: var(--soft); color: var(--ink); }
+#eventGrid .event-card:nth-child(4n+1) .job-badge { background: var(--soft); color: var(--ink); }
 
 #eventGrid .event-card:nth-child(4n+2) {
     border-top-color: var(--pink);
-    background: color-mix(in srgb, var(--pink) 35%, #ffffff);
+    background: color-mix(in srgb, var(--pink) 40%, #ffffff);
 }
-#eventGrid .event-card:nth-child(4n+2) .event-category { background: var(--pink); color: #b94669; }
+#eventGrid .event-card:nth-child(4n+2) .job-badge { background: var(--pink); color: #b94669; }
 
 #eventGrid .event-card:nth-child(4n+3) {
     border-top-color: var(--yellow);
-    background: color-mix(in srgb, var(--yellow) 35%, #ffffff);
+    background: color-mix(in srgb, var(--yellow) 40%, #ffffff);
 }
-#eventGrid .event-card:nth-child(4n+3) .event-category { background: var(--yellow); color: #9b6900; }
+#eventGrid .event-card:nth-child(4n+3) .job-badge { background: var(--yellow); color: #9b6900; }
 
 #eventGrid .event-card:nth-child(4n+4) {
     border-top-color: var(--ink);
-    background: color-mix(in srgb, var(--blue) 14%, #ffffff);
+    background: color-mix(in srgb, var(--blue) 16%, #ffffff);
 }
-#eventGrid .event-card:nth-child(4n+4) .event-category { background: var(--blue); color: #fff; }
+#eventGrid .event-card:nth-child(4n+4) .job-badge { background: var(--blue); color: #fff; }
 
 .event-card-media { position: relative; }
 .event-card-media img { height: 12.5rem; width: 100%; object-fit: cover; }
 
-.event-card-body {
+.job-card-head {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 1.4rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
 }
-.event-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
-.event-category { border-radius: 999px; padding: 0.32rem 0.8rem; font-size: 0.72rem; font-weight: 800; }
+
+.job-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.32rem 0.8rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
 .event-quota { font-size: 0.75rem; font-weight: 700; color: #b68100; }
 
-.event-title {
+.job-title-link {
     display: block;
     margin-top: 1.1rem;
     font-family: "Fredoka", sans-serif;
     font-size: 1.28rem;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.2;
     color: var(--ink);
+    text-decoration: none;
 }
 
-.event-desc { margin-top: 0.7rem; font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+.job-title-link:hover { text-decoration: underline; }
+
+.job-description {
+    margin: 0.8rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
 
 .event-meta {
     margin-top: 1.2rem;
@@ -743,8 +686,8 @@ input:focus-visible {
 .event-meta-row { display: flex; gap: 0.5rem; color: var(--muted); }
 .event-meta-row svg { flex-shrink: 0; margin-top: 2px; color: var(--blue-deep); }
 
-.event-detail-link {
-    margin-top: auto;
+.event-card .apply-button {
+    margin-top: 1.25rem;
     width: 100%;
     font-size: 0.9rem;
     padding: 0.68rem 1.15rem;
@@ -758,13 +701,22 @@ input:focus-visible {
     padding: 3.5rem 1.5rem;
     background: #f8fbff;
     text-align: center;
-    font-weight: 600;
-    color: var(--muted);
-    animation: rise .5s ease both;
+    animation: rise 0.5s ease both;
 }
-.empty-state.show { display: block; }
+.empty-state.is-visible { display: block; }
 
-/* ---------- bottom CTA: blob + wave bergelombang + tombol berdenyut ---------- */
+.empty-icon {
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--pink);
+    font-size: 1.5rem;
+}
+
+/* ---------- bottom CTA: blob + wave (tidak diubah) ---------- */
 
 .bottom-cta-section { padding: 0 0 5rem; }
 
@@ -800,7 +752,6 @@ input:focus-visible {
 .bottom-cta-desc { margin-top: 1rem; font-size: 1.05rem; line-height: 1.6; color: #e5f3ff; }
 .bottom-cta .custom-white-pill-btn { margin-top: 1.75rem; }
 
-/* Tombol CTA berdenyut pelan supaya menarik perhatian tanpa berlebihan */
 .cta-pulse {
     animation: ctaPulseRing 2.6s ease-out infinite;
 }
@@ -812,7 +763,7 @@ input:focus-visible {
 
 /* =========================================================
    Floating action row: back-to-top & WhatsApp — identik 1:1
-   dengan lowongan.blade.php (posisi, ukuran, isi bubble WA).
+   dengan lowongan.css (posisi, ukuran, isi bubble WA).
    ========================================================= */
 
 .fab-row {
@@ -932,7 +883,7 @@ input:focus-visible {
 @media (max-width: 720px) {
     .page-width { width: min(100% - 2rem, 1180px); }
     .hero-section { padding: 2.5rem 0 4rem; }
-    .event-grid { grid-template-columns: 1fr; }
+    .jobs-grid.event-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 430px) {

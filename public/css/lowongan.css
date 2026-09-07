@@ -224,7 +224,8 @@ input:focus-visible {
 }
 
 .custom-white-pill-btn,
-.reset-button {
+.reset-button,
+.detail-button {
     background-color: #ffffff;
     color: #0a4174;
     border: 3px solid #0a4174;
@@ -242,14 +243,16 @@ input:focus-visible {
 }
 
 .custom-white-pill-btn:hover,
-.reset-button:hover {
+.reset-button:hover,
+.detail-button:hover {
     background-color: #fae588;
     transform: translateY(-3px);
     box-shadow: 0 9px 0 #0a4174;
 }
 
 .custom-white-pill-btn:active,
-.reset-button:active {
+.reset-button:active,
+.detail-button:active {
     transform: translateY(2px);
     box-shadow: 0 3px 0 #0a4174;
 }
@@ -742,7 +745,7 @@ input:focus-visible {
 }
 
 .job-title-link {
-    display: inline-block;
+    display: block;
     margin-top: 1.1rem;
     font-family: "Fredoka", sans-serif;
     font-size: 1.28rem;
@@ -752,20 +755,41 @@ input:focus-visible {
     text-decoration: none;
 }
 
-.job-title-link:hover,
-.company-link:hover {
+.job-title-link:hover {
     text-decoration: underline;
+}
+
+/* ---------- baris logo + nama perusahaan, tepat di bawah judul ---------- */
+
+.company-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 0.6rem;
+}
+
+.company-logo {
+    flex-shrink: 0;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 0.65rem;
+    object-fit: cover;
+    border: 1px solid #dce6f5;
+    background: #fff;
 }
 
 .company-link {
     display: inline-block;
-    margin-top: 0.5rem;
     color: #2e72ec;
     font-weight: 700;
     font-size: 0.9rem;
     text-decoration-color: var(--pink);
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;
+}
+
+.company-link:hover {
+    text-decoration: underline;
 }
 
 .job-meta,
@@ -779,11 +803,37 @@ input:focus-visible {
     line-height: 1.6;
 }
 
-.apply-button {
+/* ---------- dua tombol aksi: Lamar via WhatsApp + Detail Lowongan ---------- */
+
+.job-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
     margin-top: 1.25rem;
-    font-size: 0.9rem;
-    padding: 0.68rem 1.15rem;
-    background-color: #ffffff;
+}
+
+.job-card-actions .apply-button,
+.job-card-actions .detail-button {
+    flex: 1 1 auto;
+    font-size: 0.85rem;
+    padding: 0.65rem 1rem;
+    white-space: nowrap;
+}
+
+.job-card-actions .apply-button {
+    background-color: #d6f3df;
+    color: #146c3a;
+    border-color: #146c3a;
+    box-shadow: 0 6px 0 #146c3a;
+}
+
+.job-card-actions .apply-button:hover {
+    background-color: #bdedcb;
+    box-shadow: 0 9px 0 #146c3a;
+}
+
+.job-card-actions .apply-button:active {
+    box-shadow: 0 3px 0 #146c3a;
 }
 
 .empty-state {
@@ -1073,6 +1123,15 @@ input:focus-visible {
 
     .jobs-grid {
         grid-template-columns: 1fr;
+    }
+
+    .job-card-actions {
+        flex-direction: column;
+    }
+
+    .job-card-actions .apply-button,
+    .job-card-actions .detail-button {
+        width: 100%;
     }
 
     .ticket-content {

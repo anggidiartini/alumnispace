@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="site-shell page-wrap">
-    <x-navbar-inner/>
+    <x-navbar-inner />
 
     <main>
       <!-- HERO -->
@@ -131,6 +131,9 @@
 
             <div id="jobs-grid" class="jobs-grid">
               @foreach ($jobs as $i => $job)
+                @php
+                  $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
+                @endphp
                 <article class="job-card reveal-onscroll"
                   style="transition-delay: {{ ($i % 3) * 0.05 }}s"
                   data-company="{{ $job->company_name }}"
@@ -141,10 +144,26 @@
                     <span class="job-badge">{{ $job->category }}</span><span class="job-symbol">✳</span>
                   </div>
                   <a class="job-title-link" href="{{ route('lowongan.show', $job->slug) }}">{{ $job->title }}</a>
-                  <a class="company-link" href="{{ route('lowongan.show', $job->slug) }}">{{ $job->company_name }}</a>
+
+                  <div class="company-row">
+                    <img class="company-logo"
+                         src="{{ !empty($job->company_logo) ? asset('storage/' . $job->company_logo) : asset('assets/anggi/imagedefault.png') }}"
+                         alt="Logo {{ $job->company_name }}" loading="lazy">
+                    <a class="company-link" href="{{ route('perusahaan.show', \Illuminate\Support\Str::slug($job->company_name)) }}">{{ $job->company_name }}</a>
+                  </div>
+
                   <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at->diffForHumans() }}</p>
                   <p class="job-description">{{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
-                  <a class="apply-button custom-pill-btn" href="{{ route('lowongan.show', $job->slug) }}#lamar">Lamar</a>
+
+                  <div class="job-card-actions">
+                    <a class="apply-button custom-pill-btn" href="https://wa.me/6287780341780?text={{ urlencode($waMessage) }}">
+                      <i data-lucide="message-circle" width="16" height="16"></i>
+                      Lamar via WhatsApp
+                    </a>
+                    <a class="detail-button custom-white-pill-btn" href="{{ route('lowongan.show', $job->slug) }}">
+                      Detail Lowongan
+                    </a>
+                  </div>
                 </article>
               @endforeach
             </div>
@@ -184,7 +203,7 @@
       </section>
     </main>
 
-    <x-footer-inner/>
+    <x-footer/>
   </div>
 
   <!-- Floating action buttons: sekarang murni pakai class, disamakan dgn home -->
@@ -342,4 +361,4 @@
     });
   </script>
 </body>
-</html> 
+</html>

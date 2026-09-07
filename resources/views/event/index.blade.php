@@ -17,10 +17,10 @@
 
 <body>
     <div class="site-shell page-wrap">
-        <x-navbar-inner/>
+        <x-navbar />
 
         <main>
-            <!-- HERO -->
+            <!-- HERO (TIDAK DIUBAH) -->
             <section id="beranda" class="hero-section grid-paper" aria-labelledby="hero-title">
                 <div class="hero-blob-pink blob blob-drift" aria-hidden="true"></div>
                 <span class="hero-orb-yellow spin-slow" aria-hidden="true"></span>
@@ -73,122 +73,112 @@
                 </div>
             </section>
 
-            <!-- KATALOG EVENT -->
+            <!-- KATALOG EVENT — desain disamakan dengan katalog lowongan -->
             <section id="event" class="page-width catalog" aria-labelledby="catalog-title">
                 <div class="section-heading reveal-onscroll">
                     <div>
                         <p class="section-kicker">Katalog event</p>
                         <h2 id="catalog-title" class="section-title">Temukan momen terbaik</h2>
-                        <p class="section-desc">Jelajahi agenda mendatang atau buka kembali dokumentasi dari momen yang
-                            sudah berlalu.</p>
                     </div>
-                    <p id="resultCount" class="result-count" aria-live="polite"></p>
+                    <span class="jobs-note">Diperbarui secara berkala</span>
                 </div>
 
                 <div class="catalog-layout">
-                    <!-- Filter kategori & status, dipindah ke kiri sesuai gaya lowongan -->
-                    <aside class="filter-panel reveal-onscroll reveal-left" aria-label="Filter event">
+                    <!-- Filter panel: sama persis strukturnya dengan filter-panel lowongan -->
+                    <aside class="filter-panel reveal-onscroll" aria-label="Filter event">
                         <div class="filter-panel-heading">
                             <h3 style="margin:0; font-size:1.15rem;">Filter Event</h3>
                             <i data-lucide="sliders-horizontal" width="19" height="19"></i>
                         </div>
 
-                        <div class="filter-group">
-                            <label class="filter-legend" for="eventSearchInput">Cari event</label>
-                            <div class="search-wrap">
-                                <i data-lucide="search" width="18" height="18"></i>
-                                <input id="eventSearchInput" class="field-control" type="search"
-                                    placeholder="Cari nama event atau lokasi">
+                        <form class="filter-form" id="filter-form">
+                            <div>
+                                <label class="field-label" for="eventSearchInput">Cari event</label>
+                                <div class="search-wrap">
+                                    <i data-lucide="search" width="18" height="18"></i>
+                                    <input id="eventSearchInput" class="field-control" type="search"
+                                        placeholder="Cari nama event atau lokasi">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="filter-group">
-                            <span class="filter-legend">Pilih kategori</span>
-                            <div class="filter-row" id="categoryFilters">
-                                <button data-filter-category="all" type="button"
-                                    class="filter-button is-active">Semua</button>
-                                <button data-filter-category="Seminar" type="button"
-                                    class="filter-button">Seminar</button>
-                                <button data-filter-category="Workshop" type="button"
-                                    class="filter-button">Workshop</button>
-                                <button data-filter-category="Gathering" type="button"
-                                    class="filter-button">Gathering</button>
-                                <button data-filter-category="Festival" type="button"
-                                    class="filter-button">Festival</button>
-                                <button data-filter-category="Kompetisi" type="button"
-                                    class="filter-button">Kompetisi</button>
+                            <div>
+                                <p class="field-label">Status event</p>
+                                <div class="chip-list">
+                                    <button class="filter-chip is-active" data-filter-status="Upcoming" type="button" aria-pressed="true">Upcoming</button>
+                                    <button class="filter-chip" data-filter-status="Completed" type="button" aria-pressed="false">Completed</button>
+                                </div>
                             </div>
-                        </div>
 
+                            <div>
+                                <p class="field-label">Kategori cepat</p>
+                                <div class="chip-list">
+                                    <button class="filter-chip is-active" data-filter-category="all" type="button" aria-pressed="true">Semua</button>
+                                    <button class="filter-chip" data-filter-category="Seminar" type="button" aria-pressed="false">Seminar</button>
+                                    <button class="filter-chip" data-filter-category="Workshop" type="button" aria-pressed="false">Workshop</button>
+                                    <button class="filter-chip" data-filter-category="Gathering" type="button" aria-pressed="false">Gathering</button>
+                                    <button class="filter-chip" data-filter-category="Festival" type="button" aria-pressed="false">Festival</button>
+                                    <button class="filter-chip" data-filter-category="Kompetisi" type="button" aria-pressed="false">Kompetisi</button>
+                                </div>
+                            </div>
+
+                            <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset Filter</button>
+                        </form>
                     </aside>
 
                     <div>
-                        <div class="status-tabs" role="tablist" aria-label="Filter status event">
-                            <button type="button" class="status-tab is-active" data-filter-status="Upcoming"
-                                role="tab" aria-selected="true">
-                                <i data-lucide="calendar-clock" width="16" height="16"></i>
-                                Upcoming
-                            </button>
-                            <button type="button" class="status-tab" data-filter-status="Completed" role="tab"
-                                aria-selected="false">
-                                <i data-lucide="check-circle-2" width="16" height="16"></i>
-                                Completed
-                            </button>
+                        <div class="results-header reveal-onscroll">
+                            <p id="resultCount" class="results-count" aria-live="polite"></p>
+                            <p id="filterSummary" class="filter-summary" aria-live="polite"></p>
                         </div>
 
-                        <div id="eventGrid" class="event-grid">
-  @foreach($events as $index => $event)
-    <article class="event-card reveal-onscroll {{ $index % 2 === 0 ? 'reveal-left' : 'reveal-right' }}"
-            style="{{ $index % 2 !== 0 ? 'transition-delay:.05s' : '' }}" 
-            data-category="{{ $event->category }}" 
-            data-status="{{ $event->status }}" 
-            data-search="{{ strtolower($event->title . ' ' . $event->category . ' ' . $event->venue) }}">
-      
-      <div class="event-card-media">
-        <!-- Menggunakan fallback gambar jika banner_image kosong -->
-        <img loading="lazy" src="{{ $event->banner_image ?? 'https://pexels.com' }}" alt="{{ $event->title }}">
-      </div>
-      
-      <div class="event-card-body">
-        <div class="event-card-top">
-          <span class="event-category">{{ $event->category }}</span>
-          <span class="event-quota">{{ $event->quota }} kuota</span>
-        </div>
-        
-        <a class="event-title" href="{{ route('event.show', $event->slug) }}">
-          {{ $event->title }}
-        </a>
-        
-        <p class="event-desc">{{ $event->short_description }}</p>
-        
-        <div class="event-meta">
-          <p class="event-meta-row">
-            <i data-lucide="calendar" width="16" height="16"></i>
-            <span>{{ $event->event_date ? $event->event_date->translatedFormat('d F Y') : '-' }}</span>
-          </p>
-          <p class="event-meta-row">
-            <i data-lucide="clock" width="16" height="16"></i>
-            <span>{{ $event->time_info }}</span>
-          </p>
-          <p class="event-meta-row">
-            <i data-lucide="map-pin" width="16" height="16"></i>
-            <span>{{ $event->venue }}</span>
-          </p>
-        </div>
-        
-        <a class="event-detail-link focus-ring" href="{{ route('event.show', $event->slug) }}">
-          Lihat Detail
-        </a>
-      </div>
-    </article>
-  @endforeach
-</div>
+                        <div id="eventGrid" class="jobs-grid event-grid">
+                            @foreach($events as $index => $event)
+                                <article class="job-card event-card reveal-onscroll"
+                                    style="transition-delay: {{ ($index % 3) * 0.05 }}s"
+                                    data-category="{{ $event->category }}"
+                                    data-status="{{ $event->status }}"
+                                    data-search="{{ strtolower($event->title . ' ' . $event->category . ' ' . $event->venue) }}">
 
+                                    <div class="event-card-media">
+                                        <img loading="lazy" src="{{ $event->banner_image ?? 'https://pexels.com' }}" alt="{{ $event->title }}">
+                                    </div>
 
-                            <p id="emptyState" class="empty-state">Belum ada event yang sesuai dengan pilihan filter
-                                ini. Coba kategori atau status lain, ya!</p>
+                                    <div class="job-card-head">
+                                        <span class="job-badge">{{ $event->category }}</span>
+                                        <span class="event-quota">{{ $event->quota }} kuota</span>
+                                    </div>
+
+                                    <a class="job-title-link" href="{{ route('event.show', $event->slug) }}">{{ $event->title }}</a>
+                                    <p class="job-description">{{ $event->short_description }}</p>
+
+                                    <div class="event-meta">
+                                        <p class="event-meta-row">
+                                            <i data-lucide="calendar" width="16" height="16"></i>
+                                            <span>{{ $event->event_date ? $event->event_date->translatedFormat('d F Y') : '-' }}</span>
+                                        </p>
+                                        <p class="event-meta-row">
+                                            <i data-lucide="clock" width="16" height="16"></i>
+                                            <span>{{ $event->time_info }}</span>
+                                        </p>
+                                        <p class="event-meta-row">
+                                            <i data-lucide="map-pin" width="16" height="16"></i>
+                                            <span>{{ $event->venue }}</span>
+                                        </p>
+                                    </div>
+
+                                    <a class="apply-button custom-pill-btn" href="{{ route('event.show', $event->slug) }}">Lihat Detail</a>
+                                </article>
+                            @endforeach
                         </div>
+
+                        <section id="empty-state" class="empty-state" aria-live="polite">
+                            <div class="empty-icon">⌕</div>
+                            <h3 style="margin:1rem 0 0;">Belum ada event yang cocok</h3>
+                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua event.</p>
+                            <button id="empty-reset" class="custom-pill-btn" type="button" style="margin-top:1rem;">Reset Filter</button>
+                        </section>
                     </div>
+                </div>
             </section>
 
             <!-- BOTTOM CTA -->
@@ -211,10 +201,10 @@
             </section>
         </main>
 
-        <x-footer-inner/>
+        <x-footer />
     </div>
 
-    <!-- Floating action buttons: back-to-top & WhatsApp, sama seperti lowongan -->
+    <!-- Floating action buttons: back-to-top & WhatsApp (tidak diubah) -->
     <div id="fab-row" class="fab-row">
         <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
             <i data-lucide="arrow-up" width="20" height="20"></i>
@@ -242,8 +232,13 @@
             var eventSection = document.getElementById("event");
             var cards = Array.prototype.slice.call(document.querySelectorAll("#eventGrid .event-card"));
             var resultCount = document.getElementById("resultCount");
-            var emptyState = document.getElementById("emptyState");
+            var filterSummary = document.getElementById("filterSummary");
+            var emptyState = document.getElementById("empty-state");
             var searchInput = document.getElementById("eventSearchInput");
+            var categoryChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-category]"));
+            var statusChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-status]"));
+            var resetButton = document.getElementById("reset-filter");
+            var emptyResetButton = document.getElementById("empty-reset");
             var category = "all";
             var status = "Upcoming";
             var fadeTimers = new WeakMap();
@@ -291,37 +286,65 @@
                     }
                 });
 
-                resultCount.textContent = visible + " event ditemukan";
-                emptyState.classList.toggle("show", visible === 0);
+                var filters = [];
+                if (query) filters.push('"' + searchInput.value.trim() + '"');
+                if (category !== "all") filters.push(category);
+                if (status !== "all") filters.push(status);
+
+                resultCount.textContent = "Menampilkan " + visible + " event";
+                filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") : "Semua event aktif";
+                emptyState.classList.toggle("is-visible", visible === 0);
             }
 
             searchInput.addEventListener("input", applyFilters);
 
-            document.querySelectorAll("[data-filter-category]").forEach(function(button) {
-                button.addEventListener("click", function() {
-                    category = button.dataset.filterCategory;
-                    document.querySelectorAll("[data-filter-category]").forEach(function(item) {
-                        item.classList.toggle("is-active", item === button);
-                    });
-                    applyFilters();
-                });
-            });
-
-            document.querySelectorAll("[data-filter-status]").forEach(function(button) {
-                button.addEventListener("click", function() {
-                    status = button.dataset.filterStatus;
-                    document.querySelectorAll("[data-filter-status]").forEach(function(item) {
-                        var isActive = item === button;
+            categoryChips.forEach(function(chip) {
+                chip.addEventListener("click", function() {
+                    category = chip.dataset.filterCategory;
+                    categoryChips.forEach(function(item) {
+                        var isActive = item === chip;
                         item.classList.toggle("is-active", isActive);
-                        item.setAttribute("aria-selected", String(isActive));
+                        item.setAttribute("aria-pressed", String(isActive));
                     });
                     applyFilters();
                 });
             });
 
-            // ---------- scroll reveal per-section: fade-up di tengah,
-            // slide-in dari kiri/kanan untuk elemen yang dikasih
-            // class .reveal-left / .reveal-right ----------
+            statusChips.forEach(function(chip) {
+                chip.addEventListener("click", function() {
+                    status = chip.dataset.filterStatus;
+                    statusChips.forEach(function(item) {
+                        var isActive = item === chip;
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-pressed", String(isActive));
+                    });
+                    applyFilters();
+                });
+            });
+
+            function resetFilters() {
+                searchInput.value = "";
+                category = "all";
+                status = "Upcoming";
+
+                categoryChips.forEach(function(chip) {
+                    var isActive = chip.dataset.filterCategory === "all";
+                    chip.classList.toggle("is-active", isActive);
+                    chip.setAttribute("aria-pressed", String(isActive));
+                });
+                statusChips.forEach(function(chip) {
+                    var isActive = chip.dataset.filterStatus === "Upcoming";
+                    chip.classList.toggle("is-active", isActive);
+                    chip.setAttribute("aria-pressed", String(isActive));
+                });
+
+                applyFilters();
+            }
+
+            resetButton.addEventListener("click", resetFilters);
+            emptyResetButton.addEventListener("click", resetFilters);
+
+            // ---------- scroll reveal per-section ----------
             var revealEls = document.querySelectorAll(".reveal-onscroll");
             var revealObserver = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -341,7 +364,7 @@
                 revealObserver.observe(el);
             });
 
-            // ---------- number counter dengan efek bounce ----------
+            // ---------- number counter dengan efek bounce (hero, tidak diubah) ----------
             function easeOutBack(t) {
                 var c1 = 1.70158, c3 = c1 + 1;
                 return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
@@ -382,30 +405,6 @@
                 }, { threshold: 0.4 });
                 counterObserver.observe(heroStats);
             }
-
-            // ---------- efek 3D tilt + ripple pada card event ----------
-            cards.forEach(function(card) {
-                card.addEventListener("mousemove", function(e) {
-                    var rect = card.getBoundingClientRect();
-                    var x = e.clientX - rect.left;
-                    var y = e.clientY - rect.top;
-                    var rotateX = ((y / rect.height) - 0.5) * -8;
-                    var rotateY = ((x / rect.width) - 0.5) * 8;
-                    card.style.transform = "perspective(900px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
-                });
-                card.addEventListener("mouseleave", function() {
-                    card.style.transform = "";
-                });
-                card.addEventListener("click", function(e) {
-                    var rect = card.getBoundingClientRect();
-                    var ripple = document.createElement("span");
-                    ripple.className = "card-ripple";
-                    ripple.style.left = (e.clientX - rect.left) + "px";
-                    ripple.style.top = (e.clientY - rect.top) + "px";
-                    card.appendChild(ripple);
-                    setTimeout(function() { ripple.remove(); }, 650);
-                });
-            });
 
             // ---------- back to top ----------
             var backToTop = document.getElementById("back-to-top");
