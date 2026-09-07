@@ -127,7 +127,7 @@
               @endif
             </div>
 
-            <a class="card-name-link" href="{{ route('alumni.show', $item->slug) }}">{{ $item->user->name }}</a>
+            <a class="card-name-link" href="{{ route('alumni.show', $item->slug ?? $item->id) }}">{{ $item->user->name }}</a>
             <p class="card-role">{{ $item->profession ?? '-' }}</p>
 
             @if($item->city)
@@ -138,7 +138,7 @@
               <p class="card-quote">“{{ \Illuminate\Support\Str::limit($item->bio, 60) }}”</p>
             @endif
 
-            <a class="profile-link" href="{{ route('alumni.show', $item->slug) }}">
+            <a class="profile-link" href="{{ route('alumni.show', $item->slug ?? $item->id) }}">
               Lihat Profil <i data-lucide="arrow-right" width="15"></i>
             </a>
           </article>
