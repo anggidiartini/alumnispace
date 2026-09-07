@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<x-navbar />
+<x-navbar-inner/>
 
 <div class="section-yellow detail-page-wrap" id="article-detail">
 
