@@ -33,7 +33,7 @@
 <body>
     <div class="page-wrap">
 
-        <x-navbar />
+        <x-navbar-inner/>
 
         <main id="top">
 
@@ -294,7 +294,7 @@
 
         </main>
 
-        <x-footer />
+        <x-footer-inner/>
     </div>
 
     <div id="toast" class="toast" role="status"></div>

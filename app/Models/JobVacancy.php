@@ -20,7 +20,6 @@ class JobVacancy extends Model
         'company_logo',
         'company_description',
         'company_maps_url',
-        'company_website',
         'company_instagram',
         'company_linkedin',
         'alumni_contact',
