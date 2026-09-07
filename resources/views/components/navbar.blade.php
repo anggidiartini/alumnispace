@@ -8,10 +8,10 @@
     <!-- Navigasi Utama Datar (Tanpa Dropdown) -->
     <div class="desktop-nav" style="display: flex; align-items: center; gap: 1.5rem;">
 
-      <!-- Beranda (kembali ke section beranda di halaman awal) -->
-      <a href="#beranda" class="nav-link-btn" data-target="#beranda" style="text-decoration: none; font-weight: 600; color: #153563;">
-        <span>Beranda</span>
-      </a>
+      <!-- Beranda -->
+<a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="nav-link-btn" style="text-decoration: none; font-weight: 600; color: #153563;">
+  <span>Beranda</span>
+</a>
 
       <!-- Alumni (menuju index alumni) -->
       <a href="{{ route('alumni.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
