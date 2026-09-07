@@ -11,7 +11,7 @@
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
-<x-navbar />
+<x-navbar-inner />
 
 <div class="section-blue">
   <div class="confetti-layer" id="confetti-blue"></div>
