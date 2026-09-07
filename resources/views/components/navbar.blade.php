@@ -5,63 +5,43 @@
       <span class="logo-text">Alumni Space</span>
     </a>
 
-    <div class="desktop-nav">
-      <!-- Dropdown Beranda -->
-      <div class="nav-drop">
-        <button class="nav-link-btn" type="button" data-dropdown aria-expanded="false">
-          <span>Beranda</span> <i data-lucide="chevron-down" class="icon-sm"></i>
-        </button>
-        <div class="drop-menu">
-          <a class="drop-item" href="#tentang" data-target="#tentang">Tentang</a>
-          <a class="drop-item" href="#statistik" data-target="#statistik">Statistik</a>
-        </div>
-      </div>
+    <!-- Navigasi Utama Datar (Tanpa Dropdown) -->
+    <div class="desktop-nav" style="display: flex; align-items: center; gap: 1.5rem;">
 
-      <!-- Dropdown Komunitas -->
-      <div class="nav-drop">
-        <button class="nav-link-btn" type="button" data-dropdown aria-expanded="false">
-          <span>Komunitas</span> <i data-lucide="chevron-down" class="icon-sm"></i>
-        </button>
-        <div class="drop-menu">
-          <a class="drop-item flex-between" href="#alumni" data-target="#alumni" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest>
-            <span>Alumni</span>
-            @guest<i data-lucide="lock" class="icon-lock"></i>@endguest
-          </a>
-          <a class="drop-item" href="#testimoni" data-target="#testimoni">Testimoni</a>
-        </div>
-      </div>
+      <!-- Beranda (kembali ke section beranda di halaman awal) -->
+      <a href="#beranda" class="nav-link-btn" data-target="#beranda" style="text-decoration: none; font-weight: 600; color: #153563;">
+        <span>Beranda</span>
+      </a>
 
-      <!-- Dropdown Media -->
-      <div class="nav-drop">
-        <button class="nav-link-btn" type="button" data-dropdown aria-expanded="false">
-          <span>Media</span> <i data-lucide="chevron-down" class="icon-sm"></i>
-        </button>
-        <div class="drop-menu">
-          <a class="drop-item" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
-          <a class="drop-item" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
-          <a class="drop-item flex-between" href="#album" data-target="#album" @guest data-auth-link data-auth-label="Album Foto" @endguest>
-            <span>Album</span>
-            @guest<i data-lucide="lock" class="icon-lock"></i>@endguest
-          </a>
-        </div>
-      </div>
+      <!-- Alumni (menuju index alumni) -->
+      <a href="{{ route('alumni.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Alumni</span>
+        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+      </a>
 
-      <!-- Dropdown Informasi -->
-      <div class="nav-drop">
-        <button class="nav-link-btn" type="button" data-dropdown aria-expanded="false">
-          <span>Informasi</span> <i data-lucide="chevron-down" class="icon-sm"></i>
-        </button>
-        <div class="drop-menu drop-right">
-          <a class="drop-item flex-between" href="#lowongan" data-target="#lowongan" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest>
-            <span>Lowongan</span>
-            @guest<i data-lucide="lock" class="icon-lock"></i>@endguest
-          </a>
-          <a class="drop-item flex-between" href="#event" data-target="#event" @guest data-auth-link data-auth-label="Agenda Event" @endguest>
-            <span>Event</span>
-            @guest<i data-lucide="lock" class="icon-lock"></i>@endguest
-          </a>
-        </div>
-      </div>
+      <!-- Lowongan (menuju index lowongan) -->
+      <a href="{{ route('lowongan.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Lowongan</span>
+        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+      </a>
+
+      <!-- Event (menuju index event) -->
+      <a href="{{ route('event.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Agenda Event" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Event</span>
+        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+      </a>
+
+      <!-- Album (menuju index album) -->
+      <a href="{{ route('album.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Album Foto" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+        <span>Album</span>
+        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+      </a>
+
+      <!-- Artikel (menuju index artikel) -->
+      <a href="{{ route('artikel.index') }}" class="nav-link-btn" style="text-decoration: none; font-weight: 600; color: #153563;">
+        <span>Artikel</span>
+      </a>
+
     </div>
 
     <!-- Bagian Kanan (Auth / User / Toggle HP) -->
@@ -98,35 +78,30 @@
     </div>
   </nav>
 
-  <!-- Menu Mobile -->
+  <!-- Menu Mobile (Disederhanakan jadi 6 menu utama) -->
   <div id="mobile-nav" class="mobile-nav-container">
     <div class="mobile-nav-content">
-      <p class="mobile-group-label">Beranda</p>
-      <a class="mobile-link" href="#tentang" data-target="#tentang">Tentang</a>
-      <a class="mobile-link" href="#statistik" data-target="#statistik">Statistik</a>
+      <a class="mobile-link" href="#beranda" data-target="#beranda">Beranda</a>
 
-      <p class="mobile-group-label">Komunitas</p>
-      <a class="mobile-link flex-between" href="#alumni" data-target="#alumni">
+      <a class="mobile-link flex-between" href="{{ route('alumni.index') }}">
         <span>Alumni</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
-      <a class="mobile-link" href="#testimoni" data-target="#testimoni">Testimoni</a>
 
-      <p class="mobile-group-label">Media</p>
-      <a class="mobile-link" href="#media" data-target="#media" data-tab-target="articles">Artikel</a>
-      <a class="mobile-link" href="#media" data-target="#media" data-tab-target="gallery">Galeri</a>
-      <a class="mobile-link flex-between" href="#album" data-target="#album">
-        <span>Album</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
-      </a>
-
-      <p class="mobile-group-label">Informasi</p>
-      <a class="mobile-link flex-between" href="#lowongan" data-target="#lowongan">
+      <a class="mobile-link flex-between" href="{{ route('lowongan.index') }}">
         <span>Lowongan</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
-      <a class="mobile-link flex-between" href="#event" data-target="#event">
+
+      <a class="mobile-link flex-between" href="{{ route('event.index') }}">
         <span>Event</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <div class="mobile-auth-footer">
+      <a class="mobile-link flex-between" href="{{ route('album.index') }}">
+        <span>Album</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+      </a>
+
+      <a class="mobile-link" href="{{ route('artikel.index') }}">Artikel</a>
+
+      <div class="mobile-auth-footer" style="margin-top: 1.5rem;">
         @guest
         <a href="{{ route('login') }}" class="btn-primary-block">Masuk / Login</a>
         @else

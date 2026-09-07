@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<x-navbar-inner/>
+<x-navbar />
 
 <div class="section-yellow detail-page-wrap">
 

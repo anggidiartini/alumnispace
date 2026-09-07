@@ -13,7 +13,7 @@
 </head>
 <body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
-<x-navbar-inner />
+<x-navbar />
 
 <main>
   <section class="hero-section dot-grid" style="background: linear-gradient(135deg, rgb(234, 244, 255), rgb(255, 254, 249));">

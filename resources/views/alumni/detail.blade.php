@@ -14,7 +14,7 @@
 </head>
 <body class="alumni-page-body ad-body">
 
-<x-navbar-inner  />
+<x-navbar  />
 
 <main>
   <section class="ad-section dot-grid">

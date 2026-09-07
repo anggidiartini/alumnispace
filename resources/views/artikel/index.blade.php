@@ -14,7 +14,7 @@
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
-<x-navbar-inner/>
+<x-navbar />
 
 @php
     /*
