@@ -61,6 +61,9 @@
               <p class="text-sm font-medium text-[#355277]"><strong>{{ number_format($stats['total_alumni'] ?? 2540) }}+</strong> teman alumni sudah terdaftar!</p>
             </div>
           </div>
+
+
+
          <div class="relative mx-auto w-full max-w-lg reveal flex items-center justify-center" style="animation-delay:.15s">
     <!-- 1. Blob latar belakang biru muda asli -->
     <div class="checker blob aspect-square w-full max-w-[480px] p-7 flex items-center justify-center">

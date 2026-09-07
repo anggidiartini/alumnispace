@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --color-primary: #0a4174; --color-secondary: #7bbde8;
@@ -117,8 +117,9 @@
                             <p style="font-size: 12px; font-weight: 600; color: #ffffff;">Admin</p>
                         </div>
                     </div>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
+                        <input type="hidden" name="redirect_to" value="admin.dashboard">
                         <button type="submit" style="background: none; border: none; color: var(--color-secondary); cursor: pointer;" title="Logout">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </button>

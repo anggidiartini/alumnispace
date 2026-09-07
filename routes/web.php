@@ -73,5 +73,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::delete('/content/{id}', [ContentManagementController::class, 'destroy'])->name('content.destroy');
     Route::put('/settings', [ContentManagementController::class, 'updateSettings'])->name('settings.update');
 
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });

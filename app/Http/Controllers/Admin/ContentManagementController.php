@@ -53,7 +53,7 @@ class ContentManagementController extends Controller
             ]);
         }
 
-        return view('admin.content.index', compact('contents', 'settings'));
+        return view('admin.dashboard.index', compact('contents', 'settings'));
     }
 
     public function dashboard()
