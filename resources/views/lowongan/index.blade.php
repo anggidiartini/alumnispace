@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="site-shell page-wrap">
-    <x-navbar-inner/>
+    <x-navbar />
 
     <main>
       <!-- HERO -->
@@ -342,4 +342,4 @@
     });
   </script>
 </body>
-</html> 
+</html>
