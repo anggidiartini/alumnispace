@@ -6,6 +6,11 @@
 
    Navbar & footer TIDAK punya CSS di sini — halaman pakai
    <x-navbar /> dan <x-footer />, sudah ditangani navbar.css.
+
+   REVISI: tambahan style untuk .job-company-link dan
+   .company-head-link — dulu elemen ini <p>/<div> polos,
+   sekarang jadi <a> yang mengarah ke halaman detail
+   perusahaan, jadi butuh state hover/focus yang jelas.
    ========================================================= */
 
 :root {
@@ -14,9 +19,17 @@
     --blue-deep: #2e72ec;
     --soft: #e7f0ff;
     --pink: #f5dce8;
+    --pink-strong: #ffb2d2;
     --yellow: #f8edb8;
-    --cream: #f9fbff;
+    --lemon: #fff06b;
+    --coral: #ff9466;
+    --lav: #cfc6ff;
+    --sky: #9fdcff;
+    --mint: #aaf0d1;
+    --cream: #fffaf0;
     --muted: #355277;
+    --wa-green: #25d366;
+    --wa-green-deep: #14893f;
 }
 
 * { box-sizing: border-box; }
@@ -27,7 +40,11 @@ body {
     margin: 0;
     font-family: "DM Sans", sans-serif;
     color: var(--ink);
-    background: #fffdf7;
+    background-color: var(--cream);
+    background-image:
+        linear-gradient(rgba(46, 114, 236, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 114, 236, 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
     overflow-x: hidden;
 }
 
@@ -113,6 +130,54 @@ img { display: block; max-width: 100%; }
 #save-button .saved-label { display: none; }
 #save-button.saved .saved-label { display: inline; }
 
+/* ---------- tombol Lamar via WhatsApp (fallback) ---------- */
+/* Disamakan sama tombol "Lamar via WhatsApp" di halaman daftar
+   lowongan: pill hijau, border tebal senada, icon dibungkus
+   lingkaran putih kecil di kiri teks. */
+
+.whatsapp-pill-btn {
+    background-color: #d6f3df;
+    color: #146c3a;
+    border: 3px solid #146c3a;
+    border-radius: 9999px;
+    font-weight: 700;
+    box-shadow: 0 6px 0 #146c3a;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.85rem 1.4rem 0.85rem 0.7rem;
+}
+.whatsapp-pill-btn:hover { background-color: #c2ecd0; transform: translateY(-3px); box-shadow: 0 9px 0 #146c3a; }
+.whatsapp-pill-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 #146c3a; }
+.whatsapp-pill-btn.full-width { width: 100%; margin-top: 1.5rem; }
+
+.whatsapp-pill-icon {
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #146c3a;
+}
+
+/* tombol dalam baris aksi hero (Simpan Lowongan + Lamar/WA) dibuat
+   seragam ukurannya biar rapi berdampingan, samain kayak tombol
+   apply/detail di card listing lowongan */
+.job-hero-actions .custom-white-pill-btn,
+.job-hero-actions .custom-pill-btn,
+.job-hero-actions .whatsapp-pill-btn {
+    flex: 1 1 auto;
+    font-size: 0.85rem;
+    padding: 0.65rem 1rem;
+    white-space: nowrap;
+}
+
 /* ---------- breadcrumb ---------- */
 
 .breadcrumb-wrap { padding-top: 2rem; padding-bottom: 1rem; }
@@ -134,8 +199,8 @@ img { display: block; max-width: 100%; }
     background: var(--soft);
     color: var(--ink);
 }
-.tag-sun, .tag-yellow { background: var(--yellow); color: #9b6900; }
-.tag-pink { background: var(--pink); color: #b94669; }
+.tag-sun, .tag-yellow { background: var(--lemon); color: #7a5c00; }
+.tag-pink { background: var(--pink-strong); color: #a83366; }
 .tag-blue { background: var(--blue); color: #fff; }
 .tag-blue-soft { background: var(--soft); color: var(--blue-deep); }
 .tag-white { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(29,74,146,.1); }
@@ -150,15 +215,24 @@ img { display: block; max-width: 100%; }
     position: relative;
     overflow: hidden;
     border-radius: 1.75rem;
-    background: #fff;
-    border: 1px solid rgba(29,74,146,.08);
-    box-shadow: 0 14px 35px rgba(29,74,146,.09);
+    background: linear-gradient(120deg, #ffffff 0%, #f6fbff 55%, #fff8db 100%);
+    border: 2px solid #fff;
+    box-shadow: 0 14px 35px rgba(29,74,146,.12);
     padding: 1.75rem;
 }
 
-.job-hero-blob { position: absolute; opacity: .8; }
-.job-hero-blob-1 { right: -3rem; top: -3rem; width: 10rem; height: 10rem; background: var(--yellow); }
-.job-hero-blob-2 { right: 6rem; bottom: -1rem; width: 6rem; height: 6rem; background: var(--pink); }
+.job-hero-blob { position: absolute; opacity: .85; animation: heroBlobFloat 6s ease-in-out infinite; }
+.job-hero-blob-1 { right: -3rem; top: -3rem; width: 10rem; height: 10rem; background: var(--lemon); }
+.job-hero-blob-2 { right: 6rem; bottom: -1rem; width: 6rem; height: 6rem; background: var(--pink-strong); animation-delay: -2s; }
+.job-hero-blob-3 { right: 20%; top: 1.5rem; width: 3.5rem; height: 3.5rem; background: var(--lav); animation-delay: -4s; }
+
+@keyframes heroBlobFloat {
+    50% { transform: translateY(10px) rotate(6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .job-hero-blob { animation: none; }
+}
 
 .job-hero-inner {
     position: relative;
@@ -178,7 +252,16 @@ img { display: block; max-width: 100%; }
     line-height: 1.1;
     color: var(--ink);
 }
-.job-company { margin-top: 0.6rem; font-size: 1.05rem; font-weight: 700; color: var(--blue-deep); }
+.job-company {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--blue-deep);
+}
+.job-company-link { transition: color .2s ease, text-decoration-color .2s ease; }
+.job-company-link:hover,
+.job-company-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 
 .job-meta {
     margin-top: 1.1rem;
@@ -201,13 +284,26 @@ img { display: block; max-width: 100%; }
     margin-top: 1.5rem;
 }
 .summary-card {
+    position: relative;
     background: #fff;
     border: 1px solid rgba(29,74,146,.08);
     border-radius: 1.4rem;
     box-shadow: 0 10px 24px rgba(29,74,146,.08);
     padding: 1.1rem;
+    overflow: hidden;
 }
+.summary-card:before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--sky);
+}
+.summary-card:nth-child(2):before { background: var(--pink-strong); }
+.summary-card:nth-child(3):before { background: var(--lav); }
+.summary-card:nth-child(4):before { background: var(--lemon); }
 .summary-card-highlight { background: var(--yellow); }
+.summary-card-highlight:before { background: var(--coral); }
 .summary-label { margin-top: 0.7rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; }
 .summary-value { margin-top: 0.25rem; font-weight: 700; color: var(--ink); }
 
@@ -284,6 +380,18 @@ img { display: block; max-width: 100%; }
 }
 .company-body { padding: 1.5rem; }
 .company-head { display: flex; gap: 1rem; align-items: flex-start; }
+
+.company-head-link {
+    border-radius: 1rem;
+    padding: 0.4rem;
+    margin: -0.4rem;
+    transition: background-color .2s ease, transform .2s ease;
+}
+.company-head-link:hover,
+.company-head-link:focus-visible {
+    background-color: var(--soft);
+    transform: translateY(-2px);
+}
 
 .company-avatar {
     width: 3.5rem;
@@ -397,6 +505,7 @@ img { display: block; max-width: 100%; }
     bottom: 1.25rem;
     z-index: 65;
     display: flex;
+    flex-direction: column-reverse;
     align-items: center;
     gap: 0.75rem;
 }

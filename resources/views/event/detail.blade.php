@@ -28,6 +28,11 @@
     $galleryImages = collect($event->galleries)->map(function ($item) {
         return is_string($item) ? $item : ($item->image_path ?? $item->url ?? null);
     })->filter()->values();
+
+    // Fallback lamar/tanya via WhatsApp untuk widget bantuan mengambang.
+    $waHelpNumber = '6281234567890';
+    $waHelpUrl = 'https://wa.me/' . $waHelpNumber
+        . '?text=' . urlencode('Halo Alumni Space, saya mau tanya soal event ' . $event->title);
 @endphp
 <!doctype html>
 <html lang="id">
@@ -58,6 +63,7 @@
 
                 {{-- ================= HERO ================= --}}
                 <section class="hero-card" data-reveal>
+                    <span class="blob-extra" aria-hidden="true"></span>
                     <div class="hero-copy">
                         @if($event->category)
                             <span class="category-badge">{{ $event->category }}</span>
@@ -137,10 +143,19 @@
 
                     {{-- ================= KONTEN ================= --}}
                     <div class="article-stack">
-                        <article class="content-card" data-reveal>
-                            <h2 class="card-heading">Tentang Event</h2>
-                            <p class="card-copy">{{ $event->description }}</p>
-                        </article>
+
+                        {{-- "Tentang Event" — disamakan persis sama section
+                             "Deskripsi Pekerjaan" di detail-lowongan.blade.php:
+                             kartu .detail-card + .accordion-button. --}}
+                        <section class="detail-card" data-reveal>
+                            <button type="button" class="accordion-button" aria-expanded="true">
+                                <span>Tentang Event</span>
+                                <i data-lucide="chevron-down" width="22" height="22"></i>
+                            </button>
+                            <div class="accordion-panel">
+                                <p class="section-text">{{ $event->description }}</p>
+                            </div>
+                        </section>
 
                         <article class="content-card" data-reveal>
                             <h2 class="card-heading">Detail Lokasi</h2>
@@ -236,6 +251,27 @@
         <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
         <img id="lightboxImage" src="" alt="">
     </div>
+
+    {{-- ================= FLOATING: WhatsApp (atas) + on-top (bawah) ================= --}}
+    <div id="fab-row" class="fab-row">
+        <button id="back-to-top" type="button" aria-label="Kembali ke atas">
+            <i data-lucide="arrow-up" width="20" height="20"></i>
+        </button>
+
+        <div id="wa-widget">
+            <div id="wa-bubble" class="wa-bubble">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                    <p class="wa-bubble-title">Ada pertanyaan?</p>
+                    <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i data-lucide="x" width="16" height="16"></i></button>
+                </div>
+                <p class="wa-bubble-text">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+                <p class="wa-bubble-number">+62 812-3456-7890</p>
+            </div>
+            <a id="wa-button" href="{{ $waHelpUrl }}" target="_blank" rel="noopener" class="wa-pulse" aria-label="Hubungi kami via WhatsApp">
+                <i data-lucide="message-circle" width="26" height="26"></i>
+            </a>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -248,5 +284,6 @@
     };
 </script>
 <script src="{{ asset('js/detail-event.js') }}"></script>
+<script src="{{ asset('js/detail-event-floating.js') }}"></script>
 </body>
 </html>
