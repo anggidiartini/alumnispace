@@ -497,3 +497,10 @@ document.addEventListener("DOMContentLoaded", function () {
         setInterval(() => nextBtn.click(), 4000);
     }
 })();
+
+/* ------------------------------------------------------------------
+ * Galeri: pasang foto dari data-bg attribute
+ * ------------------------------------------------------------------ */
+document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
+    el.style.backgroundImage = `url(${el.dataset.bg})`;
+});

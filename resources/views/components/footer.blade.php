@@ -5,10 +5,14 @@
 
         {{-- ===== TOP: BRAND + COLUMNS ===== --}}
         <div class="as-footer__top">
-
-            <div class="as-footer__brand">
-                <p class="as-footer__logo">✦ Alumni Space</p>
-                <h2 class="as-footer__headline">
+<div class="as-footer__brand">
+    <div class="as-footer__logo-row">
+        <span class="as-footer__logo-badge">
+            <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space">
+        </span>
+        <span class="as-footer__logo-text">Alumni Space</span>
+    </div>
+    <h2 class="as-footer__headline">
                     Koneksi yang terasa dekat,
                     <span>meski sudah jauh dari almamater.</span>
                 </h2>

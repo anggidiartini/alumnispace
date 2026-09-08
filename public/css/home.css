@@ -1875,3 +1875,9 @@ h3 {
         max-width: 260px;
     }
 }
+
+.galeri-photo {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}

@@ -1,12 +1,12 @@
 <header class="custom-header">
   <nav class="custom-nav-container" aria-label="Navigasi utama">
-    <a href="#beranda" class="custom-logo" data-target="#beranda">
-      <span class="logo-icon logo-spin">✦</span>
-      <span class="logo-text">Alumni Space</span>
-    </a>
+   <a href="#beranda" class="custom-logo" data-target="#beranda">
+  <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space" class="logo-spin" style="height: 2.25rem; width: auto;">
+  <span class="logo-text">Alumni Space</span>
+</a>
 
     <!-- Navigasi Utama Datar (Tanpa Dropdown) -->
-    <div class="desktop-nav" style="display: flex; align-items: center; gap: 1.5rem;">
+    <div class="desktop-nav" style="align-items: center; gap: 1.5rem;">
 
       <!-- Beranda -->
 <a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="nav-link-btn" style="text-decoration: none; font-weight: 600; color: #153563;">
