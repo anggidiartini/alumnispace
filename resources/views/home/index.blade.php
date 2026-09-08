@@ -29,7 +29,7 @@
       <!-- HERO SECTION -->
       <section id="beranda" class="grid-paper relative isolate overflow-hidden">
         <div class="blob blob-drift absolute -left-20 top-12 h-56 w-56 bg-[#ffd9e7] opacity-80"></div>
-        <div class="absolute right-8 top-16 text-4xl text-[#f2b600] spin-slow">✦</div>
+
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
             @auth
@@ -88,9 +88,13 @@
 </div>
       </section>
 
+
+
       <!-- TENTANG KAMI -->
-      <section id="tentang" class="mx-auto max-w-7xl px-5 py-20">
-        <div class="tentang-container">
+      <section id="tentang" class="relative isolate overflow-hidden">
+  <div class="blob blob-drift absolute h-56 w-56 bg-[#a8d3ff] opacity-80" style="right: -5rem; top: 2rem;"></div>
+  <div class="mx-auto max-w-7xl px-5 py-20">
+    <div class="tentang-container">
 
           <!-- KOLASE DI KIRI -->
           <div class="kolase-wrapper reveal-onscroll">
@@ -119,9 +123,10 @@
       </section>
 
       <!-- STATISTIK -->
-      <section id="statistik" class="bg-[#eaf3ff] py-20">
-        <div class="mx-auto max-w-7xl px-5 md:px-8">
-          <div class="mb-9 flex flex-wrap items-end justify-between gap-4 reveal-onscroll">
+      <section id="statistik" class="relative overflow-hidden bg-[#eaf3ff] grid-paper-dark py-20">
+  <div class="blob blob-drift absolute -left-20 top-12 h-56 w-56 bg-[#ffd9e7] opacity-80"></div>
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="mb-9 flex flex-wrap items-end justify-between gap-4 reveal-onscroll">
             <div>
               <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Angka yang bikin senyum</p>
               <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kita tumbuh bareng.</h2>
@@ -247,39 +252,66 @@
       </section>
 
       <!-- TESTIMONI -->
-      <section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">
-        <span class="absolute left-8 top-8 text-5xl text-[#fff0a9] floaty-slow">✦</span>
-        <span class="absolute bottom-5 right-10 text-7xl text-[#ffb8d0] floaty">⌁</span>
-        <div class="mx-auto max-w-5xl px-5 text-center md:px-8">
-          <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold reveal-onscroll">Cerita dari teman</p>
-          <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
-          <div class="relative mx-auto mt-10 max-w-3xl reveal-onscroll">
-            @forelse($testimonials ?? [] as $index => $testi)
-            <article class="testimonial {{ $index == 0 ? 'active' : '' }} rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
-              <p class="text-2xl font-bold leading-relaxed">"{{ $testi->quote }}"</p>
-              <div class="mt-7 flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-full bg-[#ffd9e7] font-bold">{{ strtoupper(substr($testi->name, 0, 2)) }}</span>
-                <p class="text-sm font-bold text-[#355277]">{{ $testi->name }} · {{ $testi->profession ?? ('Angkatan ' . $testi->graduation_year) }}</p>
-              </div>
-            </article>
-            @empty
-            <article class="testimonial active rounded-[2rem] bg-white p-8 text-left text-[#153563] shadow-2xl md:p-10">
-              <p class="text-2xl font-bold leading-relaxed">"Lewat Alumni Space, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!"</p>
-              <div class="mt-7 flex items-center gap-3">
-                <span class="grid h-11 w-11 place-items-center rounded-full bg-[#ffd9e7] font-bold">AL</span>
-                <p class="text-sm font-bold text-[#355277]">Alya Lestari · Angkatan 2015</p>
-              </div>
-            </article>
-            @endforelse
+<section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">
+  <span class="absolute left-8 top-8 text-5xl text-[#fff0a9] floaty-slow">✦</span>
+  <span class="absolute bottom-5 right-10 text-7xl text-[#ffb8d0] floaty">⌁</span>
+  <div class="mx-auto max-w-6xl px-5 text-center md:px-8">
+    <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold reveal-onscroll">Cerita dari teman</p>
+    <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
 
-            <div class="mt-6 flex justify-center gap-3">
-              <button id="prev-testimonial" class="focus-ring grid h-11 w-11 place-items-center rounded-full bg-white text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Testimoni sebelumnya"><i data-lucide="arrow-left" class="h-5 w-5"></i></button>
-              <button id="next-testimonial" class="focus-ring grid h-11 w-11 place-items-center rounded-full bg-[#ffb8d0] text-[#153563] transition hover:-translate-y-0.5" type="button" aria-label="Testimoni berikutnya"><i data-lucide="arrow-right" class="h-5 w-5"></i></button>
+    <div class="testi-carousel-wrap mt-12 reveal-onscroll">
+      <button id="prev-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni sebelumnya">
+        <i data-lucide="chevron-left" class="h-5 w-5"></i>
+      </button>
+
+      <div class="testi-track" id="testi-track">
+        @forelse($testimonials ?? [] as $index => $testi)
+        <article class="testi-card" data-index="{{ $index }}">
+          <span class="testi-quote-mark">&ldquo;</span>
+          <div class="testi-stars" aria-label="Rating {{ $testi->rating ?? 5 }} dari 5">
+            @for ($s = 1; $s <= 5; $s++)
+              <i data-lucide="star" class="h-4 w-4 {{ $s <= ($testi->rating ?? 5) ? 'is-filled' : '' }}"></i>
+            @endfor
+          </div>
+          <p class="testi-quote mt-4 text-left leading-relaxed text-[#355277]">{{ $testi->quote }}</p>
+          <div class="mt-6 flex items-center gap-3 border-t border-blue-50 pt-5">
+            @if($testi->avatar)
+              <img src="{{ $testi->avatar }}" alt="{{ $testi->name }}" class="h-12 w-12 shrink-0 rounded-full object-cover border-2 border-[#eaf3ff]">
+            @else
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563]">{{ strtoupper(substr($testi->name, 0, 2)) }}</span>
+            @endif
+            <div class="text-left">
+              <p class="font-bold text-[#153563]">{{ $testi->name }}</p>
+              <p class="text-xs font-semibold text-[#6f9fe8]">{{ $testi->profession ?? ('Angkatan ' . $testi->graduation_year) }}</p>
             </div>
           </div>
-        </div>
-      </section>
+        </article>
+        @empty
+        <article class="testi-card" data-index="0">
+          <span class="testi-quote-mark">&ldquo;</span>
+          <div class="testi-stars">
+            @for ($s = 1; $s <= 5; $s++)<i data-lucide="star" class="h-4 w-4 is-filled"></i>@endfor
+          </div>
+          <p class="testi-quote mt-4 text-left leading-relaxed text-[#355277]">Lewat Alumni Space, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!</p>
+          <div class="mt-6 flex items-center gap-3 border-t border-blue-50 pt-5">
+            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563]">AL</span>
+            <div class="text-left">
+              <p class="font-bold text-[#153563]">Alya Lestari</p>
+              <p class="text-xs font-semibold text-[#6f9fe8]">Angkatan 2015</p>
+            </div>
+          </div>
+        </article>
+        @endforelse
+      </div>
 
+      <button id="next-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni berikutnya">
+        <i data-lucide="chevron-right" class="h-5 w-5"></i>
+      </button>
+    </div>
+
+    <div class="testi-dots mt-7" id="testi-dots"></div>
+  </div>
+</section>
       <!-- SECTION 1: GALERI (KOLASE) -->
 <section id="galeri" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
@@ -333,7 +365,7 @@
       </section>
 
       <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
-      <section id="album" class="auth-section @auth unlocked @endauth bg-[#f5f9ff] py-20">
+      <section id="album" class="auth-section @auth unlocked @endauth bg-[#f5f9ff] grid-paper-dark py-20">
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
             <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
@@ -388,7 +420,7 @@
       </section>
 
       <!-- FITUR 4: AGENDA EVENT (GATED) -->
-      <section id="event" class="auth-section @auth unlocked @endauth bg-[#eaf3ff] py-20">
+      <section id="event" class="auth-section @auth unlocked @endauth bg-[#eaf3ff] grid-paper-dark py-20">
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
             <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Agenda komunitas</p>

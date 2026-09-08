@@ -435,3 +435,56 @@ document.addEventListener("DOMContentLoaded", function () {
         }, intervalTime);
     }
 });
+
+(function () {
+    const track = document.getElementById("testi-track");
+    if (!track) return;
+
+    const cards = Array.from(track.querySelectorAll(".testi-card"));
+    const dotsWrap = document.getElementById("testi-dots");
+    const total = cards.length;
+    if (total === 0) return;
+
+    let current = 0;
+
+    cards.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "testi-dot";
+        dot.setAttribute("aria-label", "Ke testimoni " + (i + 1));
+        dot.addEventListener("click", () => {
+            current = i;
+            render();
+        });
+        dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function render() {
+        cards.forEach((card, i) => {
+            card.classList.remove("is-prev", "is-active", "is-next");
+            if (i === current) card.classList.add("is-active");
+            else if (i === (current - 1 + total) % total)
+                card.classList.add("is-prev");
+            else if (i === (current + 1) % total) card.classList.add("is-next");
+        });
+        dots.forEach((dot, i) =>
+            dot.classList.toggle("is-active", i === current),
+        );
+    }
+
+    document
+        .getElementById("prev-testimonial")
+        .addEventListener("click", () => {
+            current = (current - 1 + total) % total;
+            render();
+        });
+    document
+        .getElementById("next-testimonial")
+        .addEventListener("click", () => {
+            current = (current + 1) % total;
+            render();
+        });
+
+    render();
+})();

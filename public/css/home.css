@@ -46,6 +46,13 @@ h3 {
     background-size: 25px 25px;
 }
 
+.grid-paper-dark {
+    background-image:
+        linear-gradient(rgba(46, 114, 236, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 114, 236, 0.18) 1px, transparent 1px);
+    background-size: 25px 25px;
+}
+
 .checker {
     background-color: #edf4ff;
     background-image:
@@ -1492,7 +1499,7 @@ h3 {
 .marquee-strip {
     overflow: hidden;
     white-space: nowrap;
-    background-color: #eaf3ff;
+    background-color: #6798c9;
     border-top: 3px dashed #a8d3ff;
     border-bottom: 3px dashed #a8d3ff;
     padding: 0.875rem 0;
@@ -1712,5 +1719,149 @@ h3 {
     .galeri-kolase-grid .g-item:nth-child(6) {
         grid-column: auto;
         grid-row: auto;
+    }
+}
+/* ===== Testimoni: carousel 3 kartu ===== */
+.testi-carousel-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.testi-track {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 1.5rem;
+    overflow: hidden;
+    width: 100%;
+    max-width: 58rem;
+    padding: 1.5rem 0;
+}
+
+.testi-card {
+    display: none;
+    position: relative;
+    flex: 0 0 auto;
+    width: 250px;
+    text-align: left;
+    border-radius: 1.75rem;
+    background: #ffffff;
+    padding: 1.75rem 1.5rem 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    opacity: 0.45;
+    transform: scale(0.84);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.testi-card.is-prev,
+.testi-card.is-next {
+    display: flex;
+    flex-direction: column;
+}
+
+.testi-card.is-active {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.28);
+    z-index: 2;
+}
+
+.testi-quote-mark {
+    position: absolute;
+    top: 0.5rem;
+    right: 1.25rem;
+    font-family: Georgia, serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: #eaf3ff;
+    z-index: 0;
+}
+
+.testi-stars {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 0.15rem;
+    color: #e2e8f0;
+}
+
+.testi-stars .is-filled {
+    color: #f2c34c;
+    fill: #f2c34c;
+}
+
+.testi-quote {
+    position: relative;
+    z-index: 1;
+    font-size: 0.95rem;
+}
+
+.testi-card.is-active .testi-quote {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.testi-arrow {
+    display: grid;
+    place-items: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    color: #153563;
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.testi-arrow:hover {
+    transform: translateY(-2px);
+    background-color: #ffb8d0;
+}
+
+.testi-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.testi-dot {
+    height: 0.55rem;
+    width: 0.55rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.35);
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.testi-dot.is-active {
+    background: #ffffff;
+    transform: scale(1.25);
+}
+
+@media (max-width: 767px) {
+    .testi-card.is-prev,
+    .testi-card.is-next {
+        display: none;
+    }
+    .testi-card.is-active {
+        width: 100%;
+        max-width: 320px;
     }
 }
