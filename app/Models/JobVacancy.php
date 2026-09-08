@@ -93,4 +93,9 @@ class JobVacancy extends Model
 
         return null;
     }
+
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 }

@@ -26,7 +26,7 @@ class JobVacancyController extends Controller
             });
         }
 
-        $jobs = $query->latest()->get();
+       $jobs = $query->with('company')->latest()->get();
         $totalActive = JobVacancy::where('is_active', true)->count();
 
         return view('lowongan.index', compact('jobs', 'totalActive'));
@@ -39,13 +39,14 @@ class JobVacancyController extends Controller
      */
     public function show($slug)
     {
-        $job = JobVacancy::where('slug', $slug)->firstOrFail();
+        $job = JobVacancy::with('company')->where('slug', $slug)->firstOrFail();
+
 
         $relatedJobs = JobVacancy::where('is_active', true)
             ->where('id', '!=', $job->id)
             ->where(function ($q) use ($job) {
                 $q->where('category', $job->category)
-                  ->orWhere('job_type', $job->job_type);
+                ->orWhere('job_type', $job->job_type);
             })
             ->take(3)
             ->get();
