@@ -61,6 +61,51 @@
       </div>
     </div>
 
+    {{-- =========================================================
+         GALERI FOTO ALBUM (banyak foto + lightbox)
+         Asumsi relasi: $album->photos (hasMany), tiap item punya
+         salah satu dari field: photo_path / path / image.
+         Kalau nama relasi/field beda di backend, tinggal sesuaikan
+         2 baris yang ditandai "SESUAIKAN" di bawah.
+    ========================================================== --}}
+    @if(isset($album->photos) && $album->photos->count())
+    <div class="gallery-head reveal-pop">
+      <h2>Galeri <span class="marker">Foto</span></h2>
+      <div class="count">{{ $album->photos->count() }} foto</div>
+    </div>
+
+    <div class="photo-gallery">
+      @foreach($album->photos as $i => $photo)
+        @php
+          // SESUAIKAN: ganti/tambah field sesuai nama kolom di tabel photo kamu
+          $photoUrl = $photo->photo_path ?? $photo->path ?? $photo->image ?? null;
+        @endphp
+        @if($photoUrl)
+        <div class="gallery-item reveal-pop" style="--pop-delay: {{ min($i * 0.06, 0.6) }}s"
+             data-src="{{ asset($photoUrl) }}" data-index="{{ $i }}">
+          <img src="{{ asset($photoUrl) }}" alt="{{ $album->title }} - foto {{ $i + 1 }}" loading="lazy">
+          <span class="gallery-zoom-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4">
+              <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+            </svg>
+          </span>
+        </div>
+        @endif
+      @endforeach
+    </div>
+
+    {{-- ====== LIGHTBOX OVERLAY ====== --}}
+    <div class="lightbox-overlay" id="lightboxOverlay">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Foto sebelumnya">&larr;</button>
+      <div class="lightbox-stage">
+        <img src="" alt="" id="lightboxImage" class="lightbox-image">
+        <div class="lightbox-counter"><span id="lightboxCurrent">1</span> / <span id="lightboxTotal">0</span></div>
+      </div>
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto selanjutnya">&rarr;</button>
+    </div>
+    @endif
+
     @if(isset($relatedAlbums) && $relatedAlbums->count())
     <div class="related-head reveal-pop">
       <h2>Album <span class="marker">Lainnya</span></h2>
@@ -95,7 +140,7 @@
 
 <script>
 (function(){
-  // ---------- SCROLL REVEAL UNTUK RELATED-HEAD / RELATED-CARD ----------
+  // ---------- SCROLL REVEAL UNTUK RELATED-HEAD / RELATED-CARD / GALLERY-HEAD / GALLERY-ITEM ----------
   var popEls = document.querySelectorAll('.reveal-pop');
   if(popEls.length){
     var popIo = new IntersectionObserver(function(entries){
@@ -114,6 +159,73 @@
     });
   }
 
+  // ---------- PHOTO GALLERY LIGHTBOX ----------
+  var items = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
+  if(items.length){
+    var overlay   = document.getElementById('lightboxOverlay');
+    var imgEl     = document.getElementById('lightboxImage');
+    var closeBtn  = document.getElementById('lightboxClose');
+    var prevBtn   = document.getElementById('lightboxPrev');
+    var nextBtn   = document.getElementById('lightboxNext');
+    var currentEl = document.getElementById('lightboxCurrent');
+    var totalEl   = document.getElementById('lightboxTotal');
+
+    var sources = items.map(function(el){ return el.dataset.src; });
+    var currentIndex = 0;
+
+    totalEl.textContent = sources.length;
+
+    function openLightbox(index){
+      currentIndex = index;
+      updateImage();
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function updateImage(){
+      imgEl.classList.remove('pop');
+      // force reflow biar animasi pop ulang tiap ganti foto
+      void imgEl.offsetWidth;
+      imgEl.src = sources[currentIndex];
+      imgEl.classList.add('pop');
+      currentEl.textContent = currentIndex + 1;
+    }
+
+    function showPrev(){
+      currentIndex = (currentIndex - 1 + sources.length) % sources.length;
+      updateImage();
+    }
+    function showNext(){
+      currentIndex = (currentIndex + 1) % sources.length;
+      updateImage();
+    }
+
+    items.forEach(function(el){
+      el.addEventListener('click', function(){
+        openLightbox(parseInt(el.dataset.index, 10));
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    prevBtn.addEventListener('click', showPrev);
+    nextBtn.addEventListener('click', showNext);
+
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(!overlay.classList.contains('active')) return;
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowLeft') showPrev();
+      if(e.key === 'ArrowRight') showNext();
+    });
+  }
 })();
 
 const menuToggle = document.getElementById('menuToggle');

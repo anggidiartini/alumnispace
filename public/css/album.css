@@ -836,8 +836,8 @@ h1.title .pop {
 .album-grid {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 26px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
     padding-bottom: 100px;
     z-index: 2;
 }
@@ -931,7 +931,7 @@ h1.title .pop {
 
 .card-photo {
     width: 100%;
-    height: 230px;
+    height: 190px;
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -1045,11 +1045,23 @@ h1.title .pop {
 }
 
 .date {
-    font-size: 13px;
-    color: var(--ink-soft);
-    font-weight: 500;
-    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 12.5px;
+    color: var(--home-text-soft);
+    font-weight: 600;
+    margin-bottom: 10px;
     font-family: "Baloo 2", sans-serif;
+    background: #ffffff;
+    border: 2px solid var(--navy);
+    border-radius: 999px;
+    padding: 5px 12px;
+}
+
+.date-icon {
+    flex-shrink: 0;
 }
 
 /* Sedikit cuplikan deskripsi dari database, senada job-description temen */
@@ -1196,6 +1208,10 @@ h1.title .pop {
     .subtitle {
         margin-left: auto;
         margin-right: auto;
+    }
+    .album-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
     .photo-stack {
         justify-self: center;
@@ -1486,6 +1502,255 @@ h1.title .pop {
     }
     .detail-info-col h1 {
         font-size: 26px;
+    }
+}
+
+/* =========================================
+   GALERI FOTO ALBUM (grid rapi ala Instagram) — halaman detail
+   ========================================= */
+.gallery-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    max-width: 1080px;
+    margin: 0 auto 20px;
+    padding-top: 10px;
+    border-top: 2px dashed rgba(44, 62, 80, 0.25);
+    position: relative;
+    z-index: 2;
+}
+.gallery-head h2 {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+.gallery-head .count {
+    font-family: "Baloo 2", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--dewy);
+    padding: 5px 12px;
+    border-radius: 20px;
+    align-self: center;
+}
+
+.photo-gallery {
+    max-width: 1080px;
+    margin: 0 auto 70px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2.5px solid var(--navy);
+    box-shadow: 4px 4px 0 var(--navy);
+    cursor: pointer;
+    transform: translateY(28px) scale(0.85);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery-item.popped {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.gallery-zoom-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 65, 116, 0.35);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 6px 6px 0 var(--navy);
+}
+.gallery-item:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.85);
+}
+.gallery-item:hover .gallery-zoom-icon {
+    opacity: 1;
+}
+
+/* palet warna border bergantian, senada .card index */
+.gallery-item:nth-of-type(4n + 1) {
+    border-color: var(--jc-blue);
+    box-shadow: 4px 4px 0 var(--jc-blue);
+}
+.gallery-item:nth-of-type(4n + 1):hover {
+    box-shadow: 6px 6px 0 var(--jc-blue);
+}
+.gallery-item:nth-of-type(4n + 2) {
+    border-color: #c8517d;
+    box-shadow: 4px 4px 0 #c8517d;
+}
+.gallery-item:nth-of-type(4n + 2):hover {
+    box-shadow: 6px 6px 0 #c8517d;
+}
+.gallery-item:nth-of-type(4n + 3) {
+    border-color: #9d7800;
+    box-shadow: 4px 4px 0 #9d7800;
+}
+.gallery-item:nth-of-type(4n + 3):hover {
+    box-shadow: 6px 6px 0 #9d7800;
+}
+
+@media (max-width: 900px) {
+    .photo-gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .photo-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* =========================================
+   LIGHTBOX OVERLAY (custom vanilla, tanpa library luar)
+   ========================================= */
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(21, 53, 99, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-stage {
+    position: relative;
+    max-width: 88vw;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.lightbox-image {
+    max-width: 88vw;
+    max-height: 74vh;
+    border-radius: 16px;
+    border: 3px solid #fff;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    object-fit: contain;
+    background: #fff;
+}
+.lightbox-image.pop {
+    animation: popBounceIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.lightbox-counter {
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.lightbox-close,
+.lightbox-nav {
+    position: absolute;
+    background: #ffffff;
+    color: var(--btn-border);
+    border: 3px solid var(--btn-border);
+    border-radius: 999px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 6px 0 var(--btn-border);
+}
+.lightbox-close:hover,
+.lightbox-nav:hover {
+    background: var(--btn-hover);
+    transform: translateY(-2px);
+}
+.lightbox-close:active,
+.lightbox-nav:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
+}
+
+.lightbox-close {
+    top: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    line-height: 1;
+    z-index: 100000;
+}
+
+.lightbox-nav {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+    font-weight: 700;
+    z-index: 100000;
+}
+.lightbox-prev {
+    left: 24px;
+}
+.lightbox-next {
+    right: 24px;
+}
+
+@media (max-width: 600px) {
+    .lightbox-close {
+        top: 14px;
+        right: 14px;
+        width: 38px;
+        height: 38px;
+    }
+    .lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    .lightbox-prev {
+        left: 10px;
+    }
+    .lightbox-next {
+        right: 10px;
     }
 }
 

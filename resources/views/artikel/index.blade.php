@@ -132,7 +132,10 @@
           <div class="card-body">
             <h3>{{ $article->title }}</h3>
             <div class="date">
-              {{ $article->published_at?->translatedFormat('d-m-Y') ?? $article->created_at->translatedFormat('d-m-Y') }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4" class="date-icon">
+                <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+              {{ $article->published_at?->translatedFormat('d F Y') ?? $article->created_at->translatedFormat('d F Y') }}
             </div>
             <p class="card-desc">{{ \Illuminate\Support\Str::limit($article->excerpt, 90) }}</p>
             <a href="{{ route('artikel.show', $article->slug) }}" class="view-btn">Baca Artikel
@@ -215,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---------- SCROLL REVEAL UNTUK CARD ARTIKEL ----------
   var cards = document.querySelectorAll('.card');
-  var columns = 2;
+  var columns = 3;
   cards.forEach(function(c, i){
     var row = Math.floor(i / columns);
     c.style.setProperty('--row-delay', (row * 0.65) + 's');

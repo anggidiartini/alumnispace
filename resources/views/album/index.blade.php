@@ -97,7 +97,12 @@
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
-          <div class="date">{{ $album->date_display ?? ($album->location ?? 'Memori') }}</div>
+          <div class="date">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4" class="date-icon">
+              <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+            {{ $album->date_display ?? ($album->location ?? 'Memori') }}
+          </div>
           @if($album->description)
             <p class="card-desc">{{ \Illuminate\Support\Str::limit($album->description, 90) }}</p>
           @endif
@@ -173,7 +178,7 @@
 
   // ---------- SCROLL REVEAL FOR ALBUM CARDS ----------
   var cards = document.querySelectorAll('.card');
-  var columns = 2;
+  var columns = 3;
   cards.forEach(function(c, i){
     var row = Math.floor(i / columns);
     c.style.setProperty('--row-delay', (row * 0.65) + 's');
