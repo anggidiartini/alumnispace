@@ -54,7 +54,7 @@ Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel
 
 
 // Admin Protected Group
-Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () { 
     Route::get('/dashboard', function () {
         return view('admin.dashboard.index');
     })->name('dashboard');
