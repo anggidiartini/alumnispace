@@ -7,6 +7,18 @@
    Catatan: navbar & footer TIDAK punya CSS di sini — halaman
    pakai <x-navbar /> dan <x-footer />, termasuk hamburger menu
    mobile-nya, sama seperti event.blade.php & lowongan.blade.php.
+
+   REVISI:
+   1. Palet warna dibikin lebih cheerful/colorful (nambah lemon,
+      coral, lavender, sky, mint) — dipakai di blob hero, aksen
+      kartu info, dan tag.
+   2. Section "Tentang Event" sekarang pakai style .detail-card /
+      .accordion-button — DISAMAKAN PERSIS sama section "Deskripsi
+      Pekerjaan" di detail-lowongan.css, biar nggak ada yang beda.
+   3. Ditambah floating action row (WhatsApp + tombol "on top"),
+      di-stack VERTIKAL (WA di atas, on-top di bawahnya) — bukan
+      sejajar seperti bug sebelumnya di detail-lowongan.css (yang
+      itu juga sudah dibenerin ke arah yang sama).
    ========================================================= */
 
 :root {
@@ -16,8 +28,14 @@
     --blue-deep: #2e72ec;
     --soft: #e7f0ff;
     --pink: #f5dce8;
+    --pink-strong: #ffb2d2;
     --yellow: #f8edb8;
-    --cream: #f9fbff;
+    --lemon: #fff06b;
+    --coral: #ff9466;
+    --lav: #cfc6ff;
+    --sky: #9fdcff;
+    --mint: #aaf0d1;
+    --cream: #fffaf0;
     --line: #dce8f5;
     --danger: #c43e61;
     --danger-bg: #fff1f4;
@@ -38,7 +56,7 @@ body {
     min-height: 100%;
     margin: 0;
     color: var(--ink);
-    background-color: #fffdf7;
+    background-color: var(--cream);
     background-image:
         linear-gradient(rgba(46, 114, 236, 0.06) 1px, transparent 1px),
         linear-gradient(90deg, rgba(46, 114, 236, 0.06) 1px, transparent 1px);
@@ -130,7 +148,8 @@ main { padding: 0 0 4rem; }
     padding: 2.6rem;
     overflow: hidden;
     border-radius: var(--radius-lg);
-    background: var(--surface);
+    background: linear-gradient(120deg, #ffffff 0%, #f6fbff 55%, #fff8db 100%);
+    border: 2px solid #fff;
     box-shadow: var(--shadow);
 }
 
@@ -141,10 +160,35 @@ main { padding: 0 0 4rem; }
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
-    background: var(--pink);
+    background: var(--pink-strong);
     content: "";
     opacity: 0.78;
     animation: floatBlob 7s var(--ease-slow) infinite alternate;
+}
+
+.hero-card::after {
+    position: absolute;
+    left: -2.5rem;
+    bottom: -2.5rem;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background: var(--lav);
+    content: "";
+    opacity: 0.7;
+    animation: floatBlob 8s var(--ease-slow) infinite alternate-reverse;
+}
+
+.hero-card .blob-extra {
+    position: absolute;
+    right: 8%;
+    top: 2.5rem;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: var(--lemon);
+    opacity: 0.85;
+    animation: floatBlob 6s var(--ease-slow) infinite alternate;
 }
 
 @keyframes floatBlob {
@@ -165,9 +209,9 @@ main { padding: 0 0 4rem; }
 
 .category-badge {
     padding: 0.5rem 0.7rem;
-    background: #f9f6bd;
+    background: var(--lemon);
     border: 2px dashed #0a4174;
-    color: #0a4174;
+    color: #7a5c00;
 }
 
 .event-title {
@@ -185,13 +229,16 @@ main { padding: 0 0 4rem; }
     padding: 0.5rem 0.65rem;
     border-radius: 999px;
     border: 1px solid var(--line);
-    background: #fff;
-    color: var(--muted);
+    background: var(--soft);
+    color: var(--blue-deep);
     opacity: 0;
     transform: translateY(10px);
     animation: popIn 0.45s var(--ease-slow) forwards;
     animation-delay: var(--tag-delay, 0s);
 }
+
+.tag:nth-child(2n) { background: var(--pink-strong); color: #a83366; border-color: transparent; }
+.tag:nth-child(3n) { background: var(--mint); color: #126847; border-color: transparent; }
 
 @keyframes popIn {
     from { opacity: 0; transform: translateY(10px) scale(0.92); }
@@ -217,7 +264,7 @@ main { padding: 0 0 4rem; }
 .status-chip { gap: 0.45rem; padding: 0.55rem 0.75rem; }
 .status-open { background: #dcfce7; color: #187143; }
 .status-soon { background: var(--yellow); color: #8a6a12; }
-.status-ended { background: #eee8ff; color: #6650a5; }
+.status-ended { background: var(--lav); color: #5b3fa8; }
 
 .status-dot {
     width: 7px;
@@ -295,7 +342,7 @@ main { padding: 0 0 4rem; }
     overflow: hidden;
     border: 8px solid rgba(255, 255, 255, 0.9);
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, var(--pink), var(--soft));
+    background: linear-gradient(135deg, var(--pink-strong), var(--sky));
     box-shadow: 0 12px 28px rgba(29, 74, 146, .14);
     transition: transform 0.4s var(--ease-slow);
     will-change: transform;
@@ -356,10 +403,23 @@ main { padding: 0 0 4rem; }
 }
 
 .info-card {
+    position: relative;
     min-height: 8rem;
     padding: 1.2rem;
+    overflow: hidden;
     transition: transform 0.3s var(--ease-slow), box-shadow 0.3s var(--ease-slow);
 }
+
+.info-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--sky);
+}
+.info-card:nth-child(2)::before { background: var(--pink-strong); }
+.info-card:nth-child(3)::before { background: var(--lav); }
+.info-card:nth-child(4)::before { background: var(--lemon); }
 
 .info-card:hover {
     transform: translateY(-6px);
@@ -401,9 +461,20 @@ main { padding: 0 0 4rem; }
 .article-stack { display: grid; gap: 1.1rem; }
 
 .content-card {
+    position: relative;
     padding: 1.75rem;
+    overflow: hidden;
     transition: transform 0.3s var(--ease-slow), box-shadow 0.3s var(--ease-slow);
 }
+
+.content-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--coral);
+}
+.content-card:nth-child(2)::before { background: var(--blue-deep); }
 
 .content-card:hover {
     transform: translateY(-4px);
@@ -425,9 +496,58 @@ main { padding: 0 0 4rem; }
 }
 .location-venue { margin: 0 0 0.45rem; color: var(--ink); font-size: 1rem; font-weight: 800; }
 
+/* =========================================================
+   "Tentang Event" — DISAMAKAN PERSIS dengan .detail-card /
+   .accordion-button di detail-lowongan.css (section "Deskripsi
+   Pekerjaan"). Class & struktur sengaja dibuat identik biar
+   nggak ada yang beda antara dua halaman ini.
+   ========================================================= */
+
+.detail-card {
+    background: #fff;
+    border: 1px solid rgba(29,74,146,.08);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 24px rgba(29,74,146,.08);
+    overflow: hidden;
+}
+
+.accordion-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: none;
+    padding: 1.4rem;
+    text-align: left;
+    font-family: "Fredoka", sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+}
+.accordion-button svg { color: var(--blue-deep); transition: transform .3s ease; }
+.accordion-button[aria-expanded="false"] svg { transform: rotate(-90deg); }
+
+.accordion-panel {
+    padding: 0 1.4rem 1.4rem;
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows .4s ease, opacity .4s ease, padding .4s ease;
+}
+.accordion-panel > * { overflow: hidden; min-height: 0; }
+.accordion-button[aria-expanded="false"] + .accordion-panel {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.section-text { line-height: 1.7; color: var(--muted); }
+
 /* ---------- Sidebar: pendaftaran ---------- */
 
-.registration-card { position: sticky; top: 6rem; padding: 1.6rem; }
+.registration-card { position: sticky; top: 6rem; padding: 1.6rem; overflow: hidden; }
 .registration-card .card-heading { margin-bottom: 0.55rem; }
 .small-copy { margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
 
@@ -455,7 +575,7 @@ main { padding: 0 0 4rem; }
     height: 100%;
     width: 0%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--blue), var(--blue-deep));
+    background: linear-gradient(90deg, var(--coral), var(--blue-deep));
     transition: width 1s var(--ease-slow);
     overflow: hidden;
 }
@@ -478,7 +598,7 @@ main { padding: 0 0 4rem; }
     margin: 1.1rem 0;
     padding: 0.9rem;
     border-radius: var(--radius-md);
-    background: var(--yellow);
+    background: var(--lemon);
     transition: transform 0.3s var(--ease-slow);
 }
 
@@ -496,7 +616,7 @@ main { padding: 0 0 4rem; }
     overflow: hidden;
     border-radius: var(--radius-md);
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--pink), var(--soft));
+    background: linear-gradient(135deg, var(--pink-strong), var(--sky));
 }
 
 .documentation-cover img {
@@ -607,7 +727,7 @@ main { padding: 0 0 4rem; }
     margin: 0 auto 1.1rem;
     place-items: center;
     border-radius: var(--radius-md);
-    background: var(--pink);
+    background: var(--pink-strong);
     color: var(--ink);
 }
 .not-found-card h1 { margin: 0 0 0.6rem; color: var(--ink); font-size: clamp(1.75rem, 5vw, 2.6rem); letter-spacing: -0.01em; }
@@ -638,7 +758,112 @@ main { padding: 0 0 4rem; }
 .toast.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
 .toast.is-error { background: var(--danger); border-color: #7d2138; }
 
+/* =========================================================
+   Floating action row: WhatsApp (atas) + tombol "on top" (bawah)
+   DISAMAKAN dengan versi fix di detail-lowongan.css — stack
+   VERTIKAL, bukan sejajar.
+   ========================================================= */
+
+.fab-row {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 65;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#back-to-top {
+    display: grid;
+    place-items: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--ink);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.9);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+#back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+#back-to-top:hover { transform: translateY(-3px) scale(1.05); }
+
+#wa-widget { position: relative; flex-shrink: 0; }
+
+.wa-pulse { transition: transform 0.2s ease, box-shadow 0.2s ease; animation: wa-pulse-ring 2.6s ease-out infinite; }
+.wa-pulse:hover { transform: scale(1.08); }
+
+@keyframes wa-pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+    70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+#wa-button {
+    display: grid;
+    place-items: center;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 9999px;
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+}
+
+#wa-bubble {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.75rem;
+    width: 15rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
+}
+
+.wa-bubble {
+    transform-origin: bottom right;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+.wa-bubble.show { opacity: 1; transform: translateY(0) scale(1); visibility: visible; pointer-events: auto; }
+
+.wa-bubble-title { margin: 0; font-size: 0.9rem; font-weight: 700; color: var(--ink); }
+.wa-bubble-close { border: 0; background: none; padding: 0.15rem; color: var(--muted); cursor: pointer; }
+.wa-bubble-text { margin: 0.4rem 0 0; font-size: 0.85rem; line-height: 1.5; color: var(--muted); }
+.wa-bubble-number { margin: 0.5rem 0 0; font-size: 0.85rem; font-weight: 700; color: var(--blue-deep); }
+
+@media (min-width: 768px) {
+    .fab-row { right: 2rem; bottom: 2rem; }
+    #back-to-top { height: 3rem; width: 3rem; }
+}
+
+@media (max-width: 767px) {
+    .wa-bubble { width: 14.5rem; }
+}
+
+@media (max-width: 360px) {
+    #wa-button { height: 3rem; width: 3rem; }
+    #back-to-top { height: 2.5rem; width: 2.5rem; }
+}
+
 /* ---------- Responsif ---------- */
+
+@media (min-width: 640px) {
+    .summary-grid { grid-template-columns: repeat(4, 1fr); }
+}
 
 @media (max-width: 900px) {
     .hero-card { grid-template-columns: 1fr; padding: 2rem; }
