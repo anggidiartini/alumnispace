@@ -280,7 +280,7 @@
                     <div class="related-grid">
                         @foreach($relatedJobs as $i => $related)
                             @php $colors = ['blue', 'pink', 'yellow']; $color = $colors[$i % 3]; @endphp
-                            <a href="{{ route('lowongan.show', $related->slug) }}" class="related-card">
+                            <a href="{{ route('lowongan.index', $related->slug) }}" class="related-card">
                                 <div class="related-icon related-icon-{{ $color }}">
                                     <i data-lucide="briefcase" width="20" height="20"></i>
                                 </div>

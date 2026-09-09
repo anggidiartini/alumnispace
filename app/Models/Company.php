@@ -37,4 +37,8 @@ class Company extends Model
         }
         return $initials ?: 'CO';
     }
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
