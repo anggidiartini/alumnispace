@@ -76,13 +76,10 @@ main { padding-bottom: 5rem; }
 
 .breadcrumb { display: none; }
 
-<<<<<<< HEAD
-/* ---------- scroll-reveal (dipicu JS: tambah kelas .in-view) ---------- */
-=======
 /* ---------- scroll-reveal (dipicu JS: tambah kelas .in-view) ----------
    Tetap ada fallback CSS-only (revealFallback) supaya kalau JS-nya
    gagal load, section tidak selamanya opacity:0. ---------- */
->>>>>>> 28cadeb (buat april muach)
+
 
 [data-reveal] {
     opacity: 0;
@@ -798,5 +795,4 @@ main { padding-bottom: 5rem; }
     .gallery-grid { grid-template-columns: 1fr; }
     .er-modal { padding: 1.5rem; }
     .breadcrumb span:last-child { max-width: 12rem; }
-}php
 }

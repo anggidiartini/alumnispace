@@ -1,164 +1,378 @@
-<!doctype html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMS & Manajemen Konten Dinamis — Admin AlumniSpace</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'DM Sans', sans-serif; }
-    h1, h2, h3 { font-family: 'Fredoka', sans-serif; }
-  </style>
-</head>
-<body class="bg-[#f8fbff] text-[#153563] min-h-screen">
+@extends('admin.layout.index')
 
-  <!-- Top Admin Bar -->
-  <header class="sticky top-0 z-40 bg-white border-b border-blue-100 shadow-sm">
-    <div class="max-w-7xl mx-auto px-5 py-3.5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <span class="grid h-10 w-10 place-items-center rounded-xl bg-[#2e72ec] text-white font-bold text-lg">⚡</span>
-        <div>
-          <h1 class="text-xl font-bold text-[#153563]">AlumniSpace CMS</h1>
-          <p class="text-xs text-[#355277]">Panel Manajemen Konten Dinamis & Pengaturan Situs</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-[#2e72ec] bg-blue-50 hover:bg-blue-100 rounded-xl transition">
-          <i data-lucide="external-link" class="h-4 w-4"></i> Lihat Tampilan Live
-        </a>
-        <div class="h-6 w-px bg-gray-200"></div>
-        <span class="text-xs font-bold px-3 py-1.5 bg-[#cce8de] text-[#153563] rounded-full">Admin: {{ Auth::user()->name }}</span>
-        <form action="{{ route('logout') }}" method="POST">
-          @csrf
-          <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-xl transition" title="Logout">
-            <i data-lucide="log-out" class="h-4 w-4"></i>
-          </button>
-        </form>
-      </div>
-    </div>
-  </header>
+@section('page_title', 'Manajemen Konten CMS')
 
-  <main class="max-w-7xl mx-auto px-5 py-8">
-    <!-- Feedback Alert -->
-    @if(session('status'))
-      <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center gap-3 font-semibold text-sm">
-        <i data-lucide="check-circle-2" class="h-5 w-5 text-emerald-600"></i>
-        <span>{{ session('status') }}</span>
-      </div>
-    @endif
+@section('content')
+<style>
+    /* Vanilla CSS for CMS Admin Page */
+    .cms-container {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 30px;
+        align-items: start;
+    }
+    
+    .cms-header {
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cms-header h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 5px;
+    }
+    .cms-header p {
+        font-size: 14px;
+        color: var(--text-muted);
+    }
+    .badge-count {
+        padding: 6px 12px;
+        background-color: var(--badge-bg);
+        color: var(--badge-text);
+        font-size: 12px;
+        font-weight: 700;
+        border-radius: 20px;
+    }
 
-    <div class="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
-      
-      <!-- SECTIONS LIST (CMS) -->
+    .cms-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        transition: box-shadow 0.3s;
+    }
+    .cms-card:hover {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid #f0f4f8;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+    }
+    .card-key {
+        padding: 4px 10px;
+        background-color: #fff0a9;
+        color: var(--text-main);
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .card-slug {
+        margin-left: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        color: #9ca3af;
+    }
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .status-badge.active { color: #059669; }
+    .status-badge.inactive { color: #9ca3af; }
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+    .status-dot.active { background-color: #10b981; }
+    .status-dot.inactive { background-color: #9ca3af; }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+    .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-main);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        font-size: 14px;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 0 3px rgba(123, 189, 232, 0.2);
+    }
+    textarea.form-control {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .card-footer {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #f0f4f8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .last-updated {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+    .btn-primary {
+        padding: 10px 20px;
+        background-color: var(--color-primary);
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover {
+        background-color: var(--bg-sidebar-hover);
+        transform: translateY(-2px);
+    }
+
+    .sidebar-section {
+        position: sticky;
+        top: 24px;
+    }
+    .settings-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .settings-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    .settings-icon {
+        padding: 8px;
+        background-color: #ffd9e7;
+        color: var(--text-main);
+        border-radius: 12px;
+    }
+    .settings-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+    .settings-desc {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 24px;
+    }
+    .setting-hint {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 4px;
+    }
+    .btn-submit-all {
+        margin-top: 24px;
+        width: 100%;
+        padding: 12px;
+        background-color: var(--color-primary);
+        color: #fff;
+        font-weight: 700;
+        font-size: 12px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 0.2s;
+    }
+    .btn-submit-all:hover {
+        opacity: 0.9;
+    }
+
+    .info-box {
+        background-color: #f0f7ff;
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 20px;
+        font-size: 12px;
+        color: var(--text-main);
+        line-height: 1.6;
+    }
+    .info-title {
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    .info-title i {
+        color: var(--color-secondary);
+    }
+    .info-text {
+        color: var(--text-muted);
+    }
+    .info-text code {
+        background: #e1effe;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    .alert-success {
+        margin-bottom: 24px;
+        padding: 16px;
+        background-color: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .alert-icon {
+        color: #059669;
+    }
+
+    @media (max-width: 992px) {
+        .cms-container {
+            grid-template-columns: 1fr;
+        }
+        .sidebar-section {
+            position: static;
+        }
+    }
+</style>
+
+<!-- Feedback Alert -->
+@if(session('status'))
+  <div class="alert-success">
+    <i class="fa-solid fa-circle-check alert-icon"></i>
+    <span>{{ session('status') }}</span>
+  </div>
+@endif
+
+<div class="cms-container">
+  
+  <!-- SECTIONS LIST (CMS) -->
+  <div class="cms-main">
+    <div class="cms-header">
       <div>
-        <div class="mb-6 flex items-center justify-between">
+        <h2>Konten Teks Halaman (CMS)</h2>
+        <p>Ubah judul, subjudul, dan teks promosi yang tampil di halaman beranda / publik.</p>
+      </div>
+      <span class="badge-count">{{ count($contents) }} Seksi Aktif</span>
+    </div>
+
+    <div class="cms-list">
+      @foreach($contents as $content)
+      <div class="cms-card">
+        <div class="card-header">
           <div>
-            <h2 class="text-2xl font-bold text-[#153563]">Konten Teks Halaman (CMS)</h2>
-            <p class="text-sm text-[#355277]">Ubah judul, subjudul, dan teks promosi yang tampil di halaman beranda / publik.</p>
+            <span class="card-key">{{ $content->section_key }}</span>
+            <span class="card-slug">Halaman: /{{ $content->page_slug }}</span>
           </div>
-          <span class="px-3 py-1 bg-blue-100 text-[#2e72ec] text-xs font-bold rounded-full">{{ count($contents) }} Seksi Aktif</span>
+          <span class="status-badge {{ $content->is_active ? 'active' : 'inactive' }}">
+            <span class="status-dot {{ $content->is_active ? 'active' : 'inactive' }}"></span>
+            {{ $content->is_active ? 'Aktif di Web' : 'Nonaktif' }}
+          </span>
         </div>
 
-        <div class="space-y-6">
-          @foreach($contents as $content)
-          <div class="bg-white rounded-2xl border border-blue-100 p-6 shadow-sm hover:shadow-md transition">
-            <div class="flex items-start justify-between border-b border-gray-100 pb-4 mb-5">
-              <div>
-                <span class="px-2.5 py-1 bg-[#fff0a9] text-[#153563] rounded-lg text-xs font-bold uppercase tracking-wider">
-                  {{ $content->section_key }}
-                </span>
-                <span class="ml-2 text-xs font-bold text-gray-400">Halaman: /{{ $content->page_slug }}</span>
-              </div>
-              <span class="inline-flex items-center gap-1 text-xs font-bold {{ $content->is_active ? 'text-emerald-600' : 'text-gray-400' }}">
-                <span class="h-2 w-2 rounded-full {{ $content->is_active ? 'bg-emerald-500' : 'bg-gray-400' }}"></span>
-                {{ $content->is_active ? 'Aktif di Web' : 'Nonaktif' }}
-              </span>
+        <form action="{{ route('admin.content.update', $content->id) }}" method="POST">
+          @csrf
+          @method('PUT')
+
+          <div class="form-groups">
+            <div class="form-group">
+              <label>Judul Utama (Title)</label>
+              <input type="text" name="title" value="{{ old('title', $content->title) }}" required class="form-control">
             </div>
 
-            <form action="{{ route('admin.content.update', $content->id) }}" method="POST">
-              @csrf
-              @method('PUT')
+            <div class="form-group">
+              <label>Subjudul / Keterangan (Subtitle)</label>
+              <textarea name="subtitle" class="form-control">{{ old('subtitle', $content->subtitle) }}</textarea>
+            </div>
 
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-xs font-bold text-[#153563] uppercase mb-1">Judul Utama (Title)</label>
-                  <input type="text" name="title" value="{{ old('title', $content->title) }}" required
-                    class="w-full px-4 py-2.5 rounded-xl border border-blue-200 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#2e72ec]">
-                </div>
+            @if($content->body_content)
+            <div class="form-group">
+              <label>Teks Paragraf Tambahan</label>
+              <textarea name="body_content" class="form-control">{{ old('body_content', $content->body_content) }}</textarea>
+            </div>
+            @endif
+          </div>
 
-                <div>
-                  <label class="block text-xs font-bold text-[#153563] uppercase mb-1">Subjudul / Keterangan (Subtitle)</label>
-                  <textarea name="subtitle" rows="2"
-                    class="w-full px-4 py-2.5 rounded-xl border border-blue-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2e72ec]">{{ old('subtitle', $content->subtitle) }}</textarea>
-                </div>
+          <div class="card-footer">
+            <span class="last-updated">Terakhir diubah: {{ $content->updated_at?->diffForHumans() ?? 'Baru saja' }}</span>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+      @endforeach
+    </div>
+  </div>
 
-                @if($content->body_content)
-                <div>
-                  <label class="block text-xs font-bold text-[#153563] uppercase mb-1">Teks Paragraf Tambahan</label>
-                  <textarea name="body_content" rows="2"
-                    class="w-full px-4 py-2.5 rounded-xl border border-blue-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#2e72ec]">{{ old('body_content', $content->body_content) }}</textarea>
-                </div>
-                @endif
-              </div>
+  <!-- GLOBAL SETTINGS SIDEBAR -->
+  <div class="sidebar-section">
+    <div class="settings-card">
+      <div class="settings-header">
+        <span class="settings-icon"><i class="fa-solid fa-gear"></i></span>
+        <h3 class="settings-title">Pengaturan Umum</h3>
+      </div>
+      <p class="settings-desc">Konfigurasi teks administratif yang berlaku di seluruh halaman publik.</p>
 
-              <div class="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between">
-                <span class="text-xs text-gray-400">Terakhir diubah: {{ $content->updated_at?->diffForHumans() ?? 'Baru saja' }}</span>
-                <button type="submit" class="px-5 py-2.5 bg-[#2e72ec] text-white font-bold text-xs rounded-xl shadow hover:bg-blue-600 transition flex items-center gap-1.5">
-                  <i data-lucide="save" class="h-4 w-4"></i> Simpan Perubahan
-                </button>
-              </div>
-            </form>
+      <form action="{{ route('admin.settings.update') }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="form-groups">
+          @foreach($settings as $setting)
+          <div class="form-group">
+            <label>{{ str_replace('_', ' ', $setting->key) }}</label>
+            <input type="text" name="settings[{{ $setting->key }}]" value="{{ old("settings.{$setting->key}", $setting->value) }}" class="form-control" style="padding: 8px 12px;">
+            @if($setting->description)
+              <p class="setting-hint">{{ $setting->description }}</p>
+            @endif
           </div>
           @endforeach
         </div>
-      </div>
 
-      <!-- GLOBAL SETTINGS SIDEBAR -->
-      <div class="sticky top-24 space-y-6">
-        <div class="bg-white rounded-2xl border border-blue-100 p-6 shadow-sm">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="p-2 bg-[#ffd9e7] text-[#153563] rounded-xl"><i data-lucide="settings" class="h-4 w-4"></i></span>
-            <h3 class="text-lg font-bold text-[#153563]">Pengaturan Umum Situs</h3>
-          </div>
-          <p class="text-xs text-[#355277] mb-5">Konfigurasi teks administratif yang berlaku di seluruh halaman publik.</p>
-
-          <form action="{{ route('admin.settings.update') }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-4">
-              @foreach($settings as $setting)
-              <div>
-                <label class="block text-xs font-bold text-[#153563] uppercase mb-1">{{ str_replace('_', ' ', $setting->key) }}</label>
-                <input type="text" name="settings[{{ $setting->key }}]" value="{{ old("settings.{$setting->key}", $setting->value) }}"
-                  class="w-full px-3.5 py-2 rounded-xl border border-blue-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#2e72ec]">
-                @if($setting->description)
-                  <p class="text-[11px] text-gray-400 mt-1">{{ $setting->description }}</p>
-                @endif
-              </div>
-              @endforeach
-            </div>
-
-            <button type="submit" class="mt-6 w-full py-3 bg-[#153563] text-white font-bold text-xs rounded-xl shadow hover:bg-opacity-90 transition flex items-center justify-center gap-1.5">
-              <i data-lucide="check" class="h-4 w-4"></i> Simpan Semua Pengaturan
-            </button>
-          </form>
-        </div>
-
-        <!-- Quick Info Box -->
-        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5 text-xs text-[#153563] leading-relaxed">
-          <p class="font-bold flex items-center gap-1.5 mb-1.5"><i data-lucide="shield-check" class="h-4 w-4 text-[#2e72ec]"></i> Role-Based Access Control Aktif</p>
-          <p class="text-[#355277]">Halaman ini diproteksi oleh middleware <code>role:admin,super_admin</code>. Tamu dan user non-admin akan otomatis diblokir dengan status HTTP 403.</p>
-        </div>
-      </div>
-
+        <button type="submit" class="btn-submit-all">
+          <i class="fa-solid fa-check"></i> Simpan Semua Pengaturan
+        </button>
+      </form>
     </div>
-  </main>
 
-  <script>
-    lucide.createIcons();
-  </script>
-</body>
-</html>
+    <!-- Quick Info Box -->
+    <div class="info-box">
+      <p class="info-title"><i class="fa-solid fa-shield-halved"></i> Role-Based Access Control Aktif</p>
+      <p class="info-text">Halaman ini diproteksi oleh middleware <code>role:admin,super_admin</code>. Tamu dan user non-admin akan otomatis diblokir dengan status HTTP 403.</p>
+    </div>
+  </div>
+
+</div>
+@endsection
