@@ -65,7 +65,7 @@
           <span class="hero-latest-pin">Terbaru</span>
           <div class="hero-latest-top hero-latest-top--blue">
             @if($heroArticle->thumbnail)
-              <img src="{{ asset('storage/' . $heroArticle->thumbnail) }}" alt="{{ $heroArticle->title }}" style="width:100%;height:100%;object-fit:cover;">
+              <img src="{{ asset($heroArticle->thumbnail) }}" alt="{{ $heroArticle->title }}" style="width:100%;height:100%;object-fit:cover;">
             @else
               <i data-lucide="newspaper" style="width:48px;height:48px;"></i>
             @endif
@@ -120,7 +120,7 @@
             <span class="cat-pill">{{ ucfirst($article->category) }}</span>
             <span class="card-symbol">✳</span>
             @if($article->thumbnail)
-              <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}">
+              <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}">
             @else
               <i data-lucide="newspaper" style="width:44px;height:44px;opacity:.4;color:var(--jc-ink);"></i>
             @endif
@@ -283,6 +283,37 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   });
+
+  // ---------- BACK TO TOP & WA WIDGET ----------
+  var backToTop = document.getElementById("back-to-top");
+  if (backToTop) {
+    window.addEventListener("scroll", function() {
+      backToTop.classList.toggle("show", window.scrollY > 400);
+    }, { passive: true });
+    backToTop.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  var waButton = document.getElementById("wa-button");
+  var waBubble = document.getElementById("wa-bubble");
+  var waBubbleClose = document.getElementById("wa-bubble-close");
+  if (waButton && waBubble) {
+    var waTimer = setTimeout(function() {
+      waBubble.classList.add("show");
+    }, 1800);
+
+    waButton.addEventListener("mouseenter", function() {
+      clearTimeout(waTimer);
+      waBubble.classList.add("show");
+    });
+    if (waBubbleClose) {
+      waBubbleClose.addEventListener("click", function(e) {
+        e.preventDefault();
+        waBubble.classList.remove("show");
+      });
+    }
+  }
 })();
 
 const menuToggle = document.getElementById('menuToggle');
