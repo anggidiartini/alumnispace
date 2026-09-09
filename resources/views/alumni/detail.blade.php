@@ -21,14 +21,11 @@
   <section class="ad-section dot-grid">
     <div class="ad-container">
 
-      {{-- Breadcrumb --}}
-      <nav class="ad-breadcrumb" aria-label="Breadcrumb">
-        <a href="{{ route('alumni.index') }}">Beranda</a>
-        <span>/</span>
-        <a href="{{ route('alumni.index') }}">Direktori Alumni</a>
-        <span>/</span>
-        <span class="ad-breadcrumb-current">{{ $profile->user->name }}</span>
-      </nav>
+
+<a href="{{ route('alumni.index') }}"
+   style="display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.25rem; font-weight: 700; color: #0e2f6d; text-decoration: none; position: relative; z-index: 10;">
+  <i data-lucide="arrow-left" width="16"></i> Kembali ke Alumni
+</a>
 
       {{-- Hero card --}}
       <article class="ad-hero-card">
@@ -58,11 +55,11 @@
               @if($profile->city)
                 <p class="ad-meta-row" style="width: 100%;"><i data-lucide="map-pin" width="16"></i> {{ $profile->city }}</p>
               @endif
-              
+
               @if($profile->current_university)
                 <p class="ad-meta-row" style="width: 100%;"><i data-lucide="graduation-cap" width="16"></i> Pendidikan: {{ $profile->current_university }} ({{ $profile->study_status ?? 'Status tidak diketahui' }})</p>
               @endif
-              
+
               @if($profile->organization_role)
                 <p class="ad-meta-row" style="width: 100%;"><i data-lucide="users" width="16"></i> Organisasi: {{ $profile->organization_role }}</p>
               @endif
@@ -227,7 +224,7 @@
   </div>
 </div>
 
-<div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+
 
 <script src="{{ asset('js/script.js') }}"></script>
 <script>

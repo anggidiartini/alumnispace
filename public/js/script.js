@@ -165,27 +165,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ------------------------------------------------------------------
-     * Filter alumni berdasarkan angkatan & bidang
+     * Filter alumni berdasarkan angkatan & bidang (versi lama)
+     * Cuma jalan kalau halamannya memang punya struktur lama
+     * (#alumni-list / #field-filter / #alumni-empty), supaya nggak
+     * bentrok sama halaman direktori alumni yang baru (#alumni-grid dkk).
      * ------------------------------------------------------------------ */
-    const yearFilter = document.getElementById("year-filter");
-    const fieldFilter = document.getElementById("field-filter");
-    const filterAlumni = () => {
-        let shown = 0;
-        document.querySelectorAll("#alumni-list article").forEach((card) => {
-            const okay =
-                (yearFilter.value === "all" ||
-                    card.dataset.year === yearFilter.value) &&
-                (fieldFilter.value === "all" ||
-                    card.dataset.field === fieldFilter.value);
-            card.classList.toggle("hidden", !okay);
-            if (okay) shown++;
-        });
-        document
-            .getElementById("alumni-empty")
-            .classList.toggle("hidden", shown !== 0);
-    };
-    yearFilter?.addEventListener("change", filterAlumni);
-    fieldFilter?.addEventListener("change", filterAlumni);
+    const alumniListLegacy = document.getElementById("alumni-list");
+    const fieldFilterLegacy = document.getElementById("field-filter");
+    const alumniEmptyLegacy = document.getElementById("alumni-empty");
+
+    if (alumniListLegacy && fieldFilterLegacy && alumniEmptyLegacy) {
+        const yearFilterLegacy = document.getElementById("year-filter");
+        const filterAlumni = () => {
+            let shown = 0;
+            alumniListLegacy.querySelectorAll("article").forEach((card) => {
+                const okay =
+                    (yearFilterLegacy.value === "all" ||
+                        card.dataset.year === yearFilterLegacy.value) &&
+                    (fieldFilterLegacy.value === "all" ||
+                        card.dataset.field === fieldFilterLegacy.value);
+                card.classList.toggle("hidden", !okay);
+                if (okay) shown++;
+            });
+            alumniEmptyLegacy.classList.toggle("hidden", shown !== 0);
+        };
+        yearFilterLegacy?.addEventListener("change", filterAlumni);
+        fieldFilterLegacy?.addEventListener("change", filterAlumni);
+    }
 
     /* ------------------------------------------------------------------
      * Tab media (Artikel / Galeri)
@@ -504,3 +510,45 @@ document.addEventListener("DOMContentLoaded", function () {
 document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
     el.style.backgroundImage = `url(${el.dataset.bg})`;
 });
+
+/* ------------------------------------------------------------------
+ * Lightbox: klik foto (kolase "Tentang" & galeri) buat preview besar
+ * ------------------------------------------------------------------ */
+(function () {
+    const overlay = document.getElementById("lightbox-overlay");
+    const overlayImg = document.getElementById("lightbox-img");
+    const closeBtn = document.getElementById("lightbox-close");
+    if (!overlay || !overlayImg) return;
+
+    const openLightbox = (src, alt) => {
+        overlayImg.src = src;
+        overlayImg.alt = alt || "Preview foto";
+        overlay.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+    };
+
+    const closeLightbox = () => {
+        overlay.classList.remove("is-open");
+        document.body.style.overflow = "";
+    };
+
+    // Foto kolase "Tentang" (<img> biasa)
+    document.querySelectorAll(".kolase-img-box img").forEach((img) => {
+        img.addEventListener("click", () => openLightbox(img.src, img.alt));
+    });
+
+    // Foto galeri (div dengan data-bg)
+    document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
+        el.addEventListener("click", () =>
+            openLightbox(el.dataset.bg, "Galeri foto"),
+        );
+    });
+
+    closeBtn?.addEventListener("click", closeLightbox);
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+    });
+})();

@@ -1555,7 +1555,9 @@ h1.title .pop {
     box-shadow: 4px 4px 0 var(--navy);
     cursor: pointer;
     transform: translateY(28px) scale(0.85);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 .gallery-item.popped {
     animation: none;
@@ -1568,7 +1570,9 @@ h1.title .pop {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s ease, filter 0.5s ease;
+    transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
 }
 
 .gallery-zoom-icon {
@@ -1639,10 +1643,12 @@ h1.title .pop {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 99999;
+    z-index: 2147483647;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
 }
 .lightbox-overlay.active {
     opacity: 1;
@@ -1694,7 +1700,9 @@ h1.title .pop {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
     box-shadow: 0 6px 0 var(--btn-border);
 }
 .lightbox-close:hover,
@@ -1715,7 +1723,7 @@ h1.title .pop {
     height: 44px;
     font-size: 24px;
     line-height: 1;
-    z-index: 100000;
+    z-index: 2147483647;
 }
 
 .lightbox-nav {
@@ -1725,7 +1733,6 @@ h1.title .pop {
     height: 50px;
     font-size: 22px;
     font-weight: 700;
-    z-index: 100000;
 }
 .lightbox-prev {
     left: 24px;

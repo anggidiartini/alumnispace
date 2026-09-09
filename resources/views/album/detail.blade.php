@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — {{ $album->title }}</title>
 
-    <link rel="stylesheet" href="{{ asset('css/album.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/album.css') }}?v={{ file_exists(public_path('css/album.css')) ? filemtime(public_path('css/album.css')) : time() }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 </head>
 <body>

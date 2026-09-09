@@ -487,6 +487,14 @@
 
   <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
+  <!-- Lightbox untuk preview foto -->
+<div id="lightbox-overlay" class="lightbox-overlay">
+  <button id="lightbox-close" type="button" class="lightbox-close" aria-label="Tutup">
+    <i data-lucide="x" class="h-6 w-6"></i>
+  </button>
+  <img id="lightbox-img" class="lightbox-img" src="" alt="Preview foto">
+</div>
+
  <script src="{{ asset('js/script.js') }}"></script>
 
   <script>
