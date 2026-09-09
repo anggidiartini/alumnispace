@@ -85,12 +85,25 @@ main { padding-bottom: 5rem; }
     white-space: nowrap;
 }
 
-/* ---------- scroll-reveal (dipicu JS: tambah kelas .in-view) ---------- */
+/* ---------- scroll-reveal (dipicu JS: tambah kelas .in-view) ----------
+   CATATAN PENTING (fix "halaman detail kosong"):
+   Sebelumnya elemen [data-reveal] di-set opacity:0 dan HANYA akan
+   berubah opacity:1 kalau detail-event.js berhasil load & jalan
+   (nambahin class .in-view lewat IntersectionObserver). Kalau file
+   JS itu 404 / error / observer-nya gagal, elemen selamanya
+   opacity:0 -> halaman kelihatan kosong padahal HTML-nya ada.
+
+   Fix: ditambahkan CSS animation "revealFallback" dengan delay,
+   sebagai jaring pengaman. Ini akan memaksa opacity jadi 1 setelah
+   0.6 detik TANPA butuh JS sama sekali. Kalau detail-event.js
+   ternyata jalan normal, ini tidak bentrok — hasil akhirnya sama
+   (opacity:1, translateY(0)), jadi aman dipakai bersamaan. ---------- */
 
 [data-reveal] {
     opacity: 0;
     transform: translateY(26px);
     transition: opacity .7s var(--ease-slow), transform .7s var(--ease-slow);
+    animation: revealFallback 0s .6s forwards;
 }
 [data-reveal].in-view { opacity: 1; transform: translateY(0); }
 
@@ -98,6 +111,10 @@ main { padding-bottom: 5rem; }
     transform: translateY(18px) scale(.92);
 }
 [data-reveal="scale"].in-view { transform: translateY(0) scale(1); }
+
+@keyframes revealFallback {
+    to { opacity: 1; transform: translateY(0); }
+}
 
 /* ---------- HERO ---------- */
 
