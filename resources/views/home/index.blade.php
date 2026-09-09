@@ -68,8 +68,7 @@
     <div class="checker blob aspect-square w-full max-w-[480px] p-7 flex items-center justify-center">
         <div class="relative z-20 flex items-center justify-center">
             <div class="relative w-[410px] h-[410px] md:w-[480px] md:h-[480px] flex items-center justify-center drop-shadow-2xl">
-                <span class="absolute -top-2 right-6 z-30 text-pink-400 text-3xl animate-pulse">🌸</span>
-                <span class="absolute -bottom-2 left-4 z-30 text-pink-400 text-2xl animate-bounce">🌸</span>
+
                 <div class="absolute inset-0 bg-white shadow-xl transition hover:scale-105 duration-300"
                      style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
                 </div>
@@ -164,7 +163,7 @@
               <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">{{ $contents['locked_teaser']->title ?? '4 fitur seru menanti setelah kamu login.' }}</h2>
               <p class="mt-2 max-w-lg text-sm leading-relaxed text-[#355277]">{{ $contents['locked_teaser']->subtitle ?? 'Direktori alumni, album kenangan, lowongan, dan agenda event hanya bisa dibuka oleh alumni yang sudah login.' }}</p>
             </div>
-            <a href="{{ route('login') }}" class="custom-pill-btn px-6 py-3.5 text-base shrink-0">{{ $contents['locked_teaser']->meta_data['button_text'] ?? 'Login sekarang 🚀' }}</a>
+            <a href="{{ route('login') }}" class="custom-pill-btn px-6 py-3.5 text-base shrink-0">{{ $contents['locked_teaser']->meta_data['button_text'] ?? 'Login sekarang ' }}</a>
           </div>
           <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <div class="teaser-card card-v1 rounded-[1.5rem] p-5 shadow-sm">
@@ -253,8 +252,7 @@
 
       <!-- TESTIMONI -->
 <section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">
-  <span class="absolute left-8 top-8 text-5xl text-[#fff0a9] floaty-slow">✦</span>
-  <span class="absolute bottom-5 right-10 text-7xl text-[#ffb8d0] floaty">⌁</span>
+
   <div class="mx-auto max-w-6xl px-5 text-center md:px-8">
     <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold reveal-onscroll">Cerita dari teman</p>
     <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
@@ -497,26 +495,68 @@
   <img id="lightbox-img" class="lightbox-img" src="" alt="Preview foto">
 </div>
 
+
+<!-- Modal notifikasi "harus login" -->
+<div id="auth-modal-overlay" class="auth-modal-overlay">
+  <div class="auth-modal-card">
+    <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
+      <i data-lucide="x" class="h-5 w-5"></i>
+    </button>
+    <span class="auth-modal-icon">
+      <i data-lucide="lock" class="h-7 w-7"></i>
+    </span>
+    <h3 class="auth-modal-title">Yah, masih terkunci</h3>
+    <p class="auth-modal-text">
+      Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
+    </p>
+    <div class="auth-modal-actions">
+      <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
+      <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+    </div>
+  </div>
+</div>
  <script src="{{ asset('js/script.js') }}"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const isGuest = document.body.getAttribute('data-isGuest') === 'true';
+  document.addEventListener('DOMContentLoaded', function () {
+    const isGuest = document.body.getAttribute('data-isGuest') === 'true';
 
-      // Menangkap semua klik pada link atau tombol yang membutuhkan autentikasi
-      document.addEventListener('click', function (e) {
-        const authTrigger = e.target.closest('[data-auth-link]');
+    const authModalOverlay = document.getElementById('auth-modal-overlay');
+    const authModalLabel   = document.getElementById('auth-modal-label');
+    const authModalCancel  = document.getElementById('auth-modal-cancel');
+    const authModalClose   = document.getElementById('auth-modal-close');
 
-        if (authTrigger && isGuest) {
-          e.preventDefault();
-          e.stopPropagation();
-          const label = authTrigger.getAttribute('data-auth-label') || 'halaman ini';
-          if (confirm('Anda harus masuk terlebih dahulu untuk mengakses ' + label + '. Lanjut ke halaman login?')) {
-            window.location.href = "{{ route('login') }}";
-          }
-        }
-      });
+    function openAuthModal(label) {
+      authModalLabel.textContent = label;
+      authModalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAuthModal() {
+      authModalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function (e) {
+      const authTrigger = e.target.closest('[data-auth-link]');
+
+      if (authTrigger && isGuest) {
+        e.preventDefault();
+        e.stopPropagation();
+        const label = authTrigger.getAttribute('data-auth-label') || 'halaman ini';
+        openAuthModal(label);
+      }
     });
-  </script>
+
+    authModalCancel.addEventListener('click', closeAuthModal);
+    authModalClose.addEventListener('click', closeAuthModal);
+    authModalOverlay.addEventListener('click', function (e) {
+      if (e.target === authModalOverlay) closeAuthModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && authModalOverlay.classList.contains('active')) closeAuthModal();
+    });
+  });
+</script>
 </body>
 </html>

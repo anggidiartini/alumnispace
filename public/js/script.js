@@ -380,30 +380,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const isGuest = document.body.getAttribute("data-isGuest") === "true";
-
-    document.addEventListener("click", function (e) {
-        const authTrigger = e.target.closest("[data-auth-link]");
-
-        if (authTrigger && isGuest) {
-            e.preventDefault();
-            e.stopPropagation();
-            const label =
-                authTrigger.getAttribute("data-auth-label") || "halaman ini";
-            if (
-                confirm(
-                    "Anda harus masuk terlebih dahulu untuk mengakses " +
-                        label +
-                        ". Lanjut ke halaman login?",
-                )
-            ) {
-                window.location.href = "/login";
-            }
-        }
-    });
-});
-
 /* ------------------------------------------------------------------
  * Carousel testimoni (versi sliding, landscape)
  * ------------------------------------------------------------------ */
