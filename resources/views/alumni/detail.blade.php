@@ -53,35 +53,86 @@
               </p>
             @endif
 
-            <div class="ad-meta-list">
+            <div class="ad-meta-list" style="flex-wrap: wrap; gap: 12px; margin-top: 16px;">
               @if($profile->city)
-                <p class="ad-meta-row"><i data-lucide="map-pin" width="16"></i> {{ $profile->city }}</p>
+                <p class="ad-meta-row" style="width: 100%;"><i data-lucide="map-pin" width="16"></i> {{ $profile->city }}</p>
               @endif
-              @if($profile->major)
-                <p class="ad-meta-row"><i data-lucide="graduation-cap" width="16"></i> {{ $profile->major }}</p>
+              
+              @if($profile->current_university)
+                <p class="ad-meta-row" style="width: 100%;"><i data-lucide="graduation-cap" width="16"></i> Pendidikan: {{ $profile->current_university }} ({{ $profile->study_status ?? 'Status tidak diketahui' }})</p>
               @endif
+              
+              @if($profile->organization_role)
+                <p class="ad-meta-row" style="width: 100%;"><i data-lucide="users" width="16"></i> Organisasi: {{ $profile->organization_role }}</p>
+              @endif
+
+              @if($profile->achievements)
+                <p class="ad-meta-row" style="width: 100%;"><i data-lucide="award" width="16"></i> Prestasi: {{ str_replace("\n", ", ", $profile->achievements) }}</p>
+              @endif
+
               @if($profile->created_at)
-                <p class="ad-meta-row"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at->diffForHumans() }}</p>
+                <p class="ad-meta-row" style="width: 100%; color: #64748b;"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at->diffForHumans() }}</p>
               @endif
             </div>
 
-            <div class="ad-actions">
-              @if($profile->phone_number)
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $profile->phone_number) }}" target="_blank" rel="noopener" class="ad-btn ad-btn-outline">
-                  <i data-lucide="message-circle" width="18"></i> Hubungi
-                </a>
-              @endif
-              <button id="share-profile-button" type="button" class="ad-btn ad-btn-solid">
-                <i data-lucide="share-2" width="18"></i> Bagikan Profil
-              </button>
-            </div>
+            @php
+              $socials = [
+                'linkedin_url'  => ['icon' => 'linkedin', 'label' => 'LinkedIn'],
+                'instagram_url' => ['icon' => 'instagram', 'label' => 'Instagram'],
+                'tiktok_url'    => ['icon' => 'video', 'label' => 'TikTok'],
+                'github_url'    => ['icon' => 'github', 'label' => 'GitHub'],
+                'twitter_url'   => ['icon' => 'twitter', 'label' => 'Twitter'],
+                'youtube_url'   => ['icon' => 'youtube', 'label' => 'YouTube'],
+                'portfolio_url' => ['icon' => 'globe', 'label' => 'Portofolio'],
+              ];
+              $activeSocials = collect($socials)->filter(fn ($meta, $field) => !empty($profile->{$field}));
+            @endphp
+            @if($activeSocials->isNotEmpty())
+              <div class="ad-social-links" style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px;">
+                @foreach($activeSocials as $field => $meta)
+                  @if($field === 'tiktok_url' || $field === 'instagram_url')
+                    @php
+                      $parts = explode('/', rtrim($profile->{$field}, '/'));
+                      $username = end($parts);
+                      if (!str_starts_with($username, '@')) $username = '@' . $username;
+
+                      $bgColor = '#f1f5f9';
+                      $textColor = '#334155';
+                      if ($field === 'instagram_url') {
+                        $bgColor = '#ec4899';
+                        $textColor = '#ffffff';
+                      } elseif ($field === 'tiktok_url') {
+                        $bgColor = '#111827';
+                        $textColor = '#ffffff';
+                      }
+                    @endphp
+                    <span class="ad-social-badge" title="{{ $meta['label'] }}" style="background: {{ $bgColor }}; padding: 6px 12px; border-radius: 8px; color: {{ $textColor }}; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 14px; white-space: nowrap;">
+                      @if($field === 'tiktok_url')
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                        </svg>
+                      @else
+                        <i data-lucide="{{ $meta['icon'] }}" width="18"></i>
+                      @endif
+                      {{ $username }}
+                    </span>
+                  @else
+                    <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" class="ad-social-icon" title="{{ $meta['label'] }}" style="background: #f1f5f9; padding: 8px; border-radius: 8px; color: #334155; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
+                      <i data-lucide="{{ $meta['icon'] }}" width="18"></i>
+                    </a>
+                  @endif
+                @endforeach
+              </div>
+            @endif
+
           </div>
 
           <div class="ad-hero-avatar-wrap">
             <img
               class="ad-hero-avatar"
-              src="{{ $profile->avatar ? asset('storage/'.$profile->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($profile->user->name).'&background=eaf4ff&color=2e75dd&size=256' }}"
-              alt="Foto profil {{ $profile->user->name }}">
+              src="{{ $profile->avatar ? asset('storage/'.$profile->avatar) : asset('assets/images/default-avatar.jpg') }}"
+              alt="Foto profil {{ $profile->user->name }}"
+              onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($profile->user->name) }}&background=eaf4ff&color=2e75dd&size=256'">
           </div>
         </div>
       </article>
@@ -120,6 +171,7 @@
           <p class="ad-bio-text">
             {{ $profile->bio ?: 'Alumni ini belum menambahkan cerita singkat tentang dirinya.' }}
           </p>
+
         </div>
 
         <aside class="ad-content-side">
@@ -133,27 +185,6 @@
               <p class="ad-contact-row"><i data-lucide="phone" width="16"></i> {{ $profile->phone_number }}</p>
             @endif
 
-            @php
-              $socials = [
-                'linkedin_url'  => ['icon' => 'linkedin', 'label' => 'LinkedIn'],
-                'instagram_url' => ['icon' => 'instagram', 'label' => 'Instagram'],
-                'github_url'    => ['icon' => 'github', 'label' => 'GitHub'],
-                'twitter_url'   => ['icon' => 'twitter', 'label' => 'Twitter'],
-                'youtube_url'   => ['icon' => 'youtube', 'label' => 'YouTube'],
-                'portfolio_url' => ['icon' => 'globe', 'label' => 'Portofolio'],
-              ];
-              $activeSocials = collect($socials)->filter(fn ($meta, $field) => !empty($profile->{$field}));
-            @endphp
-
-            @if($activeSocials->isNotEmpty())
-              <div class="ad-social-links">
-                @foreach($activeSocials as $field => $meta)
-                  <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" class="ad-social-icon" title="{{ $meta['label'] }}">
-                    <i data-lucide="{{ $meta['icon'] }}" width="18"></i>
-                  </a>
-                @endforeach
-              </div>
-            @endif
           </div>
         </aside>
       </div>

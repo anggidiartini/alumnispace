@@ -55,7 +55,7 @@
       @else
       <div id="user-actions" class="user-action-group">
         @if(Auth::user()->role === 'admin' || Auth::user()->role === 'super_admin')
-        <a href="{{ route('admin.content.index') }}" class="btn-admin" title="Buka Panel CMS">
+        <a href="{{ route('admin.dashboard') }}" class="btn-admin" title="Buka Panel Admin">
           <span>⚡</span> <span class="hide-mobile">CMS Admin</span>
         </a>
         @endif

@@ -63,6 +63,29 @@
         .content-body { flex: 1; overflow-y: auto; padding: 24px; }
         .btn-web-view { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; background-color: var(--color-secondary); color: var(--color-primary); font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid transparent; transition: all 0.2s ease; }
         .btn-web-view:hover { background-color: transparent; border-color: var(--color-secondary); color: var(--color-primary); }
+        .nav-item.nav-item-special {
+            background: linear-gradient(135deg, #f2b600 0%, #ffc824 100%);
+            color: #0a4174;
+            font-weight: 800;
+            margin-top: 24px;
+            border: 1px solid #e0a300;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+        }
+        .nav-item.nav-item-special:hover {
+            background: linear-gradient(135deg, #e5a900 0%, #f2b600 100%);
+            color: #0a4174;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+        .nav-item.nav-item-special .nav-item-content i {
+            color: #0a4174 !important;
+            font-size: 16px;
+        }
+        .nav-item.nav-item-special.active {
+            box-shadow: inset 0 0 0 3px #0a4174, 0 4px 6px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #ffc824 0%, #f2b600 100%);
+        }
     </style>
 </head>
 <body>
@@ -94,7 +117,7 @@
                         @endphp
                         
                         <a href="{{ $item['key'] === 'contents' ? route('admin.content.index') : url('admin/table/' . $item['key']) }}" 
-                        class="nav-item {{ $isActive ? 'active' : '' }}">
+                        class="nav-item {{ $isActive ? 'active' : '' }} {{ $item['key'] === 'contents' ? 'nav-item-special' : '' }}">
                             <div class="nav-item-content">
                                 <i class="fa-solid {{ $item['icon'] }}" style="width: 16px; text-align: center; color: {{ $isActive ? 'var(--active-item-text)' : $item['color'] }};"></i>
                                 <span>{{ $item['title'] }}</span>
