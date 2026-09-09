@@ -51,6 +51,7 @@
           <img src="{{ asset('assets/images/foto-3.png') }}" alt="Momen kenangan ketiga">
           <span class="pin-heart">💛</span>
         </div>
+        
 
         <div class="magnifier" aria-hidden="true">
           <img src="{{ asset('assets/icons/kacapembesar.png') }}" alt="">
