@@ -7,7 +7,7 @@
     $isOngoing     = in_array($statusValue, ['ongoing', 'berlangsung']);
 
     $quota         = (int) ($event->quota ?? 0);
-    $registered    = (int) $event->registered_count;
+    $registered    = (int) ($event->registered_count ?? 0);
     $remaining     = max($quota - $registered, 0);
     $percentFilled = $quota > 0 ? min(100, round(($registered / $quota) * 100)) : 0;
     $isFull        = $quota > 0 && $registered >= $quota;
@@ -23,11 +23,14 @@
             : asset('storage/' . $event->banner_image))
         : asset('images/event-placeholder.jpg');
 
-    // Galeri dokumentasi: pakai relasi $event->galleries jika sudah tersedia,
-    // kalau belum ada tabelnya accessor di model masih mengembalikan collection kosong.
-    $galleryImages = collect($event->galleries)->map(function ($item) {
-        return is_string($item) ? $item : ($item->image_path ?? $item->url ?? null);
-    })->filter()->values();
+    // Galeri dokumentasi: pakai relasi $event->galleries kalau relasinya
+    // sudah didefinisikan di Model Event. Kalau belum ada (relasi/tabel
+    // belum dibuat), fallback ke collection kosong supaya tidak fatal error.
+    $galleryImages = method_exists($event, 'galleries')
+        ? collect($event->galleries)->map(function ($item) {
+            return is_string($item) ? $item : ($item->image_path ?? $item->url ?? null);
+        })->filter()->values()
+        : collect();
 
     // Fallback lamar/tanya via WhatsApp untuk widget bantuan mengambang.
     $waHelpNumber = '6281234567890';
@@ -45,6 +48,7 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
     <link rel="stylesheet" href="{{ asset('css/detail-event.css') }}?v={{ file_exists(public_path('css/detail-event.css')) ? filemtime(public_path('css/detail-event.css')) : time() }}">
+    <link rel="stylesheet" href="{{ asset('css/event-register.css') }}?v={{ file_exists(public_path('css/event-register.css')) ? filemtime(public_path('css/event-register.css')) : time() }}">
 </head>
 <body>
 <div class="site-shell page-wrap">
@@ -79,7 +83,7 @@
                             </div>
                         @endif
 
-                        <p class="event-summary">{{ \Illuminate\Support\Str::limit($event->description, 180) }}</p>
+                        <p class="event-summary">{{ \Illuminate\Support\Str::limit($event->description ?? '', 180) }}</p>
 
                         <div class="hero-actions">
                             @if($isCompleted)
@@ -123,7 +127,8 @@
                     <article class="info-card" data-reveal="scale">
                         <span class="info-icon" aria-hidden="true"><i data-lucide="clock" width="18" height="18"></i></span>
                         <span class="info-label">Waktu</span>
-                        <span class="info-value">{{ $event->time_info }}</span>
+                        {{-- Ganti time_info ke time_display kalau itu nama kolom yang benar di tabel events --}}
+                        <span class="info-value">{{ $event->time_display ?? $event->time_info ?? '-' }}</span>
                     </article>
                     <article class="info-card" data-reveal="scale">
                         <span class="info-icon" aria-hidden="true"><i data-lucide="{{ $event->location_type === 'online' ? 'wifi' : 'map-pin' }}" width="18" height="18"></i></span>
@@ -153,7 +158,7 @@
                                 <i data-lucide="chevron-down" width="22" height="22"></i>
                             </button>
                             <div class="accordion-panel">
-                                <p class="section-text">{{ $event->description }}</p>
+                                <p class="section-text">{{ $event->description ?? '-' }}</p>
                             </div>
                         </section>
 
@@ -169,7 +174,7 @@
                             <p class="card-copy">
                                 {{ $event->location_type === 'online'
                                     ? 'Link akses akan tersedia setelah pendaftaran berhasil dikonfirmasi.'
-                                    : $event->venue }}
+                                    : ($event->venue ?? '-') }}
                             </p>
                         </article>
                     </div>
@@ -252,6 +257,56 @@
         <img id="lightboxImage" src="" alt="">
     </div>
 
+    {{-- ================= MODAL: FORM PENDAFTARAN EVENT =================
+         Dipicu oleh #registerBtn di atas. Submit ke route('event.register', ...)
+         lewat window.EventDetailConfig.registerUrl (lihat script di bawah).
+         Setelah sukses, backend yang mengirim email berisi link WA konfirmasi
+         ke panitia — di sini cuma menampilkan pesan konfirmasinya. ================= --}}
+    <div class="er-overlay" id="erOverlay" aria-hidden="true">
+        <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="erTitle">
+            <button type="button" class="er-close" id="erClose" aria-label="Tutup">&times;</button>
+
+            <div class="er-step" id="erStepForm">
+                <h2 id="erTitle" class="er-title">Daftar {{ $event->title }}</h2>
+                <p class="er-sub">Isi data di bawah ini untuk mengamankan kursimu. Link konfirmasi ke panitia akan dikirim lewat email.</p>
+
+                <form id="erForm" class="er-form" novalidate>
+                    <div class="er-field">
+                        <label for="erName">Nama Lengkap</label>
+                        <input type="text" id="erName" name="name" required autocomplete="name">
+                        <span class="er-error" data-error-for="name"></span>
+                    </div>
+                    <div class="er-field">
+                        <label for="erEmail">Email</label>
+                        <input type="email" id="erEmail" name="email" required autocomplete="email">
+                        <span class="er-error" data-error-for="email"></span>
+                    </div>
+                    <div class="er-field">
+                        <label for="erPhone">No. WhatsApp</label>
+                        <input type="tel" id="erPhone" name="phone" required placeholder="08xxxxxxxxxx" autocomplete="tel">
+                        <span class="er-error" data-error-for="phone"></span>
+                    </div>
+
+                    <p class="er-form-error" id="erFormError" hidden></p>
+
+                    <button type="submit" class="primary-button er-submit" id="erSubmitBtn">
+                        <span class="er-submit-label">Daftar Sekarang</span>
+                        <span class="er-spinner" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="er-step" id="erStepSuccess" hidden>
+                <div class="er-success-icon" aria-hidden="true"><i data-lucide="mail-check" width="34" height="34"></i></div>
+                <h2 class="er-title">Pendaftaran Berhasil!</h2>
+                <p class="er-sub" id="erSuccessMessage">
+                    Kami sudah mengirim email konfirmasi berisi link WhatsApp untuk konfirmasi ke panitia. Silakan cek inbox (atau folder spam) kamu.
+                </p>
+                <button type="button" class="primary-button er-submit" id="erDoneBtn">Oke, Mengerti</button>
+            </div>
+        </div>
+    </div>
+
     {{-- ================= FLOATING: WhatsApp (atas) + on-top (bawah) ================= --}}
     <div id="fab-row" class="fab-row">
         <button id="back-to-top" type="button" aria-label="Kembali ke atas">
@@ -285,5 +340,6 @@
 </script>
 <script src="{{ asset('js/detail-event.js') }}"></script>
 <script src="{{ asset('js/detail-event-floating.js') }}"></script>
+<script src="{{ asset('js/event-register.js') }}"></script>
 </body>
 </html>
