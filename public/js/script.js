@@ -215,31 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     /* ------------------------------------------------------------------
-     * Carousel testimoni
-     * ------------------------------------------------------------------ */
-    const testimonials = [...document.querySelectorAll(".testimonial")];
-    let testimonialIndex = 0;
-    const showTestimonial = (next) => {
-        if (testimonials.length === 0) return;
-        testimonials[testimonialIndex].classList.remove("active");
-        testimonialIndex = (next + testimonials.length) % testimonials.length;
-        testimonials[testimonialIndex].classList.add("active");
-    };
-    document
-        .getElementById("prev-testimonial")
-        ?.addEventListener("click", () =>
-            showTestimonial(testimonialIndex - 1),
-        );
-    document
-        .getElementById("next-testimonial")
-        ?.addEventListener("click", () =>
-            showTestimonial(testimonialIndex + 1),
-        );
-
-    /* ------------------------------------------------------------------
      * Navigasi terpadu (nav desktop, mobile, footer, tombol CTA)
-     * - Jika link butuh login (data-auth-link) & belum login -> notif + arahkan ke halaman login
-     * - Jika sudah login / link publik -> scroll halus + aktifkan tab bila perlu
      * ------------------------------------------------------------------ */
     document.querySelectorAll(".js-nav-link").forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -311,7 +287,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         groups.forEach((els) => {
             els.forEach((el, i) => {
-                // hormati delay manual yang sudah ada di inline style (mis. stat-card)
                 if (!el.style.transitionDelay) {
                     el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
                 }
@@ -405,7 +380,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", function (e) {
         const authTrigger = e.target.closest("[data-auth-link]");
 
-        // Pastikan hanya berjalan jika elemen punya atribut data-auth-link dan user adalah guest
         if (authTrigger && isGuest) {
             e.preventDefault();
             e.stopPropagation();
@@ -424,67 +398,109 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const nextBtn = document.getElementById("next-testimonial");
-
-    if (nextBtn) {
-        const intervalTime = 2500; // Durasi lebih cepat (2.5 detik). Ubah ke 2000 kalau mau 2 detik.
-
-        setInterval(() => {
-            nextBtn.click();
-        }, intervalTime);
-    }
-});
-
+/* ------------------------------------------------------------------
+ * Carousel testimoni (versi sliding, landscape)
+ * ------------------------------------------------------------------ */
 (function () {
+    const viewport = document.querySelector(".testi-viewport");
     const track = document.getElementById("testi-track");
-    if (!track) return;
+    if (!track || !viewport) return;
 
-    const cards = Array.from(track.querySelectorAll(".testi-card"));
-    const dotsWrap = document.getElementById("testi-dots");
-    const total = cards.length;
+    const originals = Array.from(track.children);
+    const total = originals.length;
     if (total === 0) return;
 
+    const hasClones = total > 1;
     let current = 0;
 
-    cards.forEach((_, i) => {
+    if (hasClones) {
+        const firstClone = originals[0].cloneNode(true);
+        const lastClone = originals[total - 1].cloneNode(true);
+        track.insertBefore(lastClone, originals[0]);
+        track.appendChild(firstClone);
+        current = 1;
+    }
+
+    const cards = Array.from(track.children);
+
+    const dotsWrap = document.getElementById("testi-dots");
+    dotsWrap.innerHTML = "";
+    for (let i = 0; i < total; i++) {
         const dot = document.createElement("button");
         dot.type = "button";
         dot.className = "testi-dot";
         dot.setAttribute("aria-label", "Ke testimoni " + (i + 1));
-        dot.addEventListener("click", () => {
-            current = i;
-            render();
-        });
+        dot.addEventListener("click", () => goTo(hasClones ? i + 1 : i));
         dotsWrap.appendChild(dot);
-    });
+    }
     const dots = Array.from(dotsWrap.children);
 
-    function render() {
-        cards.forEach((card, i) => {
-            card.classList.remove("is-prev", "is-active", "is-next");
-            if (i === current) card.classList.add("is-active");
-            else if (i === (current - 1 + total) % total)
-                card.classList.add("is-prev");
-            else if (i === (current + 1) % total) card.classList.add("is-next");
-        });
-        dots.forEach((dot, i) =>
-            dot.classList.toggle("is-active", i === current),
+    function realIndex(displayIndex) {
+        if (!hasClones) return displayIndex;
+        return (((displayIndex - 1) % total) + total) % total;
+    }
+
+    function getOffset() {
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const cardWidth = cards[0].offsetWidth;
+        const centering = viewport.clientWidth / 2 - cardWidth / 2;
+        const distance = current * (cardWidth + gap);
+        return centering - distance;
+    }
+
+    function render(instant) {
+        cards.forEach((card, i) =>
+            card.classList.toggle("is-active", i === current),
         );
+
+        if (instant) track.style.transition = "none";
+        track.style.transform = `translateX(${getOffset()}px)`;
+        if (instant) {
+            void track.offsetHeight;
+            track.style.transition = "";
+        }
+
+        const idx = realIndex(current);
+        dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
+    }
+
+    function goTo(displayIndex) {
+        current = displayIndex;
+        render(false);
     }
 
     document
         .getElementById("prev-testimonial")
-        .addEventListener("click", () => {
-            current = (current - 1 + total) % total;
-            render();
-        });
+        ?.addEventListener("click", () => goTo(current - 1));
     document
         .getElementById("next-testimonial")
-        .addEventListener("click", () => {
-            current = (current + 1) % total;
-            render();
-        });
+        ?.addEventListener("click", () => goTo(current + 1));
 
-    render();
+    track.addEventListener("transitionend", (e) => {
+        if (e.propertyName !== "transform" || !hasClones) return;
+        if (current === 0) {
+            current = total;
+            render(true);
+        } else if (current === cards.length - 1) {
+            current = 1;
+            render(true);
+        }
+    });
+
+    window.addEventListener("resize", () => render(true));
+
+    render(true);
+
+    /* Auto-geser tiap beberapa detik */
+    const nextBtn = document.getElementById("next-testimonial");
+    if (nextBtn) {
+        setInterval(() => nextBtn.click(), 4000);
+    }
 })();
+
+/* ------------------------------------------------------------------
+ * Galeri: pasang foto dari data-bg attribute
+ * ------------------------------------------------------------------ */
+document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
+    el.style.backgroundImage = `url(${el.dataset.bg})`;
+});

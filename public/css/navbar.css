@@ -365,3 +365,9 @@ body {
         display: none !important;
     }
 }
+
+html,
+body {
+    overflow-x: hidden;
+    max-width: 100%;
+}

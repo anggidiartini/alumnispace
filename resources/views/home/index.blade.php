@@ -260,56 +260,56 @@
     <h2 class="text-4xl font-bold text-white md:text-5xl reveal-onscroll">Koneksi kecil, dampak besar.</h2>
 
     <div class="testi-carousel-wrap mt-12 reveal-onscroll">
-      <button id="prev-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni sebelumnya">
-        <i data-lucide="chevron-left" class="h-5 w-5"></i>
-      </button>
+  <button id="prev-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni sebelumnya">
+    <i data-lucide="chevron-left" class="h-5 w-5"></i>
+  </button>
 
-      <div class="testi-track" id="testi-track">
-        @forelse($testimonials ?? [] as $index => $testi)
-        <article class="testi-card" data-index="{{ $index }}">
-          <span class="testi-quote-mark">&ldquo;</span>
-          <div class="testi-stars" aria-label="Rating {{ $testi->rating ?? 5 }} dari 5">
-            @for ($s = 1; $s <= 5; $s++)
-              <i data-lucide="star" class="h-4 w-4 {{ $s <= ($testi->rating ?? 5) ? 'is-filled' : '' }}"></i>
-            @endfor
+  <div class="testi-viewport">
+    <div class="testi-track" id="testi-track">
+      @forelse($testimonials ?? [] as $index => $testi)
+      <article class="testi-card" data-index="{{ $index }}">
+        <span class="testi-quote-mark">&ldquo;</span>
+        <div class="testi-stars" aria-label="Rating {{ $testi->rating ?? 5 }} dari 5">
+          @for ($s = 1; $s <= 5; $s++)
+            <i data-lucide="star" class="h-4 w-4 {{ $s <= ($testi->rating ?? 5) ? 'is-filled' : '' }}"></i>
+          @endfor
+        </div>
+        <p class="testi-quote">{{ $testi->quote }}</p>
+        <div class="testi-footer">
+          @if($testi->avatar)
+            <img src="{{ $testi->avatar }}" alt="{{ $testi->name }}" class="h-10 w-10 shrink-0 rounded-full object-cover border-2 border-[#eaf3ff]">
+          @else
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563] text-sm">{{ strtoupper(substr($testi->name, 0, 2)) }}</span>
+          @endif
+          <div class="text-left">
+            <p class="font-bold text-[#153563] text-sm">{{ $testi->name }}</p>
+            <p class="text-xs font-semibold text-[#6f9fe8]">{{ $testi->profession ?? ('Angkatan ' . $testi->graduation_year) }}</p>
           </div>
-          <p class="testi-quote mt-4 text-left leading-relaxed text-[#355277]">{{ $testi->quote }}</p>
-          <div class="mt-6 flex items-center gap-3 border-t border-blue-50 pt-5">
-            @if($testi->avatar)
-              <img src="{{ $testi->avatar }}" alt="{{ $testi->name }}" class="h-12 w-12 shrink-0 rounded-full object-cover border-2 border-[#eaf3ff]">
-            @else
-              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563]">{{ strtoupper(substr($testi->name, 0, 2)) }}</span>
-            @endif
-            <div class="text-left">
-              <p class="font-bold text-[#153563]">{{ $testi->name }}</p>
-              <p class="text-xs font-semibold text-[#6f9fe8]">{{ $testi->profession ?? ('Angkatan ' . $testi->graduation_year) }}</p>
-            </div>
+        </div>
+      </article>
+      @empty
+      <article class="testi-card" data-index="0">
+        <span class="testi-quote-mark">&ldquo;</span>
+        <div class="testi-stars">@for ($s = 1; $s <= 5; $s++)<i data-lucide="star" class="h-4 w-4 is-filled"></i>@endfor</div>
+        <p class="testi-quote">Lewat Alumni Space, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!</p>
+        <div class="testi-footer">
+          <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563] text-sm">AL</span>
+          <div class="text-left">
+            <p class="font-bold text-[#153563] text-sm">Alya Lestari</p>
+            <p class="text-xs font-semibold text-[#6f9fe8]">Angkatan 2015</p>
           </div>
-        </article>
-        @empty
-        <article class="testi-card" data-index="0">
-          <span class="testi-quote-mark">&ldquo;</span>
-          <div class="testi-stars">
-            @for ($s = 1; $s <= 5; $s++)<i data-lucide="star" class="h-4 w-4 is-filled"></i>@endfor
-          </div>
-          <p class="testi-quote mt-4 text-left leading-relaxed text-[#355277]">Lewat Alumni Space, aku bertemu lagi dengan teman sekelas yang akhirnya jadi partner proyek startup!</p>
-          <div class="mt-6 flex items-center gap-3 border-t border-blue-50 pt-5">
-            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#ffd9e7] font-bold text-[#153563]">AL</span>
-            <div class="text-left">
-              <p class="font-bold text-[#153563]">Alya Lestari</p>
-              <p class="text-xs font-semibold text-[#6f9fe8]">Angkatan 2015</p>
-            </div>
-          </div>
-        </article>
-        @endforelse
-      </div>
-
-      <button id="next-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni berikutnya">
-        <i data-lucide="chevron-right" class="h-5 w-5"></i>
-      </button>
+        </div>
+      </article>
+      @endforelse
     </div>
+  </div>
 
-    <div class="testi-dots mt-7" id="testi-dots"></div>
+  <button id="next-testimonial" type="button" class="testi-arrow focus-ring" aria-label="Testimoni berikutnya">
+    <i data-lucide="chevron-right" class="h-5 w-5"></i>
+  </button>
+</div>
+
+<div class="testi-dots mt-7" id="testi-dots"></div>
   </div>
 </section>
       <!-- SECTION 1: GALERI (KOLASE) -->
@@ -322,15 +322,25 @@
   </div>
 
   <div class="mt-9 galeri-kolase-grid">
-    <div class="checker g-item pop-card flex items-end rounded-[1.75rem] bg-[#a8d3ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Campus Day</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffd9e7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Mini Reunion</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#fff0a9] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Creative Lab</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#cce8de] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Volunteer Day</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#b8c9ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Career Talk</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffcfb7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Weekend Club</span></div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image2.png') }}">
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image3.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image1.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image7.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image8.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image9.png') }}">
+
+    </div>
   </div>
 </section>
-
       <!-- SECTION 2: ARTIKEL (Diperluas jarak bawahnya menjadi pb-32) -->
       <section id="artikel-section" class="mx-auto max-w-7xl px-5 pb-32 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
