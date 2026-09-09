@@ -201,7 +201,7 @@
                                                     {{ $job->company_logo ?? $job->initials }}
                                                 </span>
                                             @endif
-                                            <span class="company-link-disabled"
+                                            <span class="company-link-enabled"
                                                 style="color: #4a5568; font-weight: 500;">{{ $job->company_name }}</span>
                                         @endif
                                     </div>
@@ -437,10 +437,8 @@
 
             lucide.createIcons();
             filterJobs();
+
         });
     </script>
 </body>
-<<<<<<< HEAD </html>
-    =======
-    
 </html>
