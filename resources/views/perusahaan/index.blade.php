@@ -71,10 +71,10 @@
                             <div class="job-card-head">
                                 <span class="job-badge">{{ $job->category }}</span><span class="job-symbol">✳</span>
                             </div>
-                            <a class="job-title-link" href="{{ route('lowongan.show', $job->slug) }}">{{ $job->title }}</a>
+                            <a class="job-title-link" href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
                             <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at->diffForHumans() }}</p>
                             <p class="job-description">{{ \Illuminate\Support\Str::limit($job->description, 120) }}</p>
-                            <a class="apply-button custom-pill-btn" href="{{ route('lowongan.show', $job->slug) }}">Lihat Detail</a>
+                            <a class="apply-button custom-pill-btn" href="{{ route('lowongan.index', $job->slug) }}">Lihat Detail</a>
                         </article>
                     @empty
                         <div style="grid-column: 1/-1; text-align: center; padding: 3rem; background: #fff; border-radius: 16px; border: 2px dashed #cbd5e1;">

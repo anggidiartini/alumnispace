@@ -55,7 +55,8 @@
                         <div class="preview-wrap">
                             <div class="preview-label">PILIHAN MINGGU INI</div>
                             @if ($jobs->count())
-                                @php $featured = $jobs->first(); @endphp
+                                @php $featured = $jobs->sortByDesc('created_at')->first(); @endphp
+
                                 <article class="preview-card floaty">
                                     <div class="preview-top">
                                         <div class="preview-monogram">{{ $featured->initials }}</div>
@@ -159,7 +160,7 @@
                                             class="job-symbol">✳</span>
                                     </div>
                                     <a class="job-title-link"
-                                        href="{{ route('lowongan.show', $job->slug) }}">{{ $job->title }}</a>
+                                        href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
 
                                     <div class="company-row">
                                         @if ($job->company)
@@ -189,25 +190,30 @@
                                                 <span>{{ $job->company->name }}</span>
                                             </a>
                                         @else
-                                            @if (
-                                                !empty($job->company_logo) &&
-                                                    (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
-                                                <img class="company-logo"
-                                                    src="{{ asset('storage/' . $job->company_logo) }}" alt=""
-                                                    loading="lazy">
-                                            @else
-                                                <span class="company-initials"
-                                                    style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                    {{ $job->company_logo ?? $job->initials }}
-                                                </span>
-                                            @endif
-                                            <span class="company-link-enabled"
-                                                style="color: #4a5568; font-weight: 500;">{{ $job->company_name }}</span>
+                                            <!-- JIKA BELUM ADA RELASI, LOGO DAN NAMA DISATUKAN DALAM SATU LINK AGAR BISA DIKLIK SEMUA -->
+                                            <a href="{{ route('perusahaan.index', $job->company_slug ?? \Illuminate\Support\Str::slug($job->company_name)) }}"
+                                                class="company-link-enabled"
+                                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500;"
+                                                onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
+                                                onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
+
+                                                @if (
+                                                    !empty($job->company_logo) &&
+                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                    <img class="company-logo"
+                                                        src="{{ asset('storage/' . $job->company_logo) }}"
+                                                        alt="" loading="lazy">
+                                                @else
+                                                    <span class="company-initials"
+                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
+                                                        {{ $job->company_logo ?? $job->initials }}
+                                                    </span>
+                                                @endif
+
+                                                <span>{{ $job->company_name }}</span>
+                                            </a>
                                         @endif
                                     </div>
-
-
-
 
                                     <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} ·
                                         {{ $job->created_at->diffForHumans() }}</p>
@@ -441,3 +447,7 @@
         });
     </script>
 </body>
+
+</html>
+
+</html>
