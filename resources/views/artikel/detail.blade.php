@@ -33,7 +33,7 @@
       <div class="detail-photo-col">
         <div class="detail-photo">
           @if($article->thumbnail)
-            <img src="{{ asset('storage/' . $article->thumbnail) }}" alt="{{ $article->title }}">
+            <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}">
           @else
             <div style="width:100%;height:100%;min-height:340px;display:flex;align-items:center;justify-content:center;background:var(--jc-soft);">
               <i data-lucide="newspaper" style="width:70px;height:70px;opacity:.35;color:var(--jc-ink);"></i>
@@ -90,7 +90,7 @@
         <a href="{{ route('artikel.show', $related->slug) }}" class="related-card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
           <div class="related-photo">
             @if($related->thumbnail)
-              <img src="{{ asset('storage/' . $related->thumbnail) }}" alt="{{ $related->title }}">
+              <img src="{{ asset($related->thumbnail) }}" alt="{{ $related->title }}">
             @else
               <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--jc-soft);">
                 <i data-lucide="newspaper" style="width:32px;height:32px;opacity:.35;color:var(--jc-ink);"></i>
@@ -119,7 +119,7 @@
         <a href="{{ route('artikel.show', $latest->slug) }}" class="related-card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
           <div class="related-photo">
             @if($latest->thumbnail)
-              <img src="{{ asset('storage/' . $latest->thumbnail) }}" alt="{{ $latest->title }}">
+              <img src="{{ asset($latest->thumbnail) }}" alt="{{ $latest->title }}">
             @else
               <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--jc-soft);">
                 <i data-lucide="newspaper" style="width:32px;height:32px;opacity:.35;color:var(--jc-ink);"></i>
