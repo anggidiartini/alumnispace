@@ -219,6 +219,12 @@
             if (typeof result.data.registered_count !== "undefined" && config.quota) {
               updateQuotaDisplay(result.data.registered_count, config.quota);
             }
+          if (result.data.whatsapp_url) {
+            window.setTimeout(function () {
+              window.open(result.data.whatsapp_url, '_blank');
+            }, 800); 
+          }
+
           } else {
             showToast((result.data && result.data.message) || "Terjadi kesalahan saat mendaftar.", true);
             registerBtn.disabled = false;
