@@ -70,21 +70,10 @@
 
         <main id="top">
 
-            {{-- ================= BREADCRUMB ================= --}}
-            <section class="page-width breadcrumb-wrap reveal-onscroll">
-                <nav aria-label="Breadcrumb">
-                    <ol class="breadcrumb">
-                        <li><a href="{{ url('/') }}">Beranda</a></li>
-                        <li aria-hidden="true">/</li>
-                        <li><a href="{{ route('lowongan.index') }}">Lowongan</a></li>
-                        <li aria-hidden="true">/</li>
-                        <li class="breadcrumb-current">{{ $job->title }}</li>
-                    </ol>
-                </nav>
-            </section>
+
 
             {{-- ================= HERO ================= --}}
-            <section class="page-width reveal-onscroll">
+            <section class="page-width reveal-onscroll hero-section-top">
                 <div class="job-hero grid-paper">
                     <div class="job-hero-blob job-hero-blob-1 blob" aria-hidden="true"></div>
                     <div class="job-hero-blob job-hero-blob-2 blob" aria-hidden="true"></div>

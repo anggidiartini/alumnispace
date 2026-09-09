@@ -20,14 +20,7 @@
     <div class="dp-shell">
         <main id="beranda">
             <div class="dp-width">
-                {{-- Breadcrumb --}}
-                <nav class="dp-breadcrumb" aria-label="Breadcrumb">
-                    <a href="{{ url('/') }}">Beranda</a>
-                    <span>/</span>
-                    <a href="{{ route('lowongan.index') }}">Perusahaan</a>
-                    <span>/</span>
-                    <span class="current">{{ $company->name }}</span>
-                </nav>
+
 
                 {{-- HERO --}}
                 <section class="dp-hero dp-reveal" aria-labelledby="companyName">
