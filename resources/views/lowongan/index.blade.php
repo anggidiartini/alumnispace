@@ -437,10 +437,7 @@
 
             lucide.createIcons();
             filterJobs();
+
         });
     </script>
 </body>
-<<<<<<< HEAD </html>
-    =======
-
-</html>
