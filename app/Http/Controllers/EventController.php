@@ -84,11 +84,10 @@ class EventController extends Controller
         // 4. Generate Link Konfirmasi WhatsApp otomatis
         $nomorWaPanitia = '6281234567890'; // Gunakan format kode negara (62), tanpa spasi dan tanda '+'
         $pesanTeks = "Halo Panitia, saya ingin konfirmasi pendaftaran event.\n\n"
-                   . "Nama: " . $user->name . "\n"
-                   . "Event: " . $event->title . "\n"
-                   . "Kode Tiket: " . $registration->ticket_code . "\n\n"
-                   . "Mohon untuk segera diverifikasi. Terima kasih!";
-                   
+                    . "Nama: " . $user->name . "\n"
+                    . "Event: " . $event->title . "\n"
+                    . "Kode Tiket: " . $registration->ticket_code . "\n\n"
+                    . "Mohon untuk segera diverifikasi. Terima kasih!";
         $whatsappUrl = "https://wa.me" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
 
         return response()->json([
