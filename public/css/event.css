@@ -694,6 +694,10 @@ input:focus-visible {
     background-color: #ffffff;
 }
 
+.event-card .apply-button:hover {
+    background-color: #fae588;
+}
+
 .empty-state {
     display: none;
     border: 2px dashed #a8d3ff;
@@ -772,9 +776,15 @@ input:focus-visible {
     bottom: 1.25rem;
     z-index: 65;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 0.75rem;
 }
+
+/* WA di atas, back-to-top di bawahnya — urutan HTML tidak diubah,
+   cukup dibalik posisinya lewat flex order */
+#wa-widget { order: 1; }
+#back-to-top { order: 2; }
 
 #back-to-top {
     display: grid;
