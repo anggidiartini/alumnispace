@@ -10,6 +10,7 @@
 
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/alumni.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/alumni.css')) : time() }}">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 </head>
 <body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
@@ -22,11 +23,11 @@
     <span class="hero-shape shape-mint"></span>
     <div class="hero-container">
       <div class="hero-grid">
-        <div class="hero-left">
-          <p class="hero-eyebrow" style="background: rgb(255, 240, 168); color: rgb(49, 87, 127); font-weight: 700; font-style: normal; font-size: 16px;">✦ Alumni Space · ruang temu lintas angkatan</p>
+        <div class="hero-left reveal">
+          <p class="inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Alumni Space · ruang temu lintas angkatan</p>
           <h1 class="hero-title" style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 32px;">Kita tetap tumbuh, bersama.</h1>
           <p class="hero-subtitle" style="color: rgb(80, 117, 155); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.55;">Temukan kembali teman seperjalanan, bagikan cerita, dan rayakan langkah baik dari komunitas alumni kita.</p>
-          <a href="#direktori" class="hero-cta" style="background: rgb(46, 117, 221); color: rgb(255, 255, 255); font-weight: 800; font-style: normal; font-size: 16px;">Lihat direktori</a>
+          <a href="#direktori" class="custom-pill-btn px-6 py-3.5 text-base">Lihat direktori</a>
 
           <div class="hero-stats">
             <div class="stat-card" style="background: rgb(255, 255, 255);">
@@ -50,13 +51,13 @@
           </div>
         </div>
 
-        <div class="hero-photo-outer">
+        <div class="hero-photo-outer reveal" style="animation-delay:.15s">
           <div class="hero-decor-1" aria-hidden="true">✦</div>
           <div class="hero-decor-2" aria-hidden="true">✿</div>
           <div class="hero-photo-frame">
-            <img loading="lazy" src="https://images.pexels.com/photos/7683745/pexels-photo-7683745.jpeg" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
+            <img loading="lazy" src="{{ asset('assets/images/image9.png') }}" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
           </div>
-          <div class="hero-note" style="background: rgb(255, 240, 168); color: rgb(49, 87, 127);"><span aria-hidden="true">👋</span> Temukan teman seperjalananmu</div>
+
         </div>
       </div>
     </div>
@@ -64,16 +65,16 @@
 
   <section id="direktori" class="directory-section">
     <div id="directory-shell" class="directory-shell">
-      <div class="directory-header">
+      <div class="directory-header reveal-onscroll">
         <div>
-          <p class="directory-eyebrow" style="background: rgb(255, 220, 233); color: rgb(135, 81, 108); font-weight: 800; font-style: normal; font-size: 16px;">DIREKTORI ALUMNI</p>
+          <p class="inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Dirokti Alumni</p>
           <h2 class="directory-title" style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 24px;">Temukan teman seperjalanan.</h2>
           <p class="directory-subtitle" style="color: rgb(94, 127, 163); font-weight: 400; font-style: normal; font-size: 16px;">Jelajahi profil alumni, bidang karier, dan domisili mereka.</p>
         </div>
         <p id="result-count" aria-live="polite" class="result-count"></p>
       </div>
 
-      <form id="filter-form" class="filter-form" novalidate>
+      <form id="filter-form" class="filter-form reveal-onscroll" novalidate>
         <div class="filter-grid">
           <div class="icon-field">
             <label class="filter-label" for="search-input" style="color: rgb(49, 87, 127);">Cari alumni</label>
@@ -113,7 +114,7 @@
 
       <div id="alumni-grid" class="alumni-grid">
         @foreach($alumni as $item)
-          <article class="directory-card"
+          <article class="directory-card reveal-onscroll"
                    data-name="{{ $item->user->name }}"
                    data-year="{{ $item->graduation_year }}"
                    data-city="{{ $item->city }}"
@@ -138,14 +139,14 @@
               <p class="card-quote">“{{ \Illuminate\Support\Str::limit($item->bio, 60) }}”</p>
             @endif
 
-            <a class="profile-link" href="{{ route('alumni.show', $item->slug) }}">
+            <a class="profile-link" href="{{ route('alumni.show', $item->slug ?? $item->id) }}">
               Lihat Profil <i data-lucide="arrow-right" width="15"></i>
             </a>
           </article>
         @endforeach
       </div>
 
-      <div id="empty-state" class="empty-state hidden">
+      <div id="empty-state" class="empty-state hidden reveal-onscroll">
         <div class="empty-emoji" aria-hidden="true">🔎</div>
         <h3 style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 19px;">Belum ada alumni yang cocok</h3>
         <p style="color: rgb(94, 127, 163); font-weight: 400; font-style: normal; font-size: 16px; margin-top: .5rem;">Coba gunakan kata kunci lain atau reset filter untuk melihat semua alumni.</p>
@@ -161,6 +162,28 @@
   <i data-lucide="sparkles" width="19"></i>
   <span id="toast-text"></span>
 </div>
+
+<!-- Floating action buttons: tombol scroll-ke-atas & WhatsApp -->
+<div id="fab-row" class="fixed bottom-5 right-5 z-[65] flex items-center gap-3 md:bottom-8 md:right-8">
+  <button id="back-to-top" type="button" class="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#153563] text-white shadow-xl md:h-12 md:w-12" aria-label="Kembali ke atas">
+    <i data-lucide="arrow-up" class="h-5 w-5"></i>
+  </button>
+
+  <div id="wa-widget" class="relative shrink-0">
+    <div id="wa-bubble" class="wa-bubble absolute bottom-full right-0 mb-3 w-60 rounded-2xl bg-white p-4 shadow-2xl sm:w-64">
+      <div class="flex items-start justify-between gap-2">
+        <p class="text-sm font-bold text-[#153563]">Ada pertanyaan?</p>
+        <button id="wa-bubble-close" type="button" class="focus-ring rounded-lg p-1 text-[#355277]" aria-label="Tutup"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <p class="mt-1 text-sm leading-relaxed text-[#355277]">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+      <p class="mt-2 text-sm font-bold text-[#2e72ec]">{{ $settings['whatsapp_number'] ?? '+62 812-3456-7890' }}</p>
+    </div>
+    <a id="wa-button" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings['whatsapp_number'] ?? '6281234567890') }}?text=Halo%20{{ urlencode($settings['brand_name'] ?? 'Alumni Connect') }}" target="_blank" rel="noopener" class="focus-ring wa-pulse grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-xl" aria-label="Hubungi kami via WhatsApp">
+      <i data-lucide="message-circle" class="h-7 w-7"></i>
+    </a>
+  </div>
+</div>
+
 <script src="{{ asset('js/script.js') }}"></script>
 <script>
   const searchInput = document.getElementById("search-input");
@@ -198,7 +221,7 @@
     return filtered;
   }
 
-  function renderDirectory() {
+  function renderDirectory(animate = true) {
     const filtered = getFilteredCards();
     const visibleSet = new Set(filtered);
 
@@ -207,11 +230,13 @@
     });
 
     filtered.forEach((card, index) => {
-      card.style.animation = "none";
       grid.appendChild(card);
-      requestAnimationFrame(() => {
-        card.style.animation = `cardIn .42s ${index * 35}ms both`;
-      });
+      if (animate) {
+        card.style.animation = "none";
+        requestAnimationFrame(() => {
+          card.style.animation = `cardIn .42s ${index * 35}ms both`;
+        });
+      }
     });
 
     resultCount.textContent = `${filtered.length} dari ${totalCount} alumni ditemukan`;
@@ -240,7 +265,7 @@
     showToast("Filter sudah dikembalikan ke awal.");
   });
 
-  renderDirectory();
+  renderDirectory(false);
   lucide.createIcons();
 </script>
 

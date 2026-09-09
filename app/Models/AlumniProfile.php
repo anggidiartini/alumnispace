@@ -29,6 +29,11 @@ class AlumniProfile extends Model
         'twitter_url',
         'youtube_url',
         'portfolio_url',
+        'tiktok_url',
+        'achievements',
+        'organization_role',
+        'current_university',
+        'study_status',
         'is_online',
         'is_verified',
     ];

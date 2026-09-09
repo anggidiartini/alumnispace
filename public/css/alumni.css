@@ -706,43 +706,52 @@ html {
     box-shadow: 0 18px 35px rgba(47, 102, 164, 0.16);
 }
 
-/* Palet pastel bergantian 4 warna, sama pola-nya dengan job-card */
-#alumni-grid .directory-card:nth-child(4n + 1) {
+/* Palet pastel bergantian 5 warna — sengaja 5 (bukan 4) biar tidak sejajar
+   sama jumlah kolom grid (4), jadi polanya "geser" tiap baris */
+#alumni-grid .directory-card:nth-child(5n + 1) {
     border-top-color: var(--blue);
     background: color-mix(in srgb, var(--sky) 55%, #ffffff);
 }
-#alumni-grid .directory-card:nth-child(4n + 1) .badge {
+#alumni-grid .directory-card:nth-child(5n + 1) .badge {
     background: var(--sky);
     color: var(--ink);
 }
 
-#alumni-grid .directory-card:nth-child(4n + 2) {
+#alumni-grid .directory-card:nth-child(5n + 2) {
     border-top-color: #c8517d;
     background: color-mix(in srgb, var(--pink) 45%, #ffffff);
 }
-#alumni-grid .directory-card:nth-child(4n + 2) .badge {
+#alumni-grid .directory-card:nth-child(5n + 2) .badge {
     background: var(--pink);
     color: var(--ink);
 }
 
-#alumni-grid .directory-card:nth-child(4n + 3) {
+#alumni-grid .directory-card:nth-child(5n + 3) {
     border-top-color: #9d7800;
     background: color-mix(in srgb, var(--yellow) 45%, #ffffff);
 }
-#alumni-grid .directory-card:nth-child(4n + 3) .badge {
+#alumni-grid .directory-card:nth-child(5n + 3) .badge {
     background: var(--yellow);
     color: var(--ink);
 }
 
-#alumni-grid .directory-card:nth-child(4n + 4) {
+#alumni-grid .directory-card:nth-child(5n + 4) {
     border-top-color: var(--ink);
     background: color-mix(in srgb, var(--blue) 16%, #ffffff);
 }
-#alumni-grid .directory-card:nth-child(4n + 4) .badge {
+#alumni-grid .directory-card:nth-child(5n + 4) .badge {
     background: var(--blue);
     color: #ffffff;
 }
 
+#alumni-grid .directory-card:nth-child(5n + 5) {
+    border-top-color: #9d7800;
+    background: color-mix(in srgb, var(--yellow) 50%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 5) .badge {
+    background: var(--mint);
+    color: var(--ink);
+}
 .card-top-row {
     display: flex;
     align-items: flex-start;
@@ -834,4 +843,124 @@ html {
 .profile-link:active {
     transform: translateY(2px);
     box-shadow: 0 2px 0 var(--ink);
+}
+
+/* =========================================================
+   RESPONSIVE TAMBAHAN — mobile kecil (≤640px)
+   ========================================================= */
+@media (max-width: 640px) {
+    /* Hero: rapatkan jarak & ukuran di HP */
+    .hero-container {
+        padding: 2rem 1rem 2.5rem;
+    }
+    .hero-title {
+        font-size: 26px !important;
+    }
+    .hero-subtitle {
+        font-size: 15px !important;
+    }
+    .hero-stats {
+        gap: 0.5rem;
+    }
+    .stat-card {
+        min-width: 100px;
+        padding: 0.75rem 1rem;
+    }
+    .hero-photo-outer {
+        max-width: 20rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Filter form: bikin lebih ringkas & compact ala mobile */
+    .filter-form {
+        padding: 0.75rem;
+        border-radius: 18px;
+    }
+    .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .filter-control {
+        min-height: 40px;
+        padding: 0.55rem 0.7rem;
+        font-size: 0.875rem;
+    }
+    .icon-field input {
+        padding-left: 2.2rem;
+    }
+    .filter-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.25rem;
+    }
+    .reset-button {
+        min-height: 40px;
+        width: 100%;
+    }
+
+    /* Grid alumni: 1 kolom penuh di HP kecil */
+    .alumni-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .directory-card {
+        padding: 1rem;
+    }
+    .card-name-link {
+        font-size: 1.05rem;
+    }
+
+    /* Directory header: judul & jumlah hasil ga desek-desekan */
+    .directory-header {
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+    .directory-title {
+        font-size: 20px !important;
+    }
+    .directory-subtitle {
+        font-size: 14px !important;
+    }
+}
+
+/* Search bar super ringkas ala aplikasi HP: full width, icon di kiri, tanpa border tebal */
+@media (max-width: 640px) {
+    .icon-field .filter-control {
+        border-radius: 999px;
+        background: #f3f8ff;
+        border: 1px solid #dceafa;
+    }
+}
+
+/* Kartu alumni: reveal tanpa blur, cuma fade + slide naik, muncul satu-satu */
+.directory-card.reveal-onscroll {
+    animation: none;
+    opacity: 0;
+    filter: none; /* matikan blur bawaan dari home.css */
+    transform: translateY(24px);
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.directory-card.reveal-onscroll.in-view {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0);
+}
+
+.icon-field {
+    position: relative;
+}
+.icon-field i,
+.icon-field svg {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6790bc;
+    width: 17px;
+    height: 17px;
+    pointer-events: none;
+}
+.icon-field input {
+    padding-left: 2.45rem;
 }

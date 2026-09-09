@@ -322,15 +322,25 @@
   </div>
 
   <div class="mt-9 galeri-kolase-grid">
-    <div class="checker g-item pop-card flex items-end rounded-[1.75rem] bg-[#a8d3ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Campus Day</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffd9e7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Mini Reunion</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#fff0a9] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Creative Lab</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#cce8de] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Volunteer Day</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#b8c9ff] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Career Talk</span></div>
-    <div class="g-item pop-card flex items-end rounded-[1.75rem] bg-[#ffcfb7] p-4"><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Weekend Club</span></div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image2.png') }}">
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image3.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image1.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image7.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image8.png') }}">
+
+    </div>
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image9.png') }}">
+
+    </div>
   </div>
 </section>
-
       <!-- SECTION 2: ARTIKEL (Diperluas jarak bawahnya menjadi pb-32) -->
       <section id="artikel-section" class="mx-auto max-w-7xl px-5 pb-32 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
