@@ -1853,3 +1853,166 @@ h1.title .pop {
         grid-template-columns: 1fr;
     }
 }
+/* =========================================================
+   Floating action row: back-to-top & WhatsApp — 1:1 sama
+   dengan lowongan.css milik temen.
+   ========================================================= */
+
+.fab-row {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 65;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#wa-widget { order: 1; }
+#back-to-top { order: 2; }
+
+#back-to-top {
+    display: grid;
+    place-items: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: #153563;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(21, 53, 99, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.9);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+#back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+#wa-widget {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.wa-pulse {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: wa-pulse-ring 2.6s ease-out infinite;
+}
+
+.wa-pulse:hover {
+    transform: scale(1.08);
+}
+
+@keyframes wa-pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+    70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+#wa-button {
+    display: grid;
+    place-items: center;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 9999px;
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+}
+
+#wa-bubble {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.75rem;
+    width: 15rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
+}
+
+.wa-bubble {
+    transform-origin: bottom right;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    visibility: hidden;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.wa-bubble.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.wa-bubble-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #203b68;
+}
+
+.wa-bubble-close {
+    border: 0;
+    background: none;
+    padding: 0.15rem;
+    color: #355277;
+    cursor: pointer;
+}
+
+.wa-bubble-text {
+    margin: 0.4rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #355277;
+}
+
+.wa-bubble-number {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2e72ec;
+}
+
+@media (min-width: 768px) {
+    .fab-row {
+        right: 2rem;
+        bottom: 2rem;
+    }
+    #back-to-top {
+        height: 3rem;
+        width: 3rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .wa-bubble {
+        width: 14.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    #wa-button {
+        height: 3rem;
+        width: 3rem;
+    }
+    #back-to-top {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+}
