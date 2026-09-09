@@ -9,36 +9,36 @@
     <div class="desktop-nav" style="align-items: center; gap: 1.5rem;">
 
       <!-- Beranda -->
-<a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="nav-link-btn" style="text-decoration: none; font-weight: 600; color: #153563;">
+<a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="nav-link-btn {{ Request::routeIs('home') ? 'active' : '' }}" style="text-decoration: none; font-weight: 600; color: #153563;">
   <span>Beranda</span>
 </a>
 
       <!-- Alumni (menuju index alumni) -->
-      <a href="{{ route('alumni.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ route('alumni.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Alumni</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
       <!-- Lowongan (menuju index lowongan) -->
-      <a href="{{ route('lowongan.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ route('lowongan.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Lowongan</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
       <!-- Event (menuju index event) -->
-      <a href="{{ route('event.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Agenda Event" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ route('event.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Agenda Event" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Event</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
       <!-- Album (menuju index album) -->
-      <a href="{{ route('album.index') }}" class="nav-link-btn flex-between" @guest data-auth-link data-auth-label="Album Foto" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ route('album.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Album Foto" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Album</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
       <!-- Artikel (menuju index artikel) -->
-      <a href="{{ route('artikel.index') }}" class="nav-link-btn" style="text-decoration: none; font-weight: 600; color: #153563;">
+      <a href="{{ route('artikel.index') }}" class="nav-link-btn {{ Request::routeIs('artikel.*') ? 'active' : '' }}" style="text-decoration: none; font-weight: 600; color: #153563;">
         <span>Artikel</span>
       </a>
 
@@ -81,25 +81,25 @@
   <!-- Menu Mobile (Disederhanakan jadi 6 menu utama) -->
   <div id="mobile-nav" class="mobile-nav-container">
     <div class="mobile-nav-content">
-      <a class="mobile-link" href="#beranda" data-target="#beranda">Beranda</a>
+      <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="#beranda" data-target="#beranda">Beranda</a>
 
-      <a class="mobile-link flex-between" href="{{ route('alumni.index') }}">
+      <a class="mobile-link flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" href="{{ route('alumni.index') }}">
         <span>Alumni</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <a class="mobile-link flex-between" href="{{ route('lowongan.index') }}">
+      <a class="mobile-link flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" href="{{ route('lowongan.index') }}">
         <span>Lowongan</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <a class="mobile-link flex-between" href="{{ route('event.index') }}">
+      <a class="mobile-link flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" href="{{ route('event.index') }}">
         <span>Event</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <a class="mobile-link flex-between" href="{{ route('album.index') }}">
+      <a class="mobile-link flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" href="{{ route('album.index') }}">
         <span>Album</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <a class="mobile-link" href="{{ route('artikel.index') }}">Artikel</a>
+      <a class="mobile-link {{ Request::routeIs('artikel.*') ? 'active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>
 
       <div class="mobile-auth-footer" style="margin-top: 1.5rem;">
         @guest

@@ -57,18 +57,16 @@ class EventController extends Controller
 }
 
 
-    public function register(Request $request, $id)
+       public function register(Request $request, $id)
     {
         $event = Event::findOrFail($id);
         
-        // Pastikan user sudah login
         if (!Auth::check()) {
             return response()->json(['success' => false, 'message' => 'Kamu harus login terlebih dahulu.'], 401);
         }
 
         $user = Auth::user();
 
-        // Daftarkan atau ambil jika sudah terdaftar
         $registration = EventRegistration::firstOrCreate([
             'event_id' => $event->id,
             'user_id' => $user->id,
@@ -76,13 +74,13 @@ class EventController extends Controller
             'ticket_code' => 'TCK-' . date('Ymd') . '-' . strtoupper(Str::random(5)),
             'status' => 'registered',
         ]);
+
         $adminPusat = \App\Models\User::whereIn('role', ['admin', 'super_admin'])->first();
+        $nomorWaPanitia = '6281234567890'; 
 
-        $nomorWaPanitia = '6281234567890'; // <-- Nomor Cadangan Tetap (jika admin belum isi nomor HP di web)
-
-        if ($adminPusat && $adminPusat->phone) {
-            // Bersihkan nomor dari spasi, strip (-), atau tanda (+) agar tersisa angka saja
+        if ($adminPusat && !empty($adminPusat->phone)) {
             $nomorBersih = preg_replace('/[^0-9]/', '', $adminPusat->phone);
+            
             if (str_starts_with($nomorBersih, '0')) {
                 $nomorBersih = '62' . substr($nomorBersih, 1);
             }
@@ -90,14 +88,21 @@ class EventController extends Controller
             $nomorWaPanitia = $nomorBersih;
         }
 
-        // Susun template teks pesan WhatsApp otomatis
-        $pesanTeks = "Halo Admin, saya ingin konfirmasi pendaftaran event.\n\n"
-                    . "Nama: " . $user->name . "\n"
-                    . "Event: " . $event->title . "\n"
-                    . "Kode Tiket: " . $registration->ticket_code . "\n\n"
-                    . "Mohon untuk segera diverifikasi. Terima kasih!";
-
+        $pesanTeks = "Halo Panitia, saya telah mendaftar di Event Gratis ini dan ingin konfirmasi pendaftaran.\n\n"
+                   . "📄 *DATA PENDAFTARAN*\n"
+                   . "• Nama: " . $user->name . "\n"
+                   . "• Event: " . $event->title . "\n"
+                   . "• Kode Tiket: " . $registration->ticket_code . "\n\n"
+                   . "Mohon kesediaannya untuk memverifikasi data saya dan *memasukkan saya ke grup WhatsApp resmi event* ini. Terima kasih! 🙏";
+                   
         $whatsappUrl = "https://wa.me" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pendaftaran berhasil! Mengalihkan ke WhatsApp panitia untuk konfirmasi masuk grup...',
+            'registered_count' => $event->fresh()->registered_count,
+            'whatsapp_url' => $whatsappUrl
+        ]);
 
         return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat mendaftar.'], 500);
     }

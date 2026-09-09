@@ -109,7 +109,7 @@
                 <div class="kolase-img-box"><img src="{{ asset('assets/images/foto04.png') }}" alt="Foto 4"></div>
               </div>
             </div>
-            <div class="badge-hello">✦ hello alumni!</div>
+            <div class="badge-hello">hello alumni!</div>
           </div>
 
           <!-- TEKS DI KANAN -->
