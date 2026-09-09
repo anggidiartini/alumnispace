@@ -14,19 +14,19 @@
 <div class="stage">
   <div class="deco-blob pink"></div>
   <div class="deco-blob yellow"></div>
-  <div class="deco-spark">✦</div>
+  
 
   <div class="frame">
 
     <div class="panel-brand">
       <div>
         <div class="brand-row">
-          <div class="brand-mark">✦</div>
-          <span class="brand-name">Alumni Connect</span>
+          <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Connect" class="brand-mark">
+            <span class="brand-name">Alumni Connect</span>  
         </div>
 
         <div class="brand-copy">
-          <span class="eyebrow-pill">✦ Ruang hangat untuk kita</span>
+          <span class="eyebrow-pill"> Ruang hangat untuk kita</span>
           <h1>Selamat datang<br>kembali, sahabat.</h1>
           <p>Masuk untuk lanjut terhubung, bertukar kabar, dan tumbuh bersama alumni lintas angkatan.</p>
         </div>
@@ -41,11 +41,7 @@
         </div>
       </div>
 
-      <div class="panel-foot">
-        <span>Komunitas</span>
-        <span>Media</span>
-        <span>Informasi</span>
-      </div>
+      
     </div>
 
     <div class="panel-form">

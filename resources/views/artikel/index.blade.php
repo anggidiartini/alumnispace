@@ -46,9 +46,9 @@
     <div class="hero-inner">
 
       <div class="hero-copy">
-        <div class="greet-badge"><span>✦</span> ARTIKEL &amp; CERITA</div>
+        <div class="greet-badge"> ARTIKEL &amp; CERITA</div>
         <h1 class="title">
-          Cerita, Tips, dan Kabar <span class="pop">Seputar Alumni</span>
+          Cerita, Tips, dan Kabar Seputar Alumni
         </h1>
         <p class="subtitle">
           Kumpulan tulisan dari dan untuk alumni — mulai dari kisah perjalanan karier,

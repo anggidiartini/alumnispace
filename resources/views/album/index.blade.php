@@ -26,9 +26,9 @@
     <div class="hero-inner">
 
       <div class="hero-copy">
-        <div class="greet-badge"><span>✦</span> OUR MEMORIES</div>
+        <div class="greet-badge"> OUR MEMORIES</div>
         <h1 class="title">
-          Tentang Kita, Tentang Momen yang <span class="pop">Nggak Akan Terulang</span> Lagi
+          Tentang Kita, Tentang Momen yang Nggak Akan Terulang Lagi
         </h1>
         <p class="subtitle">
           Potongan kecil dari hari-hari yang pernah kita jalani bersama,
@@ -41,15 +41,15 @@
       </div>
 
       <div class="photo-stack" aria-label="Kumpulan foto kenangan">
-        <div class="polaroid one" data-caption="momen kecil ✦">
+        <div class="polaroid one" data-caption="momen kecil ">
           <img src="{{ asset('assets/images/foto-1.png') }}" alt="Momen kenangan pertama">
         </div>
-        <div class="polaroid two" data-caption="bareng-bareng ♡">
+        <div class="polaroid two" data-caption="bareng-bareng ">
           <img src="{{ asset('assets/images/foto-2.png') }}" alt="Momen kenangan kedua">
         </div>
-        <div class="polaroid three" data-caption="never forget ✨">
+        <div class="polaroid three" data-caption="never forget ">
           <img src="{{ asset('assets/images/foto-3.png') }}" alt="Momen kenangan ketiga">
-          <span class="pin-heart">💛</span>
+          
         </div>
         
 
@@ -92,9 +92,7 @@
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-        @if($album->sticker_tag)
-          <div class="sticker {{ $index % 2 == 1 ? 'alt' : '' }}">{!! nl2br(e($album->sticker_tag)) !!}</div>
-        @endif
+        
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
