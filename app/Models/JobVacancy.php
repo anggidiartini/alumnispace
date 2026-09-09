@@ -18,6 +18,10 @@ class JobVacancy extends Model
         'slug',
         'company_name',
         'company_logo',
+        'company_description',
+        'company_maps_url',
+        'company_instagram',
+        'company_linkedin',
         'alumni_contact',
         'job_type',
         'workplace_type',
@@ -71,5 +75,27 @@ class JobVacancy extends Model
             if (strlen($initials) >= 2) break;
         }
         return $initials ?: 'JB';
+    }
+
+    /**
+     * URL tujuan tombol "Lamar Sekarang" — dipakai di halaman
+     * detail maupun index, biar logikanya konsisten satu tempat.
+     */
+    public function getApplyUrlAttribute(): ?string
+    {
+        if (!empty($this->application_link)) {
+            return $this->application_link;
+        }
+
+        if (!empty($this->application_email)) {
+            return 'mailto:' . $this->application_email;
+        }
+
+        return null;
+    }
+
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }

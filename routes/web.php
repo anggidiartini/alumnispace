@@ -64,7 +64,14 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlumniDirectoryController;
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
 >>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
+=======
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Admin\ContentManagementController;
+use App\Http\Controllers\Admin\TableController;
+use App\Http\Controllers\CompanyController;
+>>>>>>> test-admin
 
 // Landing & Intro
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -148,11 +155,12 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/lowongan', [JobVacancyController::class, 'index'])->name('lowongan.index');
 Route::get('/lowongan/{slug}', [JobVacancyController::class, 'show'])->name('lowongan.show');
 Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->name('lowongan.apply');
+Route::get('/perusahaan/{slug}', [\App\Http\Controllers\CompanyController::class, 'index'])->name('perusahaan.index');
 
 // Events & Gatherings
 Route::get('/event', [EventController::class, 'index'])->name('event.index');
+Route::match(['get', 'post'], '/event/{id}/register', [EventController::class, 'register'])->name('event.register');
 Route::get('/event/{slug}', [EventController::class, 'show'])->name('event.show');
-Route::post('/event/{id}/register', [EventController::class, 'register'])->name('event.register');
 
 // Photo Albums & Memories
 Route::get('/album', [AlbumController::class, 'index'])->name('album.index');
@@ -160,19 +168,38 @@ Route::get('/album/{slug}', [AlbumController::class, 'show'])->name('album.show'
 
 // Alumni Directory
 Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
-Route::get('/alumni/{id}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
+Route::get('/alumni/{slug}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
+
+//Articles
+Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');
+Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel.show');
+
+
 
 // Admin Protected Group
-Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('admin.content.index');
+Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () { 
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard.index');
     })->name('dashboard');
 
-    Route::get('/content', [\App\Http\Controllers\Admin\ContentManagementController::class, 'index'])->name('content.index');
-    Route::post('/content', [\App\Http\Controllers\Admin\ContentManagementController::class, 'store'])->name('content.store');
-    Route::put('/content/{id}', [\App\Http\Controllers\Admin\ContentManagementController::class, 'update'])->name('content.update');
-    Route::delete('/content/{id}', [\App\Http\Controllers\Admin\ContentManagementController::class, 'destroy'])->name('content.destroy');
-    Route::put('/settings', [\App\Http\Controllers\Admin\ContentManagementController::class, 'updateSettings'])->name('settings.update');
+    Route::get('/dashboard', [ContentManagementController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/table/{table_name}', [TableController::class, 'index'])->name('table.index');
+    Route::get('/table/{table_name}/create', [TableController::class, 'create'])->name('table.create');
+    Route::post('/table/{table_name}', [TableController::class, 'store'])->name('table.store');
+    Route::get('/table/{table_name}/{id}/edit', [TableController::class, 'edit'])->name('table.edit');
+    Route::put('/table/{table_name}/{id}', [TableController::class, 'update'])->name('table.update');
+    Route::delete('/table/{table_name}/{id}', [TableController::class, 'destroy'])->name('table.destroy');
+
+
+    Route::get('/content', [ContentManagementController::class, 'index'])->name('content.index');
+    Route::post('/content', [ContentManagementController::class, 'store'])->name('content.store');
+    Route::put('/content/{id}', [ContentManagementController::class, 'update'])->name('content.update');
+    Route::delete('/content/{id}', [ContentManagementController::class, 'destroy'])->name('content.destroy');
+    Route::put('/settings', [ContentManagementController::class, 'updateSettings'])->name('settings.update');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 });
 >>>>>>> a185f3c9136af7b5ed12841a6e4573d7d7609776
 >>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a

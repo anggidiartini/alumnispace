@@ -102,7 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 mobileLogoutBtn.classList.add("flex");
             }
             if (userEmailLabel && !userEmailLabel.textContent.trim()) {
-                userEmailLabel.textContent = email ? email.split("@")[0] : "Alumni";
+                userEmailLabel.textContent = email
+                    ? email.split("@")[0]
+                    : "Alumni";
             }
             if (userAvatar && !userAvatar.textContent.trim()) {
                 userAvatar.textContent = (email ? email[0] : "A").toUpperCase();
@@ -247,31 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     /* ------------------------------------------------------------------
-     * Carousel testimoni
-     * ------------------------------------------------------------------ */
-    const testimonials = [...document.querySelectorAll(".testimonial")];
-    let testimonialIndex = 0;
-    const showTestimonial = (next) => {
-        if (testimonials.length === 0) return;
-        testimonials[testimonialIndex].classList.remove("active");
-        testimonialIndex = (next + testimonials.length) % testimonials.length;
-        testimonials[testimonialIndex].classList.add("active");
-    };
-    document
-        .getElementById("prev-testimonial")
-        ?.addEventListener("click", () =>
-            showTestimonial(testimonialIndex - 1),
-        );
-    document
-        .getElementById("next-testimonial")
-        ?.addEventListener("click", () =>
-            showTestimonial(testimonialIndex + 1),
-        );
-
-    /* ------------------------------------------------------------------
      * Navigasi terpadu (nav desktop, mobile, footer, tombol CTA)
-     * - Jika link butuh login (data-auth-link) & belum login -> notif + arahkan ke halaman login
-     * - Jika sudah login / link publik -> scroll halus + aktifkan tab bila perlu
      * ------------------------------------------------------------------ */
     document.querySelectorAll(".js-nav-link").forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -332,10 +310,25 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const observeReveals = () => {
+        const groups = new Map();
         document
             .querySelectorAll(".reveal-onscroll:not(.in-view)")
-            .forEach((el) => revealObserver.observe(el));
+            .forEach((el) => {
+                const parent = el.parentElement;
+                if (!groups.has(parent)) groups.set(parent, []);
+                groups.get(parent).push(el);
+            });
+
+        groups.forEach((els) => {
+            els.forEach((el, i) => {
+                if (!el.style.transitionDelay) {
+                    el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
+                }
+                revealObserver.observe(el);
+            });
+        });
     };
+
     observeReveals();
 
     /* ------------------------------------------------------------------
@@ -413,4 +406,135 @@ document.addEventListener("DOMContentLoaded", () => {
     backToTop?.addEventListener("click", () =>
         window.scrollTo({ top: 0, behavior: "smooth" }),
     );
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const isGuest = document.body.getAttribute("data-isGuest") === "true";
+
+    document.addEventListener("click", function (e) {
+        const authTrigger = e.target.closest("[data-auth-link]");
+
+        if (authTrigger && isGuest) {
+            e.preventDefault();
+            e.stopPropagation();
+            const label =
+                authTrigger.getAttribute("data-auth-label") || "halaman ini";
+            if (
+                confirm(
+                    "Anda harus masuk terlebih dahulu untuk mengakses " +
+                        label +
+                        ". Lanjut ke halaman login?",
+                )
+            ) {
+                window.location.href = "/login";
+            }
+        }
+    });
+});
+
+/* ------------------------------------------------------------------
+ * Carousel testimoni (versi sliding, landscape)
+ * ------------------------------------------------------------------ */
+(function () {
+    const viewport = document.querySelector(".testi-viewport");
+    const track = document.getElementById("testi-track");
+    if (!track || !viewport) return;
+
+    const originals = Array.from(track.children);
+    const total = originals.length;
+    if (total === 0) return;
+
+    const hasClones = total > 1;
+    let current = 0;
+
+    if (hasClones) {
+        const firstClone = originals[0].cloneNode(true);
+        const lastClone = originals[total - 1].cloneNode(true);
+        track.insertBefore(lastClone, originals[0]);
+        track.appendChild(firstClone);
+        current = 1;
+    }
+
+    const cards = Array.from(track.children);
+
+    const dotsWrap = document.getElementById("testi-dots");
+    dotsWrap.innerHTML = "";
+    for (let i = 0; i < total; i++) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "testi-dot";
+        dot.setAttribute("aria-label", "Ke testimoni " + (i + 1));
+        dot.addEventListener("click", () => goTo(hasClones ? i + 1 : i));
+        dotsWrap.appendChild(dot);
+    }
+    const dots = Array.from(dotsWrap.children);
+
+    function realIndex(displayIndex) {
+        if (!hasClones) return displayIndex;
+        return (((displayIndex - 1) % total) + total) % total;
+    }
+
+    function getOffset() {
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        const cardWidth = cards[0].offsetWidth;
+        const centering = viewport.clientWidth / 2 - cardWidth / 2;
+        const distance = current * (cardWidth + gap);
+        return centering - distance;
+    }
+
+    function render(instant) {
+        cards.forEach((card, i) =>
+            card.classList.toggle("is-active", i === current),
+        );
+
+        if (instant) track.style.transition = "none";
+        track.style.transform = `translateX(${getOffset()}px)`;
+        if (instant) {
+            void track.offsetHeight;
+            track.style.transition = "";
+        }
+
+        const idx = realIndex(current);
+        dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
+    }
+
+    function goTo(displayIndex) {
+        current = displayIndex;
+        render(false);
+    }
+
+    document
+        .getElementById("prev-testimonial")
+        ?.addEventListener("click", () => goTo(current - 1));
+    document
+        .getElementById("next-testimonial")
+        ?.addEventListener("click", () => goTo(current + 1));
+
+    track.addEventListener("transitionend", (e) => {
+        if (e.propertyName !== "transform" || !hasClones) return;
+        if (current === 0) {
+            current = total;
+            render(true);
+        } else if (current === cards.length - 1) {
+            current = 1;
+            render(true);
+        }
+    });
+
+    window.addEventListener("resize", () => render(true));
+
+    render(true);
+
+    /* Auto-geser tiap beberapa detik */
+    const nextBtn = document.getElementById("next-testimonial");
+    if (nextBtn) {
+        setInterval(() => nextBtn.click(), 4000);
+    }
+})();
+
+/* ------------------------------------------------------------------
+ * Galeri: pasang foto dari data-bg attribute
+ * ------------------------------------------------------------------ */
+document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
+    el.style.backgroundImage = `url(${el.dataset.bg})`;
 });

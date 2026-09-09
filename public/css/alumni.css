@@ -1,0 +1,966 @@
+/* =========================================================
+   ALUMNI DIRECTORY — public/css/alumni.css
+   Plain CSS (tanpa Tailwind). Breakpoint mengikuti pola
+   Tailwind lama: sm=640px, md=768px, lg=1024px.
+   ========================================================= */
+
+:root {
+    --ink: #12356b;
+    --blue: #2e75dd;
+    --sky: #eaf4ff;
+    --yellow: #fff0a8;
+    --pink: #ffdce9;
+    --mint: #ccefe3;
+    --paper: #fffef9;
+    --line: #dbe8f7;
+}
+
+* {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+
+.alumni-page-body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    color: var(--ink);
+    font-family: "DM Sans", sans-serif;
+    background: #f7fbff;
+}
+
+.alumni-page-body button,
+.alumni-page-body select,
+.alumni-page-body input {
+    font: inherit;
+}
+.alumni-page-body button {
+    cursor: pointer;
+}
+.alumni-page-body button:focus-visible,
+.alumni-page-body input:focus-visible,
+.alumni-page-body select:focus-visible,
+.alumni-page-body article:focus-visible {
+    outline: 3px solid #ffca3a;
+    outline-offset: 3px;
+}
+
+/* ---------- SPACER NAV/FOOTER ---------- */
+.nav-spacer {
+    min-height: 1rem;
+}
+.footer-spacer {
+    min-height: 1.25rem;
+}
+
+/* ---------- DECORATIVE ---------- */
+/* Pattern digambar lewat ::before (bukan background-image langsung di elemen),
+   supaya tidak pernah ketimpa oleh inline style="background: ..." yang ada di HTML.
+   Inline style selalu menang atas class dari file CSS eksternal. */
+.dot-grid {
+    position: relative;
+}
+.dot-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(46, 117, 221, 0.09) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(46, 117, 221, 0.09) 1px,
+            transparent 1px
+        );
+    background-size: 25px 25px;
+}
+.hero-shape {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 999px;
+    opacity: 0.82;
+    z-index: 1;
+}
+.shape-pink {
+    width: 220px;
+    height: 220px;
+    background: var(--pink);
+    top: -90px;
+    left: -90px;
+}
+.shape-yellow {
+    width: 128px;
+    height: 128px;
+    background: var(--yellow);
+    right: -40px;
+    top: -30px;
+    transform: rotate(18deg);
+    border-radius: 32px;
+}
+.shape-mint {
+    width: 140px;
+    height: 140px;
+    background: var(--mint);
+    bottom: -75px;
+    right: -34px;
+}
+
+/* ---------- HERO ---------- */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+.hero-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 3.5rem;
+}
+.hero-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+}
+.hero-left {
+    position: relative;
+    z-index: 10;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+}
+.hero-title {
+    max-width: 42rem;
+}
+.hero-subtitle {
+    margin-top: 1.25rem;
+    max-width: 36rem;
+}
+.hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.18s ease;
+}
+.hero-cta:hover {
+    transform: translateY(-2px);
+}
+
+.hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+}
+.stat-card {
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(36, 89, 151, 0.08);
+    padding: 1rem 1.25rem;
+    min-width: 128px;
+}
+.stat-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6682a4;
+    margin: 0;
+}
+.stat-value {
+    margin-top: 0.25rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.hero-photo-outer {
+    position: relative;
+    max-width: 28rem;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 1.25rem;
+}
+.hero-decor-1 {
+    position: absolute;
+    left: -0.25rem;
+    top: 2rem;
+    font-size: 2.25rem;
+}
+.hero-decor-2 {
+    position: absolute;
+    right: 0;
+    bottom: 0.75rem;
+    font-size: 1.875rem;
+}
+
+.hero-photo-frame {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border: 8px solid #fff;
+    border-radius: 38% 62% 47% 53% / 45% 43% 57% 55%;
+    box-shadow:
+        12px 13px 0 #ffe98a,
+        0 18px 34px rgba(22, 79, 145, 0.17);
+    overflow: hidden;
+    transform: rotate(3deg);
+}
+.hero-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.hero-photo-frame::after {
+    content: "";
+    position: absolute;
+    inset: 11px;
+    border: 2px dashed rgba(255, 255, 255, 0.85);
+    border-radius: inherit;
+    pointer-events: none;
+}
+.hero-note {
+    position: absolute;
+    bottom: -1rem;
+    left: -0.25rem;
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+/* ---------- DIREKTORI ---------- */
+.directory-section {
+    width: 100%;
+    padding: 3rem 1.25rem;
+}
+.directory-shell {
+    max-width: 72rem;
+    margin: 0 auto;
+}
+.directory-shell.is-hidden {
+    display: none;
+}
+
+.directory-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+.directory-eyebrow {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+}
+.directory-title {
+    margin-top: 0.75rem;
+}
+.directory-subtitle {
+    margin-top: 0.5rem;
+}
+.result-count {
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: #527398;
+    margin: 0;
+}
+
+/* ---------- FILTER FORM ---------- */
+.filter-form {
+    border-radius: 22px;
+    background: #eef6ff;
+    border: 1px solid #dceafa;
+    padding: 1rem;
+    margin-bottom: 1.75rem;
+}
+.filter-grid {
+    display: grid;
+    gap: 0.75rem;
+    align-items: end;
+}
+.filter-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-bottom: 0.375rem;
+}
+.filter-control {
+    border: 1px solid #d7e6f5;
+    border-radius: 13px;
+    background: #fff;
+    padding: 0.7rem 0.8rem;
+    color: #31577f;
+    min-height: 43px;
+    width: 100%;
+}
+.filter-control:focus {
+    border-color: #5595e4;
+    outline: none;
+    box-shadow: 0 0 0 3px #dcebff;
+}
+.icon-field {
+    position: relative;
+}
+.icon-field i {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6790bc;
+    width: 17px;
+}
+.icon-field input {
+    padding-left: 2.45rem;
+}
+.reset-button {
+    min-height: 43px;
+    padding: 0 1rem;
+    border-radius: 0.75rem;
+    font-weight: 800;
+    font-size: 0.875rem;
+    border: 0;
+}
+
+/* ---------- ALUMNI GRID / CARD ---------- */
+.alumni-grid {
+    display: grid;
+    gap: 1rem;
+}
+.directory-card {
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(47, 102, 164, 0.07);
+    transition:
+        transform 0.24s ease,
+        box-shadow 0.24s ease,
+        border-color 0.24s ease;
+    animation: cardIn 0.45s both;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.directory-card:hover,
+.directory-card:focus {
+    transform: translateY(-6px);
+    border-color: #8db9f0;
+    box-shadow: 0 17px 28px rgba(47, 102, 164, 0.15);
+}
+.card-top-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.card-photo {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    object-fit: cover;
+    background: #dceeff;
+}
+.badge {
+    border-radius: 999px;
+    background: #eaf4ff;
+    color: #2865b4;
+    font-size: 0.69rem;
+    font-weight: 800;
+    padding: 0.32rem 0.58rem;
+    white-space: nowrap;
+}
+.card-name {
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0;
+}
+.card-role {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #3a6ea7;
+    margin: 0.125rem 0 0;
+}
+.card-quote {
+    font-size: 0.875rem;
+    color: #55799f;
+    line-height: 1.375;
+    margin: 0;
+}
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #6280a4;
+    font-size: 0.78rem;
+    margin: 0;
+}
+.profile-link {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 0.65rem 0.8rem;
+    background: #eaf4ff;
+    color: #245b9d;
+    font-size: 0.78rem;
+    font-weight: 800;
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+    margin-top: auto;
+}
+.profile-link:hover {
+    background: #d5eaff;
+    transform: translateY(-1px);
+}
+
+/* ---------- EMPTY STATE ---------- */
+.empty-state {
+    text-align: center;
+    padding: 4rem 1.25rem;
+    border-radius: 24px;
+    background: #fffef9;
+    border: 1px dashed #bcd5ef;
+}
+.empty-state.hidden {
+    display: none;
+}
+.empty-emoji {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+}
+
+/* ---------- DETAIL VIEW ---------- */
+.detail-shell {
+    display: none;
+}
+.detail-shell.is-active {
+    display: block;
+    animation: detailIn 0.45s ease both;
+}
+.detail-container {
+    max-width: 56rem;
+    margin: 0 auto;
+}
+
+.back-button {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.625rem 1rem;
+    border-radius: 0.75rem;
+    font-weight: 800;
+    font-size: 0.875rem;
+    margin-bottom: 1.75rem;
+    border: 0;
+}
+
+.detail-card {
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid #d9e8f6;
+    background: #fff;
+    box-shadow: 0 18px 40px rgba(42, 98, 155, 0.11);
+}
+.detail-header {
+    position: relative;
+    background: #e9f4ff;
+    padding: 1.75rem;
+    overflow: hidden;
+}
+.detail-header-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+.detail-avatar {
+    width: 126px;
+    height: 126px;
+    border-radius: 36px;
+    object-fit: cover;
+    border: 7px solid #fff;
+    box-shadow: 9px 10px 0 #ffe98a;
+}
+.detail-year {
+    display: inline-block;
+    font-size: 0.875rem;
+}
+.detail-name {
+    margin-top: 0.75rem;
+}
+.detail-field {
+    font-weight: 700;
+    color: #2769b5;
+    margin-top: 0.25rem;
+}
+.detail-city {
+    margin-top: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #55799f;
+}
+
+.detail-body {
+    padding: 1.75rem;
+}
+.detail-bio {
+    margin-top: 0.75rem;
+    max-width: 42rem;
+    line-height: 1.625;
+    color: #4c7198;
+}
+.detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.action-button {
+    border: 0;
+    border-radius: 14px;
+    padding: 0.78rem 1.05rem;
+    font-weight: 800;
+    display: inline-flex;
+    gap: 0.52rem;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(27, 83, 146, 0.16);
+}
+
+/* ---------- TOAST ---------- */
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 30;
+    max-width: min(360px, calc(100% - 40px));
+    background: #12356b;
+    color: white;
+    border-radius: 16px;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 18px 40px rgba(10, 39, 80, 0.3);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: 0.3s ease;
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+}
+.toast.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes cardIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes detailIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   RESPONSIVE (mobile-first, mengikuti breakpoint lama:
+   sm=640px, md=768px, lg=1024px)
+   ========================================================= */
+@media (min-width: 640px) {
+    .hero-container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .hero-photo-outer {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+    .directory-section {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .filter-form {
+        padding: 1.25rem;
+    }
+    .filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .alumni-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .detail-header {
+        padding: 2.5rem;
+    }
+    .detail-body {
+        padding: 2.5rem;
+    }
+    .detail-header-inner {
+        flex-direction: row;
+    }
+    .detail-actions {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 768px) {
+    .directory-header {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-container {
+        padding-top: 4rem;
+        padding-bottom: 5rem;
+    }
+    .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+    .hero-photo-outer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .filter-grid {
+        grid-template-columns: 1.65fr 1fr 1.1fr 1fr auto;
+    }
+    .alumni-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =========================================================
+   PATCH: tempel blok ini menggantikan bagian
+   "ALUMNI GRID / CARD" yang lama di public/css/alumni.css
+   (mulai dari .directory-card sampai .profile-link:hover)
+   ========================================================= */
+
+.directory-card {
+    border: 0;
+    border-top: 6px solid var(--blue);
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 14px 30px rgba(47, 102, 164, 0.1);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    animation: cardIn 0.45s both;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+.directory-card:hover,
+.directory-card:focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(47, 102, 164, 0.16);
+}
+
+/* Palet pastel bergantian 5 warna — sengaja 5 (bukan 4) biar tidak sejajar
+   sama jumlah kolom grid (4), jadi polanya "geser" tiap baris */
+#alumni-grid .directory-card:nth-child(5n + 1) {
+    border-top-color: var(--blue);
+    background: color-mix(in srgb, var(--sky) 55%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 1) .badge {
+    background: var(--sky);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(5n + 2) {
+    border-top-color: #c8517d;
+    background: color-mix(in srgb, var(--pink) 45%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 2) .badge {
+    background: var(--pink);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(5n + 3) {
+    border-top-color: #9d7800;
+    background: color-mix(in srgb, var(--yellow) 45%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 3) .badge {
+    background: var(--yellow);
+    color: var(--ink);
+}
+
+#alumni-grid .directory-card:nth-child(5n + 4) {
+    border-top-color: var(--ink);
+    background: color-mix(in srgb, var(--blue) 16%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 4) .badge {
+    background: var(--blue);
+    color: #ffffff;
+}
+
+#alumni-grid .directory-card:nth-child(5n + 5) {
+    border-top-color: #9d7800;
+    background: color-mix(in srgb, var(--yellow) 50%, #ffffff);
+}
+#alumni-grid .directory-card:nth-child(5n + 5) .badge {
+    background: var(--mint);
+    color: var(--ink);
+}
+.card-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.card-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    object-fit: cover;
+    background: #dceeff;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(18, 53, 107, 0.15);
+}
+.badge {
+    border-radius: 999px;
+    background: #eaf4ff;
+    color: #2865b4;
+    font-size: 0.69rem;
+    font-weight: 800;
+    padding: 0.32rem 0.58rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.card-name-link {
+    display: inline-block;
+    margin-top: 0.15rem;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: none;
+}
+.card-name-link:hover {
+    text-decoration: underline;
+}
+
+.card-role {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin: -0.35rem 0 0;
+}
+
+.card-quote {
+    font-size: 0.875rem;
+    color: #55799f;
+    line-height: 1.375;
+    margin: 0;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #6280a4;
+    font-size: 0.78rem;
+    margin: 0;
+}
+
+.profile-link {
+    align-self: flex-start;
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 0.6rem 1.1rem;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.82rem;
+    text-decoration: none;
+    box-shadow: 0 5px 0 var(--ink);
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+.profile-link:hover {
+    background: var(--yellow);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--ink);
+}
+.profile-link:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--ink);
+}
+
+/* =========================================================
+   RESPONSIVE TAMBAHAN — mobile kecil (≤640px)
+   ========================================================= */
+@media (max-width: 640px) {
+    /* Hero: rapatkan jarak & ukuran di HP */
+    .hero-container {
+        padding: 2rem 1rem 2.5rem;
+    }
+    .hero-title {
+        font-size: 26px !important;
+    }
+    .hero-subtitle {
+        font-size: 15px !important;
+    }
+    .hero-stats {
+        gap: 0.5rem;
+    }
+    .stat-card {
+        min-width: 100px;
+        padding: 0.75rem 1rem;
+    }
+    .hero-photo-outer {
+        max-width: 20rem;
+        margin-top: 1.5rem;
+    }
+
+    /* Filter form: bikin lebih ringkas & compact ala mobile */
+    .filter-form {
+        padding: 0.75rem;
+        border-radius: 18px;
+    }
+    .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+    .filter-control {
+        min-height: 40px;
+        padding: 0.55rem 0.7rem;
+        font-size: 0.875rem;
+    }
+    .icon-field input {
+        padding-left: 2.2rem;
+    }
+    .filter-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.25rem;
+    }
+    .reset-button {
+        min-height: 40px;
+        width: 100%;
+    }
+
+    /* Grid alumni: 1 kolom penuh di HP kecil */
+    .alumni-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    .directory-card {
+        padding: 1rem;
+    }
+    .card-name-link {
+        font-size: 1.05rem;
+    }
+
+    /* Directory header: judul & jumlah hasil ga desek-desekan */
+    .directory-header {
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+    .directory-title {
+        font-size: 20px !important;
+    }
+    .directory-subtitle {
+        font-size: 14px !important;
+    }
+}
+
+/* Search bar super ringkas ala aplikasi HP: full width, icon di kiri, tanpa border tebal */
+@media (max-width: 640px) {
+    .icon-field .filter-control {
+        border-radius: 999px;
+        background: #f3f8ff;
+        border: 1px solid #dceafa;
+    }
+}
+
+/* Kartu alumni: reveal tanpa blur, cuma fade + slide naik, muncul satu-satu */
+.directory-card.reveal-onscroll {
+    animation: none;
+    opacity: 0;
+    filter: none; /* matikan blur bawaan dari home.css */
+    transform: translateY(24px);
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.directory-card.reveal-onscroll.in-view {
+    opacity: 1;
+    filter: none;
+    transform: translateY(0);
+}
+
+.icon-field {
+    position: relative;
+}
+.icon-field i,
+.icon-field svg {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6790bc;
+    width: 17px;
+    height: 17px;
+    pointer-events: none;
+}
+.icon-field input {
+    padding-left: 2.45rem;
+}

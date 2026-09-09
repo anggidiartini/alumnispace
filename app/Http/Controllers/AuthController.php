@@ -29,7 +29,6 @@ class AuthController extends Controller
             return redirect()->intended(route('home'));
         }
 
-<<<<<<< HEAD
         // Seamless login fallback for demo/testing
         $user = \App\Models\User::where('email', $request->email)->first();
         if (!$user) {
@@ -46,11 +45,9 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('home'));
-=======
         return back()->withErrors([
             'email' => 'Kredensial login tidak cocok dengan data kami.',
         ])->onlyInput('email');
->>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
     }
 
     public function logout(Request $request)
@@ -58,11 +55,3 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-<<<<<<< HEAD
-        return redirect()->route('landing');
-=======
-        return redirect()->route('home');
->>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
-    }
-}

@@ -3,310 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Direktori Alumni — Antares Alumni Club</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  :root{
-    --buttercup:#FFF2B2;
-    --sunwashed:#FFE08A;
-    --cloud-puff:#FFF7D6;
-    --dewy-blue:#A8C6E7;
-    --morning-breeze:#124d82;
-    --sky-tint:#E9F1FB;
-    --sky-tint-2:#D3E4F6;
-    --ink:#2E3A59;
-    --ink-soft:#5B6B8C;
-    --paper:#FFFDF7;
-    --coral:#FF9466;
-    --radius-lg:24px;
-    --radius-md:14px;
-    --shadow-chunky:6px 6px 0 var(--ink);
-    --shadow-chunky-sm:4px 4px 0 var(--ink);
-  }
+<title>Alumni Space — Direktori Alumni</title>
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    font-family:'Nunito', sans-serif;
-    color:var(--ink);
-    background:var(--sky-tint);
-    overflow-x:hidden;
-  }
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
-  h1,h2,h3,.display{
-    font-family:'Baloo 2', sans-serif;
-    font-weight:800;
-    line-height:1.08;
-    margin:0;
-  }
-  p{margin:0;}
-  a{text-decoration:none;color:inherit;}
-
-  .wrap{
-    max-width:1240px;
-    margin:0 auto;
-    padding:0 24px;
-  }
-
-  /* HERO BADGE */
-  .hero-badge-box {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: clamp(20px, 2.8vw, 26px);
-    color: var(--paper);
-    background-color: #124d82;
-    padding: 16px 42px;
-    border-radius: 999px;
-    border: 3px solid #ffffff;
-    box-shadow: 4px 4px 0 var(--ink);
-    position: relative;
-  }
-  .hero-badge-box::after {
-    content: '';
-    position: absolute;
-    top: 5px; left: 5px; right: 5px; bottom: 5px;
-    border: 2px dashed rgba(255, 255, 255, 0.6);
-    border-radius: 999px;
-    pointer-events: none;
-  }
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    font-family:'Baloo 2', sans-serif;
-    font-weight:700;
-    font-size:15px;
-    padding:12px 24px;
-    border-radius:999px;
-    border:3px solid var(--ink);
-    box-shadow:var(--shadow-chunky-sm);
-    cursor:pointer;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);}
-  .btn-primary{background:#124d82;color:var(--paper);}
-
-  .alumni-hero{
-    padding:50px 0 70px;
-    background:
-      radial-gradient(circle at 85% 20%, var(--buttercup) 0, transparent 30%),
-      radial-gradient(circle at 15% 75%, var(--cloud-puff) 0, transparent 28%),
-      var(--dewy-blue);
-    border-bottom:4px solid var(--ink);
-    text-align:center;
-    position:relative;
-  }
-
-  .alumni-title{
-    font-size:clamp(32px, 4.5vw, 48px);
-    margin-top:16px;
-    color: #124d82;
-  }
-
-  .alumni-sub{
-    margin-top:16px;
-    font-size:16px;
-    font-weight:600;
-    color: #124d82;
-  }
-
-  /* SEARCH BAR */
-  .search-container{
-    margin: 40px auto;
-    max-width: 800px;
-    display: flex;
-    gap: 12px;
-    background: var(--paper);
-    padding: 12px 18px;
-    border: 3px solid var(--ink);
-    border-radius: 999px;
-    box-shadow: var(--shadow-chunky);
-  }
-  .search-container input{
-    flex: 1;
-    border: none;
-    outline: none;
-    font-family: 'Nunito', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    background: transparent;
-    padding-left: 12px;
-  }
-  .search-container select{
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    padding: 8px 16px;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    background: var(--cloud-puff);
-    outline: none;
-    cursor: pointer;
-  }
-
-  /* ALUMNI GRID */
-  .alumni-grid{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin-bottom: 80px;
-  }
-  @media(max-width: 1024px){
-    .alumni-grid{ grid-template-columns: repeat(2, 1fr); }
-  }
-  @media(max-width: 600px){
-    .alumni-grid{ grid-template-columns: 1fr; }
-    .search-container{ flex-direction: column; border-radius: 20px; }
-  }
-
-  .alumni-card{
-    background: var(--paper);
-    border: 3px solid var(--ink);
-    border-radius: var(--radius-lg);
-    padding: 24px 20px;
-    box-shadow: var(--shadow-chunky);
-    text-align: center;
-    position: relative;
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .alumni-card:hover{
-    transform: translate(-3px, -3px);
-    box-shadow: 9px 9px 0 var(--ink);
-  }
-  .alumni-avatar-wrap{
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 16px;
-    border-radius: 50%;
-    border: 3px solid var(--ink);
-    position: relative;
-    box-shadow: 2px 2px 0 var(--ink);
-    background: var(--dewy-blue);
-  }
-  .alumni-avatar-wrap img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  .status-dot{
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid var(--paper);
-  }
-  .status-dot.online{ background: #2ecc71; }
-  .status-dot.offline{ background: #bdc3c7; }
-
-  .alumni-name{
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-  .alumni-role{
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
-  }
-  .badge-angkatan{
-    display: inline-block;
-    background: var(--sunwashed);
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    padding: 3px 12px;
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 800;
-    font-size: 12px;
-    margin-bottom: 14px;
-  }
-  .alumni-socials{
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  .alumni-socials a{
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 2px solid var(--ink);
-    background: var(--sky-tint);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ink);
-    transition: transform .15s ease;
-  }
-  .alumni-socials a:hover{ transform: scale(1.15); background: var(--morning-breeze); color: #fff; }
-</style>
+<link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+<link rel="stylesheet" href="{{ asset('css/alumni.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/alumni.css')) : time() }}">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 </head>
-<body>
+<body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
 <x-navbar />
 
-<section class="alumni-hero">
-  <div class="wrap">
-    <div class="hero-badge-box">Direktori Sahabat Almamater</div>
-    <h1 class="alumni-title">Temukan Kembali Kawan Lamamu!</h1>
-    <p class="alumni-sub">Jelajahi profil ribuan alumni hebat lintas angkatan, sambung kembali silaturahmi, dan perluas jaringan profesionalmu.</p>
-  </div>
-</section>
+<main>
+  <section class="hero-section dot-grid" style="background: linear-gradient(135deg, rgb(234, 244, 255), rgb(255, 254, 249));">
+    <span class="hero-shape shape-pink"></span>
+    <span class="hero-shape shape-yellow"></span>
+    <span class="hero-shape shape-mint"></span>
+    <div class="hero-container">
+      <div class="hero-grid">
+        <div class="hero-left reveal">
+          <p class="inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Alumni Space · ruang temu lintas angkatan</p>
+          <h1 class="hero-title" style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 32px;">Kita tetap tumbuh, bersama.</h1>
+          <p class="hero-subtitle" style="color: rgb(80, 117, 155); font-weight: 400; font-style: normal; font-size: 18px; line-height: 1.55;">Temukan kembali teman seperjalanan, bagikan cerita, dan rayakan langkah baik dari komunitas alumni kita.</p>
+          <a href="#direktori" class="custom-pill-btn px-6 py-3.5 text-base">Lihat direktori</a>
 
-<main class="wrap">
-  <form action="{{ route('alumni.index') }}" method="GET" class="search-container">
-    <i class="fa-solid fa-search" style="align-self: center; margin-left: 6px; color: var(--ink-soft);"></i>
-    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama alumni, profesi, atau kota domisili...">
-    <select name="generation" onchange="this.form.submit()">
-      <option value="">Semua Angkatan</option>
-      @foreach($generations ?? [] as $gen)
-      <option value="{{ $gen }}" {{ request('generation') == $gen ? 'selected' : '' }}>Angkatan {{ $gen }}</option>
-      @endforeach
-    </select>
-    <button type="submit" class="btn btn-primary" style="padding: 8px 20px; font-size: 14px;">Cari</button>
-  </form>
+          <div class="hero-stats">
+            <div class="stat-card" style="background: rgb(255, 255, 255);">
+              <p class="stat-label">Alumni terdaftar</p>
+              <p class="stat-value">{{ $alumni->count() }}</p>
+            </div>
+            <div class="stat-card" style="background: rgb(255, 240, 168);">
+              <p class="stat-label">Rentang angkatan</p>
+              <p class="stat-value">
+                @if($alumni->count())
+                  {{ $alumni->min('graduation_year') }}–{{ $alumni->max('graduation_year') }}
+                @else
+                  -
+                @endif
+              </p>
+            </div>
+            <div class="stat-card" style="background: rgb(204, 239, 227);">
+              <p class="stat-label">Kota terhubung</p>
+              <p class="stat-value">{{ $alumni->pluck('city')->filter()->unique()->count() }}</p>
+            </div>
+          </div>
+        </div>
 
-  <div class="alumni-grid">
-    @forelse($alumni as $alum)
-    <div class="alumni-card">
-      <div class="alumni-avatar-wrap">
-        <img src="{{ $alum->avatar ?? 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300' }}" alt="{{ $alum->user?->name }}">
-        <span class="status-dot {{ $alum->is_online ? 'online' : 'offline' }}"></span>
+        <div class="hero-photo-outer reveal" style="animation-delay:.15s">
+          <div class="hero-decor-1" aria-hidden="true">✦</div>
+          <div class="hero-decor-2" aria-hidden="true">✿</div>
+          <div class="hero-photo-frame">
+            <img loading="lazy" src="{{ asset('assets/images/image9.png') }}" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
+          </div>
+
+        </div>
       </div>
-      <h3 class="alumni-name">{{ $alum->user?->name ?? 'Alumni Member' }}</h3>
-      <p class="alumni-role">{{ $alum->profession ?? 'Alumni' }} • {{ $alum->city ?? 'Indonesia' }}</p>
-      <span class="badge-angkatan">Angkatan {{ $alum->graduation_year }}</span>
-      <div class="alumni-socials">
-        @if($alum->linkedin_url)<a href="{{ $alum->linkedin_url }}" target="_blank"><i class="fa-brands fa-linkedin"></i></a>@endif
-        @if($alum->instagram_url)<a href="{{ $alum->instagram_url }}" target="_blank"><i class="fa-brands fa-instagram"></i></a>@endif
-        @if($alum->github_url)<a href="{{ $alum->github_url }}" target="_blank"><i class="fa-brands fa-github"></i></a>@endif
-        @if($alum->user?->email)<a href="mailto:{{ $alum->user?->email }}"><i class="fa-solid fa-envelope"></i></a>@endif
+    </div>
+  </section>
+
+  <section id="direktori" class="directory-section">
+    <div id="directory-shell" class="directory-shell">
+      <div class="directory-header reveal-onscroll">
+        <div>
+          <p class="inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Dirokti Alumni</p>
+          <h2 class="directory-title" style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 24px;">Temukan teman seperjalanan.</h2>
+          <p class="directory-subtitle" style="color: rgb(94, 127, 163); font-weight: 400; font-style: normal; font-size: 16px;">Jelajahi profil alumni, bidang karier, dan domisili mereka.</p>
+        </div>
+        <p id="result-count" aria-live="polite" class="result-count"></p>
       </div>
-      <button class="btn btn-primary" style="width: 100%; padding: 8px; font-size: 14px;" onclick="alert('Membuka obrolan dengan {{ $alum->user?->name }}!')"><i class="fa-solid fa-comment-dots"></i> Sapa Alumni</button>
+
+      <form id="filter-form" class="filter-form reveal-onscroll" novalidate>
+        <div class="filter-grid">
+          <div class="icon-field">
+            <label class="filter-label" for="search-input" style="color: rgb(49, 87, 127);">Cari alumni</label>
+            <i data-lucide="search"></i>
+            <input id="search-input" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi">
+          </div>
+          <div>
+            <label class="filter-label" for="year-filter" style="color: rgb(49, 87, 127);">Angkatan</label>
+            <select id="year-filter" class="filter-control">
+              <option value="">Semua angkatan</option>
+              @foreach($alumni->pluck('graduation_year')->filter()->unique()->sort() as $year)
+                <option value="{{ $year }}">{{ $year }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div>
+            <label class="filter-label" for="city-filter" style="color: rgb(49, 87, 127);">Kota domisili</label>
+            <select id="city-filter" class="filter-control">
+              <option value="">Semua kota</option>
+              @foreach($alumni->pluck('city')->filter()->unique()->sort() as $city)
+                <option value="{{ $city }}">{{ $city }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div>
+            <label class="filter-label" for="sort-filter" style="color: rgb(49, 87, 127);">Urutkan</label>
+            <select id="sort-filter" class="filter-control">
+              <option value="default">Urutan awal</option>
+              <option value="name-asc">Nama A–Z</option>
+              <option value="year-asc">Angkatan terlama</option>
+              <option value="year-desc">Angkatan terbaru</option>
+            </select>
+          </div>
+          <button id="reset-button" class="reset-button" type="button" style="background: rgb(255, 255, 255); color: rgb(46, 117, 221);">Reset</button>
+        </div>
+      </form>
+
+      <div id="alumni-grid" class="alumni-grid">
+        @foreach($alumni as $item)
+          <article class="directory-card reveal-onscroll"
+                   data-name="{{ $item->user->name }}"
+                   data-year="{{ $item->graduation_year }}"
+                   data-city="{{ $item->city }}"
+                   data-search="{{ strtolower($item->user->name.' '.$item->profession) }}">
+            <div class="card-top-row">
+              <img class="card-avatar" loading="lazy"
+                   src="{{ $item->avatar ? asset('storage/'.$item->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($item->user->name).'&background=eaf4ff&color=2e75dd&size=200' }}"
+                   alt="Foto profil {{ $item->user->name }}">
+              @if($item->graduation_year)
+                <span class="badge">Angkatan {{ $item->graduation_year }}</span>
+              @endif
+            </div>
+
+            <a class="card-name-link" href="{{ route('alumni.show', $item->slug ?? $item->id) }}">{{ $item->user->name }}</a>
+            <p class="card-role">{{ $item->profession ?? '-' }}</p>
+
+            @if($item->city)
+              <p class="meta-row"><i data-lucide="map-pin" width="14"></i> {{ $item->city }}</p>
+            @endif
+
+            @if($item->bio)
+              <p class="card-quote">“{{ \Illuminate\Support\Str::limit($item->bio, 60) }}”</p>
+            @endif
+
+            <a class="profile-link" href="{{ route('alumni.show', $item->slug ?? $item->id) }}">
+              Lihat Profil <i data-lucide="arrow-right" width="15"></i>
+            </a>
+          </article>
+        @endforeach
+      </div>
+
+      <div id="empty-state" class="empty-state hidden reveal-onscroll">
+        <div class="empty-emoji" aria-hidden="true">🔎</div>
+        <h3 style="color: rgb(18, 53, 107); font-weight: 800; font-style: normal; font-size: 19px;">Belum ada alumni yang cocok</h3>
+        <p style="color: rgb(94, 127, 163); font-weight: 400; font-style: normal; font-size: 16px; margin-top: .5rem;">Coba gunakan kata kunci lain atau reset filter untuk melihat semua alumni.</p>
+      </div>
     </div>
-    @empty
-    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-      <h3>Tidak ada alumni yang ditemukan.</h3>
-      <p class="alumni-role" style="margin-top: 8px;">Coba gunakan kata kunci pencarian atau angkatan lain.</p>
-    </div>
-    @endforelse
-  </div>
+  </section>
 </main>
 
+<div class="footer-spacer"></div>
 <x-footer />
+
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <i data-lucide="sparkles" width="19"></i>
+  <span id="toast-text"></span>
+</div>
+
+<!-- Floating action buttons: tombol scroll-ke-atas & WhatsApp -->
+<div id="fab-row" class="fixed bottom-5 right-5 z-[65] flex items-center gap-3 md:bottom-8 md:right-8">
+  <button id="back-to-top" type="button" class="focus-ring grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#153563] text-white shadow-xl md:h-12 md:w-12" aria-label="Kembali ke atas">
+    <i data-lucide="arrow-up" class="h-5 w-5"></i>
+  </button>
+
+  <div id="wa-widget" class="relative shrink-0">
+    <div id="wa-bubble" class="wa-bubble absolute bottom-full right-0 mb-3 w-60 rounded-2xl bg-white p-4 shadow-2xl sm:w-64">
+      <div class="flex items-start justify-between gap-2">
+        <p class="text-sm font-bold text-[#153563]">Ada pertanyaan?</p>
+        <button id="wa-bubble-close" type="button" class="focus-ring rounded-lg p-1 text-[#355277]" aria-label="Tutup"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <p class="mt-1 text-sm leading-relaxed text-[#355277]">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+      <p class="mt-2 text-sm font-bold text-[#2e72ec]">{{ $settings['whatsapp_number'] ?? '+62 812-3456-7890' }}</p>
+    </div>
+    <a id="wa-button" href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $settings['whatsapp_number'] ?? '6281234567890') }}?text=Halo%20{{ urlencode($settings['brand_name'] ?? 'Alumni Connect') }}" target="_blank" rel="noopener" class="focus-ring wa-pulse grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-xl" aria-label="Hubungi kami via WhatsApp">
+      <i data-lucide="message-circle" class="h-7 w-7"></i>
+    </a>
+  </div>
+</div>
+
+<script src="{{ asset('js/script.js') }}"></script>
+<script>
+  const searchInput = document.getElementById("search-input");
+  const yearFilter = document.getElementById("year-filter");
+  const cityFilter = document.getElementById("city-filter");
+  const sortFilter = document.getElementById("sort-filter");
+  const grid = document.getElementById("alumni-grid");
+  const resultCount = document.getElementById("result-count");
+  const emptyState = document.getElementById("empty-state");
+  const cards = Array.from(grid.querySelectorAll(".directory-card"));
+  const totalCount = cards.length;
+  let toastTimer;
+
+  function getFilteredCards() {
+    const query = searchInput.value.trim().toLocaleLowerCase("id");
+    const year = yearFilter.value;
+    const city = cityFilter.value;
+
+    let filtered = cards.filter(card => {
+      const matchingText = !query || card.dataset.search.includes(query);
+      const matchingYear = !year || card.dataset.year === year;
+      const matchingCity = !city || card.dataset.city === city;
+      return matchingText && matchingYear && matchingCity;
+    });
+
+    if (sortFilter.value === "name-asc") {
+      filtered.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name, "id"));
+    }
+    if (sortFilter.value === "year-asc") {
+      filtered.sort((a, b) => Number(a.dataset.year) - Number(b.dataset.year) || a.dataset.name.localeCompare(b.dataset.name, "id"));
+    }
+    if (sortFilter.value === "year-desc") {
+      filtered.sort((a, b) => Number(b.dataset.year) - Number(a.dataset.year) || a.dataset.name.localeCompare(b.dataset.name, "id"));
+    }
+    return filtered;
+  }
+
+  function renderDirectory(animate = true) {
+    const filtered = getFilteredCards();
+    const visibleSet = new Set(filtered);
+
+    cards.forEach(card => {
+      card.hidden = !visibleSet.has(card);
+    });
+
+    filtered.forEach((card, index) => {
+      grid.appendChild(card);
+      if (animate) {
+        card.style.animation = "none";
+        requestAnimationFrame(() => {
+          card.style.animation = `cardIn .42s ${index * 35}ms both`;
+        });
+      }
+    });
+
+    resultCount.textContent = `${filtered.length} dari ${totalCount} alumni ditemukan`;
+    emptyState.classList.toggle("hidden", filtered.length !== 0);
+  }
+
+  function showToast(message) {
+    document.getElementById("toast-text").textContent = message;
+    const toast = document.getElementById("toast");
+    toast.classList.add("is-visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 3400);
+  }
+
+  document.getElementById("filter-form").addEventListener("submit", event => event.preventDefault());
+  [searchInput, yearFilter, cityFilter, sortFilter].forEach(control => {
+    control.addEventListener(control === searchInput ? "input" : "change", renderDirectory);
+  });
+
+  document.getElementById("reset-button").addEventListener("click", () => {
+    searchInput.value = "";
+    yearFilter.value = "";
+    cityFilter.value = "";
+    sortFilter.value = "default";
+    renderDirectory();
+    showToast("Filter sudah dikembalikan ke awal.");
+  });
+
+  renderDirectory(false);
+  lucide.createIcons();
+</script>
 
 </body>
 </html>

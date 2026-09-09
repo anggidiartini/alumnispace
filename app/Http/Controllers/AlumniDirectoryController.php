@@ -33,9 +33,11 @@ class AlumniDirectoryController extends Controller
         return view('alumni.index', compact('alumni', 'generations'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $profile = AlumniProfile::with('user')->findOrFail($id);
+        // GANTI baris findOrFail($slug) dengan baris di bawah ini:
+        $profile = AlumniProfile::with('user')->where('slug', $slug)->firstOrFail();
+
         return view('alumni.detail', compact('profile'));
     }
 }
