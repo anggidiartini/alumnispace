@@ -1554,10 +1554,12 @@ h1.title .pop {
     border: 2.5px solid var(--navy);
     box-shadow: 4px 4px 0 var(--navy);
     cursor: pointer;
+    opacity: 0;
     transform: translateY(28px) scale(0.85);
     transition:
         transform 0.25s ease,
-        box-shadow 0.25s ease;
+        box-shadow 0.25s ease,
+        opacity 0.3s ease;
 }
 .gallery-item.popped {
     animation: none;
@@ -1733,6 +1735,7 @@ h1.title .pop {
     height: 50px;
     font-size: 22px;
     font-weight: 700;
+    z-index: 2147483647;
 }
 .lightbox-prev {
     left: 24px;
@@ -1804,6 +1807,7 @@ h1.title .pop {
     box-shadow: 6px 6px 0 var(--navy);
 }
 .related-card.reveal-pop {
+    opacity: 0;
     transform: translateY(28px) scale(0.85);
 }
 .related-card.reveal-pop.popped {

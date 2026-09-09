@@ -18,13 +18,12 @@
 
 @php
     /*
-     * View-only: Controller index() saat ini cuma kirim $articles (hasil
-     * filter + paginate). Daftar kategori untuk filter-bar & artikel
-     * terbaru untuk hero diambil di sini dulu, tanpa menyentuh
-     * Controller/Model — sama seperti pola yang sudah dipakai di file lain.
+     * View-only: Controller index() saat ini kirim $articles (SEMUA artikel,
+     * tanpa pagination — filter kategori sekarang full client-side JS,
+     * mirip pola di halaman Album).
      *
-     * Kalau nanti Controller sudah kirim $categories / $heroArticle sendiri,
-     * blok ini tinggal dihapus.
+     * Kalau nanti jumlah artikel sudah banyak dan butuh pagination lagi,
+     * pola filter ini perlu diganti ke versi AJAX/server-side.
      */
     $categories = $categories ?? \App\Models\Article::select('category')
         ->distinct()
@@ -100,21 +99,18 @@
   <div class="wrap">
     <div class="section-head reveal-pop">
       <h2>Semua <span class="marker">Artikel</span></h2>
-      <div class="count">{{ $articles->total() }} artikel</div>
+      <div class="count">{{ $articles->count() }} artikel</div>
     </div>
 
     <div class="filter-bar">
-      <a href="{{ route('artikel.index') }}"
-         class="filter-btn reveal-pop {{ request('kategori') ? '' : 'active' }}"
-         style="--pop-delay:.05s">Semua</a>
+      <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
       @foreach($categories as $index => $cat)
-        <a href="{{ route('artikel.index', ['kategori' => $cat]) }}"
-           class="filter-btn reveal-pop {{ request('kategori') == $cat ? 'active' : '' }}"
-           style="--pop-delay:{{ .05 + (($index + 1) * .1) }}s">{{ ucfirst($cat) }}</a>
+        <button class="filter-btn reveal-pop" data-filter="{{ $cat }}"
+                style="--pop-delay:{{ .05 + (($index + 1) * .1) }}s">{{ ucfirst($cat) }}</button>
       @endforeach
     </div>
     <div class="filter-status reveal-fade" style="--pop-delay:.35s">
-      Menampilkan <strong>{{ request('kategori') ? ucfirst(request('kategori')) : 'semua artikel' }}</strong>
+      Menampilkan <strong id="filter-label">semua artikel</strong>
     </div>
 
     <div class="album-grid">
@@ -148,10 +144,6 @@
           <p style="font-size: 18px; font-weight:700;">Belum ada artikel.</p>
         </div>
       @endforelse
-    </div>
-
-    <div class="pagination-bar">
-      {{ $articles->appends(request()->query())->links() }}
     </div>
   </div>
 
@@ -249,6 +241,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }, { threshold: 0.2 });
   popEls.forEach(function(el){ popIo.observe(el); });
+
+  // ---------- FILTER BUTTONS (client-side, tanpa reload — sama seperti Album) ----------
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var filterLabel = document.getElementById('filter-label');
+
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.dataset.filter;
+      filterLabel.textContent = (filter === 'all')
+        ? 'semua artikel'
+        : ('artikel ' + btn.textContent.trim());
+
+      cards.forEach(function(card){
+        var match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('filtered-out', !match);
+      });
+    });
+  });
 })();
 
 const menuToggle = document.getElementById('menuToggle');

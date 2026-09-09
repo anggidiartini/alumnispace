@@ -63,10 +63,8 @@
 
     {{-- =========================================================
          GALERI FOTO ALBUM (banyak foto + lightbox)
-         Asumsi relasi: $album->photos (hasMany), tiap item punya
-         salah satu dari field: photo_path / path / image.
-         Kalau nama relasi/field beda di backend, tinggal sesuaikan
-         2 baris yang ditandai "SESUAIKAN" di bawah.
+         Kolom foto: album_photos.photo_path
+         Contoh isi: assets/images/foto-1.png
     ========================================================== --}}
     @if(isset($album->photos) && $album->photos->count())
     <div class="gallery-head reveal-pop">
@@ -77,13 +75,12 @@
     <div class="photo-gallery">
       @foreach($album->photos as $i => $photo)
         @php
-          // SESUAIKAN: ganti/tambah field sesuai nama kolom di tabel photo kamu
-          $photoUrl = $photo->photo_path ?? $photo->path ?? $photo->image ?? null;
+          $photoUrl = $photo->photo_path;
         @endphp
         @if($photoUrl)
         <div class="gallery-item reveal-pop" style="--pop-delay: {{ min($i * 0.06, 0.6) }}s"
-             data-src="{{ asset($photoUrl) }}" data-index="{{ $i }}">
-          <img src="{{ asset($photoUrl) }}" alt="{{ $album->title }} - foto {{ $i + 1 }}" loading="lazy">
+             data-src="{{ asset($photoUrl) }}" data-caption="{{ $photo->caption }}" data-index="{{ $i }}">
+          <img src="{{ asset($photoUrl) }}" alt="{{ $photo->caption ?? $album->title . ' - foto ' . ($i + 1) }}" loading="lazy">
           <span class="gallery-zoom-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4">
               <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
