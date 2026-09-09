@@ -371,3 +371,37 @@ body {
     overflow-x: hidden;
     max-width: 100%;
 }
+
+/* ---------- ACTIVE STATE (halaman yang sedang dibuka) — garis bawah saja ---------- */
+.nav-link-btn.active {
+    position: relative;
+    color: #0a4174;
+}
+
+.nav-link-btn.active::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    background-color: #2e72ec;
+    border-radius: 2px;
+}
+
+.mobile-link.active {
+    position: relative;
+    color: #0a4174;
+    font-weight: 700;
+}
+
+.mobile-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    background-color: #2e72ec;
+    border-radius: 2px;
+}
