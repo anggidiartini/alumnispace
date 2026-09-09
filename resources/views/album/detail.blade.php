@@ -91,16 +91,7 @@
       @endforeach
     </div>
 
-    {{-- ====== LIGHTBOX OVERLAY ====== --}}
-    <div class="lightbox-overlay" id="lightboxOverlay">
-      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
-      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Foto sebelumnya">&larr;</button>
-      <div class="lightbox-stage">
-        <img src="" alt="" id="lightboxImage" class="lightbox-image">
-        <div class="lightbox-counter"><span id="lightboxCurrent">1</span> / <span id="lightboxTotal">0</span></div>
-      </div>
-      <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto selanjutnya">&rarr;</button>
-    </div>
+
     @endif
 
     @if(isset($relatedAlbums) && $relatedAlbums->count())
@@ -132,28 +123,16 @@
 
   </div>
 </div><!-- /.detail-page-wrap -->
-<!-- Floating action buttons -->
-<div id="fab-row" class="fab-row">
-    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
-        <i data-lucide="arrow-up" width="20" height="20"></i>
-    </button>
-
-    <div id="wa-widget">
-        <div id="wa-bubble" class="wa-bubble">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
-                <p class="wa-bubble-title">Ada pertanyaan?</p>
-                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
-                        data-lucide="x" width="16" height="16"></i></button>
-            </div>
-            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
-            <p class="wa-bubble-number">+62 812-3456-7890</p>
-        </div>
-        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
-            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
-            <i data-lucide="message-circle" width="26" height="26"></i>
-        </a>
+{{-- ====== LIGHTBOX OVERLAY ====== --}}
+    <div class="lightbox-overlay" id="lightboxOverlay">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Foto sebelumnya">&larr;</button>
+      <div class="lightbox-stage">
+        <img src="" alt="" id="lightboxImage" class="lightbox-image">
+        <div class="lightbox-counter"><span id="lightboxCurrent">1</span> / <span id="lightboxTotal">0</span></div>
+      </div>
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto selanjutnya">&rarr;</button>
     </div>
-</div>
 
 <x-footer />
 
