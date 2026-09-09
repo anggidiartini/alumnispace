@@ -138,7 +138,6 @@
                     </div>
                 </div>
 
-                {{-- ---- Ringkasan cepat ---- --}}
                 <div class="summary-grid reveal-onscroll">
                     <article class="summary-card">
                         <i data-lucide="briefcase-business" width="19" height="19"></i>
@@ -165,7 +164,6 @@
                 </div>
             </section>
 
-            {{-- ================= KONTEN UTAMA + SIDEBAR ================= --}}
             <section class="page-width detail-grid">
                 <div class="detail-main">
 
@@ -208,7 +206,6 @@
                     @endif
                 </div>
 
-                {{-- ================= SIDEBAR PERUSAHAAN ================= --}}
                 <aside class="company-panel reveal-onscroll">
                     <div class="company-body">
                         <a href="{{ $companyUrl }}" class="company-head company-head-link">
@@ -271,7 +268,6 @@
                 </aside>
             </section>
 
-            {{-- ================= LOWONGAN SERUPA ================= --}}
             @if(isset($relatedJobs) && $relatedJobs->count())
                 <section class="page-width related-wrap reveal-onscroll">
                     <div class="related-head">
@@ -310,7 +306,6 @@
 
     <div id="toast" class="toast" role="status"></div>
 
-    {{-- ================= FLOATING: back-to-top & WhatsApp ================= --}}
     <div id="fab-row" class="fab-row">
         <button id="back-to-top" type="button" aria-label="Kembali ke atas">
             <i data-lucide="arrow-up" width="20" height="20"></i>

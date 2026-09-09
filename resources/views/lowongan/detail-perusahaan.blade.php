@@ -176,8 +176,6 @@
                             </div>
                         </div>
                     </section>
-
-                    {{-- KONTAK --}}
                     <section class="dp-card dp-contact-card dp-sticky dp-reveal" aria-labelledby="contactTitle">
                         <h2 id="contactTitle" class="dp-section-title">
                             <span class="dp-title-dot"></span>
@@ -251,7 +249,6 @@
             </section>
         </main>
 
-        {{-- FLOATING: LOGO WA + TOMBOL ON TOP (di bawah tombol WA) --}}
         <div class="dp-float-actions">
             <button id="backToTop" class="dp-fab dp-fab-top" type="button" aria-label="Kembali ke atas">
                 <i data-lucide="arrow-up"></i>

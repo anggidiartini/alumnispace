@@ -76,7 +76,6 @@
                 </div>
             </section>
 
-            <!-- JOBS -->
             <section class="page-width jobs-section" aria-labelledby="jobs-title">
                 <div class="section-heading reveal-onscroll">
                     <div>
@@ -87,7 +86,6 @@
                 </div>
 
                 <div class="jobs-layout">
-                    <!-- Filter kategori tetap di kiri, sticky mengikuti scroll -->
                     <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
                         <div class="filter-panel-heading">
                             <h3 style="margin:0; font-size:1.15rem;">Filter Lowongan</h3>
