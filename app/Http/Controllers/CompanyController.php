@@ -21,7 +21,7 @@ class CompanyController extends Controller
             abort(404);
         }
 
-        $jobs = JobVacancy::where('company_id', $company->id)
+        $jobs = JobVacancy::where('company_name', $company->name)
             ->where('is_active', true)
             ->latest()
             ->get();
