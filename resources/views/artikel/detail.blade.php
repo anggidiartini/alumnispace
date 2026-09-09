@@ -139,7 +139,8 @@
     @endif
 
   </div>
-</div><!-- /.detail-page-wrap -->
+</div>
+<!-- /.detail-page-wrap -->
 
 <x-footer />
 
