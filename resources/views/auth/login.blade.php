@@ -50,7 +50,13 @@
       </div>
 
       @if($errors->any())
-        <div class="error-msg show" style="margin-bottom:14px;">{{ $errors->first() }}</div>
+        <div class="error-msg show" style="margin-bottom:14px; background: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 8px;">{{ $errors->first() }}</div>
+      @endif
+
+      @if(session('status'))
+        <div style="margin-bottom:14px; background: #d1fae5; color: #047857; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 500;">
+            {{ session('status') }}
+        </div>
       @endif
 
       <form id="loginForm" action="{{ route('login') }}" method="POST" novalidate>
@@ -82,7 +88,7 @@
             <input type="checkbox" id="remember" name="remember">
             Ingat aku
           </label>
-          <a href="#lupa-password" onclick="alert('Gunakan email: kanya.salsabila@alumni.id dan password: password123')" class="link-forgot">Butuh bantuan?</a>
+          <a href="{{ route('password.request') }}" class="link-forgot">Lupa password?</a>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">
