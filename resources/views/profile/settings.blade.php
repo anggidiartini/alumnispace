@@ -46,8 +46,9 @@
         @method('PUT')
 
         {{-- FOTO PROFIL --}}
-        <div class="profile-section">
-          <h2 class="profile-section-title">Foto Profil</h2>
+        <div class="profile-section profile-section-full">
+            <h2 class="profile-section-title">Foto Profil</h2>
+
           <div class="profile-field profile-field-avatar">
             <div class="avatar-preview-wrap">
               @if ($profile->avatar)
@@ -176,8 +177,8 @@
         </div>
 
         {{-- BIO --}}
-        <div class="profile-section">
-          <h2 class="profile-section-title">Tentang Saya</h2>
+        <div class="profile-section profile-section-full">
+            <h2 class="profile-section-title">Tentang Saya</h2>
           <div class="profile-grid">
             <div class="profile-field profile-field-full">
               <label for="bio">Bio</label>
@@ -187,7 +188,7 @@
         </div>
 
         {{-- SOSIAL MEDIA --}}
-        <div class="profile-section">
+       <div class="profile-section profile-section-full">
           <h2 class="profile-section-title">Sosial Media</h2>
           <div class="profile-grid">
             <div class="profile-field">
