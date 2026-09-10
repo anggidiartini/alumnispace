@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lupa Kata Sandi — Alumni Connect</title>
+<title>Atur Ulang Kata Sandi — Alumni Connect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,16 +25,16 @@
         </div>
 
         <div class="brand-copy">
-          <span class="eyebrow-pill"> Bantuan Akses</span>
-          <h1>Lupa Kata Sandi?</h1>
-          <p>Tenang saja. Masukkan alamat email yang terdaftar, dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.</p>
+          <span class="eyebrow-pill"> Keamanan Akun</span>
+          <h1>Buat Kata Sandi Baru</h1>
+          <p>Masukkan alamat email akun Anda beserta kata sandi baru yang ingin Anda gunakan (mode dummy).</p>
         </div>
       </div>
     </div>
 
     <div class="panel-form">
       <div class="form-head">
-        <h2>Reset Kata Sandi</h2>
+        <h2>Atur Ulang Kata Sandi</h2>
       </div>
 
       @if($errors->any())
@@ -47,7 +47,7 @@
         </div>
       @endif
 
-      <form id="forgotForm" action="{{ route('password.email') }}" method="POST" novalidate>
+      <form id="resetForm" action="{{ route('password.update') }}" method="POST" novalidate>
         @csrf
 
         <div class="field">
@@ -58,9 +58,25 @@
           </div>
         </div>
 
+        <div class="field">
+          <label for="password">Kata sandi baru</label>
+          <div class="input-wrap" id="passWrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75v2.25M6.75 10.5h10.5a1.5 1.5 0 0 1 1.5 1.5v6.75a1.5 1.5 0 0 1-1.5 1.5H6.75a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5Zm1.5 0V7.5a3.75 3.75 0 1 1 7.5 0v3"/></svg>
+            <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" autocomplete="new-password">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password_confirmation">Konfirmasi kata sandi Baru</label>
+          <div class="input-wrap" id="passConfWrap">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75v2.25M6.75 10.5h10.5a1.5 1.5 0 0 1 1.5 1.5v6.75a1.5 1.5 0 0 1-1.5 1.5H6.75a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5Zm1.5 0V7.5a3.75 3.75 0 1 1 7.5 0v3"/></svg>
+            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ketik ulang kata sandi" autocomplete="new-password">
+          </div>
+        </div>
+
         <button type="submit" class="btn-submit" id="submitBtn">
           <span class="spinner" id="spinner"></span>
-          <span id="btnLabel">Kirim Tautan Reset</span>
+          <span id="btnLabel">Simpan Kata Sandi</span>
         </button>
 
         <div style="margin-top:20px; text-align:center;">
