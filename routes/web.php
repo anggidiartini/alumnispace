@@ -12,6 +12,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProfileController;
 
 // Landing & Intro
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -42,6 +43,15 @@ Route::get('/event/{slug}', [EventController::class, 'show'])->name('event.show'
 // Photo Albums & Memories
 Route::get('/album', [AlbumController::class, 'index'])->name('album.index');
 Route::get('/album/{slug}', [AlbumController::class, 'show'])->name('album.show');
+
+// Profile Saya (Setting Profile Alumni)
+Route::get('/profile/settings', [ProfileController::class, 'edit'])
+    ->middleware('auth')
+    ->name('profile.settings');
+
+Route::put('/profile/settings', [ProfileController::class, 'update'])
+    ->middleware('auth')
+    ->name('profile.update');
 
 // Alumni Directory
 Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
