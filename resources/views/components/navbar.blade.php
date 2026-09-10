@@ -59,10 +59,45 @@
           <span>⚡</span> <span class="hide-mobile">CMS Admin</span>
         </a>
         @endif
-        <span class="user-badge">
-          <span class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
-          <span class="hide-mobile">{{ Auth::user()->name }}</span>
-        </span>
+        <div class="profile-dropdown-wrap">
+          <button type="button" id="profile-trigger" class="user-badge" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+            <span class="hide-mobile">{{ Auth::user()->name }}</span>
+          </button>
+
+          <div id="profile-dropdown" class="profile-dropdown">
+            <div class="profile-dropdown-header">
+              <div class="profile-dropdown-avatar">
+                @if(Auth::user()->profile && Auth::user()->profile->avatar)
+                  <img src="{{ asset('storage/' . Auth::user()->profile->avatar) }}" alt="Avatar">
+                @else
+                  <span class="profile-dropdown-avatar-placeholder">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                  </span>
+                @endif
+              </div>
+              <div class="profile-dropdown-text">
+                <p class="profile-dropdown-name">{{ Auth::user()->name }}</p>
+                <p class="profile-dropdown-email">{{ Auth::user()->email }}</p>
+              </div>
+            </div>
+
+            @if(Auth::user()->profile && (Auth::user()->profile->graduation_year || Auth::user()->profile->profession))
+              <div class="profile-dropdown-chips">
+                @if(Auth::user()->profile->graduation_year)
+                  <span class="profile-modal-chip">Angkatan {{ Auth::user()->profile->graduation_year }}</span>
+                @endif
+                @if(Auth::user()->profile->profession)
+                  <span class="profile-modal-chip">{{ Auth::user()->profile->profession }}</span>
+                @endif
+              </div>
+            @endif
+
+            <a href="{{ route('profile.settings') }}" class="profile-dropdown-settings-btn">
+              <i data-lucide="settings" class="icon-sm"></i> Setting Profile
+            </a>
+          </div>
+        </div>
         <form action="{{ route('logout') }}" method="POST" style="display:inline;">
           @csrf
           <button type="submit" class="btn-outline-danger" title="Keluar">
@@ -116,3 +151,43 @@
     </div>
   </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const trigger = document.getElementById('profile-trigger');
+    const dropdown = document.getElementById('profile-dropdown');
+
+    if (!trigger || !dropdown) return;
+
+    function openDropdown() {
+      dropdown.classList.add('active');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDropdown() {
+      dropdown.classList.remove('active');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (dropdown.classList.contains('active')) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    });
+
+    // Klik di luar dropdown → tutup
+    document.addEventListener('click', function (e) {
+      if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+
+    // Escape → tutup
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeDropdown();
+    });
+  });
+</script>
