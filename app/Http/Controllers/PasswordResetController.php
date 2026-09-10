@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Str;
+use App\Models\User;
 
 class PasswordResetController extends Controller
 {
     /**
-     * Tampilkan form untuk request link reset password.
+     * Tampilkan form untuk mereset password langsung (tanpa email/token).
      */
     public function request()
     {
@@ -19,60 +17,32 @@ class PasswordResetController extends Controller
     }
 
     /**
-     * Kirim email berisi link reset password.
-     */
-    public function sendEmail(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
-
-        // Menggunakan Password broker bawaan Laravel
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
-        }
-
-        return back()->withErrors(['email' => __($status)]);
-    }
-
-    /**
-     * Tampilkan form untuk mereset password baru.
-     */
-    public function reset(Request $request, $token)
-    {
-        return view('auth.reset-password', ['token' => $token, 'email' => $request->email]);
-    }
-
-    /**
-     * Proses update password baru ke database.
+     * Proses update password baru ke database dan langsung login.
      */
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|min:6|confirmed',
+        ], [
+            'email.exists' => 'Email tidak terdaftar.',
+            'password.min' => 'Kata sandi minimal 6 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.'
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        $user = User::where('email', $request->email)->first();
 
-                $user->save();
+        if ($user) {
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-                event(new PasswordReset($user));
-            }
-        );
+            // Langsung login
+            auth()->login($user);
 
-        if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('login')->with('status', __($status));
+            // Redirect ke halaman utama / web
+            return redirect()->route('home')->with('success', 'Kata sandi berhasil diubah dan Anda telah masuk.');
         }
 
-        return back()->withErrors(['email' => [__($status)]]);
+        return back()->withErrors(['email' => 'Gagal mereset kata sandi.']);
     }
 }

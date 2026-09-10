@@ -61,9 +61,8 @@
             <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" autocomplete="new-password">
           </div>
         </div>
-
         <div class="field">
-          <label for="password_confirmation">Konfirmasi kata sandi</label>
+          <label for="password_confirmation">Konfirmasi kata sandi baru</label>
           <div class="input-wrap" id="passConfWrap">
             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75v2.25M6.75 10.5h10.5a1.5 1.5 0 0 1 1.5 1.5v6.75a1.5 1.5 0 0 1-1.5 1.5H6.75a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5Zm1.5 0V7.5a3.75 3.75 0 1 1 7.5 0v3"/></svg>
             <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Ketik ulang kata sandi" autocomplete="new-password">
@@ -74,6 +73,10 @@
           <span class="spinner" id="spinner"></span>
           <span id="btnLabel">Simpan Kata Sandi</span>
         </button>
+
+        <div style="margin-top:20px; text-align:center;">
+          <a href="{{ route('login') }}" style="color: var(--blue-600); text-decoration: none; font-size: 14px; font-weight: 600;">Kembali ke halaman login</a>
+        </div>
 
       </form>
     </div>

@@ -30,8 +30,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Password Reset
 Route::get('/forgot-password', [PasswordResetController::class, 'request'])->name('password.request');
-Route::post('/forgot-password', [PasswordResetController::class, 'sendEmail'])->name('password.email');
-Route::get('/reset-password/{token}', [PasswordResetController::class, 'reset'])->name('password.reset');
 Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
 
 // Authenticated Home / Dashboard
