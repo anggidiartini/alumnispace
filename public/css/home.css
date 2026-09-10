@@ -2260,3 +2260,49 @@ h3 {
         padding: 2rem 1.5rem 1.5rem;
     }
 }
+
+/* ------------------------------------------------------------------
+ * Section Pengurus Alumni (Horizontal Scroll & Card Styling)
+ * ------------------------------------------------------------------ */
+.pengurus-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    padding-top: 0.5rem;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+
+/* Menyembunyikan scrollbar bawaan browser tapi tetap bisa digeser */
+.pengurus-track::-webkit-scrollbar {
+    display: none;
+}
+.pengurus-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.pengurus-card {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    width: 200px;
+    border-radius: 1.75rem;
+    border: 1px solid #dbeafe;
+    background-color: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 640px) {
+    .pengurus-card {
+        width: 220px;
+    }
+}
+
+.pengurus-card:hover {
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}

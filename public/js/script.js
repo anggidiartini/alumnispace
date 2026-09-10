@@ -165,32 +165,74 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ------------------------------------------------------------------
-     * Filter alumni berdasarkan angkatan & bidang (versi lama)
-     * Cuma jalan kalau halamannya memang punya struktur lama
-     * (#alumni-list / #field-filter / #alumni-empty), supaya nggak
-     * bentrok sama halaman direktori alumni yang baru (#alumni-grid dkk).
+     * Filter alumni berdasarkan Nama, Angkatan, & Bidang (Versi Baru)
      * ------------------------------------------------------------------ */
-    const alumniListLegacy = document.getElementById("alumni-list");
-    const fieldFilterLegacy = document.getElementById("field-filter");
-    const alumniEmptyLegacy = document.getElementById("alumni-empty");
+    const searchInput = document.getElementById("alumni-search");
+    const yearFilter = document.getElementById("year-filter");
+    const fieldFilter = document.getElementById("field-filter");
+    const alumniListContainer = document.getElementById("alumni-list");
+    const alumniEmptyMessage = document.getElementById("alumni-empty");
 
-    if (alumniListLegacy && fieldFilterLegacy && alumniEmptyLegacy) {
-        const yearFilterLegacy = document.getElementById("year-filter");
-        const filterAlumni = () => {
-            let shown = 0;
-            alumniListLegacy.querySelectorAll("article").forEach((card) => {
-                const okay =
-                    (yearFilterLegacy.value === "all" ||
-                        card.dataset.year === yearFilterLegacy.value) &&
-                    (fieldFilterLegacy.value === "all" ||
-                        card.dataset.field === fieldFilterLegacy.value);
-                card.classList.toggle("hidden", !okay);
-                if (okay) shown++;
+    if (alumniListContainer) {
+        const alumniCards =
+            alumniListContainer.querySelectorAll(".alumni-card");
+
+        const filterAlumniCards = () => {
+            const query = searchInput
+                ? searchInput.value.toLowerCase().trim()
+                : "";
+            const selectedYear = yearFilter ? yearFilter.value : "";
+            const selectedField = fieldFilter ? fieldFilter.value : "all";
+
+            // Jika search bar kosong DAN tahun belum dipilih, sembunyikan semua list
+            if (query === "" && selectedYear === "") {
+                alumniCards.forEach((card) => (card.style.display = "none"));
+                if (alumniEmptyMessage) {
+                    alumniEmptyMessage.textContent =
+                        "Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.";
+                    alumniEmptyMessage.style.display = "block";
+                }
+                return;
+            }
+
+            let visibleCount = 0;
+
+            alumniCards.forEach((card) => {
+                const name = card.getAttribute("data-name") || "";
+                const year = card.getAttribute("data-year") || "";
+                const field = card.getAttribute("data-field") || "";
+
+                const matchesQuery = query === "" || name.includes(query);
+                const matchesYear =
+                    selectedYear === "" || year === selectedYear;
+                const matchesField =
+                    selectedField === "all" || field === selectedField;
+
+                if (matchesQuery && matchesYear && matchesField) {
+                    card.style.display = "block";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
             });
-            alumniEmptyLegacy.classList.toggle("hidden", shown !== 0);
+
+            if (alumniEmptyMessage) {
+                if (visibleCount === 0) {
+                    alumniEmptyMessage.textContent =
+                        "Belum ada alumni yang sesuai dengan pencarianmu.";
+                    alumniEmptyMessage.style.display = "block";
+                } else {
+                    alumniEmptyMessage.style.display = "none";
+                }
+            }
         };
-        yearFilterLegacy?.addEventListener("change", filterAlumni);
-        fieldFilterLegacy?.addEventListener("change", filterAlumni);
+
+        if (searchInput)
+            searchInput.addEventListener("input", filterAlumniCards);
+        if (yearFilter)
+            yearFilter.addEventListener("change", filterAlumniCards);
+        if (fieldFilter)
+            fieldFilter.addEventListener("change", filterAlumniCards);
     }
 
     /* ------------------------------------------------------------------

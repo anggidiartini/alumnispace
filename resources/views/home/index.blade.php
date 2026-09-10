@@ -153,6 +153,54 @@
         </div>
       </section>
 
+      <!-- SECTION PENGURUS ALUMNI -->
+<section id="pengurus" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
+    <div>
+      <p class="mb-3 inline-block rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Struktur Organisasi</p>
+      <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
+    </div>
+    <p class="max-w-md text-sm text-[#355277]">
+      Geser ke samping untuk melihat jajaran pengurus aktif yang mengawal perjalanan ikatan alumni.
+    </p>
+  </div>
+
+  <!-- Container Scroll menggunakan class dari home.css -->
+  <div class="pengurus-track mt-10">
+    @forelse($pengurus ?? [] as $index => $item)
+    <article class="reveal-onscroll pengurus-card">
+
+      <!-- Area Foto Pengurus (Mendukung berbagai nama kolom foto/photo/image) -->
+      <div class="h-48 w-full overflow-hidden rounded-2xl bg-blue-50 border border-blue-100">
+        @php
+          $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
+          $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
+          $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
+        @endphp
+
+        @if($fotoPengurus)
+          <img src="{{ asset('storage/' . $fotoPengurus) }}" alt="{{ $namaPengurus }}" class="h-full w-full object-cover">
+        @else
+          <div class="grid h-full w-full place-items-center bg-[#a8d3ff] text-2xl font-bold text-[#153563]">
+            {{ strtoupper(substr($namaPengurus, 0, 2)) }}
+          </div>
+        @endif
+      </div>
+
+      <!-- Space Bawah untuk Tulis Nama & Jabatan -->
+      <div class="mt-4 text-center">
+        <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">{{ $namaPengurus }}</h3>
+        <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
+      </div>
+
+    </article>
+    @empty
+      <div class="w-full py-8 text-center text-sm text-[#355277]">
+        Data pengurus belum tersedia.
+      </div>
+    @endforelse
+  </div>
+</section>
       <!-- GATED TEASER (HANYA MUNCUL KETIKA BELUM LOGIN) -->
       @guest
       <section id="locked-teaser" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
@@ -196,59 +244,67 @@
       @endguest
 
       <!-- FITUR 1: DIREKTORI ALUMNI (GATED) -->
-      <section id="alumni" class="auth-section @auth unlocked @endauth mx-auto max-w-7xl px-5 py-20 md:px-8">
-        <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
-          <div>
-            <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">{{ $contents['alumni_section']->meta_data['badge'] ?? 'Direktori alumni' }}</p>
-            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">{{ $contents['alumni_section']->title ?? 'Temukan teman seperjalanan.' }}</h2>
-          </div>
-          <p class="max-w-sm text-sm leading-relaxed text-[#355277]">{{ $contents['alumni_section']->subtitle ?? 'Jelajahi profil ribuan alumni terverifikasi almamater.' }}</p>
-        </div>
-        <div class="mt-8 flex flex-wrap gap-3 rounded-[1.5rem] border border-blue-100 bg-[#f8fbff] p-3 reveal-onscroll">
-          <label class="sr-only" for="year-filter">Filter angkatan</label>
-          <select id="year-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
-            <option value="all">Semua angkatan</option>
-            <option value="2020">Angkatan 2020</option>
-            <option value="2019">Angkatan 2019</option>
-            <option value="2018">Angkatan 2018</option>
-            <option value="2017">Angkatan 2017</option>
-            <option value="2016">Angkatan 2016</option>
-            <option value="2015">Angkatan 2015</option>
-          </select>
-          <label class="sr-only" for="field-filter">Filter bidang</label>
-          <select id="field-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
-            <option value="all">Semua bidang</option>
-            <option value="teknologi">Teknologi & IT</option>
-            <option value="kreatif">Kreatif & Desain</option>
-            <option value="sosial">Manajemen & Lainnya</option>
-          </select>
-          <p class="self-center px-2 text-sm text-[#355277]">Pilih filter untuk menemukan orangmu.</p>
-        </div>
-        <div id="alumni-list" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          @forelse(collect($alumni ?? [])->take(4) as $index => $alum)
-          <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}">
-            <div class="flex items-start justify-between">
-              @if($alum->avatar)
-                <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
-              @else
-                <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
-              @endif
-              <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
-            </div>
-            <h3 class="mt-5 text-xl font-bold text-[#153563]">{{ $alum->user?->name ?? 'Alumni' }}</h3>
-            <p class="mt-1 text-sm text-[#355277]">{{ $alum->profession ?? 'Alumni Member' }}</p>
-            <p class="mt-3 text-sm font-medium text-[#153563]">📍 {{ $alum->city ?? 'Indonesia' }}</p>
-            <a href="{{ route('alumni.index') }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
-          </article>
-          @empty
-          <p class="text-sm text-[#355277]">Belum ada data alumni.</p>
-          @endforelse
-        </div>
-        <p id="alumni-empty" class="mt-8 hidden rounded-2xl bg-[#fff5f8] p-5 text-center font-medium text-[#153563]">Belum ada alumni dengan filter ini. Coba pilihan lain, ya!</p>
-       <div class="mt-6 text-right reveal-onscroll">
-  <a href="{{ route('alumni.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-</div>
-      </section>
+<section id="alumni" class="auth-section @auth unlocked @endauth mx-auto max-w-7xl px-5 py-20 md:px-8">
+  <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
+    <div>
+      <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">{{ $contents['alumni_section']->meta_data['badge'] ?? 'Direktori alumni' }}</p>
+      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">{{ $contents['alumni_section']->title ?? 'Temukan teman seperjalanan.' }}</h2>
+    </div>
+    <p class="max-w-sm text-sm leading-relaxed text-[#355277]">{{ $contents['alumni_section']->subtitle ?? 'Jelajahi profil ribuan alumni terverifikasi almamater.' }}</p>
+  </div>
+
+  <div class="mt-8 flex flex-wrap gap-3 rounded-[1.5rem] border border-blue-100 bg-[#f8fbff] p-3 reveal-onscroll">
+    <!-- Search Bar Cari Nama Alumni -->
+    <div class="flex-1 min-w-[240px]">
+      <label class="sr-only" for="alumni-search">Cari nama alumni</label>
+      <input type="text" id="alumni-search" placeholder="Cari nama alumni..." class="focus-ring w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+    </div>
+
+    <!-- Filter Angkatan (Tanpa "Semua Angkatan") -->
+    <label class="sr-only" for="year-filter">Filter angkatan</label>
+    <select id="year-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+      <option value="" disabled selected>Pilih Angkatan</option>
+      <option value="2020">Angkatan 2020</option>
+      <option value="2019">Angkatan 2019</option>
+      <option value="2018">Angkatan 2018</option>
+      <option value="2017">Angkatan 2017</option>
+      <option value="2016">Angkatan 2016</option>
+      <option value="2015">Angkatan 2015</option>
+    </select>
+
+    <!-- Filter Bidang -->
+    <label class="sr-only" for="field-filter">Filter bidang</label>
+    <select id="field-filter" class="focus-ring rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+      <option value="all">Semua bidang</option>
+      <option value="teknologi">Teknologi & IT</option>
+      <option value="kreatif">Kreatif & Desain</option>
+      <option value="sosial">Manajemen & Lainnya</option>
+    </select>
+  </div>
+
+  <!-- List Alumni (Secara default disembunyikan/style="display: none;") -->
+  <div id="alumni-list" class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    @foreach($alumni ?? [] as $index => $alum)
+    <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-name="{{ strtolower($alum->user?->name ?? '') }}" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}" style="display: none;">
+      <div class="flex items-start justify-between">
+        @if($alum->avatar)
+          <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
+        @else
+          <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
+        @endif
+        <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
+      </div>
+      <h3 class="mt-5 text-xl font-bold text-[#153563]">{{ $alum->user?->name ?? 'Alumni' }}</h3>
+      <p class="mt-1 text-sm text-[#355277]">{{ $alum->profession ?? 'Alumni Member' }}</p>
+      <p class="mt-3 text-sm font-medium text-[#153563]">📍 {{ $alum->city ?? 'Indonesia' }}</p>
+      <a href="{{ route('alumni.index') }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
+    </article>
+    @endforeach
+  </div>
+
+  <!-- Pesan Panduan Awal (Muncul saat belum melakukan pencarian) -->
+  <p id="alumni-empty" class="mt-8 rounded-2xl bg-[#fff5f8] p-5 text-center font-medium text-[#153563]">Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.</p>
+</section>
 
       <!-- TESTIMONI -->
 <section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">

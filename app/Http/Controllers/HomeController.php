@@ -10,6 +10,7 @@ use App\Models\Album;
 use App\Models\Testimonial;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,8 @@ class HomeController extends Controller
         $albums = Album::latest()->take(4)->get();
         $testimonials = Testimonial::where('is_featured', true)->latest()->take(3)->get();
         $articles = Article::where('is_published', true)->latest('published_at')->take(3)->get();
+        $pengurus = DB::table('alumni_committees')->get();
+
 
         $stats = [
             'total_alumni' => AlumniProfile::count() ?: 2540,
@@ -41,6 +44,6 @@ class HomeController extends Controller
         $settings = \App\Models\SiteSetting::where('is_public', true)
             ->pluck('value', 'key');
 
-        return view('home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats', 'contents', 'settings'));
+        return view('home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats', 'contents', 'settings', 'pengurus'));
     }
 }
