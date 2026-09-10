@@ -339,7 +339,7 @@
     </div>
   </div>
 </section>
-      <!-- SECTION 2: ARTIKEL (Diperluas jarak bawahnya menjadi pb-32) -->
+      <!-- SECTION 2: ARTIKEL -->
       <section id="artikel-section" class="mx-auto max-w-7xl px-5 pb-32 md:px-8">
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
           <div>
@@ -349,23 +349,82 @@
         </div>
 
         <div class="mt-9">
-          <div class="grid gap-5 md:grid-cols-3">
+          <!-- Menggunakan Grid 3 kolom persis seperti lowongan -->
+          <div class="grid gap-6 md:grid-cols-3">
             @forelse($articles ?? [] as $index => $article)
-            <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
-              <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">{{ strtoupper($article->category) }}</span>
-              <h3 class="mt-4 text-2xl font-bold text-[#153563]">{{ $article->title }}</h3>
-              <p class="mt-3 leading-relaxed text-[#355277]">{{ $article->excerpt ?? Str::limit(strip_tags($article->content), 80) }}</p>
-              <p class="mt-5 text-sm font-bold text-[#153563]">{{ \Carbon\Carbon::parse($article->published_at)->translatedFormat('d F Y') }}</p>
-            </article>
+            @php
+                // Kombinasi warna background pastel yang persis sama dengan card lowongan
+                $cardStyles = [
+                    ['bg' => 'bg-[#eaf3ff]', 'border' => 'border-blue-100'],
+                    ['bg' => 'bg-[#fdf0f5]', 'border' => 'border-pink-100'],
+                    ['bg' => 'bg-[#fffbe9]', 'border' => 'border-amber-100'],
+                ];
+                $style = $cardStyles[$index % count($cardStyles)];
+            @endphp
+
+            <!-- Card dengan background pastel penuh tanpa kotak putih di atas -->
+            <div class="{{ $style['bg'] }} {{ $style['border'] }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+              <div>
+                <!-- Bagian Gambar / Thumbnail -->
+                <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50">
+                  <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
+                    {{ ucfirst($article->category) }}
+                  </span>
+                  @if($article->thumbnail)
+                    <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+                  @else
+                    <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
+                      <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+                    </div>
+                  @endif
+                </div>
+
+                <!-- Judul Artikel -->
+                <h3 class="text-xl font-bold text-[#153563] leading-snug">
+                  {{ $article->title }}
+                </h3>
+
+                <!-- Tanggal -->
+                <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                    <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+                  </svg>
+                  {{ \Carbon\Carbon::parse($article->published_at)->translatedFormat('d F Y') }}
+                </div>
+
+                <!-- Deskripsi Singkat -->
+                <p class="mt-3 text-sm text-[#355277] leading-relaxed">
+                  {{ \Illuminate\Support\Str::limit($article->excerpt ?? strip_tags($article->content), 85) }}
+                </p>
+              </div>
+
+              <!-- Tombol Baca Artikel -->
+              <div class="mt-6 pt-4 border-t border-[#153563]/10">
+                <a href="{{ route('artikel.show', $article->slug) }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#153563] hover:underline">
+                  Baca Artikel
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+            </div>
             @empty
-            <article class="pop-card card-v1 rounded-[1.75rem] p-6">
-              <span class="inline-block rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">KABAR KAMPUS</span>
-              <h3 class="mt-4 text-2xl font-bold text-[#153563]">Reuni yang jadi awal kolaborasi</h3>
-              <p class="mt-3 leading-relaxed text-[#355277]">Tiga alumni mengubah obrolan reuni menjadi proyek kreatif yang seru.</p>
-              <p class="mt-5 text-sm font-bold text-[#153563]">28 Agustus 2026</p>
-            </article>
+            <!-- Fallback jika data kosong -->
+            <div class="bg-[#eaf3ff] border-blue-100 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+              <div>
+                <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50 flex items-center justify-center">
+                  <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Kabar Kampus</span>
+                  <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+                </div>
+                <h3 class="text-xl font-bold text-[#153563]">Reuni yang jadi awal kolaborasi</h3>
+                <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">28 Agustus 2026</div>
+                <p class="mt-3 text-sm text-[#355277]">Tiga alumni mengubah obrolan reuni menjadi proyek kreatif yang seru.</p>
+              </div>
+              <div class="mt-6 pt-4 border-t border-[#153563]/10">
+                <a href="{{ route('artikel.index') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#153563]">Baca Artikel <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
             @endforelse
           </div>
+
           <div class="mt-6 text-right reveal-onscroll">
             <a href="{{ route('artikel.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
           </div>

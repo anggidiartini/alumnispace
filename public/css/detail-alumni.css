@@ -198,6 +198,80 @@
     font-size: 1rem;
 }
 
+/* ---------- RIWAYAT PENDIDIKAN / PRESTASI / ORGANISASI + SOSMED ---------- */
+.ad-detail-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+.ad-detail-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.ad-detail-right {
+    display: flex;
+}
+.ad-detail-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 20px rgba(47, 102, 164, 0.06);
+}
+.ad-detail-card-sosmed {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.ad-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin: 0 0 0.9rem;
+}
+.ad-detail-title i,
+.ad-detail-title svg {
+    color: var(--blue);
+}
+.ad-detail-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.ad-detail-list li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: #4c7198;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.ad-detail-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--blue);
+}
+.ad-detail-sub {
+    color: #6280a4;
+    font-weight: 600;
+}
+.ad-detail-empty {
+    color: #8aa5c2;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
 /* ---------- BIO + KONTAK ---------- */
 .ad-content-grid {
     display: grid;
@@ -242,7 +316,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
-    margin-top: 0.9rem;
 }
 .ad-social-icon {
     display: inline-flex;
@@ -253,6 +326,7 @@
     border-radius: 12px;
     background: var(--sky);
     color: var(--blue);
+    text-decoration: none;
     transition:
         background 0.18s ease,
         transform 0.18s ease;
@@ -298,6 +372,10 @@
 }
 
 @media (min-width: 1024px) {
+    .ad-detail-grid {
+        grid-template-columns: 1.6fr 1fr !important;
+        align-items: start;
+    }
     .ad-content-grid {
         grid-template-columns: 1.6fr 1fr;
         align-items: start;

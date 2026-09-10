@@ -56,9 +56,6 @@ html {
 }
 
 /* ---------- DECORATIVE ---------- */
-/* Pattern digambar lewat ::before (bukan background-image langsung di elemen),
-   supaya tidak pernah ketimpa oleh inline style="background: ..." yang ada di HTML.
-   Inline style selalu menang atas class dari file CSS eksternal. */
 .dot-grid {
     position: relative;
 }
@@ -343,91 +340,6 @@ html {
     display: grid;
     gap: 1rem;
 }
-.directory-card {
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    background: #fff;
-    box-shadow: 0 8px 20px rgba(47, 102, 164, 0.07);
-    transition:
-        transform 0.24s ease,
-        box-shadow 0.24s ease,
-        border-color 0.24s ease;
-    animation: cardIn 0.45s both;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-.directory-card:hover,
-.directory-card:focus {
-    transform: translateY(-6px);
-    border-color: #8db9f0;
-    box-shadow: 0 17px 28px rgba(47, 102, 164, 0.15);
-}
-.card-top-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-.card-photo {
-    width: 58px;
-    height: 58px;
-    border-radius: 18px;
-    object-fit: cover;
-    background: #dceeff;
-}
-.badge {
-    border-radius: 999px;
-    background: #eaf4ff;
-    color: #2865b4;
-    font-size: 0.69rem;
-    font-weight: 800;
-    padding: 0.32rem 0.58rem;
-    white-space: nowrap;
-}
-.card-name {
-    font-weight: 800;
-    font-size: 1rem;
-    margin: 0;
-}
-.card-role {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #3a6ea7;
-    margin: 0.125rem 0 0;
-}
-.card-quote {
-    font-size: 0.875rem;
-    color: #55799f;
-    line-height: 1.375;
-    margin: 0;
-}
-.meta-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: #6280a4;
-    font-size: 0.78rem;
-    margin: 0;
-}
-.profile-link {
-    width: 100%;
-    border: 0;
-    border-radius: 12px;
-    padding: 0.65rem 0.8rem;
-    background: #eaf4ff;
-    color: #245b9d;
-    font-size: 0.78rem;
-    font-weight: 800;
-    transition:
-        background 0.18s ease,
-        transform 0.18s ease;
-    margin-top: auto;
-}
-.profile-link:hover {
-    background: #d5eaff;
-    transform: translateY(-1px);
-}
 
 /* ---------- EMPTY STATE ---------- */
 .empty-state {
@@ -497,6 +409,18 @@ html {
     object-fit: cover;
     border: 7px solid #fff;
     box-shadow: 9px 10px 0 #ffe98a;
+}
+.detail-avatar.avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sky);
+    color: var(--blue);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 800;
+    font-size: 2.75rem;
+    letter-spacing: 0.02em;
+    user-select: none;
 }
 .detail-year {
     display: inline-block;
@@ -680,9 +604,7 @@ html {
 }
 
 /* =========================================================
-   PATCH: tempel blok ini menggantikan bagian
-   "ALUMNI GRID / CARD" yang lama di public/css/alumni.css
-   (mulai dari .directory-card sampai .profile-link:hover)
+   PATCH: ALUMNI GRID / CARD (termasuk avatar fallback inisial)
    ========================================================= */
 
 .directory-card {
@@ -725,6 +647,10 @@ html {
     background: var(--pink);
     color: var(--ink);
 }
+#alumni-grid .directory-card:nth-child(5n + 2) .avatar-initial {
+    background: var(--pink);
+    color: #c8517d;
+}
 
 #alumni-grid .directory-card:nth-child(5n + 3) {
     border-top-color: #9d7800;
@@ -734,12 +660,20 @@ html {
     background: var(--yellow);
     color: var(--ink);
 }
+#alumni-grid .directory-card:nth-child(5n + 3) .avatar-initial {
+    background: var(--yellow);
+    color: #9d7800;
+}
 
 #alumni-grid .directory-card:nth-child(5n + 4) {
     border-top-color: var(--ink);
     background: color-mix(in srgb, var(--blue) 16%, #ffffff);
 }
 #alumni-grid .directory-card:nth-child(5n + 4) .badge {
+    background: var(--blue);
+    color: #ffffff;
+}
+#alumni-grid .directory-card:nth-child(5n + 4) .avatar-initial {
     background: var(--blue);
     color: #ffffff;
 }
@@ -752,6 +686,11 @@ html {
     background: var(--mint);
     color: var(--ink);
 }
+#alumni-grid .directory-card:nth-child(5n + 5) .avatar-initial {
+    background: var(--mint);
+    color: var(--ink);
+}
+
 .card-top-row {
     display: flex;
     align-items: flex-start;
@@ -767,6 +706,21 @@ html {
     border: 2px solid #fff;
     box-shadow: 0 4px 10px rgba(18, 53, 107, 0.15);
 }
+
+/* Fallback avatar berupa inisial nama, dipakai saat alumni belum upload foto */
+.avatar-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sky);
+    color: var(--blue);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    user-select: none;
+}
+
 .badge {
     border-radius: 999px;
     background: #eaf4ff;
@@ -849,7 +803,6 @@ html {
    RESPONSIVE TAMBAHAN — mobile kecil (≤640px)
    ========================================================= */
 @media (max-width: 640px) {
-    /* Hero: rapatkan jarak & ukuran di HP */
     .hero-container {
         padding: 2rem 1rem 2.5rem;
     }
@@ -871,7 +824,6 @@ html {
         margin-top: 1.5rem;
     }
 
-    /* Filter form: bikin lebih ringkas & compact ala mobile */
     .filter-form {
         padding: 0.75rem;
         border-radius: 18px;
@@ -897,7 +849,6 @@ html {
         width: 100%;
     }
 
-    /* Grid alumni: 1 kolom penuh di HP kecil */
     .alumni-grid {
         grid-template-columns: 1fr;
         gap: 0.75rem;
@@ -909,7 +860,6 @@ html {
         font-size: 1.05rem;
     }
 
-    /* Directory header: judul & jumlah hasil ga desek-desekan */
     .directory-header {
         gap: 0.5rem;
         margin-bottom: 1.25rem;
@@ -922,7 +872,6 @@ html {
     }
 }
 
-/* Search bar super ringkas ala aplikasi HP: full width, icon di kiri, tanpa border tebal */
 @media (max-width: 640px) {
     .icon-field .filter-control {
         border-radius: 999px;
@@ -931,11 +880,10 @@ html {
     }
 }
 
-/* Kartu alumni: reveal tanpa blur, cuma fade + slide naik, muncul satu-satu */
 .directory-card.reveal-onscroll {
     animation: none;
     opacity: 0;
-    filter: none; /* matikan blur bawaan dari home.css */
+    filter: none;
     transform: translateY(24px);
     transition:
         opacity 0.5s ease,
@@ -945,6 +893,14 @@ html {
     opacity: 1;
     filter: none;
     transform: translateY(0);
+}
+
+/* Fix: pastikan atribut [hidden] dari JS filter beneran nyembunyiin card,
+   soalnya .directory-card punya display:flex yang kalau nggak dipatch
+   bakal menang atas [hidden] bawaan browser (sama-sama specificity 0,1,0,
+   author CSS selalu menang atas user-agent default). */
+.directory-card[hidden] {
+    display: none !important;
 }
 
 .icon-field {
@@ -966,8 +922,7 @@ html {
 }
 
 /* =========================================================
-   Floating action row: back-to-top & WhatsApp — 1:1 sama
-   dengan lowongan.css milik temen.
+   Floating action row: back-to-top & WhatsApp
    ========================================================= */
 
 .fab-row {

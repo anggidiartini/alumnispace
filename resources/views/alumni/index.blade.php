@@ -120,9 +120,22 @@
                    data-city="{{ $item->city }}"
                    data-search="{{ strtolower($item->user->name.' '.$item->profession) }}">
             <div class="card-top-row">
-              <img class="card-avatar" loading="lazy"
-                   src="{{ $item->avatar ? asset('storage/'.$item->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($item->user->name).'&background=eaf4ff&color=2e75dd&size=200' }}"
-                   alt="Foto profil {{ $item->user->name }}">
+              @php
+                $words = preg_split('/\s+/', trim($item->user->name));
+                $initials = strtoupper(mb_substr($words[0] ?? '', 0, 1) . mb_substr($words[1] ?? '', 0, 1));
+                $hasAvatarFile = !empty($item->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->avatar);
+              @endphp
+              @if($hasAvatarFile)
+                <img class="card-avatar" loading="lazy"
+                     src="{{ asset('storage/'.$item->avatar) }}"
+                     alt="Foto profil {{ $item->user->name }}"
+                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-avatar avatar-initial',textContent:'{{ $initials }}'}))">
+              @else
+                <div class="card-avatar avatar-initial" aria-label="Foto profil {{ $item->user->name }}">
+                  {{ $initials }}
+                </div>
+              @endif
+
               @if($item->graduation_year)
                 <span class="badge">Angkatan {{ $item->graduation_year }}</span>
               @endif
@@ -227,7 +240,12 @@
     const visibleSet = new Set(filtered);
 
     cards.forEach(card => {
-      card.hidden = !visibleSet.has(card);
+      const isVisible = visibleSet.has(card);
+      card.hidden = !isVisible;
+      // Set inline display langsung (menang atas CSS eksternal manapun,
+      // termasuk home.css yang di-load setelah alumni.css) supaya card
+      // yang gak match filter beneran hilang, bukan cuma keganti posisi.
+      card.style.display = isVisible ? "" : "none";
     });
 
     filtered.forEach((card, index) => {
