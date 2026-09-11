@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             TestimonialSeeder::class,
             ArticleSeeder::class,
             PageContentSeeder::class,
+            CommitteePeriodsSeeder::class,
+            AlumniCommitteeSeeder::class,
         ]);
     }
 }

@@ -1,9 +1,9 @@
 @extends('admin.layout.index')
 
-@section('page_title', 'Dashboard Overview')
+@section('page_title', 'Halaman Utama')
 
 @section('content')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://jsdelivr.net"></script>
     <style>
         .hero-banner {
             background: linear-gradient(135deg, #062b4f 0%, #0a4174 50%, #125493 100%);
@@ -86,7 +86,7 @@
             background: #7bbde8;
             border-radius: 6px 6px 0 0;
             transition: all 0.3s ease;
-            min-height: 20px; /* Base height for small values */
+            min-height: 20px;
             cursor: pointer;
         }
         .chart-bar:hover {
@@ -119,17 +119,16 @@
 
     <!-- WELCOME HERO BANNER -->
     <div class="hero-banner">
-        <div class="hero-badge">Sistem Database Alumni Terintegrasi</div>
-        <h2 class="hero-title">Selamat Datang di <span class="hero-title-highlight">Portal Database Alumni</span></h2>
-        <p class="hero-desc">Kelola, pantau, dan eksplorasi data alumni, kepengurusan, prestasi, serta konten informasi
-            institusi secara terpadu.</p>
+        <div class="hero-badge">Pusat Informasi Terintegrasi</div>
+        <h2 class="hero-title">Selamat Datang di <span class="hero-title-highlight">Ruang Pengelola</span></h2>
+        <p class="hero-desc">Pantau, perbarui, dan sesuaikan data alumni, agenda acara, berita terbaru, serta seluruh informasi operasional website dengan mudah di sini.</p>
     </div>
 
-    <!-- BOX GRAFIK STATISTIK -->
+    <!-- BOX GRAFIK JALUR KUNJUNGAN -->
     <div class="chart-card">
-        <h3 class="chart-title">Statistik Pengunjung Hari Ini</h3>
+        <h3 class="chart-title">Grafik Pengunjung Hari Ini</h3>
         <div class="chart-container" x-data="{
-            dataPengunjung: {!! !empty($data) ? json_encode($data) : json_encode([25, 40, 60, 45, 80, 50, 95]) !!},
+            dataPengunjung: {!! !empty($data) ? json_encode($data) : json_encode([]) !!},
             jam: {!! !empty($labels) ? json_encode($labels) : json_encode(['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00']) !!},
             maxData: {!! !empty($data) ? max($data) : 100 !!}
         }">
