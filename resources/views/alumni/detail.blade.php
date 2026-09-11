@@ -90,10 +90,10 @@
 
       {{-- Riwayat Pendidikan / Prestasi / Organisasi (kiri) + Sosmed (kanan) --}}
       @if($hasDetailBoxes || $activeSocials->isNotEmpty())
-      <div class="ad-detail-grid" style="opacity:1!important; visibility:visible!important; display:grid!important;">
+      <div class="ad-detail-grid">
         <div class="ad-detail-left" style="opacity:1!important; visibility:visible!important; display:flex!important; flex-direction:column; gap:1.25rem;">
           @if($profile->current_university)
-          <div class="ad-detail-card" style="opacity:1!important; visibility:visible!important; display:block!important; background:#ffffff; border:1px solid #dbe8f7; border-radius:22px; padding:1.5rem; box-shadow:0 8px 20px rgba(47,102,164,0.06);">
+          <div class="ad-detail-card">
             <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
               <i data-lucide="graduation-cap" width="18"></i> Riwayat Pendidikan
             </h3>

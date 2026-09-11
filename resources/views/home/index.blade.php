@@ -153,47 +153,40 @@
         </div>
       </section>
 
-      <!-- SECTION PENGURUS ALUMNI -->
+            <!-- SECTION PENGURUS ALUMNI -->
 <section id="pengurus" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
       <p class="mb-3 inline-block rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Struktur Organisasi</p>
       <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
     </div>
-    <p class="max-w-md text-sm text-[#355277]">
-      Geser ke samping untuk melihat jajaran pengurus aktif yang mengawal perjalanan ikatan alumni.
-    </p>
+
   </div>
 
   <!-- Container Scroll menggunakan class dari home.css -->
   <div class="pengurus-track mt-10">
     @forelse($pengurus ?? [] as $index => $item)
-    <article class="reveal-onscroll pengurus-card">
+    <article class="reveal-onscroll pengurus-card card-v{{ ($index % 4) + 1 }}">
 
-      <!-- Area Foto Pengurus (Mendukung berbagai nama kolom foto/photo/image) -->
-      <div class="h-48 w-full overflow-hidden rounded-2xl bg-blue-50 border border-blue-100">
-        @php
-          $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
-          $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
-          $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
-        @endphp
+  <div class="pengurus-photo-wrap border border-blue-100">
+    @php
+      $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
+      $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
+      $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
+      $srcFoto = $fotoPengurus
+          ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
+          : asset('assets/images/default-avatar.png');
+    @endphp
 
-        @if($fotoPengurus)
-          <img src="{{ asset('storage/' . $fotoPengurus) }}" alt="{{ $namaPengurus }}" class="h-full w-full object-cover">
-        @else
-          <div class="grid h-full w-full place-items-center bg-[#a8d3ff] text-2xl font-bold text-[#153563]">
-            {{ strtoupper(substr($namaPengurus, 0, 2)) }}
-          </div>
-        @endif
-      </div>
+    <img src="{{ $srcFoto }}" alt="{{ $namaPengurus }}" onclick="openPengurusLightbox('{{ $srcFoto }}')">
+  </div>
 
-      <!-- Space Bawah untuk Tulis Nama & Jabatan -->
-      <div class="mt-4 text-center">
-        <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">{{ $namaPengurus }}</h3>
-        <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
-      </div>
+  <div class="mt-4 text-center">
+    <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">{{ $namaPengurus }}</h3>
+    <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
+  </div>
 
-    </article>
+</article>
     @empty
       <div class="w-full py-8 text-center text-sm text-[#355277]">
         Data pengurus belum tersedia.
@@ -407,78 +400,57 @@
         <div class="mt-9">
           <!-- Menggunakan Grid 3 kolom persis seperti lowongan -->
           <div class="grid gap-6 md:grid-cols-3">
-            @forelse($articles ?? [] as $index => $article)
-            @php
-                // Kombinasi warna background pastel yang persis sama dengan card lowongan
-                $cardStyles = [
-                    ['bg' => 'bg-[#eaf3ff]', 'border' => 'border-blue-100'],
-                    ['bg' => 'bg-[#fdf0f5]', 'border' => 'border-pink-100'],
-                    ['bg' => 'bg-[#fffbe9]', 'border' => 'border-amber-100'],
-                ];
-                $style = $cardStyles[$index % count($cardStyles)];
-            @endphp
+  @forelse($articles ?? [] as $index => $article)
+  <div class="card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+    <div>
+      <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50">
+        <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
+          {{ ucfirst($article->category) }}
+        </span>
+        @if($article->thumbnail)
+          <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+        @else
+          <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
+            <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+          </div>
+        @endif
+      </div>
 
-            <!-- Card dengan background pastel penuh tanpa kotak putih di atas -->
-            <div class="{{ $style['bg'] }} {{ $style['border'] }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
-              <div>
-                <!-- Bagian Gambar / Thumbnail -->
-                <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50">
-                  <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
-                    {{ ucfirst($article->category) }}
-                  </span>
-                  @if($article->thumbnail)
-                    <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
-                  @else
-                    <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
-                      <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
-                    </div>
-                  @endif
-                </div>
+      <h3 class="text-xl font-bold text-[#153563] leading-snug">{{ $article->title }}</h3>
 
-                <!-- Judul Artikel -->
-                <h3 class="text-xl font-bold text-[#153563] leading-snug">
-                  {{ $article->title }}
-                </h3>
+      <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        {{ \Carbon\Carbon::parse($article->published_at)->translatedFormat('d F Y') }}
+      </div>
 
-                <!-- Tanggal -->
-                <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-                    <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
-                  </svg>
-                  {{ \Carbon\Carbon::parse($article->published_at)->translatedFormat('d F Y') }}
-                </div>
+      <p class="mt-3 text-sm text-[#355277] leading-relaxed">
+        {{ \Illuminate\Support\Str::limit($article->excerpt ?? strip_tags($article->content), 85) }}
+      </p>
+    </div>
 
-                <!-- Deskripsi Singkat -->
-                <p class="mt-3 text-sm text-[#355277] leading-relaxed">
-                  {{ \Illuminate\Support\Str::limit($article->excerpt ?? strip_tags($article->content), 85) }}
-                </p>
-              </div>
+    <div class="mt-6 pt-4 border-t border-[#153563]/10">
+      <a href="{{ route('artikel.show', $article->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Baca Artikel</a>
+    </div>
+  </div>
+  @empty
+  <div class="card-v1 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+    <div>
+      <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50 flex items-center justify-center">
+        <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Kabar Kampus</span>
+        <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+      </div>
+      <h3 class="text-xl font-bold text-[#153563]">Reuni yang jadi awal kolaborasi</h3>
+      <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">28 Agustus 2026</div>
+      <p class="mt-3 text-sm text-[#355277]">Tiga alumni mengubah obrolan reuni menjadi proyek kreatif yang seru.</p>
+    </div>
+    <div class="mt-6 pt-4 border-t border-[#153563]/10">
+      <a href="{{ route('artikel.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Baca Artikel</a>
+    </div>
+  </div>
+  @endforelse
 
-              <!-- Tombol Baca Artikel -->
-              <div class="mt-6 pt-4 border-t border-[#153563]/10">
-                <a href="{{ route('artikel.show', $article->slug) }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#153563] hover:underline">
-                  Baca Artikel
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </a>
-              </div>
-            </div>
-            @empty
-            <!-- Fallback jika data kosong -->
-            <div class="bg-[#eaf3ff] border-blue-100 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
-              <div>
-                <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50 flex items-center justify-center">
-                  <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Kabar Kampus</span>
-                  <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
-                </div>
-                <h3 class="text-xl font-bold text-[#153563]">Reuni yang jadi awal kolaborasi</h3>
-                <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">28 Agustus 2026</div>
-                <p class="mt-3 text-sm text-[#355277]">Tiga alumni mengubah obrolan reuni menjadi proyek kreatif yang seru.</p>
-              </div>
-              <div class="mt-6 pt-4 border-t border-[#153563]/10">
-                <a href="{{ route('artikel.index') }}" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#153563]">Baca Artikel <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-              </div>
-            </div>
-            @endforelse
           </div>
 
           <div class="mt-6 text-right reveal-onscroll">
@@ -633,6 +605,11 @@
  <script src="{{ asset('js/script.js') }}"></script>
 
   <script>
+  function openPengurusLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-overlay').classList.add('is-open');
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const isGuest = document.body.getAttribute('data-isGuest') === 'true';
 

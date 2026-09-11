@@ -26,7 +26,17 @@ class HomeController extends Controller
         $albums = Album::latest()->take(4)->get();
         $testimonials = Testimonial::where('is_featured', true)->latest()->take(3)->get();
         $articles = Article::where('is_published', true)->latest('published_at')->take(3)->get();
-        $pengurus = DB::table('alumni_committees')->get();
+        $pengurus = DB::table('alumni_committees')
+    ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
+    ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+    ->select(
+        'alumni_committees.id',
+        'alumni_committees.position',
+        'users.name as nama',
+        'alumni_profiles.avatar as foto'
+    )
+    ->latest('alumni_committees.created_at')
+    ->get();
 
 
         $stats = [
