@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Masuk — Alumni Connect</title>
+<title>Masuk Admin — Alumni Connect</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
 
     <div class="panel-form">
       <div class="form-head">
-        <h2>Masuk ke akunmu</h2>
+        <h2>Masuk sebagai Administrator</h2>
       </div>
 
       @if($errors->any())
@@ -63,10 +63,10 @@
         @csrf
 
         <div class="field">
-          <label for="email">Email</label>
+          <label for="email">Email Admin</label>
           <div class="input-wrap" id="emailWrap">
             <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5 12 13l9-5.5M4.5 5h15A1.5 1.5 0 0 1 21 6.5v11A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5v-11A1.5 1.5 0 0 1 4.5 5Z"/></svg>
-            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com" autocomplete="off">
+            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="admin@email.com" autocomplete="off">
           </div>
           <div class="error-msg" id="emailError">Masukkan alamat email yang valid ya.</div>
         </div>
@@ -93,12 +93,12 @@
 
         <button type="submit" class="btn-submit" id="submitBtn">
           <span class="spinner" id="spinner"></span>
-          <span id="btnLabel">Masuk</span>
+          <span id="btnLabel">Masuk Admin</span>
         </button>
 
         <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #E4E7F5; text-align:center;">
-          <a href="{{ route('admin.login') }}" style="font-size:14px; font-weight:600; color:var(--blue-600); text-decoration:none;">
-            ⚡ Login sebagai Administrator
+          <a href="{{ route('login') }}" style="font-size:14px; font-weight:600; color:var(--blue-600); text-decoration:none;">
+            🎓 Login sebagai Alumni
           </a>
         </div>
 
@@ -123,7 +123,6 @@
     eyeIcon.innerHTML = showing ? EYE_OPEN : EYE_CLOSED;
     togglePass.setAttribute('aria-label', showing ? 'Tampilkan kata sandi' : 'Sembunyikan kata sandi');
   });
-
 
 </script>
 

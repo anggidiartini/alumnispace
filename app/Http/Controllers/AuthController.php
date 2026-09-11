@@ -15,6 +15,14 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function showAdminLogin()
+    {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+        return view('auth.admin-login');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([

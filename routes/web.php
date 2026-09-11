@@ -25,6 +25,7 @@ use App\Http\Controllers\PasswordResetController;
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/admin-login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
