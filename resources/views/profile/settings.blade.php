@@ -41,7 +41,7 @@
         </div>
       @endif
 
-      <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="profile-form">
+      <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="profile-form" id="profile-form">
         @csrf
         @method('PUT')
 
@@ -51,14 +51,30 @@
 
           <div class="profile-field profile-field-avatar">
             <div class="avatar-preview-wrap">
-              @if ($profile->avatar)
-                <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="avatar-preview" id="avatar-preview">
-              @else
-                <span class="avatar-preview avatar-placeholder" id="avatar-preview">
-                  {{ strtoupper(substr($user->name, 0, 1)) }}
+
+              <button type="button" class="avatar-click-area" id="avatar-click-area" aria-label="Ubah foto profil">
+                @if ($profile->avatar)
+                  <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="avatar-preview" id="avatar-preview">
+                @else
+                  <span class="avatar-preview avatar-placeholder" id="avatar-preview">
+                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                  </span>
+                @endif
+
+                <span class="avatar-edit-badge" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"></path>
+                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                  </svg>
                 </span>
-              @endif
-              <input type="file" name="avatar" id="avatar-input" accept="image/*">
+              </button>
+
+              <span class="avatar-hint">Klik foto untuk mengganti atau menghapus.</span>
+
+              {{-- Input file asli, disembunyikan secara visual, dipicu dari dalam modal --}}
+              <input type="file" name="avatar" id="avatar-input" accept="image/*" class="avatar-file-input">
+              {{-- Penanda untuk backend: 1 = hapus foto saat disimpan --}}
+              <input type="hidden" name="remove_avatar" id="remove_avatar" value="0">
             </div>
           </div>
         </div>
@@ -125,18 +141,18 @@
           <div class="profile-grid">
             <div class="profile-field">
               <label for="student_number">NIS</label>
-              <input type="text" name="student_number" id="student_number"
-                     value="{{ old('student_number', $profile->student_number) }}">
+              <input type="text" id="student_number"
+                     value="{{ $profile->student_number }}" disabled>
             </div>
             <div class="profile-field">
               <label for="graduation_year">Angkatan</label>
-              <input type="number" name="graduation_year" id="graduation_year"
-                     value="{{ old('graduation_year', $profile->graduation_year) }}">
+              <input type="text" id="graduation_year"
+                     value="{{ $profile->graduation_year }}" disabled>
             </div>
             <div class="profile-field">
               <label for="major">Jurusan</label>
-              <input type="text" name="major" id="major"
-                     value="{{ old('major', $profile->major) }}">
+              <input type="text" id="major"
+                     value="{{ $profile->major }}" disabled>
             </div>
             <div class="profile-field">
               <label for="current_university">Universitas Lanjutan</label>
@@ -239,24 +255,139 @@
   </section>
 </main>
 
+{{-- MODAL: Ganti / Hapus Foto Profil --}}
+<div class="avatar-modal-overlay" id="avatar-modal-overlay">
+  <div class="avatar-modal" role="dialog" aria-modal="true" aria-labelledby="avatar-modal-title">
+    <button type="button" class="avatar-modal-close" id="avatar-modal-close" aria-label="Tutup">&times;</button>
+    <h3 id="avatar-modal-title">Ubah Foto Profil</h3>
+    <p class="avatar-modal-sub">Pilih foto baru atau hapus foto yang sedang dipakai. Perubahan baru tersimpan permanen setelah kamu klik "Simpan Perubahan".</p>
+    <div class="avatar-modal-actions">
+      <button type="button" class="avatar-modal-btn avatar-modal-upload" id="avatar-modal-upload">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Upload Gambar
+      </button>
+      <button type="button" class="avatar-modal-btn avatar-modal-remove" id="avatar-modal-remove">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+          <path d="M10 11v6"></path>
+          <path d="M14 11v6"></path>
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+        </svg>
+        Hapus Foto
+      </button>
+    </div>
+  </div>
+</div>
+
 <x-footer />
 
 <script>
-  document.getElementById('avatar-input').addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
+  var INITIAL_NAME = "{{ strtoupper(substr($user->name, 0, 1)) }}";
 
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const preview = document.getElementById('avatar-preview');
-      const img = document.createElement('img');
-      img.src = event.target.result;
-      img.className = 'avatar-preview';
-      img.id = 'avatar-preview';
-      preview.replaceWith(img);
-    };
-    reader.readAsDataURL(file);
-  });
+  function setAvatarPreview(content, isPlaceholder) {
+    var old = document.getElementById('avatar-preview');
+    var el;
+    if (isPlaceholder) {
+      el = document.createElement('span');
+      el.className = 'avatar-preview avatar-placeholder';
+      el.textContent = content;
+    } else {
+      el = document.createElement('img');
+      el.src = content;
+      el.className = 'avatar-preview';
+      el.alt = 'Avatar';
+    }
+    el.id = 'avatar-preview';
+    old.replaceWith(el);
+  }
+
+  (function () {
+    var clickArea      = document.getElementById('avatar-click-area');
+    var overlay        = document.getElementById('avatar-modal-overlay');
+    var closeBtn       = document.getElementById('avatar-modal-close');
+    var uploadBtn      = document.getElementById('avatar-modal-upload');
+    var removeBtn      = document.getElementById('avatar-modal-remove');
+    var fileInput      = document.getElementById('avatar-input');
+    var removeField    = document.getElementById('remove_avatar');
+
+    function openModal() {
+      overlay.classList.add('show');
+    }
+
+    function closeModal() {
+      overlay.classList.remove('show');
+    }
+
+    clickArea.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal();
+    });
+
+    // Tombol "Upload Gambar" di modal -> buka dialog pilih file bawaan browser
+    uploadBtn.addEventListener('click', function () {
+      fileInput.click();
+    });
+
+    // Setelah file dipilih -> preview langsung berubah, tandai remove=0, modal ditutup
+    fileInput.addEventListener('change', function (e) {
+      var file = e.target.files[0];
+      if (!file) return;
+
+      removeField.value = '0';
+
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        setAvatarPreview(event.target.result, false);
+        closeModal();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Tombol "Hapus Foto" -> preview langsung jadi placeholder, tandai remove=1, modal ditutup
+    removeBtn.addEventListener('click', function () {
+      fileInput.value = '';
+      removeField.value = '1';
+      setAvatarPreview(INITIAL_NAME, true);
+      closeModal();
+    });
+  })();
+
+  // Animasi section muncul saat discroll ke viewport (bukan langsung semua saat load)
+  (function () {
+    var sections = document.querySelectorAll('.profile-section');
+
+    if (!('IntersectionObserver' in window)) {
+      sections.forEach(function (el) { el.classList.add('in-view', 'popped'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    sections.forEach(function (el) {
+      observer.observe(el);
+      el.addEventListener('animationend', function () {
+        el.classList.add('popped');
+      });
+    });
+  })();
 
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
