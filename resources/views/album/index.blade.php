@@ -14,7 +14,6 @@
 <x-navbar />
 
 <div class="section-blue">
-  <div class="confetti-layer" id="confetti-blue"></div>
 
   <!-- doodles -->
   <div class="doodle" style="top:60px;left:6%;--r:-10deg;" id="doodle-star">
@@ -69,7 +68,6 @@
 </div>
 
 <div class="section-yellow" id="album-section">
-  <div class="confetti-layer" id="confetti-yellow"></div>
 
   <div class="wrap">
     <div class="section-head reveal-pop">
@@ -154,48 +152,6 @@
       albumSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
-
-  // ---------- CONFETTI GENERATOR ----------
-  var colors = ['#ffffff','#FFE08A','#A8C6E7','#7FA8D6'];
-
-  function spawnConfetti(containerId, count, shapesAllowed){
-    var container = document.getElementById(containerId);
-    if(!container) return;
-    for(var i=0;i<count;i++){
-      var el = document.createElement('div');
-      var kind = shapesAllowed[Math.floor(Math.random()*shapesAllowed.length)];
-      el.className = 'confetti ' + kind;
-      var size = 6 + Math.random()*8;
-      var top = Math.random()*100;
-      var left = Math.random()*100;
-      var rot = (Math.random()*60 - 30);
-      var duration = 3 + Math.random()*3;
-      var delay = Math.random()*3;
-      var color = colors[Math.floor(Math.random()*colors.length)];
-
-      if(kind === 'star'){
-        el.textContent = '✦';
-        el.style.fontSize = (size+6) + 'px';
-        el.style.color = color;
-      } else {
-        el.style.width = size + 'px';
-        el.style.height = size + 'px';
-        el.style.background = color;
-      }
-
-      el.style.top = top + '%';
-      el.style.left = left + '%';
-      el.style.opacity = 0.55 + Math.random()*0.4;
-      el.style.setProperty('--r', rot + 'deg');
-      el.style.transform = 'rotate(' + rot + 'deg)';
-      el.style.animation = 'floatUpDown ' + duration + 's ease-in-out ' + delay + 's infinite';
-
-      container.appendChild(el);
-    }
-  }
-
-  spawnConfetti('confetti-blue', 14, ['dot','square','star']);
-  spawnConfetti('confetti-yellow', 14, ['dot','square','star']);
 
   // ---------- SCROLL REVEAL FOR ALBUM CARDS ----------
   var cards = document.querySelectorAll('.card');
