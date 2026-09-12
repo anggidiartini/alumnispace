@@ -114,6 +114,103 @@ h3 {
     }
 }
 
+/* ============ ELEMEN DEKORATIF TAMBAHAN (bentuk geometris, bukan emoji) ============ */
+.deco-star {
+    background: currentColor;
+    clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+    );
+}
+
+.deco-ring {
+    border-radius: 50%;
+    border: 7px solid currentColor;
+    background: transparent;
+}
+
+.deco-dot {
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.deco-dot-grid {
+    background-image: radial-gradient(currentColor 2.6px, transparent 2.6px);
+    background-size: 18px 18px;
+    opacity: 0.35;
+}
+
+/* ============ ASET DEKORATIF (gambar sendiri: jam, bis, papan tulis, dll) ============ */
+.deco-asset {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.deco-asset img {
+    display: block;
+    opacity: 0.7;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+
+/* Atur di sini kalau mau geser ukuran/kemiringan per JENIS aset
+   (berlaku ke semua kemunculan aset itu di semua section) */
+.aset-jam {
+    width: 100px;
+    transform: rotate(0deg);
+}
+
+.aset-bus {
+    width: 100px;
+    transform: rotate(0deg);
+}
+
+.aset-papantulis {
+    width: 100px;
+    transform: rotate(0deg);
+}
+
+.aset-lampu {
+    width: 100px;
+    transform: rotate(0deg);
+}
+
+.aset-alattulis {
+    width: 100px;
+    transform: rotate(0deg);
+}
+
+/* ============ Posisi aset khusus section HERO (beranda) ============ */
+/* Ubah angka top/left/right/bottom di sini kalau mau geser */
+.hero-deco-jam {
+    right: 5%;
+    top: 7%;
+    transform: translateY(50%);
+}
+
+.hero-deco-bus {
+    right: 5%;
+    bottom: 20%;
+}
+
+.hero-deco-papantulis {
+    right: 93%;
+    top: 17%;
+}
+
+.hero-deco-lampu {
+    left: 10px;
+    bottom: 25%;
+}
+
 .floaty {
     animation: floaty 4s ease-in-out infinite;
 }
@@ -143,14 +240,15 @@ h3 {
     }
 }
 
+/* FIX: dihapus filter:blur dari reveal-onscroll — filter itu mahal
+   buat di-render dan force full repaint tiap elemen masuk viewport
+   pas discroll. Sekarang cuma opacity + transform (GPU-friendly). */
 .reveal-onscroll {
     opacity: 0;
     transform: translateY(46px) scale(0.94);
-
     transition:
         opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1),
-        filter 0.6s ease-out;
+        transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .reveal-onscroll.in-view {
@@ -289,7 +387,11 @@ h3 {
     display: none;
 }
 
-/* Floating WhatsApp widget */
+/* ---------- FIX: WA pulse — sekarang pakai ::after + transform/opacity,
+   BUKAN animate box-shadow langsung di elemen. Animate box-shadow itu
+   trigger paint tiap frame; transform+opacity di-handle GPU compositor,
+   jauh lebih murah — penting karena animasi ini infinite & tetap jalan
+   pas discroll. ---------- */
 .wa-pulse {
     position: relative;
     transition: transform 0.2s ease;
@@ -324,6 +426,7 @@ h3 {
         opacity: 0;
     }
 }
+
 .wa-bubble {
     transform-origin: bottom right;
     opacity: 0;
@@ -2012,39 +2115,17 @@ h3 {
     flex-shrink: 0;
 }
 
-.wa-pulse {
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    animation: wa-pulse-ring 2.6s ease-out infinite;
-}
-
-.wa-pulse:hover {
-    transform: scale(1.08);
-}
-
-@keyframes wa-pulse-ring {
-    0% {
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
-    }
-    70% {
-        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-    }
-}
-
 #wa-button {
     display: grid;
     place-items: center;
-    position: relative; /* tambahin ini */
+    position: relative;
     height: 3.5rem;
     width: 3.5rem;
     border-radius: 9999px;
     background: #25d366;
     color: #fff;
     box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+    overflow: visible;
 }
 
 #wa-bubble {
@@ -2057,26 +2138,6 @@ h3 {
     background: #fff;
     padding: 1rem;
     box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
-}
-
-.wa-bubble {
-    transform-origin: bottom right;
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-    visibility: hidden;
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.wa-bubble.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    visibility: visible;
-    pointer-events: auto;
 }
 
 .wa-bubble-title {
@@ -2303,61 +2364,12 @@ h3 {
     background-color: #ffffff;
     padding: 1rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease-in-out;
-}
-
-/* Foto pengurus: tinggi tetap & framing konsisten */
-.pengurus-photo-wrap {
-    height: 12rem;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 1rem;
-}
-.pengurus-photo-wrap img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-}
-
-/* Pengurus card ikut sistem warna card-v1..v4, bg putih seperti event-card */
-.pengurus-card {
-    position: relative;
-    overflow: hidden;
-    background-color: #ffffff;
-}
-.pengurus-card.card-v1,
-.pengurus-card.card-v2,
-.pengurus-card.card-v3,
-.pengurus-card.card-v4 {
-    background-color: #ffffff;
-}
-
-@media (min-width: 640px) {
-    .pengurus-card {
-        width: 220px;
-    }
-}
-
-.pengurus-card:hover {
-    box-shadow:
-        0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-/* Card pengurus lebih panjang ke bawah + efek terangkat saat hover */
-.pengurus-card {
-    padding-bottom: 1.5rem;
     transition:
         transform 0.25s ease,
         box-shadow 0.25s ease;
 }
-.pengurus-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 28px -10px rgba(21, 53, 99, 0.22);
-}
 
-/* Foto pengurus: tinggi tetap, lebih tinggi dari sebelumnya, bisa diklik */
+/* Foto pengurus: tinggi tetap & framing konsisten */
 .pengurus-photo-wrap {
     height: 14rem;
     width: 100%;
@@ -2373,12 +2385,26 @@ h3 {
     display: block;
 }
 
-/* Card pengurus keangkat pas di-hover */
+/* Pengurus card ikut sistem warna card-v1..v4, bg putih seperti event-card */
 .pengurus-card {
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    padding-bottom: 1.5rem;
 }
+.pengurus-card.card-v1,
+.pengurus-card.card-v2,
+.pengurus-card.card-v3,
+.pengurus-card.card-v4 {
+    background-color: #ffffff;
+}
+
+@media (min-width: 640px) {
+    .pengurus-card {
+        width: 220px;
+    }
+}
+
 .pengurus-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 16px 28px -10px rgba(21, 53, 99, 0.22);
@@ -2387,4 +2413,135 @@ h3 {
 /* Fix: kotak thumbnail perlu tinggi tetap, biar badge nggak numpuk teks kalau foto kosong */
 .h-48 {
     height: 12rem;
+}
+
+/* Matikan animasi berat saat discroll untuk menghemat performa browser */
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .blob-drift,
+    .spin-slow,
+    .wiggle,
+    .floaty,
+    .floaty-slow {
+        animation: none !important;
+    }
+}
+
+/* ============ Posisi aset per section (semua CSS murni, tanpa Tailwind) ============ */
+.tentang-alattulis {
+    left: 90%;
+    top: 15%;
+}
+.tentang-jam {
+    left: 93%;
+    bottom: 10%;
+}
+.tentang-bus {
+    right: 92%;
+    top: 6%;
+    rotate: (8deg);
+}
+.statistik-papantulis {
+    left: 10px !important;
+    top: 20%;
+}
+.statistik-lampu {
+    right: 4px;
+    top: 15%;
+}
+.statistik-alattulis {
+    right: 4px;
+    bottom: 15%;
+}
+.pengurus-jam {
+    left: 4px;
+    top: 18%;
+}
+.pengurus-bus {
+    left: 4px;
+    bottom: 12%;
+}
+.pengurus-papantulis {
+    right: 4px;
+    top: 22%;
+}
+.locked-teaser-bus {
+    left: 4px;
+    top: 15%;
+}
+.locked-teaser-papantulis {
+    right: 4px;
+    top: 18%;
+}
+.alumni-lampu {
+    left: 4px;
+    top: 16%;
+}
+.alumni-alattulis {
+    right: 4px;
+    top: 20%;
+}
+.alumni-jam {
+    right: 4px;
+    bottom: 14%;
+}
+.testimoni-bus {
+    left: 4px;
+    top: 18%;
+}
+.testimoni-papantulis {
+    right: 4px;
+    top: 16%;
+}
+.testimoni-lampu {
+    right: 4px;
+    bottom: 16%;
+}
+.galeri-alattulis {
+    left: 4px;
+    top: 14%;
+}
+.galeri-jam {
+    left: 4px;
+    bottom: 14%;
+}
+.galeri-bus {
+    right: 4px;
+    top: 18%;
+}
+.artikel-section-papantulis {
+    left: 4px;
+    top: 12%;
+}
+.artikel-section-lampu {
+    right: 4px;
+    top: 16%;
+}
+.artikel-section-alattulis {
+    right: 4px;
+    bottom: 18%;
+}
+.album-jam {
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+}
+.album-bus {
+    right: 4px;
+    top: 20%;
+}
+.lowongan-papantulis {
+    left: 4px;
+    top: 18%;
+}
+.lowongan-lampu {
+    right: 4px;
+    top: 20%;
+}
+.event-alattulis {
+    left: 4px;
+    top: 18%;
+}
+.event-jam {
+    right: 4px;
+    top: 20%;
 }

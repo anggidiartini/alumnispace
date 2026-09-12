@@ -97,6 +97,7 @@
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.45rem;
 }
 .ad-meta-row {
@@ -106,6 +107,7 @@
     color: #55799f;
     font-size: 0.9rem;
     margin: 0;
+    width: 100%;
 }
 
 .ad-actions {
@@ -211,6 +213,7 @@
 }
 .ad-detail-right {
     display: flex;
+    flex-direction: column;
 }
 .ad-detail-card {
     background: #fff;
@@ -336,6 +339,21 @@
     transform: translateY(-2px);
 }
 
+/* Pill sosmed dengan username (Instagram / TikTok) — warna bg/text
+   tetap inline karena beda per-platform, tapi shape & layout di sini */
+.ad-social-pill {
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
 /* ---------- BACK LINK ---------- */
 .ad-back-link {
     display: inline-flex;
@@ -345,6 +363,8 @@
     font-weight: 800;
     font-size: 0.875rem;
     text-decoration: none;
+    position: relative;
+    z-index: 10;
 }
 .ad-back-link:hover {
     text-decoration: underline;
@@ -373,7 +393,7 @@
 
 @media (min-width: 1024px) {
     .ad-detail-grid {
-        grid-template-columns: 1.6fr 1fr !important;
+        grid-template-columns: 1.6fr 1fr;
         align-items: start;
     }
     .ad-content-grid {
@@ -386,5 +406,27 @@
     .ad-btn,
     .ad-social-icon {
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* Matikan animasi berat saat discroll untuk menghemat performa browser */
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .blob-drift,
+    .spin-slow,
+    .wiggle,
+    .floaty,
+    .floaty-slow {
+        animation: none !important;
+    }
+}
+
+/* Matikan animasi berat saat discroll untuk menghemat performa browser */
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .blob-drift,
+    .spin-slow,
+    .wiggle,
+    .floaty,
+    .floaty-slow {
+        animation: none !important;
     }
 }

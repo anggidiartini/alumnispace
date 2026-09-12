@@ -570,3 +570,56 @@ document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
         if (e.key === "Escape") closeLightbox();
     });
 })();
+
+/* ------------------------------------------------------------------
+ * Lightbox foto pengurus (dipanggil lewat onclick di HTML)
+ * ------------------------------------------------------------------ */
+function openPengurusLightbox(src) {
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox-overlay").classList.add("is-open");
+}
+
+/* ------------------------------------------------------------------
+ * Modal "harus login" utk link/tombol yang ditandai data-auth-link
+ * ------------------------------------------------------------------ */
+document.addEventListener("DOMContentLoaded", function () {
+    const isGuest = document.body.getAttribute("data-isGuest") === "true";
+
+    const authModalOverlay = document.getElementById("auth-modal-overlay");
+    const authModalLabel = document.getElementById("auth-modal-label");
+    const authModalCancel = document.getElementById("auth-modal-cancel");
+    const authModalClose = document.getElementById("auth-modal-close");
+
+    function openAuthModal(label) {
+        authModalLabel.textContent = label;
+        authModalOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeAuthModal() {
+        authModalOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", function (e) {
+        const authTrigger = e.target.closest("[data-auth-link]");
+
+        if (authTrigger && isGuest) {
+            e.preventDefault();
+            e.stopPropagation();
+            const label =
+                authTrigger.getAttribute("data-auth-label") || "halaman ini";
+            openAuthModal(label);
+        }
+    });
+
+    authModalCancel.addEventListener("click", closeAuthModal);
+    authModalClose.addEventListener("click", closeAuthModal);
+    authModalOverlay.addEventListener("click", function (e) {
+        if (e.target === authModalOverlay) closeAuthModal();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && authModalOverlay.classList.contains("active"))
+            closeAuthModal();
+    });
+});

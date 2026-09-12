@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/detail-alumni.css') }}?v={{ file_exists(public_path('css/detail-alumni.css')) ? filemtime(public_path('css/detail-alumni.css')) : time() }}">
-<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/detail-alumni.css')) : time() }}">
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 </head>
 <body class="alumni-page-body ad-body">
 
@@ -20,8 +20,7 @@
   <section class="ad-section dot-grid">
     <div class="ad-container">
 
-<a href="{{ route('alumni.index') }}"
-   style="display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.25rem; font-weight: 700; color: #0e2f6d; text-decoration: none; position: relative; z-index: 10;">
+<a href="{{ route('alumni.index') }}" class="ad-back-link" style="margin-bottom: 1.25rem;">
   <i data-lucide="arrow-left" width="16"></i> Kembali ke Alumni
 </a>
 
@@ -49,13 +48,13 @@
               </p>
             @endif
 
-            <div class="ad-meta-list" style="flex-wrap: wrap; gap: 12px; margin-top: 16px;">
+            <div class="ad-meta-list">
               @if($profile->city)
-                <p class="ad-meta-row" style="width: 100%;"><i data-lucide="map-pin" width="16"></i> {{ $profile->city }}</p>
+                <p class="ad-meta-row"><i data-lucide="map-pin" width="16"></i> {{ $profile->city }}</p>
               @endif
 
               @if($profile->created_at)
-                <p class="ad-meta-row" style="width: 100%; color: #64748b;"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at->diffForHumans() }}</p>
+                <p class="ad-meta-row" style="color: #64748b;"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at->diffForHumans() }}</p>
               @endif
             </div>
 
@@ -91,64 +90,57 @@
       {{-- Riwayat Pendidikan / Prestasi / Organisasi (kiri) + Sosmed (kanan) --}}
       @if($hasDetailBoxes || $activeSocials->isNotEmpty())
       <div class="ad-detail-grid">
-        <div class="ad-detail-left" style="opacity:1!important; visibility:visible!important; display:flex!important; flex-direction:column; gap:1.25rem;">
+        <div class="ad-detail-left">
           @if($profile->current_university)
           <div class="ad-detail-card">
-            <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
+            <h3 class="ad-detail-title">
               <i data-lucide="graduation-cap" width="18"></i> Riwayat Pendidikan
             </h3>
-            <ul class="ad-detail-list" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.6rem;">
-              <li style="color:#4c7198; font-size:0.9rem; line-height:1.5; padding-left:1rem; position:relative;">
-                <span style="position:absolute; left:0; top:0.55em; width:6px; height:6px; border-radius:999px; background:#2e75dd;"></span>
-                {{ $profile->current_university }} <span style="color:#6280a4; font-weight:600;">— {{ $profile->study_status ?? 'Status tidak diketahui' }}</span>
+            <ul class="ad-detail-list">
+              <li>
+                {{ $profile->current_university }} <span class="ad-detail-sub">— {{ $profile->study_status ?? 'Status tidak diketahui' }}</span>
               </li>
             </ul>
           </div>
           @endif
 
           @if($profile->achievements)
-          <div class="ad-detail-card" style="opacity:1!important; visibility:visible!important; display:block!important; background:#ffffff; border:1px solid #dbe8f7; border-radius:22px; padding:1.5rem; box-shadow:0 8px 20px rgba(47,102,164,0.06);">
-            <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
+          <div class="ad-detail-card">
+            <h3 class="ad-detail-title">
               <i data-lucide="award" width="18"></i> Prestasi
             </h3>
-            <ul class="ad-detail-list" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.6rem;">
+            <ul class="ad-detail-list">
               @foreach(preg_split('/\r\n|\r|\n/', trim($profile->achievements)) as $line)
                 @continue(trim($line) === '')
-                <li style="color:#4c7198; font-size:0.9rem; line-height:1.5; padding-left:1rem; position:relative;">
-                  <span style="position:absolute; left:0; top:0.55em; width:6px; height:6px; border-radius:999px; background:#2e75dd;"></span>
-                  {{ trim($line) }}
-                </li>
+                <li>{{ trim($line) }}</li>
               @endforeach
             </ul>
           </div>
           @endif
 
           @if($profile->organization_role)
-          <div class="ad-detail-card" style="opacity:1!important; visibility:visible!important; display:block!important; background:#ffffff; border:1px solid #dbe8f7; border-radius:22px; padding:1.5rem; box-shadow:0 8px 20px rgba(47,102,164,0.06);">
-            <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
+          <div class="ad-detail-card">
+            <h3 class="ad-detail-title">
               <i data-lucide="users" width="18"></i> Riwayat Organisasi
             </h3>
-            <ul class="ad-detail-list" style="margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:0.6rem;">
+            <ul class="ad-detail-list">
               @foreach(preg_split('/\r\n|\r|\n/', trim($profile->organization_role)) as $line)
                 @continue(trim($line) === '')
-                <li style="color:#4c7198; font-size:0.9rem; line-height:1.5; padding-left:1rem; position:relative;">
-                  <span style="position:absolute; left:0; top:0.55em; width:6px; height:6px; border-radius:999px; background:#2e75dd;"></span>
-                  {{ trim($line) }}
-                </li>
+                <li>{{ trim($line) }}</li>
               @endforeach
             </ul>
           </div>
           @endif
         </div>
 
-        <div class="ad-detail-right" style="opacity:1!important; visibility:visible!important; display:flex!important; flex-direction:column!important;">
-          <div class="ad-detail-card" style="opacity:1!important; visibility:visible!important; display:flex!important; flex-direction:column; width:100%; background:#ffffff; border:1px solid #dbe8f7; border-radius:22px; padding:1.5rem; box-shadow:0 8px 20px rgba(47,102,164,0.06);">
-            <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
+        <div class="ad-detail-right">
+          <div class="ad-detail-card ad-detail-card-sosmed">
+            <h3 class="ad-detail-title">
               <i data-lucide="share-2" width="18"></i> Sosmed
             </h3>
 
             @if($activeSocials->isNotEmpty())
-              <div class="ad-social-links" style="display:flex; flex-wrap:wrap; gap:0.55rem;">
+              <div class="ad-social-links">
                 @foreach($activeSocials as $field => $meta)
                   @if($field === 'tiktok_url' || $field === 'instagram_url')
                     @php
@@ -166,7 +158,7 @@
                         $textColor = '#ffffff';
                       }
                     @endphp
-                    <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" title="{{ $meta['label'] }}" style="background: {{ $bgColor }}; padding: 6px 12px; border-radius: 8px; color: {{ $textColor }}; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 14px; white-space: nowrap; text-decoration: none;">
+                    <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" title="{{ $meta['label'] }}" class="ad-social-pill" style="background: {{ $bgColor }}; color: {{ $textColor }};">
                       @if($field === 'tiktok_url')
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
@@ -177,19 +169,19 @@
                       {{ $username }}
                     </a>
                   @else
-                    <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" title="{{ $meta['label'] }}" style="display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:12px; background:#eaf4ff; color:#2e75dd; text-decoration:none;">
+                    <a href="{{ $profile->{$field} }}" target="_blank" rel="noopener" title="{{ $meta['label'] }}" class="ad-social-icon">
                       <i data-lucide="{{ $meta['icon'] }}" width="18"></i>
                     </a>
                   @endif
                 @endforeach
               </div>
             @else
-              <p style="color:#8aa5c2; font-size:0.875rem; margin:0;">Belum menambahkan tautan sosial media.</p>
+              <p class="ad-detail-empty">Belum menambahkan tautan sosial media.</p>
             @endif
           </div>
 
-          <div class="ad-detail-card" style="opacity:1!important; visibility:visible!important; display:block!important; background:#ffffff; border:1px solid #dbe8f7; border-radius:22px; padding:1.5rem; box-shadow:0 8px 20px rgba(47,102,164,0.06); margin-top:1.25rem;">
-            <h3 class="ad-detail-title" style="opacity:1!important; visibility:visible!important; display:flex!important; align-items:center; gap:0.5rem; color:#12356b; font-weight:800; font-size:1.05rem; margin:0 0 0.9rem;">
+          <div class="ad-detail-card" style="margin-top:1.25rem;">
+            <h3 class="ad-detail-title">
               <i data-lucide="contact" width="18"></i> Info Kontak
             </h3>
 
