@@ -128,7 +128,7 @@
                     </div>
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
-                        <input type="hidden" name="redirect_to" value="admin.dashboard">
+                        <input type="hidden" name="redirect_to" value="admin.login">
                         <button type="submit" style="background: none; border: none; color: var(--color-secondary); cursor: pointer;" title="Keluar">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         </button>
@@ -146,10 +146,18 @@
                     <span style="font-weight:600;">@yield('page_title', 'Ikhtisar')</span>
                 </div>
                 
-                <div>
+                <div style="display: flex; gap: 12px; align-items: center;">
                     <a href="{{ route('home') }}" class="btn-web-view">
                         <i class="fa-solid fa-globe"></i> Kunjungi Website
                     </a>
+                    
+                    <form method="POST" action="{{ route('admin.logout') }}" style="margin: 0;">
+                        @csrf
+                        <input type="hidden" name="redirect_to" value="admin.login">
+                        <button type="submit" class="btn-web-view" style="background-color: #fee2e2; color: #b91c1c; border-color: transparent;">
+                            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                        </button>
+                    </form>
                 </div>
             </header>
             

@@ -14,6 +14,7 @@
 <div class="stage">
   <div class="deco-blob pink"></div>
   <div class="deco-blob yellow"></div>
+  <div class="deco-blob blue"></div>
   
 
   <div class="frame">
@@ -74,10 +75,10 @@
         <div class="field">
           <label for="password">Kata sandi</label>
           <div class="input-wrap" id="passWrap">
-            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75v2.25M6.75 10.5h10.5a1.5 1.5 0 0 1 1.5 1.5v6.75a1.5 1.5 0 0 1-1.5 1.5H6.75a1.5 1.5 0 0 1-1.5-1.5V12a1.5 1.5 0 0 1 1.5-1.5Zm1.5 0V7.5a3.75 3.75 0 1 1 7.5 0v3"/></svg>
+
             <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" autocomplete="new-password">
             <button type="button" class="toggle-pass" id="togglePass" aria-label="Tampilkan kata sandi">
-              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12S5.25 5.25 12 5.25 21.75 12 21.75 12 18.75 18.75 12 18.75 2.25 12 2.25 12Z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"></svg>
             </button>
           </div>
           <div class="error-msg" id="passError">Kata sandi minimal 6 karakter.</div>
@@ -96,11 +97,7 @@
           <span id="btnLabel">Masuk</span>
         </button>
 
-        <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #E4E7F5; text-align:center;">
-          <a href="{{ route('admin.login') }}" style="font-size:14px; font-weight:600; color:var(--blue-600); text-decoration:none;">
-            ⚡ Login sebagai Administrator
-          </a>
-        </div>
+
 
       </form>
 
@@ -111,18 +108,43 @@
 
 <script>
   // Toggle password visibility
-  const togglePass = document.getElementById('togglePass');
-  const passInput = document.getElementById('password');
-  const eyeIcon = document.getElementById('eyeIcon');
-  const EYE_OPEN = '<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12S5.25 5.25 12 5.25 21.75 12 21.75 12 18.75 18.75 12 18.75 2.25 12 2.25 12Z"/><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>';
-  const EYE_CLOSED = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.22A10.94 10.94 0 0 0 2.25 12S5.25 18.75 12 18.75c1.6 0 3.02-.32 4.24-.85M9.9 5.5A10.6 10.6 0 0 1 12 5.25C18.75 5.25 21.75 12 21.75 12a11.36 11.36 0 0 1-2.32 3.4M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path stroke-linecap="round" stroke-linejoin="round" d="m3 3 18 18"/>';
+const togglePass = document.getElementById('togglePass');
+const passInput = document.getElementById('password');
+const eyeIcon = document.getElementById('eyeIcon');
 
-  togglePass.addEventListener('click', function(){
-    const showing = passInput.type === 'text';
-    passInput.type = showing ? 'password' : 'text';
-    eyeIcon.innerHTML = showing ? EYE_OPEN : EYE_CLOSED;
-    togglePass.setAttribute('aria-label', showing ? 'Tampilkan kata sandi' : 'Sembunyikan kata sandi');
-  });
+const EYE_OPEN = `
+  <path stroke-linecap="round" stroke-linejoin="round"
+        d="M2.25 12S5.25 5.25 12 5.25
+           21.75 12 21.75 12
+           18.75 18.75 12 18.75
+           2.25 12 2.25 12Z"/>
+  <circle cx="12" cy="12" r="3"
+          stroke-linecap="round" stroke-linejoin="round"/>
+`;
+
+const EYE_CLOSED = `
+  <path stroke-linecap="round" stroke-linejoin="round"
+        d="M3.98 8.22A10.94 10.94 0 0 0 2.25 12
+           S5.25 18.75 12 18.75
+           c1.6 0 3.02-.32 4.24-.85
+           M9.9 5.5A10.6 10.6 0 0 1 12 5.25
+           C18.75 5.25 21.75 12 21.75 12
+           a11.36 11.36 0 0 1-2.32 3.4
+           M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+  <path stroke-linecap="round" stroke-linejoin="round" d="m3 3 18 18"/>
+`;
+
+// Set default icon saat load
+eyeIcon.innerHTML = EYE_CLOSED;
+
+togglePass.addEventListener('click', function(){
+  const showing = passInput.type === 'text';
+  passInput.type = showing ? 'password' : 'text';
+  // Replace isi SVG, bukan append
+  eyeIcon.innerHTML = showing ? EYE_CLOSED : EYE_OPEN;
+  togglePass.setAttribute('aria-label', showing ? 'Tampilkan kata sandi' : 'Sembunyikan kata sandi');
+});
+
 
 
 </script>

@@ -1,13 +1,15 @@
 :root{
   --blue-900:#132163;
-  --blue-700:#2447D8;
-  --blue-600:#2F5EFF;
-  --blue-500:#4C79FF;
+  --blue-700:#5a8ce0;
+  --blue-600:#6f9fe8; /* Sesuai request user */
+  --blue-500:#8cb5f2;
   --blue-100:#E6ECFF;
   --cream:#FFF8EC;
-  --pink:#FF9FBB;
+  --bg-stage:#fdfaf6;
+  --pink:#ffd6e0;
   --pink-soft:#FFE1EA;
-  --yellow:#FFD65A;
+  --yellow:#fff3b0;
+  --blue-pastel:#c0fdff;
   --ink:#152150;
   --ink-soft:#5A6280;
   --white:#FFFFFF;
@@ -35,16 +37,32 @@ a{color:inherit;}
   align-items:stretch;
   justify-content:center;
   padding:28px;
+  background-color: var(--bg-stage);
+  overflow: hidden;
+  z-index: 1;
 }
 
-.deco-blob{ position:absolute; border-radius:50%; z-index:0; pointer-events:none; }
-.deco-blob.pink{ width:340px;height:340px; background:var(--pink-soft); top:-120px; left:-140px; }
-.deco-blob.yellow{ width:180px;height:180px; background:var(--yellow); opacity:.55; bottom:-60px; right:6%; }
-.deco-spark{
-  position:absolute; top:64px; right:60px; font-size:34px; color:var(--yellow);
-  z-index:0; animation:spin-slow 9s linear infinite;
+.deco-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(45px);
+  z-index: -1;
+  opacity: 0.8;
+  animation: float 15s infinite alternate ease-in-out;
 }
-@keyframes spin-slow{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+.deco-blob.pink { background: var(--pink); width: 450px; height: 450px; top: -100px; left: -100px; }
+.deco-blob.yellow { background: var(--yellow); width: 400px; height: 400px; bottom: -50px; right: -50px; animation-delay: -2s; }
+.deco-blob.blue { background: var(--blue-pastel); width: 500px; height: 500px; top: 30%; left: 20%; animation-delay: -5s; }
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -40px) scale(1.05); }
+  100% { transform: translate(-30px, 30px) scale(0.95); }
+}
+
+.deco-spark{
+  display: none; /* Disembunyikan agar rapi dengan bola-bola */
+}
 
 .frame{
   position:relative; z-index:1; width:100%; max-width:1080px; margin:auto;
@@ -126,6 +144,12 @@ form{display:flex;flex-direction:column;gap:16px;}
   font-size:14.5px; font-family:inherit; color:var(--ink); min-width:0;
 }
 .input-wrap input::placeholder{color:#AEB4CE;}
+
+/* Sembunyikan ikon mata bawaan dari browser (Edge dll) */
+.input-wrap input::-ms-reveal,
+.input-wrap input::-ms-clear {
+  display: none;
+}
 
 .toggle-pass{ background:none; border:none; cursor:pointer; padding:0 14px; color:#9AA2C0; display:flex; align-items:center; flex:none; }
 .toggle-pass:hover{color:var(--blue-600);}
