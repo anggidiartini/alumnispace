@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("alumni-search");
     const yearFilter = document.getElementById("year-filter");
     const fieldFilter = document.getElementById("field-filter");
+    const searchButton = document.getElementById("alumni-search-btn");
     const alumniListContainer = document.getElementById("alumni-list");
     const alumniEmptyMessage = document.getElementById("alumni-empty");
 
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alumniCards.forEach((card) => (card.style.display = "none"));
                 if (alumniEmptyMessage) {
                     alumniEmptyMessage.textContent =
-                        "Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.";
+                        "Silakan ketik nama alumni atau pilih angkatan, lalu klik tombol Cari untuk mulai mencari.";
                     alumniEmptyMessage.style.display = "block";
                 }
                 return;
@@ -227,12 +228,26 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        if (searchInput)
-            searchInput.addEventListener("input", filterAlumniCards);
-        if (yearFilter)
-            yearFilter.addEventListener("change", filterAlumniCards);
-        if (fieldFilter)
-            fieldFilter.addEventListener("change", filterAlumniCards);
+        // Filter baru jalan kalau tombol "Cari" diklik, atau user menekan
+        // Enter di kolom teksnya -- bukan langsung tiap kali diketik/diganti.
+        searchButton?.addEventListener("click", filterAlumniCards);
+        searchInput?.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                filterAlumniCards();
+            }
+        });
+
+        // Pengecualian: kalau kolom teksnya dikosongin lagi (dihapus sampai
+        // blank) sementara belum ada angkatan yang dipilih, langsung
+        // sembunyikan card-nya otomatis -- gak perlu nunggu klik Cari lagi.
+        searchInput?.addEventListener("input", () => {
+            const isEmpty = searchInput.value.trim() === "";
+            const noYearSelected = !yearFilter || yearFilter.value === "";
+            if (isEmpty && noYearSelected) {
+                filterAlumniCards();
+            }
+        });
     }
 
     /* ------------------------------------------------------------------

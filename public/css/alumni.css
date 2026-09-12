@@ -242,8 +242,50 @@ html {
     font-size: 0.875rem;
 }
 
+/* ---------- ASET DEKORATIF (jam, bus, papan tulis, dll) ----------
+   .deco-asset / .aset-* / .floaty / .wiggle / .reveal-onscroll sudah
+   didefinisikan di home.css (ikut ke-load di halaman ini juga), di
+   sini cuma atur POSISI-nya per section khusus halaman alumni. */
+.alumni-hero-papantulis {
+    left: 10px;
+    top: 5%;
+}
+.alumni-hero-lampu {
+    right: 4%;
+    top: 10%;
+}
+.alumni-hero-jam {
+    right: 4%;
+    bottom: 8%;
+}
+.alumni-hero-bus {
+    left: 2%;
+    bottom: 25%;
+}
+
+.alumni-direktori-alattulis {
+    left: -1%;
+    top: 6%;
+}
+.alumni-direktori-jam {
+    right: -1%;
+    top: 42%;
+}
+
+@media (max-width: 767px) {
+    .alumni-hero-papantulis,
+    .alumni-hero-lampu,
+    .alumni-hero-jam,
+    .alumni-hero-bus,
+    .alumni-direktori-alattulis,
+    .alumni-direktori-jam {
+        display: none;
+    }
+}
+
 /* ---------- DIREKTORI ---------- */
 .directory-section {
+    position: relative;
     width: 100%;
     padding: 3rem 1.25rem;
 }
@@ -586,7 +628,7 @@ html {
         padding-right: 1rem;
     }
     .filter-grid {
-        grid-template-columns: 1.65fr 1fr 1.1fr 1fr auto;
+        grid-template-columns: 1.65fr 1fr 1.1fr auto auto;
     }
     .alumni-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -1100,4 +1142,43 @@ html {
         height: 2.5rem;
         width: 2.5rem;
     }
+}
+
+/* =========================================================
+   PATCH: start state (belum search) & tombol Cari standalone
+   ========================================================= */
+.start-state {
+    background: #ffe6ef;
+    border: none;
+    text-align: center;
+    padding: 1.4rem 1.5rem;
+}
+.start-state-text {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.alumni-grid.hidden {
+    display: none;
+}
+
+.cari-button {
+    min-height: 43px;
+    padding: 0 1.25rem;
+    border-radius: 13px;
+    border: 0;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+.cari-button:hover {
+    background: #245fc0;
+    transform: translateY(-1px);
 }

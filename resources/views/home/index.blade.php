@@ -336,6 +336,12 @@
       <option value="kreatif">Kreatif & Desain</option>
       <option value="sosial">Manajemen & Lainnya</option>
     </select>
+
+    <!-- Tombol Cari: filter baru dijalankan setelah ini diklik -->
+    <button type="button" id="alumni-search-btn" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-[#153563] px-5 py-3 text-sm font-bold text-white hover:bg-[#1f4a8a]">
+      <i data-lucide="search" width="16" height="16"></i>
+      Cari
+    </button>
   </div>
 
   <!-- List Alumni (Secara default disembunyikan/style="display: none;") -->
