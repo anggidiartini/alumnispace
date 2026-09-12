@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
         groups.forEach((els) => {
             els.forEach((el, i) => {
                 if (!el.style.transitionDelay) {
-                    el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
+                    el.style.transitionDelay = `${Math.min(i * 0.16, 0.8)}s`;
                 }
                 revealObserver.observe(el);
             });
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const suffix = el.dataset.suffix || "";
         const numberEl = el.querySelector(".stat-number");
         if (!numberEl) return;
-        const duration = 1400;
+        const duration = 2400;
         const start = performance.now();
         const step = (now) => {
             const progress = Math.min((now - start) / duration, 1);
@@ -436,6 +436,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const hasClones = total > 1;
     let current = 0;
+    let isAnimating = false;
+    let settleTimer = null;
 
     if (hasClones) {
         const firstClone = originals[0].cloneNode(true);
@@ -488,9 +490,32 @@ document.addEventListener("DOMContentLoaded", () => {
         dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
     }
 
+    /* Lompat instan balik ke posisi "asli" kalau lagi berhenti di kartu
+     * kloningan, lalu buka kunci supaya geseran berikutnya bisa diproses.
+     * Ini yang bikin carousel nonstop -- nggak akan pernah "habis" walau
+     * tombolnya dipencet cepat berkali-kali. */
+    function settleLoop() {
+        if (hasClones) {
+            if (current === 0) {
+                current = total;
+                render(true);
+            } else if (current === cards.length - 1) {
+                current = 1;
+                render(true);
+            }
+        }
+        isAnimating = false;
+    }
+
     function goTo(displayIndex) {
+        if (isAnimating) return; // abaikan klik selagi masih animasi jalan
+        isAnimating = true;
         current = displayIndex;
         render(false);
+        clearTimeout(settleTimer);
+        // fallback: kalau transitionend gak sempat nembak (mis. transisi
+        // keinterupsi), tetap reset setelah durasi transisi CSS (0.55s)
+        settleTimer = setTimeout(settleLoop, 650);
     }
 
     document
@@ -501,14 +526,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ?.addEventListener("click", () => goTo(current + 1));
 
     track.addEventListener("transitionend", (e) => {
-        if (e.propertyName !== "transform" || !hasClones) return;
-        if (current === 0) {
-            current = total;
-            render(true);
-        } else if (current === cards.length - 1) {
-            current = 1;
-            render(true);
-        }
+        if (e.propertyName !== "transform") return;
+        clearTimeout(settleTimer);
+        settleLoop();
     });
 
     window.addEventListener("resize", () => render(true));
