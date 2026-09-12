@@ -21,6 +21,18 @@
     <span class="hero-shape shape-pink"></span>
     <span class="hero-shape shape-yellow"></span>
     <span class="hero-shape shape-mint"></span>
+    <div class="deco-asset alumni-hero-papantulis reveal-onscroll" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+    </div>
+    <div class="deco-asset alumni-hero-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+    </div>
+    <div class="deco-asset alumni-hero-jam reveal-onscroll" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+    </div>
+    <div class="deco-asset alumni-hero-bus reveal-onscroll" style="transition-delay:.15s" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+    </div>
     <div class="hero-container">
       <div class="hero-grid">
         <div class="hero-left reveal">
@@ -52,8 +64,7 @@
         </div>
 
         <div class="hero-photo-outer reveal" style="animation-delay:.15s">
-          <div class="hero-decor-1" aria-hidden="true">✦</div>
-          <div class="hero-decor-2" aria-hidden="true">✿</div>
+
           <div class="hero-photo-frame">
             <img loading="lazy" src="{{ asset('assets/images/image9.png') }}" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
           </div>
@@ -64,6 +75,12 @@
   </section>
 
   <section id="direktori" class="directory-section">
+    <div class="deco-asset alumni-direktori-alattulis reveal-onscroll" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+    </div>
+    <div class="deco-asset alumni-direktori-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+      <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+    </div>
     <div id="directory-shell" class="directory-shell">
       <div class="directory-header reveal-onscroll">
         <div>
@@ -99,20 +116,16 @@
               @endforeach
             </select>
           </div>
-          <div>
-            <label class="filter-label" for="sort-filter" style="color: rgb(49, 87, 127);">Urutkan</label>
-            <select id="sort-filter" class="filter-control">
-              <option value="default">Urutan awal</option>
-              <option value="name-asc">Nama A–Z</option>
-              <option value="year-asc">Angkatan terlama</option>
-              <option value="year-desc">Angkatan terbaru</option>
-            </select>
-          </div>
+          <button id="search-button" class="cari-button" type="button">Cari</button>
           <button id="reset-button" class="reset-button" type="button" style="background: rgb(255, 255, 255); color: rgb(46, 117, 221);">Reset</button>
         </div>
       </form>
 
-      <div id="alumni-grid" class="alumni-grid">
+      <div id="start-state" class="empty-state start-state reveal-onscroll">
+        <p class="start-state-text">Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.</p>
+      </div>
+
+      <div id="alumni-grid" class="alumni-grid hidden">
         @foreach($alumni as $item)
           <article class="directory-card reveal-onscroll"
                    data-name="{{ $item->user->name }}"
@@ -201,50 +214,56 @@
 <script src="{{ asset('js/script.js') }}"></script>
 <script>
   const searchInput = document.getElementById("search-input");
+  const searchButton = document.getElementById("search-button");
   const yearFilter = document.getElementById("year-filter");
   const cityFilter = document.getElementById("city-filter");
-  const sortFilter = document.getElementById("sort-filter");
   const grid = document.getElementById("alumni-grid");
   const resultCount = document.getElementById("result-count");
   const emptyState = document.getElementById("empty-state");
+  const startState = document.getElementById("start-state");
   const cards = Array.from(grid.querySelectorAll(".directory-card"));
   const totalCount = cards.length;
   let toastTimer;
+
+  function hasActiveQuery() {
+    return searchInput.value.trim() !== "" || yearFilter.value !== "" || cityFilter.value !== "";
+  }
 
   function getFilteredCards() {
     const query = searchInput.value.trim().toLocaleLowerCase("id");
     const year = yearFilter.value;
     const city = cityFilter.value;
 
-    let filtered = cards.filter(card => {
+    return cards.filter(card => {
       const matchingText = !query || card.dataset.search.includes(query);
       const matchingYear = !year || card.dataset.year === year;
       const matchingCity = !city || card.dataset.city === city;
       return matchingText && matchingYear && matchingCity;
     });
-
-    if (sortFilter.value === "name-asc") {
-      filtered.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name, "id"));
-    }
-    if (sortFilter.value === "year-asc") {
-      filtered.sort((a, b) => Number(a.dataset.year) - Number(b.dataset.year) || a.dataset.name.localeCompare(b.dataset.name, "id"));
-    }
-    if (sortFilter.value === "year-desc") {
-      filtered.sort((a, b) => Number(b.dataset.year) - Number(a.dataset.year) || a.dataset.name.localeCompare(b.dataset.name, "id"));
-    }
-    return filtered;
   }
 
   function renderDirectory(animate = true) {
+    if (!hasActiveQuery()) {
+      cards.forEach(card => {
+        card.hidden = true;
+        card.style.display = "none";
+      });
+      grid.classList.add("hidden");
+      emptyState.classList.add("hidden");
+      startState.classList.remove("hidden");
+      resultCount.textContent = "";
+      return;
+    }
+
+    startState.classList.add("hidden");
+    grid.classList.remove("hidden");
+
     const filtered = getFilteredCards();
     const visibleSet = new Set(filtered);
 
     cards.forEach(card => {
       const isVisible = visibleSet.has(card);
       card.hidden = !isVisible;
-      // Set inline display langsung (menang atas CSS eksternal manapun,
-      // termasuk home.css yang di-load setelah alumni.css) supaya card
-      // yang gak match filter beneran hilang, bukan cuma keganti posisi.
       card.style.display = isVisible ? "" : "none";
     });
 
@@ -270,16 +289,30 @@
     toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 3400);
   }
 
-  document.getElementById("filter-form").addEventListener("submit", event => event.preventDefault());
-  [searchInput, yearFilter, cityFilter, sortFilter].forEach(control => {
-    control.addEventListener(control === searchInput ? "input" : "change", renderDirectory);
+  document.getElementById("filter-form").addEventListener("submit", event => {
+    event.preventDefault();
+    renderDirectory();
+  });
+
+  searchButton.addEventListener("click", () => renderDirectory());
+  searchInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      renderDirectory();
+    }
+  });
+  searchInput.addEventListener("input", () => {
+    if (!hasActiveQuery()) renderDirectory();
+  });
+
+  [yearFilter, cityFilter].forEach(control => {
+    control.addEventListener("change", () => renderDirectory());
   });
 
   document.getElementById("reset-button").addEventListener("click", () => {
     searchInput.value = "";
     yearFilter.value = "";
     cityFilter.value = "";
-    sortFilter.value = "default";
     renderDirectory();
     showToast("Filter sudah dikembalikan ke awal.");
   });

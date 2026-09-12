@@ -170,6 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("alumni-search");
     const yearFilter = document.getElementById("year-filter");
     const fieldFilter = document.getElementById("field-filter");
+    const searchButton = document.getElementById("alumni-search-btn");
     const alumniListContainer = document.getElementById("alumni-list");
     const alumniEmptyMessage = document.getElementById("alumni-empty");
 
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alumniCards.forEach((card) => (card.style.display = "none"));
                 if (alumniEmptyMessage) {
                     alumniEmptyMessage.textContent =
-                        "Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.";
+                        "Silakan ketik nama alumni atau pilih angkatan, lalu klik tombol Cari untuk mulai mencari.";
                     alumniEmptyMessage.style.display = "block";
                 }
                 return;
@@ -227,12 +228,26 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        if (searchInput)
-            searchInput.addEventListener("input", filterAlumniCards);
-        if (yearFilter)
-            yearFilter.addEventListener("change", filterAlumniCards);
-        if (fieldFilter)
-            fieldFilter.addEventListener("change", filterAlumniCards);
+        // Filter baru jalan kalau tombol "Cari" diklik, atau user menekan
+        // Enter di kolom teksnya -- bukan langsung tiap kali diketik/diganti.
+        searchButton?.addEventListener("click", filterAlumniCards);
+        searchInput?.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                filterAlumniCards();
+            }
+        });
+
+        // Pengecualian: kalau kolom teksnya dikosongin lagi (dihapus sampai
+        // blank) sementara belum ada angkatan yang dipilih, langsung
+        // sembunyikan card-nya otomatis -- gak perlu nunggu klik Cari lagi.
+        searchInput?.addEventListener("input", () => {
+            const isEmpty = searchInput.value.trim() === "";
+            const noYearSelected = !yearFilter || yearFilter.value === "";
+            if (isEmpty && noYearSelected) {
+                filterAlumniCards();
+            }
+        });
     }
 
     /* ------------------------------------------------------------------
@@ -336,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
         groups.forEach((els) => {
             els.forEach((el, i) => {
                 if (!el.style.transitionDelay) {
-                    el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
+                    el.style.transitionDelay = `${Math.min(i * 0.16, 0.8)}s`;
                 }
                 revealObserver.observe(el);
             });
@@ -353,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const suffix = el.dataset.suffix || "";
         const numberEl = el.querySelector(".stat-number");
         if (!numberEl) return;
-        const duration = 1400;
+        const duration = 2400;
         const start = performance.now();
         const step = (now) => {
             const progress = Math.min((now - start) / duration, 1);
@@ -436,6 +451,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const hasClones = total > 1;
     let current = 0;
+    let isAnimating = false;
+    let settleTimer = null;
 
     if (hasClones) {
         const firstClone = originals[0].cloneNode(true);
@@ -488,9 +505,32 @@ document.addEventListener("DOMContentLoaded", () => {
         dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
     }
 
+    /* Lompat instan balik ke posisi "asli" kalau lagi berhenti di kartu
+     * kloningan, lalu buka kunci supaya geseran berikutnya bisa diproses.
+     * Ini yang bikin carousel nonstop -- nggak akan pernah "habis" walau
+     * tombolnya dipencet cepat berkali-kali. */
+    function settleLoop() {
+        if (hasClones) {
+            if (current === 0) {
+                current = total;
+                render(true);
+            } else if (current === cards.length - 1) {
+                current = 1;
+                render(true);
+            }
+        }
+        isAnimating = false;
+    }
+
     function goTo(displayIndex) {
+        if (isAnimating) return; // abaikan klik selagi masih animasi jalan
+        isAnimating = true;
         current = displayIndex;
         render(false);
+        clearTimeout(settleTimer);
+        // fallback: kalau transitionend gak sempat nembak (mis. transisi
+        // keinterupsi), tetap reset setelah durasi transisi CSS (0.55s)
+        settleTimer = setTimeout(settleLoop, 650);
     }
 
     document
@@ -501,14 +541,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ?.addEventListener("click", () => goTo(current + 1));
 
     track.addEventListener("transitionend", (e) => {
-        if (e.propertyName !== "transform" || !hasClones) return;
-        if (current === 0) {
-            current = total;
-            render(true);
-        } else if (current === cards.length - 1) {
-            current = 1;
-            render(true);
-        }
+        if (e.propertyName !== "transform") return;
+        clearTimeout(settleTimer);
+        settleLoop();
     });
 
     window.addEventListener("resize", () => render(true));

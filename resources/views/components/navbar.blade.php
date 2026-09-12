@@ -61,20 +61,24 @@
         @endif
         <div class="profile-dropdown-wrap">
           <button type="button" id="profile-trigger" class="user-badge" aria-haspopup="true" aria-expanded="false">
-            <span class="user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+            <span class="user-avatar user-avatar-photo">
+              <img
+                src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                alt="Avatar"
+                onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+              >
+            </span>
             <span class="hide-mobile">{{ Auth::user()->name }}</span>
           </button>
 
           <div id="profile-dropdown" class="profile-dropdown">
             <div class="profile-dropdown-header">
               <div class="profile-dropdown-avatar">
-                @if(Auth::user()->profile && Auth::user()->profile->avatar)
-                  <img src="{{ asset('storage/' . Auth::user()->profile->avatar) }}" alt="Avatar">
-                @else
-                  <span class="profile-dropdown-avatar-placeholder">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                  </span>
-                @endif
+                <img
+                  src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                  alt="Avatar"
+                  onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                >
               </div>
               <div class="profile-dropdown-text">
                 <p class="profile-dropdown-name">{{ Auth::user()->name }}</p>

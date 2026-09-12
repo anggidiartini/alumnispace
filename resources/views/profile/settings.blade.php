@@ -53,13 +53,13 @@
             <div class="avatar-preview-wrap">
 
               <button type="button" class="avatar-click-area" id="avatar-click-area" aria-label="Ubah foto profil">
-                @if ($profile->avatar)
-                  <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="avatar-preview" id="avatar-preview">
-                @else
-                  <span class="avatar-preview avatar-placeholder" id="avatar-preview">
-                    {{ strtoupper(substr($user->name, 0, 1)) }}
-                  </span>
-                @endif
+                <img
+                  src="{{ $profile->avatar ? asset('storage/' . $profile->avatar) . '?v=' . $profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                  alt="Avatar"
+                  class="avatar-preview"
+                  id="avatar-preview"
+                  onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                >
 
                 <span class="avatar-edit-badge" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -246,6 +246,7 @@
         </div>
 
         <div class="profile-actions">
+          <a href="{{ route('home') }}" class="profile-cancel-btn">Kembali</a>
           <button type="submit" class="profile-save-btn">Simpan Perubahan</button>
         </div>
 
@@ -287,7 +288,7 @@
 <x-footer />
 
 <script>
-  var INITIAL_NAME = "{{ strtoupper(substr($user->name, 0, 1)) }}";
+  var DEFAULT_AVATAR_URL = "{{ asset('assets/images/default-avatar.jpg') }}";
 
   function setAvatarPreview(content, isPlaceholder) {
     var old = document.getElementById('avatar-preview');
@@ -354,11 +355,11 @@
       reader.readAsDataURL(file);
     });
 
-    // Tombol "Hapus Foto" -> preview langsung jadi placeholder, tandai remove=1, modal ditutup
+    // Tombol "Hapus Foto" -> preview langsung jadi foto default, tandai remove=1, modal ditutup
     removeBtn.addEventListener('click', function () {
       fileInput.value = '';
       removeField.value = '1';
-      setAvatarPreview(INITIAL_NAME, true);
+      setAvatarPreview(DEFAULT_AVATAR_URL, false);
       closeModal();
     });
   })();

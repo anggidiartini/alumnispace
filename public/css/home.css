@@ -76,6 +76,51 @@ h3 {
     animation: drift 9s ease-in-out infinite;
 }
 
+/* ================= DEKORASI BULAT (BLOB) — KONSISTEN PER SECTION ================= */
+.section-blob {
+    position: absolute;
+    width: 14rem;
+    height: 14rem;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.section-blob--pink {
+    background-color: #ffd9e7;
+}
+
+.section-blob--blue {
+    background-color: #a8d3ff;
+}
+
+.section-blob--tl {
+    left: -5rem;
+    top: 3rem;
+}
+
+.section-blob--tr {
+    right: -5rem;
+    top: 3rem;
+}
+
+.section-blob--bl {
+    left: -5rem;
+    bottom: 3rem;
+}
+
+.section-blob--br {
+    right: -5rem;
+    bottom: 3rem;
+}
+
+@media (max-width: 640px) {
+    .section-blob {
+        width: 9rem;
+        height: 9rem;
+    }
+}
+
 @keyframes drift {
     0%,
     100% {
@@ -247,8 +292,8 @@ h3 {
     opacity: 0;
     transform: translateY(46px) scale(0.94);
     transition:
-        opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.75s cubic-bezier(0.34, 1.56, 0.64, 1);
+        opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .reveal-onscroll.in-view {
@@ -2453,11 +2498,11 @@ h3 {
     bottom: 15%;
 }
 .pengurus-jam {
-    left: 4px;
-    top: 18%;
+    left: -5%;
+    top: -3%;
 }
 .pengurus-bus {
-    left: 4px;
+    left: -2%;
     bottom: 12%;
 }
 .pengurus-papantulis {
@@ -2465,15 +2510,15 @@ h3 {
     top: 22%;
 }
 .locked-teaser-bus {
-    left: 4px;
+    left: 93%;
     top: 15%;
 }
 .locked-teaser-papantulis {
-    right: 4px;
+    left: -2%;
     top: 18%;
 }
 .alumni-lampu {
-    left: 4px;
+    left: -4%;
     top: 16%;
 }
 .alumni-alattulis {
@@ -2497,40 +2542,40 @@ h3 {
     bottom: 16%;
 }
 .galeri-alattulis {
-    left: 4px;
+    left: -5%;
     top: 14%;
 }
 .galeri-jam {
-    left: 4px;
-    bottom: 14%;
+    left: -2%;
+    bottom: 8%;
 }
 .galeri-bus {
     right: 4px;
-    top: 18%;
+    top: 10%;
 }
 .artikel-section-papantulis {
-    left: 4px;
-    top: 12%;
+    left: -4%;
+    top: 15%;
 }
 .artikel-section-lampu {
     right: 4px;
-    top: 16%;
+    top: 10%;
 }
 .artikel-section-alattulis {
     right: 4px;
     bottom: 18%;
 }
 .album-jam {
-    left: 50%;
-    top: 18%;
+    left: 1%;
+    top: 16%;
     transform: translateX(-50%);
 }
 .album-bus {
     right: 4px;
-    top: 20%;
+    top: 5%;
 }
 .lowongan-papantulis {
-    left: 4px;
+    left: -4%;
     top: 18%;
 }
 .lowongan-lampu {

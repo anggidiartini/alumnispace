@@ -40,7 +40,8 @@
   <div class="deco-asset hero-deco-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
-        <div class="blob blob-drift absolute -left-20 top-12 h-56 w-56 bg-[#ffd9e7] opacity-80"></div>
+        <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
+<div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
 
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
@@ -112,7 +113,8 @@
   <div class="deco-asset tentang-bus reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
   </div>
-  <div class="blob blob-drift absolute h-56 w-56 bg-[#a8d3ff] opacity-80" style="right: -5rem; top: 2rem;"></div>
+  <div class="blob blob-drift section-blob section-blob--pink section-blob--tr"></div>
+
   <div class="mx-auto max-w-7xl px-5 py-20">
     <div class="tentang-container">
 
@@ -153,7 +155,8 @@
   <div class="deco-asset statistik-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
-  <div class="blob blob-drift absolute -left-20 top-12 h-56 w-56 bg-[#ffd9e7] opacity-80"></div>
+  <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
+<div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
   <div class="mx-auto max-w-7xl px-5 md:px-8">
     <div class="mb-9 flex flex-wrap items-end justify-between gap-4 reveal-onscroll">
             <div>
@@ -184,7 +187,7 @@
       </section>
 
             <!-- SECTION PENGURUS ALUMNI -->
-<section id="pengurus" class="relative isolate overflow-hidden mx-auto max-w-7xl px-5 py-20 md:px-8">
+<section id="pengurus" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset pengurus-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
   </div>
@@ -194,6 +197,8 @@
   <div class="deco-asset pengurus-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
+
+
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
       <p class="mb-3 inline-block rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Struktur Organisasi</p>
@@ -201,6 +206,7 @@
     </div>
 
   </div>
+
 
   <!-- Container Scroll menggunakan class dari home.css -->
   <div class="pengurus-track mt-10">
@@ -235,14 +241,16 @@
 </section>
       <!-- GATED TEASER (HANYA MUNCUL KETIKA BELUM LOGIN) -->
       @guest
-      <section id="locked-teaser" class="mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="locked-teaser" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
+        <div class="deco-asset locked-teaser-bus reveal-onscroll" aria-hidden="true">
+          <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+        </div>
+        <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+          <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+        </div>
+        <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
+<div class="blob blob-drift section-blob section-blob--pink section-blob--br"></div>
         <div class="relative isolate overflow-hidden reveal-onscroll rounded-[2.5rem] border-2 border-dashed border-[#a8d3ff] bg-[#f8fbff] p-6 md:p-10">
-  <div class="deco-asset locked-teaser-bus reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
-  </div>
-  <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
-  </div>
           <div class="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p class="mb-3 inline-flex items-center gap-2 rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold"><i data-lucide="lock" class="h-4 w-4"></i> {{ $contents['locked_teaser']->meta_data['badge'] ?? 'Khusus alumni terdaftar' }}</p>
@@ -282,7 +290,7 @@
       @endguest
 
       <!-- FITUR 1: DIREKTORI ALUMNI (GATED) -->
-<section id="alumni" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden mx-auto max-w-7xl px-5 py-20 md:px-8">
+<section id="alumni" class="auth-section @auth unlocked @endauth relative isolate bg-[#eaf3ff] grid-paper-dark py-20">
   <div class="deco-asset alumni-lampu reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
@@ -292,9 +300,10 @@
   <div class="deco-asset alumni-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
   </div>
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
   <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
     <div>
-      <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">{{ $contents['alumni_section']->meta_data['badge'] ?? 'Direktori alumni' }}</p>
+      <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">{{ $contents['alumni_section']->meta_data['badge'] ?? 'Direktori alumni' }}</p>
       <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">{{ $contents['alumni_section']->title ?? 'Temukan teman seperjalanan.' }}</h2>
     </div>
     <p class="max-w-sm text-sm leading-relaxed text-[#355277]">{{ $contents['alumni_section']->subtitle ?? 'Jelajahi profil ribuan alumni terverifikasi almamater.' }}</p>
@@ -327,6 +336,12 @@
       <option value="kreatif">Kreatif & Desain</option>
       <option value="sosial">Manajemen & Lainnya</option>
     </select>
+
+    <!-- Tombol Cari: filter baru dijalankan setelah ini diklik -->
+    <button type="button" id="alumni-search-btn" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-[#153563] px-5 py-3 text-sm font-bold text-white hover:bg-[#1f4a8a]">
+      <i data-lucide="search" width="16" height="16"></i>
+      Cari
+    </button>
   </div>
 
   <!-- List Alumni (Secara default disembunyikan/style="display: none;") -->
@@ -351,6 +366,7 @@
 
   <!-- Pesan Panduan Awal (Muncul saat belum melakukan pencarian) -->
   <p id="alumni-empty" class="mt-8 rounded-2xl bg-[#fff5f8] p-5 text-center font-medium text-[#153563]">Silakan ketik nama alumni atau pilih angkatan pada kolom pencarian di atas untuk mulai mencari.</p>
+  </div>
 </section>
 
       <!-- TESTIMONI -->
@@ -423,7 +439,7 @@
   </div>
 </section>
       <!-- SECTION 1: GALERI (KOLASE) -->
-<section id="galeri" class="relative isolate overflow-hidden mx-auto max-w-7xl px-5 py-20 md:px-8">
+<section id="galeri" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset galeri-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
   </div>
@@ -433,6 +449,8 @@
   <div class="deco-asset galeri-bus reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
+  <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
+
   <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
     <div>
       <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Media komunitas</p>
@@ -461,7 +479,7 @@
   </div>
 </section>
       <!-- SECTION 2: ARTIKEL -->
-      <section id="artikel-section" class="relative isolate overflow-hidden mx-auto max-w-7xl px-5 pb-32 md:px-8">
+      <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 pb-32 md:px-8">
   <div class="deco-asset artikel-section-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
@@ -471,6 +489,8 @@
   <div class="deco-asset artikel-section-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
   </div>
+  <div class="blob blob-drift section-blob section-blob--blue section-blob--tr"></div>
+<div class="blob blob-drift section-blob section-blob--pink section-blob--bl"></div>
         <div class="flex flex-wrap items-end justify-between gap-5 reveal-onscroll">
           <div>
             <p class="mb-3 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">Bacaan santai</p>
@@ -573,7 +593,7 @@
       </section>
 
       <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
-      <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset lowongan-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
