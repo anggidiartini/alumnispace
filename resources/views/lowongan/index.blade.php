@@ -15,9 +15,20 @@
         href="{{ asset('css/lowongan.css') }}?v={{ file_exists(public_path('css/lowongan.css')) ? filemtime(public_path('css/lowongan.css')) : time() }}">
     <link rel="stylesheet"
         href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    @auth
+    <script>
+        localStorage.setItem("ac_logged_in", "true");
+        localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
+    </script>
+    @else
+    <script>
+        localStorage.setItem("ac_logged_in", "false");
+        localStorage.removeItem("ac_user_email");
+    </script>
+    @endauth
 </head>
 
-<body>
+<body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
     <div class="site-shell page-wrap">
         <x-navbar />
 
@@ -164,14 +175,12 @@
 
                                     <div class="company-row">
                                         @if ($job->company)
-                                            <!-- Menyatukan logo dan nama dalam satu link agar rapi dan tidak merusak susunan CSS -->
                                             <a href="{{ route('perusahaan.index', $job->company->slug) }}"
                                                 class="company-link"
                                                 style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #2877ED; font-weight: 600;"
                                                 onmouseover="this.style.textDecoration='underline'"
                                                 onmouseout="this.style.textDecoration='none'">
 
-                                                <!-- Jika isi company_logo adalah path file asli, tampilkan gambarnya -->
                                                 @if (
                                                     !empty($job->company_logo) &&
                                                         (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
@@ -179,18 +188,15 @@
                                                         src="{{ asset('storage/' . $job->company_logo) }}"
                                                         alt="" loading="lazy">
                                                 @else
-                                                    <!-- JIKA BERISI TEKS PENDEK (seperti DS/WD), KITA PRINT JADI INISIAL KOTAK RAPI -->
                                                     <span class="company-initials"
                                                         style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
                                                         {{ $job->company_logo ?? $job->initials }}
                                                     </span>
                                                 @endif
 
-                                                <!-- Cetak nama perusahaan cukup sekali saja di sini -->
                                                 <span>{{ $job->company->name }}</span>
                                             </a>
                                         @else
-                                            <!-- JIKA BELUM ADA RELASI, LOGO DAN NAMA DISATUKAN DALAM SATU LINK AGAR BISA DIKLIK SEMUA -->
                                             <a href="{{ route('perusahaan.index', $job->company_slug ?? \Illuminate\Support\Str::slug($job->company_name)) }}"
                                                 class="company-link-enabled"
                                                 style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500;"
@@ -267,16 +273,13 @@
                         Kirim via WhatsApp
                     </a>
                 </section>
+            </section>
+        </main>
 
-    </div>
-    </div>
-    </section>
-    </main>
-
-    <x-footer />
+        <x-footer />
     </div>
 
-    <!-- Floating action buttons: sekarang murni pakai class, disamakan dgn home -->
+    <!-- Floating action buttons -->
     <div id="fab-row" class="fab-row">
         <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
             <i data-lucide="arrow-up" width="20" height="20"></i>
@@ -299,6 +302,29 @@
         </div>
     </div>
 
+    <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+
+    <!-- Modal notifikasi "harus login" -->
+    <div id="auth-modal-overlay" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
+                <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+            <span class="auth-modal-icon">
+                <i data-lucide="lock" class="h-7 w-7"></i>
+            </span>
+            <h3 class="auth-modal-title">Yah, masih terkunci</h3>
+            <p class="auth-modal-text">
+                Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
+            </p>
+            <div class="auth-modal-actions">
+                <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
+                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var searchInput = document.getElementById("search-input");
@@ -393,63 +419,9 @@
             resetButton.addEventListener("click", resetFilters);
             emptyResetButton.addEventListener("click", resetFilters);
 
-            var revealEls = document.querySelectorAll(".reveal-onscroll");
-            var revealObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("in-view");
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.15,
-                rootMargin: "0px 0px -60px 0px"
-            });
-            revealEls.forEach(function(el, i) {
-                if (!el.style.transitionDelay) {
-                    el.style.transitionDelay = (i % 3) * 0.1 + "s";
-                }
-                revealObserver.observe(el);
-            });
-
-            var backToTop = document.getElementById("back-to-top");
-            window.addEventListener("scroll", function() {
-                backToTop.classList.toggle("show", window.scrollY > 400);
-            }, {
-                passive: true
-            });
-            backToTop.addEventListener("click", function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-
-            var waButton = document.getElementById("wa-button");
-            var waBubble = document.getElementById("wa-bubble");
-            var waBubbleClose = document.getElementById("wa-bubble-close");
-            var waTimer = setTimeout(function() {
-                waBubble.classList.add("show");
-            }, 1800);
-
-            waButton.addEventListener("mouseenter", function() {
-                clearTimeout(waTimer);
-                waBubble.classList.add("show");
-            });
-            waBubbleClose.addEventListener("click", function(e) {
-                e.preventDefault();
-                waBubble.classList.remove("show");
-            });
-
-            lucide.createIcons();
             filterJobs();
-
         });
     </script>
 </body>
-</html>
-
-
-</html>
 
 </html>

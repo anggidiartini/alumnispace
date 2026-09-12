@@ -13,9 +13,20 @@
         href="{{ asset('/css/navbar.css') }}?v={{ file_exists(public_path('/css/navbar.css')) ? filemtime(public_path('/css/navbar.css')) : time() }}">
     <link rel="stylesheet"
         href="{{ asset('/css/event.css') }}?v={{ file_exists(public_path('/css/event.css')) ? filemtime(public_path('/css/event.css')) : time() }}">
+    @auth
+    <script>
+        localStorage.setItem("ac_logged_in", "true");
+        localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
+    </script>
+    @else
+    <script>
+        localStorage.setItem("ac_logged_in", "false");
+        localStorage.removeItem("ac_user_email");
+    </script>
+    @endauth
 </head>
 
-<body>
+<body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
     <div class="site-shell page-wrap">
         <x-navbar />
 
@@ -84,7 +95,6 @@
                 </div>
 
                 <div class="catalog-layout">
-                    <!-- Filter panel: sama persis strukturnya dengan filter-panel lowongan -->
                     <aside class="filter-panel reveal-onscroll" aria-label="Filter event">
                         <div class="filter-panel-heading">
                             <h3 style="margin:0; font-size:1.15rem;">Filter Event</h3>
@@ -204,7 +214,7 @@
         <x-footer />
     </div>
 
-    <!-- Floating action buttons: back-to-top & WhatsApp (tidak diubah) -->
+    <!-- Floating action buttons: back-to-top & WhatsApp -->
     <div id="fab-row" class="fab-row">
         <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
             <i data-lucide="arrow-up" width="20" height="20"></i>
@@ -227,6 +237,29 @@
         </div>
     </div>
 
+    <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+
+    <!-- Modal notifikasi "harus login" -->
+    <div id="auth-modal-overlay" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
+                <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+            <span class="auth-modal-icon">
+                <i data-lucide="lock" class="h-7 w-7"></i>
+            </span>
+            <h3 class="auth-modal-title">Yah, masih terkunci</h3>
+            <p class="auth-modal-text">
+                Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
+            </p>
+            <div class="auth-modal-actions">
+                <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
+                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var eventSection = document.getElementById("event");
@@ -344,27 +377,7 @@
             resetButton.addEventListener("click", resetFilters);
             emptyResetButton.addEventListener("click", resetFilters);
 
-            // ---------- scroll reveal per-section ----------
-            var revealEls = document.querySelectorAll(".reveal-onscroll");
-            var revealObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("in-view");
-                        revealObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.15,
-                rootMargin: "0px 0px -60px 0px"
-            });
-            revealEls.forEach(function(el, i) {
-                if (!el.style.transitionDelay) {
-                    el.style.transitionDelay = (i % 3) * 0.1 + "s";
-                }
-                revealObserver.observe(el);
-            });
-
-            // ---------- number counter dengan efek bounce (hero, tidak diubah) ----------
+            // ---------- number counter dengan efek bounce (hero) ----------
             function easeOutBack(t) {
                 var c1 = 1.70158, c3 = c1 + 1;
                 return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
@@ -406,38 +419,6 @@
                 counterObserver.observe(heroStats);
             }
 
-            // ---------- back to top ----------
-            var backToTop = document.getElementById("back-to-top");
-            window.addEventListener("scroll", function() {
-                backToTop.classList.toggle("show", window.scrollY > 400);
-            }, {
-                passive: true
-            });
-            backToTop.addEventListener("click", function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            });
-
-            // ---------- WhatsApp bubble ----------
-            var waButton = document.getElementById("wa-button");
-            var waBubble = document.getElementById("wa-bubble");
-            var waBubbleClose = document.getElementById("wa-bubble-close");
-            var waTimer = setTimeout(function() {
-                waBubble.classList.add("show");
-            }, 1800);
-
-            waButton.addEventListener("mouseenter", function() {
-                clearTimeout(waTimer);
-                waBubble.classList.add("show");
-            });
-            waBubbleClose.addEventListener("click", function(e) {
-                e.preventDefault();
-                waBubble.classList.remove("show");
-            });
-
-            lucide.createIcons();
             applyFilters();
         });
     </script>
