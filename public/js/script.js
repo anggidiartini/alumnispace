@@ -658,3 +658,58 @@ document.addEventListener("DOMContentLoaded", function () {
             closeAuthModal();
     });
 });
+
+// Trigger animasi ornamen muncul dari bawah ke atas saat discroll
+document.addEventListener("DOMContentLoaded", function () {
+    const ornaments = document.querySelectorAll(".ornament");
+
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15, // Terpicu saat 15% bagian section tersorot layar
+    };
+
+    const ornamentObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("reveal-active");
+                // Kalau mau animasinya ke-trigger sekali saja, uncomment baris di bawah:
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    ornaments.forEach((orn) => {
+        ornamentObserver.observe(orn);
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Targetkan ornamen dan kartu konten yang ingin dianimasikan
+    const animatedElements = document.querySelectorAll(
+        ".ornament, .ad-hero-card, .ad-detail-card",
+    );
+
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1, // Terpicu saat 10% bagian elemen masuk layar
+    };
+
+    const bouncyObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                // Berikan sedikit jeda waktu berjenjang (stagger) agar efek munculnya bergantian
+                setTimeout(() => {
+                    entry.target.classList.add("animate-bouncy");
+                }, index * 80); // Jeda 80ms per elemen
+
+                observer.unobserve(entry.target); // Animasi dijalankan sekali saja per elemen
+            }
+        });
+    }, observerOptions);
+
+    animatedElements.forEach((el) => {
+        bouncyObserver.observe(el);
+    });
+});

@@ -76,6 +76,10 @@ h3 {
     animation: drift 9s ease-in-out infinite;
 }
 
+.section-blob--tl.pengurus-blob {
+    left: -10rem !important;
+}
+
 /* ================= DEKORASI BULAT (BLOB) — KONSISTEN PER SECTION ================= */
 .section-blob {
     position: absolute;
@@ -254,6 +258,38 @@ h3 {
 .hero-deco-lampu {
     left: 10px;
     bottom: 25%;
+}
+
+/* ============ Section Beranda: dibuat pas satu layar (1 viewport) ============ */
+#beranda {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+}
+
+#beranda .hero-grid {
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    #beranda .hero-grid {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+        gap: 1.25rem;
+    }
+    #beranda h1 {
+        font-size: 2.4rem;
+    }
+    #beranda .mt-6 {
+        margin-top: 1rem;
+    }
+    #beranda .mt-8 {
+        margin-top: 1.25rem;
+    }
+    #beranda .mt-9 {
+        margin-top: 1.25rem;
+    }
 }
 
 .floaty {
@@ -528,15 +564,15 @@ h3 {
     /* --- Responsive fixes: hero avatar frame no longer fixed 410px on phones --- */
     .w-\[410px\] {
         width: 78vw;
-        max-width: 320px;
+        max-width: 220px;
     }
     .h-\[410px\] {
         height: 78vw;
-        max-height: 320px;
+        max-height: 220px;
     }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 190px) {
     #wa-button {
         height: 3rem;
         width: 3rem;
@@ -796,8 +832,8 @@ h3 {
     padding-bottom: 4rem;
 }
 .py-20 {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
 }
 .gap-1 {
     gap: 0.25rem;
@@ -1476,8 +1512,8 @@ h3 {
         padding-right: 2rem;
     }
     .md\:py-24 {
-        padding-top: 6rem;
-        padding-bottom: 6rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
     .md\:p-10 {
         padding: 2.5rem;
@@ -1595,6 +1631,41 @@ h3 {
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
     font-size: 0.875rem;
+}
+
+/* ===== Konsistensi posisi tombol di dalam card (selalu rata bawah) ===== */
+.alumni-card,
+.job-card,
+.pop-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.alumni-card .card-btn,
+.job-card .card-btn,
+.pop-card .card-btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+.alumni-card .card-btn.w-full {
+    align-self: stretch;
+}
+
+.event-card {
+    height: 100%;
+}
+
+.event-card > .min-w-0 {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.event-card .card-btn {
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 /* =========================================================
@@ -2101,6 +2172,76 @@ h3 {
     transform: scale(1.08);
 }
 
+/* ---------- Navigasi geser (prev/next) & counter lightbox ---------- */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #153563;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.lightbox-nav--prev {
+    left: 1.5rem;
+}
+
+.lightbox-nav--next {
+    right: 1.5rem;
+}
+
+.lightbox-nav:hover {
+    background-color: #ffb8d0;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-nav.is-hidden {
+    display: none;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.35rem 0.95rem;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+}
+
+.lightbox-counter.is-hidden {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .lightbox-nav {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .lightbox-nav--prev {
+        left: 0.5rem;
+    }
+    .lightbox-nav--next {
+        right: 0.5rem;
+    }
+}
+
 /* =========================================================
    Floating action row: back-to-top & WhatsApp — 1:1 sama
    dengan lowongan.css milik temen.
@@ -2518,7 +2659,7 @@ h3 {
     top: 18%;
 }
 .alumni-lampu {
-    left: -4%;
+    left: -1%;
     top: 16%;
 }
 .alumni-alattulis {
@@ -2527,7 +2668,7 @@ h3 {
 }
 .alumni-jam {
     right: 4px;
-    bottom: 14%;
+    bottom: 5%;
 }
 .testimoni-bus {
     left: 4px;
@@ -2543,11 +2684,11 @@ h3 {
 }
 .galeri-alattulis {
     left: -5%;
-    top: 14%;
+    top: 8%;
 }
 .galeri-jam {
     left: -2%;
-    bottom: 8%;
+    bottom: -1%;
 }
 .galeri-bus {
     right: 4px;
@@ -2589,4 +2730,12 @@ h3 {
 .event-jam {
     right: 4px;
     top: 20%;
+}
+
+.album-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: 0.25rem;
+    object-fit: contain;
+    display: block;
 }

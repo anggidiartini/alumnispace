@@ -43,7 +43,7 @@
         <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
 <div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
 
-        <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
+        <div class="hero-grid mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
             @auth
             <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
@@ -197,7 +197,7 @@
   <div class="deco-asset pengurus-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
-
+<div class="blob blob-drift section-blob section-blob--pink section-blob--tl pengurus-blob"></div>
 
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
@@ -300,6 +300,7 @@
   <div class="deco-asset alumni-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
   </div>
+
   <div class="mx-auto max-w-7xl px-5 md:px-8">
   <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
     <div>
@@ -479,7 +480,7 @@
   </div>
 </section>
       <!-- SECTION 2: ARTIKEL -->
-      <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 pb-32 md:px-8">
+      <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset artikel-section-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
@@ -561,36 +562,36 @@
       </section>
 
       <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
-      <section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
+<section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
   <div class="deco-asset album-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset album-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
-        <div class="mx-auto max-w-7xl px-5 md:px-8">
-          <div class="reveal-onscroll">
-            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
-            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
-            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
-          </div>
-          <div class="mt-9 grid gap-5 md:grid-cols-4">
-            @forelse($albums ?? [] as $index => $album)
-            <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
-              <span class="text-4xl">📸</span>
-              <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
-              <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
-              <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
-            </article>
-            @empty
-            <p class="text-sm text-[#355277]">Belum ada album foto.</p>
-            @endforelse
-          </div>
-          <div class="mt-6 text-right reveal-onscroll">
-            <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-          </div>
-        </div>
-      </section>
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="reveal-onscroll">
+      <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
+      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
+      <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
+    </div>
+    <div class="mt-9 grid gap-5 md:grid-cols-4">
+      @forelse($albums ?? [] as $index => $album)
+      <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
+        <img src="{{ asset('assets/images/kameraalbum.png') }}" alt="Ikon album" class="album-icon">
+        <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
+        <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
+        <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
+      </article>
+      @empty
+      <p class="text-sm text-[#355277]">Belum ada album foto.</p>
+      @endforelse
+    </div>
+    <div class="mt-6 text-right reveal-onscroll">
+      <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+    </div>
+  </div>
+</section>
 
       <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
       <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
@@ -698,7 +699,14 @@
   <button id="lightbox-close" type="button" class="lightbox-close" aria-label="Tutup">
     <i data-lucide="x" class="h-6 w-6"></i>
   </button>
+  <button id="lightbox-prev" type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Foto sebelumnya">
+    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+  </button>
   <img id="lightbox-img" class="lightbox-img" src="" alt="Preview foto">
+  <button id="lightbox-next" type="button" class="lightbox-nav lightbox-nav--next" aria-label="Foto berikutnya">
+    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+  </button>
+  <div id="lightbox-counter" class="lightbox-counter"></div>
 </div>
 
 
@@ -723,5 +731,111 @@
 </div>
  <script src="{{ asset('js/script.js') }}"></script>
 
+<!-- Lightbox bisa digeser (prev/next) untuk foto Pengurus, Tentang (kolase), & Galeri -->
+<script>
+(function () {
+  var overlay = document.getElementById('lightbox-overlay');
+  var imgEl = document.getElementById('lightbox-img');
+  var prevBtn = document.getElementById('lightbox-prev');
+  var nextBtn = document.getElementById('lightbox-next');
+  var counterEl = document.getElementById('lightbox-counter');
+  if (!overlay || !imgEl) return;
+
+  var currentGroup = [];
+  var currentIndex = 0;
+
+  function renderCurrent() {
+    if (!currentGroup.length) return;
+    imgEl.src = currentGroup[currentIndex];
+    var multi = currentGroup.length > 1;
+    if (prevBtn) prevBtn.classList.toggle('is-hidden', !multi);
+    if (nextBtn) nextBtn.classList.toggle('is-hidden', !multi);
+    if (counterEl) {
+      counterEl.textContent = multi ? (currentIndex + 1) + ' / ' + currentGroup.length : '';
+      counterEl.classList.toggle('is-hidden', !multi);
+    }
+  }
+
+  function openGallery(images, startSrc) {
+    currentGroup = images.filter(Boolean);
+    var idx = currentGroup.indexOf(startSrc);
+    currentIndex = idx < 0 ? 0 : idx;
+    renderCurrent();
+    overlay.classList.add('is-open');
+  }
+
+  function showPrev() {
+    if (currentGroup.length < 2) return;
+    currentIndex = (currentIndex - 1 + currentGroup.length) % currentGroup.length;
+    renderCurrent();
+  }
+
+  function showNext() {
+    if (currentGroup.length < 2) return;
+    currentIndex = (currentIndex + 1) % currentGroup.length;
+    renderCurrent();
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); showPrev(); });
+  if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); showNext(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!overlay.classList.contains('is-open')) return;
+    if (e.key === 'ArrowLeft') showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  var touchStartX = null;
+  overlay.addEventListener('touchstart', function (e) {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  overlay.addEventListener('touchend', function (e) {
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) { dx > 0 ? showPrev() : showNext(); }
+    touchStartX = null;
+  }, { passive: true });
+
+  // --- Grup: Pengurus Alumni (override supaya bisa geser antar foto pengurus) ---
+  window.openPengurusLightbox = function (src) {
+    var imgs = Array.prototype.map.call(
+      document.querySelectorAll('.pengurus-track .pengurus-photo-wrap img'),
+      function (i) { return i.src; }
+    );
+    openGallery(imgs, src);
+  };
+
+  // --- Grup: Tentang (foto kolase) ---
+  var kolaseImgs = document.querySelectorAll('.kolase-img-box img');
+  kolaseImgs.forEach(function (img) {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function () {
+      var srcs = Array.prototype.map.call(kolaseImgs, function (im) { return im.src; });
+      openGallery(srcs, img.src);
+    });
+  });
+
+  // --- Grup: Galeri ---
+  var galeriItems = document.querySelectorAll('#galeri .galeri-photo');
+  galeriItems.forEach(function (item) {
+    var bg = item.getAttribute('data-bg');
+    if (bg && !item.style.backgroundImage) {
+      item.style.backgroundImage = 'url(' + bg + ')';
+    }
+  });
+  galeriItems.forEach(function (item) {
+    item.addEventListener('click', function () {
+      var bgs = Array.prototype.map.call(galeriItems, function (g) { return g.getAttribute('data-bg'); });
+      openGallery(bgs, item.getAttribute('data-bg'));
+    });
+  });
+
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+})();
+</script>
+
 </body>
 </html>
+

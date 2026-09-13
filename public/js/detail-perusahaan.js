@@ -1,106 +1,103 @@
-document.addEventListener('DOMContentLoaded', function () {
-    /* ---------- toast ---------- */
-    var toast = document.getElementById('toast');
-    var toastTimer;
-    function showToast(message) {
-        if (!toast) return;
-        toast.textContent = message;
-        toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2600);
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Observer untuk Animasi Scroll (reveal-onscroll)
+    const observerCallback = (entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                // Kalau mau animasinya cuma sekali pas di-scroll, bisa di-unobserve:
+                // observer.unobserve(entry.target);
+            }
+        });
+    };
 
-    /* ---------- reveal on scroll ---------- */
-    var revealEls = document.querySelectorAll('.reveal-onscroll');
-    if ('IntersectionObserver' in window && revealEls.length) {
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    io.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        revealEls.forEach(function (el) { io.observe(el); });
-    } else {
-        revealEls.forEach(function (el) { el.classList.add('in-view'); });
-    }
+    const observerOptions = {
+        threshold: 0.15,
+    };
 
-    /* ---------- scroll ke lowongan ---------- */
-    var viewJobsButton = document.getElementById('viewJobsButton');
-    var jobsSection = document.getElementById('lowongan');
-    if (viewJobsButton && jobsSection) {
-        viewJobsButton.addEventListener('click', function () {
-            jobsSection.scrollIntoView({ behavior: 'smooth' });
+    const scrollObserver = new IntersectionObserver(
+        observerCallback,
+        observerOptions,
+    );
+    document.querySelectorAll(".reveal-onscroll").forEach((el) => {
+        scrollObserver.observe(el);
+    });
+
+    // 2. Tombol Scroll ke Lowongan
+    const viewJobsBtn = document.getElementById("viewJobsButton");
+    if (viewJobsBtn) {
+        viewJobsBtn.addEventListener("click", () => {
+            const lowonganSection = document.getElementById("lowongan");
+            if (lowonganSection) {
+                lowonganSection.scrollIntoView({ behavior: "smooth" });
+            }
         });
     }
 
-    /* ---------- bookmark ---------- */
-    var bookmarkButton = document.getElementById('bookmarkButton');
-    if (bookmarkButton) {
-        bookmarkButton.addEventListener('click', function () {
-            var saved = bookmarkButton.classList.toggle('is-saved');
-            bookmarkButton.setAttribute('aria-pressed', String(saved));
-            showToast(saved ? 'Perusahaan berhasil disimpan!' : 'Perusahaan dihapus dari simpanan.');
+    // 3. Tombol Back to Top
+    const backToTopBtn = document.getElementById("back-to-top");
+    if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.display = "grid";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
     }
 
-    /* ---------- toggle detail lowongan ---------- */
-    document.querySelectorAll('.dc-job-detail-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var job = btn.closest('.dc-job');
-            var expanded = job.classList.toggle('is-expanded');
-            btn.setAttribute('aria-expanded', String(expanded));
-            btn.textContent = expanded ? 'Sembunyikan' : 'Lihat Detail';
+    // 4. Toggle Accordion Detail Lowongan
+    document.querySelectorAll(".dc-job-detail-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const jobArticle = btn.closest(".dc-job");
+            const isExpanded = jobArticle.classList.toggle("is-expanded");
+            btn.setAttribute("aria-expanded", isExpanded);
+            btn.textContent = isExpanded ? "Tutup Detail" : "Lihat Detail";
         });
     });
 
-    /* ---------- back to top ---------- */
-    var backToTop = document.getElementById('back-to-top');
-    if (backToTop) {
-        window.addEventListener('scroll', function () {
-            backToTop.classList.toggle('show', window.scrollY > 320);
+    // 5. Tombol Bookmark / Simpan Perusahaan
+    const bookmarkBtn = document.getElementById("bookmarkButton");
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2500);
+    }
+
+    if (bookmarkBtn) {
+        bookmarkBtn.addEventListener("click", () => {
+            const isSaved = bookmarkBtn.classList.toggle("is-saved");
+            bookmarkBtn.setAttribute("aria-pressed", isSaved);
+            if (isSaved) {
+                showToast("Perusahaan berhasil disimpan ke daftar favorit!");
+            } else {
+                showToast("Perusahaan dihapus dari daftar favorit.");
+            }
         });
-        backToTop.addEventListener('click', function () {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
     }
 
-    /* ---------- WA bubble ---------- */
-    var waBubble = document.getElementById('wa-bubble');
-    var waButton = document.getElementById('wa-button');
-    var waWidget = document.getElementById('wa-widget');
-    var waClose = document.getElementById('wa-bubble-close');
-    var waHideTimer;
+    // 6. WhatsApp Bubble Widget Toggle
+    const waBubble = document.getElementById("wa-bubble");
+    const waClose = document.getElementById("wa-bubble-close");
+    const waButton = document.getElementById("wa-button");
 
-    function openWaBubble() {
-        if (!waBubble) return;
-        clearTimeout(waHideTimer);
-        waBubble.classList.add('show');
-    }
-    function closeWaBubble() {
-        if (!waBubble) return;
-        waBubble.classList.remove('show');
-    }
+    if (waBubble && waClose) {
+        // Tampilkan bubble otomatis setelah 1.5 detik
+        setTimeout(() => {
+            waBubble.style.display = "block";
+        }, 1500);
 
-    if (waBubble) {
-        setTimeout(function () {
-            openWaBubble();
-            waHideTimer = setTimeout(closeWaBubble, 4000);
-        }, 1000);
-    }
-
-    if (waClose) {
-        waClose.addEventListener('click', function (e) {
-            e.preventDefault();
+        waClose.addEventListener("click", (e) => {
             e.stopPropagation();
-            closeWaBubble();
-        });
-    }
-    if (waWidget) {
-        waWidget.addEventListener('mouseenter', openWaBubble);
-        waWidget.addEventListener('mouseleave', function () {
-            waHideTimer = setTimeout(closeWaBubble, 800);
+            waBubble.style.display = "none";
         });
     }
 });
