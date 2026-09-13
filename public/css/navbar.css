@@ -533,6 +533,33 @@ body {
     background: #255bc4;
 }
 
+/* Tombol Logout — sekarang di dalam profile-dropdown, di bawah tombol Setting Profile */
+.profile-dropdown-logout-form {
+    margin-top: 0.5rem;
+}
+
+.profile-dropdown-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem;
+    border-radius: 9999px;
+    border: 2px solid #f3b4b4;
+    background: #ffffff;
+    color: #b42318;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.profile-dropdown-logout-btn:hover {
+    background: #fef2f2;
+    border-color: #e88f8f;
+}
+
 @media (max-width: 480px) {
     .profile-dropdown {
         right: -1rem;

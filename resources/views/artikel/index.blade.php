@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memori. — Artikel &amp; Cerita Alumni</title>
+    <title>Alumni Space — Artikel &amp; Cerita Alumni</title>
 
     <!-- CSS File Calls -->
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">

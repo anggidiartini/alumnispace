@@ -773,6 +773,172 @@ h1.title .pop {
     border-radius: 20px;
 }
 
+/* ---------- SEARCH BAR ALBUM (nama album) ---------- */
+.album-search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.album-search-field {
+    position: relative;
+    flex: 1 1 260px;
+    max-width: 380px;
+}
+
+/* Icon kaca pembesar dipasang sebagai background-image LANGSUNG di input,
+   bukan elemen terpisah yang numpuk — jadi nggak akan pernah "hilang"
+   ketika user mengetik, karena bukan elemen yang bisa ketutup teks. */
+.album-search-field input {
+    width: 100%;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--btn-border);
+    background-color: var(--btn-fill);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a4174' stroke-width='2.4'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.3-4.3'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 16px center;
+    border: 3px solid var(--btn-border);
+    border-radius: 30px;
+    padding: 10px 18px 10px 42px;
+    box-shadow: 0 6px 0 var(--btn-border);
+    outline: none;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.album-search-field input::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.7;
+}
+
+.album-search-field input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--btn-border);
+}
+
+/* Tombol "Cari": default PUTIH (senada .filter-btn), begitu ada
+   pencarian valid & aktif (.is-active) baru berubah jadi navy/biru. */
+.album-search-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--btn-border);
+    background: var(--btn-fill);
+    border: 3px solid var(--btn-border);
+    border-radius: 30px;
+    padding: 10px 22px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--btn-border);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.album-search-submit:hover {
+    background: var(--btn-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 var(--btn-border);
+}
+
+.album-search-submit:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 var(--btn-border);
+}
+
+.album-search-submit.is-active {
+    background: var(--btn-border);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #082c50;
+}
+
+.album-search-submit.is-active:hover {
+    background: #0f5a9c;
+    box-shadow: 0 9px 0 #082c50;
+}
+
+.album-search-submit.is-active:active {
+    box-shadow: 0 3px 0 #082c50;
+}
+
+/* Hint validasi: minimal 4 huruf */
+.album-search-hint {
+    margin: -10px 0 16px;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: #c8517d;
+}
+
+/* Animasi goyang saat user coba cari dengan kurang dari 4 huruf */
+@keyframes shakeX {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-6px);
+    }
+    40% {
+        transform: translateX(6px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+.shake {
+    animation: shakeX 0.4s ease;
+}
+
+.album-search-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    font-family: "Baloo 2", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink-soft);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+@media (max-width: 600px) {
+    .album-search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .album-search-field {
+        max-width: 100%;
+    }
+    .album-search-submit {
+        justify-content: center;
+    }
+}
+
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
@@ -2040,4 +2206,3 @@ h1.title .pop {
         width: 2.5rem;
     }
 }
-

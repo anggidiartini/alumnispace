@@ -75,6 +75,21 @@
       <div class="count">{{ count($albums) }} albums</div>
     </div>
 
+    <!-- SEARCH BAR: cari nama album, kerja pas tombol "Cari" diklik (atau Enter). Minimal 4 huruf. -->
+    <div class="album-search-bar reveal-fade" style="--pop-delay:.15s">
+      <div class="album-search-field">
+        <label class="sr-only" for="album-search">Cari nama album</label>
+        <input type="text" id="album-search" placeholder="Cari nama album..." autocomplete="off">
+      </div>
+      <button type="button" id="album-search-btn" class="album-search-submit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+        </svg>
+        Cari
+      </button>
+    </div>
+    <p id="album-search-hint" class="album-search-hint" style="display:none;">Ketik minimal 4 huruf dulu ya, biar hasil carinya pas </p>
+
     <div class="filter-bar">
       <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
       <button class="filter-btn reveal-pop" data-filter="indoor" style="--pop-delay:.15s">Indoor</button>
@@ -84,7 +99,7 @@
 
     <div class="album-grid">
       @forelse($albums as $index => $album)
-      <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}">
+      <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}" data-title="{{ strtolower($album->title) }}">
         <div class="card-photo">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
           <span class="card-symbol">✳</span>
@@ -114,6 +129,11 @@
       </div>
       @endforelse
     </div>
+
+    <!-- Pesan saat pencarian tidak menemukan hasil -->
+    <p id="album-search-empty" class="album-search-empty" style="display:none;">
+      Nggak ada album dengan nama itu. Coba kata kunci lain, yuk.
+    </p>
   </div>
 
 </div>
@@ -175,7 +195,7 @@
     });
   });
 
-  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / STATUS ----------
+  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / STATUS / SEARCH ----------
   var popEls = document.querySelectorAll('.reveal-pop, .reveal-fade');
   var popIo = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -187,24 +207,117 @@
   }, { threshold: 0.2 });
   popEls.forEach(function(el){ popIo.observe(el); });
 
-  // ---------- FILTER BUTTONS ----------
+  // ---------- SEARCH (nama album, minimal 4 huruf) + FILTER KATEGORI — jalan bareng ----------
   var filterBtns = document.querySelectorAll('.filter-btn');
   var filterLabel = document.getElementById('filter-label');
+  var searchInput = document.getElementById('album-search');
+  var searchBtn = document.getElementById('album-search-btn');
+  var emptyMsg = document.getElementById('album-search-empty');
+  var hintMsg = document.getElementById('album-search-hint');
   var labelText = { all: 'semua album', indoor: 'album Indoor', outdoor: 'album Outdoor' };
+  var activeFilter = 'all';
+  var activeKeyword = '';
+  var MIN_CHARS = 4;
+
+  function shake(el){
+    if (!el) return;
+    el.classList.remove('shake');
+    // force reflow biar animasi bisa diulang walau diklik berkali-kali beruntun
+    void el.offsetWidth;
+    el.classList.add('shake');
+  }
+
+  function applyFilterOnly(){
+    var visibleCount = 0;
+    cards.forEach(function(card){
+      var show = activeFilter === 'all' || card.dataset.category === activeFilter;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+    filterLabel.textContent = labelText[activeFilter];
+    if (emptyMsg) emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+  }
+
+  // Menjalankan pencarian + filter kategori sekaligus.
+  // Baru dijalankan ketika tombol "Cari" diklik (atau tekan Enter),
+  // dan hanya kalau ketikannya sudah minimal 4 huruf.
+  function runSearch(){
+    var raw = searchInput ? searchInput.value.trim() : '';
+
+    if (raw.length > 0 && raw.length < MIN_CHARS) {
+      if (hintMsg) hintMsg.style.display = 'block';
+      shake(searchInput);
+      shake(searchBtn);
+      return;
+    }
+
+    if (hintMsg) hintMsg.style.display = 'none';
+    activeKeyword = raw.toLowerCase();
+
+    var visibleCount = 0;
+    cards.forEach(function(card){
+      var matchCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+      var matchTitle = !activeKeyword || (card.dataset.title || '').indexOf(activeKeyword) !== -1;
+      var show = matchCategory && matchTitle;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+
+    if (activeKeyword) {
+      filterLabel.textContent = 'hasil pencarian "' + activeKeyword + '"';
+      if (searchBtn) searchBtn.classList.add('is-active');
+    } else {
+      filterLabel.textContent = labelText[activeFilter];
+      if (searchBtn) searchBtn.classList.remove('is-active');
+    }
+
+    if (emptyMsg) {
+      emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+  }
 
   filterBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       filterBtns.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      var filter = btn.dataset.filter;
-      filterLabel.textContent = labelText[filter];
-
-      cards.forEach(function(card){
-        var match = filter === 'all' || card.dataset.category === filter;
-        card.classList.toggle('filtered-out', !match);
-      });
+      activeFilter = btn.dataset.filter;
+      if (activeKeyword) {
+        runSearch();
+      } else {
+        applyFilterOnly();
+      }
     });
   });
+
+  if (searchBtn) {
+    searchBtn.addEventListener('click', function(){
+      runSearch();
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runSearch();
+      }
+    });
+
+    // Kalau kolom cari dikosongin lagi, langsung balik tampilkan sesuai filter aktif
+    // dan matikan status aktif tombol + sembunyikan hint.
+    searchInput.addEventListener('input', function(){
+      if (this.value.trim() === '') {
+        if (hintMsg) hintMsg.style.display = 'none';
+        if (activeKeyword !== '') {
+          activeKeyword = '';
+          if (searchBtn) searchBtn.classList.remove('is-active');
+          applyFilterOnly();
+        }
+      } else if (this.value.trim().length >= MIN_CHARS && hintMsg) {
+        hintMsg.style.display = 'none';
+      }
+    });
+  }
 
   // Heart pop on polaroid click
   document.querySelectorAll('.polaroid').forEach(function(p){

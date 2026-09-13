@@ -100,14 +100,15 @@
             <a href="{{ route('profile.settings') }}" class="profile-dropdown-settings-btn">
               <i data-lucide="settings" class="icon-sm"></i> Setting Profile
             </a>
+
+            <form action="{{ route('logout') }}" method="POST" class="profile-dropdown-logout-form">
+              @csrf
+              <button type="submit" class="profile-dropdown-logout-btn">
+                <i data-lucide="log-out" class="icon-sm"></i> Keluar
+              </button>
+            </form>
           </div>
         </div>
-        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-          @csrf
-          <button type="submit" class="btn-outline-danger" title="Keluar">
-            <i data-lucide="log-out" class="icon-sm"></i> <span class="hide-mobile text-xs">Keluar</span>
-          </button>
-        </form>
       </div>
       @endguest
 
@@ -143,13 +144,7 @@
       <div class="mobile-auth-footer" style="margin-top: 1.5rem;">
         @guest
         <a href="{{ route('login') }}" class="btn-primary-block">Masuk / Login</a>
-        @else
-        <form action="{{ route('logout') }}" method="POST">
-          @csrf
-          <button type="submit" class="btn-outline-block">
-            <i data-lucide="log-out" class="icon-sm"></i> Keluar ({{ Auth::user()->name }})
-          </button>
-        </form>
+
         @endguest
       </div>
     </div>
