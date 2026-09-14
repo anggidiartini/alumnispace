@@ -20,7 +20,7 @@ Route::get('/opening', function () {
     return view('opening.index');
 })->name('opening');
 
-use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\User\PasswordResetController;
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
