@@ -5,7 +5,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\JobVacancyController;
 use App\Http\Controllers\User\EventController;
-use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\User\AlbumController;
 use App\Http\Controllers\AlumniDirectoryController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ArticleController;
