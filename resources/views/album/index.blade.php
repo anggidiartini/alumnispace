@@ -62,9 +62,9 @@
         </div>
         <div class="polaroid three" data-caption="never forget ">
           <img src="{{ asset('assets/images/foto-3.png') }}" alt="Momen kenangan ketiga">
-
+          
         </div>
-
+        
 
         <div class="magnifier" aria-hidden="true">
           <img src="{{ asset('assets/icons/kacapembesar.png') }}" alt="">
@@ -126,7 +126,7 @@
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-
+        
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
@@ -159,7 +159,27 @@
 
 </div>
 <!-- Floating action buttons -->
+<div id="fab-row" class="fab-row">
+    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+        <i data-lucide="arrow-up" width="20" height="20"></i>
+    </button>
 
+    <div id="wa-widget">
+        <div id="wa-bubble" class="wa-bubble">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                <p class="wa-bubble-title">Ada pertanyaan?</p>
+                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
+                        data-lucide="x" width="16" height="16"></i></button>
+            </div>
+            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
+            <p class="wa-bubble-number">+62 812-3456-7890</p>
+        </div>
+        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
+            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+            <i data-lucide="message-circle" width="26" height="26"></i>
+        </a>
+    </div>
+</div>
 
 <x-footer />
 

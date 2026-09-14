@@ -51,7 +51,9 @@
   <div class="deco-asset" style="top: 2850px; left: 2%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty-slow" style="width: 90px;">
   </div>
-
+  <div class="deco-asset" style="bottom: 80px; left: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="wiggle" style="width: 95px;">
+  </div>
 
 
   <!-- ================= KANAN (10 ORNAMEN) ================= -->
@@ -67,7 +69,9 @@
   <div class="deco-asset" style="top: 1120px; right: 1%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
   </div>
-
+  <div class="deco-asset" style="top: 1500px; right: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
+  </div>
   <div class="deco-asset" style="top: 1880px; right: 1.5%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 95px;">
   </div>
@@ -213,7 +217,6 @@
     </div>
 </div>
 
-
 <x-footer />
 
 <script>
@@ -255,31 +258,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-
-  // Catatan: logic back-to-top & WA widget SUDAH ditangani oleh js/script.js
-  // (dipakai bareng di semua halaman). Sebelumnya di sini ada logic duplikat
-  // untuk keduanya (timer 1800ms + listener terpisah) yang tabrakan sama
-  // logic global di script.js (timer 2200ms) - itu penyebab animasi/posisi
-  // jadi berantakan. Makanya blok itu DIHAPUS dari sini, jangan ditambah lagi.
-})();
-
-const menuToggle = document.getElementById('menuToggle');
-const navbarMenu = document.getElementById('navbarMenu');
-
-if (menuToggle && navbarMenu) {
-  menuToggle.addEventListener('click', () => {
-    navbarMenu.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-  });
-
-  document.querySelectorAll('.navbar-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-      navbarMenu.classList.remove('active');
-      menuToggle.classList.remove('active');
-    });
-  });
-}
-=======
   var backToTop = document.getElementById("back-to-top");
   if (backToTop) {
     window.addEventListener("scroll", function() {
@@ -307,7 +285,6 @@ if (menuToggle && navbarMenu) {
     }
   }
 });
-
 </script>
 <script src="{{ asset('js/script.js') }}"></script>
 </body>

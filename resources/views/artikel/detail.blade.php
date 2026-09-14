@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<x-navbar />
+<x-navbar />  
 
 <!-- ===================== WRAPPER UTAMA DETAIL DENGAN 20 ORNAMEN ===================== -->
 <div class="section-yellow detail-page-wrap" id="article-detail" style="position: relative; overflow: hidden; width: 100%;">
@@ -28,7 +28,9 @@
   <div class="deco-asset" style="top: 700px; left: 2.5%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
   </div>
-
+  <div class="deco-asset" style="top: 1050px; left: 1%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="wiggle" style="width: 100px;">
+  </div>
   <div class="deco-asset" style="top: 1420px; left: 2%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty" style="width: 95px;">
   </div>
@@ -102,7 +104,7 @@
       </div>
 
       <div class="detail-info-col reveal-pop" style="--pop-delay:.1s">
-        <div class="greet-badge small" style="display: inline-flex; width: fit-content;"><span></span> {{ strtoupper($article->category) }}</div>
+        <div class="greet-badge small"><span>✦</span> {{ strtoupper($article->category) }}</div>
 
         <h1 class="marker-title">{{ $article->title }}</h1>
 
@@ -199,12 +201,27 @@
   </div>
 </div>
 
-<x-footer />
-
 <!-- Floating action buttons -->
-<!-- FIX: elemen ini sebelumnya belum ada di file, padahal style-nya -->
-<!-- sudah lengkap di artikel.css, makanya WA & back-to-top gak muncul -->
+<div id="fab-row" class="fab-row">
+    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+        <i data-lucide="arrow-up" width="20" height="20"></i>
+    </button>
+    <div id="wa-widget">
+        <div id="wa-bubble" class="wa-bubble">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                <p class="wa-bubble-title">Ada pertanyaan?</p>
+                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i data-lucide="x" width="16" height="16"></i></button>
+            </div>
+            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
+            <p class="wa-bubble-number">+62 812-3456-7890</p>
+        </div>
+        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank" rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+            <i data-lucide="message-circle" width="26" height="26"></i>
+        </a>
+    </div>
+</div>
 
+<x-footer />
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
