@@ -15,6 +15,20 @@
 
 <div class="section-blue">
 
+  <!-- ornamen aset kiri-kanan, samain kaya home -->
+  <div class="deco-asset alb-hero-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+  </div>
+  <div class="deco-asset alb-hero-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-hero-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-hero-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
+
   <!-- doodles -->
   <div class="doodle" style="top:60px;left:6%;--r:-10deg;" id="doodle-star">
     <svg width="34" height="34" viewBox="0 0 24 24" fill="#FFF7D6"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
@@ -25,21 +39,21 @@
     <div class="hero-inner">
 
       <div class="hero-copy">
-        <div class="greet-badge"> OUR MEMORIES</div>
-        <h1 class="title">
+        <div class="greet-badge reveal-pop" style="--pop-delay:0s"> OUR MEMORIES</div>
+        <h1 class="title reveal-pop" style="--pop-delay:.1s">
           Tentang Kita, Tentang Momen yang Nggak Akan Terulang Lagi
         </h1>
-        <p class="subtitle">
+        <p class="subtitle reveal-pop" style="--pop-delay:.2s">
           Potongan kecil dari hari-hari yang pernah kita jalani bersama,
           sekarang jadi cerita yang akan selalu kita simpan.
         </p>
-        <button class="hero-cta" id="scroll-to-album">
+        <button class="hero-cta reveal-pop" id="scroll-to-album" style="--pop-delay:.3s">
           Lihat Album
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.6"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
         </button>
       </div>
 
-      <div class="photo-stack" aria-label="Kumpulan foto kenangan">
+      <div class="photo-stack reveal-pop" aria-label="Kumpulan foto kenangan" style="--pop-delay:.15s">
         <div class="polaroid one" data-caption="momen kecil ">
           <img src="{{ asset('assets/images/foto-1.png') }}" alt="Momen kenangan pertama">
         </div>
@@ -48,9 +62,9 @@
         </div>
         <div class="polaroid three" data-caption="never forget ">
           <img src="{{ asset('assets/images/foto-3.png') }}" alt="Momen kenangan ketiga">
-          
+
         </div>
-        
+
 
         <div class="magnifier" aria-hidden="true">
           <img src="{{ asset('assets/icons/kacapembesar.png') }}" alt="">
@@ -68,6 +82,13 @@
 </div>
 
 <div class="section-yellow" id="album-section">
+
+  <div class="deco-asset alb-grid-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+  </div>
+  <div class="deco-asset alb-grid-r1 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+  </div>
 
   <div class="wrap">
     <div class="section-head reveal-pop">
@@ -105,7 +126,7 @@
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-        
+
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>

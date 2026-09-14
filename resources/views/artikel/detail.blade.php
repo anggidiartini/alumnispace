@@ -13,24 +13,83 @@
 </head>
 <body>
 
-<x-navbar />  
+<x-navbar />
 
-<div class="section-yellow detail-page-wrap" id="article-detail">
+<!-- ===================== WRAPPER UTAMA DETAIL DENGAN 20 ORNAMEN ===================== -->
+<div class="section-yellow detail-page-wrap" id="article-detail" style="position: relative; overflow: hidden; width: 100%;">
 
-  <!-- doodles, senada dengan detail album -->
-  <div class="doodle" style="top:110px;left:3%;--r:-8deg;">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="#f2b600"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
+  <!-- ================= KIRI (10 ORNAMEN) ================= -->
+  <div class="deco-asset" style="top: 50px; left: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty" style="width: 75px;">
   </div>
-  <div class="doodle" style="top:55%;right:2%;--r:10deg;color:var(--home-pink-strong);font-size:24px;">♡</div>
+  <div class="deco-asset" style="top: 350px; left: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+  </div>
+  <div class="deco-asset" style="top: 700px; left: 2.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
+  </div>
 
-  <div class="wrap">
+  <div class="deco-asset" style="top: 1420px; left: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty" style="width: 95px;">
+  </div>
+  <div class="deco-asset" style="top: 1800px; left: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty-slow" style="width: 75px;">
+  </div>
+  <div class="deco-asset" style="top: 2180px; left: 2.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+  </div>
+  <div class="deco-asset" style="top: 2550px; left: 1%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 100px;">
+  </div>
+  <div class="deco-asset" style="top: 2920px; left: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
+  </div>
+  <div class="deco-asset" style="bottom: 80px; left: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="wiggle" style="width: 95px;">
+  </div>
 
-    <a href="{{ route('artikel.index') }}" class="back-link">&larr; Kembali ke Artikel</a>
 
-    <!-- ===== ATAS: foto besar (kiri) + panel info (kanan) — tata letak ala Canva ===== -->
+  <!-- ================= KANAN (10 ORNAMEN) ================= -->
+  <div class="deco-asset" style="top: 100px; right: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty-slow" style="width: 100px;">
+  </div>
+  <div class="deco-asset" style="top: 450px; right: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="wiggle" style="width: 95px;">
+  </div>
+  <div class="deco-asset" style="top: 820px; right: 2.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty" style="width: 75px;">
+  </div>
+  <div class="deco-asset" style="top: 1180px; right: 1%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="wiggle" style="width: 70px;">
+  </div>
+  <div class="deco-asset" style="top: 1560px; right: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="floaty-slow" style="width: 85px;">
+  </div>
+  <div class="deco-asset" style="top: 1950px; right: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 100px;">
+  </div>
+  <div class="deco-asset" style="top: 2320px; right: 2.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="wiggle" style="width: 75px;">
+  </div>
+  <div class="deco-asset" style="top: 2690px; right: 1%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty-slow" style="width: 95px;">
+  </div>
+  <div class="deco-asset" style="top: 3050px; right: 2%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+  </div>
+  <div class="deco-asset" style="bottom: 100px; right: 1.5%;" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty" style="width: 70px;">
+  </div>
+
+
+  <!-- ================= KONTEN HALAMAN DETAIL ================= -->
+  <div class="wrap" style="position: relative; z-index: 2;">
+
+    <a href="{{ route('artikel.index') }}" class="back-link reveal-pop">&larr; Kembali ke Artikel</a>
+
+    <!-- Atas: Foto & Info Utama -->
     <div class="detail-grid">
-
-      <div class="detail-photo-col">
+      <div class="detail-photo-col reveal-pop">
         <div class="detail-photo">
           @if($article->thumbnail)
             <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}">
@@ -43,7 +102,7 @@
       </div>
 
       <div class="detail-info-col reveal-pop" style="--pop-delay:.1s">
-        <div class="greet-badge small"><span>✦</span> {{ strtoupper($article->category) }}</div>
+        <div class="greet-badge small" style="display: inline-flex; width: fit-content;"><span></span> {{ strtoupper($article->category) }}</div>
 
         <h1 class="marker-title">{{ $article->title }}</h1>
 
@@ -70,19 +129,18 @@
         </div>
         @endif
       </div>
+    </div>
 
-    </div><!-- /.detail-grid -->
-
-    <!-- ===== ISI ARTIKEL LENGKAP ===== -->
+    <!-- Isi Artikel Lengkap -->
     <div class="info-card article-body-card reveal-pop" style="--pop-delay:.2s;max-width:1080px;margin:0 auto 60px;">
       <div class="article-prose">
         {!! $article->content !!}
       </div>
     </div>
 
-    <!-- ===== ARTIKEL TERKAIT — grid rekomendasi ala Canva ===== -->
+    <!-- Artikel Terkait -->
     @if($relatedArticles->count())
-    <div class="related-head">
+    <div class="related-head reveal-pop">
       <h2>Artikel <span class="marker">Terkait</span></h2>
     </div>
     <div class="related-grid">
@@ -109,9 +167,9 @@
     </div>
     @endif
 
-    <!-- ===== ARTIKEL TERBARU — grid rekomendasi ala Canva ===== -->
+    <!-- Artikel Terbaru -->
     @if($latestArticles->count())
-    <div class="related-head">
+    <div class="related-head reveal-pop">
       <h2>Baca <span class="marker">Juga</span></h2>
     </div>
     <div class="related-grid">
@@ -140,7 +198,6 @@
 
   </div>
 </div>
-<!-- /.detail-page-wrap -->
 
 <x-footer />
 
@@ -162,17 +219,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }, { threshold: 0.12 });
-  popEls.forEach(function (el) { popIo.observe(el); });
 
-  // Card related biar animasinya matched sama .card index (pakai class 'popped' setelah muncul)
-  document.querySelectorAll('.related-card.reveal-pop').forEach(function (el) {
-    el.addEventListener('animationend', function (e) {
-      if (e.animationName === 'popBounceIn') el.classList.add('popped');
-    });
-  });
+  popEls.forEach(function (el) { popIo.observe(el); });
 });
 </script>
 <script src="{{ asset('js/script.js') }}"></script>
-
 </body>
 </html>
