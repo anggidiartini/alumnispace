@@ -10,7 +10,7 @@
 <body>
 
     <!-- 1. Panggil Navbar di bagian paling atas -->
-    <x-navbar />
+    <x-user-navbar />
 
     <!-- 2. Lubang tempat halaman lain (Lowongan, Alumni, dll) akan masuk -->
     <main class="py-4">
@@ -18,7 +18,7 @@
     </main>
 
     <!-- 3. Panggil Footer di bagian paling bawah -->
-    <x-footer />
+    <x-user-footer />
 
     <!-- Script JS -->
     <script src="{{ asset('js/detail-lowongan.js') }}"></script>

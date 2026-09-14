@@ -29,6 +29,6 @@ class CompanyController extends Controller
 
         $companyProfile = $company;
 
-        return view('lowongan.perusahaan.index', compact('companyProfile', 'jobs'));
+        return view('user.perusahaan.index', compact('companyProfile', 'jobs'));
     }
 }

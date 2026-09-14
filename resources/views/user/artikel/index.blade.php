@@ -1,9 +1,9 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memori. â€” Artikel &amp; Cerita Alumni</title>
+    <title>memori. — Artikel &amp; Cerita Alumni</title>
 
     <!-- CSS File Calls -->
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
@@ -14,12 +14,12 @@
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
-<x-navbar />
+<x-user-navbar />
 
 @php
     /*
      * View-only: Controller index() saat ini kirim $articles (SEMUA artikel,
-     * tanpa pagination â€” filter kategori sekarang full client-side JS,
+     * tanpa pagination — filter kategori sekarang full client-side JS,
      * mirip pola di halaman Album).
      *
      * Kalau nanti jumlah artikel sudah banyak dan butuh pagination lagi,
@@ -32,14 +32,14 @@
     $heroArticle = $heroArticle ?? \App\Models\Article::latest()->first();
 @endphp
 
-<!-- ===================== SECTION 1 â€” HERO (senada section-blue album) ===================== -->
+<!-- ===================== SECTION 1 — HERO (senada section-blue album) ===================== -->
 <div class="section-blue">
 
   <!-- doodles -->
   <div class="doodle" style="top:60px;left:6%;--r:-10deg;" id="doodle-star">
     <svg width="34" height="34" viewBox="0 0 24 24" fill="#FFF7D6"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
   </div>
-  <div class="doodle" style="bottom:8%;left:3%;--r:12deg;color:#fff;font-size:26px;">â™¡</div>
+  <div class="doodle" style="bottom:8%;left:3%;--r:12deg;color:#fff;font-size:26px;">?</div>
 
   <section class="hero">
     <div class="hero-inner">
@@ -50,7 +50,7 @@
           Cerita, Tips, dan Kabar Seputar Alumni
         </h1>
         <p class="subtitle">
-          Kumpulan tulisan dari dan untuk alumni â€” mulai dari kisah perjalanan karier,
+          Kumpulan tulisan dari dan untuk alumni — mulai dari kisah perjalanan karier,
           tips, sampai kabar terbaru seputar keluarga besar alumni.
         </p>
         <button class="hero-cta" id="scroll-to-article">
@@ -91,7 +91,7 @@
   </div>
 </div>
 
-<!-- ===================== SECTION 2 â€” LIST ARTIKEL (senada section-yellow album) ===================== -->
+<!-- ===================== SECTION 2 — LIST ARTIKEL (senada section-yellow album) ===================== -->
 <div class="section-yellow" id="article-section">
 
   <div class="wrap">
@@ -116,7 +116,7 @@
         <div class="card" id="c{{ $article->id }}" data-category="{{ $article->category }}">
           <div class="card-photo">
             <span class="cat-pill">{{ ucfirst($article->category) }}</span>
-            <span class="card-symbol">âœ³</span>
+            <span class="card-symbol">?</span>
             @if($article->thumbnail)
               <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}">
             @else
@@ -159,7 +159,7 @@
                 <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
                         data-lucide="x" width="16" height="16"></i></button>
             </div>
-            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp ðŸ‘‹</p>
+            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp ??</p>
             <p class="wa-bubble-number">+62 812-3456-7890</p>
         </div>
         <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
@@ -169,7 +169,7 @@
     </div>
 </div>
 
-<x-footer />
+<x-user-footer />
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { threshold: 0.2 });
   popEls.forEach(function(el){ popIo.observe(el); });
 
-  // ---------- FILTER BUTTONS (client-side, tanpa reload â€” sama seperti Album) ----------
+  // ---------- FILTER BUTTONS (client-side, tanpa reload — sama seperti Album) ----------
   var filterBtns = document.querySelectorAll('.filter-btn');
   var filterLabel = document.getElementById('filter-label');
 

@@ -14,7 +14,7 @@
 </head>
 <body class="alumni-page-body ad-body">
 
-<x-navbar  />
+<x-user-navbar  />
 
 <main>
   <section class="ad-section dot-grid">
@@ -199,7 +199,7 @@
 </main>
 
 <div class="footer-spacer"></div>
-<x-footer />
+<x-user-footer />
 
 <div id="toast" class="toast" role="status" aria-live="polite">
   <i data-lucide="sparkles" width="19"></i>

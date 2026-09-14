@@ -175,7 +175,7 @@ class TableController extends Controller
         }
 
         $this->shareSidebarCounts();
-        return view('admin.dashboard.table_index', compact('rows', 'mapping', 'table_key'));
+        return view('admin.table.index', compact('rows', 'mapping', 'table_key'));
     }
 
     public function show($table_key, $id)
@@ -195,7 +195,7 @@ class TableController extends Controller
         if (!$row) abort(404);
 
         $this->shareSidebarCounts();
-        return view('admin.dashboard.table_detail', compact('row', 'mapping', 'table_key'));
+        return view('admin.table.detail', compact('row', 'mapping', 'table_key'));
     }
 
     public function create($table_key)
@@ -203,7 +203,7 @@ class TableController extends Controller
         $mapping = $this->getTableMapping($table_key);
         $this->shareSidebarCounts();
 
-        return view('admin.dashboard.table_form', compact('mapping', 'table_key'));
+        return view('admin.table.form', compact('mapping', 'table_key'));
     }
 
     public function store(Request $request, $table_key)
@@ -267,7 +267,7 @@ class TableController extends Controller
         if (!$row) abort(404);
         
         $this->shareSidebarCounts();
-        return view('admin.dashboard.table_form', compact('row', 'mapping', 'table_key'));
+        return view('admin.table.form', compact('row', 'mapping', 'table_key'));
     }
 
     public function update(Request $request, $table_key, $id)

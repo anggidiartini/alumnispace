@@ -14,7 +14,7 @@
 </head>
 <body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
-<x-navbar />
+<x-user-navbar />
 
 <main>
   <section class="hero-section dot-grid" style="background: linear-gradient(135deg, rgb(234, 244, 255), rgb(255, 254, 249));">
@@ -182,7 +182,7 @@
 </main>
 
 <div class="footer-spacer"></div>
-<x-footer />
+<x-user-footer />
 
 <div id="toast" class="toast" role="status" aria-live="polite">
   <i data-lucide="sparkles" width="19"></i>

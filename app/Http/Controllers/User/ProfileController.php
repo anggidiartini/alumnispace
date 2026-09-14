@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
         $profile = $user->profile ?? $user->profile()->make();
 
-        return view('profile.settings', [
+        return view('user.profile.settings', [
             'user' => $user,
             'profile' => $profile,
         ]);

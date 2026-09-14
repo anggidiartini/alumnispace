@@ -35,7 +35,7 @@ class EventController extends Controller
         
         $totalEvents = Event::count();
 
-        return view('event.index', compact('events', 'totalEvents'));
+        return view('user.event.index', compact('events', 'totalEvents'));
     }
 
             public function show($slug)
@@ -50,7 +50,7 @@ class EventController extends Controller
             $event = Event::firstOrFail();
         }
         
-        return view('event.detail', compact('event'));
+        return view('user.event.detail', compact('event'));
     }
     public function creator(): BelongsTo {
         

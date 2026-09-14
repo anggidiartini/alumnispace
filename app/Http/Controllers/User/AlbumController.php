@@ -19,12 +19,12 @@ class AlbumController extends Controller
         $albums = $query->orderBy('event_date', 'desc')->get();
         $totalAlbums = Album::count();
 
-        return view('album.index', compact('albums', 'totalAlbums'));
+        return view('user.album.index', compact('albums', 'totalAlbums'));
     }
 
     public function show($slug)
     {
         $album = Album::with('photos')->where('slug', $slug)->firstOrFail();
-        return view('album.detail', compact('album'));
+        return view('user.album.detail', compact('album'));
     }
 }

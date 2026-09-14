@@ -26,8 +26,14 @@ class EnsureUserHasRole
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
+            if (in_array('admin', $roles) || in_array('super_admin', $roles)) {
+                return redirect()->route('admin.login')->withErrors([
+                    'email' => 'Silakan masuk dengan akun Administrator.',
+                ]);
+            }
+
             return redirect()->route('login')->withErrors([
-                'email' => 'Silakan masuk dengan akun Administrator.',
+                'email' => 'Silakan masuk terlebih dahulu.',
             ]);
         }
 
@@ -35,11 +41,15 @@ class EnsureUserHasRole
             if ($request->expectsJson()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Forbidden. Anda tidak memiliki hak akses administrator.',
+                    'message' => 'Forbidden. Anda tidak memiliki hak akses yang sesuai.',
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            abort(403, 'Akses Ditolak: Halaman ini hanya untuk Administrator.');
+            if (in_array('admin', $roles) || in_array('super_admin', $roles)) {
+                abort(403, 'Akses Ditolak: Halaman ini hanya untuk Administrator.');
+            }
+
+            abort(403, 'Akses Ditolak: Anda tidak memiliki akses ke halaman ini.');
         }
 
         return $next($request);

@@ -66,7 +66,7 @@
 <body>
     <div class="page-wrap">
 
-        <x-navbar/>
+        <x-user-navbar/>
 
         <main id="top">
 
@@ -301,7 +301,7 @@
 
         </main>
 
-        <x-footer/>
+        <x-user-footer/>
     </div>
 
     <div id="toast" class="toast" role="status"></div>

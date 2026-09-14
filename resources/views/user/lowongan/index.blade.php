@@ -30,7 +30,7 @@
 
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
     <div class="site-shell page-wrap">
-        <x-navbar />
+        <x-user-navbar />
 
         <main>
             <!-- HERO -->
@@ -276,7 +276,7 @@
             </section>
         </main>
 
-        <x-footer />
+        <x-user-footer />
     </div>
 
     <!-- Floating action buttons -->

@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<x-navbar />
+<x-user-navbar />
 
 <div class="section-yellow detail-page-wrap">
 
@@ -134,7 +134,7 @@
       <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto selanjutnya">&rarr;</button>
     </div>
 
-<x-footer />
+<x-user-footer />
 <!-- Floating action buttons -->
 <div id="fab-row" class="fab-row">
     <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">

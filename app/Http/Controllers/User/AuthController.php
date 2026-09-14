@@ -16,7 +16,7 @@ class AuthController extends Controller
             }
             return redirect()->route('home');
         }
-        return view('auth.login');
+        return view('user.auth.login');
     }
 
     public function showAdminLogin()
@@ -27,7 +27,7 @@ class AuthController extends Controller
             }
             return redirect()->route('home');
         }
-        return view('auth.admin-login');
+        return view('user.auth.admin-login');
     }
 
     public function login(Request $request)

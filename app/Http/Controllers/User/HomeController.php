@@ -55,6 +55,6 @@ class HomeController extends Controller
         $settings = \App\Models\SiteSetting::where('is_public', true)
             ->pluck('value', 'key');
 
-        return view('home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats', 'contents', 'settings', 'pengurus'));
+        return view('user.home.index', compact('currentUser', 'jobs', 'alumni', 'events', 'albums', 'testimonials', 'articles', 'stats', 'contents', 'settings', 'pengurus'));
     }
 }

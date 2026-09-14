@@ -13,7 +13,7 @@
 </head>
 <body class="profile-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
-<x-navbar />
+<x-user-navbar />
 
 <main>
   <section class="profile-hero">
@@ -285,7 +285,7 @@
   </div>
 </div>
 
-<x-footer />
+<x-user-footer />
 
 <script>
   var DEFAULT_AVATAR_URL = "{{ asset('assets/images/default-avatar.jpg') }}";

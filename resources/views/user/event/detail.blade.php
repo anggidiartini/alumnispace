@@ -52,7 +52,7 @@
 </head>
 <body>
 <div class="site-shell page-wrap">
-    <x-navbar />
+    <x-user-navbar />
 
     <main>
         <div class="page-width">
@@ -247,7 +247,7 @@
         </div>
     </main>
 
-    <x-footer/>
+    <x-user-footer/>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

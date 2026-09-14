@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<x-navbar />  
+<x-user-navbar />  
 
 <div class="section-yellow detail-page-wrap" id="article-detail">
 
@@ -142,7 +142,7 @@
 </div>
 <!-- /.detail-page-wrap -->
 
-<x-footer />
+<x-user-footer />
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

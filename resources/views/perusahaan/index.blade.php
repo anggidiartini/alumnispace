@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="page-wrap">
-        <x-navbar/>
+        <x-user-navbar/>
 
         <main style="padding: 2rem 0;">
             <div class="page-width">
@@ -85,7 +85,7 @@
             </div>
         </main>
 
-        <x-footer/>
+        <x-user-footer/>
     </div>
 
     <script>

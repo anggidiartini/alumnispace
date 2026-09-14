@@ -16,7 +16,7 @@
         <div class="deco-dot floaty-slow" style="width:90px;height:90px;right:-30px;top:140px;background:#fff0a9;opacity:.55;border-radius:50%;"></div>
         <div class="deco-dot floaty" style="width:110px;height:110px;right:-50px;top:640px;background:#a8d3ff;opacity:.45;border-radius:50%;"></div>
 
-        <x-navbar />
+        <x-user-navbar />
 
         <main id="top" class="dc-container" style="position:relative;z-index:1;">
 
@@ -265,7 +265,7 @@
             </div>
         </main>
 
-        <x-footer />
+        <x-user-footer />
     </div>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>

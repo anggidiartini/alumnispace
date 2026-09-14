@@ -11,7 +11,7 @@
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
-<x-navbar />
+<x-user-navbar />
 
 <div class="section-blue">
 
@@ -140,7 +140,7 @@
     </div>
 </div>
 
-<x-footer />
+<x-user-footer />
 
 <script>
 (function(){

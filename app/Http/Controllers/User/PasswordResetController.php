@@ -14,7 +14,7 @@ class PasswordResetController extends Controller
      */
     public function request()
     {
-        return view('auth.forgot-password');
+        return view('user.auth.forgot-password');
     }
 
     /**

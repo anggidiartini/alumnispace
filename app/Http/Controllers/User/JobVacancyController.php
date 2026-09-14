@@ -30,7 +30,7 @@ class JobVacancyController extends Controller
        $jobs = $query->with('company')->latest()->get();
         $totalActive = JobVacancy::where('is_active', true)->count();
 
-        return view('lowongan.index', compact('jobs', 'totalActive'));
+        return view('user.lowongan.index', compact('jobs', 'totalActive'));
     }
 
     /**
@@ -52,7 +52,7 @@ class JobVacancyController extends Controller
             ->take(3)
             ->get();
 
-        return view('lowongan.detail', compact('job', 'relatedJobs'));
+        return view('user.lowongan.detail', compact('job', 'relatedJobs'));
     }
 
     public function apply(Request $request, $id)

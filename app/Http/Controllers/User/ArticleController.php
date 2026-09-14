@@ -21,7 +21,7 @@ class ArticleController extends Controller
 
         $articles = $query->latest()->paginate(9);
 
-        return view('artikel.index', compact('articles'));
+        return view('user.artikel.index', compact('articles'));
     }
 
     public function show($slug)
@@ -44,6 +44,6 @@ class ArticleController extends Controller
             ->take(3)
             ->get();
 
-        return view('artikel.detail', compact('article', 'relatedArticles', 'latestArticles'));
+        return view('user.artikel.detail', compact('article', 'relatedArticles', 'latestArticles'));
     }
 }

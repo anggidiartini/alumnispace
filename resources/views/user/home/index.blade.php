@@ -23,7 +23,7 @@
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
   <div class="page-wrap">
-    <x-navbar />
+    <x-user-navbar />
 
     <main>
       <!-- HERO SECTION -->
@@ -665,7 +665,7 @@
       </section>
     </main>
 
-    <x-footer />
+    <x-user-footer />
   </div>
 
   <!-- Floating action buttons -->
