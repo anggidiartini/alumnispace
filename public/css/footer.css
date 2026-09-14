@@ -200,6 +200,7 @@
     color: var(--as-cyan);
 }
 
+
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
     .as-footer__top {
