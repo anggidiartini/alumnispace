@@ -45,7 +45,6 @@
                         <span class="stat-pill-label">Cerita komunitas</span>
                     </div>
                 </div>
-<<<<<<< HEAD
             </section>
 
             <!-- BOTTOM CTA -->
