@@ -11,6 +11,11 @@
    .company-head-link — dulu elemen ini <p>/<div> polos,
    sekarang jadi <a> yang mengarah ke halaman detail
    perusahaan, jadi butuh state hover/focus yang jelas.
+
+   REVISI 2: posisi ornamen kanan-kiri (.dl-hero-*, .dl-grid-*,
+   .dl-related-*) diubah pakai offset NEGATIF supaya ornamen
+   keluar dari kotak .page-width (1180px) ke ruang kosong
+   kiri-kanan, bukan nempel di dalam card.
    ========================================================= */
 
 :root {
@@ -93,16 +98,94 @@ img {
     border-radius: 48% 52% 40% 60% / 55% 40% 60% 45%;
 }
 
+/* ---------- Animasi masuk "tuing" — disamakan dgn halaman home ---------- */
+@keyframes tuingIn {
+    0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(28px);
-    transition:
-        opacity 0.8s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.8s cubic-bezier(0.16, 0.84, 0.44, 1);
+    transform: translateY(35px) scale(0.92);
 }
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translateY(0);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ---------- ornamen kecil kiri-kanan (jam, bus, papan tulis, lampu, alat tulis) ---------- */
+.deco-asset {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+}
+.deco-asset img {
+    display: block;
+    opacity: 0.7;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+.aset-jam,
+.aset-bus,
+.aset-papantulis,
+.aset-lampu,
+.aset-alattulis {
+    width: 90px;
+    transform: rotate(0deg);
+}
+
+.floaty {
+    animation: floaty 4s ease-in-out infinite;
+}
+.floaty-slow {
+    animation: floaty 5s ease-in-out 0.6s infinite;
+}
+.wiggle {
+    animation: wiggle 3.2s ease-in-out infinite;
+}
+@keyframes floaty {
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* Responsif: ornamen samar di layar medium, hilang di HP biar konten gak sempit/numpuk */
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+@media (max-width: 767px) {
+    .deco-asset {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .floaty,
+    .floaty-slow,
+    .wiggle {
+        animation: none !important;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -514,6 +597,7 @@ img {
     padding: 2rem 0;
     align-items: start;
     grid-template-columns: 1fr;
+    position: relative;
 }
 
 .detail-main {
@@ -755,6 +839,7 @@ img {
 
 .related-wrap {
     padding: 1rem 0 3.5rem;
+    position: relative;
 }
 .related-head {
     margin-bottom: 1.5rem;
@@ -1052,10 +1137,86 @@ img {
 
 .hero-section-top {
     padding-top: 5rem;
+    position: relative;
 }
 
 @media (max-width: 767px) {
     .hero-section-top {
         padding-top: 4rem;
+    }
+}
+
+/* ---------- posisi ornamen kanan-kiri: hero, detail-grid, related-wrap ----------
+   Offset dibuat NEGATIF supaya ornamen keluar dari kotak .page-width
+   (max 1180px) menuju ruang kosong kiri-kanan, bukan menempel di
+   dalam card/konten. */
+.dl-hero-l1 {
+    left: -70px;
+    top: 18%;
+}
+.dl-hero-l2 {
+    left: -40px;
+    bottom: 8%;
+}
+.dl-hero-r1 {
+    right: -70px;
+    top: 14%;
+}
+.dl-hero-r2 {
+    right: -40px;
+    bottom: 10%;
+}
+
+.dl-grid-l1 {
+    left: -80px;
+    top: 4%;
+}
+.dl-grid-l2 {
+    left: -50px;
+    bottom: 6%;
+}
+.dl-grid-r1 {
+    right: -80px;
+    top: 10%;
+}
+.dl-grid-r2 {
+    right: -50px;
+    bottom: 4%;
+}
+
+.dl-related-l1 {
+    left: -70px;
+    top: 10%;
+}
+.dl-related-l2 {
+    left: -40px;
+    bottom: 8%;
+}
+.dl-related-r1 {
+    right: -70px;
+    top: 12%;
+}
+.dl-related-r2 {
+    right: -40px;
+    bottom: 6%;
+}
+
+/* Di layar sempit, ruang kosong kiri-kanan .page-width sudah habis
+   (lebar section ~= lebar layar), jadi ornamen disembunyikan semua
+   biar tidak numpuk/tabrakan dengan konten. */
+@media (max-width: 1360px) {
+    .dl-hero-l1,
+    .dl-hero-l2,
+    .dl-hero-r1,
+    .dl-hero-r2,
+    .dl-grid-l1,
+    .dl-grid-l2,
+    .dl-grid-r1,
+    .dl-grid-r2,
+    .dl-related-l1,
+    .dl-related-l2,
+    .dl-related-r1,
+    .dl-related-r2 {
+        display: none;
     }
 }

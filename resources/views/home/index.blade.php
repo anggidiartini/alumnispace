@@ -31,13 +31,13 @@
   <div class="deco-asset hero-deco-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="deco-asset hero-deco-bus reveal-onscroll" style="transition-delay:.15s" aria-hidden="true">
+  <div class="deco-asset hero-deco-bus reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
   </div>
   <div class="deco-asset hero-deco-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
-  <div class="deco-asset hero-deco-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset hero-deco-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
@@ -107,7 +107,7 @@
   <div class="deco-asset tentang-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
-  <div class="deco-asset tentang-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset tentang-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset tentang-bus reveal-onscroll" aria-hidden="true">
@@ -149,7 +149,7 @@
   <div class="deco-asset statistik-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
-  <div class="deco-asset statistik-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset statistik-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
   </div>
   <div class="deco-asset statistik-alattulis reveal-onscroll" aria-hidden="true">
@@ -170,15 +170,15 @@
               <p class="stat-number text-4xl font-bold text-[#2e72ec]">{{ number_format($stats['total_alumni'] ?? 2540) }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Alumni terhubung</p>
             </article>
-            <article class="stat-card card-v2 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.05s" data-count="{{ $stats['total_generations'] ?? 45 }}" data-suffix="">
+            <article class="stat-card card-v2 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.05s" data-count="{{ $stats['total_generations'] ?? 45 }}" data-suffix="">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ $stats['total_generations'] ?? 45 }}</p>
               <p class="mt-2 font-medium text-[#153563]">Angkatan</p>
             </article>
-            <article class="stat-card card-v3 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.1s" data-count="{{ $stats['total_jobs'] ?? 180 }}" data-suffix="+">
+            <article class="stat-card card-v3 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.1s" data-count="{{ $stats['total_jobs'] ?? 180 }}" data-suffix="+">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ $stats['total_jobs'] ?? 180 }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Lowongan terverifikasi</p>
             </article>
-            <article class="stat-card card-v4 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.15s" data-count="{{ count($events ?? []) ?: 40 }}" data-suffix="+">
+            <article class="stat-card card-v4 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.15s" data-count="{{ count($events ?? []) ?: 40 }}" data-suffix="+">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ count($events ?? []) ?: 40 }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Event seru terlaksana</p>
             </article>
@@ -191,7 +191,7 @@
   <div class="deco-asset pengurus-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
   </div>
-  <div class="deco-asset pengurus-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset pengurus-bus reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="deco-asset pengurus-papantulis reveal-onscroll" aria-hidden="true">
@@ -245,7 +245,7 @@
         <div class="deco-asset locked-teaser-bus reveal-onscroll" aria-hidden="true">
           <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
         </div>
-        <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+        <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
           <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
         </div>
         <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
@@ -266,19 +266,19 @@
               <p class="mt-1 text-sm text-[#355277]">Cari & sapa teman seangkatan.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v2 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.05s">
+            <div class="teaser-card card-v2 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.05s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#ffd9e7] text-xl">🖼️</span>
               <h3 class="mt-4 font-bold text-[#153563]">Album Foto</h3>
               <p class="mt-1 text-sm text-[#355277]">Kenangan reuni & kegiatan sekolah.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v3 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.1s">
+            <div class="teaser-card card-v3 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.1s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">💼</span>
               <h3 class="mt-4 font-bold text-[#153563]">Lowongan Kerja</h3>
               <p class="mt-1 text-sm text-[#355277]">Peluang karier dari sesama alumni.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v4 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.15s">
+            <div class="teaser-card card-v4 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.15s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#cce8de] text-xl">📅</span>
               <h3 class="mt-4 font-bold text-[#153563]">Agenda Event</h3>
               <p class="mt-1 text-sm text-[#355277]">Meetup, workshop & reuni terdekat.</p>
@@ -294,7 +294,7 @@
   <div class="deco-asset alumni-lampu reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
-  <div class="deco-asset alumni-alattulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset alumni-alattulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
   </div>
   <div class="deco-asset alumni-jam reveal-onscroll" aria-hidden="true">
@@ -375,7 +375,7 @@
   <div class="deco-asset testimoni-bus reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
-  <div class="deco-asset testimoni-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset testimoni-papantulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
   <div class="deco-asset testimoni-lampu reveal-onscroll" aria-hidden="true">
@@ -444,7 +444,7 @@
   <div class="deco-asset galeri-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
   </div>
-  <div class="deco-asset galeri-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset galeri-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
   </div>
   <div class="deco-asset galeri-bus reveal-onscroll" aria-hidden="true">
@@ -484,7 +484,7 @@
   <div class="deco-asset artikel-section-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
-  <div class="deco-asset artikel-section-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset artikel-section-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
   <div class="deco-asset artikel-section-alattulis reveal-onscroll" aria-hidden="true">
@@ -566,7 +566,7 @@
   <div class="deco-asset album-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="deco-asset album-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset album-bus reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="mx-auto max-w-7xl px-5 md:px-8">
@@ -598,7 +598,7 @@
   <div class="deco-asset lowongan-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
-  <div class="deco-asset lowongan-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset lowongan-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="reveal-onscroll">
@@ -633,7 +633,7 @@
   <div class="deco-asset event-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
-  <div class="deco-asset event-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+  <div class="deco-asset event-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
         <div class="mx-auto max-w-7xl px-5 md:px-8">
@@ -838,4 +838,3 @@
 
 </body>
 </html>
-

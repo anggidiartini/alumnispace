@@ -4,33 +4,6 @@
     Variabel dari controller:
     - $job          : JobVacancy
     - $relatedJobs  : Collection<JobVacancy> (opsional)
-
-    Disesuaikan dengan field yang BENERAN ada di model JobVacancy:
-    posted_by, title, slug, company_name, company_logo, alumni_contact,
-    job_type, workplace_type, category, highlight_badge, location,
-    salary_display, salary_type, description, requirements, skills_tags,
-    application_link, application_email, deadline, is_active.
-
-    Model belum punya company_description / company_maps_url /
-    company_website / company_instagram / company_linkedin, jadi
-    field-field itu DIHAPUS dari view ini (dulu sempat ditulis di
-    comment lama tapi belum pernah ada kolomnya).
-
-    Tombol "Lamar Sekarang" dihitung langsung di sini ($applyUrl):
-    pakai application_link kalau ada, kalau kosong fallback ke
-    mailto:application_email, kalau dua-duanya kosong tombolnya
-    nonaktif. Kalau mau lebih rapi, ini bisa dipindah jadi accessor
-    getApplyUrlAttribute() di model JobVacancy — tinggal bilang ke
-    temenmu yang pegang model.
-
-    "Tentang perusahaan" (avatar + nama) dibuat jadi link ke halaman
-    detail perusahaan (route perusahaan.index). Karena JobVacancy
-    CUMA nyimpen company_name (string, bukan relasi ke tabel
-    companies), slug perusahaan di-generate dari Str::slug(company_name).
-    Ini cuma asumsi sementara — kalau slug company_name nggak match
-    persis sama slug di tabel companies, linknya bisa 404. Solusi
-    jangka panjang: tambah kolom company_id / company_slug di
-    job_vacancies biar link-nya pasti akurat.
 --}}
 @php
     $applyUrl = $job->application_link
@@ -39,10 +12,6 @@
     $companySlug = Str::slug($job->company_name);
     $companyUrl = route('perusahaan.index', $companySlug);
 
-    // Fallback lamar via WhatsApp kalau application_link & application_email
-    // dua-duanya kosong. Nomor ini sementara di-hardcode — kalau nanti mau
-    // dibikin dinamis, tinggal ganti jadi kolom baru di JobVacancy
-    // (misal `whatsapp_contact`) dan pakai itu sebagai fallback-nya.
     $waFallbackNumber = '6287780341780';
     $waFallbackUrl = 'https://wa.me/' . $waFallbackNumber
         . '?text=' . urlencode('Halo, saya mau lamar untuk posisi ' . $job->title . ' di ' . $job->company_name);
@@ -70,10 +39,22 @@
 
         <main id="top">
 
-
-
             {{-- ================= HERO ================= --}}
             <section class="page-width reveal-onscroll hero-section-top">
+
+             <div class="deco-asset dl-hero-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                </div>
+                <div class="deco-asset dl-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                </div>
+                <div class="deco-asset dl-hero-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset dl-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+
                 <div class="job-hero grid-paper">
                     <div class="job-hero-blob job-hero-blob-1 blob" aria-hidden="true"></div>
                     <div class="job-hero-blob job-hero-blob-2 blob" aria-hidden="true"></div>
@@ -100,6 +81,7 @@
                             </div>
 
                             <h1 class="job-title">{{ $job->title }}</h1>
+                            {{-- Memakai route('perusahaan.index') yang sudah dipastikan aman --}}
                             <a href="{{ $companyUrl }}" class="job-company job-company-link">{{ $job->company_name }}</a>
 
                             <div class="job-meta">
@@ -165,6 +147,19 @@
             </section>
 
             <section class="page-width detail-grid">
+                 <div class="deco-asset dl-grid-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                </div>
+                <div class="deco-asset dl-grid-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset dl-grid-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                </div>
+                <div class="deco-asset dl-grid-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                </div>
+
                 <div class="detail-main">
 
                     <section class="detail-card reveal-onscroll">
@@ -213,7 +208,7 @@
                                 @if(!empty($job->company_logo))
                                     <img loading="lazy" src="{{ $job->company_logo }}" alt="Logo {{ $job->company_name }}">
                                 @else
-                                    <span class="company-initials">{{ $job->initials }}</span>
+                                    <span class="company-initials">{{ $job->initials ?? substr($job->company_name, 0, 2) }}</span>
                                 @endif
                             </div>
                             <div>
@@ -268,8 +263,23 @@
                 </aside>
             </section>
 
+            {{-- Lowongan Serupa --}}
             @if(isset($relatedJobs) && $relatedJobs->count())
                 <section class="page-width related-wrap reveal-onscroll">
+
+                <div class="deco-asset dl-related-l1 reveal-onscroll" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+                    </div>
+                    <div class="deco-asset dl-related-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                    </div>
+                    <div class="deco-asset dl-related-r1 reveal-onscroll" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                    </div>
+                    <div class="deco-asset dl-related-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+                    </div>
+
                     <div class="related-head">
                         <div>
                             <p class="section-kicker">Jelajahi peluang lain</p>
@@ -280,7 +290,8 @@
                     <div class="related-grid">
                         @foreach($relatedJobs as $i => $related)
                             @php $colors = ['blue', 'pink', 'yellow']; $color = $colors[$i % 3]; @endphp
-                            <a href="{{ route('lowongan.index', $related->slug) }}" class="related-card">
+                            {{-- Diperbaiki ke route lowongan.show agar mengarah ke detail lowongan yang bersangkutan --}}
+                            <a href="{{ route('lowongan.show', $related->slug) }}" class="related-card">
                                 <div class="related-icon related-icon-{{ $color }}">
                                     <i data-lucide="briefcase" width="20" height="20"></i>
                                 </div>

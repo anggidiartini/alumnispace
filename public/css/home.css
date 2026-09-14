@@ -210,6 +210,20 @@ h3 {
     filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
 }
 
+/* Responsif: ornamen bikin sempit & numpuk di layar kecil — disamakan
+   perlakuannya dgn halaman detail perusahaan (samar di tablet, hilang di HP) */
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 767px) {
+    .deco-asset {
+        display: none;
+    }
+}
+
 /* Atur di sini kalau mau geser ukuran/kemiringan per JENIS aset
    (berlaku ke semua kemunculan aset itu di semua section) */
 .aset-jam {
@@ -306,37 +320,44 @@ h3 {
     }
 }
 
-.reveal {
-    animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes rise {
-    from {
+/* ---------- Animasi masuk "tuing" — disamakan dgn halaman detail perusahaan ---------- */
+@keyframes tuingIn {
+    0% {
         opacity: 0;
-        transform: translateY(32px) scale(0.96);
+        transform: translateY(35px) scale(0.92);
     }
-    to {
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
-/* FIX: dihapus filter:blur dari reveal-onscroll — filter itu mahal
-   buat di-render dan force full repaint tiap elemen masuk viewport
-   pas discroll. Sekarang cuma opacity + transform (GPU-friendly). */
+/* Hero (.reveal): tetap main otomatis begitu halaman dimuat, gak nunggu discroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Semua konten lain (card, isi, ornamen): baru main pas discroll & masuk viewport */
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(46px) scale(0.94);
-    transition:
-        opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(35px) scale(0.92);
 }
 
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+/* Ornamen kecil kiri-kanan: tetep "tuing" pas muncul di scroll, terus lanjut
+   floaty/wiggle terus-menerus biar section-nya kerasa hidup (sengaja gak dimatiin) */
 .stat-card,
 .alumni-card,
 .job-card,

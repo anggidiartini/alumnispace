@@ -35,6 +35,18 @@
         <main>
             <!-- HERO -->
             <section class="hero-section grid-paper" aria-labelledby="hero-title">
+                <div class="deco-asset lw-hero-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+                <div class="deco-asset lw-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                </div>
+                <div class="deco-asset lw-hero-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                </div>
+                <div class="deco-asset lw-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                </div>
                 <div class="blob blob-drift"
                     style="position:absolute; left:-4rem; top:1rem; width:9rem; height:9rem; background:var(--pink); opacity:.7; z-index:0;"
                     aria-hidden="true"></div>
@@ -60,7 +72,7 @@
                         </div>
                     </div>
 
-                    <div class="hero-board reveal-onscroll" style="transition-delay:.12s" aria-label="Sorotan lowongan">
+                    <div class="hero-board reveal-onscroll" style="animation-delay:.12s" aria-label="Sorotan lowongan">
                         <div class="checker blob" style="position:absolute; inset:0; opacity:.5; z-index:0;"
                             aria-hidden="true"></div>
                         <div class="preview-wrap">
@@ -89,6 +101,18 @@
             </section>
 
             <section class="page-width jobs-section" aria-labelledby="jobs-title">
+                <div class="deco-asset lw-jobs-l1 reveal-onscroll" aria-hidden="true">
+
+                </div>
+                <div class="deco-asset lw-jobs-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                </div>
+                <div class="deco-asset lw-jobs-r1 reveal-onscroll" aria-hidden="true">
+
+                </div>
+                <div class="deco-asset lw-jobs-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
                 <div class="section-heading reveal-onscroll">
                     <div>
                         <p class="section-kicker">Papan peluang</p>
@@ -162,7 +186,7 @@
                                     $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
                                 @endphp
                                 <article class="job-card reveal-onscroll"
-                                    style="transition-delay: {{ ($i % 3) * 0.05 }}s"
+                                    style="animation-delay: {{ ($i % 3) * 0.05 }}s"
                                     data-company="{{ $job->company_name }}" data-location="{{ $job->location }}"
                                     data-type="{{ $job->job_type }}"
                                     data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
