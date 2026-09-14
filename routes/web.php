@@ -11,7 +11,7 @@ use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\ArticleController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\TableController;
-use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\User\CompanyController;
 use App\Http\Controllers\User\ProfileController;
 // Landing & Intro
 Route::get('/', [LandingController::class, 'index'])->name('landing');
