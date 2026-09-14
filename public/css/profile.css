@@ -47,6 +47,8 @@
         var(--page-bg) !important;
     color: var(--ink);
     font-family: var(--font-body);
+    position: relative;
+    overflow-x: hidden;
 }
 
 /* =========================
@@ -58,6 +60,8 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 42px 20px 80px;
+    position: relative;
+    z-index: 1;
 }
 
 .profile-container {
@@ -791,3 +795,285 @@ select:focus-visible {
         max-width: 100%;
     }
 }
+
+/* =========================================================
+   TAMBAHAN: ornamen dekoratif (disamakan gaya & animasinya
+   dengan album.css — floaty / floaty-slow / wiggle), versi
+   fixed-position karena halaman ini satu section panjang,
+   bukan multi-section seperti Album.
+   ========================================================= */
+
+.deco-asset {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.deco-asset img {
+    display: block;
+    opacity: 0.7;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+
+.prof-jam,
+.prof-bus,
+.prof-papantulis,
+.prof-lampu,
+.prof-alattulis {
+    width: 84px;
+}
+
+.floaty {
+    animation: floaty 4s ease-in-out infinite;
+}
+.floaty-slow {
+    animation: floaty 5s ease-in-out 0.6s infinite;
+}
+.wiggle {
+    animation: wiggle 3.2s ease-in-out infinite;
+}
+
+@keyframes floaty {
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* Posisi ornamen ditempel ke background HALAMAN (relatif ke <body>,
+   pakai % dari total tinggi halaman) — jadi ikut discroll bareng
+   konten, bukan diam nempel di layar seperti FAB row. */
+.prof-deco-l1 {
+    left: 14px;
+    top: 6%;
+}
+.prof-deco-l2 {
+    left: 10px;
+    top: 52%;
+}
+.prof-deco-r1 {
+    right: 14px;
+    top: 20%;
+}
+.prof-deco-r2 {
+    right: 10px;
+    top: 78%;
+}
+
+@media (max-width: 1300px) {
+    .deco-asset {
+        opacity: 0.85;
+    }
+}
+
+/* di layar sempit, konten profile (max-width 1100px) sudah mepet tepi
+   viewport — ornamen disembunyikan supaya tidak numpuk sama form */
+@media (max-width: 1150px) {
+    .prof-deco-l1,
+    .prof-deco-l2,
+    .prof-deco-r1,
+    .prof-deco-r2 {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floaty,
+    .floaty-slow,
+    .wiggle {
+        animation: none !important;
+    }
+}
+
+/* =========================================================
+   TAMBAHAN: Floating action row — Back to Top & WhatsApp
+   (disalin persis dari album.css supaya konsisten di semua
+   halaman)
+   ========================================================= */
+
+.fab-row {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 65;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#wa-widget {
+    order: 1;
+}
+#back-to-top {
+    order: 2;
+}
+
+#back-to-top {
+    display: grid;
+    place-items: center;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: #153563;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(21, 53, 99, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.9);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+}
+
+#back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+#back-to-top:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+#wa-widget {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.wa-pulse {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    animation: wa-pulse-ring 2.6s ease-out infinite;
+}
+
+.wa-pulse:hover {
+    transform: scale(1.08);
+}
+
+@keyframes wa-pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+#wa-button {
+    display: grid;
+    place-items: center;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 9999px;
+    background: #25d366;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+}
+
+#wa-bubble {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.75rem;
+    width: 15rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
+}
+
+.wa-bubble {
+    transform-origin: bottom right;
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    visibility: hidden;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.wa-bubble.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.wa-bubble-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #203b68;
+    font-family: var(--font-head);
+}
+
+.wa-bubble-close {
+    border: 0;
+    background: none;
+    padding: 0.15rem;
+    color: #355277;
+    cursor: pointer;
+}
+
+.wa-bubble-text {
+    margin: 0.4rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #355277;
+    font-family: var(--font-body);
+}
+
+.wa-bubble-number {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1677ff;
+}
+
+@media (min-width: 768px) {
+    .fab-row {
+        right: 2rem;
+        bottom: 2rem;
+    }
+    #back-to-top {
+        height: 3rem;
+        width: 3rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .wa-bubble {
+        width: 14.5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    #wa-button {
+        height: 3rem;
+        width: 3rem;
+    }
+    #back-to-top {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+}   

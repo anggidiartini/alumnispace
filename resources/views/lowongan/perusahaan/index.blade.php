@@ -1,275 +1,312 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $companyProfile->name ?? 'Perusahaan' }} — AS Alumni Space</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Alumni Space Career Hub</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+<<<<<<< HEAD
+    <link rel="stylesheet"
+        href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
+    <link rel="stylesheet"
+        href="{{ asset('css/lowongan.css') }}?v={{ file_exists(public_path('css/lowongan.css')) ? filemtime(public_path('css/lowongan.css')) : time() }}">
+   
+     <link rel="stylesheet"
+        href="{{ asset('css/footer.css') }}?v={{ file_exists(public_path('css/footer.css')) ? filemtime(public_path('css/footer.css')) : time() }}">
+    @auth
+    <script>
+        localStorage.setItem("ac_logged_in", "true");
+        localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
+    </script>
+    @else
+    <script>
+        localStorage.setItem("ac_logged_in", "false");
+        localStorage.removeItem("ac_user_email");
+    </script>
+    @endauth
+=======
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
     <!-- CSS Khusus Detail Perusahaan -->
     <link rel="stylesheet" href="{{ asset('css/detail-perusahaan.css') }}">
+>>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
 </head>
-<body>
 
-    <div class="page-wrap section-deco-host" style="position:relative;">
-
-        <!-- 10 ASET ORNAMEN DEKORATIF (Animasi Masuk Saat Scroll & Floating Berbarengan) -->
-        <div class="deco-asset dc-asset-papantulis reveal-onscroll floaty"><img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" width="85"></div>
-        <div class="deco-asset dc-asset-lampu reveal-onscroll floaty-slow"><img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" width="75"></div>
-        <div class="deco-asset dc-asset-jam reveal-onscroll floaty"><img src="{{ asset('assets/images/deco-jam.png') }}" alt="" width="80"></div>
-        <div class="deco-asset dc-asset-bus reveal-onscroll floaty-slow"><img src="{{ asset('assets/images/deco-bus.png') }}" alt="" width="95"></div>
-        <div class="deco-asset dc-asset-alattulis reveal-onscroll floaty"><img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" width="70"></div>
-        <div class="deco-asset dc-asset-buku reveal-onscroll floaty-slow"><img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" width="75"></div>
-        <div class="deco-asset dc-asset-task reveal-onscroll floaty"><img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" width="80"></div>
-        <div class="deco-asset dc-asset-tas reveal-onscroll floaty-slow"><img src="{{ asset('assets/images/deco-jam.png') }}" alt="" width="85"></div>
-        <div class="deco-asset dc-asset-piala reveal-onscroll floaty"><img src="{{ asset('assets/images/deco-bus.png') }}" alt="" width="75"></div>
-        <div class="deco-asset dc-asset-gedung reveal-onscroll floaty-slow"><img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" width="90"></div>
-
+<body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
+    <div class="site-shell page-wrap">
         <x-navbar />
 
-        <main id="top" class="dc-container" style="position:relative; z-index:2;">
-
-            <a href="{{ route('lowongan.index') }}" class="dc-back-link reveal-onscroll">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-                Kembali ke Lowongan
-            </a>
-
-            {{-- HERO SECTION --}}
-            <section class="dc-hero grid-paper reveal-onscroll">
-                <span class="badge-dashed-pill dc-pill dc-text-xs dc-font-bold dc-mb-4">Partner perusahaan pilihan alumni</span>
-
-                <div class="dc-hero__grid">
-                    <div class="dc-hero__main">
-                        <div class="dc-hero__row">
-                            <div class="dc-logo-frame floaty-slow">
-                                <img src="{{ !empty($companyProfile->logo) ? asset('storage/' . $companyProfile->logo) : asset('assets/anggi/imagedefault.png') }}" alt="Logo {{ $companyProfile->name }}">
-                            </div>
-                            <div class="dc-hero__heading">
-                                <div class="dc-flex dc-flex-wrap dc-gap-2 dc-mb-2">
-                                    <span class="dc-pill dc-text-xs dc-font-bold dc-bg-mint dc-c-navy">{{ $companyProfile->category ?? 'Perusahaan' }}</span>
-                                    @if(!empty($companyProfile->industry))
-                                        <span class="dc-text-sm dc-font-bold dc-c-blue dc-self-center">{{ $companyProfile->industry }}</span>
-                                    @endif
-                                </div>
-                                <h1 class="dc-hero-title">{{ $companyProfile->name }}</h1>
-                            </div>
-                        </div>
-
-                        @if(!empty($companyProfile->tagline) || !empty($companyProfile->description))
-                            <p class="dc-hero-tagline">{{ $companyProfile->tagline ?? \Illuminate\Support\Str::limit($companyProfile->description, 140) }}</p>
-                        @endif
-
-                        <div class="dc-flex dc-flex-wrap dc-gap-2">
-                            <span class="dc-meta-pill">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#f1bd38"><path d="M12 2l2.9 6.26 6.9.6-5.2 4.56 1.58 6.78L12 16.9l-6.18 3.3 1.58-6.78-5.2-4.56 6.9-.6z"/></svg>
-                                {{ number_format($companyProfile->rating ?? 0, 1) }} / 5
-                            </span>
-                            @if(!empty($companyProfile->city))
-                                <span class="dc-meta-pill">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                    {{ $companyProfile->city }}{{ !empty($companyProfile->province) ? ', ' . $companyProfile->province : '' }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="dc-hero__visual">
-                        <div class="dc-hero__visual-card shadow-xl">
-                            <img src="{{ !empty($companyProfile->banner_image) ? asset('storage/' . $companyProfile->banner_image) : asset('assets/anggi/imagedefault.png') }}" alt="Aktivitas tim {{ $companyProfile->name }}">
-                            <div class="dc-hero__visual-caption">
-                                Belajar, bikin dampak, dan tumbuh bareng tim yang suportif.
-                            </div>
-                        </div>
-                    </div>
+        <main>
+            <!-- HERO -->
+            <section class="hero-section grid-paper" aria-labelledby="hero-title">
+                <div class="deco-asset lw-hero-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
                 </div>
+                <div class="deco-asset lw-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                </div>
+                <div class="deco-asset lw-hero-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                </div>
+                <div class="deco-asset lw-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                </div>
+                <div class="blob blob-drift"
+                    style="position:absolute; left:-4rem; top:1rem; width:9rem; height:9rem; background:var(--pink); opacity:.7; z-index:0;"
+                    aria-hidden="true"></div>
+                <span class="hero-orb hero-orb-yellow spin-slow" aria-hidden="true"></span>
+                <span class="hero-orb hero-orb-pink" aria-hidden="true"></span>
+                <span class="hero-star wiggle" aria-hidden="true">✦</span>
 
-                <div class="dc-hero__actions">
-                    <button type="button" class="custom-pill-btn dc-btn-lg" id="viewJobsButton">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                        Lihat Lowongan
-                    </button>
-                    <button type="button" class="custom-white-pill-btn dc-btn-lg dc-bookmark-btn" id="bookmarkButton" aria-pressed="false">
-                        <svg class="dc-icon-unsaved" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                        <svg class="dc-icon-saved" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;display:none;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><path d="M9 11l2 2 4-4"/></svg>
-                        Simpan
-                    </button>
+                <div class="page-width hero-layout">
+                    <div class="hero-copy reveal-onscroll">
+                        <p class="eyebrow">ALUMNI SPACE CAREER HUB</p>
+                        <h1 id="hero-title" class="hero-title">Temukan langkah karier berikutnya</h1>
+                        <p class="hero-description">Temukan peluang kerja yang relevan dari perusahaan terpercaya —
+                            dibagikan khusus untuk komunitas alumni yang terus bertumbuh.</p>
+                        <a class="custom-pill-btn" href="#jobs-title" style="margin-top:2rem;">Jelajahi Lowongan</a>
+
+                        <div class="social-proof">
+                            <div class="avatar-stack" aria-hidden="true">
+                                <span class="avatar-dot"></span>
+                                <span class="avatar-dot"></span>
+                                <span class="avatar-dot"></span>
+                            </div>
+                            <span>Peluang baru setiap minggu</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-board reveal-onscroll" style="animation-delay:.12s" aria-label="Sorotan lowongan">
+                        <div class="checker blob" style="position:absolute; inset:0; opacity:.5; z-index:0;"
+                            aria-hidden="true"></div>
+                        <div class="preview-wrap">
+                            <div class="preview-label">PILIHAN MINGGU INI</div>
+                            @if ($jobs->count())
+                                @php $featured = $jobs->sortByDesc('created_at')->first(); @endphp
+
+                                <article class="preview-card floaty">
+                                    <div class="preview-top">
+                                        <div class="preview-monogram">{{ $featured->initials }}</div>
+                                        <span class="job-badge"
+                                            style="background:var(--yellow); color:var(--ink);">{{ $featured->job_type }}</span>
+                                    </div>
+                                    <h2 style="margin:0; font-size:1.4rem;">{{ $featured->title }}</h2>
+                                    <p style="margin:.4rem 0 0; color:#355277; font-weight:700;">
+                                        {{ $featured->company_name }} · {{ $featured->location }}</p>
+                                    <div class="progress-track" aria-hidden="true">
+                                        <div class="progress-bar"></div>
+                                    </div>
+                                </article>
+                            @endif
+                            <div class="hero-note wiggle">Ada peluang baru!</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {{-- MAIN GRID (CONTENT) --}}
-            <div class="dc-main-grid">
-                <div class="dc-flex dc-flex-col dc-gap-6 dc-order-1">
+            <section class="page-width jobs-section" aria-labelledby="jobs-title">
+                <div class="deco-asset lw-jobs-l1 reveal-onscroll" aria-hidden="true">
 
-                    <section id="overview" class="dc-card dc-card--pink reveal-onscroll">
-                        <div class="dc-section-head">
-                            <span class="dc-icon-badge dc-badge-pink">
-                                <i data-lucide="sparkles" width="20" height="20"></i>
-                            </span>
-                            <h2>Tentang Perusahaan</h2>
-                        </div>
-                        <p class="dc-c-body dc-leading-relaxed">{{ $companyProfile->description ?? 'Belum ada deskripsi untuk perusahaan ini.' }}</p>
-                    </section>
+                </div>
+                <div class="deco-asset lw-jobs-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                </div>
+                <div class="deco-asset lw-jobs-r1 reveal-onscroll" aria-hidden="true">
 
-                    <section class="dc-card dc-card--lavender reveal-onscroll">
-                        <div class="dc-section-head">
-                            <span class="dc-icon-badge dc-badge-lavender">
-                                <i data-lucide="building-2" width="20" height="20"></i>
-                            </span>
-                            <h2>Info Perusahaan</h2>
-                        </div>
-
-                        <div class="dc-info-grid">
-                            <div class="dc-info-row">
-                                <span class="dc-info-icon"><i data-lucide="tag" width="16" height="16"></i></span>
-                                <div>
-                                    <p class="dc-info-label">Kategori</p>
-                                    <p class="dc-info-value">{{ $companyProfile->category ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="dc-info-row">
-                                <span class="dc-info-icon"><i data-lucide="briefcase" width="16" height="16"></i></span>
-                                <div>
-                                    <p class="dc-info-label">Industri</p>
-                                    <p class="dc-info-value">{{ $companyProfile->industry ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="dc-info-row">
-                                <span class="dc-info-icon"><i data-lucide="monitor" width="16" height="16"></i></span>
-                                <div>
-                                    <p class="dc-info-label">Tipe Kerja</p>
-                                    <p class="dc-info-value">{{ $companyProfile->work_type ?? '-' }}</p>
-                                </div>
-                            </div>
-                            <div class="dc-info-row">
-                                <span class="dc-info-icon"><i data-lucide="users" width="16" height="16"></i></span>
-                                <div>
-                                    <p class="dc-info-label">Lowongan Aktif</p>
-                                    <p class="dc-info-value">{{ $jobs->count() }} posisi tersedia</p>
-                                </div>
-                            </div>
-                            <div class="dc-info-row dc-info-row--full">
-                                <span class="dc-info-icon"><i data-lucide="map-pin" width="16" height="16"></i></span>
-                                <div>
-                                    <p class="dc-info-label">Alamat</p>
-                                    <p class="dc-info-value">{{ $companyProfile->address ?? '-' }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="lowongan" class="dc-card dc-card--sun reveal-onscroll">
-                        <div class="dc-flex dc-flex-wrap dc-items-end dc-justify-between dc-gap-3 dc-mb-1">
-                            <div class="dc-section-head" style="margin-bottom:0;">
-                                <span class="dc-icon-badge dc-badge-sun">
-                                    <i data-lucide="file-text" width="20" height="20"></i>
-                                </span>
-                                <h2>Lowongan Tersedia</h2>
-                            </div>
-                            <a class="dc-c-blue dc-font-bold dc-underline" href="{{ route('lowongan.index') }}">Lihat semua lowongan</a>
-                        </div>
-                        <p class="dc-text-sm dc-c-muted dc-mb-4">Temukan peran yang bisa jadi langkah awal perjalananmu.</p>
-
-                        <div class="dc-flex dc-flex-col dc-gap-3">
-                            @forelse($jobs as $i => $job)
-                                <article class="dc-job reveal-onscroll" style="transition-delay: {{ min($i,6) * 0.06 }}s">
-                                    <div class="dc-job__top">
-                                        <div>
-                                            <span class="dc-pill dc-text-xs dc-font-bold dc-bg-white-70 dc-c-navy">{{ $job->employment_type ?? 'Full-time' }}</span>
-                                            <h3 class="dc-job__title">{{ $job->title }}</h3>
-                                            <p class="dc-job__meta">{{ $job->location ?? $companyProfile->city }} · {{ $job->experience ?? 'Semua level' }}</p>
-                                        </div>
-                                        <div class="dc-job__actions">
-                                            <button type="button" class="custom-white-pill-btn dc-job-detail-btn" style="padding:.5rem 1rem;font-size:.8rem;" aria-expanded="false">Lihat Detail</button>
-                                            <a class="custom-pill-btn" style="padding:.5rem 1rem;font-size:.8rem;" href="{{ route('lowongan.show', $job->slug) }}">Lamar Sekarang</a>
-                                        </div>
-                                    </div>
-                                    <div class="dc-job__detail">
-                                        <p>{{ $job->description }}</p>
-                                    </div>
-                                </article>
-                            @empty
-                                <p class="dc-c-muted dc-text-sm">Belum ada lowongan aktif dari perusahaan ini.</p>
-                            @endforelse
-                        </div>
-                    </section>
+                </div>
+                <div class="deco-asset lw-jobs-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+                <div class="section-heading reveal-onscroll">
+                    <div>
+                        <p class="section-kicker">Papan peluang</p>
+                        <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
+                    </div>
+                    <span class="jobs-note">Diperbarui secara berkala</span>
                 </div>
 
-                <aside class="dc-flex dc-flex-col dc-gap-6 dc-order-2">
-                    <section id="lokasi" class="dc-card dc-card--mint reveal-onscroll">
-                        <div class="dc-section-head">
-                            <span class="dc-icon-badge dc-badge-mint">
-                                <i data-lucide="map" width="18" height="18"></i>
-                            </span>
-                            <h2>Lokasi</h2>
+                <div class="jobs-layout">
+                    <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
+                        <div class="filter-panel-heading">
+                            <h3 style="margin:0; font-size:1.15rem;">Filter Lowongan</h3>
+                            <i data-lucide="sliders-horizontal" width="19" height="19"></i>
                         </div>
-                        <div class="dc-map" role="img" aria-label="Peta visual lokasi kantor {{ $companyProfile->name }}">
-                            <span class="dc-map__pin">
-                                <i data-lucide="map-pin" width="32" height="32"></i>
-                            </span>
-                        </div>
-                        <p class="dc-font-bold dc-c-navy dc-mt-3">{{ $companyProfile->address ?? '-' }}</p>
-                        @if(!empty($companyProfile->city))
-                            <p class="dc-text-sm dc-c-muted dc-mb-3">{{ $companyProfile->city }}{{ !empty($companyProfile->province) ? ', ' . $companyProfile->province : '' }}</p>
-                        @endif
-                        @if(!empty($companyProfile->address))
-                            <a class="custom-white-pill-btn dc-w-full dc-mt-2" href="https://www.google.com/maps/search/?api=1&query={{ urlencode($companyProfile->address) }}" target="_blank" rel="noopener noreferrer">
-                                <i data-lucide="external-link" width="16" height="16" style="margin-right:6px;"></i>
-                                Buka di Google Maps
-                            </a>
-                        @endif
-                    </section>
-
-                    <section id="kontak" class="dc-card dc-card--sky reveal-onscroll">
-                        <div class="dc-section-head">
-                            <span class="dc-icon-badge dc-badge-sky">
-                                <i data-lucide="share-2" width="18" height="18"></i>
-                            </span>
-                            <h2>Kontak & Sosial Media</h2>
-                        </div>
-                        <p class="dc-text-sm dc-c-muted dc-mb-3">Hubungi atau ikuti perkembangan terbaru dari kami.</p>
-
-                        <div class="dc-flex dc-flex-col dc-gap-3">
+                        <form class="filter-form" id="filter-form">
                             <div>
-                                <p class="dc-text-xs dc-font-bold dc-uppercase dc-tracking-wide dc-c-muted">Email</p>
-                                <a class="dc-contact-btn dc-contact-btn--email dc-mt-1" href="mailto:{{ $companyProfile->email }}">
-                                    <i data-lucide="mail" width="16" height="16"></i>
-                                    {{ $companyProfile->email ?? '-' }}
-                                </a>
-                            </div>
-                            <div>
-                                <p class="dc-text-xs dc-font-bold dc-uppercase dc-tracking-wide dc-c-muted">WhatsApp</p>
-                                <a class="dc-contact-btn dc-contact-btn--wa dc-mt-1" href="https://wa.me/62{{ ltrim($companyProfile->phone ?? '87780341780', '0') }}" target="_blank" rel="noopener noreferrer">
-                                    <i data-lucide="message-circle" width="16" height="16"></i>
-                                    {{ $companyProfile->phone ?? '0877-8034-1780' }}
-                                </a>
+                                <label class="field-label" for="search-input">Cari peluang</label>
+                                <div class="search-wrap">
+                                    <i data-lucide="search" width="18" height="18"></i>
+                                    <input id="search-input" class="field-control" type="search"
+                                        placeholder="Cari posisi atau kata kunci">
+                                </div>
                             </div>
 
-                            @if($companyProfile->instagram || $companyProfile->linkedin)
-                                <div class="dc-mt-2">
-                                    <p class="dc-text-xs dc-font-bold dc-uppercase dc-tracking-wide dc-c-muted dc-mb-2">Media Sosial</p>
-                                    <div class="dc-grid-2">
-                                        @if($companyProfile->instagram)
-                                            <a class="custom-white-pill-btn dc-social-btn" href="{{ $companyProfile->instagram }}" target="_blank" rel="noopener noreferrer">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #e1306c;"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                                                Instagram
+                            <div>
+                                <label class="field-label" for="company-filter">Perusahaan</label>
+                                <select id="company-filter" class="field-control">
+                                    <option value="">Semua Perusahaan</option>
+                                    @foreach ($jobs->pluck('company_name')->unique() as $company)
+                                        <option value="{{ $company }}">{{ $company }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="location-filter">Lokasi</label>
+                                <select id="location-filter" class="field-control">
+                                    <option value="">Semua Lokasi</option>
+                                    @foreach ($jobs->pluck('location')->filter()->unique() as $loc)
+                                        <option value="{{ $loc }}">{{ $loc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div>
+                                <p class="field-label">Kategori cepat</p>
+                                <div class="chip-list">
+                                    <button class="filter-chip" data-type="Full-Time"
+                                        type="button">Full-Time</button>
+                                    <button class="filter-chip" data-type="Remote" type="button">Remote</button>
+                                    <button class="filter-chip" data-type="Freelance"
+                                        type="button">Freelance</button>
+                                    <button class="filter-chip" data-type="Magang" type="button">Magang</button>
+                                </div>
+                            </div>
+
+                            <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset
+                                Filter</button>
+                        </form>
+                    </aside>
+
+                    <div>
+                        <div class="results-header reveal-onscroll">
+                            <p id="results-count" class="results-count" aria-live="polite"></p>
+                            <p id="filter-summary" class="filter-summary" aria-live="polite"></p>
+                        </div>
+
+                        <div id="jobs-grid" class="jobs-grid">
+                            @foreach ($jobs as $i => $job)
+                                @php
+                                    $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
+                                @endphp
+                                <article class="job-card reveal-onscroll"
+                                    style="animation-delay: {{ ($i % 3) * 0.05 }}s"
+                                    data-company="{{ $job->company_name }}" data-location="{{ $job->location }}"
+                                    data-type="{{ $job->job_type }}"
+                                    data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
+                                    <div class="job-card-head">
+                                        <span class="job-badge">{{ $job->category }}</span><span
+                                            class="job-symbol">✳</span>
+                                    </div>
+                                    <a class="job-title-link"
+                                        href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
+
+                                    <div class="company-row">
+                                        @if ($job->company)
+                                            <a href="{{ route('perusahaan.index', $job->company->slug) }}"
+                                                class="company-link"
+                                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #2877ED; font-weight: 600;"
+                                                onmouseover="this.style.textDecoration='underline'"
+                                                onmouseout="this.style.textDecoration='none'">
+
+                                                @if (
+                                                    !empty($job->company_logo) &&
+                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                    <img class="company-logo"
+                                                        src="{{ asset('storage/' . $job->company_logo) }}"
+                                                        alt="" loading="lazy">
+                                                @else
+                                                    <span class="company-initials"
+                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
+                                                        {{ $job->company_logo ?? $job->initials }}
+                                                    </span>
+                                                @endif
+
+                                                <span>{{ $job->company->name }}</span>
                                             </a>
-                                        @endif
-                                        @if($companyProfile->linkedin)
-                                            <a class="custom-white-pill-btn dc-social-btn" href="{{ $companyProfile->linkedin }}" target="_blank" rel="noopener noreferrer">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0077b5;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                                                LinkedIn
+                                        @else
+                                            <a href="{{ route('perusahaan.index', $job->company_slug ?? \Illuminate\Support\Str::slug($job->company_name)) }}"
+                                                class="company-link-enabled"
+                                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500;"
+                                                onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
+                                                onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
+
+                                                @if (
+                                                    !empty($job->company_logo) &&
+                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                    <img class="company-logo"
+                                                        src="{{ asset('storage/' . $job->company_logo) }}"
+                                                        alt="" loading="lazy">
+                                                @else
+                                                    <span class="company-initials"
+                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
+                                                        {{ $job->company_logo ?? $job->initials }}
+                                                    </span>
+                                                @endif
+
+                                                <span>{{ $job->company_name }}</span>
                                             </a>
                                         @endif
                                     </div>
-                                </div>
-                            @endif
+
+                                    <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} ·
+                                        {{ $job->created_at->diffForHumans() }}</p>
+                                    <p class="job-description">
+                                        {{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
+
+                                    <div class="job-card-actions">
+                                        <a class="apply-button custom-pill-btn"
+                                            href="https://wa.me/6287780341780?text={{ urlencode($waMessage) }}">
+                                            <i data-lucide="message-circle" width="16" height="16"></i>
+                                            Lamar via WhatsApp
+                                        </a>
+                                        <a class="detail-button custom-white-pill-btn"
+                                            href="{{ route('lowongan.show', $job->slug) }}">
+                                            Detail Lowongan
+                                        </a>
+                                    </div>
+                                </article>
+                            @endforeach
                         </div>
-                    </section>
-                </aside>
-            </div>
+
+                        <section id="empty-state" class="empty-state" aria-live="polite">
+                            <div class="empty-icon">⌕</div>
+                            <h3 style="margin:1rem 0 0;">Belum ada lowongan yang cocok</h3>
+                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat
+                                semua peluang.</p>
+                            <button id="empty-reset" class="custom-pill-btn" type="button"
+                                style="margin-top:1rem;">Reset Filter</button>
+                        </section>
+                    </div>
+                </div>
+
+                <section class="share-banner reveal-onscroll">
+                    <span class="share-banner-orb" aria-hidden="true"></span>
+
+                    <div class="share-banner-icon" aria-hidden="true">
+                        <i data-lucide="message-circle" width="26" height="26"></i>
+                    </div>
+
+                    <div class="share-banner-content">
+                        <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
+                        <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
+                        <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail
+                            lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
+                    </div>
+
+                    <a class="share-banner-cta custom-pill-btn"
+                        href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
+                        target="_blank" rel="noopener">
+                        <i data-lucide="message-circle" width="18" height="18"></i>
+                        Kirim via WhatsApp
+                    </a>
+                </section>
+            </section>
         </main>
 
         <x-footer />
@@ -280,6 +317,9 @@
             <i data-lucide="arrow-up" width="20" height="20"></i>
         </button>
 
+<<<<<<< HEAD
+    <!-- Floating action buttons -->
+=======
         <div id="wa-widget">
             <div id="wa-bubble" class="wa-bubble">
                 <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
@@ -299,11 +339,132 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 
+>>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
     
 
+    <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+
+    <!-- Modal notifikasi "harus login" -->
+    <div id="auth-modal-overlay" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
+                <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+            <span class="auth-modal-icon">
+                <i data-lucide="lock" class="h-7 w-7"></i>
+            </span>
+            <h3 class="auth-modal-title">Yah, masih terkunci</h3>
+            <p class="auth-modal-text">
+                Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
+            </p>
+            <div class="auth-modal-actions">
+                <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
+                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
-        lucide.createIcons();
+        document.addEventListener("DOMContentLoaded", function() {
+            var searchInput = document.getElementById("search-input");
+            var companyFilter = document.getElementById("company-filter");
+            var locationFilter = document.getElementById("location-filter");
+            var resetButton = document.getElementById("reset-filter");
+            var emptyResetButton = document.getElementById("empty-reset");
+            var cards = Array.prototype.slice.call(document.querySelectorAll(".job-card"));
+            var chips = Array.prototype.slice.call(document.querySelectorAll(".filter-chip"));
+            var emptyState = document.getElementById("empty-state");
+            var resultCount = document.getElementById("results-count");
+            var filterSummary = document.getElementById("filter-summary");
+            var activeType = "";
+            var fadeTimers = new WeakMap();
+
+            function filterJobs() {
+                var query = searchInput.value.trim().toLowerCase();
+                var company = companyFilter.value;
+                var location = locationFilter.value;
+                var count = 0;
+
+                cards.forEach(function(card) {
+                    var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
+                    var matchesCompany = !company || card.dataset.company === company;
+                    var matchesLocation = !location || card.dataset.location === location;
+                    var matchesType = !activeType || card.dataset.type === activeType;
+                    var matches = matchesQuery && matchesCompany && matchesLocation && matchesType;
+
+                    if (fadeTimers.has(card)) {
+                        clearTimeout(fadeTimers.get(card));
+                        fadeTimers.delete(card);
+                    }
+
+                    if (matches) {
+                        card.classList.remove("is-hidden");
+                        requestAnimationFrame(function() {
+                            card.classList.remove("is-fading");
+                        });
+                        count += 1;
+                    } else if (!card.classList.contains("is-hidden")) {
+                        card.classList.add("is-fading");
+                        var timer = setTimeout(function() {
+                            card.classList.add("is-hidden");
+                        }, 260);
+                        fadeTimers.set(card, timer);
+                    }
+                });
+
+                var filters = [];
+                if (query) filters.push('"' + searchInput.value.trim() + '"');
+                if (company) filters.push(company);
+                if (location) filters.push(location);
+                if (activeType) filters.push(activeType);
+
+                resultCount.textContent = "Menampilkan " + count + " lowongan";
+                filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") :
+                    "Semua peluang aktif";
+                emptyState.classList.toggle("is-visible", count === 0);
+            }
+
+            function resetFilters() {
+                searchInput.value = "";
+                companyFilter.value = "";
+                locationFilter.value = "";
+                activeType = "";
+
+                chips.forEach(function(chip) {
+                    chip.classList.remove("is-active");
+                    chip.setAttribute("aria-pressed", "false");
+                });
+
+                filterJobs();
+            }
+
+            searchInput.addEventListener("input", filterJobs);
+            companyFilter.addEventListener("change", filterJobs);
+            locationFilter.addEventListener("change", filterJobs);
+
+            chips.forEach(function(chip) {
+                chip.setAttribute("aria-pressed", "false");
+                chip.addEventListener("click", function() {
+                    activeType = activeType === chip.dataset.type ? "" : chip.dataset.type;
+                    chips.forEach(function(item) {
+                        var isActive = item.dataset.type === activeType;
+                        item.classList.toggle("is-active", isActive);
+                        item.setAttribute("aria-pressed", String(isActive));
+                    });
+                    filterJobs();
+                });
+            });
+
+            resetButton.addEventListener("click", resetFilters);
+            emptyResetButton.addEventListener("click", resetFilters);
+
+            filterJobs();
+        });
     </script>
-    <script src="{{ asset('js/detail-perusahaan.js') }}"></script>
 </body>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
 </html>

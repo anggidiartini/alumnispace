@@ -80,7 +80,7 @@ class ProfileController extends Controller
         }
 
         return redirect()
-            ->route('home   ')
+            ->route('home')
             ->with('success', 'Profil berhasil diperbarui.');
     }
 }
