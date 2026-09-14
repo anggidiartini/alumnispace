@@ -15,6 +15,21 @@
 
 <x-navbar />
 
+{{-- Ornamen dekoratif, disamakan gaya & animasinya dengan halaman Album.
+     Fixed di pinggir viewport karena halaman ini satu section panjang. --}}
+<div class="deco-asset prof-deco-l1" aria-hidden="true">
+  <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="prof-jam floaty">
+</div>
+<div class="deco-asset prof-deco-l2" aria-hidden="true">
+  <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="prof-alattulis wiggle">
+</div>
+<div class="deco-asset prof-deco-r1" aria-hidden="true">
+  <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="prof-bus floaty-slow">
+</div>
+<div class="deco-asset prof-deco-r2" aria-hidden="true">
+  <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="prof-papantulis wiggle">
+</div>
+
 <main>
   <section class="profile-hero">
     <div class="profile-container">
@@ -285,6 +300,29 @@
   </div>
 </div>
 
+{{-- Floating action buttons: Back to Top & WhatsApp — sama seperti di halaman Album --}}
+<div id="fab-row" class="fab-row">
+    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+        <i data-lucide="arrow-up" width="20" height="20"></i>
+    </button>
+
+    <div id="wa-widget">
+        <div id="wa-bubble" class="wa-bubble">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                <p class="wa-bubble-title">Ada pertanyaan?</p>
+                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
+                        data-lucide="x" width="16" height="16"></i></button>
+            </div>
+            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
+            <p class="wa-bubble-number">+62 812-3456-7890</p>
+        </div>
+        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
+            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+            <i data-lucide="message-circle" width="26" height="26"></i>
+        </a>
+    </div>
+</div>
+
 <x-footer />
 
 <script>
@@ -387,6 +425,69 @@
       el.addEventListener('animationend', function () {
         el.classList.add('popped');
       });
+    });
+  })();
+
+  // Tombol "Back to Top" — muncul setelah scroll turun, klik untuk balik ke atas
+  (function () {
+    var backToTopBtn = document.getElementById('back-to-top');
+    if (!backToTopBtn) return;
+
+    function toggleBackToTop() {
+      if (window.scrollY > 320) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    toggleBackToTop();
+
+    backToTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+
+  // Bubble WhatsApp — klik tombol WA untuk buka/tutup bubble info sebelum lanjut ke wa.me
+  (function () {
+    var waButton = document.getElementById('wa-button');
+    var waBubble = document.getElementById('wa-bubble');
+    var waBubbleClose = document.getElementById('wa-bubble-close');
+    if (!waButton || !waBubble) return;
+
+    function openBubble(e) {
+      if (!waBubble.classList.contains('show')) {
+        e.preventDefault();
+        waBubble.classList.add('show');
+      }
+    }
+
+    function closeBubble() {
+      waBubble.classList.remove('show');
+    }
+
+    waButton.addEventListener('click', openBubble);
+
+    if (waBubbleClose) {
+      waBubbleClose.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeBubble();
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      if (waBubble.classList.contains('show') &&
+          !waBubble.contains(e.target) &&
+          e.target !== waButton &&
+          !waButton.contains(e.target)) {
+        closeBubble();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeBubble();
     });
   })();
 

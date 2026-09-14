@@ -1994,7 +1994,6 @@ h1.title .pop {
     .related-grid {
         grid-template-columns: 1fr;
     }
-<<<<<<< HEAD
 }
 /* =========================================================
    Floating action row: back-to-top & WhatsApp
@@ -2354,6 +2353,3 @@ h1.title .pop {
         padding: 1.25rem;
     }
 }
-=======
-}
->>>>>>> c674db946cb6a1715eb129f6484a451fac8e0fca

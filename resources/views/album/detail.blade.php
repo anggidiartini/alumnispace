@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — {{ $album->title }}</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+
     <link rel="stylesheet" href="{{ asset('css/event.css') }}?v={{ file_exists(public_path('css/event.css')) ? filemtime(public_path('css/event.css')) : time() }}">
     
     <link rel="stylesheet" href="{{ asset('css/album.css') }}?v={{ file_exists(public_path('css/album.css')) ? filemtime(public_path('css/album.css')) : time() }}">
@@ -191,6 +193,40 @@
       el.addEventListener('animationend', function(e){
         if(e.animationName === 'popBounceIn'){ el.classList.add('popped'); }
       });
+    });
+  }
+
+  // ---------- ICONS (Lucide) ----------
+  if (window.lucide) { lucide.createIcons(); }
+
+  // ---------- BACK TO TOP ----------
+  var backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', function(){
+      if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+    backToTop.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ---------- WHATSAPP BUBBLE ----------
+  var waButton = document.getElementById('wa-button');
+  var waBubble = document.getElementById('wa-bubble');
+  var waBubbleClose = document.getElementById('wa-bubble-close');
+
+  if (waButton && waBubble) {
+    waButton.addEventListener('mouseenter', function(){
+      waBubble.classList.add('show');
+    });
+  }
+  if (waBubbleClose) {
+    waBubbleClose.addEventListener('click', function(){
+      waBubble.classList.remove('show');
     });
   }
 
