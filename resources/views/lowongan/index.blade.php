@@ -100,19 +100,42 @@
                 </div>
             </section>
 
+            <!-- JOBS SECTION -->
             <section class="page-width jobs-section" aria-labelledby="jobs-title">
+                <!-- ornamen kiri (5) -->
                 <div class="deco-asset lw-jobs-l1 reveal-onscroll" aria-hidden="true">
-
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset lw-jobs-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
                 </div>
-                <div class="deco-asset lw-jobs-r1 reveal-onscroll" aria-hidden="true">
+                <div class="deco-asset lw-jobs-l3 reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                </div>
+                <div class="deco-asset lw-jobs-l4 reveal-onscroll" style="animation-delay:.2s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                </div>
+                <div class="deco-asset lw-jobs-l5 reveal-onscroll" style="animation-delay:.25s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
 
+                <!-- ornamen kanan (5) -->
+                <div class="deco-asset lw-jobs-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
                 </div>
                 <div class="deco-asset lw-jobs-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
                     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
                 </div>
+                <div class="deco-asset lw-jobs-r3 reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset lw-jobs-r4 reveal-onscroll" style="animation-delay:.2s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+                </div>
+                <div class="deco-asset lw-jobs-r5 reveal-onscroll" style="animation-delay:.25s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                </div>
+
                 <div class="section-heading reveal-onscroll">
                     <div>
                         <p class="section-kicker">Papan peluang</p>
@@ -160,17 +183,14 @@
                             <div>
                                 <p class="field-label">Kategori cepat</p>
                                 <div class="chip-list">
-                                    <button class="filter-chip" data-type="Full-Time"
-                                        type="button">Full-Time</button>
+                                    <button class="filter-chip" data-type="Full-Time" type="button">Full-Time</button>
                                     <button class="filter-chip" data-type="Remote" type="button">Remote</button>
-                                    <button class="filter-chip" data-type="Freelance"
-                                        type="button">Freelance</button>
+                                    <button class="filter-chip" data-type="Freelance" type="button">Freelance</button>
                                     <button class="filter-chip" data-type="Magang" type="button">Magang</button>
                                 </div>
                             </div>
 
-                            <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset
-                                Filter</button>
+                            <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset Filter</button>
                         </form>
                     </aside>
 
@@ -205,9 +225,7 @@
                                                 onmouseover="this.style.textDecoration='underline'"
                                                 onmouseout="this.style.textDecoration='none'">
 
-                                                @if (
-                                                    !empty($job->company_logo) &&
-                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
                                                     <img class="company-logo"
                                                         src="{{ asset('storage/' . $job->company_logo) }}"
                                                         alt="" loading="lazy">
@@ -227,9 +245,7 @@
                                                 onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
                                                 onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
 
-                                                @if (
-                                                    !empty($job->company_logo) &&
-                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
                                                     <img class="company-logo"
                                                         src="{{ asset('storage/' . $job->company_logo) }}"
                                                         alt="" loading="lazy">
@@ -268,8 +284,7 @@
                         <section id="empty-state" class="empty-state" aria-live="polite">
                             <div class="empty-icon">⌕</div>
                             <h3 style="margin:1rem 0 0;">Belum ada lowongan yang cocok</h3>
-                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat
-                                semua peluang.</p>
+                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua peluang.</p>
                             <button id="empty-reset" class="custom-pill-btn" type="button"
                                 style="margin-top:1rem;">Reset Filter</button>
                         </section>

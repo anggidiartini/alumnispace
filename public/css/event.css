@@ -63,9 +63,6 @@ img {
 .page-wrap,
 .site-shell {
     width: 100%;
-    /* overflow-x: hidden sengaja TIDAK dipasang di sini — supaya
-       position: sticky pada .filter-panel tetap ikut turun saat
-       halaman di-scroll (sama seperti catatan di lowongan.css). */
 }
 
 .page-width {
@@ -152,7 +149,7 @@ img {
     }
 }
 
-/* ============ ASET DEKORATIF (disamakan dengan home.css: jam, bis, papan tulis, dll) ============ */
+/* ============ ASET DEKORATIF ============ */
 .deco-asset {
     position: absolute;
     z-index: 30;
@@ -174,37 +171,38 @@ img {
     transform: rotate(0deg);
 }
 
-.reveal {
-    animation: rise 0.6s both;
-}
-.reveal.delay-1 {
-    animation-delay: 0.12s;
-}
-.reveal.delay-2 {
-    animation-delay: 0.2s;
-}
-@keyframes rise {
-    from {
+/* ---------- efek masuk "tuing" (disamakan persis dgn lowongan.css) ---------- */
+@keyframes tuingIn {
+    0% {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(35px) scale(0.92);
     }
-    to {
+    60% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(-8px) scale(1.02);
     }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.9s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.9s cubic-bezier(0.16, 0.84, 0.44, 1);
+    transform: translateY(35px) scale(0.92);
 }
 
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translate(0, 0);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .focus-ring:focus-visible,
@@ -216,7 +214,7 @@ input:focus-visible {
     outline-offset: 3px;
 }
 
-/* ---------- hero: TIDAK DIUBAH dari versi sebelumnya ---------- */
+/* ---------- hero ---------- */
 
 .hero-pop-left {
     animation: heroPopLeft 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -245,9 +243,11 @@ input:focus-visible {
     }
 }
 
+/* ---------- hero-copy children: pakai tuingIn yang sama ---------- */
 .hero-copy > * {
     opacity: 0;
-    animation: heroChildFade 0.7s ease forwards;
+    transform: translateY(35px) scale(0.92);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 .hero-copy > *:nth-child(1) {
     animation-delay: 0.05s;
@@ -264,16 +264,6 @@ input:focus-visible {
 .hero-copy > *:nth-child(5) {
     animation-delay: 0.49s;
 }
-@keyframes heroChildFade {
-    from {
-        opacity: 0;
-        transform: translateY(14px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -286,7 +276,7 @@ input:focus-visible {
     }
 }
 
-/* ---------- tombol seragam (identik lowongan.css) ---------- */
+/* ---------- tombol seragam ---------- */
 
 .custom-pill-btn,
 .apply-button,
@@ -376,7 +366,7 @@ input:focus-visible {
     font-size: 0.85rem;
 }
 
-/* ---------- hero (blob + sparkle) — TIDAK DIUBAH ---------- */
+/* ---------- hero ---------- */
 
 .hero-section {
     width: 100%;
@@ -569,8 +559,7 @@ input:focus-visible {
     box-shadow: 0 10px 20px rgba(29, 74, 146, 0.15);
 }
 
-/* ---------- catalog: layout & filter panel disamakan 1:1 dengan
-   .jobs-section / .filter-panel / .filter-form di lowongan.css ---------- */
+/* ---------- catalog ---------- */
 
 .catalog {
     position: relative;
@@ -617,7 +606,6 @@ input:focus-visible {
     grid-template-columns: 270px minmax(0, 1fr);
 }
 
-/* filter panel: sama persis dengan lowongan.css (posisi, radius, shadow, sticky) */
 .filter-panel {
     height: fit-content;
     border-radius: 1.75rem;
@@ -681,7 +669,6 @@ input:focus-visible {
     padding-left: 2.55rem;
 }
 
-/* chip-list & filter-chip: identik dengan tombol kategori cepat lowongan */
 .chip-list {
     display: flex;
     flex-wrap: wrap;
@@ -745,10 +732,7 @@ input:focus-visible {
 }
 
 /* =========================================================
-   EVENT GRID — dibangun di atas .jobs-grid & .job-card supaya
-   tampilan kartu (radius, shadow, hover, badge) identik dengan
-   lowongan.css. .event-card menambahkan bagian media (foto)
-   & meta khusus event di atas struktur job-card.
+   EVENT GRID
    ========================================================= */
 
 .jobs-grid.event-grid {
@@ -799,8 +783,6 @@ input:focus-visible {
     margin-bottom: 1.4rem;
 }
 
-/* Palet card berputar dari palet root, tetap dominan biru — sama
-   filosofinya dengan rotasi warna job-card di lowongan.css */
 #eventGrid .event-card:nth-child(4n + 1) {
     border-top-color: var(--blue);
     background: color-mix(in srgb, var(--soft) 55%, #ffffff);
@@ -929,7 +911,6 @@ input:focus-visible {
     padding: 3.5rem 1.5rem;
     background: #f8fbff;
     text-align: center;
-    animation: rise 0.5s ease both;
 }
 .empty-state.is-visible {
     display: block;
@@ -946,7 +927,7 @@ input:focus-visible {
     font-size: 1.5rem;
 }
 
-/* ---------- bottom CTA: blob + wave (tidak diubah) ---------- */
+/* ---------- bottom CTA ---------- */
 
 .bottom-cta-section {
     padding: 0 0 5rem;
@@ -1052,106 +1033,6 @@ input:focus-visible {
 
 /* ---------- responsive ---------- */
 
-/* ============ Posisi aset dekoratif per section (event.blade.php) — 10 kiri + 10 kanan ============ */
-
-/* Hero (#beranda): 2 kiri + 2 kanan, disamakan pola dengan hero home.blade.php */
-.ev-hero-papantulis {
-    left: 4%;
-    top: 15%;
-}
-.ev-hero-lampu {
-    left: 6%;
-    bottom: 18%;
-}
-.ev-hero-jam {
-    right: 5%;
-    top: 10%;
-}
-.ev-hero-bus {
-    right: 6%;
-    bottom: 15%;
-}
-
-/* Katalog event (#event .catalog): 7 kiri + 7 kanan, tersebar vertikal di sepanjang section */
-.ev-cat-l1 {
-    left: 4px;
-    top: 2%;
-}
-.ev-cat-l2 {
-    left: 4px;
-    top: 16%;
-}
-.ev-cat-l3 {
-    left: 4px;
-    top: 30%;
-}
-.ev-cat-l4 {
-    left: 4px;
-    top: 44%;
-}
-.ev-cat-l5 {
-    left: 4px;
-    top: 58%;
-}
-.ev-cat-l6 {
-    left: 4px;
-    top: 74%;
-}
-.ev-cat-l7 {
-    left: 4px;
-    top: 90%;
-}
-
-.ev-cat-r1 {
-    right: 4px;
-    top: 6%;
-}
-.ev-cat-r2 {
-    right: 4px;
-    top: 20%;
-}
-.ev-cat-r3 {
-    right: 4px;
-    top: 34%;
-}
-.ev-cat-r4 {
-    right: 4px;
-    top: 48%;
-}
-.ev-cat-r5 {
-    right: 4px;
-    top: 62%;
-}
-.ev-cat-r6 {
-    right: 4px;
-    top: 78%;
-}
-.ev-cat-r7 {
-    right: 4px;
-    top: 93%;
-}
-
-/* Bottom CTA (#tentang): 1 kiri + 1 kanan */
-.ev-cta-jam {
-    left: 3%;
-    top: 18%;
-}
-.ev-cta-papantulis {
-    right: 3%;
-    bottom: 16%;
-}
-
-/* Matikan animasi berat aset dekoratif di layar kecil untuk performa & kerapian responsif */
-@media (prefers-reduced-motion: reduce), (max-width: 768px) {
-    .deco-asset .aset-jam,
-    .deco-asset .aset-bus,
-    .deco-asset .aset-papantulis,
-    .deco-asset .aset-lampu,
-    .deco-asset .aset-alattulis {
-        animation: none !important;
-    }
-}
-
 @media (max-width: 640px) {
     .aset-jam,
     .aset-bus,
@@ -1217,22 +1098,55 @@ input:focus-visible {
     }
 }
 
+/* =========================================================
+   ANIMASI "TUING" UNTUK KONTEN (persis sama dgn lowongan.css)
+   ========================================================= */
+
 [data-reveal] {
     opacity: 0;
-    transform: translateY(24px) scale(0.97);
-    transition:
-        opacity 0.7s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
-    transition-delay: var(--reveal-delay, 0s);
+    transform: translateY(35px) scale(0.92);
+    animation-delay: var(--reveal-delay, 0s);
 }
 
 [data-reveal].is-visible {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: var(--reveal-delay, 0s);
 }
 
 @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
-        transition-duration: 0.001ms !important;
+    [data-reveal],
+    .reveal,
+    .reveal-onscroll {
+        animation-duration: 0.001ms !important;
+        transform: none !important;
+    }
+}
+
+/* ---------- posisi ornamen kiri-kanan hero (disamakan dgn lowongan.css) ---------- */
+.lw-hero-l1 {
+    left: 10px;
+    top: 14%;
+}
+.lw-hero-l2 {
+    left: 15px;
+    bottom: 10%;
+}
+.lw-hero-r1 {
+    right: 10px;
+    top: 10%;
+}
+.lw-hero-r2 {
+    right: 15px;
+    bottom: 12%;
+}
+
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+@media (max-width: 767px) {
+    .deco-asset {
+        display: none;
     }
 }

@@ -15,6 +15,8 @@
         href="{{ asset('/css/navbar.css') }}?v={{ file_exists(public_path('/css/navbar.css')) ? filemtime(public_path('/css/navbar.css')) : time() }}">
     <link rel="stylesheet"
         href="{{ asset('/css/event.css') }}?v={{ file_exists(public_path('/css/event.css')) ? filemtime(public_path('/css/event.css')) : time() }}">
+        <link rel="stylesheet"
+        href="{{ asset('css/lowongan.css') }}?v={{ file_exists(public_path('css/lowongan.css')) ? filemtime(public_path('css/lowongan.css')) : time() }}">
     @auth
     <script>
         localStorage.setItem("ac_logged_in", "true");
@@ -35,6 +37,18 @@
         <main>
             <!-- HERO (TIDAK DIUBAH) -->
             <section id="beranda" class="hero-section grid-paper" aria-labelledby="hero-title">
+                <div class="deco-asset lw-hero-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+                <div class="deco-asset lw-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                </div>
+                <div class="deco-asset lw-hero-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                </div>
+                <div class="deco-asset lw-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                </div>
                 <div class="hero-blob-pink blob blob-drift" aria-hidden="true"></div>
                 <span class="hero-orb-yellow spin-slow" aria-hidden="true"></span>
                 <span class="hero-sparkle wiggle" aria-hidden="true">✦</span>
@@ -86,9 +100,9 @@
                 </div>
             </section>
 
-            <!-- KATALOG EVENT — desain disamakan dengan katalog lowongan -->
+            <!-- KATALOG EVENT — semua konten kini menggunakan data-reveal dengan animasi "tuing" -->
             <section id="event" class="page-width catalog" aria-labelledby="catalog-title">
-                <div class="section-heading" data-reveal>
+                <div class="section-heading data-reveal">
                     <div>
                         <p class="section-kicker">Katalog event</p>
                         <h2 id="catalog-title" class="section-title">Temukan momen terbaik</h2>
@@ -146,7 +160,7 @@
                         <div id="eventGrid" class="jobs-grid event-grid">
                             @foreach($events as $index => $event)
                                 <article class="job-card event-card data-reveal"
-                                    style="transition-delay: {{ ($index % 3) * 0.05 }}s"
+                                    style="--reveal-delay: {{ (($index % 3) * 0.08) + 0.1 }}s;"
                                     data-category="{{ $event->category }}"
                                     data-status="{{ $event->status }}"
                                     data-search="{{ strtolower($event->title . ' ' . $event->category . ' ' . $event->venue) }}">
@@ -183,7 +197,7 @@
                             @endforeach
                         </div>
 
-                        <section id="empty-state" class="empty-state" aria-live="polite">
+                        <section id="empty-state" class="empty-state data-reveal" aria-live="polite">
                             <div class="empty-icon">⌕</div>
                             <h3 style="margin:1rem 0 0;">Belum ada event yang cocok</h3>
                             <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua event.</p>
@@ -271,10 +285,12 @@
     );
 
     revealEls.forEach(function (el, index) {
-        el.style.setProperty(
-            "--reveal-delay",
-            Math.min(index * 0.08, 0.5) + "s"
-        );
+        if (!el.style.getPropertyValue('--reveal-delay')) {
+            el.style.setProperty(
+                "--reveal-delay",
+                Math.min(index * 0.08, 0.5) + "s"
+            );
+        }
         observer.observe(el);
     });
 })();

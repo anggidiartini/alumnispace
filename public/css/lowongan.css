@@ -1,13 +1,6 @@
 /* =========================================================
    lowongan.css — disamakan dengan home.css supaya satu bahasa
    desain: warna, font, tombol, dan animasi section identik.
-   Class dasar (variabel, blob, checker, reveal-onscroll, wa,
-   back-to-top, custom-pill-btn, dst) di-mirror 1:1 dari home.css
-   supaya kalau dua-duanya di-load, tidak saling tabrakan.
-
-   Catatan: navbar & footer TIDAK punya CSS di sini lagi —
-   halaman ini pakai <x-navbar /> dan <x-footer /> (style-nya
-   sudah ditangani navbar.css / komponennya sendiri).
    ========================================================= */
 
 :root {
@@ -55,13 +48,6 @@ a {
 .page-wrap,
 .site-shell {
     width: 100%;
-    /* overflow-x: hidden sengaja TIDAK dipasang di sini lagi.
-       Kalau dipasang di elemen pembungkus yang menaungi
-       .filter-panel, browser diam-diam mengubah overflow-y
-       jadi "auto" di elemen ini juga, sehingga posisi "sticky"
-       pada .filter-panel jadi terjebak di dalam kotak ini dan
-       tidak lagi ikut turun saat halaman di-scroll. Cukup
-       diset di html/body saja (sudah di atas). */
 }
 
 .page-width {
@@ -69,7 +55,7 @@ a {
     margin: 0 auto;
 }
 
-/* ---------- shared decorative patterns (dari home.css) ---------- */
+/* ---------- shared decorative patterns ---------- */
 
 .grid-paper {
     background-image:
@@ -185,8 +171,6 @@ a {
     animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Scroll reveal per-section, samain kaya home — animasi "tuing" (bounce),
-   di-stagger otomatis lewat JS (animation-delay). */
 .reveal-onscroll {
     opacity: 0;
     transform: translateY(35px) scale(0.92);
@@ -196,7 +180,7 @@ a {
     animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* ---------- ornamen kecil kiri-kanan (jam, bus, papan tulis, lampu, alat tulis) ---------- */
+/* ---------- ornamen kecil kiri-kanan ---------- */
 .deco-asset {
     position: absolute;
     z-index: 30;
@@ -204,7 +188,7 @@ a {
 }
 .deco-asset img {
     display: block;
-    opacity: 0.7;
+    opacity: 0.85;
     filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
 }
 .aset-jam,
@@ -212,9 +196,14 @@ a {
 .aset-papantulis,
 .aset-lampu,
 .aset-alattulis {
-    width: 90px;
+    width: 105px;
     transform: rotate(0deg);
 }
+
+.aset-alattulis {
+    transform: translate(-10px, -15px) rotate(0deg);
+}
+
 @media (max-width: 1200px) {
     .deco-asset {
         opacity: 0.8;
@@ -253,7 +242,7 @@ input:focus-visible {
     }
 }
 
-/* ---------- tombol seragam (sama persis dgn home) ---------- */
+/* ---------- tombol seragam ---------- */
 
 .custom-pill-btn,
 .primary-button,
@@ -333,37 +322,6 @@ input:focus-visible {
     box-shadow: 0 3px 0 #0a4174;
 }
 
-.custom-yellow-pill-btn {
-    background-color: #fff0a9;
-    color: #0a4174;
-    border: 3px solid #0a4174;
-    border-radius: 9999px;
-    font-weight: 700;
-    box-shadow: 0 6px 0 #0a4174;
-    transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    cursor: pointer;
-    padding: 0.85rem 1.4rem;
-}
-
-.custom-yellow-pill-btn:hover {
-    background-color: #fae588;
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0 #0a4174;
-}
-
-.custom-yellow-pill-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 0 #0a4174;
-}
-
 .badge-dashed-pill,
 .eyebrow {
     background-color: #f9f6bd;
@@ -376,7 +334,7 @@ input:focus-visible {
     font-size: 0.85rem;
 }
 
-/* ---------- hero (blob + checker, seirama home) ---------- */
+/* ---------- hero section ---------- */
 
 .hero-section {
     width: 100%;
@@ -551,8 +509,6 @@ input:focus-visible {
     background: var(--blue);
 }
 
-/* Sticker "Ada peluang baru!" — didorong lebih ke bawah supaya
-   tidak mepet dengan progress bar di atasnya */
 .hero-note {
     position: absolute;
     right: -1rem;
@@ -611,8 +567,6 @@ input:focus-visible {
     grid-template-columns: 270px minmax(0, 1fr);
 }
 
-/* Filter tetap di kiri (sesuai layout ini) & dibuat sticky
-   supaya terasa interaktif saat menggulir daftar lowongan */
 .filter-panel {
     height: fit-content;
     border-radius: 1.75rem;
@@ -762,7 +716,6 @@ input:focus-visible {
     box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
 }
 
-/* Fade halus saat kartu difilter, bukan hilang tiba-tiba */
 .job-card.is-fading {
     opacity: 0;
     transform: scale(0.96);
@@ -773,7 +726,6 @@ input:focus-visible {
     display: none;
 }
 
-/* Palet job-card berputar dari 4 warna root, tetap lembut & konsisten */
 #jobs-grid .job-card:nth-child(4n + 1) {
     border-top-color: var(--blue);
     background: color-mix(in srgb, var(--soft) 55%, #ffffff);
@@ -857,8 +809,6 @@ input:focus-visible {
     text-decoration: underline;
 }
 
-/* ---------- baris logo + nama perusahaan, tepat di bawah judul ---------- */
-
 .company-row {
     display: flex;
     align-items: center;
@@ -900,8 +850,6 @@ input:focus-visible {
 .job-description {
     line-height: 1.6;
 }
-
-/* ---------- dua tombol aksi: Lamar via WhatsApp + Detail Lowongan ---------- */
 
 .job-card-actions {
     display: flex;
@@ -959,10 +907,10 @@ input:focus-visible {
     font-size: 1.5rem;
 }
 
-/* ---------- share vacancy banner (pengganti ticket-banner) ---------- */
+/* ---------- share vacancy banner ---------- */
 
 .share-banner {
-    grid-column: 1 / -1; /* <-- tambahin baris ini */
+    grid-column: 1 / -1;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1044,7 +992,6 @@ input:focus-visible {
 
 /* ---------- responsive ---------- */
 
-
 @media (max-width: 900px) {
     .hero-layout,
     .jobs-layout {
@@ -1088,37 +1035,6 @@ input:focus-visible {
     .job-card-actions .detail-button {
         width: 100%;
     }
-
-    .ticket-content {
-        grid-template-columns: 1fr;
-    }
-
-    .ticket-copy {
-        padding-right: 0;
-    }
-
-    .ticket-banner::before,
-    .ticket-banner::after {
-        top: 34%;
-        left: auto;
-    }
-
-    .ticket-banner::before {
-        right: -1rem;
-    }
-    .ticket-banner::after {
-        bottom: auto;
-        left: -1rem;
-    }
-
-    .ticket-divider {
-        top: 34%;
-        right: 1rem;
-        bottom: auto;
-        left: 1rem;
-        border-top: 2px dashed rgba(255, 255, 255, 0.75);
-        border-left: 0;
-    }
 }
 
 @media (max-width: 430px) {
@@ -1141,46 +1057,113 @@ input:focus-visible {
         width: 2.5rem;
     }
 }
-/* ---------- posisi ornamen kanan-kiri: hero & daftar lowongan ---------- */
+
+/* ---------- posisi ornamen kanan-kiri: hero & daftar lowongan (Digeser pol ke tepi layar paling luar) ---------- */
 .lw-hero-l1 {
-    left: 6px;
+    left: 10px;
     top: 14%;
 }
 .lw-hero-l2 {
-    left: 4%;
+    left: 15px;
     bottom: 10%;
 }
 .lw-hero-r1 {
-    right: 6px;
+    right: 10px;
     top: 10%;
 }
 .lw-hero-r2 {
-    right: 4%;
+    right: 15px;
     bottom: 12%;
 }
 
+/* Ornamen section bawah (jobs-section) ditarik mentok keluar di ujung kiri & kanan viewport */
 .lw-jobs-l1 {
-    left: 4px;
-    top: 6%;
+    left: -25px;
+    top: 2%;
 }
 .lw-jobs-l2 {
-    left: 6px;
-    bottom: 8%;
+    left: -20px;
+    top: 24%;
 }
+.lw-jobs-l3 {
+    left: -15px;
+    top: 48%;
+}
+.lw-jobs-l4 {
+    left: -20px;
+    top: 72%;
+}
+.lw-jobs-l5 {
+    left: -15px;
+    top: 93%;
+}
+
 .lw-jobs-r1 {
-    right: 4px;
-    top: 8%;
+    right: -15px;
+    top: 5%;
 }
 .lw-jobs-r2 {
-    right: 6px;
-    bottom: 6%;
+    right: -20px;
+    top: 28%;
+}
+.lw-jobs-r3 {
+    right: -15px;
+    top: 52%;
+}
+.lw-jobs-r4 {
+    right: -20px;
+    top: 76%;
+}
+.lw-jobs-r5 {
+    right: -15px;
+    top: 96%;
+}
+
+@media (max-width: 1400px) {
+    .lw-jobs-l1 {
+        left: -25px;
+    }
+    .lw-jobs-l2 {
+        left: -30px;
+    }
+    .lw-jobs-l3 {
+        left: -25px;
+    }
+    .lw-jobs-l4 {
+        left: -30px;
+    }
+    .lw-jobs-l5 {
+        left: -25px;
+    }
+
+    .lw-jobs-r1 {
+        right: -25px;
+    }
+    .lw-jobs-r2 {
+        right: -30px;
+    }
+    .lw-jobs-r3 {
+        right: -25px;
+    }
+    .lw-jobs-r4 {
+        right: -30px;
+    }
+    .lw-jobs-r5 {
+        right: -25px;
+    }
 }
 
 @media (max-width: 1100px) {
     .lw-jobs-l1,
     .lw-jobs-l2,
+    .lw-jobs-l3,
+    .lw-jobs-l4,
+    .lw-jobs-l5,
     .lw-jobs-r1,
-    .lw-jobs-r2 {
+    .lw-jobs-r2,
+    .lw-jobs-r3,
+    .lw-jobs-r4,
+    .lw-jobs-r5 {
         display: none;
     }
 }
