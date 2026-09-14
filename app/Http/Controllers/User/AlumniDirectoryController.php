@@ -31,7 +31,7 @@ class AlumniDirectoryController extends Controller
         $alumni = $query->latest()->get();
         $generations = AlumniProfile::distinct()->orderBy('graduation_year', 'desc')->pluck('graduation_year');
 
-        return view('alumni.index', compact('alumni', 'generations'));
+        return view('user.alumni.index', compact('alumni', 'generations'));
     }
 
     public function show($slug)
@@ -39,6 +39,6 @@ class AlumniDirectoryController extends Controller
         // GANTI baris findOrFail($slug) dengan baris di bawah ini:
         $profile = AlumniProfile::with('user')->where('slug', $slug)->firstOrFail();
 
-        return view('alumni.detail', compact('profile'));
+        return view('user.alumni.detail', compact('profile'));
     }
 }
