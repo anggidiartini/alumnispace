@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandingController;
+use App\Http\Controllers\User\LandingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\JobVacancyController;
 use App\Http\Controllers\User\EventController;
