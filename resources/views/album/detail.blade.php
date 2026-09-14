@@ -14,6 +14,19 @@
 
 <div class="section-yellow detail-page-wrap">
 
+  <div class="deco-asset alb-detail-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+  </div>
+  <div class="deco-asset alb-detail-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-detail-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-detail-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
+
   <!-- doodles, biar senada sama hero index -->
   <div class="doodle" style="top:110px;left:3%;--r:-8deg;">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="#f2b600"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
@@ -22,11 +35,11 @@
 
   <div class="wrap">
 
-    <a href="{{ route('album.index') }}" class="back-link">&larr; Kembali ke Album</a>
+    <a href="{{ route('album.index') }}" class="back-link reveal-pop" style="--pop-delay:0s">&larr; Kembali ke Album</a>
 
     <div class="detail-grid">
       <div class="detail-photo-col">
-        <div class="detail-photo">
+        <div class="detail-photo reveal-pop" style="--pop-delay:.1s">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">
             {{ ucfirst($album->category) }}
           </span>
@@ -37,13 +50,13 @@
 
       <div class="detail-info-col">
         <div class="info-card">
-          <div class="greet-badge small">
+          <div class="greet-badge small reveal-pop" style="--pop-delay:.15s">
             <span>✦</span> {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
           </div>
 
-          <h1 class="marker-title">{{ $album->title }}</h1>
+          <h1 class="marker-title reveal-pop" style="--pop-delay:.25s">{{ $album->title }}</h1>
 
-          <div class="meta-row">
+          <div class="meta-row reveal-pop" style="--pop-delay:.35s">
             <span class="meta-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               {{ $album->date_display }}
@@ -54,7 +67,7 @@
             </span>
           </div>
 
-          <div class="desc-quote">
+          <div class="desc-quote reveal-pop" style="--pop-delay:.45s">
             <p class="detail-desc">{{ $album->description }}</p>
           </div>
         </div>
