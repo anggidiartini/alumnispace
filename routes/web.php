@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\LandingController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\JobVacancyController;
 use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\AlbumController;
