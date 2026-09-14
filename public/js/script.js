@@ -173,17 +173,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.getElementById("alumni-search-btn");
     const alumniListContainer = document.getElementById("alumni-list");
     const alumniEmptyMessage = document.getElementById("alumni-empty");
+    const searchHint = document.getElementById("alumni-search-hint");
+
+    const MIN_SEARCH_CHARS = 4;
+
+    const updateSearchHint = () => {
+        if (!searchInput || !searchHint) return;
+        const len = searchInput.value.trim().length;
+        searchHint.style.display =
+            len > 0 && len < MIN_SEARCH_CHARS ? "block" : "none";
+    };
 
     if (alumniListContainer) {
         const alumniCards =
             alumniListContainer.querySelectorAll(".alumni-card");
 
         const filterAlumniCards = () => {
-            const query = searchInput
-                ? searchInput.value.toLowerCase().trim()
-                : "";
+            const rawQuery = searchInput ? searchInput.value.trim() : "";
+            const query = rawQuery.toLowerCase();
             const selectedYear = yearFilter ? yearFilter.value : "";
             const selectedField = fieldFilter ? fieldFilter.value : "all";
+
+            // Kalau huruf yang diketik belum sampai 4, tahan dulu pencariannya
+            if (query.length > 0 && query.length < MIN_SEARCH_CHARS) {
+                updateSearchHint();
+                return;
+            }
+            updateSearchHint();
 
             // Jika search bar kosong DAN tahun belum dipilih, sembunyikan semua list
             if (query === "" && selectedYear === "") {
@@ -238,10 +254,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Pengecualian: kalau kolom teksnya dikosongin lagi (dihapus sampai
-        // blank) sementara belum ada angkatan yang dipilih, langsung
-        // sembunyikan card-nya otomatis -- gak perlu nunggu klik Cari lagi.
+        // Notif "minimal 4 huruf" muncul realtime tiap ngetik, dan tetap
+        // jalanin logika lama: kalau dikosongin lagi (dihapus sampai blank)
+        // sementara belum ada angkatan yang dipilih, langsung sembunyikan
+        // card-nya otomatis -- gak perlu nunggu klik Cari lagi.
         searchInput?.addEventListener("input", () => {
+            updateSearchHint();
             const isEmpty = searchInput.value.trim() === "";
             const noYearSelected = !yearFilter || yearFilter.value === "";
             if (isEmpty && noYearSelected) {
@@ -335,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
 
     const observeReveals = () => {

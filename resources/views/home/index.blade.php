@@ -312,9 +312,10 @@
   <div class="mt-8 flex flex-wrap gap-3 rounded-[1.5rem] border border-blue-100 bg-[#f8fbff] p-3 reveal-onscroll">
     <!-- Search Bar Cari Nama Alumni -->
     <div class="flex-1 min-w-[240px]">
-      <label class="sr-only" for="alumni-search">Cari nama alumni</label>
-      <input type="text" id="alumni-search" placeholder="Cari nama alumni..." class="focus-ring w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
-    </div>
+  <label class="sr-only" for="alumni-search">Cari nama alumni</label>
+  <input type="text" id="alumni-search" placeholder="Cari nama alumni..." class="focus-ring w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+  <p id="alumni-search-hint" class="alumni-search-hint" style="display:none;">Ketik minimal 4 huruf dulu ya, biar hasil carinya pas</p>
+</div>
 
     <!-- Filter Angkatan (Tanpa "Semua Angkatan") -->
     <label class="sr-only" for="year-filter">Filter angkatan</label>

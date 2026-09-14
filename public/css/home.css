@@ -270,10 +270,7 @@ h3 {
     }
 }
 
-.reveal {
-    animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
+/* Keyframe 'rise' dipakai animasi lain (tab media, testimonial aktif) */
 @keyframes rise {
     from {
         opacity: 0;
@@ -285,20 +282,43 @@ h3 {
     }
 }
 
-/* FIX: dihapus filter:blur dari reveal-onscroll — filter itu mahal
-   buat di-render dan force full repaint tiap elemen masuk viewport
-   pas discroll. Sekarang cuma opacity + transform (GPU-friendly). */
+/* Animasi masuk "tuing" (bounce) — disamakan persis dengan halaman
+   lowongan, dipakai untuk .reveal (langsung tampil) dan .reveal-onscroll
+   (dipicu IntersectionObserver lewat class .in-view di script.js). */
+@keyframes tuingIn {
+    0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Scroll reveal per-section/card/ornamen — animasi "tuing" (bounce),
+   di-stagger otomatis lewat JS (animation-delay), sama seperti di
+   halaman lowongan supaya konsisten di seluruh web. */
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(46px) scale(0.94);
-    transition:
-        opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(35px) scale(0.92);
 }
 
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .stat-card,
@@ -2589,4 +2609,12 @@ h3 {
 .event-jam {
     right: 4px;
     top: 20%;
+}
+
+.alumni-search-hint {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #d6336c;
 }
