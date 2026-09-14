@@ -8,7 +8,7 @@ use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\AlbumController;
 use App\Http\Controllers\User\AlumniDirectoryController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\User\ArticleController;
 use App\Http\Controllers\Admin\ContentManagementController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\CompanyController;
