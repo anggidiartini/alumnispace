@@ -304,27 +304,7 @@
     </div>
 
     <!-- Floating action buttons -->
-    <div id="fab-row" class="fab-row">
-        <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
-            <i data-lucide="arrow-up" width="20" height="20"></i>
-        </button>
-
-        <div id="wa-widget">
-            <div id="wa-bubble" class="wa-bubble">
-                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
-                    <p class="wa-bubble-title">Ada pertanyaan?</p>
-                    <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
-                            data-lucide="x" width="16" height="16"></i></button>
-                </div>
-                <p class="wa-bubble-text">Hubungi pengurus alumni kami via WhatsApp 👋</p>
-                <p class="wa-bubble-number">+62 812-3456-7890</p>
-            </div>
-            <a id="wa-button" href="https://wa.me/6281234567890?text=Halo%20Alumni%20Space" target="_blank"
-                rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
-                <i data-lucide="message-circle" width="26" height="26"></i>
-            </a>
-        </div>
-    </div>
+    
 
     <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 

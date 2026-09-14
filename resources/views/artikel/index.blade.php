@@ -147,27 +147,7 @@
 
 </div>
 <!-- Floating action buttons -->
-<div id="fab-row" class="fab-row">
-    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
-        <i data-lucide="arrow-up" width="20" height="20"></i>
-    </button>
 
-    <div id="wa-widget">
-        <div id="wa-bubble" class="wa-bubble">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
-                <p class="wa-bubble-title">Ada pertanyaan?</p>
-                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
-                        data-lucide="x" width="16" height="16"></i></button>
-            </div>
-            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
-            <p class="wa-bubble-number">+62 812-3456-7890</p>
-        </div>
-        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
-            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
-            <i data-lucide="message-circle" width="26" height="26"></i>
-        </a>
-    </div>
-</div>
 
 <x-footer />
 
@@ -240,36 +220,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ---------- BACK TO TOP & WA WIDGET ----------
-  var backToTop = document.getElementById("back-to-top");
-  if (backToTop) {
-    window.addEventListener("scroll", function() {
-      backToTop.classList.toggle("show", window.scrollY > 400);
-    }, { passive: true });
-    backToTop.addEventListener("click", function() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  var waButton = document.getElementById("wa-button");
-  var waBubble = document.getElementById("wa-bubble");
-  var waBubbleClose = document.getElementById("wa-bubble-close");
-  if (waButton && waBubble) {
-    var waTimer = setTimeout(function() {
-      waBubble.classList.add("show");
-    }, 1800);
-
-    waButton.addEventListener("mouseenter", function() {
-      clearTimeout(waTimer);
-      waBubble.classList.add("show");
-    });
-    if (waBubbleClose) {
-      waBubbleClose.addEventListener("click", function(e) {
-        e.preventDefault();
-        waBubble.classList.remove("show");
-      });
-    }
-  }
+  // Catatan: logic back-to-top & WA widget SUDAH ditangani oleh js/script.js
+  // (dipakai bareng di semua halaman). Sebelumnya di sini ada logic duplikat
+  // untuk keduanya (timer 1800ms + listener terpisah) yang tabrakan sama
+  // logic global di script.js (timer 2200ms) - itu penyebab animasi/posisi
+  // jadi berantakan. Makanya blok itu DIHAPUS dari sini, jangan ditambah lagi.
 })();
 
 const menuToggle = document.getElementById('menuToggle');

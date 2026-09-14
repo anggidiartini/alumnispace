@@ -773,105 +773,91 @@ h1.title .pop {
     border-radius: 20px;
 }
 
-/* ---------- SEARCH BAR ALBUM (nama album) ---------- */
+/* ---------- SEARCH BAR ALBUM (nama album) - flat minimalis, satu wadah nyatu ---------- */
 .album-search-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    align-items: center;
+    gap: 0;
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+    border-radius: 12px;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(16, 42, 67, 0.06);
     margin-bottom: 20px;
+    max-width: 480px;
     position: relative;
     z-index: 2;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.album-search-bar:focus-within {
+    border-color: var(--btn-border);
+    box-shadow: 0 1px 4px rgba(10, 65, 116, 0.12);
 }
 
 .album-search-field {
     position: relative;
-    flex: 1 1 260px;
-    max-width: 380px;
+    flex: 1 1 auto;
+    max-width: none;
 }
 
-/* Icon kaca pembesar dipasang sebagai background-image LANGSUNG di input,
-   bukan elemen terpisah yang numpuk — jadi nggak akan pernah "hilang"
-   ketika user mengetik, karena bukan elemen yang bisa ketutup teks. */
 .album-search-field input {
     width: 100%;
     font-family: "Baloo 2", sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 13.5px;
     color: var(--btn-border);
-    background-color: var(--btn-fill);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a4174' stroke-width='2.4'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.3-4.3'/%3E%3C/svg%3E");
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a97a6' stroke-width='2.2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.3-4.3'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: 16px center;
-    border: 3px solid var(--btn-border);
-    border-radius: 30px;
-    padding: 10px 18px 10px 42px;
-    box-shadow: 0 6px 0 var(--btn-border);
+    background-position: 14px center;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 12px 9px 38px;
+    box-shadow: none;
     outline: none;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
 }
 
 .album-search-field input::placeholder {
-    color: var(--ink-soft);
-    opacity: 0.7;
+    color: #97a3b0;
+    font-weight: 400;
 }
 
-.album-search-field input:focus {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 var(--btn-border);
-}
-
-/* Tombol "Cari": default PUTIH (senada .filter-btn), begitu ada
-   pencarian valid & aktif (.is-active) baru berubah jadi navy/biru. */
 .album-search-submit {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-family: "Baloo 2", sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 13.5px;
-    color: var(--btn-border);
-    background: var(--btn-fill);
-    border: 3px solid var(--btn-border);
-    border-radius: 30px;
-    padding: 10px 22px;
+    color: #ffffff;
+    background: var(--btn-border);
+    border: none;
+    border-radius: 8px;
+    padding: 9px 18px;
     cursor: pointer;
-    box-shadow: 0 6px 0 var(--btn-border);
-    transition:
-        transform 0.2s ease,
-        background-color 0.2s ease,
-        color 0.2s ease,
-        box-shadow 0.2s ease;
+    box-shadow: none;
+    transition: background-color 0.2s ease;
 }
 
 .album-search-submit:hover {
-    background: var(--btn-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0 var(--btn-border);
+    background: #0f5a9c;
 }
 
 .album-search-submit:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 0 var(--btn-border);
+    background: #082c50;
 }
 
 .album-search-submit.is-active {
-    background: var(--btn-border);
-    color: #ffffff;
-    box-shadow: 0 6px 0 #082c50;
+    background: #082c50;
 }
 
 .album-search-submit.is-active:hover {
     background: #0f5a9c;
-    box-shadow: 0 9px 0 #082c50;
 }
 
-.album-search-submit.is-active:active {
-    box-shadow: 0 3px 0 #082c50;
-}
 
-/* Hint validasi: minimal 4 huruf */
 .album-search-hint {
     margin: -10px 0 16px;
     font-family: "Baloo 2", sans-serif;
@@ -880,7 +866,6 @@ h1.title .pop {
     color: #c8517d;
 }
 
-/* Animasi goyang saat user coba cari dengan kurang dari 4 huruf */
 @keyframes shakeX {
     0%,
     100% {
@@ -928,14 +913,27 @@ h1.title .pop {
 
 @media (max-width: 600px) {
     .album-search-bar {
-        flex-direction: column;
-        align-items: stretch;
+        gap: 6px;
+        margin-bottom: 16px;
+        max-width: 100%;
+        border-radius: 10px;
+        padding: 6px;
     }
     .album-search-field {
         max-width: 100%;
+        flex: 1 1 auto;
+    }
+    .album-search-field input {
+        width: 100%;
+        font-size: 13px;
+        padding: 10px 12px 10px 36px;
     }
     .album-search-submit {
-        justify-content: center;
+        display: none;
+    }
+    .album-search-hint {
+        text-align: center;
+        margin: -2px 0 14px;
     }
 }
 
@@ -952,38 +950,34 @@ h1.title .pop {
     font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 13.5px;
-    padding: 10px 20px;
-    border-radius: 30px;
-    border: 3px solid var(--btn-border);
-    background: var(--btn-fill);
+    padding: 9px 20px;
+    border-radius: 999px;
+    border: 1px solid #dfe3e8;
+    background: #ffffff;
     color: var(--btn-border);
     cursor: pointer;
-    box-shadow: 0 6px 0 var(--btn-border);
+    box-shadow: none;
     transition:
-        transform 0.2s ease,
         background 0.2s ease,
         color 0.2s ease,
-        box-shadow 0.2s ease;
+        border-color 0.2s ease;
 }
 
 .filter-btn:hover {
-    background: var(--btn-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0 var(--btn-border);
+    background: #f3f6f9;
+    border-color: #c7ced6;
 }
 .filter-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 0 var(--btn-border);
+    background: #eaeff3;
 }
 .filter-btn.active {
     background: var(--btn-border);
+    border-color: var(--btn-border);
     color: #ffffff;
-    box-shadow: 0 6px 0 var(--btn-border);
 }
 .filter-btn.active:hover {
-    background: var(--btn-border);
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0 var(--btn-border);
+    background: #0f5a9c;
+    border-color: #0f5a9c;
 }
 
 .filter-status {
@@ -1008,7 +1002,6 @@ h1.title .pop {
     z-index: 2;
 }
 
-/* Card — 1:1 mengikuti rumus .job-card milik temen (warna, radius, shadow) */
 .card {
     position: relative;
     border-radius: 1.5rem;
@@ -1031,7 +1024,6 @@ h1.title .pop {
     animation-delay: var(--row-delay, 0s);
 }
 
-/* Setelah animasi masuk selesai, animasi dimatiin biar :hover transform (naik) bisa jalan normal */
 .card.popped {
     animation: none;
     opacity: 1;
@@ -1046,7 +1038,6 @@ h1.title .pop {
     display: none;
 }
 
-/* Palet 4 warna & persentase color-mix PERSIS sama dengan job-card temen */
 .card:nth-of-type(4n + 1) {
     border-top-color: var(--jc-blue);
     background: color-mix(in srgb, var(--jc-soft) 55%, #ffffff);
@@ -1118,7 +1109,6 @@ h1.title .pop {
     transform: scale(1.08);
 }
 
-/* Badge kategori — identik job-badge (radius, padding, size, weight) */
 .cat-pill {
     position: absolute;
     top: 10px;
@@ -1138,7 +1128,6 @@ h1.title .pop {
     background: #ffffff;
 }
 
-/* Simbol kecil pengganti "job-symbol" temen, ditaruh di pojok kanan atas foto */
 .card-symbol {
     position: absolute;
     top: 10px;
@@ -1151,7 +1140,6 @@ h1.title .pop {
     animation: iconWiggle 2.6s ease-in-out infinite;
 }
 
-/* Sticker bulat gaya awal, ditempatkan di pojok kanan bawah foto */
 .sticker {
     position: absolute;
     bottom: -14px;
@@ -1200,7 +1188,6 @@ h1.title .pop {
     margin-bottom: 4px;
 }
 
-/* Label sekarang tampil DI BAWAH judul (h3), bukan lagi di atas */
 .label {
     font-family: "Baloo 2", sans-serif;
     font-weight: 600;
@@ -1230,7 +1217,6 @@ h1.title .pop {
     flex-shrink: 0;
 }
 
-/* Sedikit cuplikan deskripsi dari database, senada job-description temen */
 .card-desc {
     font-family: "Baloo 2", sans-serif;
     font-size: 0.85rem;
@@ -1280,7 +1266,6 @@ h1.title .pop {
     animation-play-state: paused;
 }
 
-/* ---------- GENERIC SCROLL-REVEAL (bounce) UNTUK HEADING/FILTER/RELATED ---------- */
 .reveal-pop {
     opacity: 0;
     transform: translateY(28px) scale(0.85);
@@ -1291,7 +1276,6 @@ h1.title .pop {
     animation-delay: var(--pop-delay, 0s);
 }
 
-/* Versi lebih halus, tanpa bounce/scale — dipakai buat filter-status */
 .reveal-fade {
     opacity: 0;
     transform: translateY(14px);
@@ -1366,14 +1350,15 @@ h1.title .pop {
         gap: 35px;
         min-height: auto;
     }
+    /* ===== DIUBAH: hero teks jadi rata KIRI, bukan di tengah ===== */
     .hero-copy {
         max-width: 680px;
-        text-align: center;
-        margin: 0 auto;
+        text-align: left;
+        margin: 0;
     }
     .subtitle {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: 0;
+        margin-right: 0;
     }
     .album-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1488,7 +1473,6 @@ h1.title .pop {
     text-decoration: underline;
 }
 
-/* Sticker kecil nempel di pojok foto detail, senada sama .sticker di card index */
 .detail-sticker {
     position: absolute;
     bottom: -14px;
@@ -1514,7 +1498,6 @@ h1.title .pop {
         stickerWiggle 3s 1.4s ease-in-out infinite;
 }
 
-/* Badge kecil versi mini dari .greet-badge di hero */
 .greet-badge.small {
     margin-bottom: 14px;
     font-size: 11px;
@@ -1527,7 +1510,6 @@ h1.title .pop {
     display: inline-block;
 }
 
-/* Card pembungkus info kanan: background lembut + border navy + shadow tebal, konsisten dgn .card index */
 .info-card {
     position: relative;
     background: var(--home-blue-soft);
@@ -1573,7 +1555,6 @@ h1.title .pop {
     animation-delay: 0.74s;
 }
 
-/* Deskripsi dibungkus quote-box, aksen garis kiri warna-warni */
 .desc-quote {
     position: relative;
     margin-top: 20px;
@@ -1766,7 +1747,6 @@ h1.title .pop {
     opacity: 1;
 }
 
-/* palet warna border bergantian, senada .card index */
 .gallery-item:nth-of-type(4n + 1) {
     border-color: var(--jc-blue);
     box-shadow: 4px 4px 0 var(--jc-blue);
@@ -1872,7 +1852,6 @@ h1.title .pop {
     box-shadow: 0 6px 0 var(--btn-border);
 }
 
-/* nav kiri-kanan dibikin diem, ga geser posisi pas hover/klik */
 .lightbox-nav:hover {
     background: var(--btn-hover);
 }
@@ -1880,7 +1859,6 @@ h1.title .pop {
     background: var(--btn-hover);
 }
 
-/* close button, kalau masih mau ada efek */
 .lightbox-close:hover {
     background: var(--btn-hover);
     transform: translateY(-2px);
@@ -2026,8 +2004,7 @@ h1.title .pop {
     }
 }
 /* =========================================================
-   Floating action row: back-to-top & WhatsApp — 1:1 sama
-   dengan lowongan.css milik temen.
+   Floating action row: back-to-top & WhatsApp
    ========================================================= */
 
 .fab-row {

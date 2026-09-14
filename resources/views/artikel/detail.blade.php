@@ -144,6 +144,11 @@
 
 <x-footer />
 
+<!-- Floating action buttons -->
+<!-- FIX: elemen ini sebelumnya belum ada di file, padahal style-nya -->
+<!-- sudah lengkap di artikel.css, makanya WA & back-to-top gak muncul -->
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   if (window.lucide) lucide.createIcons();
