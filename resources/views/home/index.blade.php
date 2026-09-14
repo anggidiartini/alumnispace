@@ -31,19 +31,19 @@
   <div class="deco-asset hero-deco-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="deco-asset hero-deco-bus reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
+  <div class="deco-asset hero-deco-bus reveal-onscroll" style="transition-delay:.15s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
   </div>
   <div class="deco-asset hero-deco-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
-  <div class="deco-asset hero-deco-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset hero-deco-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
 <div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
 
-        <div class="hero-grid mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
+        <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
             @auth
             <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
@@ -107,7 +107,7 @@
   <div class="deco-asset tentang-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
-  <div class="deco-asset tentang-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset tentang-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset tentang-bus reveal-onscroll" aria-hidden="true">
@@ -149,7 +149,7 @@
   <div class="deco-asset statistik-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
-  <div class="deco-asset statistik-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset statistik-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
   </div>
   <div class="deco-asset statistik-alattulis reveal-onscroll" aria-hidden="true">
@@ -170,15 +170,15 @@
               <p class="stat-number text-4xl font-bold text-[#2e72ec]">{{ number_format($stats['total_alumni'] ?? 2540) }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Alumni terhubung</p>
             </article>
-            <article class="stat-card card-v2 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.05s" data-count="{{ $stats['total_generations'] ?? 45 }}" data-suffix="">
+            <article class="stat-card card-v2 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.05s" data-count="{{ $stats['total_generations'] ?? 45 }}" data-suffix="">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ $stats['total_generations'] ?? 45 }}</p>
               <p class="mt-2 font-medium text-[#153563]">Angkatan</p>
             </article>
-            <article class="stat-card card-v3 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.1s" data-count="{{ $stats['total_jobs'] ?? 180 }}" data-suffix="+">
+            <article class="stat-card card-v3 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.1s" data-count="{{ $stats['total_jobs'] ?? 180 }}" data-suffix="+">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ $stats['total_jobs'] ?? 180 }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Lowongan terverifikasi</p>
             </article>
-            <article class="stat-card card-v4 reveal-onscroll rounded-[1.75rem] p-6" style="animation-delay:.15s" data-count="{{ count($events ?? []) ?: 40 }}" data-suffix="+">
+            <article class="stat-card card-v4 reveal-onscroll rounded-[1.75rem] p-6" style="transition-delay:.15s" data-count="{{ count($events ?? []) ?: 40 }}" data-suffix="+">
               <p class="stat-number text-4xl font-bold text-[#153563]">{{ count($events ?? []) ?: 40 }}+</p>
               <p class="mt-2 font-medium text-[#153563]">Event seru terlaksana</p>
             </article>
@@ -191,13 +191,13 @@
   <div class="deco-asset pengurus-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
   </div>
-  <div class="deco-asset pengurus-bus reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset pengurus-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="deco-asset pengurus-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
-<div class="blob blob-drift section-blob section-blob--pink section-blob--tl pengurus-blob"></div>
+
 
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
@@ -245,7 +245,7 @@
         <div class="deco-asset locked-teaser-bus reveal-onscroll" aria-hidden="true">
           <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
         </div>
-        <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+        <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
           <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
         </div>
         <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
@@ -266,19 +266,19 @@
               <p class="mt-1 text-sm text-[#355277]">Cari & sapa teman seangkatan.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v2 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.05s">
+            <div class="teaser-card card-v2 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.05s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#ffd9e7] text-xl">🖼️</span>
               <h3 class="mt-4 font-bold text-[#153563]">Album Foto</h3>
               <p class="mt-1 text-sm text-[#355277]">Kenangan reuni & kegiatan sekolah.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v3 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.1s">
+            <div class="teaser-card card-v3 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.1s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#fff0a9] text-xl">💼</span>
               <h3 class="mt-4 font-bold text-[#153563]">Lowongan Kerja</h3>
               <p class="mt-1 text-sm text-[#355277]">Peluang karier dari sesama alumni.</p>
               <span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#2e72ec]"><i data-lucide="lock" class="h-3.5 w-3.5"></i> Terkunci</span>
             </div>
-            <div class="teaser-card card-v4 rounded-[1.5rem] p-5 shadow-sm" style="animation-delay:.15s">
+            <div class="teaser-card card-v4 rounded-[1.5rem] p-5 shadow-sm" style="transition-delay:.15s">
               <span class="grid h-11 w-11 place-items-center rounded-2xl bg-[#cce8de] text-xl">📅</span>
               <h3 class="mt-4 font-bold text-[#153563]">Agenda Event</h3>
               <p class="mt-1 text-sm text-[#355277]">Meetup, workshop & reuni terdekat.</p>
@@ -294,13 +294,12 @@
   <div class="deco-asset alumni-lampu reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
-  <div class="deco-asset alumni-alattulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset alumni-alattulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
   </div>
   <div class="deco-asset alumni-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
   </div>
-
   <div class="mx-auto max-w-7xl px-5 md:px-8">
   <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
     <div>
@@ -375,7 +374,7 @@
   <div class="deco-asset testimoni-bus reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
-  <div class="deco-asset testimoni-papantulis reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset testimoni-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
   </div>
   <div class="deco-asset testimoni-lampu reveal-onscroll" aria-hidden="true">
@@ -444,7 +443,7 @@
   <div class="deco-asset galeri-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
   </div>
-  <div class="deco-asset galeri-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset galeri-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
   </div>
   <div class="deco-asset galeri-bus reveal-onscroll" aria-hidden="true">
@@ -480,11 +479,11 @@
   </div>
 </section>
       <!-- SECTION 2: ARTIKEL -->
-      <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
+      <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 pb-32 md:px-8">
   <div class="deco-asset artikel-section-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
-  <div class="deco-asset artikel-section-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset artikel-section-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
   <div class="deco-asset artikel-section-alattulis reveal-onscroll" aria-hidden="true">
@@ -562,43 +561,43 @@
       </section>
 
       <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
-<section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
+      <section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
   <div class="deco-asset album-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="deco-asset album-bus reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset album-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
-  <div class="mx-auto max-w-7xl px-5 md:px-8">
-    <div class="reveal-onscroll">
-      <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
-      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
-      <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
-    </div>
-    <div class="mt-9 grid gap-5 md:grid-cols-4">
-      @forelse($albums ?? [] as $index => $album)
-      <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
-        <img src="{{ asset('assets/images/kameraalbum.png') }}" alt="Ikon album" class="album-icon">
-        <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
-        <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
-        <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
-      </article>
-      @empty
-      <p class="text-sm text-[#355277]">Belum ada album foto.</p>
-      @endforelse
-    </div>
-    <div class="mt-6 text-right reveal-onscroll">
-      <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-    </div>
-  </div>
-</section>
+        <div class="mx-auto max-w-7xl px-5 md:px-8">
+          <div class="reveal-onscroll">
+            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
+            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
+            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
+          </div>
+          <div class="mt-9 grid gap-5 md:grid-cols-4">
+            @forelse($albums ?? [] as $index => $album)
+            <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
+              <span class="text-4xl">📸</span>
+              <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
+              <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
+              <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
+            </article>
+            @empty
+            <p class="text-sm text-[#355277]">Belum ada album foto.</p>
+            @endforelse
+          </div>
+          <div class="mt-6 text-right reveal-onscroll">
+            <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+          </div>
+        </div>
+      </section>
 
       <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
       <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset lowongan-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
-  <div class="deco-asset lowongan-lampu reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset lowongan-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="reveal-onscroll">
@@ -633,7 +632,7 @@
   <div class="deco-asset event-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
-  <div class="deco-asset event-jam reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+  <div class="deco-asset event-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
         <div class="mx-auto max-w-7xl px-5 md:px-8">
@@ -670,7 +669,27 @@
   </div>
 
   <!-- Floating action buttons -->
+<div id="fab-row" class="fab-row">
+    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+        <i data-lucide="arrow-up" width="20" height="20"></i>
+    </button>
 
+    <div id="wa-widget">
+        <div id="wa-bubble" class="wa-bubble">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                <p class="wa-bubble-title">Ada pertanyaan?</p>
+                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
+                        data-lucide="x" width="16" height="16"></i></button>
+            </div>
+            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
+            <p class="wa-bubble-number">+62 812-3456-7890</p>
+        </div>
+        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
+            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+            <i data-lucide="message-circle" width="26" height="26"></i>
+        </a>
+    </div>
+</div>
 
   <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
@@ -679,14 +698,7 @@
   <button id="lightbox-close" type="button" class="lightbox-close" aria-label="Tutup">
     <i data-lucide="x" class="h-6 w-6"></i>
   </button>
-  <button id="lightbox-prev" type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Foto sebelumnya">
-    <i data-lucide="chevron-left" class="h-6 w-6"></i>
-  </button>
   <img id="lightbox-img" class="lightbox-img" src="" alt="Preview foto">
-  <button id="lightbox-next" type="button" class="lightbox-nav lightbox-nav--next" aria-label="Foto berikutnya">
-    <i data-lucide="chevron-right" class="h-6 w-6"></i>
-  </button>
-  <div id="lightbox-counter" class="lightbox-counter"></div>
 </div>
 
 
@@ -710,111 +722,6 @@
   </div>
 </div>
  <script src="{{ asset('js/script.js') }}"></script>
-
-<!-- Lightbox bisa digeser (prev/next) untuk foto Pengurus, Tentang (kolase), & Galeri -->
-<script>
-(function () {
-  var overlay = document.getElementById('lightbox-overlay');
-  var imgEl = document.getElementById('lightbox-img');
-  var prevBtn = document.getElementById('lightbox-prev');
-  var nextBtn = document.getElementById('lightbox-next');
-  var counterEl = document.getElementById('lightbox-counter');
-  if (!overlay || !imgEl) return;
-
-  var currentGroup = [];
-  var currentIndex = 0;
-
-  function renderCurrent() {
-    if (!currentGroup.length) return;
-    imgEl.src = currentGroup[currentIndex];
-    var multi = currentGroup.length > 1;
-    if (prevBtn) prevBtn.classList.toggle('is-hidden', !multi);
-    if (nextBtn) nextBtn.classList.toggle('is-hidden', !multi);
-    if (counterEl) {
-      counterEl.textContent = multi ? (currentIndex + 1) + ' / ' + currentGroup.length : '';
-      counterEl.classList.toggle('is-hidden', !multi);
-    }
-  }
-
-  function openGallery(images, startSrc) {
-    currentGroup = images.filter(Boolean);
-    var idx = currentGroup.indexOf(startSrc);
-    currentIndex = idx < 0 ? 0 : idx;
-    renderCurrent();
-    overlay.classList.add('is-open');
-  }
-
-  function showPrev() {
-    if (currentGroup.length < 2) return;
-    currentIndex = (currentIndex - 1 + currentGroup.length) % currentGroup.length;
-    renderCurrent();
-  }
-
-  function showNext() {
-    if (currentGroup.length < 2) return;
-    currentIndex = (currentIndex + 1) % currentGroup.length;
-    renderCurrent();
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); showPrev(); });
-  if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); showNext(); });
-
-  document.addEventListener('keydown', function (e) {
-    if (!overlay.classList.contains('is-open')) return;
-    if (e.key === 'ArrowLeft') showPrev();
-    if (e.key === 'ArrowRight') showNext();
-  });
-
-  var touchStartX = null;
-  overlay.addEventListener('touchstart', function (e) {
-    touchStartX = e.changedTouches[0].clientX;
-  }, { passive: true });
-  overlay.addEventListener('touchend', function (e) {
-    if (touchStartX === null) return;
-    var dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) { dx > 0 ? showPrev() : showNext(); }
-    touchStartX = null;
-  }, { passive: true });
-
-  // --- Grup: Pengurus Alumni (override supaya bisa geser antar foto pengurus) ---
-  window.openPengurusLightbox = function (src) {
-    var imgs = Array.prototype.map.call(
-      document.querySelectorAll('.pengurus-track .pengurus-photo-wrap img'),
-      function (i) { return i.src; }
-    );
-    openGallery(imgs, src);
-  };
-
-  // --- Grup: Tentang (foto kolase) ---
-  var kolaseImgs = document.querySelectorAll('.kolase-img-box img');
-  kolaseImgs.forEach(function (img) {
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', function () {
-      var srcs = Array.prototype.map.call(kolaseImgs, function (im) { return im.src; });
-      openGallery(srcs, img.src);
-    });
-  });
-
-  // --- Grup: Galeri ---
-  var galeriItems = document.querySelectorAll('#galeri .galeri-photo');
-  galeriItems.forEach(function (item) {
-    var bg = item.getAttribute('data-bg');
-    if (bg && !item.style.backgroundImage) {
-      item.style.backgroundImage = 'url(' + bg + ')';
-    }
-  });
-  galeriItems.forEach(function (item) {
-    item.addEventListener('click', function () {
-      var bgs = Array.prototype.map.call(galeriItems, function (g) { return g.getAttribute('data-bg'); });
-      openGallery(bgs, item.getAttribute('data-bg'));
-    });
-  });
-
-  if (window.lucide && typeof window.lucide.createIcons === 'function') {
-    window.lucide.createIcons();
-  }
-})();
-</script>
 
 </body>
 </html>
