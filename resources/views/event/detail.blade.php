@@ -57,11 +57,10 @@
     <main>
         <div class="page-width">
 
-            <nav class="breadcrumb" aria-label="Breadcrumb">
-                <a href="{{ url('/') }}">Beranda</a><span>/</span>
-                <a href="{{ route('event.index') }}">Event</a><span>/</span>
-                <span>{{ $event->title }}</span>
-            </nav>
+            <a href="{{ route('event.index') }}" class="back-link">
+    <i data-lucide="arrow-left" width="18" height="18"></i>
+    Kembali ke Event
+</a>
 
             <section class="event-panel is-active" aria-label="Detail event {{ $event->title }}">
 
@@ -244,6 +243,50 @@
                     @endif
                 </div>
             </section>
+        </div>
+
+
+
+        {{-- ================= ORNAMEN DEKORATIF KIRI-KANAN =================
+             6 di kiri, 6 di kanan, tersebar dari atas sampai bawah halaman.
+             Masuk pakai animasi "tuing" (data-reveal, sama seperti section lain)
+             lalu bergerak terus lewat floaty / wiggle. --}}
+        <div class="deco-asset de-l1" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+        </div>
+        <div class="deco-asset de-l2" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+        </div>
+        <div class="deco-asset de-l3" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+        </div>
+        <div class="deco-asset de-l4" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+        </div>
+        <div class="deco-asset de-l5" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+        </div>
+        <div class="deco-asset de-l6" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+        </div>
+
+        <div class="deco-asset de-r1" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+        </div>
+        <div class="deco-asset de-r2" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+        </div>
+        <div class="deco-asset de-r3" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+        </div>
+        <div class="deco-asset de-r4" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+        </div>
+        <div class="deco-asset de-r5" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+        </div>
+        <div class="deco-asset de-r6" data-reveal aria-hidden="true">
+            <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
         </div>
     </main>
 
