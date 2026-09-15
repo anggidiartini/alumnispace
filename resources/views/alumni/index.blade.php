@@ -93,10 +93,12 @@
 
       <form id="filter-form" class="filter-form reveal-onscroll" novalidate>
         <div class="filter-grid">
-          <div class="icon-field">
+          <div>
             <label class="filter-label" for="search-input" style="color: rgb(49, 87, 127);">Cari alumni</label>
-            <i data-lucide="search"></i>
-            <input id="search-input" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi">
+            <div class="icon-field">
+              <i data-lucide="search"></i>
+              <input id="search-input" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi">
+            </div>
           </div>
           <div>
             <label class="filter-label" for="year-filter" style="color: rgb(49, 87, 127);">Angkatan</label>
