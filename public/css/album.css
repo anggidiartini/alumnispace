@@ -2395,3 +2395,80 @@ h1.title .pop {
         padding: 1.25rem;
     }
 }
+
+/* =========================================================
+   OVERRIDE KHUSUS SECTION PERTAMA (HERO / .section-blue)
+   Sesuai permintaan: hero ikutin gaya animasi ARTIKEL versi asli
+   (transition halus tanpa bounce, + kurva float/wiggle punya
+   artikel.css yang lama). Bagian grid album (.section-yellow) &
+   halaman detail TIDAK disentuh, tetap pakai popBounceIn/floaty
+   bawaan album seperti biasa.
+   ========================================================= */
+
+/* ---- Reveal elemen hero: transition halus, TANPA bounce ----
+   (nyontek persis dari artikel.css versi lama, cuma discope
+   ke .section-blue biar gak ganggu reveal-pop di section lain) */
+.section-blue .reveal-pop {
+    opacity: 0;
+    transform: translateY(25px) scale(0.92);
+    transition:
+        opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: none;
+}
+
+.section-blue .reveal-pop.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: none;
+}
+
+/* ---- Ornamen deco di hero: pakai kurva float/wiggle punya
+   artikel.css versi lama (beda dari floaty/wiggle bawaan album) ---- */
+@keyframes heroDecoFloatUpDown {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-14px) rotate(4deg);
+    }
+}
+
+@keyframes heroDecoFloatSlow {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-4deg);
+    }
+}
+
+@keyframes heroDecoWiggle {
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+.section-blue .deco-asset .floaty {
+    animation: heroDecoFloatUpDown 4s ease-in-out infinite;
+}
+.section-blue .deco-asset .floaty-slow {
+    animation: heroDecoFloatSlow 6s ease-in-out infinite;
+}
+.section-blue .deco-asset .wiggle {
+    animation: heroDecoWiggle 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-blue .deco-asset .floaty,
+    .section-blue .deco-asset .floaty-slow,
+    .section-blue .deco-asset .wiggle {
+        animation: none !important;
+    }
+}

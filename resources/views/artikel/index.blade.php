@@ -90,7 +90,7 @@
     <section class="hero">
       <div class="hero-inner">
 
-        <div class="hero-copy reveal-pop">
+        <div class="hero-copy reveal-pop" style="--pop-delay:0s">
           <div class="greet-badge"> ARTIKEL &amp; CERITA</div>
           <h1 class="title">
             Cerita, Tips, dan Kabar Seputar Alumni
@@ -101,7 +101,6 @@
           </p>
           <button class="hero-cta" id="scroll-to-article">
             Lihat Artikel
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.6"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           </button>
         </div>
 
@@ -121,7 +120,6 @@
               <p class="hero-latest-desc">{{ $heroArticle->excerpt }}</p>
               <span class="hero-latest-link">
                 Baca selengkapnya
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </span>
             </div>
           </a>
@@ -145,6 +143,21 @@
         <div class="count">{{ $articles->count() }} artikel</div>
       </div>
 
+      <!-- SEARCH BAR: cari judul artikel, kerja pas tombol "Cari" diklik (atau Enter). Minimal 4 huruf. -->
+      <div class="album-search-bar reveal-fade" style="--pop-delay:.15s">
+        <div class="album-search-field">
+          <label class="sr-only" for="article-search">Cari judul artikel</label>
+          <input type="text" id="article-search" placeholder="Cari judul artikel..." autocomplete="off">
+        </div>
+        <button type="button" id="article-search-btn" class="album-search-submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          Cari
+        </button>
+      </div>
+      <p id="article-search-hint" class="album-search-hint" style="display:none;">Ketik minimal 4 huruf dulu ya, biar hasil carinya pas </p>
+
       <div class="filter-bar">
         <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
         @foreach($categories as $index => $cat)
@@ -158,7 +171,7 @@
 
       <div class="album-grid">
         @forelse($articles as $article)
-          <div class="card reveal-pop" id="c{{ $article->id }}" data-category="{{ $article->category }}">
+          <div class="card" id="c{{ $article->id }}" data-category="{{ $article->category }}" data-title="{{ strtolower($article->title) }}">
             <div class="card-photo">
               <span class="cat-pill">{{ ucfirst($article->category) }}</span>
               <span class="card-symbol">✳</span>
@@ -177,9 +190,7 @@
                 {{ $article->published_at?->translatedFormat('d F Y') ?? $article->created_at->translatedFormat('d F Y') }}
               </div>
               <p class="card-desc">{{ \Illuminate\Support\Str::limit($article->excerpt, 90) }}</p>
-              <a href="{{ route('artikel.show', $article->slug) }}" class="view-btn">Baca Artikel
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
+              <a href="{{ route('artikel.show', $article->slug) }}" class="view-btn">Baca Artikel</a>
             </div>
           </div>
         @empty
@@ -188,6 +199,11 @@
           </div>
         @endforelse
       </div>
+
+      <!-- Pesan saat filter kategori tidak ada hasil -->
+      <p id="article-filter-empty" class="album-search-empty" style="display:none;">
+        Belum ada artikel di kategori ini.
+      </p>
     </div>
   </div>
 
@@ -219,62 +235,199 @@
 document.addEventListener('DOMContentLoaded', function () {
   if (window.lucide) lucide.createIcons();
 
-  var revealEls = document.querySelectorAll('.reveal-pop, .card, .reveal-fade');
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        entry.target.classList.add('in-view');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  revealEls.forEach(function(el){ io.observe(el); });
-
+  // ---------- SCROLL TO ARTICLE LIST ----------
   var scrollBtn = document.getElementById('scroll-to-article');
   var articleSection = document.getElementById('article-section');
-  if(scrollBtn && articleSection){
-    scrollBtn.addEventListener('click', function(){
+  if (scrollBtn && articleSection) {
+    scrollBtn.addEventListener('click', function () {
       articleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 
-  var filterBtns = document.querySelectorAll('.filter-btn');
-  var filterLabel = document.getElementById('filter-label');
+  // ---------- SCROLL REVEAL UNTUK CARD ARTIKEL (row-by-row, sama kaya album) ----------
   var cards = document.querySelectorAll('.card');
-  filterBtns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      filterBtns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      var filter = btn.dataset.filter;
-      filterLabel.textContent = (filter === 'all') ? 'semua artikel' : ('artikel ' + btn.textContent.trim());
-      cards.forEach(function(card){
-        var match = filter === 'all' || card.dataset.category === filter;
-        card.style.display = match ? 'block' : 'none';
-      });
+  var columns = 3;
+  cards.forEach(function (c, i) {
+    var row = Math.floor(i / columns);
+    c.style.setProperty('--row-delay', (row * 0.65) + 's');
+  });
+
+  var cardIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        cardIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cards.forEach(function (c) {
+    cardIo.observe(c);
+    c.addEventListener('animationend', function (e) {
+      if (e.animationName === 'popBounceIn') { c.classList.add('popped'); }
     });
   });
 
+  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / HERO CARD / SIDEBAR, dst ----------
+  var popEls = document.querySelectorAll(
+    '.reveal-pop, .reveal-fade, .article-head, .article-cover, .article-body-card, .sidebar-block, .related-card'
+  );
+  var popIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        popIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  popEls.forEach(function (el) {
+    popIo.observe(el);
+    el.addEventListener('animationend', function (e) {
+      if (e.animationName === 'popBounceIn') { el.classList.add('popped'); }
+    });
+  });
+
+  // ---------- SEARCH (judul artikel, minimal 4 huruf) + FILTER KATEGORI — jalan bareng, sama kaya album ----------
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var filterLabel = document.getElementById('filter-label');
+  var emptyMsg = document.getElementById('article-filter-empty');
+  var searchInput = document.getElementById('article-search');
+  var searchBtn = document.getElementById('article-search-btn');
+  var hintMsg = document.getElementById('article-search-hint');
+  var activeFilter = 'all';
+  var activeKeyword = '';
+  var MIN_CHARS = 4;
+
+  function shake(el) {
+    if (!el) return;
+    el.classList.remove('shake');
+    // force reflow biar animasi bisa diulang walau diklik berkali-kali beruntun
+    void el.offsetWidth;
+    el.classList.add('shake');
+  }
+
+  function currentFilterLabel() {
+    if (activeFilter === 'all') return 'semua artikel';
+    var activeBtn = document.querySelector('.filter-btn[data-filter="' + activeFilter + '"]');
+    return 'artikel ' + (activeBtn ? activeBtn.textContent.trim() : activeFilter);
+  }
+
+  function applyFilterOnly() {
+    var visibleCount = 0;
+    cards.forEach(function (card) {
+      var show = activeFilter === 'all' || card.dataset.category === activeFilter;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+    filterLabel.textContent = currentFilterLabel();
+    if (emptyMsg) emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+  }
+
+  // Menjalankan pencarian + filter kategori sekaligus.
+  // Baru dijalankan ketika tombol "Cari" diklik (atau tekan Enter),
+  // dan hanya kalau ketikannya sudah minimal 4 huruf.
+  function runSearch() {
+    var raw = searchInput ? searchInput.value.trim() : '';
+
+    if (raw.length > 0 && raw.length < MIN_CHARS) {
+      if (hintMsg) hintMsg.style.display = 'block';
+      shake(searchInput);
+      shake(searchBtn);
+      return;
+    }
+
+    if (hintMsg) hintMsg.style.display = 'none';
+    activeKeyword = raw.toLowerCase();
+
+    var visibleCount = 0;
+    cards.forEach(function (card) {
+      var matchCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+      var matchTitle = !activeKeyword || (card.dataset.title || '').indexOf(activeKeyword) !== -1;
+      var show = matchCategory && matchTitle;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+
+    if (activeKeyword) {
+      filterLabel.textContent = 'hasil pencarian "' + activeKeyword + '"';
+      if (searchBtn) searchBtn.classList.add('is-active');
+    } else {
+      filterLabel.textContent = currentFilterLabel();
+      if (searchBtn) searchBtn.classList.remove('is-active');
+    }
+
+    if (emptyMsg) {
+      emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+  }
+
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      if (activeKeyword) {
+        runSearch();
+      } else {
+        applyFilterOnly();
+      }
+    });
+  });
+
+  if (searchBtn) {
+    searchBtn.addEventListener('click', function () {
+      runSearch();
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runSearch();
+      }
+    });
+
+    // Kalau kolom cari dikosongin lagi, langsung balik tampilkan sesuai filter aktif
+    // dan matikan status aktif tombol + sembunyikan hint.
+    searchInput.addEventListener('input', function () {
+      if (this.value.trim() === '') {
+        if (hintMsg) hintMsg.style.display = 'none';
+        if (activeKeyword !== '') {
+          activeKeyword = '';
+          if (searchBtn) searchBtn.classList.remove('is-active');
+          applyFilterOnly();
+        }
+      } else if (this.value.trim().length >= MIN_CHARS && hintMsg) {
+        hintMsg.style.display = 'none';
+      }
+    });
+  }
+
+  // ---------- BACK TO TOP ----------
   var backToTop = document.getElementById("back-to-top");
   if (backToTop) {
-    window.addEventListener("scroll", function() {
+    window.addEventListener("scroll", function () {
       backToTop.classList.toggle("show", window.scrollY > 400);
     }, { passive: true });
-    backToTop.addEventListener("click", function() {
+    backToTop.addEventListener("click", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
+  // ---------- WHATSAPP WIDGET ----------
   var waButton = document.getElementById("wa-button");
   var waBubble = document.getElementById("wa-bubble");
   var waBubbleClose = document.getElementById("wa-bubble-close");
   if (waButton && waBubble) {
-    var waTimer = setTimeout(function() { waBubble.classList.add("show"); }, 1800);
-    waButton.addEventListener("mouseenter", function() {
+    var waTimer = setTimeout(function () { waBubble.classList.add("show"); }, 1800);
+    waButton.addEventListener("mouseenter", function () {
       clearTimeout(waTimer);
       waBubble.classList.add("show");
     });
     if (waBubbleClose) {
-      waBubbleClose.addEventListener("click", function(e) {
+      waBubbleClose.addEventListener("click", function (e) {
         e.preventDefault();
         waBubble.classList.remove("show");
       });
