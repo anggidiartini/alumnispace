@@ -262,7 +262,7 @@
     var prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
-    var revealEls = document.querySelectorAll("[data-reveal]");
+    var revealEls = document.querySelectorAll(".data-reveal");
     if (!revealEls.length) return;
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {

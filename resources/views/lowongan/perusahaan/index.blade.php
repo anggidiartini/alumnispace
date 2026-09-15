@@ -14,7 +14,7 @@
         href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
     <link rel="stylesheet"
         href="{{ asset('css/lowongan.css') }}?v={{ file_exists(public_path('css/lowongan.css')) ? filemtime(public_path('css/lowongan.css')) : time() }}">
-   
+
      <link rel="stylesheet"
         href="{{ asset('css/footer.css') }}?v={{ file_exists(public_path('css/footer.css')) ? filemtime(public_path('css/footer.css')) : time() }}">
     @auth
@@ -340,7 +340,7 @@
 
 
 >>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
-    
+
 
     <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
