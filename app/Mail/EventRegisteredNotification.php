@@ -19,27 +19,30 @@ class EventRegisteredNotification extends Mailable
     public function __construct(EventRegistration $registration)
     {
         $this->registration = $registration->load(['event', 'user']);
-
         $event = $this->registration->event;
-        $adminPusat = \App\Models\User::whereIn('role', ['admin', 'super_admin'])->first();
+        
+        // 🔥 JALUR PINTAR: Cari admin pembuat event ini
+        $adminPanitia = $event->creator;
+        
+        // 🔥 Samakan nomor WA tester kamu di sini juga
         $nomorWaPanitia = '6281234567890';
 
-        if ($adminPusat && $adminPusat->phone) {
-            $nomorBersih = preg_replace('/[^0-9]/', '', $adminPusat->phone);
+        if ($adminPanitia && $adminPanitia->phone) {
+            $nomorBersih = preg_replace('/[^0-9]/', '', $adminPanitia->phone);
             if (str_starts_with($nomorBersih, '0')) {
                 $nomorBersih = '62' . substr($nomorBersih, 1);
             }
             $nomorWaPanitia = $nomorBersih;
         }
 
-        $pesanTeks = "Halo Panitia, saya telah mendaftar di Event Gratis ini dan ingin konfirmasi pendaftaran.\n\n"
-                   . "📄 *DATA PENDAFTARAN*\n"
+        $pesanTeks = "Halo Panitia, saya telah mendaftar di Event ini dan ingin konfirmasi pendaftaran.\n\n"
+                   . "*DATA PENDAFTARAN*\n"
                    . "• Nama: " . $this->registration->user->name . "\n"
                    . "• Event: " . $event->title . "\n"
                    . "• Kode Tiket: " . $this->registration->ticket_code . "\n\n"
-                   . "Mohon kesediaannya untuk memverifikasi data saya dan masukkan saya ke grup WhatsApp resmi event ini. Terima kasih! 🙏";
+                   . "Mohon kesediaannya untuk memverifikasi data saya dan masukkan saya ke grup WhatsApp resmi event ini. Terima kasih!";
 
-        $this->whatsappUrl = "https://wa.me" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
+        $this->whatsappUrl = "https://wa.me/" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
     }
 
     public function envelope(): Envelope

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\EventRegistration;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EventRegisteredNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -22,22 +24,22 @@ class EventController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                ->orWhere('venue', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('venue', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
-        $events = $query->orderBy('event_date', 'desc')->get()->map(function($event) {
+        $events = $query->orderBy('event_date', 'desc')->get()->map(function ($event) {
             $event->status = ucfirst(strtolower($event->status));
             return $event;
         });
-        
+
         $totalEvents = Event::count();
 
         return view('event.index', compact('events', 'totalEvents'));
     }
 
-            public function show($slug)
+    public function show($slug)
     {
         $event = Event::where('slug', $slug)->first();
 
@@ -48,19 +50,19 @@ class EventController extends Controller
         if (!$event) {
             $event = Event::firstOrFail();
         }
-        
+
         return view('event.detail', compact('event'));
     }
-    public function creator(): BelongsTo {
-        
-    return $this->belongsTo(User::class, 'created_by');
-}
+    public function creator(): BelongsTo
+    {
 
+        return $this->belongsTo(User::class, 'created_by');
+    }
 
-       public function register(Request $request, $id)
+    public function register(Request $request, $id)
     {
         $event = Event::findOrFail($id);
-        
+
         if (!Auth::check()) {
             return response()->json(['success' => false, 'message' => 'Kamu harus login terlebih dahulu.'], 401);
         }
@@ -75,27 +77,52 @@ class EventController extends Controller
             'status' => 'registered',
         ]);
 
-        $adminPusat = \App\Models\User::whereIn('role', ['admin', 'super_admin'])->first();
-        $nomorWaPanitia = '6281234567890'; 
+        $adminPanitia = $event->creator;
 
-        if ($adminPusat && !empty($adminPusat->phone)) {
-            $nomorBersih = preg_replace('/[^0-9]/', '', $adminPusat->phone);
-            
+        $nomorWaPanitia = '6281234567890';
+
+        if ($adminPanitia && !empty($adminPanitia->phone)) {
+            $nomorBersih = preg_replace('/[^0-9]/', '', $adminPanitia->phone);
+
             if (str_starts_with($nomorBersih, '0')) {
                 $nomorBersih = '62' . substr($nomorBersih, 1);
             }
-            
+
             $nomorWaPanitia = $nomorBersih;
         }
 
-        $pesanTeks = "Halo Panitia, saya telah mendaftar di Event Gratis ini dan ingin konfirmasi pendaftaran.\n\n"
-                   . "📄 *DATA PENDAFTARAN*\n"
-                   . "• Nama: " . $user->name . "\n"
-                   . "• Event: " . $event->title . "\n"
-                   . "• Kode Tiket: " . $registration->ticket_code . "\n\n"
-                   . "Mohon kesediaannya untuk memverifikasi data saya dan *memasukkan saya ke grup WhatsApp resmi event* ini. Terima kasih! 🙏";
-                   
-        $whatsappUrl = "https://wa.me" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
+        try {
+            if ($user && !empty($user->email)) {
+                Mail::to($user->email)->send(new EventRegisteredNotification($registration));
+            }
+
+            if ($adminPanitia && !empty($adminPanitia->email)) {
+                Mail::raw(
+                    "Halo Panitia, ada pendaftaran baru pada event: {$event->title}.\n\n"
+                        . "📄 DATA PESERTA:\n"
+                        . "• Nama: {$user->name}\n"
+                        . "• Email: {$user->email}\n"
+                        . "• No. WA: " . $request->input('phone') . "\n"
+                        . "• Kode Tiket: {$registration->ticket_code}\n\n"
+                        . "Silakan bersiap memverifikasi data dan memasukkan peserta ke grup WhatsApp jika yang bersangkutan menghubungi.",
+                    function ($message) use ($adminPanitia, $event) {
+                        $message->to($adminPanitia->email)
+                            ->subject('🔔 Notifikasi Pendaftar Baru Event: ' . $event->title);
+                    }
+                );
+            }
+        } catch (\Exception $e) {
+            \Log::error("Gagal kirim email ganda: " . $e->getMessage());
+        }
+
+        $pesanTeks = "Halo Panitia, saya telah mendaftar di Event ini dan ingin konfirmasi pendaftaran.\n\n"
+            . "*DATA PENDAFTARAN*\n"
+            . "• Nama: " . $user->name . "\n"
+            . "• Event: " . $event->title . "\n"
+            . "• Kode Tiket: " . $registration->ticket_code . "\n\n"
+            . "Mohon kesediaannya untuk memverifikasi data saya dan memasukkan saya ke grup WhatsApp resmi event ini. Terima kasih!";
+
+        $whatsappUrl = "https://wa.me/" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
 
         return response()->json([
             'success' => true,
@@ -106,6 +133,4 @@ class EventController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Terjadi kesalahan saat mendaftar.'], 500);
     }
-
 }
-
