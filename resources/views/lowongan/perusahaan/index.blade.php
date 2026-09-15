@@ -9,7 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-<<<<<<< HEAD
+
     <link rel="stylesheet"
         href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
     <link rel="stylesheet"
@@ -34,7 +34,7 @@
 
     <!-- CSS Khusus Detail Perusahaan -->
     <link rel="stylesheet" href="{{ asset('css/detail-perusahaan.css') }}">
->>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
+
 </head>
 
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
@@ -317,7 +317,7 @@
             <i data-lucide="arrow-up" width="20" height="20"></i>
         </button>
 
-<<<<<<< HEAD
+
     <!-- Floating action buttons -->
 =======
         <div id="wa-widget">
@@ -339,7 +339,7 @@
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 
->>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
+
     
 
     <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
@@ -463,8 +463,8 @@
         });
     </script>
 </body>
-<<<<<<< HEAD
 
-=======
->>>>>>> 2c15896761c36bf54a9ed202f510639905ee5e1f
+
+
+
 </html>
