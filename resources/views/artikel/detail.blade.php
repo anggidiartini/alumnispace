@@ -104,7 +104,7 @@
       </div>
 
       <div class="detail-info-col reveal-pop" style="--pop-delay:.1s">
-        <div class="greet-badge small"><span>✦</span> {{ strtoupper($article->category) }}</div>
+        <div class="greet-badge small"> {{ strtoupper($article->category) }}</div>
 
         <h1 class="marker-title">{{ $article->title }}</h1>
 
