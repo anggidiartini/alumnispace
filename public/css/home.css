@@ -2618,3 +2618,155 @@ h3 {
     font-weight: 700;
     color: #d6336c;
 }
+
+/* =========================================================
+   FIX TAMBAHAN — jarak badge ke judul & style badge disamakan
+   ========================================================= */
+
+/* fix: mb-1 belum ada definisinya, jadi jatuh ke margin default browser */
+.mb-1 {
+    margin-bottom: 0.25rem;
+}
+
+/* .badge-dashed-pill sekarang menanggung semua (warna, border, bentuk pil,
+   ukuran ngepas teks) sendiri — supaya tidak bergantung pada class lain
+   (rounded-full / inline-block) yang mungkin tidak ada di HTML. */
+.badge-dashed-pill {
+    display: inline-flex !important;
+    align-items: center;
+    width: fit-content !important;
+    border-radius: 9999px !important;
+    background-color: #f9f6bd !important;
+    border: 2px dashed #0a4174 !important;
+    color: #0a4174 !important;
+    margin-bottom: 1rem;
+}
+
+.badge-dashed-pill + h1,
+.badge-dashed-pill + h2 {
+    margin-top: 0;
+}
+
+#pengurus p.rounded-full + h2,
+#album p.rounded-full + h2,
+#lowongan p.rounded-full + h2,
+#event p.rounded-full + h2 {
+    margin-top: 0;
+}
+
+/* fix: kolom teks hero jangan ikut center vertikal ke kolom foto yg lebih tinggi */
+#beranda .grid.md\:grid-cols-2 {
+    align-items: start;
+}
+
+/* kompensasi biar foto kanan tetap rapi di tengah row-nya sendiri */
+#beranda .grid.md\:grid-cols-2 > div:nth-child(2) {
+    align-self: center;
+}
+
+/* kurangi padding atas section biar konten ga terlalu jauh dari navbar */
+@media (min-width: 768px) {
+    #beranda {
+        padding-top: 2rem;
+    }
+    #beranda .grid.md\:grid-cols-2 {
+        padding-top: 1rem !important; /* override md:py-24 bagian atas */
+        padding-bottom: 6rem !important;
+    }
+}
+
+.album-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
+/* =========================================================
+   RESPONSIVE FIX — mobile: hilangkan ornamen kecil pinggiran
+   (jam, bus, papan tulis, lampu, alat tulis) di semua section,
+   supaya layout HP lebih bersih & tidak numpuk sama konten teks.
+   ========================================================= */
+@media (max-width: 768px) {
+    .deco-asset {
+        display: none !important;
+    }
+
+    /* blob dekorasi juga diperkecil lagi & dibikin makin transparan
+       biar tetap ada aksen warna tapi ga ganggu keterbacaan teks */
+    .section-blob {
+        width: 6rem;
+        height: 6rem;
+        opacity: 0.5;
+    }
+
+    /* rapetin padding vertikal section supaya HP ga terlalu panjang scroll-nya */
+    .py-20 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    #artikel-section {
+        padding-bottom: 3.5rem;
+    }
+
+    /* judul besar (hero & section) diturunin dikit di HP biar ga kepotong/kepenuhan */
+    h1.text-5xl {
+        font-size: 2.25rem;
+        line-height: 1.15;
+    }
+
+    h2.text-4xl,
+    h2.text-3xl {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+
+    /* badge-dashed-pill: teks jangan sampai mepet kalau ada di layar sempit */
+    .badge-dashed-pill {
+        font-size: 0.8rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    /* statistik & card grid: 1 kolom penuh di HP kecil biar ga sempit */
+    .grid.sm\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    /* di layar sangat kecil, blob dimatikan total biar fokus ke konten */
+    .section-blob {
+        display: none;
+    }
+
+    .px-5 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* =========================================================
+   FIX MOBILE — badge "Selamat datang..." (dan badge panjang
+   lainnya) kepotong di tepi layar karena dipaksa 1 baris.
+   Sekarang boleh wrap & tidak pernah lebih lebar dari layar.
+   ========================================================= */
+@media (max-width: 768px) {
+    .badge-dashed-pill {
+        width: auto !important;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: break-word;
+        text-align: left;
+        line-height: 1.4;
+    }
+
+    /* jaga-jaga: elemen apapun yang kebetulan lebih lebar dari layar
+       (badge, gambar, dsb) dipaksa menyesuaikan, bukan kepotong diam-diam */
+    img,
+    svg,
+    .checker {
+        max-width: 100%;
+    }
+}
