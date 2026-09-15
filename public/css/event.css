@@ -354,7 +354,7 @@ input:focus-visible {
 
 .hero-section {
     width: 100%;
-    padding: 3.5rem 0 5.5rem;
+    padding: 8rem 0 5.5rem; /* dulu: 5.5rem 0 5.5rem */
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -921,7 +921,7 @@ input:focus-visible {
     position: relative;
     overflow: hidden;
     border-radius: 2rem;
-    background: var(--blue-deep);
+    background: #6f9fe8;
     padding: 3.5rem 1.75rem 4.5rem;
     text-align: center;
 }
@@ -1133,4 +1133,8 @@ input:focus-visible {
     .deco-asset {
         display: none;
     }
+}
+
+#beranda.hero-section {
+    padding-top: 4rem;
 }

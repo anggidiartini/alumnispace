@@ -186,8 +186,8 @@ main {
     border-radius: var(--radius-lg);
     background: linear-gradient(
         155deg,
-        var(--sun-soft) 0%,
-        var(--cream) 45%,
+        var(--sky) 0%,
+        var(--cream) 50%,
         var(--sky) 130%
     );
     border: 1px solid var(--line);
@@ -1016,7 +1016,7 @@ main {
     height: 2.75rem;
     border: 0;
     border-radius: 999px;
-    background: var(--ink);
+    background: #6f9fe8;
     color: #fff;
     cursor: pointer;
     box-shadow: 0 12px 24px rgba(21, 43, 84, 0.25);
