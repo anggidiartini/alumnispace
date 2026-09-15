@@ -36,9 +36,7 @@
   <div class="deco-asset" style="top: 980px; left: 1%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="wiggle" style="width: 95px;">
   </div>
-  <div class="deco-asset" style="top: 1350px; left: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 100px;">
-  </div>
+
   <div class="deco-asset" style="top: 1720px; left: 1.5%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty-slow" style="width: 75px;">
   </div>
@@ -51,9 +49,7 @@
   <div class="deco-asset" style="top: 2850px; left: 2%;" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty-slow" style="width: 90px;">
   </div>
-  <div class="deco-asset" style="bottom: 80px; left: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="wiggle" style="width: 95px;">
-  </div>
+
 
 
   <!-- ================= KANAN (10 ORNAMEN) ================= -->
