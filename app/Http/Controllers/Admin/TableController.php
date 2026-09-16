@@ -21,9 +21,8 @@ class TableController extends Controller
             'alumnis' => [
                 'title' => 'Data Alumni',
                 'table' => 'alumni_profiles',
-                'list_columns' => ['student_number', 'name', 'graduation_year', 'profession', 'phone_number', 'study_status'],
+                'list_columns' => ['name', 'graduation_year', 'profession', 'phone_number', 'study_status'],
                 'fields' => [
-                    'student_number' => ['label' => 'Nomor Anggota', 'type' => 'text', 'required' => true],
                     'name' => ['label' => 'Nama Lengkap', 'type' => 'text', 'required' => true, 'readonly' => true],
                     'graduation_year' => ['label' => 'Tahun Kelulusan', 'type' => 'number', 'required' => true, 'min' => 1901],
                     'major' => ['label' => 'Jurusan / Program Studi', 'type' => 'text', 'required' => true],
