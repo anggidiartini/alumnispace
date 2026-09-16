@@ -195,3 +195,4 @@
     });
   });
 </script>
+<script src="{{ asset('js/visitor-tracker.js') }}"></script>

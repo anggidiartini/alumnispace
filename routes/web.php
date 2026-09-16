@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:alumni,user'])->group(function () {
 // Job Vacancies (Bursa Loker)
 Route::get('/lowongan', [JobVacancyController::class, 'index'])->name('lowongan.index');
 Route::get('/lowongan/{slug}', [JobVacancyController::class, 'show'])->name('lowongan.show');
-Route::get('/perusahaan/{slug}', [\App\Http\Controllers\CompanyController::class, 'index'])->name('perusahaan.index');
+Route::get('/perusahaan/{slug}', [\App\Http\Controllers\User\CompanyController::class, 'index'])->name('perusahaan.index');
 
 // Events & Gatherings
 Route::get('/event', [EventController::class, 'index'])->name('event.index');

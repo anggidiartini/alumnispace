@@ -71,19 +71,10 @@ class ContentManagementController extends Controller
         $recentTestimonials = \Schema::hasTable('testimonials') ? \DB::table('testimonials')->latest()->take(5)->get() : collect();
         $recentPrestasi = collect(); 
 
-        $statistikHariIni = \Schema::hasTable('visitors') ? \DB::table('visitors')->whereDate('created_at', today())
-            ->selectRaw('HOUR(created_at) as jam, COUNT(*) as total')
-            ->groupBy('jam')
-            ->orderBy('jam', 'asc')
-            ->get() : collect();
-
-        $labels = [];
-        $data = [];
-
-        foreach ($statistikHariIni as $row) {
-            $labels[] = sprintf('%02d:00', $row->jam);
-            $data[] = $row->total;
-        }
+        $statsToday = app(\App\Http\Controllers\Api\VisitorStatsController::class)->hourlyToday()->getData(true);
+        $labels = $statsToday['labels'] ?? [];
+        $data = $statsToday['data'] ?? [];
+        $maxData = $statsToday['max'] ?? 10;
 
         $this->shareSidebarCounts();
 
@@ -95,7 +86,8 @@ class ContentManagementController extends Controller
             'recentTestimonials',
             'recentPrestasi',
             'labels',  
-            'data'    
+            'data',
+            'maxData'
         ));
     }
 

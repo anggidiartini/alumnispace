@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PublicContentController;
 use App\Http\Controllers\Admin\ContentManagementController;
+use App\Http\Controllers\Api\VisitorStatsController;
+
+// Visitor Tracking & Live Hourly Stats
+Route::get('/stats/hourly-today', [VisitorStatsController::class, 'hourlyToday']);
+Route::post('/track-visit', [VisitorStatsController::class, 'track']);
 
 // 1. Route Publik (Read-Only, Cached)
 Route::prefix('v1/public')->group(function () {
