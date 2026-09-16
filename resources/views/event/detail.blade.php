@@ -96,6 +96,10 @@
                             <p class="event-summary">
                                 {{ \Illuminate\Support\Str::limit($event->description ?? '', 180) }}</p>
 
+                            {{-- Tombol "Daftar Sekarang" DIHAPUS dari hero.
+                                 Hero cuma nampilin status chip; aksi daftar
+                                 sekarang cuma ada satu tempat: card "Amankan
+                                 Kursimu" di sidebar. --}}
                             <div class="hero-actions">
                                 @if ($isCompleted)
                                     <span class="status-chip status-ended"><span class="status-dot"></span>Event
@@ -104,18 +108,12 @@
                                 @elseif($canRegister)
                                     <span class="status-chip status-open"><span class="status-dot"></span>Pendaftaran
                                         Dibuka</span>
-                                    <button type="button" id="registerBtn" class="primary-button"
-                                        data-event-id="{{ $event->id }}">
-                                        Daftar Sekarang
-                                    </button>
                                 @elseif($isUpcoming && $isFull)
                                     <span class="status-chip status-soon"><span class="status-dot"></span>Kuota
                                         Penuh</span>
-                                    <span class="disabled-button" aria-disabled="true">Kuota Penuh</span>
                                 @else
                                     <span class="status-chip status-soon"><span class="status-dot"></span>Sedang
                                         Berlangsung</span>
-                                    <span class="disabled-button" aria-disabled="true">Pendaftaran Ditutup</span>
                                 @endif
                             </div>
                         </div>
@@ -201,7 +199,11 @@
                             </article>
                         </div>
 
-                        {{-- ================= SIDEBAR: PENDAFTARAN atau DOKUMENTASI ================= --}}
+                        {{-- ================= SIDEBAR: PENDAFTARAN atau DOKUMENTASI =================
+                             Satu-satunya tempat tombol "Daftar Sekarang" muncul sekarang.
+                             id diubah dari registerBtnSidebar -> registerBtn supaya JS
+                             (detail-event.js / event-register.js) yang sebelumnya listen
+                             ke #registerBtn tetap jalan tanpa perlu tombol di hero lagi. --}}
                         @if ($isCompleted)
                             <aside class="registration-card documentation-card" id="dokumentasi-kegiatan"
                                 aria-label="Dokumentasi kegiatan" data-reveal>
@@ -256,9 +258,8 @@
                                 @if ($canRegister)
                                     <span class="status-chip status-open"><span class="status-dot"></span>Pendaftaran
                                         Dibuka</span>
-                                    <button type="button" id="registerBtnSidebar" class="primary-button sidebar-cta"
-                                        data-event-id="{{ $event->id }}"
-                                        onclick="document.getElementById('registerBtn')?.click()">
+                                    <button type="button" id="registerBtn" class="primary-button sidebar-cta"
+                                        data-event-id="{{ $event->id }}">
                                         Daftar Sekarang
                                     </button>
                                 @elseif($isFull)
@@ -416,7 +417,7 @@
         </div>
     </div>
 
-    <script>
+        <script>
         window.EventDetailConfig = {
             registerUrl: @json(route('event.register', $event->id)),
             loginUrl: @json(\Illuminate\Support\Facades\Route::has('login') ? route('login') : null),
@@ -424,6 +425,23 @@
             quota: {{ $quota }},
             registered: {{ $registered }}
         };
+    </script>
+    <script>
+        // Pindahkan modal pendaftaran ke langsung di bawah <body>,
+        // supaya z-index-nya tidak terkurung stacking context dari
+        // parent manapun (site-shell, main, dll) — termasuk kalau
+        // navbar bikin stacking context sendiri.
+        (function () {
+            var modal = document.getElementById('erOverlay');
+            if (modal && modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
+
+            var lightbox = document.getElementById('lightbox');
+            if (lightbox && lightbox.parentElement !== document.body) {
+                document.body.appendChild(lightbox);
+            }
+        })();
     </script>
     <script src="{{ asset('js/detail-event.js') }}"></script>
     <script src="{{ asset('js/detail-event-floating.js') }}"></script>
