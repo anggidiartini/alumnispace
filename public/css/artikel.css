@@ -266,7 +266,7 @@
    rasio 4:3, jadi foto tampil lebih besar & utuh proporsinya. */
 .hero-latest-top {
     height: auto;
-    aspect-ratio: 16 / 8;
+    aspect-ratio: 16 / 9;
     min-height: 220px;
     border-radius: 17px 17px 0 0;
     display: flex;
