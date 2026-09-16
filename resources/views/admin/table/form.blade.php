@@ -1,236 +1,188 @@
 @extends('admin.layout.index')
 
-@section('page_title')
-    {{ isset($row) ? 'Ubah Data' : 'Tambah Baru' }} — {{ $table_key === 'alumnis' ? 'Data Alumni' : $mapping['title'] }}
-@endsection
+@section('title', (isset($row) ? 'Ubah Data' : 'Tambah Baru') . ' — ' . ($table_key === 'alumnis' ? 'Data Alumni' : $mapping['title']))
 
 @section('content')
 <style>
-    .form-container-full {
+    /* SUSUNAN FORM GRID KANAN KIRI */
+    .form-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 24px;
+        align-items: start;
         width: 100%;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 32px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .form-card-main {
+        background: #ffffff;
+        border: 1px solid #d0e1f0;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 4px 15px rgba(10, 65, 116, 0.04);
+    }
+    .form-card-sidebar {
+        background: #ffffff;
+        border: 1px solid #d0e1f0;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(10, 65, 116, 0.04);
+        position: sticky;
+        top: 24px;
     }
     .form-header {
-        margin-bottom: 28px;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 18px;
-    }
-    /* Grid System Dua Kolom Melebar ke Samping */
-    .form-grid-two-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid #d0e1f0;
+        padding-bottom: 16px;
     }
     .form-group {
         display: flex;
         flex-direction: column;
         gap: 6px;
-    }
-    /* Kolom Teks Paragraf Panjang otomatis memakan tempat 2 kolom penuh di bawah */
-    .form-group.full-width-row {
-        grid-column: span 2;
+        margin-bottom: 18px;
     }
     .form-label {
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
-        color: var(--text-main);
-        letter-spacing: 0.3px;
+        color: #0a4174;
+        letter-spacing: 0.5px;
     }
     .form-control {
         width: 100%;
-        padding: 11px 16px;
-        border: 1px solid var(--border-color);
+        padding: 11px 14px;
+        border: 1px solid #d0e1f0;
         border-radius: 8px;
-        background: var(--bg-main);
-        color: var(--text-main);
+        background: #f4f8fb;
+        color: #0a4174;
         font-family: inherit;
         font-size: 14px;
         outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
     }
     .form-control:focus {
-        border-color: var(--color-secondary);
-        box-shadow: 0 0 0 3px rgba(123,189,232,0.2);
+        border-color: #7bbde8;
+        background: #fff;
     }
     .form-control:disabled, .form-control[readonly] {
-        background-color: #f1f5f9;
+        background-color: #e2e8f0;
         color: #64748b;
         cursor: not-allowed;
     }
-    .field-hint {
-        font-size: 11px;
-        color: #64748b;
-        margin-top: 2px;
-    }
-    .required-star {
-        color: #ef4444;
-        margin-left: 2px;
-        font-weight: bold;
-    }
-    .img-preview-box {
-        margin-top: 8px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .img-preview-element {
-        width: 80px;
-        height: 80px;
-        border-radius: 8px;
-        object-fit: cover;
-        border: 1px solid var(--border-color);
-        background: #f8fafc;
-    }
-    .form-actions {
-        margin-top: 36px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border-color);
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-    }
+    .field-hint { font-size: 11px; color: #64748b; margin-top: 2px; }
+    .required-star { color: #ef4444; margin-left: 2px; }
     .btn-submit {
-        background: var(--color-primary);
+        background: #0a4174;
         color: white;
-        padding: 12px 24px;
+        padding: 12px;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 13px;
-        transition: background 0.2s;
-    }
-    .btn-submit:hover {
-        opacity: 0.9;
+        width: 100%;
     }
     .btn-cancel {
         background: transparent;
-        color: var(--text-muted);
-        border: 1px solid var(--border-color);
-        padding: 12px 24px;
+        color: #527597;
+        border: 1px solid #d0e1f0;
+        padding: 10px;
         border-radius: 8px;
         text-decoration: none;
         font-weight: 600;
         font-size: 13px;
         text-align: center;
-        transition: background 0.2s;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
     }
-    .btn-cancel:hover {
-        background: var(--bg-main);
-    }
-    @media (max-width: 768px) {
-        .form-grid-two-columns { grid-template-columns: 1fr; }
-        .form-group.full-width-row { grid-column: span 1; }
+    @media (max-width: 992px) {
+        .form-layout-grid { grid-template-columns: 1fr; }
+        .form-card-sidebar { position: static; }
     }
 </style>
+<form action="{{ isset($row) ? route('admin.table.update', [$table_key, $row->id]) : route('admin.table.store', $table_key) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @if(isset($row))
+        @method('PUT')
+    @endif
 
-<div class="form-container-full">
-    <div class="form-header">
-        <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Formulir Isian {{ $table_key === 'alumnis' ? 'Data Alumni' : $mapping['title'] }}</h2>
-        <p style="font-size: 12px; color: var(--text-muted)">Silakan perbarui atau isi data komponen secara lengkap di bawah ini.</p>
-    </div>
+    <div class="form-layout-grid">
+        
+        <!-- KOLOM KIRI: INPUT DATA UTAMA -->
+        <div class="form-card-main">
+            <div class="form-header">
+                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174;">Isian Data Komponen</h2>
+                <p style="font-size: 12px; color: #527597">Silakan lengkapi informasi isian komponen di bawah ini.</p>
+            </div>
 
-    <!-- Tambahkan entype multipart agar bisa memproses unggahan file fisik gambar -->
-    <form action="{{ isset($row) ? route('admin.table.update', [$table_key, $row->id]) : route('admin.table.store', $table_key) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @if(isset($row))
-            @method('PUT')
-        @endif
-
-        <div class="form-grid-two-columns">
             @foreach($mapping['fields'] as $key => $field)
+                {{-- Lewati kolom gambar dan seleksi status untuk ditaruh di sebelah kanan --}}
+                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $field['type'] === 'select' || $key === 'study_status' || $key === 'status')
+                    @continue
+                @endif
+
                 @php 
                     $isRequired = (isset($field['required']) && $field['required']) ? 'required' : ''; 
                     $isReadonly = (isset($field['readonly']) && $field['readonly']) ? 'readonly' : '';
-                    $isTextArea = ($field['type'] === 'textarea' || $key === 'description' || $key === 'requirements' || $key === 'content');
                 @endphp
 
-                <!-- Kolom teks panjang otomatis melebar memakan 2 space baris penuh -->
-                <div class="form-group {{ $isTextArea ? 'full-width-row' : '' }}">
-                    <label class="form-label">
-                        {{ $field['label'] }}
-                        @if($isRequired && $key !== 'graduation_year') 
-                            <span class="required-star">*</span> 
-                        @endif
-                    </label>
+                <div class="form-group">
+                    <label class="form-label">{{ $field['label'] }} @if($isRequired)<span class="required-star">*</span>@endif</label>
 
-                    <!-- KONDISI 1: INPUT BERKAS FILE FOTO DENGAN PRATINJAU LANGSUNG -->
-                    @if($field['type'] === 'file')
-                        <input type="file" name="{{ $key }}" class="form-control" accept="image/*" {{ $isRequired }}
-                               onchange="previewImage(this, 'preview-{{ $key }}')">
-                        @if(isset($field['hint']))
-                            <p class="field-hint"><i class="fa-solid fa-circle-info"></i> {{ $field['hint'] }}</p>
-                        @endif
-                        
-                        <div class="img-preview-box">
-                            <div>
-                                <p class="field-hint" style="margin-bottom: 4px;">Pratinjau Berkas:</p>
-                                <img id="preview-{{ $key }}" 
-                                     src="{{ (isset($row) && !empty($row->$key)) ? asset($row->$key) : asset('assets/images/no-avatar.png') }}" 
-                                     class="img-preview-element" alt="Pratinjau">
-                            </div>
-                        </div>
-
-                    <!-- KONDISI 2: SELEKSI DROPDOWN PILIHAN -->
-                    @elseif($field['type'] === 'select')
-                        <select name="{{ $key }}" class="form-control" {{ $isRequired }}>
-                            <option value="">-- Pilih {{ $field['label'] }} --</option>
-                            @foreach($field['options'] as $value => $label)
-                                <option value="{{ $value }}" {{ (isset($row) && $row->$key == $value) ? 'selected' : '' }}>{{ $label }}</option>
-                            @endforeach
-                        </select>
-
-                    <!-- KONDISI 3: TOGGLE PILIHAN AKTIF / TUTUP -->
-                    @elseif($field['type'] === 'toggle')
-                        <select name="{{ $key }}" class="form-control" {{ $isRequired }}>
-                            @foreach($field['options'] as $value => $label)
-                                <option value="{{ $value }}" {{ (isset($row) && $row->$key == $value) ? 'selected' : '' }}>{{ $label }}</option>
-                            @endforeach
-                        </select>
-
-                    <!-- KONDISI 4: INPUT PARAGRAF TEKS PANJANG -->
-                    @elseif($field['type'] === 'textarea')
+                    @if($field['type'] === 'textarea')
                         <textarea name="{{ $key }}" rows="5" class="form-control" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>{{ isset($row) ? $row->$key : '' }}</textarea>
-
-                    <!-- KONDISI 5: KHUSUS TAHUN KELULUSAN (MINIMAL 1901 / ANTI 0) -->
                     @elseif($key === 'graduation_year')
-                        <input type="number" name="{{ $key }}" class="form-control" min="1901" max="2100"
-                               value="{{ isset($row) ? $row->$key : date('Y') }}" required placeholder="Contoh: 2020">
-                        <p class="field-hint"><i class="fa-solid fa-circle-exclamation"></i> Tahun kelulusan wajib berupa angka tahun yang valid dan tidak boleh angka 0.</p>
-
-                    <!-- KONDISI 6: STANDAR TEXT / NUMBER / DATE -->
+                        <input type="number" name="{{ $key }}" class="form-control" min="1901" max="2100" value="{{ isset($row) ? $row->$key : date('Y') }}" required>
                     @else
-                        <input type="{{ $field['type'] }}" name="{{ $key }}" class="form-control" 
-                               value="{{ isset($row) ? $row->$key : '' }}" 
-                               placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>
+                        <input type="{{ $field['type'] }}" name="{{ $key }}" class="form-control" value="{{ isset($row) ? $row->$key : '' }}" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>
                     @endif
                 </div>
             @endforeach
         </div>
 
-        <div class="form-actions">
-            <a href="{{ route('admin.table.index', $table_key) }}" class="btn-cancel">Batalkan</a>
-            <button type="submit" class="btn-submit">
-                <i class="fa-solid fa-floppy-disk"></i> Simpan Data Komponen
-            </button>
-        </div>
-    </form>
-</div>
+        <!-- KOLOM KANAN: PENGATURAN STATUS & MEDIA -->
+        <div class="form-card-sidebar">
+            <div class="form-header" style="margin-bottom:16px; padding-bottom:8px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #0a4174;">Media & Status</h3>
+            </div>
 
-<!-- JAVASCRIPT UNTUK LIVE PREVIEW GAMBAR SEBELUM DIUNGGAH -->
+            @foreach($mapping['fields'] as $key => $field)
+                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $field['type'] === 'select' || $key === 'study_status' || $key === 'status')
+                    
+                    <div class="form-group">
+                        <label class="form-label">{{ $field['label'] }}</label>
+                        
+                        @if($field['type'] === 'file')
+                            <input type="file" name="{{ $key }}" class="form-control" accept="image/*" onchange="previewImage(this, 'side-preview-{{ $key }}')">
+                            <div style="margin-top: 8px; text-align: center;">
+                                <img id="side-preview-{{ $key }}" src="{{ (isset($row) && !empty($row->$key)) ? (Str::startsWith($row->$key, 'http') ? $row->$key : asset($row->$key)) : asset('assets/images/no-image.png') }}" style="width: 100%; max-height: 140px; border-radius: 6px; object-fit: cover; border: 1px solid #d0e1f0;" alt="Pratinjau">
+                            </div>
+
+                        @elseif($field['type'] === 'select' || $field['type'] === 'toggle' || $key === 'study_status' || $key === 'status')
+                            <select name="{{ $key }}" class="form-control">
+                                @foreach($field['options'] as $value => $label)
+                                    <option value="{{ $value }}" {{ (isset($row) && $row->$key == $value) ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        @endif
+                    </div>
+
+                @endif
+            @endforeach
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Simpan Perubahan</button>
+                <a href="{{ route('admin.table.index', $table_key) }}" class="btn-cancel">Batalkan</a>
+            </div>
+        </div>
+
+    </div>
+</form>
+
 <script>
     function previewImage(input, previewId) {
         const preview = document.getElementById(previewId);
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-            }
+            reader.onload = function(e) { preview.src = e.target.result; }
             reader.readAsDataURL(input.files[0]);
         }
     }
