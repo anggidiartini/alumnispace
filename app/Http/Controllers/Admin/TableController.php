@@ -342,4 +342,48 @@ class TableController extends Controller
 
         return redirect()->route('admin.table.index', $table_key)->with('success', 'Data berhasil dihapus.');
     }
+
+       // ===================================================
+    // LOGIKA FITUR MANAJEMEN AKUN ADMIN BARU
+    // ===================================================
+    public function indexAdmins()
+    {
+        $admins = \DB::table('users')
+            ->whereIn('role', ['admin', 'super_admin'])
+            ->paginate(10);
+
+        $this->shareSidebarCounts(); 
+        return view('admin.admins.index', compact('admins'));
+    }
+
+    public function createAdmin()
+    {
+        $this->shareSidebarCounts();
+        return view('admin.admins.form');
+    }
+
+    public function storeAdmin(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|in:admin,super_admin',
+        ]);
+
+        \DB::table('users')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => \Hash::make($request->password), 
+            'role' => $request->role,
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('admin.admins.index')->with('success', 'Akun Admin Baru Berhasil Didaftarkan!');
+    }
+
 }
