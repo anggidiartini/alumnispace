@@ -1,6 +1,6 @@
 <header class="custom-header">
   <nav class="custom-nav-container" aria-label="Navigasi utama">
-   <a href="#beranda" class="custom-logo" data-target="#beranda">
+   <a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="custom-logo" data-target="#beranda">
   <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space" class="logo-spin" style="height: 2.25rem; width: auto;">
   <span class="logo-text">Alumni Space</span>
 </a>
@@ -121,7 +121,7 @@
   <!-- Menu Mobile (Disederhanakan jadi 6 menu utama) -->
   <div id="mobile-nav" class="mobile-nav-container">
     <div class="mobile-nav-content">
-      <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="#beranda" data-target="#beranda">Beranda</a>
+      <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" data-target="#beranda">Beranda</a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" href="{{ route('alumni.index') }}">
         <span>Alumni</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest

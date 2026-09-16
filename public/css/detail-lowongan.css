@@ -128,7 +128,7 @@ img {
 /* ---------- ornamen kecil kiri-kanan (jam, bus, papan tulis, lampu, alat tulis) ---------- */
 .deco-asset {
     position: absolute;
-    z-index: 30;
+    z-index: 40;
     pointer-events: none;
 }
 .deco-asset img {
@@ -141,7 +141,7 @@ img {
 .aset-papantulis,
 .aset-lampu,
 .aset-alattulis {
-    width: 90px;
+    width: 110px;
     transform: rotate(0deg);
 }
 
@@ -331,13 +331,16 @@ img {
 
 /* tombol dalam baris aksi hero (Simpan Lowongan + Lamar/WA) dibuat
    seragam ukurannya biar rapi berdampingan, samain kayak tombol
-   apply/detail di card listing lowongan */
+   apply/detail di card listing lowongan.
+   REVISI 3: tombol WA di hero jangan ikut stretch penuh (flex 0 0 auto),
+   biar teksnya diperpendek jadi ringkas dan otomatis nempel ke kanan
+   lewat justify-content pada .job-hero-actions. */
 .job-hero-actions .custom-white-pill-btn,
 .job-hero-actions .custom-pill-btn,
 .job-hero-actions .whatsapp-pill-btn {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     font-size: 0.85rem;
-    padding: 0.65rem 1rem;
+    padding: 0.65rem 1.1rem;
     white-space: nowrap;
 }
 
@@ -536,6 +539,7 @@ img {
 .job-hero-actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 0.75rem;
     width: 100%;
     position: relative;
@@ -988,54 +992,55 @@ img {
    Offset dibuat NEGATIF supaya ornamen keluar dari kotak .page-width
    (max 1180px) menuju ruang kosong kiri-kanan, bukan menempel di
    dalam card/konten. */
+/* ---------- posisi ornamen kanan-kiri: hero, detail-grid, related-wrap ---------- */
 .dl-hero-l1 {
-    left: -70px;
+    left: -120px; /* sebelumnya -70px */
     top: 18%;
 }
 .dl-hero-l2 {
-    left: -40px;
+    left: -90px; /* sebelumnya -40px */
     bottom: 8%;
 }
 .dl-hero-r1 {
-    right: -70px;
+    right: -120px; /* sebelumnya -70px */
     top: 14%;
 }
 .dl-hero-r2 {
-    right: -40px;
+    right: -90px; /* sebelumnya -40px */
     bottom: 10%;
 }
 
 .dl-grid-l1 {
-    left: -80px;
+    left: -130px; /* sebelumnya -80px */
     top: 4%;
 }
 .dl-grid-l2 {
-    left: -50px;
+    left: -100px; /* sebelumnya -50px */
     bottom: 6%;
 }
 .dl-grid-r1 {
-    right: -80px;
+    right: -130px; /* sebelumnya -80px */
     top: 10%;
 }
 .dl-grid-r2 {
-    right: -50px;
+    right: -100px; /* sebelumnya -50px */
     bottom: 4%;
 }
 
 .dl-related-l1 {
-    left: -70px;
+    left: -120px; /* sebelumnya -70px */
     top: 10%;
 }
 .dl-related-l2 {
-    left: -40px;
+    left: -90px; /* sebelumnya -40px */
     bottom: 8%;
 }
 .dl-related-r1 {
-    right: -70px;
+    right: -120px; /* sebelumnya -70px */
     top: 12%;
 }
 .dl-related-r2 {
-    right: -40px;
+    right: -90px; /* sebelumnya -40px */
     bottom: 6%;
 }
 

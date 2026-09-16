@@ -107,11 +107,7 @@
                         </div>
 
                         <div class="job-hero-actions">
-                            <button type="button" id="save-button" class="custom-white-pill-btn" data-slug="{{ $job->slug }}" aria-pressed="false">
-                                <i data-lucide="bookmark" width="18" height="18"></i>
-                                <span class="save-label">Simpan Lowongan</span>
-                                <span class="saved-label">Tersimpan</span>
-                            </button>
+
 
                             @if($applyUrl)
                                 <a href="{{ $applyUrl }}" target="_blank" rel="noopener" class="custom-pill-btn">
@@ -119,10 +115,7 @@
                                     <i data-lucide="arrow-up-right" width="16" height="16"></i>
                                 </a>
                             @else
-                                <a href="{{ $waFallbackUrl }}" target="_blank" rel="noopener" class="whatsapp-pill-btn">
-                                    <span class="whatsapp-pill-icon"><i data-lucide="message-circle" width="15" height="15"></i></span>
-                                    Lamar via WhatsApp
-                                </a>
+
                             @endif
                         </div>
                     </div>

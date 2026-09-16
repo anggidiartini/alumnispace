@@ -1212,7 +1212,7 @@ main {
 .aset-papantulis,
 .aset-lampu,
 .aset-alattulis {
-    width: 96px;
+    width: 140px; /* sebelumnya 96px */
     transform: rotate(0deg);
 }
 
@@ -1246,62 +1246,61 @@ main {
 
 /* posisi: 6 kiri + 6 kanan, tersebar dari atas ke bawah halaman */
 .de-l1 {
-    left: 8px;
+    left: -5px; /* sebelumnya -30px */
     top: 2%;
 }
 .de-l2 {
-    left: 28px;
+    left: 15px; /* sebelumnya -10px */
     top: 20%;
 }
 .de-l3 {
-    left: 6px;
+    left: -8px; /* sebelumnya -32px */
     top: 38%;
 }
 .de-l4 {
-    left: 28px;
+    left: 15px; /* sebelumnya -10px */
     top: 56%;
 }
 .de-l5 {
-    left: 8px;
+    left: -5px; /* sebelumnya -30px */
     top: 74%;
 }
 .de-l6 {
-    left: 26px;
+    left: 13px; /* sebelumnya -12px */
     top: 92%;
 }
 
 .de-r1 {
-    right: 8px;
+    right: -5px; /* sebelumnya -30px */
     top: 8%;
 }
 .de-r2 {
-    right: 28px;
+    right: 15px; /* sebelumnya -10px */
     top: 26%;
 }
 .de-r3 {
-    right: 6px;
+    right: -8px; /* sebelumnya -32px */
     top: 44%;
 }
 .de-r4 {
-    right: 28px;
+    right: 15px; /* sebelumnya -10px */
     top: 62%;
 }
 .de-r5 {
-    right: 8px;
+    right: -5px; /* sebelumnya -30px */
     top: 80%;
 }
 .de-r6 {
-    right: 26px;
+    right: 13px; /* sebelumnya -12px */
     top: 96%;
 }
-
 @media (max-width: 1650px) {
     .aset-jam,
     .aset-bus,
     .aset-papantulis,
     .aset-lampu,
     .aset-alattulis {
-        width: 64px;
+        width: 96px; /* sebelumnya 64px, disesuaikan naik biar tetap enak */
     }
 }
 @media (max-width: 1300px) {

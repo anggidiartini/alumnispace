@@ -982,3 +982,27 @@
 .related-grid.album-grid .card {
     cursor: pointer;
 }
+
+/* ---------- SUPAYA TOMBOL "BACA ARTIKEL" SEJAJAR DI CARD TERKAIT/TERBARU
+   (HALAMAN DETAIL) — sama seperti perbaikan #article-section di atas,
+   card di sini tingginya dulu ikut isi excerpt masing-masing (naik-turun),
+   jadi tombolnya nggak sejajar antar card. Sekarang card dibuat flex-column
+   setinggi grid-nya, isi deskripsi ambil sisa ruang, tombol didorong ke
+   paling bawah (margin-top: auto) supaya rata di semua card. ---------- */
+.related-grid.album-grid .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.related-grid.album-grid .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.related-grid.album-grid .card-desc {
+    flex: 1;
+}
+.related-grid.album-grid .view-btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
