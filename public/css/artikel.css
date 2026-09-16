@@ -51,15 +51,16 @@
 }
 
 /* ---------- HILANGKAN GARIS BAWAH DI SEMUA TOMBOL/LINK HALAMAN ARTIKEL ---------- */
-#article-section a,
-#article-section a:hover,
-#article-section a:visited,
+#article-detail a,
+#article-detail a:hover,
+#article-detail a:visited,
+#article-detail a *,
+.related-grid .card,
+.related-grid .card *,
 .hero-cta,
 .hero-latest-card,
 .hero-latest-card *,
 .hero-latest-link,
-.related-card,
-.related-card *,
 .sidebar-item,
 .sidebar-item *,
 .view-btn {
