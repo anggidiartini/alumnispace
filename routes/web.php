@@ -73,15 +73,19 @@ Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('artikel
 
 
 // Admin Protected Group
-Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () { 
+Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [ContentManagementController::class, 'dashboard'])->name('dashboard');
+
+    Route::get('/manage-admins', [TableController::class, 'indexAdmins'])->name('admins.index');
+    Route::get('/manage-admins/create', [TableController::class, 'createAdmin'])->name('admins.create');
+    Route::post('/manage-admins', [TableController::class, 'storeAdmin'])->name('admins.store');
 
     Route::get('/table/{table_name}', [TableController::class, 'index'])->name('table.index');
     Route::get('/table/{table_name}/create', [TableController::class, 'create'])->name('table.create');
     Route::post('/table/{table_name}', [TableController::class, 'store'])->name('table.store');
-    
+
     Route::get('/table/{table_name}/{id}', [TableController::class, 'show'])->name('table.show');
-    
+
     Route::get('/table/{table_name}/{id}/edit', [TableController::class, 'edit'])->name('table.edit');
     Route::put('/table/{table_name}/{id}', [TableController::class, 'update'])->name('table.update');
     Route::delete('/table/{table_name}/{id}', [TableController::class, 'destroy'])->name('table.destroy');
@@ -94,4 +98,3 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-

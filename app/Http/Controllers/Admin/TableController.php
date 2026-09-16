@@ -21,9 +21,8 @@ class TableController extends Controller
             'alumnis' => [
                 'title' => 'Data Alumni',
                 'table' => 'alumni_profiles',
-                'list_columns' => ['student_number', 'name', 'graduation_year', 'profession', 'phone_number', 'study_status'],
+                'list_columns' => ['name', 'graduation_year', 'profession', 'phone_number', 'study_status'],
                 'fields' => [
-                    'student_number' => ['label' => 'Nomor Anggota', 'type' => 'text', 'required' => true],
                     'name' => ['label' => 'Nama Lengkap', 'type' => 'text', 'required' => true, 'readonly' => true],
                     'graduation_year' => ['label' => 'Tahun Kelulusan', 'type' => 'number', 'required' => true, 'min' => 1901],
                     'major' => ['label' => 'Jurusan / Program Studi', 'type' => 'text', 'required' => true],
@@ -343,4 +342,48 @@ class TableController extends Controller
 
         return redirect()->route('admin.table.index', $table_key)->with('success', 'Data berhasil dihapus.');
     }
+
+       // ===================================================
+    // LOGIKA FITUR MANAJEMEN AKUN ADMIN BARU
+    // ===================================================
+    public function indexAdmins()
+    {
+        $admins = \DB::table('users')
+            ->whereIn('role', ['admin', 'super_admin'])
+            ->paginate(10);
+
+        $this->shareSidebarCounts(); 
+        return view('admin.admins.index', compact('admins'));
+    }
+
+    public function createAdmin()
+    {
+        $this->shareSidebarCounts();
+        return view('admin.admins.form');
+    }
+
+    public function storeAdmin(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|in:admin,super_admin',
+        ]);
+
+        \DB::table('users')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => \Hash::make($request->password), 
+            'role' => $request->role,
+            'is_active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('admin.admins.index')->with('success', 'Akun Admin Baru Berhasil Didaftarkan!');
+    }
+
 }
