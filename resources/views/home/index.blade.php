@@ -46,7 +46,7 @@
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
             @auth
-            <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
+            <p class="mb-1 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
               <span></span> Selamat datang, {{ Auth::user()->name }}! (Alumni Terverifikasi)
             </p>
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Ruang temu kita semua.' }}</h1>
@@ -201,7 +201,8 @@
 
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
-      <p class="mb-3 inline-block rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Struktur Organisasi</p>
+      <!-- Pengurus -->
+<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
       <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
     </div>
 
@@ -571,14 +572,15 @@
   </div>
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
-            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
+            <!-- Album -->
+<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Album komunitas</p>
             <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
             <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
           </div>
           <div class="mt-9 grid gap-5 md:grid-cols-4">
             @forelse($albums ?? [] as $index => $album)
             <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
-              <span class="text-4xl">📸</span>
+              <img src="{{ asset('assets/images/icon-kamera.png') }}" alt="" class="album-icon">
               <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
               <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
               <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
@@ -602,7 +604,8 @@
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="reveal-onscroll">
-          <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Karier &amp; peluang</p>
+          <!-- Lowongan -->
+<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Karier &amp; peluang</p>
           <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Lowongan pilihan untukmu.</h2>
           <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Info bursa kerja & magang terverifikasi dari perusahaan partner alumni.</p>
         </div>
@@ -638,7 +641,8 @@
   </div>
         <div class="mx-auto max-w-7xl px-5 md:px-8">
           <div class="reveal-onscroll">
-            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Agenda komunitas</p>
+            <!-- Event -->
+<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Agenda komunitas</p>
             <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Jangan sampai ketinggalan momennya.</h2>
             <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Meetup, webinar, dan reuni seru yang hanya bisa diikuti alumni login.</p>
           </div>

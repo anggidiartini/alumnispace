@@ -66,7 +66,7 @@
                             <button type="button" id="heroCta" class="custom-pill-btn focus-ring">
                                 Jelajahi Event
                             </button>
-                            <span class="hero-note">Pilih momen yang ingin kamu kenang</span>
+
                         </div>
 
                         <div class="hero-stats" id="heroStats">
@@ -262,7 +262,7 @@
     var prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
-    var revealEls = document.querySelectorAll("[data-reveal]");
+    var revealEls = document.querySelectorAll(".data-reveal");
     if (!revealEls.length) return;
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {

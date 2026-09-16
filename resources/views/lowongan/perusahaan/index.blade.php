@@ -14,7 +14,7 @@
         href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
     <link rel="stylesheet"
         href="{{ asset('css/lowongan.css') }}?v={{ file_exists(public_path('css/lowongan.css')) ? filemtime(public_path('css/lowongan.css')) : time() }}">
-   
+
      <link rel="stylesheet"
         href="{{ asset('css/footer.css') }}?v={{ file_exists(public_path('css/footer.css')) ? filemtime(public_path('css/footer.css')) : time() }}">
     @auth
@@ -28,7 +28,7 @@
         localStorage.removeItem("ac_user_email");
     </script>
     @endauth
-=======
+
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 
@@ -103,7 +103,7 @@
                                     </div>
                                 </article>
                             @endif
-                            <div class="hero-note wiggle">Ada peluang baru!</div>
+                            <div class="h ero-note wiggle">Ada peluang baru!</div>
                         </div>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
 
 
     <!-- Floating action buttons -->
-=======
+
         <div id="wa-widget">
             <div id="wa-bubble" class="wa-bubble">
                 <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
@@ -340,7 +340,12 @@
 
 
 
+
     
+
+
+
+
 
     <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
@@ -467,4 +472,9 @@
 
 
 
+
 </html>
+
+
+</html>
+

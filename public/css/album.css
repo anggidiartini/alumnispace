@@ -96,9 +96,19 @@ body::before {
     overflow: hidden;
 }
 
-/* Section 2 (album) — polos putih, tanpa animasi bintik-bintik background */
+/* Section 2 (album) — background gradasi putih ke biru muda,
+   sengaja mulai putih di atas biar nyambung sama wave-divider putih
+   dari section 1, baru pelan-pelan jadi biru ke bawah */
 .section-yellow {
-    background: #ffffff;
+    background-color: #ffffff;
+    background-image:
+        linear-gradient(180deg, #ffffff 0%, #f3f8ff 35%, #eaf3ff 100%),
+        radial-gradient(circle, rgba(46, 114, 236, 0.12) 3px, transparent 3.6px),
+        radial-gradient(circle, rgba(255, 224, 138, 0.35) 6px, transparent 6.6px),
+        radial-gradient(circle, rgba(46, 114, 236, 0.07) 2px, transparent 2.6px);
+    background-size: 100% 100%, 42px 42px, 130px 130px, 70px 70px;
+    background-position: 0 0, 0 0, 30px 60px, 55px 10px;
+    background-repeat: no-repeat, repeat, repeat, repeat;
     position: relative;
     padding-top: 10px;
     overflow: hidden;
@@ -2243,13 +2253,39 @@ h1.title .pop {
 }
 
 /* ---------- posisi ornamen: GRID ALBUM (.section-yellow) ---------- */
+/* disebar dari atas sampai bawah section (pakai % dari tinggi total section)
+   biar tetep kelihatan di pinggir pas discroll, nggak numpuk di ujung doang */
 .alb-grid-l1 {
     left: 10px;
-    top: 6%;
+    top: 4%;
 }
 .alb-grid-r1 {
     right: 10px;
-    top: 8%;
+    top: 6%;
+}
+.alb-grid-l2 {
+    left: 4%;
+    top: 28%;
+}
+.alb-grid-r2 {
+    right: 4%;
+    top: 32%;
+}
+.alb-grid-l3 {
+    left: 10px;
+    top: 56%;
+}
+.alb-grid-r3 {
+    right: 10px;
+    top: 60%;
+}
+.alb-grid-l4 {
+    left: 4%;
+    top: 84%;
+}
+.alb-grid-r4 {
+    right: 4%;
+    top: 88%;
 }
 
 /* ---------- posisi ornamen: DETAIL ALBUM (.detail-page-wrap) ---------- */
@@ -2284,6 +2320,12 @@ h1.title .pop {
     .alb-hero-r2,
     .alb-grid-l1,
     .alb-grid-r1,
+    .alb-grid-l2,
+    .alb-grid-r2,
+    .alb-grid-l3,
+    .alb-grid-r3,
+    .alb-grid-l4,
+    .alb-grid-r4,
     .alb-detail-l1,
     .alb-detail-l2,
     .alb-detail-r1,
@@ -2351,5 +2393,82 @@ h1.title .pop {
     }
     .info-card {
         padding: 1.25rem;
+    }
+}
+
+/* =========================================================
+   OVERRIDE KHUSUS SECTION PERTAMA (HERO / .section-blue)
+   Sesuai permintaan: hero ikutin gaya animasi ARTIKEL versi asli
+   (transition halus tanpa bounce, + kurva float/wiggle punya
+   artikel.css yang lama). Bagian grid album (.section-yellow) &
+   halaman detail TIDAK disentuh, tetap pakai popBounceIn/floaty
+   bawaan album seperti biasa.
+   ========================================================= */
+
+/* ---- Reveal elemen hero: transition halus, TANPA bounce ----
+   (nyontek persis dari artikel.css versi lama, cuma discope
+   ke .section-blue biar gak ganggu reveal-pop di section lain) */
+.section-blue .reveal-pop {
+    opacity: 0;
+    transform: translateY(25px) scale(0.92);
+    transition:
+        opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: none;
+}
+
+.section-blue .reveal-pop.in-view {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: none;
+}
+
+/* ---- Ornamen deco di hero: pakai kurva float/wiggle punya
+   artikel.css versi lama (beda dari floaty/wiggle bawaan album) ---- */
+@keyframes heroDecoFloatUpDown {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-14px) rotate(4deg);
+    }
+}
+
+@keyframes heroDecoFloatSlow {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-4deg);
+    }
+}
+
+@keyframes heroDecoWiggle {
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+.section-blue .deco-asset .floaty {
+    animation: heroDecoFloatUpDown 4s ease-in-out infinite;
+}
+.section-blue .deco-asset .floaty-slow {
+    animation: heroDecoFloatSlow 6s ease-in-out infinite;
+}
+.section-blue .deco-asset .wiggle {
+    animation: heroDecoWiggle 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-blue .deco-asset .floaty,
+    .section-blue .deco-asset .floaty-slow,
+    .section-blue .deco-asset .wiggle {
+        animation: none !important;
     }
 }
