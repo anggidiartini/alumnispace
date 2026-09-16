@@ -25,7 +25,7 @@
 <aside class="sidebar">
     <div class="sidebar-header">
         <a href="/admin/dashboard" class="brand-logo">
-            <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class=""><i class="fa-solid fa-graduation-cap"></i></div>
             <div class="brand-text">
                 <h1>AlumniSpace</h1>
                 <p>Admin Panel</p>
