@@ -86,15 +86,17 @@ class TableController extends Controller
             'albums' => [
                 'title' => 'Album Foto',
                 'table' => 'albums',
-                'list_columns' => ['title', 'category', 'target_generation'],
+                'list_columns' => ['cover_photo', 'title', 'category', 'target_generation'],
                 'fields' => [
                     'title' => ['label' => 'Nama Album Galeri', 'type' => 'text', 'required' => true],
+                    'cover_photo' => ['label' => 'Foto Sampul Album', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 500KB'],
                     'category' => ['label' => 'Jenis Kegiatan (Indoor/Outdoor)', 'type' => 'text', 'required' => true],
                     'subtitle_label' => ['label' => 'Label Sub-Keterangan', 'type' => 'text', 'required' => true],
                     'target_generation' => ['label' => 'Target Angkatan', 'type' => 'text', 'required' => true],
                     'description' => ['label' => 'Keterangan Singkat Album', 'type' => 'textarea', 'required' => true],
                 ]
             ],
+
             'galleries' => [
                 'title' => 'Galeri Foto',
                 'table' => 'album_photos',
@@ -233,6 +235,10 @@ class TableController extends Controller
         if ($request->hasFile('company_logo')) {
             $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
         }
+        if ($request->hasFile('cover_photo')) {
+            $rules['cover_photo'] = 'image|mimes:jpeg,png,jpg|max:500';
+        }
+
         if (!empty($rules)) {
             $request->validate($rules);
         }
@@ -321,6 +327,10 @@ class TableController extends Controller
         if ($request->hasFile('company_logo')) {
             $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
         }
+        if ($request->hasFile('cover_photo')) {
+            $rules['cover_photo'] = 'image|mimes:jpeg,png,jpg|max:500';
+        }
+
 
         if (!empty($rules)) {
             $request->validate($rules);
