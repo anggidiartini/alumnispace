@@ -106,8 +106,8 @@ class TableController extends Controller
         if (!isset($registry[$table_key])) {
             $tableName = $this->mapTable($table_key);
             $rawColumns = Schema::getColumnListing($tableName);
-            $cleanColumns = array_filter($rawColumns, function($col) {
-                return !in_array($col, ['id', 'created_at', 'updated_at', 'remember_token', 'email_verified_at']) 
+            $cleanColumns = array_filter($rawColumns, function ($col) {
+                return !in_array($col, ['id', 'created_at', 'updated_at', 'remember_token', 'email_verified_at'])
                     && !Str::endsWith($col, '_id') && !Str::startsWith($col, 'posted_');
             });
 
@@ -181,7 +181,7 @@ class TableController extends Controller
     public function show($table_key, $id)
     {
         $mapping = $this->getTableMapping($table_key);
-        
+
         if ($table_key === 'alumnis') {
             $row = DB::table('alumni_profiles')
                 ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
@@ -203,6 +203,11 @@ class TableController extends Controller
         $mapping = $this->getTableMapping($table_key);
         $this->shareSidebarCounts();
 
+        // Mengarahkan ke berkas view formulir khusus CKEditor jika entitas yang dibuka adalah artikel
+        if ($table_key === 'articles') {
+            return view('admin.table.form_articles', compact('mapping', 'table_key'));
+        }
+
         return view('admin.table.form', compact('mapping', 'table_key'));
     }
 
@@ -213,11 +218,19 @@ class TableController extends Controller
 
         // Aturan validasi file gambar dinamis berdasarkan jenis konten
         $rules = [];
-        if ($request->hasFile('avatar')) { $rules['avatar'] = 'image|mimes:jpeg,png,jpg|min:300|max:500'; }
-        if ($request->hasFile('thumbnail')) { $rules['thumbnail'] = 'image|mimes:jpeg,png,jpg|max:50'; }
-        if ($request->hasFile('photo_path')) { $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500'; }
-        
-        if (!empty($rules)) { $request->validate($rules); }
+        if ($request->hasFile('avatar')) {
+            $rules['avatar'] = 'image|mimes:jpeg,png,jpg|min:300|max:500';
+        }
+        if ($request->hasFile('thumbnail')) {
+            $rules['thumbnail'] = 'image|mimes:jpeg,png,jpg|max:50';
+        }
+        if ($request->hasFile('photo_path')) {
+            $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
+        }
+
+        if (!empty($rules)) {
+            $request->validate($rules);
+        }
 
         $insertData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
@@ -239,11 +252,21 @@ class TableController extends Controller
 
         // Otomatis mengisi data relasi petugas pengunggah dari session login
         $allFields = Schema::getColumnListing($tableName);
-        if (in_array('user_id', $allFields) && $table_key !== 'alumnis') { $insertData['user_id'] = Auth::id(); }
-        if (in_array('posted_by', $allFields)) { $insertData['posted_by'] = Auth::id(); }
-        if (in_array('created_by', $allFields)) { $insertData['created_by'] = Auth::id(); }
-        if (in_array('author_id', $allFields)) { $insertData['author_id'] = Auth::id(); }
-        if (in_array('uploaded_by', $allFields)) { $insertData['uploaded_by'] = Auth::id(); }
+        if (in_array('user_id', $allFields) && $table_key !== 'alumnis') {
+            $insertData['user_id'] = Auth::id();
+        }
+        if (in_array('posted_by', $allFields)) {
+            $insertData['posted_by'] = Auth::id();
+        }
+        if (in_array('created_by', $allFields)) {
+            $insertData['created_by'] = Auth::id();
+        }
+        if (in_array('author_id', $allFields)) {
+            $insertData['author_id'] = Auth::id();
+        }
+        if (in_array('uploaded_by', $allFields)) {
+            $insertData['uploaded_by'] = Auth::id();
+        }
 
         DB::table($tableName)->insert($insertData);
 
@@ -253,7 +276,7 @@ class TableController extends Controller
     public function edit($table_key, $id)
     {
         $mapping = $this->getTableMapping($table_key);
-        
+
         if ($table_key === 'alumnis') {
             $row = DB::table('alumni_profiles')
                 ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
@@ -265,8 +288,14 @@ class TableController extends Controller
         }
 
         if (!$row) abort(404);
-        
+
         $this->shareSidebarCounts();
+
+        // Mengarahkan ke berkas view penyuntingan khusus CKEditor jika entitas yang dibuka adalah artikel
+        if ($table_key === 'articles') {
+            return view('admin.table.form_articles', compact('row', 'mapping', 'table_key'));
+        }
+
         return view('admin.table.form', compact('row', 'mapping', 'table_key'));
     }
 
@@ -275,16 +304,24 @@ class TableController extends Controller
         $mapping = $this->getTableMapping($table_key);
 
         $rules = [];
-        if ($request->hasFile('avatar')) { $rules['avatar'] = 'image|mimes:jpeg,png,jpg|min:300|max:500'; }
-        if ($request->hasFile('thumbnail')) { $rules['thumbnail'] = 'image|mimes:jpeg,png,jpg|max:50'; }
-        if ($request->hasFile('photo_path')) { $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500'; }
-        
-        if (!empty($rules)) { $request->validate($rules); }
+        if ($request->hasFile('avatar')) {
+            $rules['avatar'] = 'image|mimes:jpeg,png,jpg|min:300|max:500';
+        }
+        if ($request->hasFile('thumbnail')) {
+            $rules['thumbnail'] = 'image|mimes:jpeg,png,jpg|max:50';
+        }
+        if ($request->hasFile('photo_path')) {
+            $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
+        }
+
+        if (!empty($rules)) {
+            $request->validate($rules);
+        }
 
         $updateData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
             if ($fieldName === 'name') continue;
-            
+
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
                 $file = $request->file($fieldName);
                 $filename = time() . '_' . $file->getClientOriginalName();
