@@ -31,9 +31,9 @@ html {
     background: #f7fbff;
 }
 
-.alumni-page-body button,
-.alumni-page-body select,
-.alumni-page-body input {
+.alumni-page-body button:not(nav *),
+.alumni-page-body select:not(nav *),
+.alumni-page-body input:not(nav *) {
     font: inherit;
 }
 .alumni-page-body button {
