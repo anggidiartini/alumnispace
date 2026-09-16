@@ -244,13 +244,49 @@
         opacity: 0.45;
         pointer-events: none;
     }
-    .alert-success { padding: 12px 16px; border-radius: 8px; background-color: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #166534; font-size: 13px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .alert-success {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1300;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 260px;
+        max-width: min(420px, calc(100vw - 32px));
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(236, 253, 245, 0.98), rgba(220, 252, 231, 0.98));
+        border: 1px solid rgba(34, 197, 94, 0.4);
+        color: #166534;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 18px 40px rgba(22, 101, 52, 0.15);
+        opacity: 0;
+        transform: translateY(-12px);
+        transition: opacity 0.22s ease, transform 0.22s ease;
+        pointer-events: none;
+    }
+    .alert-success.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .alert-success .toast-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(34, 197, 94, 0.15);
+        display: grid;
+        place-items: center;
+        color: #15803d;
+        flex-shrink: 0;
+    }
     .preview-img-mini { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color); }
 </style>
 
 @if (session('success'))
-    <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="alert-success">
-        <i class="fa-solid fa-circle-check"></i>
+    <div id="successToast" class="alert-success" role="status" aria-live="polite">
+        <span class="toast-icon"><i class="fa-solid fa-circle-check"></i></span>
         <span>{{ session('success') }}</span>
     </div>
 @endif
@@ -382,6 +418,20 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const successToast = document.getElementById('successToast');
+        if (successToast) {
+            requestAnimationFrame(function () {
+                successToast.classList.add('is-visible');
+            });
+
+            setTimeout(function () {
+                successToast.classList.remove('is-visible');
+                setTimeout(function () {
+                    successToast.remove();
+                }, 220);
+            }, 2800);
+        }
+
         const backdrop = document.getElementById('deleteModalBackdrop');
         const cancelBtn = document.getElementById('cancelDeleteBtn');
         const confirmBtn = document.getElementById('confirmDeleteBtn');
