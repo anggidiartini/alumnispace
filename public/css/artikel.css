@@ -190,6 +190,33 @@
     font-family: "Baloo 2", sans-serif;
 }
 
+/* =========================================================
+   HERO ARTIKEL (SECTION 1) — DISAMAKAN dgn tata letak
+   section 1 EVENT (event.css: .hero-section & .hero-layout).
+   .hero & .hero-inner aslinya didefinisikan di album.css (dipakai
+   bareng sama halaman album); di sini kita timpa 3 hal biar
+   proporsinya identik dengan punya event:
+   1) padding vertikal section  → 4rem atas / 5.5rem bawah (persis
+      nilai efektif #beranda.hero-section punya event)
+   2) rasio kolom kiri:kanan    → 1.05fr : 0.95fr (bukan 1fr : 420-520px)
+   3) gap antar kolom           → 2.5rem/40px (bukan 55px)
+   4) min-height dilepas        → tinggi section jadi natural
+      ngikutin konten, sama kayak punya event (tidak dipatok 500px)
+   File ini di-load SESUDAH album.css jadi otomatis menang (specificity sama). */
+.hero {
+    padding: 64px 40px 88px;
+}
+
+.hero-inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    min-height: 0;
+}
+
+.hero-copy {
+    max-width: 576px; /* disamakan dgn max-width 36rem punya .hero-copy event */
+}
+
 /* ---------- KARTU "ARTIKEL TERBARU" DI HERO (pengganti photo-stack) ---------- */
 .hero-latest-card {
     position: relative;
@@ -207,7 +234,7 @@
         box-shadow 0.3s ease;
     justify-self: end;
     width: 100%;
-    max-width: 360px;
+    max-width: 420px; /* dibesarkan dari 360px, disamakan konsepnya dgn max-width 26rem (416px) punya .hero-visual event, ngikutin kolom kanan yg sekarang 0.95fr */
 }
 
 .hero-latest-card:hover {

@@ -139,7 +139,7 @@
   <div class="section-yellow" id="article-section" style="position: relative;">
     <div class="wrap">
       <div class="section-head reveal-pop">
-        <h2>Semua <span class="marker">Artikel</span></h2>
+        <h2>Semua Artikel</h2>
         <div class="count">{{ $articles->count() }} artikel</div>
       </div>
 

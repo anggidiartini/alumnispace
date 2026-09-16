@@ -49,7 +49,6 @@
         </p>
         <button class="hero-cta reveal-pop" id="scroll-to-album" style="--pop-delay:.3s">
           Lihat Album
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.6"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
         </button>
       </div>
 
@@ -110,7 +109,7 @@
 
   <div class="wrap">
     <div class="section-head reveal-pop">
-      <h2>Pilih Album <span class="marker">Kamu</span></h2>
+      <h2>Pilih Album kamu</h2>
       <div class="count">{{ count($albums) }} albums</div>
     </div>
 
@@ -157,9 +156,7 @@
           @if($album->description)
             <p class="card-desc">{{ \Illuminate\Support\Str::limit($album->description, 90) }}</p>
           @endif
-          <a href="{{ route('album.show', $album->slug) }}" class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+          <a href="{{ route('album.show', $album->slug) }}" class="view-btn">Lihat Album</a>
         </div>
       </div>
       @empty
