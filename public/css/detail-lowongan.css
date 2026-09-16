@@ -425,8 +425,13 @@ img {
     position: relative;
     overflow: hidden;
     border-radius: 1.75rem;
-    background: linear-gradient(120deg, #ffffff 0%, #f6fbff 55%, #fff8db 100%);
-    border: 2px solid #fff;
+    background: linear-gradient(
+        155deg,
+        var(--sky) 0%,
+        var(--cream) 50%,
+        var(--sky) 130%
+    );
+
     box-shadow: 0 14px 35px rgba(29, 74, 146, 0.12);
     padding: 1.75rem;
 }
@@ -969,13 +974,13 @@ img {
 }
 
 .hero-section-top {
-    padding-top: 5rem;
+    padding-top: 1.25rem;
     position: relative;
 }
 
 @media (max-width: 767px) {
     .hero-section-top {
-        padding-top: 4rem;
+        padding-top: 1rem;
     }
 }
 
@@ -1052,4 +1057,26 @@ img {
     .dl-related-r2 {
         display: none;
     }
+}
+/* ---------- back-link "Kembali ke Lowongan" ---------- */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem; /* sebelumnya 1.5rem */
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+}
+.back-link svg,
+.back-link i {
+    flex-shrink: 0;
+}
+.back-link:hover,
+.back-link:focus-visible {
+    color: var(--blue-deep);
+    text-decoration: underline;
 }

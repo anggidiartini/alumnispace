@@ -43,6 +43,12 @@
 
             {{-- ================= HERO ================= --}}
             <section class="page-width reveal-onscroll hero-section-top">
+                <section class="page-width reveal-onscroll hero-section-top">
+
+    <a href="{{ route('lowongan.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Lowongan
+    </a>
 
              <div class="deco-asset dl-hero-l1 reveal-onscroll" aria-hidden="true">
                     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
@@ -346,7 +352,7 @@
         <i data-lucide="arrow-up" width="20" height="20"></i>
     </button>
 
-    
+
     <script src="{{ asset('js/detail-lowongan.js') }}?v={{ file_exists(public_path('js/detail-lowongan.js')) ? filemtime(public_path('js/detail-lowongan.js')) : time() }}" defer></script>
 </body>
 

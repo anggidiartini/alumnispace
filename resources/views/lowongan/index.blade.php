@@ -101,7 +101,12 @@
             </section>
 
             <!-- JOBS SECTION -->
-            <section class="page-width jobs-section" aria-labelledby="jobs-title">
+            <!-- FIX: page-width dipisah jadi wrapper konten sendiri di dalam section,
+                 bukan nempel di section itu sendiri. Section ini sekarang full-width
+                 biar 10 deco-asset (ornamen kiri/kanan) ngukur posisinya dari tepi
+                 viewport asli, sama persis kayak pola section Beranda. CSS di
+                 lowongan.css (left:-25px, right:-25px, dst) TIDAK perlu diubah. -->
+            <section class="jobs-section" aria-labelledby="jobs-title">
                 <!-- ornamen kiri (5) -->
                 <div class="deco-asset lw-jobs-l1 reveal-onscroll" aria-hidden="true">
                     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
@@ -136,182 +141,185 @@
                     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
                 </div>
 
-                <div class="section-heading reveal-onscroll">
-                    <div>
-                        <p class="section-kicker">Papan peluang</p>
-                        <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
-                    </div>
-                    <span class="jobs-note">Diperbarui secara berkala</span>
-                </div>
-
-                <div class="jobs-layout">
-                    <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
-                        <div class="filter-panel-heading">
-                            <h3 style="margin:0; font-size:1.15rem;">Filter Lowongan</h3>
-                            <i data-lucide="sliders-horizontal" width="19" height="19"></i>
+                <!-- Konten section, sekarang dibungkus page-width miliknya sendiri -->
+                <div class="page-width">
+                    <div class="section-heading reveal-onscroll">
+                        <div>
+                            <p class="section-kicker">Papan peluang</p>
+                            <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
                         </div>
-                        <form class="filter-form" id="filter-form">
-                            <div>
-                                <label class="field-label" for="search-input">Cari peluang</label>
-                                <div class="search-wrap">
-                                    <i data-lucide="search" width="18" height="18"></i>
-                                    <input id="search-input" class="field-control" type="search"
-                                        placeholder="Cari posisi atau kata kunci">
+                        <span class="jobs-note">Diperbarui secara berkala</span>
+                    </div>
+
+                    <div class="jobs-layout">
+                        <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
+                            <div class="filter-panel-heading">
+                                <h3 style="margin:0; font-size:1.15rem;">Filter Lowongan</h3>
+                                <i data-lucide="sliders-horizontal" width="19" height="19"></i>
+                            </div>
+                            <form class="filter-form" id="filter-form">
+                                <div>
+                                    <label class="field-label" for="search-input">Cari peluang</label>
+                                    <div class="search-wrap">
+                                        <i data-lucide="search" width="18" height="18"></i>
+                                        <input id="search-input" class="field-control" type="search"
+                                            placeholder="Cari posisi atau kata kunci">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <label class="field-label" for="company-filter">Perusahaan</label>
-                                <select id="company-filter" class="field-control">
-                                    <option value="">Semua Perusahaan</option>
-                                    @foreach ($jobs->pluck('company_name')->unique() as $company)
-                                        <option value="{{ $company }}">{{ $company }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="field-label" for="location-filter">Lokasi</label>
-                                <select id="location-filter" class="field-control">
-                                    <option value="">Semua Lokasi</option>
-                                    @foreach ($jobs->pluck('location')->filter()->unique() as $loc)
-                                        <option value="{{ $loc }}">{{ $loc }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <p class="field-label">Kategori cepat</p>
-                                <div class="chip-list">
-                                    <button class="filter-chip" data-type="Full-Time" type="button">Full-Time</button>
-                                    <button class="filter-chip" data-type="Remote" type="button">Remote</button>
-                                    <button class="filter-chip" data-type="Freelance" type="button">Freelance</button>
-                                    <button class="filter-chip" data-type="Magang" type="button">Magang</button>
+                                <div>
+                                    <label class="field-label" for="company-filter">Perusahaan</label>
+                                    <select id="company-filter" class="field-control">
+                                        <option value="">Semua Perusahaan</option>
+                                        @foreach ($jobs->pluck('company_name')->unique() as $company)
+                                            <option value="{{ $company }}">{{ $company }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
+
+                                <div>
+                                    <label class="field-label" for="location-filter">Lokasi</label>
+                                    <select id="location-filter" class="field-control">
+                                        <option value="">Semua Lokasi</option>
+                                        @foreach ($jobs->pluck('location')->filter()->unique() as $loc)
+                                            <option value="{{ $loc }}">{{ $loc }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <p class="field-label">Kategori cepat</p>
+                                    <div class="chip-list">
+                                        <button class="filter-chip" data-type="Full-Time" type="button">Full-Time</button>
+                                        <button class="filter-chip" data-type="Remote" type="button">Remote</button>
+                                        <button class="filter-chip" data-type="Freelance" type="button">Freelance</button>
+                                        <button class="filter-chip" data-type="Magang" type="button">Magang</button>
+                                    </div>
+                                </div>
+
+                                <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset Filter</button>
+                            </form>
+                        </aside>
+
+                        <div>
+                            <div class="results-header reveal-onscroll">
+                                <p id="results-count" class="results-count" aria-live="polite"></p>
+                                <p id="filter-summary" class="filter-summary" aria-live="polite"></p>
                             </div>
 
-                            <button id="reset-filter" class="reset-button" type="button" style="width:100%;">Reset Filter</button>
-                        </form>
-                    </aside>
+                            <div id="jobs-grid" class="jobs-grid">
+                                @foreach ($jobs as $i => $job)
+                                    @php
+                                        $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
+                                    @endphp
+                                    <article class="job-card reveal-onscroll"
+                                        style="animation-delay: {{ ($i % 3) * 0.05 }}s"
+                                        data-company="{{ $job->company_name }}" data-location="{{ $job->location }}"
+                                        data-type="{{ $job->job_type }}"
+                                        data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
+                                        <div class="job-card-head">
+                                            <span class="job-badge">{{ $job->category }}</span><span
+                                                class="job-symbol">✳</span>
+                                        </div>
+                                        <a class="job-title-link"
+                                            href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
 
-                    <div>
-                        <div class="results-header reveal-onscroll">
-                            <p id="results-count" class="results-count" aria-live="polite"></p>
-                            <p id="filter-summary" class="filter-summary" aria-live="polite"></p>
-                        </div>
+                                        <div class="company-row">
+                                            @if ($job->company)
+                                                <a href="{{ route('perusahaan.index', $job->company->slug) }}"
+                                                    class="company-link"
+                                                    style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #2877ED; font-weight: 600;"
+                                                    onmouseover="this.style.textDecoration='underline'"
+                                                    onmouseout="this.style.textDecoration='none'">
 
-                        <div id="jobs-grid" class="jobs-grid">
-                            @foreach ($jobs as $i => $job)
-                                @php
-                                    $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
-                                @endphp
-                                <article class="job-card reveal-onscroll"
-                                    style="animation-delay: {{ ($i % 3) * 0.05 }}s"
-                                    data-company="{{ $job->company_name }}" data-location="{{ $job->location }}"
-                                    data-type="{{ $job->job_type }}"
-                                    data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
-                                    <div class="job-card-head">
-                                        <span class="job-badge">{{ $job->category }}</span><span
-                                            class="job-symbol">✳</span>
-                                    </div>
-                                    <a class="job-title-link"
-                                        href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
+                                                    @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                        <img class="company-logo"
+                                                            src="{{ asset('storage/' . $job->company_logo) }}"
+                                                            alt="" loading="lazy">
+                                                    @else
+                                                        <span class="company-initials"
+                                                            style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
+                                                            {{ $job->company_logo ?? $job->initials }}
+                                                        </span>
+                                                    @endif
 
-                                    <div class="company-row">
-                                        @if ($job->company)
-                                            <a href="{{ route('perusahaan.index', $job->company->slug) }}"
-                                                class="company-link"
-                                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #2877ED; font-weight: 600;"
-                                                onmouseover="this.style.textDecoration='underline'"
-                                                onmouseout="this.style.textDecoration='none'">
+                                                    <span>{{ $job->company->name }}</span>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('perusahaan.index', $job->company_slug ?? \Illuminate\Support\Str::slug($job->company_name)) }}"
+                                                    class="company-link-enabled"
+                                                    style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500;"
+                                                    onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
+                                                    onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
 
-                                                @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
-                                                    <img class="company-logo"
-                                                        src="{{ asset('storage/' . $job->company_logo) }}"
-                                                        alt="" loading="lazy">
-                                                @else
-                                                    <span class="company-initials"
-                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->company_logo ?? $job->initials }}
-                                                    </span>
-                                                @endif
+                                                    @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
+                                                        <img class="company-logo"
+                                                            src="{{ asset('storage/' . $job->company_logo) }}"
+                                                            alt="" loading="lazy">
+                                                    @else
+                                                        <span class="company-initials"
+                                                            style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
+                                                            {{ $job->company_logo ?? $job->initials }}
+                                                        </span>
+                                                    @endif
 
-                                                <span>{{ $job->company->name }}</span>
+                                                    <span>{{ $job->company_name }}</span>
+                                                </a>
+                                            @endif
+                                        </div>
+
+                                        <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} ·
+                                            {{ $job->created_at->diffForHumans() }}</p>
+                                        <p class="job-description">
+                                            {{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
+
+                                        <div class="job-card-actions">
+                                            <a class="apply-button custom-pill-btn"
+                                                href="https://wa.me/6287780341780?text={{ urlencode($waMessage) }}">
+                                                <i data-lucide="message-circle" width="16" height="16"></i>
+                                                Lamar via WhatsApp
                                             </a>
-                                        @else
-                                            <a href="{{ route('perusahaan.index', $job->company_slug ?? \Illuminate\Support\Str::slug($job->company_name)) }}"
-                                                class="company-link-enabled"
-                                                style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: #4a5568; font-weight: 500;"
-                                                onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
-                                                onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
-
-                                                @if (!empty($job->company_logo) && (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
-                                                    <img class="company-logo"
-                                                        src="{{ asset('storage/' . $job->company_logo) }}"
-                                                        alt="" loading="lazy">
-                                                @else
-                                                    <span class="company-initials"
-                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->company_logo ?? $job->initials }}
-                                                    </span>
-                                                @endif
-
-                                                <span>{{ $job->company_name }}</span>
+                                            <a class="detail-button custom-white-pill-btn"
+                                                href="{{ route('lowongan.show', $job->slug) }}">
+                                                Detail Lowongan
                                             </a>
-                                        @endif
-                                    </div>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
 
-                                    <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} ·
-                                        {{ $job->created_at->diffForHumans() }}</p>
-                                    <p class="job-description">
-                                        {{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
-
-                                    <div class="job-card-actions">
-                                        <a class="apply-button custom-pill-btn"
-                                            href="https://wa.me/6287780341780?text={{ urlencode($waMessage) }}">
-                                            <i data-lucide="message-circle" width="16" height="16"></i>
-                                            Lamar via WhatsApp
-                                        </a>
-                                        <a class="detail-button custom-white-pill-btn"
-                                            href="{{ route('lowongan.show', $job->slug) }}">
-                                            Detail Lowongan
-                                        </a>
-                                    </div>
-                                </article>
-                            @endforeach
+                            <section id="empty-state" class="empty-state" aria-live="polite">
+                                <div class="empty-icon">⌕</div>
+                                <h3 style="margin:1rem 0 0;">Belum ada lowongan yang cocok</h3>
+                                <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua peluang.</p>
+                                <button id="empty-reset" class="custom-pill-btn" type="button"
+                                    style="margin-top:1rem;">Reset Filter</button>
+                            </section>
                         </div>
-
-                        <section id="empty-state" class="empty-state" aria-live="polite">
-                            <div class="empty-icon">⌕</div>
-                            <h3 style="margin:1rem 0 0;">Belum ada lowongan yang cocok</h3>
-                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua peluang.</p>
-                            <button id="empty-reset" class="custom-pill-btn" type="button"
-                                style="margin-top:1rem;">Reset Filter</button>
-                        </section>
                     </div>
+
+                    <section class="share-banner reveal-onscroll">
+                        <span class="share-banner-orb" aria-hidden="true"></span>
+
+                        <div class="share-banner-icon" aria-hidden="true">
+                            <i data-lucide="message-circle" width="26" height="26"></i>
+                        </div>
+
+                        <div class="share-banner-content">
+                            <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
+                            <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
+                            <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail
+                                lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
+                        </div>
+
+                        <a class="share-banner-cta custom-pill-btn"
+                            href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
+                            target="_blank" rel="noopener">
+                            <i data-lucide="message-circle" width="18" height="18"></i>
+                            Kirim via WhatsApp
+                        </a>
+                    </section>
                 </div>
-
-                <section class="share-banner reveal-onscroll">
-                    <span class="share-banner-orb" aria-hidden="true"></span>
-
-                    <div class="share-banner-icon" aria-hidden="true">
-                        <i data-lucide="message-circle" width="26" height="26"></i>
-                    </div>
-
-                    <div class="share-banner-content">
-                        <p class="section-kicker" style="color:var(--yellow);">UNTUK PERUSAHAAN & ALUMNI</p>
-                        <h2 class="share-banner-title">Bagikan Lowongan Perusahaan Anda untuk Kami</h2>
-                        <p class="share-banner-description">Punya posisi terbuka di tempatmu bekerja? Kirim detail
-                            lowongannya via WhatsApp, biar kami bantu sebarkan ke seluruh komunitas alumni.</p>
-                    </div>
-
-                    <a class="share-banner-cta custom-pill-btn"
-                        href="https://wa.me/6287780341780?text=Halo%20Alumni%20Space%2C%20saya%20ingin%20membagikan%20lowongan%20di%20perusahaan%20kami"
-                        target="_blank" rel="noopener">
-                        <i data-lucide="message-circle" width="18" height="18"></i>
-                        Kirim via WhatsApp
-                    </a>
-                </section>
             </section>
         </main>
 
