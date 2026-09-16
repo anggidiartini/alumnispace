@@ -16,15 +16,15 @@
     <link rel="stylesheet"
         href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
     @auth
-    <script>
-        localStorage.setItem("ac_logged_in", "true");
-        localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
-    </script>
+        <script>
+            localStorage.setItem("ac_logged_in", "true");
+            localStorage.setItem("ac_user_email", "{{ Auth::user()->email }}");
+        </script>
     @else
-    <script>
-        localStorage.setItem("ac_logged_in", "false");
-        localStorage.removeItem("ac_user_email");
-    </script>
+        <script>
+            localStorage.setItem("ac_logged_in", "false");
+            localStorage.removeItem("ac_user_email");
+        </script>
     @endauth
 </head>
 
@@ -181,16 +181,16 @@
                                                 onmouseover="this.style.textDecoration='underline'"
                                                 onmouseout="this.style.textDecoration='none'">
 
-                                                @if (
-                                                    !empty($job->company_logo) &&
-                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
-                                                    <img class="company-logo"
-                                                        src="{{ asset('storage/' . $job->company_logo) }}"
-                                                        alt="" loading="lazy">
+                                                <!-- JIKA ADA LOGO BERKAS DI DATABASE -->
+                                                @if (!empty($job->company_logo))
+                                                    <img class="company-logo" src="{{ asset($job->company_logo) }}"
+                                                        alt="Logo {{ $job->company_name }}" loading="lazy"
+                                                        style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
                                                 @else
+                                                    <!-- KONDISI CADANGAN JIKA KOSONG -->
                                                     <span class="company-initials"
                                                         style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->company_logo ?? $job->initials }}
+                                                        {{ $job->initials ?? strtoupper(substr($job->company_name, 0, 2)) }}
                                                     </span>
                                                 @endif
 
@@ -203,16 +203,14 @@
                                                 onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
                                                 onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
 
-                                                @if (
-                                                    !empty($job->company_logo) &&
-                                                        (strpos($job->company_logo, '/') !== false || strpos($job->company_logo, '.') !== false))
-                                                    <img class="company-logo"
-                                                        src="{{ asset('storage/' . $job->company_logo) }}"
-                                                        alt="" loading="lazy">
+                                                @if (!empty($job->company_logo))
+                                                    <img class="company-logo" src="{{ asset($job->company_logo) }}"
+                                                        alt="Logo {{ $job->company_name }}" loading="lazy"
+                                                        style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
                                                 @else
                                                     <span class="company-initials"
                                                         style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->company_logo ?? $job->initials }}
+                                                        {{ $job->initials ?? strtoupper(substr($job->company_name, 0, 2)) }}
                                                     </span>
                                                 @endif
 
@@ -302,7 +300,9 @@
         </div>
     </div>
 
-    <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
+    <div id="toast"
+        class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl"
+        role="status"></div>
 
     <!-- Modal notifikasi "harus login" -->
     <div id="auth-modal-overlay" class="auth-modal-overlay">
@@ -319,7 +319,8 @@
             </p>
             <div class="auth-modal-actions">
                 <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
-                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login
+                    sekarang</a>
             </div>
         </div>
     </div>

@@ -38,9 +38,12 @@ class TableController extends Controller
             'job_vacancies' => [
                 'title' => 'Lowongan Kerja',
                 'table' => 'job_vacancies',
-                'list_columns' => ['company_name', 'title', 'job_type', 'is_active'],
+                // 1. Tambahkan 'company_logo' ke urutan daftar list kolom tabel admin
+                'list_columns' => ['company_logo', 'company_name', 'title', 'job_type', 'is_active'],
                 'fields' => [
                     'company_name' => ['label' => 'Nama Perusahaan', 'type' => 'text', 'required' => true],
+                    // 2. Tambahkan komponen field input file baru di bawah ini
+                    'company_logo' => ['label' => 'Logo Perusahaan', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 300KB (Disarankan rasio kotak 1:1)'],
                     'title' => ['label' => 'Posisi Lowongan', 'type' => 'text', 'required' => true],
                     'job_type' => ['label' => 'Sifat Pekerjaan', 'type' => 'text', 'required' => true],
                     'workplace_type' => ['label' => 'Sistem Kerja', 'type' => 'text', 'required' => true],
@@ -51,6 +54,7 @@ class TableController extends Controller
                     'is_active' => ['label' => 'Status Lowongan', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Buka', 0 => 'Tutup']],
                 ]
             ],
+
             'articles' => [
                 'title' => 'Artikel & Berita',
                 'table' => 'articles',
@@ -226,7 +230,9 @@ class TableController extends Controller
         if ($request->hasFile('photo_path')) {
             $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
         }
-
+        if ($request->hasFile('company_logo')) {
+            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
+        }
         if (!empty($rules)) {
             $request->validate($rules);
         }
@@ -312,6 +318,9 @@ class TableController extends Controller
         if ($request->hasFile('photo_path')) {
             $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
         }
+        if ($request->hasFile('company_logo')) {
+            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
+        }
 
         if (!empty($rules)) {
             $request->validate($rules);
@@ -343,7 +352,7 @@ class TableController extends Controller
         return redirect()->route('admin.table.index', $table_key)->with('success', 'Data berhasil dihapus.');
     }
 
-       // ===================================================
+    // ===================================================
     // LOGIKA FITUR MANAJEMEN AKUN ADMIN BARU
     // ===================================================
     public function indexAdmins()
@@ -352,7 +361,7 @@ class TableController extends Controller
             ->whereIn('role', ['admin', 'super_admin'])
             ->paginate(10);
 
-        $this->shareSidebarCounts(); 
+        $this->shareSidebarCounts();
         return view('admin.admins.index', compact('admins'));
     }
 
@@ -376,7 +385,7 @@ class TableController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => \Hash::make($request->password), 
+            'password' => \Hash::make($request->password),
             'role' => $request->role,
             'is_active' => 1,
             'created_at' => now(),
@@ -385,5 +394,4 @@ class TableController extends Controller
 
         return redirect()->route('admin.admins.index')->with('success', 'Akun Admin Baru Berhasil Didaftarkan!');
     }
-
 }

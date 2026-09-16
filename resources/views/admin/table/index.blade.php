@@ -324,12 +324,14 @@
                             <td class="col-number-data">{{ $rowNumber }}</td>
                             @foreach($mapping['list_columns'] as $col)
                                 <td>
-                                    @if(in_array($col, ['avatar', 'thumbnail', 'photo_path', 'cover_photo']))
-                                        @if(!empty($row->$col))
-                                            <img src="{{ asset($row->$col) }}" class="preview-img-mini" alt="Foto">
-                                        @else
-                                            <span style="color: var(--text-muted); font-style: italic;">Tidak ada foto</span>
-                                        @endif
+                                  @if(in_array($col, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
+    @if(!empty($row->$col))
+        <!-- Otomatis membaca path upload dari folder public/uploads/ -->
+        <img src="{{ asset($row->$col) }}" class="preview-img-mini" alt="Logo">
+    @else
+        <span style="color: var(--text-muted); font-style: italic;">Tidak ada foto</span>
+    @endif
+
                                     @elseif($col === 'study_status')
                                         <span style="background-color: {{ $row->$col === 'Aktif' ? '#d1fae5' : '#fee2e2' }}; color: {{ $row->$col === 'Aktif' ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
                                             {{ $row->$col === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
