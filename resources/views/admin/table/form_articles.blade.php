@@ -4,7 +4,7 @@
 
 @section('content')
 <style>
-    /* SISTEM DUA KOLOM GRID ASIMETRIS SESUAI FOTO */
+    /* TATA LETAK DUA KOLOM GRID ASIMETRIS KANAN KIRI */
     .article-layout-grid {
         display: grid;
         grid-template-columns: 1fr 340px;
@@ -63,8 +63,12 @@
         font-size: 14px;
         outline: none;
     }
+    .form-control:focus {
+        border-color: #7bbde8;
+        background: #fff;
+    }
 
-    /* KUSTOMISASI ANTARMUKA EDITOR SESUAI SCREENSHOT */
+    /* KUSTOMISASI ANTARMUKA TEKS EDITOR MINIMALIS */
     .custom-editor-container {
         border: 1px solid #d0e1f0;
         border-radius: 12px;
@@ -116,48 +120,12 @@
         line-height: 1.8;
         outline: none;
     }
-
-    /* PANEL GOOGLE & AI SEARCH (SIDEBAR KANAN) */
-    .seo-box-title {
-        font-size: 14px;
-        font-weight: 700;
-        color: #0a4174;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 12px;
-    }
-    
-    .seo-badge-ai {
-        background: rgba(123, 189, 232, 0.25);
-        color: #0a4174;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 10px;
-        font-weight: 700;
-    }
-    
-    .seo-hint-text {
-        font-size: 12px;
+    .editor-content-area blockquote {
+        border-left: 4px solid #7bbde8;
+        padding-left: 16px;
+        font-style: italic;
         color: #527597;
-        line-height: 1.5;
-        margin-bottom: 16px;
-    }
-
-    .checkbox-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 8px;
-        margin-top: 14px;
-        padding: 10px;
-        background: #f4f8fb;
-        border-radius: 8px;
-        border: 1px solid #d0e1f0;
-    }
-    
-    .checkbox-group input {
-        margin-top: 3px;
-        cursor: pointer;
+        margin: 12px 0;
     }
 
     .form-actions {
@@ -211,30 +179,13 @@
         <!-- ================= KOLOM KIRI: EDITOR KONTEN UTAMA ================= -->
         <div class="main-content-card">
             <div class="form-header">
-                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174;">Lembar Penulisan Konten</h2>
-                <p style="font-size: 12px; color: #527597;">Kelola data judul, berkas cover, serta isi artikel berita secara terstruktur.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174;">Konten Artikel</h2>
+                <p style="font-size: 12px; color: #527597;">Tulis teks informasi utama berita pada lembar kerja di bawah ini.</p>
             </div>
 
             <div class="form-group">
                 <label class="form-label">Judul Berita <span style="color:red;">*</span></label>
-                <input type="text" name="title" id="articleTitleInput" class="form-control" value="{{ old('title', $row->title ?? '') }}" required placeholder="Masukkan judul utama berita...">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Kategori Berita <span style="color:red;">*</span></label>
-                <select name="category" class="form-control" required>
-                    <option value="Sekolah" {{ (old('category', $row->category ?? '') == 'Sekolah') ? 'selected' : '' }}>Sekolah</option>
-                    <option value="Karier" {{ (old('category', $row->category ?? '') == 'Karier') ? 'selected' : '' }}>Karier</option>
-                    <option value="Reuni" {{ (old('category', $row->category ?? '') == 'Reuni') ? 'selected' : '' }}>Reuni</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Cover Artikel / Pilih Foto Cover</label>
-                <input type="file" name="thumbnail" class="form-control" accept="image/*" onchange="previewFile(this)">
-                <div style="margin-top: 10px;">
-                    <img id="thumb-preview" src="{{ isset($row->thumbnail) ? asset($row->thumbnail) : asset('assets/images/no-image.png') }}" style="width: 140px; height: 90px; border-radius: 6px; object-fit: cover; border: 1px solid #d0e1f0;" alt="Pratinjau">
-                </div>
+                <input type="text" name="title" class="form-control" value="{{ old('title', $row->title ?? '') }}" required placeholder="Masukkan judul utama berita...">
             </div>
 
             <div class="form-group">
@@ -270,45 +221,31 @@
             </div>
         </div>
 
-        <!-- ================= KOLOM KANAN: PENGATURAN SEO & PENCARIAN ================= -->
+        <!-- ================= KOLOM KANAN: MEDIA & STATUS PENERBITAN ================= -->
         <div class="sidebar-settings-card">
-            <div class="seo-box-title">
-                <span class="seo-badge-ai">Otomatis</span>
-                <span>Google & AI Search</span>
-            </div>
-            <p class="seo-hint-text">Sistem membuat dan menyesuaikan judul, deskripsi, dan info tayang yang dibaca mesin pencari.</p>
-
-            <div class="form-group">
-                <label class="form-label">Nama Artikel</label>
-                <input type="text" id="seoArticleName" class="form-control" readonly style="background:#e2e8f0; color:#64748b;" placeholder="Dibuat otomatis...">
+            <div class="form-header" style="margin-bottom:16px; padding-bottom:8px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #0a4174;">Media & Status</h3>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Google Search</label>
-                <input type="text" class="form-control" readonly style="background:#e2e8f0; color:#64748b;" value="Judul & Deskripsi">
+                <label class="form-label">Kategori Berita <span style="color:red;">*</span></label>
+                <select name="category" class="form-control" required>
+                    <option value="Sekolah" {{ (old('category', $row->category ?? '') == 'Sekolah') ? 'selected' : '' }}>Sekolah</option>
+                    <option value="Karier" {{ (old('category', $row->category ?? '') == 'Karier') ? 'selected' : '' }}>Karier</option>
+                    <option value="Reuni" {{ (old('category', $row->category ?? '') == 'Reuni') ? 'selected' : '' }}>Reuni</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label class="form-label">Saat Dibagikan</label>
-                <input type="text" class="form-control" readonly style="background:#e2e8f0; color:#64748b;" value="Tampilan Otomatis">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Pencarian</label>
-                <input type="text" class="form-control" readonly style="background:#e2e8f0; color:#64748b;" value="Informasi Otomatis">
-            </div>
-
-            <!-- OPSI CENTANG SESUAI GAMBAR LAPTOP -->
-            <div class="checkbox-group">
-                <input type="checkbox" id="manualSeoCheck" name="meta_data[use_manual_seo]" value="1">
-                <div>
-                    <label for="manualSeoCheck" style="font-size: 12px; font-weight: 700; color: #0a4174; cursor:pointer;">Gunakan pengaturan manual</label>
-                    <p style="font-size: 10px; color: #527597; margin-top: 2px;">Gunakan opsi ini hanya jika ingin mengisi judul atau deskripsi kustom.</p>
+                <label class="form-label">Cover Artikel / Thumbnail</label>
+                <input type="file" name="thumbnail" class="form-control" accept="image/*" onchange="previewFile(this)">
+                <div style="margin-top: 10px; text-align: center;">
+                    <img id="thumb-preview" src="{{ (isset($row->thumbnail) && !empty($row->thumbnail)) ? (Str::startsWith($row->thumbnail, 'http') ? $row->thumbnail : asset($row->thumbnail)) : asset('assets/images/no-image.png') }}" style="width: 100%; max-height: 140px; border-radius: 6px; object-fit: cover; border: 1px solid #d0e1f0;" alt="Pratinjau">
                 </div>
             </div>
 
-            <div class="form-group" style="margin-top:14px;">
-                <label class="form-label">Status Tayang</label>
+            <div class="form-group">
+                <label class="form-label">Status Penerbitan</label>
                 <select name="is_published" class="form-control">
                     <option value="1" {{ (old('is_published', $row->is_published ?? 1) == 1) ? 'selected' : '' }}>Diterbitkan</option>
                     <option value="0" {{ (old('is_published', $row->is_published ?? 1) == 0) ? 'selected' : '' }}>Simpan Draf</option>
@@ -317,7 +254,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Simpan Artikel</button>
-                <a href="{{ route('admin.table.index', 'articles') }}" class="btn-cancel">Batalkan</a>
+                <a href="{{ route('admin.table.index', 'articles') }}" class="btn-cancel" onclick="return confirm('Apakah Anda yakin ingin membatalkan? Perubahan yang belum disimpan akan hilang.');">Batalkan</a>
             </div>
         </div>
 
@@ -347,14 +284,6 @@
         document.getElementById('textWords').innerText = words;
     }
 
-    // Mengisi kolom Nama Artikel SEO di kanan secara live dari Input Judul di kiri
-    const titleInput = document.getElementById('articleTitleInput');
-    const seoArticleName = document.getElementById('seoArticleName');
-    
-    titleInput.addEventListener('input', function() {
-        seoArticleName.value = this.value;
-    });
-
     const form = document.getElementById('articleForm');
     form.addEventListener('submit', function(e) {
         const editorArea = document.getElementById('textEditorArea');
@@ -369,7 +298,6 @@
 
     window.addEventListener('DOMContentLoaded', () => { 
         updateWordCount(); 
-        seoArticleName.value = titleInput.value;
     });
 
     function previewFile(input) {
