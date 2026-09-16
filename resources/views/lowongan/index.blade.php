@@ -138,7 +138,6 @@
 
                 <div class="section-heading reveal-onscroll">
                     <div>
-                        <p class="section-kicker">Papan peluang</p>
                         <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
                     </div>
                     <span class="jobs-note">Diperbarui secara berkala</span>
