@@ -31,11 +31,6 @@
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
   </div>
 
-  <!-- doodles, biar senada sama hero index -->
-  <div class="doodle" style="top:110px;left:3%;--r:-8deg;">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="#f2b600"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
-  </div>
-  <div class="doodle" style="top:60%;right:2%;--r:10deg;color:var(--home-pink-strong);font-size:24px;">♡</div>
 
   <div class="wrap">
 
@@ -55,7 +50,7 @@
       <div class="detail-info-col">
         <div class="info-card">
           <div class="greet-badge small reveal-pop" style="--pop-delay:.15s">
-            <span>✦</span> {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
+               {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
           </div>
 
           <h1 class="marker-title reveal-pop" style="--pop-delay:.25s">{{ $album->title }}</h1>

@@ -77,8 +77,8 @@ body {
     overflow: hidden;
     background: linear-gradient(
         155deg,
-        var(--sun-soft) 0%,
-        var(--cream) 45%,
+        var(--sky) 0%,
+        var(--cream) 50%,
         var(--sky) 130%
     );
     border: 1px solid var(--line);
@@ -464,7 +464,6 @@ body {
     color: #2e72ec;
 }
 
-
 /* =========================================================
    ANIMASI MASUK & MELAYANG ORNAMEN (FIXED SIZE & SMOOTH)
    ========================================================= */
@@ -633,4 +632,37 @@ body {
         top: 94%;
         right: 1%;
     }
+}
+
+/* =========================================================
+   BACKGROUND KOTAK-KOTAK (grid) — sama kaya halaman Event
+   ========================================================= */
+.ad-section.dot-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: var(--cream);
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(46, 114, 236, 0.09) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(46, 114, 236, 0.09) 1px,
+            transparent 1px
+        );
+    background-size: 25px 25px;
+}
+
+/* Naikkan ornamen & konten di atas layer grid */
+.ad-section.dot-grid > .ornament-wrapper {
+    z-index: 1;
+}
+.ad-section.dot-grid > .ad-container {
+    position: relative;
+    z-index: 2;
 }

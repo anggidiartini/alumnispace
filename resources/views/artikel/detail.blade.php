@@ -87,7 +87,14 @@
   <!-- ================= KONTEN HALAMAN DETAIL ================= -->
   <div class="wrap" style="position: relative; z-index: 2;">
 
-    <a href="{{ route('artikel.index') }}" class="back-link reveal-pop">&larr; Kembali ke Artikel</a>
+    <!-- Back-link: disamain persis kayak punya temen (detail-event.blade.php) —
+         pakai icon arrow-left + flex layout, bukan cuma tanda panah teks.
+         Sengaja TANPA class reveal-pop, karena back-link punya temen juga statis
+         (nggak ada animasi masuk bounce). -->
+    <a href="{{ route('artikel.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Artikel
+    </a>
 
     <!-- Atas: Foto & Info Utama -->
     <div class="detail-grid">
@@ -104,7 +111,7 @@
       </div>
 
       <div class="detail-info-col reveal-pop" style="--pop-delay:.1s">
-        <div class="greet-badge small"><span>✦</span> {{ strtoupper($article->category) }}</div>
+        <div class="greet-badge small"> {{ strtoupper($article->category) }}</div>
 
         <h1 class="marker-title">{{ $article->title }}</h1>
 
@@ -140,58 +147,68 @@
       </div>
     </div>
 
-    <!-- Artikel Terkait -->
+    <!-- Artikel Terkait — markup CARD disamakan PERSIS sama .card di index
+         (cat-pill, card-symbol, date badge, card-desc, view-btn), jadi otomatis
+         ikut warna-warni bergiliran biru/pink/kuning/navy dari album.css. -->
     @if($relatedArticles->count())
     <div class="related-head reveal-pop">
       <h2>Artikel <span class="marker">Terkait</span></h2>
     </div>
-    <div class="related-grid">
+    <div class="related-grid album-grid">
       @foreach($relatedArticles as $related)
-        <a href="{{ route('artikel.show', $related->slug) }}" class="related-card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
-          <div class="related-photo">
+        <a href="{{ route('artikel.show', $related->slug) }}" class="card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
+          <div class="card-photo">
+            <span class="cat-pill">{{ ucfirst($related->category) }}</span>
+            <span class="card-symbol">✳</span>
             @if($related->thumbnail)
               <img src="{{ asset($related->thumbnail) }}" alt="{{ $related->title }}">
             @else
-              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--jc-soft);">
-                <i data-lucide="newspaper" style="width:32px;height:32px;opacity:.35;color:var(--jc-ink);"></i>
-              </div>
+              <i data-lucide="newspaper" style="width:44px;height:44px;opacity:.4;color:var(--jc-ink);"></i>
             @endif
           </div>
-          <div class="related-body">
-            <div class="label">{{ ucfirst($related->category) }}</div>
+          <div class="card-body">
             <h3>{{ $related->title }}</h3>
-            <span class="view-btn">Baca Artikel
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
+            <div class="date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4" class="date-icon">
+                <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+              {{ $related->published_at?->translatedFormat('d F Y') ?? $related->created_at->translatedFormat('d F Y') }}
+            </div>
+            <p class="card-desc">{{ \Illuminate\Support\Str::limit($related->excerpt, 90) }}</p>
+            <span class="view-btn">Baca Artikel</span>
           </div>
         </a>
       @endforeach
     </div>
     @endif
 
-    <!-- Artikel Terbaru -->
+    <!-- Artikel Terbaru — sama, pakai struktur .card persis kayak index -->
     @if($latestArticles->count())
     <div class="related-head reveal-pop">
       <h2>Baca <span class="marker">Juga</span></h2>
     </div>
-    <div class="related-grid">
+    <div class="related-grid album-grid">
       @foreach($latestArticles as $latest)
-        <a href="{{ route('artikel.show', $latest->slug) }}" class="related-card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
-          <div class="related-photo">
+        <a href="{{ route('artikel.show', $latest->slug) }}" class="card reveal-pop" style="--pop-delay:{{ .05 + ($loop->index * .1) }}s">
+          <div class="card-photo">
+            <span class="cat-pill">{{ ucfirst($latest->category) }}</span>
+            <span class="card-symbol">✳</span>
             @if($latest->thumbnail)
               <img src="{{ asset($latest->thumbnail) }}" alt="{{ $latest->title }}">
             @else
-              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--jc-soft);">
-                <i data-lucide="newspaper" style="width:32px;height:32px;opacity:.35;color:var(--jc-ink);"></i>
-              </div>
+              <i data-lucide="newspaper" style="width:44px;height:44px;opacity:.4;color:var(--jc-ink);"></i>
             @endif
           </div>
-          <div class="related-body">
-            <div class="label">{{ ucfirst($latest->category) }}</div>
+          <div class="card-body">
             <h3>{{ $latest->title }}</h3>
-            <span class="view-btn">Baca Artikel
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
+            <div class="date">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4" class="date-icon">
+                <rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+              {{ $latest->published_at?->translatedFormat('d F Y') ?? $latest->created_at->translatedFormat('d F Y') }}
+            </div>
+            <p class="card-desc">{{ \Illuminate\Support\Str::limit($latest->excerpt, 90) }}</p>
+            <span class="view-btn">Baca Artikel</span>
           </div>
         </a>
       @endforeach

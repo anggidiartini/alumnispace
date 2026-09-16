@@ -84,10 +84,28 @@
 <div class="section-yellow" id="album-section">
 
   <div class="deco-asset alb-grid-l1 reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="deco-asset alb-grid-r1 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+  <div class="deco-asset alb-grid-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-grid-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-grid-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
+  <div class="deco-asset alb-grid-l3 reveal-onscroll" style="transition-delay:.2s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+  </div>
+  <div class="deco-asset alb-grid-r3 reveal-onscroll" style="transition-delay:.2s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+  </div>
+  <div class="deco-asset alb-grid-l4 reveal-onscroll" style="transition-delay:.3s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+  </div>
+  <div class="deco-asset alb-grid-r4 reveal-onscroll" style="transition-delay:.3s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
 
   <div class="wrap">

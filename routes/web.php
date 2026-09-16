@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobVacancyController;
 use App\Http\Controllers\EventController;
@@ -15,8 +14,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 
 // Landing & Intro
-Route::get('/', [LandingController::class, 'index'])->name('landing');
-Route::get('/landing', [LandingController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index']);
 Route::get('/opening', function () {
     return view('opening.index');
 })->name('opening');

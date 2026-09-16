@@ -6,6 +6,95 @@
    (.card, .filter-btn, .view-btn, .hero, dst) masih diambil dari album.css.
    ========================================= */
 
+/* ---------- BACKGROUND GARIS-GARIS TIPIS BIRU MUDA (khusus halaman DETAIL artikel) ----------
+   Nyontek gaya detail-event.css temen: pola grid garis halus, bukan gambar,
+   murni linear-gradient 1px diulang. Cuma kena .detail-page-wrap (halaman detail),
+   halaman index (.section-yellow biasa) tetap pakai background dot/gradient asli.
+   background-color disamain persis kayak punya temen (--cream / #fffdf6). */
+.detail-page-wrap {
+    background-color: #fffdf6;
+    background-image:
+        linear-gradient(rgba(46, 114, 236, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 114, 236, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: 0 0;
+    background-repeat: repeat;
+}
+
+/* ---------- BACK-LINK: disamain PERSIS kayak punya temen (detail-event.css) ----------
+   Ini nimpa .back-link punya album.css (yang cuma teks + font Baloo2 + animasi
+   heroTextIn). File ini di-load SESUDAH album.css jadi otomatis menang.
+   Struktur & properti CSS di bawah ini sengaja disalin 1:1 dari detail-event.css
+   milik temen: inline-flex + icon, font-weight 800, ukuran & spacing sama,
+   TANPA animasi masuk (punya temen juga statis, nggak ada bounce). */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    margin-bottom: -0.5rem;
+    color: #152b54;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+    animation: none;
+}
+.back-link svg,
+.back-link i {
+    flex-shrink: 0;
+}
+.back-link:hover {
+    color: #2e72ec;
+    text-decoration: underline;
+}
+
+/* ---------- HILANGKAN GARIS BAWAH DI SEMUA TOMBOL/LINK HALAMAN ARTIKEL ---------- */
+#article-detail a,
+#article-detail a:hover,
+#article-detail a:visited,
+#article-detail a *,
+.related-grid .card,
+.related-grid .card *,
+.hero-cta,
+.hero-latest-card,
+.hero-latest-card *,
+.hero-latest-link,
+.sidebar-item,
+.sidebar-item *,
+.view-btn {
+    text-decoration: none !important;
+}
+
+/* ---------- SUPAYA TOMBOL "BACA ARTIKEL" SEJAJAR DI SEMUA CARD (TIDAK NAIK TURUN) ---------- */
+#article-section .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* PENTING: card yang lagi disembunyikan oleh search/filter (.filtered-out)
+   harus tetap none, jangan sampai ketiban aturan display:flex di atas */
+#article-section .card.filtered-out {
+    display: none !important;
+}
+
+#article-section .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#article-section .card-desc {
+    flex: 1;
+}
+
+#article-section .view-btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
 /* ---------- PAGINATION ---------- */
 .pagination-bar {
     display: flex;
@@ -112,7 +201,7 @@
     box-shadow: 8px 8px 0 var(--btn-border);
     text-decoration: none;
     transform: rotate(2.5deg);
-    animation: floatUpDown 4.6s ease-in-out infinite;
+    animation: heroCardFloat 4.6s ease-in-out infinite;
     transition:
         transform 0.3s ease,
         box-shadow 0.3s ease;
@@ -234,7 +323,7 @@
     }
 }
 
-/* =========================================
+/* =========================================================
    DETAIL ARTIKEL — badge+judul+tanggal di atas, cover full-width,
    lalu 2 kolom: konten kiri + sidebar kanan (Terkait & Terbaru).
    Warna & komponen sengaja disamakan dgn detail album (.cat-pill,
@@ -287,7 +376,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: photoPopIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .article-cover img {
@@ -682,7 +770,10 @@
 }
 
 /* =========================================
-   ARTIKEL.CSS — Tambahan Ornamen Massal (10 Kiri, 10 Kanan)
+   ARTIKEL.CSS — Ornamen Dekorasi (10 Kiri, 10 Kanan)
+   Animasi float/wiggle disamakan namanya dgn album.css biar konsisten,
+   tapi definisi keyframe dikasih nama unik (floatUpDownDeco dkk) biar
+   gak bentrok sama floatUpDown punya album.css (dipakai buat hati/doodle).
    ========================================= */
 
 .deco-asset {
@@ -691,59 +782,80 @@
     z-index: 1;
 }
 
-/* Pengaturan Animasi Aset */
-@keyframes floatUpDown {
+@keyframes heroCardFloat {
+    0%,
+    100% {
+        transform: rotate(2.5deg) translateY(0);
+    }
+    50% {
+        transform: rotate(1deg) translateY(-10px);
+    }
+}
+
+@keyframes floatUpDownDeco {
     0%,
     100% {
         transform: translateY(0) rotate(0deg);
     }
     50% {
-        transform: translateY(-14px) rotate(4deg);
+        transform: translateY(-10px) rotate(2deg);
     }
 }
 
-@keyframes floatSlow {
+@keyframes floatSlowDeco {
     0%,
     100% {
         transform: translateY(0) rotate(0deg);
     }
     50% {
-        transform: translateY(-10px) rotate(-4deg);
+        transform: translateY(-10px) rotate(2deg);
     }
 }
 
-@keyframes wiggleAsset {
+@keyframes wiggleDeco {
     0%,
     100% {
-        transform: rotate(-5deg);
+        transform: rotate(6deg);
     }
     50% {
-        transform: rotate(5deg);
+        transform: rotate(-4deg);
     }
 }
 
-.floaty {
-    animation: floatUpDown 4s ease-in-out infinite;
+/* Disamain persis kaya animasi floaty/floaty-slow/wiggle di album.css
+   (durasi & easing sama: floaty 4s, floaty-slow 5s delay .6s, wiggle 3.2s) */
+.deco-asset .floaty {
+    animation: floatUpDownDeco 4s ease-in-out infinite;
 }
-.floaty-slow {
-    animation: floatSlow 6s ease-in-out infinite;
+.deco-asset .floaty-slow {
+    animation: floatSlowDeco 5s ease-in-out 0.6s infinite;
 }
-.wiggle {
-    animation: wiggleAsset 3.5s ease-in-out infinite;
+.deco-asset .wiggle {
+    animation: wiggleDeco 3.2s ease-in-out infinite;
 }
 
-/* Animasi Masuk "Tuing" (PopBounceIn) */
+@media (max-width: 1024px) {
+    .deco-asset {
+        display: none;
+    }
+}
+
+/* =========================================
+   REVEAL ANIMATION — disamakan 1:1 dengan album.css
+   (popBounceIn utk card & reveal-pop, fadeUp utk reveal-fade)
+   ========================================= */
+
 @keyframes popBounceIn {
     0% {
         opacity: 0;
-        transform: translateY(30px) scale(0.85);
+        transform: translateY(28px) scale(0.85);
     }
-    60% {
+    55% {
         opacity: 1;
-        transform: translateY(-8px) scale(1.03);
+        transform: translateY(-6px) scale(1.05);
     }
     80% {
-        transform: translateY(4px) scale(0.98);
+        transform: translateY(2px) scale(0.98);
     }
     100% {
         opacity: 1;
@@ -751,34 +863,49 @@
     }
 }
 
-.reveal-pop,
-.card,
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* .reveal-pop & .card sudah didefinisikan base state-nya di album.css,
+   di sini cuma nambahin elemen KHUSUS halaman artikel yang butuh reveal
+   bergaya sama (bounce) supaya semuanya konsisten dgn album */
 .article-head,
 .article-cover,
 .article-body-card,
-.sidebar-block,
-.related-card {
+.sidebar-block {
     opacity: 0;
-    transform: translateY(25px) scale(0.92);
-    transition:
-        opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(28px) scale(0.85);
 }
 
-.reveal-pop.in-view,
-.card.in-view,
 .article-head.in-view,
 .article-cover.in-view,
 .article-body-card.in-view,
-.sidebar-block.in-view,
-.related-card.in-view {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+.sidebar-block.in-view {
+    animation: popBounceIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@media (max-width: 768px) {
-    .deco-asset {
-        display: none;
+.article-head.popped,
+.article-cover.popped,
+.article-body-card.popped,
+.sidebar-block.popped {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .deco-asset .floaty,
+    .deco-asset .floaty-slow,
+    .deco-asset .wiggle {
+        animation: none !important;
     }
 }
 
@@ -797,4 +924,21 @@
     display: inline-flex !important;
     width: fit-content !important;
     max-width: max-content !important;
+}
+
+/* =========================================
+   CARD "ARTIKEL TERKAIT" & "BACA JUGA" DI HALAMAN DETAIL —
+   sekarang markup-nya sudah PERSIS pakai class .card yang sama
+   kayak di index (lihat album.css), jadi otomatis dapet:
+   - border-radius, top-border-accent, soft shadow, hover lift
+   - siklus 4 warna (biru/pink/kuning/navy) via nth-of-type
+   - cat-pill, card-symbol, date badge, view-btn yang identik
+   Cuma butuh 2 penyesuaian kecil di bawah ini karena card ini
+   dibungkus <a> (link ke artikel), bukan <div> kayak di index.
+   ========================================= */
+.related-grid.album-grid {
+    padding-bottom: 0;
+}
+.related-grid.album-grid .card {
+    cursor: pointer;
 }
