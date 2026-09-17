@@ -141,18 +141,12 @@
                     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
                 </div>
 
-                <div class="section-heading reveal-onscroll">
-                    <div>
-                        <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
-                    </div>
-                    <span class="jobs-note">Diperbarui secara berkala</span>
-                </div>
-
-                <div class="jobs-layout">
-                    <aside class="filter-panel reveal-onscroll" aria-label="Filter lowongan">
-                        <div class="filter-panel-heading">
-                            <h3 style="margin:0; font-size:1.15rem;">Filter Lowongan</h3>
-                            <i data-lucide="sliders-horizontal" width="19" height="19"></i>
+                <!-- Konten section, sekarang dibungkus page-width miliknya sendiri -->
+                <div class="page-width">
+                    <div class="section-heading reveal-onscroll">
+                        <div>
+                            <p class="section-kicker">Papan peluang</p>
+                            <h2 id="jobs-title" class="section-title">Lowongan aktif untukmu</h2>
                         </div>
                         <span class="jobs-note">Diperbarui secara berkala</span>
                     </div>
