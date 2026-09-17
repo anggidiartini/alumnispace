@@ -39,7 +39,7 @@
         'https://wa.me/' .
         $waHelpNumber .
         '?text=' .
-        urlencode('Halo Alumni Space, saya mau tanya soal event ' . $event->title);
+        urlencode('Halo Alumni Space, saya mau tanya soal acara ' . $event->title);
 @endphp
 <!doctype html>
 <html lang="id">
@@ -70,10 +70,10 @@
 
                 <a href="{{ route('event.index') }}" class="back-link">
                     <i data-lucide="arrow-left" width="18" height="18"></i>
-                    Kembali ke Event
+                    Kembali ke Acara
                 </a>
 
-                <section class="event-panel is-active" aria-label="Detail event {{ $event->title }}">
+                <section class="event-panel is-active" aria-label="Detail acara {{ $event->title }}">
 
                     {{-- ================= HERO ================= --}}
                     <section class="hero-card" data-reveal>
@@ -130,11 +130,11 @@
                     </section>
 
                     {{-- ================= INFO RINGKAS ================= --}}
-                    <section class="info-grid" aria-label="Informasi ringkas event">
+                    <section class="info-grid" aria-label="Informasi ringkas acara">
                         <article class="info-card" data-reveal="scale">
                             <span class="info-icon" aria-hidden="true"><i data-lucide="calendar" width="18"
                                     height="18"></i></span>
-                            <span class="info-label">Tanggal Event</span>
+                            <span class="info-label">Tanggal Acara</span>
                             <span class="info-value">
                                 {{ $event->event_date ? $event->event_date->translatedFormat('l, d F Y') : '-' }}
                             </span>
@@ -173,7 +173,7 @@
                              kartu .detail-card + .accordion-button. --}}
                             <section class="detail-card" data-reveal>
                                 <button type="button" class="accordion-button" aria-expanded="true">
-                                    <span>Tentang Event</span>
+                                    <span>Tentang Acara</span>
                                     <i data-lucide="chevron-down" width="22" height="22"></i>
                                 </button>
                                 <div class="accordion-panel">
@@ -188,7 +188,7 @@
                                         <i data-lucide="{{ $event->location_type === 'online' ? 'wifi' : 'map-pin' }}"
                                             width="18" height="18"></i>
                                     </span>
-                                    <span>{{ $event->location_type === 'online' ? 'Online Event' : 'Offline Event' }}</span>
+                                    <span>{{ $event->location_type === 'online' ? 'Acara Online' : 'Acara Offline' }}</span>
                                 </div>
                                 <p class="location-venue">{{ $event->venue ?: 'Online Event' }}</p>
                                 <p class="card-copy">
@@ -224,12 +224,12 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <div class="gallery-empty">Galeri foto tambahan belum tersedia untuk event ini.
+                                    <div class="gallery-empty">Galeri foto tambahan belum tersedia untuk acara ini.
                                     </div>
                                 @endif
                             </aside>
                         @else
-                            <aside class="registration-card" aria-label="Pendaftaran event" data-reveal>
+                            <aside class="registration-card" aria-label="Pendaftaran acara" data-reveal>
                                 <h2 class="card-heading">
                                     {{ $canRegister ? 'Amankan Kursimu' : ($isFull ? 'Kuota Penuh' : 'Pendaftaran Belum Dibuka') }}
                                 </h2>

@@ -59,12 +59,12 @@
                             Kumpulan cerita yang tak terlupa
                         </span>
                         <h1 id="hero-title" class="hero-title">Album Kenangan &amp; Dokumentasi</h1>
-                        <p class="hero-subtitle">Temukan dokumentasi event, momen berharga, dan cerita terbaik dari
+                        <p class="hero-subtitle">Temukan dokumentasi acara, momen berharga, dan cerita terbaik dari
                             komunitas yang terus bertumbuh.</p>
 
                         <div class="hero-actions">
                             <button type="button" id="heroCta" class="custom-pill-btn focus-ring">
-                                Jelajahi Event
+                                Jelajahi Acara
                             </button>
 
                         </div>
@@ -72,7 +72,7 @@
                         <div class="hero-stats" id="heroStats">
                             <div class="stat-pill">
                                 <span class="stat-pill-number" data-count-to="36" data-suffix="+">0+</span>
-                                <span class="stat-pill-label">Event terdokumentasi</span>
+                                <span class="stat-pill-label">Acara terdokumentasi</span>
                             </div>
                             <div class="stat-pill">
                                 <span class="stat-pill-number" data-count-to="4.8" data-suffix="K">0K</span>
@@ -100,11 +100,11 @@
                 </div>
             </section>
 
-            <!-- KATALOG EVENT — semua konten kini menggunakan data-reveal dengan animasi "tuing" -->
+            <!-- KATALOG ACARA — semua konten kini menggunakan data-reveal dengan animasi "tuing" -->
             <section id="event" class="page-width catalog" aria-labelledby="catalog-title">
                 <div class="section-heading data-reveal">
                     <div>
-                        <p class="section-kicker">Katalog event</p>
+                        <p class="section-kicker">Katalog acarat</p>
                         <h2 id="catalog-title" class="section-title">Temukan momen terbaik</h2>
                     </div>
                     <span class="jobs-note">Diperbarui secara berkala</span>
@@ -113,25 +113,25 @@
                 <div class="catalog-layout">
                     <aside class="filter-panel data-reveal" aria-label="Filter event">
                         <div class="filter-panel-heading">
-                            <h3 style="margin:0; font-size:1.15rem;">Filter Event</h3>
+                            <h3 style="margin:0; font-size:1.15rem;">Filter Acara</h3>
                             <i data-lucide="sliders-horizontal" width="19" height="19"></i>
                         </div>
 
                         <form class="filter-form" id="filter-form">
                             <div>
-                                <label class="field-label" for="eventSearchInput">Cari event</label>
+                                <label class="field-label" for="eventSearchInput">Cari acara</label>
                                 <div class="search-wrap">
                                     <i data-lucide="search" width="18" height="18"></i>
                                     <input id="eventSearchInput" class="field-control" type="search"
-                                        placeholder="Cari nama event atau lokasi">
+                                        placeholder="Cari nama acara atau lokasi">
                                 </div>
                             </div>
 
                             <div>
-                                <p class="field-label">Status event</p>
+                                <p class="field-label">Status acara</p>
                                 <div class="chip-list">
-                                    <button class="filter-chip is-active" data-filter-status="Upcoming" type="button" aria-pressed="true">Upcoming</button>
-                                    <button class="filter-chip" data-filter-status="Completed" type="button" aria-pressed="false">Completed</button>
+                                    <button class="filter-chip is-active" data-filter-status="Upcoming" type="button" aria-pressed="true">Akan Datang</button>
+                                    <button class="filter-chip" data-filter-status="Completed" type="button" aria-pressed="false">Selesai</button>
                                 </div>
                             </div>
 
@@ -199,8 +199,8 @@
 
                         <section id="empty-state" class="empty-state data-reveal" aria-live="polite">
                             <div class="empty-icon">⌕</div>
-                            <h3 style="margin:1rem 0 0;">Belum ada event yang cocok</h3>
-                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua event.</p>
+                            <h3 style="margin:1rem 0 0;">Belum ada acara yang cocok</h3>
+                            <p style="color:#355277;">Coba gunakan kata kunci lain atau atur ulang filter untuk melihat semua acara.</p>
                             <button id="empty-reset" class="custom-pill-btn" type="button" style="margin-top:1rem;">Reset Filter</button>
                         </section>
                     </div>
@@ -215,11 +215,11 @@
                     <div class="bottom-cta-wave" aria-hidden="true"></div>
                     <div class="bottom-cta-content">
                         <span class="bottom-cta-kicker">Yuk, ikutan juga</span>
-                        <h2 class="bottom-cta-title">Event serunya nggak berhenti di sini.</h2>
+                        <h2 class="bottom-cta-title">Acara serunya nggak berhenti di sini.</h2>
                         <p class="bottom-cta-desc">Masih banyak momen seru menantimu — cari agenda berikutnya dan
                             jadi bagian dari ceritanya.</p>
                         <button type="button" id="bottomCta" class="custom-white-pill-btn cta-pulse focus-ring">
-                            Jelajahi Semua Event
+                            Jelajahi Semua Acara
                             <i data-lucide="arrow-right" width="16" height="16"></i>
                         </button>
                     </div>
@@ -257,8 +257,8 @@
     <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
     <script src="{{ asset('js/script.js') }}"></script>
-    <script>
-        (function () {
+<script>
+(function () {
     var prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -268,6 +268,7 @@
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
         revealEls.forEach(function (el) {
             el.classList.add("is-visible");
+            el.style.animation = "none"; // FIX: lepas animation biar transform bebas dipakai hover
         });
         return;
     }
@@ -278,6 +279,16 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add("is-visible");
                     obs.unobserve(entry.target);
+
+                    // FIX: setelah animasi "tuing" selesai, matikan animation
+                    // supaya transisi hover (card keangkat) bisa jalan normal
+                    entry.target.addEventListener(
+                        "animationend",
+                        function () {
+                            entry.target.style.animation = "none";
+                        },
+                        { once: true }
+                    );
                 }
             });
         },
@@ -294,167 +305,164 @@
         observer.observe(el);
     });
 })();
-        document.addEventListener("DOMContentLoaded", function() {
-            var eventSection = document.getElementById("event");
-            var cards = Array.prototype.slice.call(document.querySelectorAll("#eventGrid .event-card"));
-            var resultCount = document.getElementById("resultCount");
-            var filterSummary = document.getElementById("filterSummary");
-            var emptyState = document.getElementById("empty-state");
-            var searchInput = document.getElementById("eventSearchInput");
-            var categoryChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-category]"));
-            var statusChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-status]"));
-            var resetButton = document.getElementById("reset-filter");
-            var emptyResetButton = document.getElementById("empty-reset");
-            var category = "all";
-            var status = "Upcoming";
-            var fadeTimers = new WeakMap();
+document.addEventListener("DOMContentLoaded", function() {
+    var eventSection = document.getElementById("event");
+    var cards = Array.prototype.slice.call(document.querySelectorAll("#eventGrid .event-card"));
+    var resultCount = document.getElementById("resultCount");
+    var filterSummary = document.getElementById("filterSummary");
+    var emptyState = document.getElementById("empty-state");
+    var searchInput = document.getElementById("eventSearchInput");
+    var categoryChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-category]"));
+    var statusChips = Array.prototype.slice.call(document.querySelectorAll("[data-filter-status]"));
+    var resetButton = document.getElementById("reset-filter");
+    var emptyResetButton = document.getElementById("empty-reset");
+    var category = "all";
+    var status = "Upcoming";
+    var fadeTimers = new WeakMap();
 
-            // ---------- scroll ke katalog event ----------
-            function scrollToEvents() {
-                eventSection.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
+    function scrollToEvents() {
+        eventSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+    ["heroCta", "bottomCta"].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener("click", scrollToEvents);
+    });
+
+    function applyFilters() {
+        var query = searchInput.value.trim().toLowerCase();
+        var visible = 0;
+
+        cards.forEach(function(card) {
+            var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
+            var matchesCategory = category === "all" || card.dataset.category === category;
+            var matchesStatus = status === "all" || card.dataset.status === status;
+            var show = matchesQuery && matchesCategory && matchesStatus;
+
+            if (fadeTimers.has(card)) {
+                clearTimeout(fadeTimers.get(card));
+                fadeTimers.delete(card);
             }
-            ["heroCta", "bottomCta"].forEach(function(id) {
-                var el = document.getElementById(id);
-                if (el) el.addEventListener("click", scrollToEvents);
+
+            if (show) {
+                card.classList.remove("is-hidden");
+                requestAnimationFrame(function() {
+                    card.classList.remove("is-fading");
+                });
+                visible += 1;
+            } else if (!card.classList.contains("is-hidden")) {
+                card.classList.add("is-fading");
+                var timer = setTimeout(function() {
+                    card.classList.add("is-hidden");
+                }, 260);
+                fadeTimers.set(card, timer);
+            }
+        });
+
+        var filters = [];
+        if (query) filters.push('"' + searchInput.value.trim() + '"');
+        if (category !== "all") filters.push(category);
+        if (status !== "all") filters.push(status);
+
+        resultCount.textContent = "Menampilkan " + visible + " event";
+        filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") : "Semua event aktif";
+        emptyState.classList.toggle("is-visible", visible === 0);
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+
+    categoryChips.forEach(function(chip) {
+        chip.addEventListener("click", function() {
+            category = chip.dataset.filterCategory;
+            categoryChips.forEach(function(item) {
+                var isActive = item === chip;
+                item.classList.toggle("is-active", isActive);
+                item.setAttribute("aria-pressed", String(isActive));
             });
-
-            // ---------- pencarian + filter kategori & status, dengan fade halus ----------
-            function applyFilters() {
-                var query = searchInput.value.trim().toLowerCase();
-                var visible = 0;
-
-                cards.forEach(function(card) {
-                    var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
-                    var matchesCategory = category === "all" || card.dataset.category === category;
-                    var matchesStatus = status === "all" || card.dataset.status === status;
-                    var show = matchesQuery && matchesCategory && matchesStatus;
-
-                    if (fadeTimers.has(card)) {
-                        clearTimeout(fadeTimers.get(card));
-                        fadeTimers.delete(card);
-                    }
-
-                    if (show) {
-                        card.classList.remove("is-hidden");
-                        requestAnimationFrame(function() {
-                            card.classList.remove("is-fading");
-                        });
-                        visible += 1;
-                    } else if (!card.classList.contains("is-hidden")) {
-                        card.classList.add("is-fading");
-                        var timer = setTimeout(function() {
-                            card.classList.add("is-hidden");
-                        }, 260);
-                        fadeTimers.set(card, timer);
-                    }
-                });
-
-                var filters = [];
-                if (query) filters.push('"' + searchInput.value.trim() + '"');
-                if (category !== "all") filters.push(category);
-                if (status !== "all") filters.push(status);
-
-                resultCount.textContent = "Menampilkan " + visible + " event";
-                filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") : "Semua event aktif";
-                emptyState.classList.toggle("is-visible", visible === 0);
-            }
-
-            searchInput.addEventListener("input", applyFilters);
-
-            categoryChips.forEach(function(chip) {
-                chip.addEventListener("click", function() {
-                    category = chip.dataset.filterCategory;
-                    categoryChips.forEach(function(item) {
-                        var isActive = item === chip;
-                        item.classList.toggle("is-active", isActive);
-                        item.setAttribute("aria-pressed", String(isActive));
-                    });
-                    applyFilters();
-                });
-            });
-
-            statusChips.forEach(function(chip) {
-                chip.addEventListener("click", function() {
-                    status = chip.dataset.filterStatus;
-                    statusChips.forEach(function(item) {
-                        var isActive = item === chip;
-                        item.classList.toggle("is-active", isActive);
-                        item.setAttribute("aria-pressed", String(isActive));
-                    });
-                    applyFilters();
-                });
-            });
-
-            function resetFilters() {
-                searchInput.value = "";
-                category = "all";
-                status = "Upcoming";
-
-                categoryChips.forEach(function(chip) {
-                    var isActive = chip.dataset.filterCategory === "all";
-                    chip.classList.toggle("is-active", isActive);
-                    chip.setAttribute("aria-pressed", String(isActive));
-                });
-                statusChips.forEach(function(chip) {
-                    var isActive = chip.dataset.filterStatus === "Upcoming";
-                    chip.classList.toggle("is-active", isActive);
-                    chip.setAttribute("aria-pressed", String(isActive));
-                });
-
-                applyFilters();
-            }
-
-            resetButton.addEventListener("click", resetFilters);
-            emptyResetButton.addEventListener("click", resetFilters);
-
-            // ---------- number counter dengan efek bounce (hero) ----------
-            function easeOutBack(t) {
-                var c1 = 1.70158, c3 = c1 + 1;
-                return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-            }
-            function animateCounter(el) {
-                var target = parseFloat(el.dataset.countTo);
-                var suffix = el.dataset.suffix || "";
-                var isDecimal = String(el.dataset.countTo).indexOf(".") !== -1;
-                var duration = 1100;
-                var start = null;
-                function step(ts) {
-                    if (!start) start = ts;
-                    var progress = Math.min((ts - start) / duration, 1);
-                    var eased = easeOutBack(progress);
-                    var current = Math.max(target * eased, 0);
-                    el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current)) + suffix;
-                    if (progress < 1) {
-                        requestAnimationFrame(step);
-                    } else {
-                        el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
-                    }
-                }
-                requestAnimationFrame(step);
-            }
-            var heroStats = document.getElementById("heroStats");
-            if (heroStats) {
-                var countersDone = false;
-                var counterObserver = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting && !countersDone) {
-                            countersDone = true;
-                            heroStats.querySelectorAll("[data-count-to]").forEach(function(el, i) {
-                                setTimeout(function() { animateCounter(el); }, i * 120);
-                            });
-                            counterObserver.disconnect();
-                        }
-                    });
-                }, { threshold: 0.4 });
-                counterObserver.observe(heroStats);
-            }
-
             applyFilters();
         });
-    </script>
+    });
+
+    statusChips.forEach(function(chip) {
+        chip.addEventListener("click", function() {
+            status = chip.dataset.filterStatus;
+            statusChips.forEach(function(item) {
+                var isActive = item === chip;
+                item.classList.toggle("is-active", isActive);
+                item.setAttribute("aria-pressed", String(isActive));
+            });
+            applyFilters();
+        });
+    });
+
+    function resetFilters() {
+        searchInput.value = "";
+        category = "all";
+        status = "Upcoming";
+
+        categoryChips.forEach(function(chip) {
+            var isActive = chip.dataset.filterCategory === "all";
+            chip.classList.toggle("is-active", isActive);
+            chip.setAttribute("aria-pressed", String(isActive));
+        });
+        statusChips.forEach(function(chip) {
+            var isActive = chip.dataset.filterStatus === "Upcoming";
+            chip.classList.toggle("is-active", isActive);
+            chip.setAttribute("aria-pressed", String(isActive));
+        });
+
+        applyFilters();
+    }
+
+    resetButton.addEventListener("click", resetFilters);
+    emptyResetButton.addEventListener("click", resetFilters);
+
+    function easeOutBack(t) {
+        var c1 = 1.70158, c3 = c1 + 1;
+        return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    }
+    function animateCounter(el) {
+        var target = parseFloat(el.dataset.countTo);
+        var suffix = el.dataset.suffix || "";
+        var isDecimal = String(el.dataset.countTo).indexOf(".") !== -1;
+        var duration = 1100;
+        var start = null;
+        function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            var eased = easeOutBack(progress);
+            var current = Math.max(target * eased, 0);
+            el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current)) + suffix;
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = (isDecimal ? target.toFixed(1) : target) + suffix;
+            }
+        }
+        requestAnimationFrame(step);
+    }
+    var heroStats = document.getElementById("heroStats");
+    if (heroStats) {
+        var countersDone = false;
+        var counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !countersDone) {
+                    countersDone = true;
+                    heroStats.querySelectorAll("[data-count-to]").forEach(function(el, i) {
+                        setTimeout(function() { animateCounter(el); }, i * 120);
+                    });
+                    counterObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.4 });
+        counterObserver.observe(heroStats);
+    }
+
+    applyFilters();
+});
+</script>
 </body>
 
 </html>
