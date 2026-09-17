@@ -321,20 +321,16 @@ h3 {
     animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* =========================================================
-   EFEK HOVER CARD DI-SAMAKAN (TERANGKAT KE ATAS)
-   ========================================================= */
 .stat-card,
 .alumni-card,
 .job-card,
 .event-card,
 .pop-card,
 .teaser-card,
-.pengurus-card,
-.kolase-img-box {
+.article-card {
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .stat-card:hover,
@@ -343,10 +339,14 @@ h3 {
 .event-card:hover,
 .pop-card:hover,
 .teaser-card:hover,
-.pengurus-card:hover,
-.kolase-img-box:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
+.article-card:hover {
+    /* !important wajib di sini: elemen-elemen ini juga punya class
+       .reveal-onscroll yang animasinya (tuingIn, forwards) tetap
+       "mengunci" transform walau animasi sudah selesai. Rule hover
+       normal kalah prioritas dari animation, jadi harus !important
+       biar bisa menang & transisinya tetap jalan mulus. */
+    transform: translateY(-6px) scale(1.01) !important;
+    box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13) !important;
 }
 
 .media-panel {
@@ -459,6 +459,11 @@ h3 {
     display: none;
 }
 
+/* ---------- FIX: WA pulse — sekarang pakai ::after + transform/opacity,
+   BUKAN animate box-shadow langsung di elemen. Animate box-shadow itu
+   trigger paint tiap frame; transform+opacity di-handle GPU compositor,
+   jauh lebih murah — penting karena animasi ini infinite & tetap jalan
+   pas discroll. ---------- */
 .wa-pulse {
     position: relative;
     transition: transform 0.2s ease;
@@ -547,6 +552,7 @@ h3 {
         width: 14.5rem;
     }
 
+    /* --- Responsive fixes: hero avatar frame no longer fixed 410px on phones --- */
     .w-\[410px\] {
         width: 78vw;
         max-width: 320px;
@@ -595,6 +601,7 @@ h3 {
     }
 }
 
+/* Custom Button Style Sesuai Permintaan */
 .custom-pill-btn {
     background-color: #7bbde8;
     color: #0a4174;
@@ -965,8 +972,7 @@ h3 {
 }
 .-top-2 {
     top: -0.5rem;
-}
-
+} /* ===== Layout / display ===== */
 .block {
     display: block;
 }
@@ -1153,6 +1159,7 @@ h3 {
     white-space: nowrap;
 }
 
+/* ===== Borders / radius / shadow ===== */
 .border {
     border-width: 1px;
     border-style: solid;
@@ -1221,6 +1228,7 @@ h3 {
     filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
 }
 
+/* ===== Typography ===== */
 .text-xs {
     font-size: 0.75rem;
     line-height: 1rem;
@@ -1305,6 +1313,7 @@ h3 {
     color: #f472b6;
 }
 
+/* ===== Named hex colors used in class="..." ===== */
 .bg-\[\#153563\] {
     background-color: #153563;
 }
@@ -1389,6 +1398,7 @@ h3 {
     opacity: 0.8;
 }
 
+/* ===== Transitions / animations (Tailwind defaults) ===== */
 .transition {
     transition-property:
         color, background-color, border-color, text-decoration-color, fill,
@@ -1428,6 +1438,7 @@ h3 {
     animation: tw-bounce 1s infinite;
 }
 
+/* ===== Accessibility ===== */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -1440,6 +1451,7 @@ h3 {
     border-width: 0;
 }
 
+/* ===== Hover states ===== */
 .hover\:scale-105:hover {
     transform: scale(1.05);
 }
@@ -1456,6 +1468,7 @@ h3 {
     transform: translateY(-0.125rem);
 }
 
+/* ===== Responsive: sm (>=640px) ===== */
 @media (min-width: 640px) {
     .sm\:grid-cols-2 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1468,6 +1481,7 @@ h3 {
     }
 }
 
+/* ===== Responsive: md (>=768px) ===== */
 @media (min-width: 768px) {
     .md\:grid-cols-2 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1530,6 +1544,7 @@ h3 {
     }
 }
 
+/* ===== Responsive: lg (>=1024px) ===== */
 @media (min-width: 1024px) {
     .lg\:grid-cols-4 {
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1539,6 +1554,7 @@ h3 {
     width: 0.875rem;
 }
 
+/* ===== Card color variants (4 warna, dipakai bergiliran di berbagai section) ===== */
 .card-v1,
 .card-v2,
 .card-v3,
@@ -1587,6 +1603,7 @@ h3 {
     background-color: #153563;
 }
 
+/* Hanya stat-card (section Statistik) & event-card (section Agenda Event) yang bg-nya putih */
 .stat-card.card-v1,
 .stat-card.card-v2,
 .stat-card.card-v3,
@@ -1607,12 +1624,17 @@ h3 {
     font-size: 0.875rem;
 }
 
+/* =========================================================
+   CHEERFUL ENHANCEMENTS — garis animasi, marquee, dekorasi
+   ========================================================= */
+
 @media (min-width: 768px) {
     .md\:block {
         display: block;
     }
 }
 
+/* ---- Garis pembatas antar section yang "berjalan" ---- */
 .divider-dash-wrap {
     position: relative;
     display: flex;
@@ -1658,6 +1680,7 @@ h3 {
     }
 }
 
+/* ---- Marquee: teks berjalan sebagai pembatas section ---- */
 .marquee-strip {
     overflow: hidden;
     white-space: nowrap;
@@ -1697,6 +1720,7 @@ h3 {
     }
 }
 
+/* ---- Dekorasi tepi section: lapisan parallax (JS) + item floaty (CSS) ---- */
 .deco-layer {
     position: absolute;
     pointer-events: none;
@@ -1724,9 +1748,10 @@ h3 {
 }
 
 #artikel-section {
-    padding-bottom: 6rem;
+    padding-bottom: 6rem; /* Sesuaikan nilainya sesuai selera (misal 6rem, 8rem, atau 10rem) */
 }
 
+/* Layout Utama Section Tentang Kami */
 .tentang-container {
     display: flex;
     flex-direction: row;
@@ -1736,10 +1761,11 @@ h3 {
     width: 100%;
 }
 
+/* Kolase Foto Kiri (Dibuat lebih besar) */
 .kolase-wrapper {
     position: relative;
-    width: 48%;
-    max-width: 500px;
+    width: 48%; /* Lebar area kiri diperbesar */
+    max-width: 500px; /* Batas maksimal diperbesar */
     flex-shrink: 0;
 }
 
@@ -1757,7 +1783,7 @@ h3 {
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 1rem; /* Jarak antar foto diperbesar */
     padding: 0.75rem;
 }
 
@@ -1801,21 +1827,23 @@ h3 {
     z-index: 2;
 }
 
+/* Teks Kanan (Ukuran font judul dan deskripsi diperbesar) */
 .teks-wrapper {
     width: 50%;
 }
 
 .teks-wrapper h2 {
-    font-size: 3rem !important;
+    font-size: 3rem !important; /* Judul dibuat jauh lebih besar */
     line-height: 1.2 !important;
 }
 
 .teks-wrapper p.text-base,
 .teks-wrapper p.md\:text-lg {
-    font-size: 1.2rem !important;
+    font-size: 1.2rem !important; /* Deskripsi diperbesar agar mudah dibaca */
     line-height: 1.7 !important;
 }
 
+/* Responsif untuk layar HP */
 @media (max-width: 768px) {
     .tentang-container {
         flex-direction: column;
@@ -1829,6 +1857,7 @@ h3 {
     }
 }
 
+/* ===== Galeri: layout kolase (ukuran variatif) ===== */
 .galeri-kolase-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1839,7 +1868,7 @@ h3 {
 .galeri-kolase-grid .g-item:nth-child(1) {
     grid-column: 1 / 3;
     grid-row: 1 / 3;
-}
+} /* besar */
 .galeri-kolase-grid .g-item:nth-child(2) {
     grid-column: 3 / 4;
     grid-row: 1 / 2;
@@ -1847,7 +1876,7 @@ h3 {
 .galeri-kolase-grid .g-item:nth-child(3) {
     grid-column: 4 / 5;
     grid-row: 1 / 3;
-}
+} /* tinggi */
 .galeri-kolase-grid .g-item:nth-child(4) {
     grid-column: 3 / 4;
     grid-row: 2 / 3;
@@ -1855,12 +1884,13 @@ h3 {
 .galeri-kolase-grid .g-item:nth-child(5) {
     grid-column: 1 / 3;
     grid-row: 3 / 5;
-}
+} /* besar */
 .galeri-kolase-grid .g-item:nth-child(6) {
     grid-column: 3 / 5;
     grid-row: 3 / 5;
-}
+} /* besar */
 
+/* Responsif: HP jadi 2 kolom rata biar ga berantakan */
 @media (max-width: 640px) {
     .galeri-kolase-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1876,7 +1906,7 @@ h3 {
         grid-row: auto;
     }
 }
-
+/* ===== Testimoni: carousel geser (landscape) ===== */
 .testi-carousel-wrap {
     position: relative;
     display: flex;
@@ -1921,6 +1951,11 @@ h3 {
     transform: scale(1);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.28);
     z-index: 2;
+}
+
+.testi-card.is-active:hover {
+    transform: scale(1) translateY(-6px) !important;
+    box-shadow: 0 30px 55px rgba(0, 0, 0, 0.32) !important;
 }
 
 .testi-quote-mark {
@@ -2037,6 +2072,7 @@ h3 {
     background-position: center;
 }
 
+/* ---------- LIGHTBOX FOTO ---------- */
 .kolase-img-box img,
 .galeri-photo {
     cursor: zoom-in;
@@ -2096,6 +2132,11 @@ h3 {
 .lightbox-close:hover {
     transform: scale(1.08);
 }
+
+/* =========================================================
+   Floating action row: back-to-top & WhatsApp — 1:1 sama
+   dengan lowongan.css milik temen.
+   ========================================================= */
 
 .fab-row {
     position: fixed;
@@ -2233,6 +2274,7 @@ h3 {
     }
 }
 
+/* ---------- MODAL "HARUS LOGIN" ---------- */
 .auth-modal-overlay {
     position: fixed;
     inset: 0;
@@ -2368,6 +2410,9 @@ h3 {
     }
 }
 
+/* ------------------------------------------------------------------
+ * Section Pengurus Alumni (Horizontal Scroll & Card Styling)
+ * ------------------------------------------------------------------ */
 .pengurus-track {
     display: flex;
     gap: 1.25rem;
@@ -2378,6 +2423,7 @@ h3 {
     scroll-behavior: smooth;
 }
 
+/* Menyembunyikan scrollbar bawaan browser tapi tetap bisa digeser */
 .pengurus-track::-webkit-scrollbar {
     display: none;
 }
@@ -2392,10 +2438,15 @@ h3 {
     width: 200px;
     border-radius: 1.75rem;
     border: 1px solid #dbeafe;
+
     padding: 1rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition:
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Foto pengurus: tinggi tetap & framing konsisten */
 .pengurus-photo-wrap {
     height: 14rem;
     width: 100%;
@@ -2411,6 +2462,7 @@ h3 {
     display: block;
 }
 
+/* Pengurus card ikut sistem warna card-v1..v4, bg putih seperti event-card */
 .pengurus-card {
     position: relative;
     overflow: hidden;
@@ -2430,10 +2482,20 @@ h3 {
     }
 }
 
+.pengurus-card:hover {
+    /* sama seperti card lain: .pengurus-card ini juga kebawa
+       .reveal-onscroll, jadi butuh !important supaya menang
+       lawan animasi reveal-nya */
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 28px -10px rgba(21, 53, 99, 0.22) !important;
+}
+
+/* Fix: kotak thumbnail perlu tinggi tetap, biar badge nggak numpuk teks kalau foto kosong */
 .h-48 {
     height: 12rem;
 }
 
+/* Matikan animasi berat saat discroll untuk menghemat performa browser */
 @media (prefers-reduced-motion: reduce), (max-width: 768px) {
     .blob-drift,
     .spin-slow,
@@ -2444,6 +2506,7 @@ h3 {
     }
 }
 
+/* ============ Posisi aset per section (semua CSS murni, tanpa Tailwind) ============ */
 .tentang-alattulis {
     left: 90%;
     top: 15%;
@@ -2571,10 +2634,18 @@ h3 {
     color: #d6336c;
 }
 
+/* =========================================================
+   FIX TAMBAHAN — jarak badge ke judul & style badge disamakan
+   ========================================================= */
+
+/* fix: mb-1 belum ada definisinya, jadi jatuh ke margin default browser */
 .mb-1 {
     margin-bottom: 0.25rem;
 }
 
+/* .badge-dashed-pill sekarang menanggung semua (warna, border, bentuk pil,
+   ukuran ngepas teks) sendiri — supaya tidak bergantung pada class lain
+   (rounded-full / inline-block) yang mungkin tidak ada di HTML. */
 .badge-dashed-pill {
     display: inline-flex !important;
     align-items: center;
@@ -2598,20 +2669,23 @@ h3 {
     margin-top: 0;
 }
 
+/* fix: kolom teks hero jangan ikut center vertikal ke kolom foto yg lebih tinggi */
 #beranda .grid.md\:grid-cols-2 {
     align-items: start;
 }
 
+/* kompensasi biar foto kanan tetap rapi di tengah row-nya sendiri */
 #beranda .grid.md\:grid-cols-2 > div:nth-child(2) {
     align-self: center;
 }
 
+/* kurangi padding atas section biar konten ga terlalu jauh dari navbar */
 @media (min-width: 768px) {
     #beranda {
         padding-top: 2rem;
     }
     #beranda .grid.md\:grid-cols-2 {
-        padding-top: 1rem !important;
+        padding-top: 1rem !important; /* override md:py-24 bagian atas */
         padding-bottom: 6rem !important;
     }
 }
@@ -2623,17 +2697,25 @@ h3 {
     display: block;
 }
 
+/* =========================================================
+   RESPONSIVE FIX — mobile: hilangkan ornamen kecil pinggiran
+   (jam, bus, papan tulis, lampu, alat tulis) di semua section,
+   supaya layout HP lebih bersih & tidak numpuk sama konten teks.
+   ========================================================= */
 @media (max-width: 768px) {
     .deco-asset {
         display: none !important;
     }
 
+    /* blob dekorasi juga diperkecil lagi & dibikin makin transparan
+       biar tetap ada aksen warna tapi ga ganggu keterbacaan teks */
     .section-blob {
         width: 6rem;
         height: 6rem;
         opacity: 0.5;
     }
 
+    /* rapetin padding vertikal section supaya HP ga terlalu panjang scroll-nya */
     .py-20 {
         padding-top: 3rem;
         padding-bottom: 3rem;
@@ -2643,6 +2725,7 @@ h3 {
         padding-bottom: 3.5rem;
     }
 
+    /* judul besar (hero & section) diturunin dikit di HP biar ga kepotong/kepenuhan */
     h1.text-5xl {
         font-size: 2.25rem;
         line-height: 1.15;
@@ -2654,18 +2737,21 @@ h3 {
         line-height: 1.2;
     }
 
+    /* badge-dashed-pill: teks jangan sampai mepet kalau ada di layar sempit */
     .badge-dashed-pill {
         font-size: 0.8rem;
         padding-left: 0.9rem;
         padding-right: 0.9rem;
     }
 
+    /* statistik & card grid: 1 kolom penuh di HP kecil biar ga sempit */
     .grid.sm\:grid-cols-2 {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 480px) {
+    /* di layar sangat kecil, blob dimatikan total biar fokus ke konten */
     .section-blob {
         display: none;
     }
@@ -2676,6 +2762,11 @@ h3 {
     }
 }
 
+/* =========================================================
+   FIX MOBILE — badge "Selamat datang..." (dan badge panjang
+   lainnya) kepotong di tepi layar karena dipaksa 1 baris.
+   Sekarang boleh wrap & tidak pernah lebih lebar dari layar.
+   ========================================================= */
 @media (max-width: 768px) {
     .badge-dashed-pill {
         width: auto !important;
@@ -2686,6 +2777,8 @@ h3 {
         line-height: 1.4;
     }
 
+    /* jaga-jaga: elemen apapun yang kebetulan lebih lebar dari layar
+       (badge, gambar, dsb) dipaksa menyesuaikan, bukan kepotong diam-diam */
     img,
     svg,
     .checker {
@@ -2695,13 +2788,14 @@ h3 {
 
 #beranda,
 section[id] {
-    scroll-margin-top: 90px;
+    scroll-margin-top: 90px; /* ganti sesuai tinggi navbar kamu yang sebenarnya */
 }
 
 .self-start {
     align-self: flex-start;
 }
 
+/* ---------- LIGHTBOX: tombol geser prev/next ---------- */
 .lightbox-nav {
     position: absolute;
     top: 50%;
@@ -2754,6 +2848,7 @@ section[id] {
     }
 }
 
+/* ---------- Panah geser untuk track pengurus ---------- */
 .pengurus-carousel-wrap {
     position: relative;
 }
@@ -2804,6 +2899,9 @@ section[id] {
     }
 }
 
+/* ---- Link "transparan": dipakai supaya judul/foto card bisa
+   diklik tanpa mengubah tampilan (warna & underline tetap sama
+   seperti teks biasa) ---- */
 .unstyled-link {
     color: inherit;
     text-decoration: none;
