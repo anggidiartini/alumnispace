@@ -43,6 +43,12 @@
 
             {{-- ================= HERO ================= --}}
             <section class="page-width reveal-onscroll hero-section-top">
+                <section class="page-width reveal-onscroll hero-section-top">
+
+    <a href="{{ route('lowongan.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Lowongan
+    </a>
 
              <div class="deco-asset dl-hero-l1 reveal-onscroll" aria-hidden="true">
                     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
@@ -101,11 +107,7 @@
                         </div>
 
                         <div class="job-hero-actions">
-                            <button type="button" id="save-button" class="custom-white-pill-btn" data-slug="{{ $job->slug }}" aria-pressed="false">
-                                <i data-lucide="bookmark" width="18" height="18"></i>
-                                <span class="save-label">Simpan Lowongan</span>
-                                <span class="saved-label">Tersimpan</span>
-                            </button>
+
 
                             @if($applyUrl)
                                 <a href="{{ $applyUrl }}" target="_blank" rel="noopener" class="custom-pill-btn">
@@ -113,10 +115,7 @@
                                     <i data-lucide="arrow-up-right" width="16" height="16"></i>
                                 </a>
                             @else
-                                <a href="{{ $waFallbackUrl }}" target="_blank" rel="noopener" class="whatsapp-pill-btn">
-                                    <span class="whatsapp-pill-icon"><i data-lucide="message-circle" width="15" height="15"></i></span>
-                                    Lamar via WhatsApp
-                                </a>
+
                             @endif
                         </div>
                     </div>
@@ -346,7 +345,7 @@
         <i data-lucide="arrow-up" width="20" height="20"></i>
     </button>
 
-    
+
     <script src="{{ asset('js/detail-lowongan.js') }}?v={{ file_exists(public_path('js/detail-lowongan.js')) ? filemtime(public_path('js/detail-lowongan.js')) : time() }}" defer></script>
 </body>
 

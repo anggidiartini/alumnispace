@@ -2775,3 +2775,60 @@ h3 {
 section[id] {
     scroll-margin-top: 90px; /* ganti sesuai tinggi navbar kamu yang sebenarnya */
 }
+
+.self-start {
+    align-self: flex-start;
+}
+
+/* ---------- LIGHTBOX: tombol geser prev/next ---------- */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10000;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: #fff;
+    color: #153563;
+    border: 0;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.lightbox-nav:hover {
+    background-color: #ffb8d0;
+}
+
+.lightbox-nav--prev {
+    left: 1.5rem;
+}
+
+.lightbox-nav--prev:hover {
+    transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-nav--next {
+    right: 1.5rem;
+}
+
+.lightbox-nav--next:hover {
+    transform: translateY(-50%) scale(1.08);
+}
+
+@media (max-width: 640px) {
+    .lightbox-nav {
+        width: 2.25rem;
+        height: 2.25rem;
+    }
+    .lightbox-nav--prev {
+        left: 0.5rem;
+    }
+    .lightbox-nav--next {
+        right: 0.5rem;
+    }
+}

@@ -951,7 +951,7 @@ input:focus-visible {
     border-radius: 2rem;
     overflow: hidden;
     color: white;
-    background: linear-gradient(135deg, #2e72ec, #1d4ed8);
+    background: #6f9fe8;
 }
 
 .share-banner-orb {
@@ -999,7 +999,7 @@ input:focus-visible {
     position: relative;
     z-index: 1;
     white-space: nowrap;
-    background-color: #ffd84a;
+    background-color: #fffef8;
     box-shadow: 0 6px 0 #0a4174;
 }
 

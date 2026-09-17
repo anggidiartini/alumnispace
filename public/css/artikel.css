@@ -190,6 +190,33 @@
     font-family: "Baloo 2", sans-serif;
 }
 
+/* =========================================================
+   HERO ARTIKEL (SECTION 1) — DISAMAKAN dgn tata letak
+   section 1 EVENT (event.css: .hero-section & .hero-layout).
+   .hero & .hero-inner aslinya didefinisikan di album.css (dipakai
+   bareng sama halaman album); di sini kita timpa 3 hal biar
+   proporsinya identik dengan punya event:
+   1) padding vertikal section  → 4rem atas / 5.5rem bawah (persis
+      nilai efektif #beranda.hero-section punya event)
+   2) rasio kolom kiri:kanan    → 1.05fr : 0.95fr (bukan 1fr : 420-520px)
+   3) gap antar kolom           → 2.5rem/40px (bukan 55px)
+   4) min-height dilepas        → tinggi section jadi natural
+      ngikutin konten, sama kayak punya event (tidak dipatok 500px)
+   File ini di-load SESUDAH album.css jadi otomatis menang (specificity sama). */
+.hero {
+    padding: 64px 40px 88px;
+}
+
+.hero-inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    min-height: 0;
+}
+
+.hero-copy {
+    max-width: 576px; /* disamakan dgn max-width 36rem punya .hero-copy event */
+}
+
 /* ---------- KARTU "ARTIKEL TERBARU" DI HERO (pengganti photo-stack) ---------- */
 .hero-latest-card {
     position: relative;
@@ -207,7 +234,7 @@
         box-shadow 0.3s ease;
     justify-self: end;
     width: 100%;
-    max-width: 360px;
+    max-width: 460px; /* dibesarkan dari 420px biar area fotonya lebih lega */
 }
 
 .hero-latest-card:hover {
@@ -234,8 +261,13 @@
     animation: stickerWiggle 3s ease-in-out infinite;
 }
 
+/* FOTO KARTU HERO: dulu tingginya dipatok 150px sehingga foto kepotong
+   (object-fit: cover mangkas atas-bawah). Sekarang tingginya ngikut
+   rasio 4:3, jadi foto tampil lebih besar & utuh proporsinya. */
 .hero-latest-top {
-    height: 150px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
     border-radius: 17px 17px 0 0;
     display: flex;
     align-items: center;
@@ -248,7 +280,7 @@
 .hero-latest-top::after {
     content: "";
     position: absolute;
-    inset: 10px;
+    inset: 14px; /* dari 10px, biar frame putih nggak terlalu nempel ke foto */
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
 }
@@ -320,6 +352,14 @@
     .hero-latest-card {
         justify-self: center;
         margin: 24px auto 0;
+    }
+}
+
+/* Di layar kecil kartunya jangan kelewat tinggi */
+@media (max-width: 600px) {
+    .hero-latest-top {
+        aspect-ratio: 16 / 10;
+        min-height: 180px;
     }
 }
 
@@ -941,4 +981,28 @@
 }
 .related-grid.album-grid .card {
     cursor: pointer;
+}
+
+/* ---------- SUPAYA TOMBOL "BACA ARTIKEL" SEJAJAR DI CARD TERKAIT/TERBARU
+   (HALAMAN DETAIL) — sama seperti perbaikan #article-section di atas,
+   card di sini tingginya dulu ikut isi excerpt masing-masing (naik-turun),
+   jadi tombolnya nggak sejajar antar card. Sekarang card dibuat flex-column
+   setinggi grid-nya, isi deskripsi ambil sisa ruang, tombol didorong ke
+   paling bawah (margin-top: auto) supaya rata di semua card. ---------- */
+.related-grid.album-grid .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.related-grid.album-grid .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.related-grid.album-grid .card-desc {
+    flex: 1;
+}
+.related-grid.album-grid .view-btn {
+    margin-top: auto;
+    align-self: flex-start;
 }
