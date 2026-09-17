@@ -62,6 +62,29 @@
         border-color: #7bbde8; 
         background: #fff; 
     }
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .password-wrapper input {
+        padding-right: 40px;
+    }
+    .password-toggle {
+        position: absolute;
+        right: 14px;
+        color: #527597;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .password-toggle:hover {
+        color: #0a4174;
+    }
+    /* Sembunyikan ikon mata bawaan browser (khususnya Microsoft Edge) */
+    .password-wrapper input::-ms-reveal,
+    .password-wrapper input::-ms-clear {
+        display: none;
+    }
     .btn-submit { 
         background: #0a4174; 
         color: white; 
@@ -99,35 +122,44 @@
     }
 </style>
 
-<form action="{{ route('admin.admins.store') }}" method="POST">
+<form action="{{ isset($admin) ? route('admin.admins.update', $admin->id) : route('admin.admins.store') }}" method="POST">
     @csrf
+    @if(isset($admin))
+        @method('PUT')
+    @endif
     <div class="form-layout-grid">
         
         <!-- KOLOM KIRI: ISIAN KREDENSIAL UTAMA -->
         <div class="form-card-main">
             <div class="form-header">
-                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174;">Pendaftaran Pengelola</h2>
-                <p style="font-size: 12px; color: #527597">Buat akun login baru untuk rekan petugas administrasi portal.</p>
+                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174;">{{ isset($admin) ? 'Edit Pengelola' : 'Pendaftaran Pengelola' }}</h2>
+                <p style="font-size: 12px; color: #527597">{{ isset($admin) ? 'Perbarui data akun admin yang sudah ada.' : 'Buat akun login baru untuk rekan petugas administrasi portal.' }}</p>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Nama Lengkap Admin <span style="color:red;">*</span></label>
-                <input type="text" name="name" class="form-control" required placeholder="Masukkan nama asli pengelola...">
+                <input type="text" name="name" class="form-control" required placeholder="Masukkan nama asli pengelola..." value="{{ $admin->name ?? '' }}">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Alamat Email Login <span style="color:red;">*</span></label>
-                <input type="email" name="email" class="form-control" required placeholder="Contoh: staff.admin@alumnispace.id">
+                <input type="email" name="email" class="form-control" required placeholder="Masukkan email..." autocomplete="off" value="{{ $admin->email ?? '' }}">
             </div>
             
             <div class="form-group">
-                <label class="form-label">Kata Sandi (Password) <span style="color:red;">*</span></label>
-                <input type="password" name="password" class="form-control" required placeholder="Minimal 6 karakter unik...">
+                <label class="form-label">Kata Sandi (Password) {!! isset($admin) ? '<span style="font-weight: normal; color: #527597; text-transform: none;">(Kosongkan jika tidak diganti)</span>' : '<span style="color:red;">*</span>' !!}</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" id="password_input" class="form-control" {{ isset($admin) ? '' : 'required' }} placeholder="Masukkan password..." autocomplete="new-password">
+                    <i class="fa-solid fa-eye-slash password-toggle" onclick="togglePassword('password_input', this)"></i>
+                </div>
             </div>
             
             <div class="form-group">
-                <label class="form-label">Ulangi Kata Sandi <span style="color:red;">*</span></label>
-                <input type="password" name="password_confirmation" class="form-control" required placeholder="Ketik ulang password...">
+                <label class="form-label">Ulangi Kata Sandi {!! !isset($admin) ? '<span style="color:red;">*</span>' : '' !!}</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password_confirmation" id="password_confirmation_input" class="form-control" {{ isset($admin) ? '' : 'required' }} placeholder="Ketik ulang password..." autocomplete="new-password">
+                    <i class="fa-solid fa-eye-slash password-toggle" onclick="togglePassword('password_confirmation_input', this)"></i>
+                </div>
             </div>
         </div>
 
@@ -139,23 +171,38 @@
             
             <div class="form-group">
                 <label class="form-label">Nomor WhatsApp / HP</label>
-                <input type="text" name="phone" class="form-control" placeholder="Contoh: 0812345xxxxx">
+                <input type="text" name="phone" class="form-control" placeholder="Contoh: 0812345xxxxx" value="{{ $admin->phone ?? '' }}">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Tingkat Hak Akses <span style="color:red;">*</span></label>
                 <select name="role" class="form-control" required style="padding: 10px 14px; background: #f4f8fb;">
-                    <option value="admin">Admin Standar (Operasional)</option>
-                    <option value="super_admin">Super Admin (Akses Penuh)</option>
+                    <option value="admin" {{ (isset($admin) && $admin->role === 'admin') ? 'selected' : '' }}>Admin Standar (Operasional)</option>
+                    <option value="super_admin" {{ (isset($admin) && $admin->role === 'super_admin') ? 'selected' : '' }}>Super Admin (Akses Penuh)</option>
                 </select>
             </div>
             
             <div class="form-actions" style="margin-top: 24px;">
-                <button type="submit" class="btn-submit">Daftarkan Akun Admin</button>
-                <a href="{{ route('admin.admins.index') }}" class="btn-cancel" onclick="return confirm('Batalkan pembuatan akun? Semua data ketikan akan hilang.');">Batalkan</a>
+                <button type="submit" class="btn-submit">{{ isset($admin) ? 'Simpan Perubahan' : 'Daftarkan Akun Admin' }}</button>
+                <a href="{{ route('admin.admins.index') }}" class="btn-cancel" onclick="return confirm('{{ isset($admin) ? 'Batalkan pengeditan? Perubahan yang belum disimpan akan hilang.' : 'Batalkan pembuatan akun? Semua data ketikan akan hilang.' }}');">Batalkan</a>
             </div>
         </div>
         
     </div>
 </form>
+
+<script>
+    function togglePassword(inputId, iconElement) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        } else {
+            input.type = 'password';
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        }
+    }
+</script>
 @endsection
