@@ -51,7 +51,7 @@ class TableController extends Controller
                     'salary_display' => ['label' => 'Informasi Gaji', 'type' => 'text', 'required' => true],
                     'description' => ['label' => 'Deskripsi Pekerjaan', 'type' => 'textarea', 'required' => true],
                     'requirements' => ['label' => 'Syarat Kualifikasi', 'type' => 'textarea', 'required' => true],
-                    'is_active' => ['label' => 'Status Lowongan', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Buka', 0 => 'Tutup']],
+                    'is_active' => ['label' => 'Status', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Buka', 0 => 'Tutup']],
                 ]
             ],
 
@@ -65,7 +65,7 @@ class TableController extends Controller
                     'thumbnail' => ['label' => 'Gambar Mini (Thumbnail)', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 50KB'],
                     'excerpt' => ['label' => 'Kutipan / Ringkasan Awal', 'type' => 'textarea', 'required' => true],
                     'content' => ['label' => 'Isi Lengkap Berita', 'type' => 'textarea', 'required' => true],
-                    'is_published' => ['label' => 'Status Tayang', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Diterbitkan', 0 => 'Disimpan sebagai Draf']],
+                    'is_published' => ['label' => 'Status', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Diterbitkan', 0 => 'Disimpan sebagai Draf']],
                 ]
             ],
             'event' => [
@@ -80,7 +80,7 @@ class TableController extends Controller
                     'venue' => ['label' => 'Lokasi / Tempat Acara', 'type' => 'text', 'required' => true],
                     'description' => ['label' => 'Deskripsi Lengkap Acara', 'type' => 'textarea', 'required' => true],
                     'quota' => ['label' => 'Kuota Peserta', 'type' => 'number', 'required' => true],
-                    'status' => ['label' => 'Status Pelaksanaan', 'type' => 'select', 'required' => true, 'options' => ['upcoming' => 'Segera Hadir', 'completed' => 'Selesai']],
+                    'status' => ['label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['upcoming' => 'Segera Hadir', 'completed' => 'Selesai']],
                 ]
             ],
             'albums' => [
