@@ -21,10 +21,7 @@
                     dan tumbuh bersama lewat komunitas, karier, hingga agenda reuni.
                 </p>
 
-                <form class="as-footer__subscribe" onsubmit="return false;">
-                    <input type="email" placeholder="Email kamu" required>
-                    <button type="submit">Gabung</button>
-                </form>
+
             </div>
 
             <div class="as-footer__columns">

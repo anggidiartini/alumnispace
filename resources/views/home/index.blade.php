@@ -210,35 +210,71 @@
   </div>
 
 
-  <!-- Container Scroll menggunakan class dari home.css -->
-  <div class="pengurus-track mt-10">
-    @forelse($pengurus ?? [] as $index => $item)
-    <article class="reveal-onscroll pengurus-card card-v{{ ($index % 4) + 1 }}">
+    <!-- Container Scroll menggunakan class dari home.css -->
+  <div class="pengurus-carousel-wrap mt-10">
+    <button type="button" id="pengurus-prev" class="pengurus-arrow pengurus-arrow--prev focus-ring" aria-label="Geser ke kiri">
+      <i data-lucide="chevron-left" class="h-5 w-5"></i>
+    </button>
 
-  <div class="pengurus-photo-wrap border border-blue-100">
-    @php
-      $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
-      $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
-      $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
-      $srcFoto = $fotoPengurus
-          ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
-          : asset('assets/images/default-avatar.png');
-    @endphp
+    <div class="pengurus-track" id="pengurus-track">
+      @forelse($pengurus ?? [] as $index => $item)
+      <article class="reveal-onscroll pengurus-card card-v{{ ($index % 4) + 1 }}">
 
-    <img src="{{ $srcFoto }}" alt="{{ $namaPengurus }}" onclick="openPengurusLightbox({{ $index }})">
-  </div>
+        <div class="pengurus-photo-wrap border border-blue-100">
+          @php
+            $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
+            $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
+            $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
+            $srcFoto = $fotoPengurus
+                ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
+                : asset('assets/images/default-avatar.png');
 
-  <div class="mt-4 text-center">
-    <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">{{ $namaPengurus }}</h3>
-    <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
-  </div>
+            // Ambil ID alumni_profile asli lewat id pengurus (alumni_committees.id)
+            $alumniProfileId = \Illuminate\Support\Facades\DB::table('alumni_committees')
+                ->where('id', $item->id)
+                ->value('alumni_profile_id');
 
-</article>
-    @empty
-      <div class="w-full py-8 text-center text-sm text-[#355277]">
-        Data pengurus belum tersedia.
-      </div>
-    @endforelse
+            $alumniTerkait = $alumniProfileId
+                ? \App\Models\AlumniProfile::find($alumniProfileId)
+                : null;
+          @endphp
+
+          <img src="{{ $srcFoto }}" alt="{{ $namaPengurus }}" onclick="openPengurusLightbox({{ $index }})">
+        </div>
+
+        <div class="mt-4 text-center">
+          <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">
+            @if($alumniTerkait)
+              <a href="{{ route('alumni.show', $alumniTerkait->slug ?? $alumniTerkait->id) }}" class="unstyled-link focus-ring">{{ $namaPengurus }}</a>
+            @else
+              {{ $namaPengurus }}
+            @endif
+          </h3>
+          <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
+
+          @if($alumniTerkait)
+            <a href="{{ route('alumni.show', $alumniTerkait->slug ?? $alumniTerkait->id) }}"
+               class="focus-ring card-btn custom-white-pill-btn mt-4 block w-full">
+                Lihat Detail Pengurus
+            </a>
+          @else
+            <span class="card-btn custom-white-pill-btn mt-4 block w-full opacity-50 cursor-not-allowed">
+                Profil Tidak Tersedia
+            </span>
+          @endif
+        </div>
+
+      </article>
+      @empty
+        <div class="w-full py-8 text-center text-sm text-[#355277]">
+          Data pengurus belum tersedia.
+        </div>
+      @endforelse
+    </div>
+
+    <button type="button" id="pengurus-next" class="pengurus-arrow pengurus-arrow--next focus-ring" aria-label="Geser ke kanan">
+      <i data-lucide="chevron-right" class="h-5 w-5"></i>
+    </button>
   </div>
 </section>
       <!-- GATED TEASER (HANYA MUNCUL KETIKA BELUM LOGIN) -->
@@ -352,17 +388,21 @@
     @foreach($alumni ?? [] as $index => $alum)
     <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-name="{{ strtolower($alum->user?->name ?? '') }}" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}" style="display: none;">
       <div class="flex items-start justify-between">
-        @if($alum->avatar)
-          <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
-        @else
-          <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
-        @endif
+        <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring">
+          @if($alum->avatar)
+            <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
+          @else
+            <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
+          @endif
+        </a>
         <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
       </div>
-      <h3 class="mt-5 text-xl font-bold text-[#153563]">{{ $alum->user?->name ?? 'Alumni' }}</h3>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">
+              <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="unstyled-link focus-ring">{{ $alum->user?->name ?? 'Alumni' }}</a>
+            </h3>
       <p class="mt-1 text-sm text-[#355277]">{{ $alum->profession ?? 'Alumni Member' }}</p>
       <p class="mt-3 text-sm font-medium text-[#153563]">📍 {{ $alum->city ?? 'Indonesia' }}</p>
-      <a href="{{ route('alumni.index') }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
+      <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
     </article>
     @endforeach
   </div>
@@ -511,16 +551,20 @@
         <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
           {{ ucfirst($article->category) }}
         </span>
-        @if($article->thumbnail)
-          <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
-        @else
-          <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
-            <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
-          </div>
-        @endif
+        <a href="{{ route('artikel.show', $article->slug) }}" class="focus-ring block h-full w-full">
+          @if($article->thumbnail)
+            <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+          @else
+            <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
+              <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+            </div>
+          @endif
+        </a>
       </div>
 
-      <h3 class="text-xl font-bold text-[#153563] leading-snug">{{ $article->title }}</h3>
+      <h3 class="text-xl font-bold text-[#153563] leading-snug">
+        <a href="{{ route('artikel.show', $article->slug) }}" class="unstyled-link focus-ring">{{ $article->title }}</a>
+      </h3>
 
       <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
@@ -583,9 +627,13 @@
       <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6 flex h-full flex-col justify-between">
         <div>
           <div class="relative mb-4 h-40 w-full overflow-hidden rounded-2xl bg-white/50 shadow-sm">
-            <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}" class="h-full w-full object-cover">
+            <a href="{{ route('album.show', $album->slug) }}" class="focus-ring block h-full w-full">
+              <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}" class="h-full w-full object-cover">
+            </a>
           </div>
-          <h3 class="text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
+          <h3 class="text-2xl font-bold text-[#153563]">
+            <a href="{{ route('album.show', $album->slug) }}" class="unstyled-link focus-ring">{{ $album->title }}</a>
+          </h3>
           <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
         </div>
         <a href="{{ route('album.show', $album->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block self-start mt-6">Buka Album</a>
@@ -620,7 +668,9 @@
       <div>
         <div class="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h4 class="text-xl font-bold text-[#153563]">{{ $job->title }}</h4>
+            <h4 class="text-xl font-bold text-[#153563]">
+              <a href="{{ route('lowongan.show', $job->slug) }}" class="unstyled-link focus-ring">{{ $job->title }}</a>
+            </h4>
             <p class="mt-1 text-[#355277] text-sm">{{ $job->company_name }} • ({{ $job->alumni_contact ?? 'Alumni Partner' }})</p>
           </div>
           <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#2e72ec]">{{ $job->job_type }}</span>
@@ -657,13 +707,17 @@
       <article class="event-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.5rem] p-5 shadow-sm flex h-full flex-col justify-between">
         <div>
           <div class="relative mb-4 h-36 w-full overflow-hidden rounded-2xl bg-white/70 shadow-sm">
-            <img src="{{ $event->banner_image ?? asset('assets/images/foto-1.png') }}" alt="{{ $event->title }}" class="h-full w-full object-cover">
-            <div class="absolute top-3 left-3 z-10 grid place-items-center rounded-xl bg-white px-2.5 py-1.5 text-center shadow-sm">
-              <span class="font-bold text-[#153563]" style="line-height:1">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}<br>{{ strtoupper(\Carbon\Carbon::parse($event->event_date)->format('M')) }}</span>
-            </div>
+            <a href="{{ route('event.show', $event->slug) }}" class="focus-ring block h-full w-full">
+              <img src="{{ $event->banner_image ?? asset('assets/images/foto-1.png') }}" alt="{{ $event->title }}" class="h-full w-full object-cover">
+              <div class="absolute top-3 left-3 z-10 grid place-items-center rounded-xl bg-white px-2.5 py-1.5 text-center shadow-sm">
+                <span class="font-bold text-[#153563]" style="line-height:1">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}<br>{{ strtoupper(\Carbon\Carbon::parse($event->event_date)->format('M')) }}</span>
+              </div>
+            </a>
           </div>
           <span class="text-xs font-bold text-[#c8517d]">{{ strtoupper($event->category) }}</span>
-          <h4 class="mt-1 text-xl font-bold text-[#153563] truncate">{{ $event->title }}</h4>
+          <h4 class="mt-1 text-xl font-bold text-[#153563] truncate">
+            <a href="{{ route('event.show', $event->slug) }}" class="unstyled-link focus-ring">{{ $event->title }}</a>
+          </h4>
           <p class="mt-1 text-sm text-[#355277]">{{ $event->time_display ?? ($event->venue ?? 'Online') }}</p>
         </div>
         <a href="{{ route('event.show', $event->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block self-start mt-6">Ikuti Event</a>
