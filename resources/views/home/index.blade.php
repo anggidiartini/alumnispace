@@ -545,7 +545,7 @@
           <!-- Menggunakan Grid 3 kolom persis seperti lowongan -->
           <div class="grid gap-6 md:grid-cols-3">
   @forelse($articles ?? [] as $index => $article)
-  <div class="card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+  <div class="article-card card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
     <div>
       <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50">
         <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
@@ -583,7 +583,7 @@
     </div>
   </div>
   @empty
-  <div class="card-v1 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+  <div class="article-card card-v1 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
     <div>
       <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50 flex items-center justify-center">
         <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Kabar Kampus</span>
