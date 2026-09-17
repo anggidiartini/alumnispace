@@ -940,11 +940,11 @@
                 ],
                 language: {
                     search: "",
-                    searchPlaceholder: "Cari data alumni...",
+                    searchPlaceholder: "Cari data...",
                     lengthMenu: "Tampilkan _MENU_ data",
                     zeroRecords: "Data tidak ditemukan",
                     emptyTable: "Data tidak ditemukan",
-                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    info: "Menampilkan _TOTAL_ data di halaman ini",
                     infoEmpty: "Menampilkan 0 data",
                     infoFiltered: "(disaring dari _MAX_ total data)",
                     paginate: {
