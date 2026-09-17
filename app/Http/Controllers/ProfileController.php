@@ -66,6 +66,9 @@ class ProfileController extends Controller
             'bio' => ['nullable', 'string'],
             'avatar' => ['nullable', 'image', 'max:2048'],
 
+            // Penanda dari modal foto: "1" kalau user klik "Hapus Foto"
+            'remove_avatar' => ['nullable', 'string'],
+
             // Sosial media
             'linkedin_url' => ['nullable', 'url', 'max:255'],
             'instagram_url' => ['nullable', 'url', 'max:255'],
@@ -95,6 +98,12 @@ class ProfileController extends Controller
         $currentPassword = $validated['current_password'] ?? null;
         unset($validated['email'], $validated['current_password']);
 
+        // avatar & remove_avatar ditangani manual di bawah (bukan mass-assign),
+        // jadi buang dari $validated supaya tidak ikut ke updateOrCreate()
+        // (kolom 'avatar' di file upload bukan path string, dan 'remove_avatar'
+        // sama sekali bukan kolom di tabel profiles).
+        unset($validated['avatar'], $validated['remove_avatar']);
+
         // Kalau email diganti ke yang beda dari email lama, wajib verifikasi
         // password saat ini dulu, biar orang lain yang lagi login di device yang
         // sama nggak bisa asal ganti email pemilik akun.
@@ -116,6 +125,7 @@ class ProfileController extends Controller
             $validated
         );
 
+        // Ganti foto: ada file baru diupload -> hapus foto lama (kalau ada), simpan yang baru
         if ($request->hasFile('avatar')) {
             if ($profile->avatar) {
                 Storage::disk('public')->delete($profile->avatar);
@@ -123,6 +133,16 @@ class ProfileController extends Controller
 
             $path = $request->file('avatar')->store('avatars', 'public');
             $profile->update(['avatar' => $path]);
+
+        // Hapus foto: tidak ada file baru, tapi user klik "Hapus Foto" di modal
+        // (remove_avatar dikirim = "1") -> hapus file lama, kosongkan kolom avatar
+        // supaya Blade fallback otomatis ke default-avatar.jpg
+        } elseif ($request->input('remove_avatar') === '1') {
+            if ($profile->avatar) {
+                Storage::disk('public')->delete($profile->avatar);
+            }
+
+            $profile->update(['avatar' => null]);
         }
 
         return redirect()
