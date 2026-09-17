@@ -228,6 +228,126 @@
 }
 
 /* =========================
+   FOTO PROFIL — baris avatar + tombol Digital Yearbook
+   ========================= */
+
+.profile-photo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.yearbook-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 9999px;
+    background-color: var(--bright-blue);
+    color: #ffffff;
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--bright-blue-dark);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.yearbook-btn:hover {
+    background-color: var(--bright-blue-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 #093f8c;
+}
+
+.yearbook-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #093f8c;
+}
+
+.yearbook-btn svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .profile-photo-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .yearbook-btn {
+        justify-content: center;
+    }
+}
+
+/* =========================
+   FIELD HINT (teks kecil di bawah input, mis. password saat ganti email)
+   ========================= */
+
+.field-hint {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+/* =========================
+   PASSWORD FIELD DENGAN IKON MATA (show/hide)
+   ========================= */
+
+.password-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrap input {
+    width: 100%;
+    padding-right: 44px; /* kasih ruang buat tombol ikon mata */
+}
+
+/* Matikan ikon mata & tombol clear bawaan Edge/IE di input password,
+   karena numpuk sama tombol ikon mata custom kita di posisi yang sama */
+.password-input-wrap input::-ms-reveal,
+.password-input-wrap input::-ms-clear {
+    display: none;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.password-toggle-btn:hover {
+    background: var(--wash-1);
+    color: var(--bright-blue-dark);
+}
+
+.password-toggle-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* =========================
    AVATAR (klik utk buka modal ganti/hapus foto)
    ========================= */
 
@@ -552,6 +672,95 @@
 }
 
 /* =========================
+   PRESTASI — list dinamis (ganti dari textarea)
+   ========================= */
+
+.achievement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.achievement-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.achievement-row input {
+    flex: 1;
+    min-height: 42px;
+    box-sizing: border-box;
+    border: 1px solid var(--input-border);
+    border-radius: 11px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 12px;
+    outline: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.achievement-row input::placeholder {
+    color: #94a3b8;
+}
+
+.achievement-row input:hover {
+    border-color: #a9c4e8;
+}
+
+.achievement-row input:focus {
+    border-color: var(--bright-blue);
+    box-shadow: 0 0 0 3px rgba(22, 119, 255, 0.16);
+}
+
+.achievement-remove {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1.5px solid var(--input-border);
+    background: #ffffff;
+    color: #b42318;
+    font-size: 19px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.achievement-remove:hover {
+    background: #fef2f2;
+    border-color: #f3b4b4;
+    transform: translateY(-1px);
+}
+
+.achievement-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 9px 16px;
+    border-radius: 9999px;
+    border: 1.5px dashed var(--bright-blue);
+    background: var(--wash-1);
+    color: var(--bright-blue-dark);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.achievement-add-btn:hover {
+    background: var(--wash-2);
+    transform: translateY(-1px);
+}
+
+/* =========================
    ACTION BUTTON — pill, shadow keras seperti tombol di halaman album
    ========================= */
 
@@ -709,6 +918,7 @@ select:focus-visible {
     .profile-form {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 20px;
+        align-items: start; /* tiap kartu tinggi ngikutin isinya sendiri, gak dipaksa rata sama tetangganya */
     }
 
     /* Section pendek berdampingan */
@@ -717,7 +927,7 @@ select:focus-visible {
     }
 
     /* Section yang butuh ruang lebar tetap full width:
-       Foto (1), Riwayat Pendidikan (6), Bio (9), Sosial Media (10) */
+       Foto (1), Riwayat Pendidikan (6), Bio (10), Sosial Media (11) */
     .profile-form > .profile-section-full,
     .profile-form > .profile-section:nth-of-type(6) {
         grid-column: 1 / -1;
@@ -1076,4 +1286,4 @@ select:focus-visible {
         height: 2.5rem;
         width: 2.5rem;
     }
-}   
+}
