@@ -185,7 +185,7 @@
     <!-- Artikel Terbaru — sama, pakai struktur .card persis kayak index -->
     @if($latestArticles->count())
     <div class="related-head reveal-pop">
-      <h2>Baca <span class="marker">Juga</span></h2>
+      <h2>Baca Juga</h2>
     </div>
     <div class="related-grid album-grid">
       @foreach($latestArticles as $latest)

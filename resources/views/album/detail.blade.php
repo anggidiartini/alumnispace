@@ -34,7 +34,12 @@
 
   <div class="wrap">
 
-    <a href="{{ route('album.index') }}" class="back-link reveal-pop" style="--pop-delay:0s">&larr; Kembali ke Album</a>
+    <!-- Back-link: disamain PERSIS kayak "Kembali ke Artikel" di detail artikel —
+         pakai icon arrow-left + flex layout, statis tanpa animasi masuk. -->
+    <a href="{{ route('album.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Album
+    </a>
 
     <div class="detail-grid">
       <div class="detail-photo-col">
@@ -47,28 +52,34 @@
         </div>
       </div>
 
+      <!-- ====== FIX: wrapper .info-card DIHAPUS di sini ======
+           Sebelumnya kolom kanan dibungkus <div class="info-card">, yang
+           bikin muncul box biru (background var(--home-blue-soft) + border
+           navy + shadow) dari class .info-card di album.css.
+           Sekarang badge/judul/meta/quote langsung ditaruh di
+           .detail-info-col, PERSIS seperti struktur di halaman detail
+           artikel (artikel/show.blade.php) yang tidak pakai .info-card
+           sama sekali — jadi tidak ada box biru lagi. -->
       <div class="detail-info-col">
-        <div class="info-card">
-          <div class="greet-badge small reveal-pop" style="--pop-delay:.15s">
-               {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
-          </div>
+        <div class="greet-badge small reveal-pop" style="--pop-delay:.15s">
+             {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
+        </div>
 
-          <h1 class="marker-title reveal-pop" style="--pop-delay:.25s">{{ $album->title }}</h1>
+        <h1 class="marker-title reveal-pop" style="--pop-delay:.25s">{{ $album->title }}</h1>
 
-          <div class="meta-row reveal-pop" style="--pop-delay:.35s">
-            <span class="meta-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              {{ $album->date_display }}
-            </span>
-            <span class="meta-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-              {{ $album->location }}
-            </span>
-          </div>
+        <div class="meta-row reveal-pop" style="--pop-delay:.35s">
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            {{ $album->date_display }}
+          </span>
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            {{ $album->location }}
+          </span>
+        </div>
 
-          <div class="desc-quote reveal-pop" style="--pop-delay:.45s">
-            <p class="detail-desc">{{ $album->description }}</p>
-          </div>
+        <div class="desc-quote reveal-pop" style="--pop-delay:.45s">
+          <p class="detail-desc">{{ $album->description }}</p>
         </div>
       </div>
     </div>
@@ -80,7 +91,7 @@
     ========================================================== --}}
     @if(isset($album->photos) && $album->photos->count())
     <div class="gallery-head reveal-pop">
-      <h2>Galeri <span class="marker">Foto</span></h2>
+      <h2>Galeri Foto</span></h2>
       <div class="count">{{ $album->photos->count() }} foto</div>
     </div>
 
@@ -123,10 +134,7 @@
           <div class="related-body">
             <div class="label">{{ $related->subtitle_label ?? $related->target_generation }}</div>
             <h3>{{ $related->title }}</h3>
-            <a href="{{ route('album.show', $related->slug) }}" class="view-btn">
-              View Album
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <a href="{{ route('album.show', $related->slug) }}" class="view-btn">View Album</a>
           </div>
         </div>
       @endforeach

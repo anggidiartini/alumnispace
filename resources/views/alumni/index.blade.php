@@ -8,9 +8,10 @@
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/alumni.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/alumni.css')) : time() }}">
-<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
+
 </head>
 <body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 

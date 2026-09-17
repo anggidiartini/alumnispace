@@ -321,10 +321,7 @@
             <div class="deco-asset de-r5" data-reveal aria-hidden="true">
                 <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
             </div>
-            <div class="deco-asset de-r6" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt=""
-                    class="aset-alattulis floaty">
-            </div>
+
         </main>
 
         <x-footer />
