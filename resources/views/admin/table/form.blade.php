@@ -113,7 +113,57 @@
                 <p style="font-size: 12px; color: #527597">Silakan lengkapi informasi isian komponen di bawah ini.</p>
             </div>
 
-            @foreach($mapping['fields'] as $key => $field)
+                       @foreach($mapping['fields'] as $key => $field)
+                <!-- ========================================================
+                   KONDISI KHUSUS FITUR PENGURUS ALUMNI (DROPDOWN RELASI)
+                   ======================================================== -->
+                @if($table_key === 'alumni_boards')
+                    
+                    <!-- 1. Dropdown Pilihan Nama Alumni -->
+                    @if($key === 'alumni_profile_id')
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap Alumni <span class="required-star">*</span></label>
+                            <select name="alumni_profile_id" class="form-control" required>
+                                <option value="">-- Pilih Anggota Alumni Berdasarkan Nama --</option>
+                                @foreach(DB::table('alumni_profiles')->join('users', 'alumni_profiles.user_id', '=', 'users.id')->select('alumni_profiles.id', 'users.name')->orderBy('users.name', 'asc')->get() as $alumni)
+                                    <option value="{{ $alumni->id }}" {{ (isset($row) && $row->alumni_profile_id == $alumni->id) ? 'selected' : '' }}>{{ $alumni->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    <!-- 2. Dropdown Pilihan Jabatan Otomatis -->
+                    @if($key === 'position')
+                        <div class="form-group">
+                            <label class="form-label">Jabatan Struktural Pengurus <span class="required-star">*</span></label>
+                            <select name="position" class="form-control" required>
+                                <option value="">-- Pilih Jabatan --</option>
+                                @foreach($field['options'] as $value => $label)
+                                    <option value="{{ $value }}" {{ (isset($row) && $row->position == $value) ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    <!-- 3. Dropdown Pilihan Nama Periode -->
+                    @if($key === 'committee_period_id')
+                        <div class="form-group">
+                            <label class="form-label">Periode Bakti Kepengurusan <span class="required-star">*</span></label>
+                            <select name="committee_period_id" class="form-control" required>
+                                <option value="">-- Pilih Nama Periode --</option>
+                                @foreach(DB::table('committee_periods')->orderBy('id', 'desc')->get() as $p)
+                                    <option value="{{ $p->id }}" {{ (isset($row) && $row->committee_period_id == $p->id) ? 'selected' : '' }}>{{ $p->period_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    @php continue; @endphp
+                @endif
+
+                {{-- ========================================================
+                   KODE LAMA BAWAAN TEMANMU (UNTUK ENTITAS LAINNYA)
+                   ======================================================== --}}
                 {{-- Lewati kolom gambar dan seleksi status untuk ditaruh di sebelah kanan --}}
                 @if($field['type'] === 'file' || $field['type'] === 'toggle' || $field['type'] === 'select' || $key === 'study_status' || $key === 'status')
                     @continue
@@ -136,7 +186,7 @@
                     @endif
                 </div>
             @endforeach
-        </div>
+
 
         <!-- KOLOM KANAN: PENGATURAN STATUS & MEDIA -->
         <div class="form-card-sidebar">

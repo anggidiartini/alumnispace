@@ -800,7 +800,7 @@
                         @php
                             $rowNumber = ($loop->index + 1) + ($rows->perPage() * ($rows->currentPage() - 1));
                         @endphp
-                        <tr class="data-row">
+                                              <tr class="data-row">
                             <td class="col-number-data">{{ $rowNumber }}</td>
                             @foreach($mapping['list_columns'] as $col)
                                 <td data-col="{{ $col }}">
@@ -815,8 +815,14 @@
                                       @endif
 
                                     @elseif($col === 'study_status')
-                                        <span style="background-color: {{ $row->$col === 'Aktif' ? '#d1fae5' : '#fee2e2' }}; color: {{ $row->$col === 'Aktif' ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
-                                            {{ $row->$col === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
+                                        <!-- Penyelamat status jika di halaman pengurus alumni agar tidak eror properti -->
+                                        @php
+                                            $statusVal = ($table_key === 'alumni_boards') 
+                                                ? DB::table('alumni_profiles')->where('id', $row->alumni_profile_id)->value('study_status') 
+                                                : ($row->$col ?? 'Aktif');
+                                        @endphp
+                                        <span style="background-color: {{ $statusVal === 'Aktif' ? '#d1fae5' : '#fee2e2' }}; color: {{ $statusVal === 'Aktif' ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
+                                            {{ $statusVal === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
                                         </span>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'toggle')
                                         <span style="background-color: {{ $row->$col ? '#d1fae5' : '#fee2e2' }}; color: {{ $row->$col ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
@@ -824,8 +830,32 @@
                                         </span>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'date' && !empty($row->$col))
                                         {{ strtolower(\Carbon\Carbon::parse($row->$col)->locale('id')->translatedFormat('d F Y')) }}
+                                    
+                                    <!-- ========================================================
+                                       BAGIAN PROSES REPLACEMENT UNTUK HANDLER KOLOM VIRTUAL
+                                       ======================================================== -->
                                     @else
-                                        {{ strip_tags($row->$col) ?? '-' }}
+                                        @if($table_key === 'alumni_boards' && $col === 'company_logo')
+                                            <!-- Fallback aman jika kolom pembawa logo ikut terbaca array list -->
+                                            <span style="color: var(--text-muted); font-style: italic;">Tidak ada foto</span>
+                                        @elseif($table_key === 'alumni_boards' && $col === 'alumni_name')
+                                            @php
+                                                $alumniName = DB::table('alumni_profiles')
+                                                    ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+                                                    ->where('alumni_profiles.id', $row->alumni_profile_id)
+                                                    ->value('users.name');
+                                            @endphp
+                                            {{ strip_tags($alumniName) ?? '-' }}
+                                        @elseif($table_key === 'alumni_boards' && $col === 'period_name')
+                                            @php
+                                                $periodName = DB::table('committee_periods')
+                                                    ->where('id', $row->committee_period_id)
+                                                    ->value('period_name');
+                                            @endphp
+                                            {{ strip_tags($periodName) ?? '-' }}
+                                        @else
+                                            {{ strip_tags($row->$col ?? '-') }}
+                                        @endif
                                     @endif
                                 </td>
                             @endforeach
@@ -847,6 +877,7 @@
                                 </div>
                             </td>
                         </tr>
+
                     @endforeach
                 @else
                     <tr>

@@ -4,6 +4,8 @@
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5h7V20H4zm9-9h7v6.5h-7zm0 9h7V20h-7zM4 4h7v6.5H4z" fill="currentColor"/></svg>',
         'alumnis' =>
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18.5V9.5h2.2v9h11.6v-9H19v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1zm2.8-12.5h8.4L12 3zm1.2 4.3h6v1.8h-6zm0 3.2h6v1.8h-6z" fill="currentColor"/></svg>',
+        'alumni_boards' =>
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c2.33 0 7 1.17 7 3.5V19H1v-2.5c0-2.33 4.67-3.5 7-3.5zm8 0c.29 0 .62.02.95.05-1.11.77-1.95 1.8-2.25 3.05-.3-.11-.6-.1-.7-.1H12v2.5h5V16.5c0-2.33 4.67-3.5 7-3.5z" fill="currentColor"/></svg>',
         'job_vacancies' =>
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6a2 2 0 0 1 2-2zm0 3h6V6H9zm-1 5h8v2H8zm0 4h8v2H8z" fill="currentColor"/></svg>',
         'articles' =>
@@ -22,6 +24,7 @@
 
     $sidebarItems = [
         ['key' => 'alumnis', 'title' => 'Data Alumni', 'color' => '#7bbde8'],
+        ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'color' => '#7bbde8'],
         ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'color' => '#7bbde8'],
         ['key' => 'articles', 'title' => 'Artikel & Berita', 'color' => '#7bbde8'],
         ['key' => 'event', 'title' => 'Acara & Agenda', 'color' => '#7bbde8'],

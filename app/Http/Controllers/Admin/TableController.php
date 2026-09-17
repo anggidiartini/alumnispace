@@ -34,7 +34,44 @@ class TableController extends Controller
                     'bio' => ['label' => 'Biografi Singkat', 'type' => 'textarea', 'required' => true],
                     'study_status' => ['label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['Aktif' => 'Aktif', 'Non-aktif' => 'Tidak Aktif']],
                 ]
-            ],
+            ],  
+
+'alumni_boards' => [
+    'title' => 'Pengurus Alumni',
+    'table' => 'alumni_committees',
+    'list_columns' => ['alumni_name', 'position', 'period_name', 'study_status'],
+    'fields' => [
+        'alumni_profile_id' => [
+            'label' => 'Nama Alumni', 
+            'type' => 'relation_select', 
+            'required' => true,
+            'relation_table' => 'alumni_profiles',
+            'display_column' => 'name'
+        ],
+        'position' => [
+            'label' => 'Jabatan', 
+            'type' => 'select_custom', 
+            'required' => true, 
+            'options' => [
+                'Ketua Umum Alumni' => 'Ketua Umum Alumni',
+                'Wakil Ketua Umum' => 'Wakil Ketua Umum',
+                'Sekretaris' => 'Sekretaris',
+                'Bendahara' => 'Bendahara',
+                'Divisi Hubungan Masyarakat' => 'Divisi Hubungan Masyarakat',
+                'Divisi Kreatif & Acara' => 'Divisi Kreatif & Acara',
+                'Divisi Pengembangan Karier' => 'Divisi Pengembangan Karier'
+            ]
+        ],
+        'committee_period_id' => [
+            'label' => 'Periode Kepengurusan', 
+            'type' => 'relation_select', 
+            'required' => true,
+            'relation_table' => 'committee_periods',
+            'display_column' => 'period_name'
+        ]
+    ]
+],
+
             'job_vacancies' => [
                 'title' => 'Lowongan Kerja',
                 'table' => 'job_vacancies',
@@ -135,6 +172,7 @@ class TableController extends Controller
     {
         $tables = [
             'alumnis' => 'alumni_profiles',
+            'alumni_boards' => 'alumni_committees',
             'job_vacancies' => 'job_vacancies',
             'articles' => 'articles',
             'event' => 'events',
@@ -521,4 +559,89 @@ class TableController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Status admin berhasil diperbarui.']);
     }
+    public function getAlumniBoardsData(Request $request)
+{
+    if ($request->ajax()) {
+        $query = DB::table('alumni_committees')
+            ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
+            ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+            ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
+            ->select([
+                'alumni_committees.id as id',
+                'users.name as alumni_name',
+                'alumni_committees.position as position',
+                'committee_periods.period_name as period_name',
+                'alumni_profiles.study_status as study_status',
+                'alumni_profiles.id as profile_id'
+            ]);
+
+        // Implementasi Filter Ajax jika dipilih
+        if ($request->filled('filter_periode')) {
+            $query->where('committee_periods.id', $request->filter_periode);
+        }
+        if ($request->filled('filter_jabatan')) {
+            $query->where('alumni_committees.position', $request->filter_jabatan);
+        }
+
+        return \DataTables::of($query)
+            ->addIndexColumn()
+            ->addColumn('study_status', function($row) {
+                $selectedAktif = $row->study_status == 'Aktif' ? 'selected' : '';
+                $selectedNon = $row->study_status == 'Non-aktif' ? 'selected' : '';
+                
+                return '<select class="change-status-inline-dropdown" data-profile-id="'.$row->profile_id.'" style="padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 11px; background-color: '.($row->study_status == 'Aktif' ? '#d1fae5; color: #065f46;' : '#fee2e2; color: #991b1b;').'">
+                            <option value="Aktif" '.$selectedAktif.'>Aktif</option>
+                            <option value="Non-aktif" '.$selectedNon.'>Tidak Aktif</option>
+                        </select>';
+            })
+            ->addColumn('action', function($row) {
+                return '<div class="action-badge">
+                            <a href="'.url('admin/table/alumni_boards/'.$row->id).'" class="btn-action btn-detail"><i class="fa-solid fa-eye"></i> Detail</a>
+                            <a href="'.url('admin/table/alumni_boards/'.$row->id.'/edit').'" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <form class="delete-form" action="'.route('admin.table.destroy', ['alumni_boards', $row->id]).'" method="POST" style="display:inline-flex;">
+                                '.csrf_field().'
+                                '.method_field('DELETE').'
+                                <button type="button" class="btn-action btn-delete delete-trigger"><i class="fa-solid fa-trash-can"></i> Hapus</button>
+                            </form>
+                        </div>';
+            })
+            ->rawColumns(['study_status', 'action'])
+            ->make(true);
+    }
+}
+
+public function updateStatusInline(Request $request)
+{
+    $request->validate([
+        'profile_id' => 'required',
+        'status' => 'required|in:Aktif,Non-aktif'
+    ]);
+
+    DB::table('alumni_profiles')
+        ->where('id', $request->profile_id)
+        ->update(['study_status' => $request->status, 'updated_at' => now()]);
+
+    return response()->json(['success' => true, 'message' => 'Status alumni berhasil diperbarui langsung.']);
+}
+
+// Handler tambahan untuk simpan Periode Dinamis via AJAX Modal samping tombol tambah
+public function storePeriodQuick(Request $request)
+{
+    $request->validate([
+        'period_name' => 'required|string|max:50',
+        'start_date' => 'required|date',
+        'finish_date' => 'nullable|date'
+    ]);
+
+    DB::table('committee_periods')->insert([
+        'period_name' => $request->period_name,
+        'start_date' => $request->start_date,
+        'finish_date' => $request->finish_date,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+
+    return response()->json(['success' => true, 'message' => 'Periode baru berhasil ditambahkan dinamis!']);
+}
+
 }

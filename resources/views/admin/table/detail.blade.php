@@ -115,6 +115,61 @@
         </div>
 
         @foreach($mapping['fields'] as $key => $field)
+            <!-- ========================================================
+               KONDISI KHUSUS FITUR PENGURUS ALUMNI (FORMAT TANGGAL TEKS)
+               ======================================================== -->
+            @if($table_key === 'alumni_boards')
+                @php
+                    $detilPengurus = DB::table('alumni_committees')
+                        ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
+                        ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+                        ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
+                        ->select('users.name', 'alumni_committees.position', 'committee_periods.period_name', 'committee_periods.start_date', 'committee_periods.finish_date')
+                        ->where('alumni_committees.id', $row->id)
+                        ->first();
+                @endphp
+
+                @if($key === 'alumni_profile_id')
+                    <div class="info-group">
+                        <span class="info-label">Nama Lengkap Anggota Pengurus</span>
+                        <div class="info-value"><strong>{{ $detilPengurus->name }}</strong></div>
+                    </div>
+                @endif
+
+                @if($key === 'position')
+                    <div class="info-group">
+                        <span class="info-label">Jabatan Struktural</span>
+                        <div class="info-value"><span style="background:rgba(123, 189, 232, 0.25); color:#0a4174; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:bold; display:inline-block;">{{ $detilPengurus->position }}</span></div>
+                    </div>
+                @endif
+
+                @if($key === 'committee_period_id')
+                    <div class="info-group">
+                        <span class="info-label">Periode Kepengurusan</span>
+                        <div class="info-value"><strong>{{ $detilPengurus->period_name }}</strong></div>
+                    </div>
+                    
+                    <div class="info-group">
+                        <span class="info-label">Tanggal Mulai Jabatan Bakti</span>
+                        <div class="info-value"><strong>{{ \Carbon\Carbon::parse($detilPengurus->start_date)->locale('id')->translatedFormat('d F Y') }}</strong></div>
+                    </div>
+
+                    <div class="info-group">
+                        <span class="info-label">Tanggal Berakhir Jabatan Bakti</span>
+                        <div class="info-value">
+                            <strong>
+                                {{ $detilPengurus->finish_date ? \Carbon\Carbon::parse($detilPengurus->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Aktif Menjabat' }}
+                            </strong>
+                        </div>
+                    </div>
+                @endif
+
+                @php continue; @endphp
+            @endif
+
+            <!-- ========================================================
+               KODE LAMA BAWAAN TEMANMU (UNTUK ENTITAS LAINNYA)
+               ======================================================== -->
             @if(Str::endsWith($key, '_id') || $key === 'id' || $field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                 @continue
             @endif
@@ -151,7 +206,7 @@
             @if($field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                 @if($key === 'company_logo')
                     <div style="margin-bottom: 16px; display: flex; justify-content: center;">
-                        <x-company-logo :logo="$row->$key" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
+                        <x-company-logo :logo="$row->$col" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
                     </div>
                     @php $hasImage = true; @endphp
                 @elseif(!empty($row->$key))
