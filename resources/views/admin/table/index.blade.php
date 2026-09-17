@@ -805,9 +805,11 @@
                             @foreach($mapping['list_columns'] as $col)
                                 <td data-col="{{ $col }}">
                                   @if(in_array($col, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
-                                      @if(!empty($row->$col))
+                                      @if($col === 'company_logo')
+                                          <x-company-logo :logo="$row->$col" :name="$row->company_name ?? ($row->title ?? 'Perusahaan')" size="40" option="initials" />
+                                      @elseif(!empty($row->$col))
                                           <!-- Otomatis membaca path upload dari folder public/uploads/ -->
-                                          <img src="{{ asset($row->$col) }}" class="preview-img-mini" alt="Logo">
+                                          <img src="{{ Str::startsWith($row->$col, 'http') ? $row->$col : asset($row->$col) }}" class="preview-img-mini" alt="Lampiran" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'1.5\'><rect width=\'18\' height=\'18\' x=\'3\' y=\'3\' rx=\'2\'/><circle cx=\'9\' cy=\'9\' r=\'2\'/><path d=\'m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\'/></svg>';">
                                       @else
                                           <span style="color: var(--text-muted); font-style: italic;">Tidak ada foto</span>
                                       @endif

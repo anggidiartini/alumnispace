@@ -181,18 +181,8 @@
                                                 onmouseover="this.style.textDecoration='underline'"
                                                 onmouseout="this.style.textDecoration='none'">
 
-                                                <!-- JIKA ADA LOGO BERKAS DI DATABASE -->
-                                                @if (!empty($job->company_logo))
-                                                    <img class="company-logo" src="{{ asset($job->company_logo) }}"
-                                                        alt="Logo {{ $job->company_name }}" loading="lazy"
-                                                        style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
-                                                @else
-                                                    <!-- KONDISI CADANGAN JIKA KOSONG -->
-                                                    <span class="company-initials"
-                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->initials ?? strtoupper(substr($job->company_name, 0, 2)) }}
-                                                    </span>
-                                                @endif
+                                                <!-- LOGO DENGAN GRACEFUL FALLBACK DAN ONERROR HANDLING -->
+                                                <x-company-logo :logo="$job->company_logo" :name="$job->company->name ?? $job->company_name" size="32" option="initials" />
 
                                                 <span>{{ $job->company->name }}</span>
                                             </a>
@@ -203,16 +193,8 @@
                                                 onmouseover="this.style.textDecoration='underline'; this.style.color='#2877ED'"
                                                 onmouseout="this.style.textDecoration='none'; this.style.color='#4a5568'">
 
-                                                @if (!empty($job->company_logo))
-                                                    <img class="company-logo" src="{{ asset($job->company_logo) }}"
-                                                        alt="Logo {{ $job->company_name }}" loading="lazy"
-                                                        style="width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e1;">
-                                                @else
-                                                    <span class="company-initials"
-                                                        style="width: 32px; height: 32px; background: #e2e8f0; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.85rem; font-weight: bold; color: #4a5568;">
-                                                        {{ $job->initials ?? strtoupper(substr($job->company_name, 0, 2)) }}
-                                                    </span>
-                                                @endif
+                                                <!-- LOGO DENGAN GRACEFUL FALLBACK DAN ONERROR HANDLING -->
+                                                <x-company-logo :logo="$job->company_logo" :name="$job->company_name" size="32" option="initials" />
 
                                                 <span>{{ $job->company_name }}</span>
                                             </a>

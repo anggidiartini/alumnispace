@@ -228,19 +228,7 @@
                 <aside class="company-panel reveal-onscroll">
                     <div class="company-body">
                         <a href="{{ $companyUrl }}" class="company-head company-head-link">
-                            <div class="company-avatar"
-                                style="width: 64px; height: 64px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; flex-shrink: 0;">
-                                @if (!empty($job->company_logo))
-                                    <img loading="lazy" src="{{ asset($job->company_logo) }}"
-                                        alt="Logo {{ $job->company_name }}"
-                                        style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    <span class="company-initials"
-                                        style="font-size: 1.2rem; font-weight: 700; color: var(--text-main, #0a4174);">
-                                        {{ $job->initials ?? strtoupper(substr($job->company_name, 0, 2)) }}
-                                    </span>
-                                @endif
-                            </div>
+                            <x-company-logo :logo="$job->company_logo" :name="$job->company_name" size="64" option="initials" />
 
                             <div>
                                 <h3 class="company-kicker">Tentang perusahaan</h3>

@@ -115,7 +115,7 @@
         </div>
 
         @foreach($mapping['fields'] as $key => $field)
-            @if(Str::endsWith($key, '_id') || $key === 'id' || $field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo']))
+            @if(Str::endsWith($key, '_id') || $key === 'id' || $field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                 @continue
             @endif
 
@@ -146,9 +146,14 @@
         
         @php $hasImage = false; @endphp
         @foreach($mapping['fields'] as $key => $field)
-            @if($field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo']))
-                @if(!empty($row->$key))
-                    <img src="{{ Str::startsWith($row->$key, 'http') ? $row->$key : asset($row->$key) }}" class="img-sidebar-preview" alt="Cover">
+            @if($field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
+                @if($key === 'company_logo')
+                    <div style="margin-bottom: 16px; display: flex; justify-content: center;">
+                        <x-company-logo :logo="$row->$key" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
+                    </div>
+                    @php $hasImage = true; @endphp
+                @elseif(!empty($row->$key))
+                    <img src="{{ Str::startsWith($row->$key, 'http') ? $row->$key : asset($row->$key) }}" class="img-sidebar-preview" alt="Cover" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'80\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'1.5\'><rect width=\'18\' height=\'18\' x=\'3\' y=\'3\' rx=\'2\'/><circle cx=\'9\' cy=\'9\' r=\'2\'/><path d=\'m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\'/></svg>';">
                     @php $hasImage = true; @endphp
                 @endif
             @endif
