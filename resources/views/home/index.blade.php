@@ -389,11 +389,13 @@
     <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-name="{{ strtolower($alum->user?->name ?? '') }}" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}" style="display: none;">
       <div class="flex items-start justify-between">
         <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring">
-          @if($alum->avatar)
-            <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
-          @else
-            <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
-          @endif
+          @php
+            $alumHasAvatar = !empty($alum->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($alum->avatar);
+            $alumAvatarSrc = $alumHasAvatar
+                ? asset('storage/'.$alum->avatar)
+                : asset('assets/images/default-avatar.jpg');
+          @endphp
+          <img src="{{ $alumAvatarSrc }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100" onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
         </a>
         <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
       </div>

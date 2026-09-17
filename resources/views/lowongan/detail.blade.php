@@ -206,11 +206,15 @@
                     <div class="company-body">
                         <a href="{{ $companyUrl }}" class="company-head company-head-link">
                             <div class="company-avatar">
-                                @if(!empty($job->company_logo))
-                                    <img loading="lazy" src="{{ $job->company_logo }}" alt="Logo {{ $job->company_name }}">
-                                @else
-                                    <span class="company-initials">{{ $job->initials ?? substr($job->company_name, 0, 2) }}</span>
-                                @endif
+                                @php
+                                    $logoSrc = !empty($job->company_logo)
+                                        ? $job->company_logo
+                                        : asset('assets/images/imagedefault.png');
+                                @endphp
+                                <img loading="lazy"
+                                     src="{{ $logoSrc }}"
+                                     alt="Logo {{ $job->company_name }}"
+                                     onerror="this.onerror=null; this.src='{{ asset('assets/anggi/imagedefault.png') }}'">
                             </div>
                             <div>
                                 <h3 class="company-kicker">Tentang perusahaan</h3>
