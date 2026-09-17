@@ -215,8 +215,8 @@
         .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); text-decoration: none;}
         .breadcrumb a { color: inherit; text-decoration: none; }
         .content-body { flex: 1; overflow-y: auto; padding: 24px; }
-        .btn-web-view { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; background-color: var(--color-secondary); color: var(--color-primary); font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid transparent; transition: all 0.2s ease; }
-        .btn-web-view:hover { background-color: transparent; border-color: var(--color-secondary); color: var(--color-primary); }
+        .btn-web-view { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 12px; background: linear-gradient(180deg, #062b4f 0%, #0a4174 50%, #125493 100%); color: #ffffff; font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-web-view:hover { opacity: 0.9; transform: translateY(-1px); color: #ffffff; }
         .nav-item.nav-item-special {
             background: linear-gradient(135deg, #f2b600 0%, #ffc824 100%);
             color: #0a4174; font-weight: 800; margin-top: 24px; border: 1px solid #e0a300;

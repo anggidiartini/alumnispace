@@ -132,6 +132,8 @@
                         </span>
                     @elseif($field['type'] === 'textarea' || in_array($key, ['bio', 'description', 'requirements']))
                         <div style="background: #f4f8fb; border: 1px solid #d0e1f0; padding: 12px 16px; border-radius: 8px; margin-top: 4px; white-space: pre-line;">{!! strip_tags($row->$key) !!}</div>
+                    @elseif($field['type'] === 'date' && !empty($row->$key))
+                        <strong>{{ strtolower(\Carbon\Carbon::parse($row->$key)->locale('id')->translatedFormat('d F Y')) }}</strong>
                     @else
                         <strong>{{ $row->$key ?? '-' }}</strong>
                     @endif

@@ -13,7 +13,7 @@
         <form method="POST" action="{{ route('admin.logout') }}" style="margin: 0;">
             @csrf
             <input type="hidden" name="redirect_to" value="admin.login">
-            <button type="submit" class="btn-web-view" style="background-color: #fee2e2; color: #b91c1c; border-color: transparent;">
+            <button type="submit" class="btn-web-view" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; box-shadow: none;">
                 <i class="fa-solid fa-right-from-bracket"></i> Keluar
             </button>
         </form>

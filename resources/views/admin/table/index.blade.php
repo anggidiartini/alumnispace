@@ -822,6 +822,8 @@
                                         <span style="background-color: {{ $row->$col ? '#d1fae5' : '#fee2e2' }}; color: {{ $row->$col ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
                                             {{ $mapping['fields'][$col]['options'][$row->$col] ?? ($row->$col ? 'Buka' : 'Tutup') }}
                                         </span>
+                                    @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'date' && !empty($row->$col))
+                                        {{ strtolower(\Carbon\Carbon::parse($row->$col)->locale('id')->translatedFormat('d F Y')) }}
                                     @else
                                         {{ strip_tags($row->$col) ?? '-' }}
                                     @endif
@@ -940,11 +942,11 @@
                 ],
                 language: {
                     search: "",
-                    searchPlaceholder: "Cari data alumni...",
+                    searchPlaceholder: "Cari data...",
                     lengthMenu: "Tampilkan _MENU_ data",
                     zeroRecords: "Data tidak ditemukan",
                     emptyTable: "Data tidak ditemukan",
-                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    info: "Menampilkan _TOTAL_ data di halaman ini",
                     infoEmpty: "Menampilkan 0 data",
                     infoFiltered: "(disaring dari _MAX_ total data)",
                     paginate: {

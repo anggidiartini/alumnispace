@@ -447,4 +447,78 @@ class TableController extends Controller
 
         return redirect()->route('admin.admins.index')->with('success', 'Akun Admin Baru Berhasil Didaftarkan!');
     }
+
+    public function editAdmin($id)
+    {
+        $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
+        if (!$admin) abort(404);
+
+        $this->shareSidebarCounts();
+        return view('admin.admins.form', compact('admin'));
+    }
+
+    public function updateAdmin(\Illuminate\Http\Request $request, $id)
+    {
+        $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
+        if (!$admin) abort(404);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'phone' => 'nullable|string|max:20',
+            'password' => 'nullable|string|min:6|confirmed',
+            'role' => 'required|in:admin,super_admin',
+        ]);
+
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'role' => $request->role,
+            'updated_at' => now(),
+        ];
+
+        if ($request->filled('password')) {
+            $updateData['password'] = \Hash::make($request->password);
+        }
+
+        \DB::table('users')->where('id', $id)->update($updateData);
+
+        return redirect()->route('admin.admins.index')->with('success', 'Data Akun Admin Berhasil Diperbarui!');
+    }
+
+    public function destroyAdmin($id)
+    {
+        $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
+        if (!$admin) abort(404);
+
+        // Prevent deleting oneself
+        if (\Auth::id() == $id) {
+            return redirect()->route('admin.admins.index')->with('error', 'Anda tidak bisa menghapus akun Anda sendiri.');
+        }
+
+        \DB::table('users')->where('id', $id)->delete();
+        return redirect()->route('admin.admins.index')->with('success', 'Akun Admin Berhasil Dihapus!');
+    }
+
+    public function toggleAdminStatus(\Illuminate\Http\Request $request, $id)
+    {
+        $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
+        if (!$admin) return response()->json(['success' => false, 'message' => 'Admin tidak ditemukan'], 404);
+
+        if (\Auth::id() == $id) {
+            return response()->json(['success' => false, 'message' => 'Anda tidak bisa menonaktifkan akun Anda sendiri.'], 403);
+        }
+
+        $request->validate([
+            'is_active' => 'required|in:0,1'
+        ]);
+
+        \DB::table('users')->where('id', $id)->update([
+            'is_active' => $request->is_active,
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Status admin berhasil diperbarui.']);
+    }
 }

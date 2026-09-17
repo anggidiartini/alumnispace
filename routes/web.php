@@ -79,6 +79,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/manage-admins', [TableController::class, 'indexAdmins'])->name('admins.index');
     Route::get('/manage-admins/create', [TableController::class, 'createAdmin'])->name('admins.create');
     Route::post('/manage-admins', [TableController::class, 'storeAdmin'])->name('admins.store');
+    Route::get('/manage-admins/{id}/edit', [TableController::class, 'editAdmin'])->name('admins.edit');
+    Route::put('/manage-admins/{id}', [TableController::class, 'updateAdmin'])->name('admins.update');
+    Route::delete('/manage-admins/{id}', [TableController::class, 'destroyAdmin'])->name('admins.destroy');
+    Route::patch('/manage-admins/{id}/toggle-status', [TableController::class, 'toggleAdminStatus'])->name('admins.toggle-status');
 
     Route::get('/table/{table_name}', [TableController::class, 'index'])->name('table.index');
     Route::get('/table/{table_name}/create', [TableController::class, 'create'])->name('table.create');
