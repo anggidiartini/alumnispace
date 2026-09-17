@@ -26,7 +26,6 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-
     <link rel="stylesheet"
         href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
     <link rel="stylesheet"
@@ -47,13 +46,6 @@
         localStorage.removeItem("ac_user_email");
     </script>
     @endauth
-
-    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-
-    <!-- CSS Khusus Detail Perusahaan -->
-    <link rel="stylesheet" href="{{ asset('css/detail-perusahaan.css') }}">
-
 </head>
 
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
@@ -145,7 +137,6 @@
                             @if ($industry)
                                 <span class="eyebrow industry-badge">{{ $industry }}</span>
                             @endif
-                            <div class="hero-note wiggle">Ada peluang baru!</div>
                         </div>
 
                         <h1 id="company-name" class="company-name">{{ $companyProfile->name }}</h1>
@@ -294,7 +285,6 @@
             </svg>
         </button>
 
-
     <!-- Floating action buttons -->
 
         <div id="wa-widget">
@@ -313,13 +303,6 @@
             </a>
         </div>
     </div>
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-
-
-
-
-    <div id="toast" class="toast fixed bottom-5 left-1/2 z-[70] -translate-x-1/2 rounded-full bg-[#153563] px-5 py-3 text-sm font-bold text-white shadow-xl" role="status"></div>
 
     <!-- Modal notifikasi "harus login" -->
     <div id="auth-modal-overlay" class="auth-modal-overlay">
@@ -344,4 +327,3 @@
 
 
 </html>
-

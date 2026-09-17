@@ -40,7 +40,7 @@ Route::get('/lowongan', [JobVacancyController::class, 'index'])->name('lowongan.
 Route::get('/lowongan/{slug}', [JobVacancyController::class, 'show'])->name('lowongan.show');
 Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->name('lowongan.apply');
 Route::get('/perusahaan/{slug}', [\App\Http\Controllers\CompanyController::class, 'index'])->name('perusahaan.index');
-
+ 
 // Events & Gatherings
 Route::get('/event', [EventController::class, 'index'])->name('event.index');
 Route::match(['get', 'post'], '/event/{id}/register', [EventController::class, 'register'])->name('event.register');
