@@ -37,6 +37,11 @@ class EnsureUserHasRole
             ]);
         }
 
+        // Admin dan Super Admin selalu diizinkan mengakses halaman umum/user jika akun aktif
+        if (in_array($user->role, ['super_admin', 'admin']) && ($user->status ?? 'active') === 'active') {
+            return $next($request);
+        }
+
         if (!in_array($user->role, $roles) || ($user->status ?? 'active') !== 'active') {
             if ($request->expectsJson()) {
                 return response()->json([

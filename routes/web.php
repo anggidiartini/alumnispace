@@ -34,7 +34,7 @@ Route::get('/forgot-password', [PasswordResetController::class, 'request'])->nam
 Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
 
 // User Protected Group
-Route::middleware(['auth', 'role:alumni,user'])->group(function () {
+Route::middleware(['auth', 'role:alumni,user,admin,super_admin'])->group(function () {
     // Authenticated Home / Dashboard
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 

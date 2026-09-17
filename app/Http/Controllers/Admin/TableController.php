@@ -23,7 +23,7 @@ class TableController extends Controller
                 'table' => 'alumni_profiles',
                 'list_columns' => ['name', 'graduation_year', 'profession', 'phone_number', 'study_status'],
                 'fields' => [
-                    'name' => ['label' => 'Nama Lengkap', 'type' => 'text', 'required' => true, 'readonly' => true],
+                    'name' => ['label' => 'Nama Lengkap', 'type' => 'text', 'required' => true],
                     'graduation_year' => ['label' => 'Tahun Kelulusan', 'type' => 'number', 'required' => true, 'min' => 1901],
                     'major' => ['label' => 'Jurusan / Program Studi', 'type' => 'text', 'required' => true],
                     'profession' => ['label' => 'Profesi Saat Ini', 'type' => 'text', 'required' => true],
@@ -32,7 +32,7 @@ class TableController extends Controller
                     'phone_number' => ['label' => 'Nomor WhatsApp', 'type' => 'text', 'required' => true],
                     'avatar' => ['label' => 'Foto Profil Utama', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 300KB - 500KB'],
                     'bio' => ['label' => 'Biografi Singkat', 'type' => 'textarea', 'required' => true],
-                    'study_status' => ['label' => 'Status Keaktifan Komunitas', 'type' => 'select', 'required' => true, 'options' => ['Aktif' => 'Aktif', 'Non-aktif' => 'Tidak Aktif']],
+                    'study_status' => ['label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['Aktif' => 'Aktif', 'Non-aktif' => 'Tidak Aktif']],
                 ]
             ],
             'job_vacancies' => [
@@ -174,7 +174,7 @@ class TableController extends Controller
             $rows = DB::table('alumni_profiles')
                 ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
                 ->select('alumni_profiles.*', 'users.name as name')
-                ->paginate(10);
+                ->paginate(100);
         } else {
             $rows = DB::table($mapping['table'])->paginate(10);
         }
@@ -259,6 +259,30 @@ class TableController extends Controller
 
         if (Schema::hasColumn($tableName, 'slug') && $request->filled('title')) {
             $insertData['slug'] = Str::slug($request->title) . '-' . rand(100, 999);
+        }
+
+        if ($table_key === 'alumnis') {
+            $name = $request->input('name', 'Alumni');
+            $baseSlug = Str::slug($name);
+            if (empty($baseSlug)) {
+                $baseSlug = 'alumni';
+            }
+            $email = $baseSlug . '.' . rand(100, 9999) . '@alumni.id';
+
+            $userId = DB::table('users')->insertGetId([
+                'name' => $name,
+                'email' => $email,
+                'password' => \Hash::make('password123'),
+                'role' => 'user',
+                'is_active' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $insertData['user_id'] = $userId;
+            if (Schema::hasColumn($tableName, 'slug')) {
+                $insertData['slug'] = $baseSlug . '-' . rand(100, 999);
+            }
         }
 
         // Otomatis mengisi data relasi petugas pengunggah dari session login
@@ -351,12 +375,31 @@ class TableController extends Controller
         }
 
         DB::table($mapping['table'])->where('id', $id)->update($updateData);
+
+        if ($table_key === 'alumnis' && $request->filled('name')) {
+            $profile = DB::table('alumni_profiles')->where('id', $id)->first();
+            if ($profile && $profile->user_id) {
+                DB::table('users')->where('id', $profile->user_id)->update([
+                    'name' => $request->input('name'),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
         return redirect()->route('admin.table.index', $table_key)->with('success', 'Data berhasil diperbarui.');
     }
 
     public function destroy($table_key, $id)
     {
         $mapping = $this->getTableMapping($table_key);
+
+        if ($table_key === 'alumnis') {
+            $profile = DB::table('alumni_profiles')->where('id', $id)->first();
+            if ($profile && $profile->user_id) {
+                DB::table('users')->where('id', $profile->user_id)->delete();
+            }
+        }
+
         DB::table($mapping['table'])->where('id', $id)->delete();
 
         return redirect()->route('admin.table.index', $table_key)->with('success', 'Data berhasil dihapus.');

@@ -97,6 +97,12 @@
               </div>
             @endif
 
+            @if(in_array(Auth::user()->role, ['admin', 'super_admin']))
+              <a href="{{ route('admin.dashboard') }}" class="profile-dropdown-settings-btn" style="background:#0a4174; color:#fff; margin-bottom:6px;">
+                <i data-lucide="shield" class="icon-sm"></i> Panel Admin
+              </a>
+            @endif
+
             <a href="{{ route('profile.settings') }}" class="profile-dropdown-settings-btn">
               <i data-lucide="settings" class="icon-sm"></i> Setting Profile
             </a>
