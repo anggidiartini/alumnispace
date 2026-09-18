@@ -1093,8 +1093,8 @@ input:focus-visible {
 }
 
 .data-reveal.is-visible {
-    opacity: 1;               /* TAMBAHAN: kunci state akhir, nggak gantung ke animasi */
-    transform: none;          /* TAMBAHAN */
+    opacity: 1; /* TAMBAHAN: kunci state akhir, nggak gantung ke animasi */
+    transform: none; /* TAMBAHAN */
     animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     animation-delay: var(--reveal-delay, 0s);
 }
