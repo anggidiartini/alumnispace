@@ -107,12 +107,21 @@
                         <td><strong>{{ $period->period_name }}</strong></td>
                         <td>{{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}</td>
                         <td>{{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}</td>
-                        <td>
-                            <span class="period-status {{ $period->is_active ? 'period-status-active' : 'period-status-inactive' }}">
-                                <i class="fa-solid {{ $period->is_active ? 'fa-circle-check' : 'fa-circle-minus' }}"></i>
-                                {{ $period->is_active ? 'Aktif' : 'Tidak Aktif' }}
-                            </span>
-                        </td>
+                       <td>
+    <select class="status-dropdown" 
+            data-id="{{ $period->id }}" 
+            style="padding: 6px 10px; 
+                   border-radius: 6px; 
+                   border: 1px solid #d0e1f0; 
+                   font-weight: 600; 
+                   outline: none; 
+                   cursor: pointer;">
+        
+        <option value="1" {{ $period->is_active == 1 ? 'selected' : '' }}>Aktif</option>
+        <option value="0" {{ $period->is_active == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+    </select>
+</td>
+
                         <td>
                             <div class="period-actions">
                                 <a href="{{ route('admin.committee-periods.show', $period->id) }}" class="period-button period-detail" title="Lihat detail periode">
@@ -200,6 +209,36 @@
             menu.find('.period-status-all, .period-status-value').prop('checked', true);
             applyStatusFilter();
         });
+        $(function () {
+    // 1. Fungsi untuk mengubah warna dropdown berdasarkan value (1 atau 0)
+    function updateDropdownColor(element) {
+        const value = $(element).val();
+        if (value == "1") {
+            $(element).css({
+                'background-color': '#ecfdf5',
+                'color': '#047857'
+            });
+        } else {
+            $(element).css({
+                'background-color': '#fef2f2',
+                'color': '#b91c1c'
+            });
+        }
+    }
+
+    // 2. Jalankan perubahan warna saat user mengganti pilihan dropdown
+    $(document).on('change', '.status-dropdown', function () {
+        updateDropdownColor(this);
+        
+        // Ambil data ID dan Status Baru untuk dikirim ke Database
+        const periodId = $(this).data('id');
+        const newStatus = $(this).val();
+
+        // DI SINI: Anda bisa memasukkan fungsi $.ajax jika ingin langsung menyimpannya ke database
+        console.log('ID Periode:', periodId, 'diubah menjadi:', newStatus);
+    });
+});
+
     });
 </script>
 @endsection
