@@ -10,7 +10,7 @@
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2V6a2 2 0 0 1 2-2zm0 3h6V6H9zm-1 5h8v2H8zm0 4h8v2H8z" fill="currentColor"/></svg>',
         'articles' =>
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3h9A2.5 2.5 0 0 1 19 5.5v13A2.5 2.5 0 0 1 16.5 21h-9A2.5 2.5 0 0 1 5 18.5zm2.5-.5a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5zm1.5 3h6v2H9zm0 4h6v2H9zm0 4h4v2H9z" fill="currentColor"/></svg>',
-        'event' =>
+        'events' =>
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 1 7 7c0 4.9-7 13-7 13S5 13.9 5 9a7 7 0 0 1 7-7zm0 9.5A2.5 2.5 0 1 0 12 6a2.5 2.5 0 0 0 0 5.5z" fill="currentColor"/></svg>',
         'albums' =>
             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v11A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5zm5.5 2.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm9.5 9.5l-3.7-4.2L12 16l-1.8-2.2-3.2 4.2z" fill="currentColor"/></svg>',
@@ -27,7 +27,7 @@
         ['key' => 'alumni_boards', 'title' => 'Pengurus Alumni', 'color' => '#7bbde8'],
         ['key' => 'job_vacancies', 'title' => 'Lowongan Kerja', 'color' => '#7bbde8'],
         ['key' => 'articles', 'title' => 'Artikel & Berita', 'color' => '#7bbde8'],
-        ['key' => 'event', 'title' => 'Acara & Agenda', 'color' => '#7bbde8'],
+        ['key' => 'events', 'title' => 'Acara & Agenda', 'color' => '#7bbde8'],
         ['key' => 'albums', 'title' => 'Album Foto', 'color' => '#7bbde8'],
         ['key' => 'galleries', 'title' => 'Galeri Foto', 'color' => '#7bbde8'],
         ['key' => 'contents', 'title' => 'Konten Teks Halaman', 'color' => '#7bbde8'],
@@ -56,12 +56,20 @@
         @foreach ($sidebarItems as $item)
             @php
                 $isActive =
-                    request()->is('admin/table/' . $item['key']) ||
+                    (request()->is('admin/alumnis*') && $item['key'] === 'alumnis') ||
+                    (request()->is('admin/job-vacancies*') && $item['key'] === 'job_vacancies') ||
+                    (request()->is('admin/alumni-boards*') && $item['key'] === 'alumni_boards') ||
+                    (request()->is('admin/events*') && $item['key'] === 'events') ||
+                    (request()->is('admin/articles*') && $item['key'] === 'articles') ||
+                    (request()->is('admin/albums*') && $item['key'] === 'albums') ||
+                    (request()->is('admin/galleries*') && $item['key'] === 'galleries') ||
                     (request()->is('admin/content') && $item['key'] === 'contents');
                 $countValue = $counts[$item['key']] ?? 0;
+                $routeName = $item['key'] === 'contents' ? 'admin.content.index' : 'admin.' . str_replace('_', '-', $item['key']) . '.index';
+                $routeUrl = route($routeName);
             @endphp
 
-            <a href="{{ $item['key'] === 'contents' ? route('admin.content.index') : url('admin/table/' . $item['key']) }}"
+            <a href="{{ $routeUrl }}"
                 class="nav-item {{ $isActive ? 'active' : '' }} {{ $item['key'] === 'contents' ? 'nav-item-special' : '' }}">
                 <div class="nav-item-content">
                     <span class="nav-icon">{!! $sidebarIcons[$item['key']] ?? '' !!}</span>

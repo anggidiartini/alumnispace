@@ -26,10 +26,12 @@ class Article extends Model
         'excerpt',
         'content',
         'published_at',
+        'is_published',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'is_published' => 'boolean',
     ];
 
     protected static function boot()

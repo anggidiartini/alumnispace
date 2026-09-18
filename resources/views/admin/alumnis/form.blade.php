@@ -98,29 +98,11 @@
         .form-card-sidebar { position: static; }
     }
 </style>
-<form action="{{ isset($row) ? route('admin.table.update', [$table_key, $row->id]) : route('admin.table.store', $table_key) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($row) ? route('admin.alumnis.update', $row->id) : route('admin.alumnis.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @if(isset($row))
         @method('PUT')
     @endif
-
-@if(session('error') || $errors->any())
-    <div style="padding: 14px 18px; border-radius: 10px; background-color: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 13px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;">
-        <i class="fa-solid fa-triangle-exclamation" style="margin-top: 3px; font-size: 16px;"></i>
-        <div>
-            @if(session('error'))
-                <div>{{ session('error') }}</div>
-            @endif
-            @if($errors->any())
-                <ul style="margin: 0; padding-left: 18px;">
-                    @foreach($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </div>
-    </div>
-@endif
 
     <div class="form-layout-grid">
         
@@ -198,19 +180,9 @@
                     @if($field['type'] === 'textarea')
                         <textarea name="{{ $key }}" rows="5" class="form-control" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>{{ isset($row) ? $row->$key : '' }}</textarea>
                     @elseif($key === 'graduation_year')
-                        <input type="number" name="{{ $key }}" class="form-control" min="1901" max="2100" value="{{ old($key, isset($row) ? $row->$key : date('Y')) }}" required>
-                    @elseif($table_key === 'event' && $key === 'quota')
-                        @php
-                            $currSold = (isset($row)) ? DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity') : 0;
-                        @endphp
-                        <input type="number" name="{{ $key }}" class="form-control" min="{{ $currSold }}" value="{{ old($key, isset($row) ? $row->$key : '') }}" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>
-                        @if($currSold > 0)
-                            <span style="font-size: 11px; color: #0a4174; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 6px;">
-                                <i class="fa-solid fa-circle-info" style="color: #2e72ec;"></i> Sudah ada <strong>{{ $currSold }} tiket terjual</strong>. Kuota minimal adalah {{ $currSold }}.
-                            </span>
-                        @endif
+                        <input type="number" name="{{ $key }}" class="form-control" min="1901" max="2100" value="{{ isset($row) ? $row->$key : date('Y') }}" required>
                     @else
-                        <input type="{{ $field['type'] }}" name="{{ $key }}" class="form-control" value="{{ old($key, isset($row) ? $row->$key : '') }}" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>
+                        <input type="{{ $field['type'] }}" name="{{ $key }}" class="form-control" value="{{ isset($row) ? $row->$key : '' }}" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>
                     @endif
                 </div>
             @endforeach
@@ -248,7 +220,7 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Simpan Perubahan</button>
-                <a href="{{ route('admin.table.index', $table_key) }}" class="btn-cancel">Batalkan</a>
+                <a href="{{ route('admin.alumnis.index') }}" class="btn-cancel">Batalkan</a>
             </div>
         </div>
 

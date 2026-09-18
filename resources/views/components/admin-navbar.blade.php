@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <a href="/admin/dashboard"><i class="fa-solid fa-house"></i> Beranda</a>
         <i class="fa-solid fa-chevron-right" style="font-size: 10px; margin: 0 4px;"></i>
-        <span style="font-weight:600;">@yield('page_title', 'Beranda')</span>
+        <span style="font-weight:600;">{{ trim($__env->yieldContent('page_title') ?: $__env->yieldContent('title') ?: 'Beranda') }}</span>
     </div>
     
     <div style="display: flex; gap: 12px; align-items: center;">

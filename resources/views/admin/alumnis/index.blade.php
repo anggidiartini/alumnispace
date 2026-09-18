@@ -763,7 +763,7 @@
                     <i class="fa-solid fa-calendar-days"></i> Kelola Periode
                 </a>
             @endif
-            <a href="{{ route('admin.table.create', $table_key) }}" class="btn-add">
+            <a href="{{ route('admin.alumnis.create') }}" class="btn-add">
                 <i class="fa-solid fa-plus"></i> Tambah Data
             </a>
         </div>
@@ -810,19 +810,9 @@
                 @if($rows->count() > 0)
                     @foreach($rows as $row)
                         @php
-                            $rowNumber = ($rows instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                                ? ($loop->index + 1) + ($rows->perPage() * ($rows->currentPage() - 1))
-                                : ($loop->index + 1);
-                            $isEventSoldOut = false;
-                            if ($table_key === 'event') {
-                                $evTotalRow = (int) ($row->quota ?? 0);
-                                if ($evTotalRow > 0) {
-                                    $evUsedRow = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
-                                    $isEventSoldOut = ($evUsedRow >= $evTotalRow);
-                                }
-                            }
+                            $rowNumber = $loop->iteration;
                         @endphp
-                        <tr class="data-row {{ $isEventSoldOut ? 'event-row-sold-out' : '' }}" @if($isEventSoldOut) style="background-color: rgba(254, 242, 242, 0.55);" @endif>
+                                              <tr class="data-row">
                             <td class="col-number-data">{{ $rowNumber }}</td>
                             @foreach($mapping['list_columns'] as $col)
                                 <td data-col="{{ $col }}">
@@ -853,47 +843,9 @@
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'date' && !empty($row->$col))
                                         {{ strtolower(\Carbon\Carbon::parse($row->$col)->locale('id')->translatedFormat('d F Y')) }}
                                     
-                                    @elseif($table_key === 'event' && $col === 'quota')
-                                        @php
-                                            $evUsed = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
-                                            $evTotal = (int) ($row->quota ?? 0);
-                                            $evRem = max(0, $evTotal - $evUsed);
-                                            $isSoldOut = ($evTotal > 0 && $evRem <= 0);
-                                        @endphp
-                                        <div style="font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-                                            <span style="{{ $isSoldOut ? 'color: #dc2626; font-weight: 700;' : 'color: #0a4174;' }}">
-                                                {{ $evUsed }} / {{ $evTotal }}
-                                            </span>
-                                            @if($isSoldOut)
-                                                <span style="padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 800; background: #fee2e2; color: #991b1b; border: 1px solid #f87171; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.15);">
-                                                    <i class="fa-solid fa-ban" style="font-size: 9px;"></i> Sold Out
-                                                </span>
-                                            @else
-                                                <span style="padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; background: rgba(16, 185, 129, 0.15); color: #065f46; border: 1px solid #a7f3d0;">
-                                                    Sisa {{ $evRem }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    @elseif($table_key === 'event' && $col === 'status')
-                                        @php
-                                            $evUsed = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
-                                            $evTotal = (int) ($row->quota ?? 0);
-                                            $isSoldOut = ($evTotal > 0 && $evUsed >= $evTotal);
-                                            $stVal = strtolower($row->status ?? 'upcoming');
-                                        @endphp
-                                        @if($isSoldOut)
-                                            <span style="background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);">
-                                                <i class="fa-solid fa-circle-exclamation" style="font-size: 10px; color: #ef4444;"></i> Penuh (Sold Out)
-                                            </span>
-                                        @elseif(in_array($stVal, ['completed', 'ended', 'selesai']))
-                                            <span style="background-color: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #e2e8f0;">
-                                                Selesai
-                                            </span>
-                                        @else
-                                            <span style="background-color: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #bfdbfe;">
-                                                Segera Hadir
-                                            </span>
-                                        @endif
+                                    <!-- ========================================================
+                                       BAGIAN PROSES REPLACEMENT UNTUK HANDLER KOLOM VIRTUAL
+                                       ======================================================== -->
                                     @else
                                         @if($table_key === 'alumni_boards' && $col === 'company_logo')
                                             <!-- Fallback aman jika kolom pembawa logo ikut terbaca array list -->
@@ -921,13 +873,13 @@
                             @endforeach
                             <td style="text-align: center;">
                                 <div class="action-badge">
-                                    <a href="{{ url('admin/table/'.$table_key.'/'.$row->id) }}" class="btn-action btn-detail">
+                                    <a href="{{ route('admin.alumnis.show', $row->id) }}" class="btn-action btn-detail">
                                         <i class="fa-solid fa-eye"></i> Detail
                                     </a>
-                                    <a href="{{ route('admin.table.edit', [$table_key, $row->id]) }}" class="btn-action btn-edit">
+                                    <a href="{{ route('admin.alumnis.edit', $row->id) }}" class="btn-action btn-edit">
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
                                     </a>
-                                    <form class="delete-form" action="{{ route('admin.table.destroy', [$table_key, $row->id]) }}" method="POST">
+                                    <form class="delete-form" action="{{ route('admin.alumnis.destroy', $row->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn-action btn-delete delete-trigger">
@@ -948,6 +900,8 @@
                 @endif
             </tbody>
         </table>
+
+
 </div>
 
 <div class="delete-modal-backdrop" id="deleteModalBackdrop" aria-hidden="true" hidden>

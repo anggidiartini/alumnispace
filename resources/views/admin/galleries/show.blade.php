@@ -223,10 +223,10 @@
         @endif
 
         <span class="info-label">Aksi Pengelola</span>
-        <a href="{{ route('admin.table.edit', [$table_key, $row->id]) }}" class="btn-edit-direct">
+        <a href="{{ route('admin.galleries.edit', $row->id) }}" class="btn-edit-direct">
             <i class="fa-solid fa-pen-to-square"></i> Sunting Data
         </a>
-        <a href="{{ route('admin.table.index', $table_key) }}" class="btn-back">
+        <a href="{{ route('admin.galleries.index') }}" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </a>
     </div>

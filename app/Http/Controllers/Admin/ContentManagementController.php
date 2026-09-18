@@ -28,7 +28,7 @@ class ContentManagementController extends Controller
             'job_categories' => 0,
             'job_vacancies' => \Schema::hasTable('job_vacancies') ? \DB::table('job_vacancies')->count() : 0,
             'articles' => \Schema::hasTable('articles') ? \DB::table('articles')->count() : 0,
-            'event' => \Schema::hasTable('events') ? \DB::table('events')->count() : 0,
+            'events' => \Schema::hasTable('events') ? \DB::table('events')->count() : 0,
             'albums' => \Schema::hasTable('albums') ? \DB::table('albums')->count() : 0,
             'galleries' => \Schema::hasTable('album_photos') ? \DB::table('album_photos')->count() : 0,
             'contents' => \Schema::hasTable('page_contents') ? \DB::table('page_contents')->count() : 0
