@@ -165,9 +165,9 @@
                                     data-status="{{ $event->status }}"
                                     data-search="{{ strtolower($event->title . ' ' . $event->category . ' ' . $event->venue) }}">
 
-                                    <div class="event-card-media">
+                                    <a class="event-card-media" href="{{ route('event.show', $event->slug) }}" aria-label="Lihat detail {{ $event->title }}">
                                         <img loading="lazy" src="{{ $event->banner_image ?? 'https://pexels.com' }}" alt="{{ $event->title }}">
-                                    </div>
+                                    </a>
 
                                     <div class="job-card-head">
                                         <span class="job-badge">{{ $event->category }}</span>

@@ -52,7 +52,7 @@
                     aria-hidden="true"></div>
                 <span class="hero-orb hero-orb-yellow spin-slow" aria-hidden="true"></span>
                 <span class="hero-orb hero-orb-pink" aria-hidden="true"></span>
-                <span class="hero-star wiggle" aria-hidden="true">✦</span>
+
 
                 <div class="page-width hero-layout">
                     <div class="hero-copy reveal-onscroll">
