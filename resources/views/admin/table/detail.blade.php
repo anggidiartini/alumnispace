@@ -231,4 +231,150 @@
         </a>
     </div>
 </div>
+
+@if($table_key === 'event' && isset($extraData['eventModel']))
+<div style="margin-top: 24px; background: #ffffff; border: 1px solid #d0e1f0; border-radius: 16px; padding: 28px; box-shadow: 0 4px 15px rgba(10, 65, 116, 0.04);">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d0e1f0; padding-bottom: 16px; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h3 style="font-size: 18px; font-weight: 800; color: #0a4174; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-users-line" style="color: #2e72ec;"></i> Riwayat Pendaftar & Penjualan Kuota
+            </h3>
+            <p style="font-size: 12px; color: #527597; margin: 4px 0 0;">Daftar peserta terdaftar dan rincian alokasi kuota tiket untuk event ini.</p>
+        </div>
+        <div>
+            <span style="font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: {{ ($extraData['remainingQuota'] ?? 0) > 0 ? 'rgba(16, 185, 129, 0.15); color: #065f46;' : 'rgba(239, 68, 68, 0.15); color: #991b1b;' }}">
+                {{ ($extraData['remainingQuota'] ?? 0) > 0 ? 'Pendaftaran Terbuka' : 'Kuota Penuh' }}
+            </span>
+        </div>
+    </div>
+
+    <!-- WIDGET RINGKASAN KUOTA EVENT -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <!-- Card Total Kuota -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px;">Total Kuota</span>
+                <i class="fa-solid fa-ticket" style="color: #64748b; font-size: 14px;"></i>
+            </div>
+            <div style="font-size: 24px; font-weight: 800; color: #0a4174;">
+                {{ $extraData['totalQuota'] ?? $row->quota }} <span style="font-size: 13px; font-weight: 500; color: #64748b;">kursi</span>
+            </div>
+        </div>
+
+        <!-- Card Kuota Terpakai -->
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #1e40af; letter-spacing: 0.5px;">Kuota Terpakai / Terjual</span>
+                <i class="fa-solid fa-user-check" style="color: #3b82f6; font-size: 14px;"></i>
+            </div>
+            <div style="font-size: 24px; font-weight: 800; color: #1d4ed8;">
+                {{ $extraData['usedQuota'] ?? 0 }} <span style="font-size: 13px; font-weight: 500; color: #3b82f6;">kursi ({{ $extraData['percentFilled'] ?? 0 }}%)</span>
+            </div>
+        </div>
+
+        <!-- Card Sisa Kuota -->
+        <div style="background: {{ ($extraData['remainingQuota'] ?? 0) > 0 ? '#ecfdf5; border: 1px solid #a7f3d0;' : '#fef2f2; border: 1px solid #fecaca;' }} border-radius: 12px; padding: 18px 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: {{ ($extraData['remainingQuota'] ?? 0) > 0 ? '#065f46;' : '#991b1b;' }} letter-spacing: 0.5px;">Sisa Kuota Tersedia</span>
+                <i class="fa-solid {{ ($extraData['remainingQuota'] ?? 0) > 0 ? 'fa-chair' : 'fa-ban' }}" style="color: {{ ($extraData['remainingQuota'] ?? 0) > 0 ? '#10b981;' : '#ef4444;' }} font-size: 14px;"></i>
+            </div>
+            <div style="font-size: 24px; font-weight: 800; color: {{ ($extraData['remainingQuota'] ?? 0) > 0 ? '#047857;' : '#b91c1c;' }}">
+                {{ $extraData['remainingQuota'] ?? 0 }} <span style="font-size: 13px; font-weight: 500;">kursi</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar Keterisian -->
+    <div style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: #527597; margin-bottom: 6px;">
+            <span>Tingkat Keterisian Kuota</span>
+            <span>{{ $extraData['usedQuota'] ?? 0 }} dari {{ $extraData['totalQuota'] ?? $row->quota }} kursi ({{ $extraData['percentFilled'] ?? 0 }}%)</span>
+        </div>
+        <div style="width: 100%; height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+            <div style="height: 100%; width: {{ $extraData['percentFilled'] ?? 0 }}%; background: {{ ($extraData['percentFilled'] ?? 0) >= 100 ? '#ef4444;' : '#2e72ec;' }} transition: width 0.3s ease; border-radius: 999px;"></div>
+        </div>
+    </div>
+
+    <!-- TABEL RIWAYAT PENDAFTAR -->
+    <div style="overflow-x: auto; border: 1px solid #d0e1f0; border-radius: 10px;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+            <thead>
+                <tr style="background: #f8fafc; border-bottom: 2px solid #d0e1f0;">
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597; text-align: center; width: 50px;">No</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597;">Kode Tiket</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597;">Nama Pendaftar</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597;">Email & No. WhatsApp</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597; text-align: center;">Kuota Diambil</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597;">Waktu Pendaftaran</th>
+                    <th style="padding: 12px 16px; font-weight: 700; color: #527597; text-align: center;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(isset($extraData['registrations']) && $extraData['registrations']->count() > 0)
+                    @foreach($extraData['registrations'] as $index => $reg)
+                        <tr style="border-bottom: 1px solid #e2e8f0; transition: background 0.15s ease;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                            <td style="padding: 14px 16px; text-align: center; font-weight: 700; color: #64748b;">{{ $index + 1 }}</td>
+                            <td style="padding: 14px 16px;">
+                                <span style="font-family: monospace; font-weight: 700; font-size: 12px; padding: 4px 8px; border-radius: 6px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">
+                                    {{ $reg->ticket_code }}
+                                </span>
+                            </td>
+                            <td style="padding: 14px 16px; font-weight: 600; color: #0a4174;">
+                                {{ $reg->name ?? ($reg->user->name ?? '-') }}
+                            </td>
+                            <td style="padding: 14px 16px; color: #475569;">
+                                <div><i class="fa-solid fa-envelope" style="width: 14px; color: #94a3b8; font-size: 11px;"></i> {{ $reg->email ?? ($reg->user->email ?? '-') }}</div>
+                                <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                                    <i class="fa-brands fa-whatsapp" style="width: 14px; color: #22c55e; font-size: 12px;"></i> {{ $reg->phone ?? ($reg->user->phone ?? '-') }}
+                                </div>
+                            </td>
+                            <td style="padding: 14px 16px; text-align: center;">
+                                <span style="font-weight: 800; font-size: 14px; color: #0a4174; padding: 3px 10px; background: #f1f5f9; border-radius: 6px;">
+                                    {{ $reg->quantity ?? 1 }}
+                                </span>
+                            </td>
+                            <td style="padding: 14px 16px; color: #64748b; font-size: 12px;">
+                                {{ $reg->created_at ? $reg->created_at->translatedFormat('d M Y, H:i') . ' WIB' : '-' }}
+                            </td>
+                            <td style="padding: 14px 16px; text-align: center;">
+                                @php
+                                    $st = strtolower($reg->status ?? 'registered');
+                                    $stLabel = match($st) {
+                                        'registered' => 'Terdaftar',
+                                        'attended' => 'Hadir',
+                                        'cancelled' => 'Dibatalkan',
+                                        default => ucfirst($st),
+                                    };
+                                    $stBg = match($st) {
+                                        'registered' => '#eff6ff',
+                                        'attended' => '#ecfdf5',
+                                        'cancelled' => '#fef2f2',
+                                        default => '#f1f5f9',
+                                    };
+                                    $stColor = match($st) {
+                                        'registered' => '#1d4ed8',
+                                        'attended' => '#047857',
+                                        'cancelled' => '#b91c1c',
+                                        default => '#475569',
+                                    };
+                                @endphp
+                                <span style="padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: {{ $stBg }}; color: {{ $stColor }};">
+                                    {{ $stLabel }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
+                            <i class="fa-solid fa-clipboard-user" style="font-size: 32px; color: #cbd5e1; margin-bottom: 8px; display: block;"></i>
+                            Belum ada riwayat pendaftaran untuk event ini.
+                        </td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
 @endsection

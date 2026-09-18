@@ -273,18 +273,29 @@
                 <form id="erForm" class="er-form" novalidate>
                     <div class="er-field">
                         <label for="erName">Nama Lengkap</label>
-                        <input type="text" id="erName" name="name" required autocomplete="name">
+                        <input type="text" id="erName" name="name" value="{{ Auth::check() ? Auth::user()->name : '' }}" required autocomplete="name">
                         <span class="er-error" data-error-for="name"></span>
                     </div>
                     <div class="er-field">
                         <label for="erEmail">Email</label>
-                        <input type="email" id="erEmail" name="email" required autocomplete="email">
+                        <input type="email" id="erEmail" name="email" value="{{ Auth::check() ? Auth::user()->email : '' }}" required autocomplete="email">
                         <span class="er-error" data-error-for="email"></span>
                     </div>
                     <div class="er-field">
                         <label for="erPhone">No. WhatsApp</label>
-                        <input type="tel" id="erPhone" name="phone" required placeholder="08xxxxxxxxxx" autocomplete="tel">
+                        <input type="tel" id="erPhone" name="phone" value="{{ Auth::check() ? Auth::user()->phone : '' }}" required placeholder="08xxxxxxxxxx" autocomplete="tel">
                         <span class="er-error" data-error-for="phone"></span>
+                    </div>
+                    <div class="er-field">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <label for="erQuantity" style="margin: 0;">Jumlah Kuota / Tiket</label>
+                            <span style="font-size: 11px; color: #166534; font-weight: 700; background: #dcfce7; padding: 2px 8px; border-radius: 999px;">
+                                Tersisa {{ $remaining }} kursi
+                            </span>
+                        </div>
+                        <input type="number" id="erQuantity" name="quantity" min="1" max="{{ max(1, min(10, $remaining)) }}" value="1" required>
+                        <span class="er-error" data-error-for="quantity"></span>
+                        <span style="font-size: 11px; color: #64748b; margin-top: 4px; display: block;">Maksimal {{ min(10, $remaining) }} kursi per pendaftaran.</span>
                     </div>
 
                     <p class="er-form-error" id="erFormError" hidden></p>

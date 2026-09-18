@@ -799,8 +799,16 @@
                     @foreach($rows as $row)
                         @php
                             $rowNumber = ($loop->index + 1) + ($rows->perPage() * ($rows->currentPage() - 1));
+                            $isEventSoldOut = false;
+                            if ($table_key === 'event') {
+                                $evTotalRow = (int) ($row->quota ?? 0);
+                                if ($evTotalRow > 0) {
+                                    $evUsedRow = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
+                                    $isEventSoldOut = ($evUsedRow >= $evTotalRow);
+                                }
+                            }
                         @endphp
-                                              <tr class="data-row">
+                        <tr class="data-row {{ $isEventSoldOut ? 'event-row-sold-out' : '' }}" @if($isEventSoldOut) style="background-color: rgba(254, 242, 242, 0.55);" @endif>
                             <td class="col-number-data">{{ $rowNumber }}</td>
                             @foreach($mapping['list_columns'] as $col)
                                 <td data-col="{{ $col }}">
@@ -831,9 +839,47 @@
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'date' && !empty($row->$col))
                                         {{ strtolower(\Carbon\Carbon::parse($row->$col)->locale('id')->translatedFormat('d F Y')) }}
                                     
-                                    <!-- ========================================================
-                                       BAGIAN PROSES REPLACEMENT UNTUK HANDLER KOLOM VIRTUAL
-                                       ======================================================== -->
+                                    @elseif($table_key === 'event' && $col === 'quota')
+                                        @php
+                                            $evUsed = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
+                                            $evTotal = (int) ($row->quota ?? 0);
+                                            $evRem = max(0, $evTotal - $evUsed);
+                                            $isSoldOut = ($evTotal > 0 && $evRem <= 0);
+                                        @endphp
+                                        <div style="font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                                            <span style="{{ $isSoldOut ? 'color: #dc2626; font-weight: 700;' : 'color: #0a4174;' }}">
+                                                {{ $evUsed }} / {{ $evTotal }}
+                                            </span>
+                                            @if($isSoldOut)
+                                                <span style="padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 800; background: #fee2e2; color: #991b1b; border: 1px solid #f87171; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.15);">
+                                                    <i class="fa-solid fa-ban" style="font-size: 9px;"></i> Sold Out
+                                                </span>
+                                            @else
+                                                <span style="padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; background: rgba(16, 185, 129, 0.15); color: #065f46; border: 1px solid #a7f3d0;">
+                                                    Sisa {{ $evRem }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @elseif($table_key === 'event' && $col === 'status')
+                                        @php
+                                            $evUsed = DB::table('event_registrations')->where('event_id', $row->id)->where('status', '!=', 'cancelled')->sum('quantity');
+                                            $evTotal = (int) ($row->quota ?? 0);
+                                            $isSoldOut = ($evTotal > 0 && $evUsed >= $evTotal);
+                                            $stVal = strtolower($row->status ?? 'upcoming');
+                                        @endphp
+                                        @if($isSoldOut)
+                                            <span style="background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);">
+                                                <i class="fa-solid fa-circle-exclamation" style="font-size: 10px; color: #ef4444;"></i> Penuh (Sold Out)
+                                            </span>
+                                        @elseif(in_array($stVal, ['completed', 'ended', 'selesai']))
+                                            <span style="background-color: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #e2e8f0;">
+                                                Selesai
+                                            </span>
+                                        @else
+                                            <span style="background-color: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #bfdbfe;">
+                                                Segera Hadir
+                                            </span>
+                                        @endif
                                     @else
                                         @if($table_key === 'alumni_boards' && $col === 'company_logo')
                                             <!-- Fallback aman jika kolom pembawa logo ikut terbaca array list -->
@@ -888,37 +934,6 @@
                 @endif
             </tbody>
         </table>
-
-
-    @if ($table_key !== 'alumnis')
-    <div class="pagination-wrapper">
-        <div>Menampilkan {{ $rows->count() }} data di halaman ini.</div>
-
-        @if ($rows->hasPages())
-            <nav class="pagination" aria-label="Pagination">
-                @if ($rows->onFirstPage())
-                    <span class="page-item disabled" aria-disabled="true">Previous</span>
-                @else
-                    <a class="page-item" href="{{ $rows->previousPageUrl() }}" rel="prev">Previous</a>
-                @endif
-
-                @foreach ($rows->getUrlRange(max(1, $rows->currentPage() - 1), min($rows->lastPage(), $rows->currentPage() + 1)) as $page => $url)
-                    @if ($page == $rows->currentPage())
-                        <span class="page-item active" aria-current="page">{{ $page }}</span>
-                    @else
-                        <a class="page-item" href="{{ $url }}">{{ $page }}</a>
-                    @endif
-                @endforeach
-
-                @if ($rows->hasMorePages())
-                    <a class="page-item" href="{{ $rows->nextPageUrl() }}" rel="next">Next</a>
-                @else
-                    <span class="page-item disabled" aria-disabled="true">Next</span>
-                @endif
-            </nav>
-        @endif
-    </div>
-    @endif
 </div>
 
 <div class="delete-modal-backdrop" id="deleteModalBackdrop" aria-hidden="true" hidden>

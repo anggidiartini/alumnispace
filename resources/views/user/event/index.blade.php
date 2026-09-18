@@ -155,11 +155,32 @@
 
                                     <div class="job-card-head">
                                         <span class="job-badge">{{ $event->category }}</span>
-                                        <span class="event-quota">{{ $event->quota }} kuota</span>
+                                        <div class="event-quota-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 700;">
+                                            @if($event->remaining_quota <= 0 && $event->quota > 0)
+                                                <span style="background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 6px;">Kuota Penuh</span>
+                                            @else
+                                                <span style="background: #f0fdf4; color: #166534; padding: 3px 8px; border-radius: 6px;" title="Terpakai: {{ $event->used_quota }} / Total: {{ $event->quota }}">
+                                                    Sisa {{ $event->remaining_quota }} Kursi
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <a class="job-title-link" href="{{ route('event.show', $event->slug) }}">{{ $event->title }}</a>
                                     <p class="job-description">{{ $event->short_description }}</p>
+
+                                    <div class="event-quota-bar" style="margin: 10px 0 12px; font-size: 11px; color: #527597;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-weight: 600;">
+                                            <span>Terpakai: <strong style="color: #1d4ed8;">{{ $event->used_quota }}</strong></span>
+                                            <span>Sisa: <strong style="color: {{ $event->remaining_quota > 0 ? '#166534' : '#991b1b' }};">{{ $event->remaining_quota }}</strong> / {{ $event->quota }} Kuota</span>
+                                        </div>
+                                        @php
+                                            $cardPct = $event->quota > 0 ? min(100, round(($event->used_quota / $event->quota) * 100)) : 0;
+                                        @endphp
+                                        <div style="width: 100%; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden;">
+                                            <div style="height: 100%; width: {{ $cardPct }}%; background: {{ $cardPct >= 100 ? '#ef4444' : '#2e72ec' }}; border-radius: 999px;"></div>
+                                        </div>
+                                    </div>
 
                                     <div class="event-meta">
                                         <p class="event-meta-row">

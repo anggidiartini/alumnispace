@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var payload = {
             name: form.name.value.trim(),
             email: form.email.value.trim(),
-            phone: form.phone.value.trim()
+            phone: form.phone.value.trim(),
+            quantity: form.quantity ? parseInt(form.quantity.value) || 1 : 1
         };
 
         submitBtn.disabled = true;
@@ -106,7 +107,53 @@ document.addEventListener("DOMContentLoaded", function () {
                     stepSuccess.hidden = false;
                     successMessage.textContent = (result.data && result.data.message)
                         ? result.data.message
-                        : "Kami sudah mengirim email konfirmasi berisi link WhatsApp untuk konfirmasi ke panitia. Silakan cek inbox (atau folder spam) kamu.";
+                        : "Pendaftaran berhasil! Mengalihkan ke WhatsApp panitia untuk konfirmasi...";
+
+                    // Update live quota on page
+                    if (result.data && typeof result.data.registered_count !== 'undefined') {
+                        var newUsed = result.data.used_quota || result.data.registered_count;
+                        var totalQ = result.data.total_quota || config.quota;
+                        var remaining = typeof result.data.remaining_quota !== 'undefined' ? result.data.remaining_quota : Math.max(0, totalQ - newUsed);
+                        
+                        var quotaCountEl = document.querySelector("[data-role='quota-count']");
+                        var remainingEl = document.querySelector("[data-role='remaining-count']");
+                        var infoQuotaEl = document.querySelector("[data-role='info-quota']");
+                        var progressFillEl = document.querySelector(".progress-fill");
+
+                        if (quotaCountEl) quotaCountEl.textContent = newUsed + " / " + totalQ;
+                        if (infoQuotaEl) infoQuotaEl.innerHTML = '<span>' + newUsed + '</span> dari ' + totalQ + ' peserta <small style="display: block; font-size: 11px; color: ' + (remaining > 0 ? '#166534' : '#991b1b') + '; font-weight: 700;">(Sisa ' + remaining + ' kursi)</small>';
+                        if (remainingEl) remainingEl.textContent = remaining > 0 ? remaining + " kursi tersisa" : "Kuota telah terpenuhi";
+                        if (progressFillEl && totalQ > 0) progressFillEl.style.width = Math.min(100, Math.round((newUsed / totalQ) * 100)) + "%";
+
+                        if (remaining <= 0) {
+                            if (registerBtn) {
+                                registerBtn.disabled = true;
+                                registerBtn.textContent = "Kuota Penuh";
+                            }
+                            var sidebarBtn = document.getElementById("registerBtnSidebar");
+                            if (sidebarBtn) {
+                                sidebarBtn.disabled = true;
+                                sidebarBtn.textContent = "Kuota Penuh";
+                            }
+                        }
+                    }
+
+                    // Add direct WhatsApp button if present
+                    if (result.data && result.data.whatsapp_url) {
+                        var existingWa = document.getElementById("erWaBtn");
+                        if (!existingWa && doneBtn && doneBtn.parentElement) {
+                            var waBtn = document.createElement("a");
+                            waBtn.id = "erWaBtn";
+                            waBtn.className = "primary-button";
+                            waBtn.style.cssText = "display: block; margin-top: 12px; margin-bottom: 8px; text-align: center; text-decoration: none; background: #25D366; color: white;";
+                            waBtn.target = "_blank";
+                            waBtn.rel = "noopener";
+                            waBtn.textContent = "💬 Hubungi WA Panitia Sekarang";
+                            waBtn.href = result.data.whatsapp_url;
+                            doneBtn.parentElement.insertBefore(waBtn, doneBtn);
+                        }
+                    }
+
                     if (window.lucide) window.lucide.createIcons();
                     return;
                 }

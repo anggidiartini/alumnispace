@@ -34,43 +34,43 @@ class TableController extends Controller
                     'bio' => ['label' => 'Biografi Singkat', 'type' => 'textarea', 'required' => true],
                     'study_status' => ['label' => 'Status', 'type' => 'select', 'required' => true, 'options' => ['Aktif' => 'Aktif', 'Non-aktif' => 'Tidak Aktif']],
                 ]
-            ],  
+            ],
 
-'alumni_boards' => [
-    'title' => 'Pengurus Alumni',
-    'table' => 'alumni_committees',
-    'list_columns' => ['alumni_name', 'position', 'period_name', 'study_status'],
-    'fields' => [
-        'alumni_profile_id' => [
-            'label' => 'Nama Alumni', 
-            'type' => 'relation_select', 
-            'required' => true,
-            'relation_table' => 'alumni_profiles',
-            'display_column' => 'name'
-        ],
-        'position' => [
-            'label' => 'Jabatan', 
-            'type' => 'select_custom', 
-            'required' => true, 
-            'options' => [
-                'Ketua Umum Alumni' => 'Ketua Umum Alumni',
-                'Wakil Ketua Umum' => 'Wakil Ketua Umum',
-                'Sekretaris' => 'Sekretaris',
-                'Bendahara' => 'Bendahara',
-                'Divisi Hubungan Masyarakat' => 'Divisi Hubungan Masyarakat',
-                'Divisi Kreatif & Acara' => 'Divisi Kreatif & Acara',
-                'Divisi Pengembangan Karier' => 'Divisi Pengembangan Karier'
-            ]
-        ],
-        'committee_period_id' => [
-            'label' => 'Periode Kepengurusan', 
-            'type' => 'relation_select', 
-            'required' => true,
-            'relation_table' => 'committee_periods',
-            'display_column' => 'period_name'
-        ]
-    ]
-],
+            'alumni_boards' => [
+                'title' => 'Pengurus Alumni',
+                'table' => 'alumni_committees',
+                'list_columns' => ['alumni_name', 'position', 'period_name', 'study_status'],
+                'fields' => [
+                    'alumni_profile_id' => [
+                        'label' => 'Nama Alumni',
+                        'type' => 'relation_select',
+                        'required' => true,
+                        'relation_table' => 'alumni_profiles',
+                        'display_column' => 'name'
+                    ],
+                    'position' => [
+                        'label' => 'Jabatan',
+                        'type' => 'select_custom',
+                        'required' => true,
+                        'options' => [
+                            'Ketua Umum Alumni' => 'Ketua Umum Alumni',
+                            'Wakil Ketua Umum' => 'Wakil Ketua Umum',
+                            'Sekretaris' => 'Sekretaris',
+                            'Bendahara' => 'Bendahara',
+                            'Divisi Hubungan Masyarakat' => 'Divisi Hubungan Masyarakat',
+                            'Divisi Kreatif & Acara' => 'Divisi Kreatif & Acara',
+                            'Divisi Pengembangan Karier' => 'Divisi Pengembangan Karier'
+                        ]
+                    ],
+                    'committee_period_id' => [
+                        'label' => 'Periode Kepengurusan',
+                        'type' => 'relation_select',
+                        'required' => true,
+                        'relation_table' => 'committee_periods',
+                        'display_column' => 'period_name'
+                    ]
+                ]
+            ],
 
             'job_vacancies' => [
                 'title' => 'Lowongan Kerja',
@@ -108,9 +108,9 @@ class TableController extends Controller
             'event' => [
                 'title' => 'Acara & Agenda',
                 'table' => 'events',
-                'list_columns' => ['title', 'event_date', 'status'],
+                'list_columns' => ['title', 'event_date', 'quota', 'status'],
                 'fields' => [
-                    'title' => ['label' => 'Nama Agenda Acara', 'type' => 'text', 'required' => true],
+                    'title' => ['label' => 'Agenda Acara', 'type' => 'text', 'required' => true],
                     'category' => ['label' => 'Kategori Kegiatan', 'type' => 'text', 'required' => true],
                     'event_date' => ['label' => 'Tanggal Kegiatan', 'type' => 'date', 'required' => true],
                     'time_display' => ['label' => 'Keterangan Waktu / Jam', 'type' => 'text', 'required' => true],
@@ -214,7 +214,7 @@ class TableController extends Controller
                 ->select('alumni_profiles.*', 'users.name as name')
                 ->paginate(100);
         } else {
-            $rows = DB::table($mapping['table'])->paginate(10);
+            $rows = DB::table($mapping['table'])->paginate(100);
         }
 
         $this->shareSidebarCounts();
@@ -235,10 +235,30 @@ class TableController extends Controller
             $row = DB::table($mapping['table'])->where('id', $id)->first();
         }
 
-        if (!$row) abort(404);
+        if (!$row)
+            abort(404);
+
+        $extraData = [];
+        if ($table_key === 'event') {
+            $eventModel = \App\Models\Event::find($id);
+            if ($eventModel) {
+                $registrations = \App\Models\EventRegistration::with('user')
+                    ->where('event_id', $id)
+                    ->latest()
+                    ->get();
+                $extraData['eventModel'] = $eventModel;
+                $extraData['registrations'] = $registrations;
+                $extraData['totalQuota'] = (int) ($eventModel->quota ?? 0);
+                $extraData['usedQuota'] = $eventModel->used_quota;
+                $extraData['remainingQuota'] = $eventModel->remaining_quota;
+                $extraData['percentFilled'] = $extraData['totalQuota'] > 0
+                    ? min(100, round(($extraData['usedQuota'] / $extraData['totalQuota']) * 100))
+                    : 0;
+            }
+        }
 
         $this->shareSidebarCounts();
-        return view('admin.table.detail', compact('row', 'mapping', 'table_key'));
+        return view('admin.table.detail', compact('row', 'mapping', 'table_key', 'extraData'));
     }
 
     public function create($table_key)
@@ -283,7 +303,8 @@ class TableController extends Controller
 
         $insertData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
-            if ($fieldName === 'name') continue;
+            if ($fieldName === 'name')
+                continue;
 
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
                 $file = $request->file($fieldName);
@@ -360,7 +381,8 @@ class TableController extends Controller
             $row = DB::table($mapping['table'])->where('id', $id)->first();
         }
 
-        if (!$row) abort(404);
+        if (!$row)
+            abort(404);
 
         $this->shareSidebarCounts();
 
@@ -398,9 +420,23 @@ class TableController extends Controller
             $request->validate($rules);
         }
 
+        // Validasi penurunan kuota event: Kuota tidak boleh lebih kecil dari tiket yang sudah terjual
+        if ($table_key === 'event' && $request->has('quota')) {
+            $newQuota = (int) $request->input('quota');
+            $usedQuota = (int) DB::table('event_registrations')
+                ->where('event_id', $id)
+                ->where('status', '!=', 'cancelled')
+                ->sum('quantity');
+
+            if ($newQuota < $usedQuota) {
+                return back()->withInput()->with('error', "Nilai Kuota Peserta tidak bisa diubah menjadi {$newQuota} kursi karena sudah ada {$usedQuota} tiket/kuota yang telah terjual.");
+            }
+        }
+
         $updateData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
-            if ($fieldName === 'name') continue;
+            if ($fieldName === 'name')
+                continue;
 
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
                 $file = $request->file($fieldName);
@@ -489,7 +525,8 @@ class TableController extends Controller
     public function editAdmin($id)
     {
         $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
-        if (!$admin) abort(404);
+        if (!$admin)
+            abort(404);
 
         $this->shareSidebarCounts();
         return view('admin.admins.form', compact('admin'));
@@ -498,11 +535,12 @@ class TableController extends Controller
     public function updateAdmin(\Illuminate\Http\Request $request, $id)
     {
         $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
-        if (!$admin) abort(404);
+        if (!$admin)
+            abort(404);
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:6|confirmed',
             'role' => 'required|in:admin,super_admin',
@@ -528,7 +566,8 @@ class TableController extends Controller
     public function destroyAdmin($id)
     {
         $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
-        if (!$admin) abort(404);
+        if (!$admin)
+            abort(404);
 
         // Prevent deleting oneself
         if (\Auth::id() == $id) {
@@ -542,7 +581,8 @@ class TableController extends Controller
     public function toggleAdminStatus(\Illuminate\Http\Request $request, $id)
     {
         $admin = \DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
-        if (!$admin) return response()->json(['success' => false, 'message' => 'Admin tidak ditemukan'], 404);
+        if (!$admin)
+            return response()->json(['success' => false, 'message' => 'Admin tidak ditemukan'], 404);
 
         if (\Auth::id() == $id) {
             return response()->json(['success' => false, 'message' => 'Anda tidak bisa menonaktifkan akun Anda sendiri.'], 403);
@@ -560,88 +600,88 @@ class TableController extends Controller
         return response()->json(['success' => true, 'message' => 'Status admin berhasil diperbarui.']);
     }
     public function getAlumniBoardsData(Request $request)
-{
-    if ($request->ajax()) {
-        $query = DB::table('alumni_committees')
-            ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
-            ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
-            ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
-            ->select([
-                'alumni_committees.id as id',
-                'users.name as alumni_name',
-                'alumni_committees.position as position',
-                'committee_periods.period_name as period_name',
-                'alumni_profiles.study_status as study_status',
-                'alumni_profiles.id as profile_id'
-            ]);
+    {
+        if ($request->ajax()) {
+            $query = DB::table('alumni_committees')
+                ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
+                ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+                ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
+                ->select([
+                    'alumni_committees.id as id',
+                    'users.name as alumni_name',
+                    'alumni_committees.position as position',
+                    'committee_periods.period_name as period_name',
+                    'alumni_profiles.study_status as study_status',
+                    'alumni_profiles.id as profile_id'
+                ]);
 
-        // Implementasi Filter Ajax jika dipilih
-        if ($request->filled('filter_periode')) {
-            $query->where('committee_periods.id', $request->filter_periode);
-        }
-        if ($request->filled('filter_jabatan')) {
-            $query->where('alumni_committees.position', $request->filter_jabatan);
-        }
+            // Implementasi Filter Ajax jika dipilih
+            if ($request->filled('filter_periode')) {
+                $query->where('committee_periods.id', $request->filter_periode);
+            }
+            if ($request->filled('filter_jabatan')) {
+                $query->where('alumni_committees.position', $request->filter_jabatan);
+            }
 
-        return \DataTables::of($query)
-            ->addIndexColumn()
-            ->addColumn('study_status', function($row) {
-                $selectedAktif = $row->study_status == 'Aktif' ? 'selected' : '';
-                $selectedNon = $row->study_status == 'Non-aktif' ? 'selected' : '';
-                
-                return '<select class="change-status-inline-dropdown" data-profile-id="'.$row->profile_id.'" style="padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 11px; background-color: '.($row->study_status == 'Aktif' ? '#d1fae5; color: #065f46;' : '#fee2e2; color: #991b1b;').'">
-                            <option value="Aktif" '.$selectedAktif.'>Aktif</option>
-                            <option value="Non-aktif" '.$selectedNon.'>Tidak Aktif</option>
+            return \DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('study_status', function ($row) {
+                    $selectedAktif = $row->study_status == 'Aktif' ? 'selected' : '';
+                    $selectedNon = $row->study_status == 'Non-aktif' ? 'selected' : '';
+
+                    return '<select class="change-status-inline-dropdown" data-profile-id="' . $row->profile_id . '" style="padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 11px; background-color: ' . ($row->study_status == 'Aktif' ? '#d1fae5; color: #065f46;' : '#fee2e2; color: #991b1b;') . '">
+                            <option value="Aktif" ' . $selectedAktif . '>Aktif</option>
+                            <option value="Non-aktif" ' . $selectedNon . '>Tidak Aktif</option>
                         </select>';
-            })
-            ->addColumn('action', function($row) {
-                return '<div class="action-badge">
-                            <a href="'.url('admin/table/alumni_boards/'.$row->id).'" class="btn-action btn-detail"><i class="fa-solid fa-eye"></i> Detail</a>
-                            <a href="'.url('admin/table/alumni_boards/'.$row->id.'/edit').'" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                            <form class="delete-form" action="'.route('admin.table.destroy', ['alumni_boards', $row->id]).'" method="POST" style="display:inline-flex;">
-                                '.csrf_field().'
-                                '.method_field('DELETE').'
+                })
+                ->addColumn('action', function ($row) {
+                    return '<div class="action-badge">
+                            <a href="' . url('admin/table/alumni_boards/' . $row->id) . '" class="btn-action btn-detail"><i class="fa-solid fa-eye"></i> Detail</a>
+                            <a href="' . url('admin/table/alumni_boards/' . $row->id . '/edit') . '" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <form class="delete-form" action="' . route('admin.table.destroy', ['alumni_boards', $row->id]) . '" method="POST" style="display:inline-flex;">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
                                 <button type="button" class="btn-action btn-delete delete-trigger"><i class="fa-solid fa-trash-can"></i> Hapus</button>
                             </form>
                         </div>';
-            })
-            ->rawColumns(['study_status', 'action'])
-            ->make(true);
+                })
+                ->rawColumns(['study_status', 'action'])
+                ->make(true);
+        }
     }
-}
 
-public function updateStatusInline(Request $request)
-{
-    $request->validate([
-        'profile_id' => 'required',
-        'status' => 'required|in:Aktif,Non-aktif'
-    ]);
+    public function updateStatusInline(Request $request)
+    {
+        $request->validate([
+            'profile_id' => 'required',
+            'status' => 'required|in:Aktif,Non-aktif'
+        ]);
 
-    DB::table('alumni_profiles')
-        ->where('id', $request->profile_id)
-        ->update(['study_status' => $request->status, 'updated_at' => now()]);
+        DB::table('alumni_profiles')
+            ->where('id', $request->profile_id)
+            ->update(['study_status' => $request->status, 'updated_at' => now()]);
 
-    return response()->json(['success' => true, 'message' => 'Status alumni berhasil diperbarui langsung.']);
-}
+        return response()->json(['success' => true, 'message' => 'Status alumni berhasil diperbarui langsung.']);
+    }
 
-// Handler tambahan untuk simpan Periode Dinamis via AJAX Modal samping tombol tambah
-public function storePeriodQuick(Request $request)
-{
-    $request->validate([
-        'period_name' => 'required|string|max:50',
-        'start_date' => 'required|date',
-        'finish_date' => 'nullable|date'
-    ]);
+    // Handler tambahan untuk simpan Periode Dinamis via AJAX Modal samping tombol tambah
+    public function storePeriodQuick(Request $request)
+    {
+        $request->validate([
+            'period_name' => 'required|string|max:50',
+            'start_date' => 'required|date',
+            'finish_date' => 'nullable|date'
+        ]);
 
-    DB::table('committee_periods')->insert([
-        'period_name' => $request->period_name,
-        'start_date' => $request->start_date,
-        'finish_date' => $request->finish_date,
-        'created_at' => now(),
-        'updated_at' => now()
-    ]);
+        DB::table('committee_periods')->insert([
+            'period_name' => $request->period_name,
+            'start_date' => $request->start_date,
+            'finish_date' => $request->finish_date,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
-    return response()->json(['success' => true, 'message' => 'Periode baru berhasil ditambahkan dinamis!']);
-}
+        return response()->json(['success' => true, 'message' => 'Periode baru berhasil ditambahkan dinamis!']);
+    }
 
 }
