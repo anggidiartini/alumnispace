@@ -83,6 +83,14 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::delete('/manage-admins/{id}', [TableController::class, 'destroyAdmin'])->name('admins.destroy');
     Route::patch('/manage-admins/{id}/toggle-status', [TableController::class, 'toggleAdminStatus'])->name('admins.toggle-status');
 
+    Route::get('/committee-periods', [TableController::class, 'indexPeriods'])->name('committee-periods.index');
+    Route::get('/committee-periods/create', [TableController::class, 'createPeriod'])->name('committee-periods.create');
+    Route::post('/committee-periods', [TableController::class, 'storePeriod'])->name('committee-periods.store');
+    Route::get('/committee-periods/{id}', [TableController::class, 'showPeriod'])->name('committee-periods.show');
+    Route::get('/committee-periods/{id}/edit', [TableController::class, 'editPeriod'])->name('committee-periods.edit');
+    Route::put('/committee-periods/{id}', [TableController::class, 'updatePeriod'])->name('committee-periods.update');
+    Route::delete('/committee-periods/{id}', [TableController::class, 'destroyPeriod'])->name('committee-periods.destroy');
+
     Route::get('/table/{table_name}', [TableController::class, 'index'])->name('table.index');
     Route::get('/table/{table_name}/create', [TableController::class, 'create'])->name('table.create');
     Route::post('/table/{table_name}', [TableController::class, 'store'])->name('table.store');

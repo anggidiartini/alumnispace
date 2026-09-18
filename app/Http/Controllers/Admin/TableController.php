@@ -212,7 +212,7 @@ class TableController extends Controller
             $rows = DB::table('alumni_profiles')
                 ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
                 ->select('alumni_profiles.*', 'users.name as name')
-                ->paginate(100);
+                ->get();
         } else {
             $rows = DB::table($mapping['table'])->paginate(100);
         }
@@ -484,12 +484,102 @@ class TableController extends Controller
     // ===================================================
     public function indexAdmins()
     {
-        $admins = \DB::table('users')
-            ->whereIn('role', ['admin', 'super_admin'])
-            ->paginate(10);
+        $query = \DB::table('users')
+            ->whereIn('role', ['admin', 'super_admin']);
+
+        if (request()->has('status') && in_array(request('status'), ['0', '1'], true)) {
+            $query->where('is_active', request('status'));
+        }
+
+        $admins = $query->paginate(10)->withQueryString();
 
         $this->shareSidebarCounts();
         return view('admin.admins.index', compact('admins'));
+    }
+
+    public function indexPeriods()
+    {
+        $periods = DB::table('committee_periods')
+            ->orderByDesc('id')
+            ->get();
+
+        $this->shareSidebarCounts();
+
+        return view('admin.periods.index', compact('periods'));
+    }
+
+    public function createPeriod()
+    {
+        $this->shareSidebarCounts();
+
+        return view('admin.periods.create');
+    }
+
+    public function storePeriod(Request $request)
+    {
+        $request->validate([
+            'period_name' => 'required|string|max:100',
+            'start_date' => 'required|date',
+            'finish_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        DB::table('committee_periods')->insert([
+            'period_name' => $request->period_name,
+            'start_date' => $request->start_date,
+            'finish_date' => $request->finish_date,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('admin.committee-periods.index')
+            ->with('success', 'Periode kepengurusan berhasil ditambahkan.');
+    }
+
+    public function showPeriod($id)
+    {
+        $period = DB::table('committee_periods')->where('id', $id)->first();
+
+        if (!$period) abort(404);
+
+        $this->shareSidebarCounts();
+        return view('admin.periods.detail', compact('period'));
+    }
+
+    public function editPeriod($id)
+    {
+        $period = DB::table('committee_periods')->where('id', $id)->first();
+
+        if (!$period) abort(404);
+
+        $this->shareSidebarCounts();
+        return view('admin.periods.edit', compact('period'));
+    }
+
+    public function updatePeriod(Request $request, $id)
+    {
+        $request->validate([
+            'period_name' => 'required|string|max:100',
+            'start_date' => 'required|date',
+            'finish_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        DB::table('committee_periods')->where('id', $id)->update([
+            'period_name' => $request->period_name,
+            'start_date' => $request->start_date,
+            'finish_date' => $request->finish_date,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('admin.committee-periods.index')
+            ->with('success', 'Periode kepengurusan berhasil diperbarui.');
+    }
+
+    public function destroyPeriod($id)
+    {
+        DB::table('committee_periods')->where('id', $id)->delete();
+
+        return redirect()->route('admin.committee-periods.index')
+            ->with('success', 'Periode kepengurusan berhasil dihapus.');
     }
 
     public function createAdmin()
@@ -664,14 +754,14 @@ class TableController extends Controller
         return response()->json(['success' => true, 'message' => 'Status alumni berhasil diperbarui langsung.']);
     }
 
-    // Handler tambahan untuk simpan Periode Dinamis via AJAX Modal samping tombol tambah
-    public function storePeriodQuick(Request $request)
-    {
-        $request->validate([
-            'period_name' => 'required|string|max:50',
-            'start_date' => 'required|date',
-            'finish_date' => 'nullable|date'
-        ]);
+// Handler tambahan untuk simpan Periode Dinamis via AJAX Modal samping tombol tambah
+public function storePeriodQuick(Request $request)
+{
+    $request->validate([
+        'period_name' => 'required|string|max:50',
+        'start_date' => 'required|date',
+        'finish_date' => 'nullable|date'
+    ]);
 
         DB::table('committee_periods')->insert([
             'period_name' => $request->period_name,

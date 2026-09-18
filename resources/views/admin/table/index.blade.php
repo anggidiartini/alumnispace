@@ -9,6 +9,8 @@
     .crud-card-full { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
     .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .btn-add { background: var(--color-primary); color: #fff; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-dark); }
+    .btn-period { background: #fff; color: var(--color-primary); padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); }
+    .btn-period:hover { background: var(--bg-main); border-color: var(--color-primary); color: var(--color-primary); }
     .table-responsive { width: 100%; overflow-x: auto; }
     
     /* Style Tabel Melebar Penuh */
@@ -755,9 +757,16 @@
             <h2 style="font-size: 18px; font-weight: 700;">Daftar {{ $table_key === 'alumnis' ? 'Data Alumni' : $mapping['title'] }}</h2>
             <p style="font-size: 12px; color: var(--text-muted)">Gunakan halaman ini untuk memantau atau memperbarui susunan berkas informasi website.</p>
         </div>
-        <a href="{{ route('admin.table.create', $table_key) }}" class="btn-add">
-            <i class="fa-solid fa-plus"></i> Tambah Baru
-        </a>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            @if ($table_key === 'alumni_boards')
+                <a href="{{ route('admin.committee-periods.index') }}" class="btn-period">
+                    <i class="fa-solid fa-calendar-days"></i> Kelola Periode
+                </a>
+            @endif
+            <a href="{{ route('admin.table.create', $table_key) }}" class="btn-add">
+                <i class="fa-solid fa-plus"></i> Tambah Data
+            </a>
+        </div>
     </div>
 
     <table id="alumniDataTable" class="data-table display nowrap" style="width:100%">
@@ -768,7 +777,10 @@
                     @foreach($mapping['list_columns'] as $col)
                         @php
                             $label = $mapping['fields'][$col]['label'] ?? ucwords(str_replace('_', ' ', $col));
-                            $isCategorizable = in_array($col, ['study_status', 'graduation_year']);
+                            $fieldType = $mapping['fields'][$col]['type'] ?? null;
+                            $isCategorizable =
+                                in_array($col, ['study_status', 'graduation_year']) ||
+                                in_array($fieldType, ['select', 'toggle']);
                         @endphp
                         <th data-col="{{ $col }}" class="{{ $isCategorizable ? 'dt-has-menu' : '' }}">
                             <div class="dt-th-box">
@@ -934,6 +946,37 @@
                 @endif
             </tbody>
         </table>
+
+
+    @if ($table_key !== 'alumnis')
+    <div class="pagination-wrapper">
+        <div>Menampilkan {{ $rows->count() }} data di halaman ini.</div>
+
+        @if ($rows->hasPages())
+            <nav class="pagination" aria-label="Pagination">
+                @if ($rows->onFirstPage())
+                    <span class="page-item disabled" aria-disabled="true">Previous</span>
+                @else
+                    <a class="page-item" href="{{ $rows->previousPageUrl() }}" rel="prev">Previous</a>
+                @endif
+
+                @foreach ($rows->getUrlRange(max(1, $rows->currentPage() - 1), min($rows->lastPage(), $rows->currentPage() + 1)) as $page => $url)
+                    @if ($page == $rows->currentPage())
+                        <span class="page-item active" aria-current="page">{{ $page }}</span>
+                    @else
+                        <a class="page-item" href="{{ $url }}">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($rows->hasMorePages())
+                    <a class="page-item" href="{{ $rows->nextPageUrl() }}" rel="next">Next</a>
+                @else
+                    <span class="page-item disabled" aria-disabled="true">Next</span>
+                @endif
+            </nav>
+        @endif
+    </div>
+    @endif
 </div>
 
 <div class="delete-modal-backdrop" id="deleteModalBackdrop" aria-hidden="true" hidden>
@@ -1019,8 +1062,8 @@
 
                         // Extract clean unique text values
                         const uniqueValues = [];
-                        column.nodes().each(function (cell) {
-                            const text = $(cell).text().trim();
+                        column.data().each(function (value) {
+                            const text = $('<div>').html(value).text().trim();
                             if (text && text !== '-' && !uniqueValues.includes(text)) {
                                 uniqueValues.push(text);
                             }
