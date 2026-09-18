@@ -118,9 +118,19 @@
             <h2 style="font-size: 18px; font-weight: 700; color: #0a4174;">Daftar Petugas Pengelola (Admin)</h2>
             <p style="font-size: 12px; color: #527597">Daftar akun pengelola yang memiliki hak akses kontrol penuh terhadap sistem.</p>
         </div>
-        <a href="{{ route('admin.admins.create') }}" class="btn-add">
-            <i class="fa-solid fa-user-plus"></i> Tambah Admin Baru
-        </a>
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <form method="GET" action="{{ route('admin.admins.index') }}">
+                <label for="admin-status-filter" style="font-size: 12px; color: #527597; margin-right: 6px;">Filter Status</label>
+                <select id="admin-status-filter" name="status" onchange="this.form.submit()" style="padding: 9px 10px; border: 1px solid #d0e1f0; border-radius: 8px; color: #0a4174; background: #fff;">
+                    <option value="">Semua Status</option>
+                    <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Aktif</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Tidak Aktif</option>
+                </select>
+            </form>
+            <a href="{{ route('admin.admins.create') }}" class="btn-add">
+                <i class="fa-solid fa-user-plus"></i> Tambah Admin Baru
+            </a>
+        </div>
     </div>
 
     <div style="width: 100%; overflow-x: auto; border: 1px solid #d0e1f0; border-radius: 8px;">
