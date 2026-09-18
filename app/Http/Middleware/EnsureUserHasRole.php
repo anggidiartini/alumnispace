@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserHasRole
@@ -37,12 +38,27 @@ class EnsureUserHasRole
             ]);
         }
 
-        // Admin dan Super Admin selalu diizinkan mengakses halaman umum/user jika akun aktif
-        if (in_array($user->role, ['super_admin', 'admin']) && ($user->status ?? 'active') === 'active') {
+        if (!$user->is_active) {
+            Auth::logout();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+                ], Response::HTTP_FORBIDDEN);
+            }
+
+            return redirect()->route('admin.login')->withErrors([
+                'email' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+            ]);
+        }
+
+        // Admin dan Super Admin boleh mengakses halaman umum/user jika akun aktif.
+        if (in_array($user->role, ['super_admin', 'admin'])) {
             return $next($request);
         }
 
-        if (!in_array($user->role, $roles) || ($user->status ?? 'active') !== 'active') {
+        if (!in_array($user->role, $roles)) {
             if ($request->expectsJson()) {
                 return response()->json([
                     'status' => 'error',

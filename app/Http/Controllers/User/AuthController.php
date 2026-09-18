@@ -36,6 +36,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        $credentials['is_active'] = true;
 
         $remember = $request->boolean('remember');
 
