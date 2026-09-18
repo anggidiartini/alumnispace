@@ -213,10 +213,11 @@
                                         $waMessage = "Halo, saya ingin melamar posisi {$job->title} di {$job->company_name} yang saya lihat di Alumni Space.";
                                     @endphp
                                     <article class="job-card reveal-onscroll"
-                                        style="animation-delay: {{ ($i % 3) * 0.05 }}s"
+                                        style="animation-delay: {{ ($i % 3) * 0.05 }}s; cursor:pointer;"
                                         data-company="{{ $job->company_name }}" data-location="{{ $job->location }}"
                                         data-type="{{ $job->job_type }}"
-                                        data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}">
+                                        data-search="{{ strtolower($job->title . ' ' . $job->company_name . ' ' . $job->location . ' ' . $job->job_type) }}"
+                                        data-href="{{ route('lowongan.show', $job->slug) }}">
                                         <div class="job-card-head">
                                             <span class="job-badge">{{ $job->category }}</span><span
                                                 class="job-symbol">✳</span>
@@ -372,103 +373,123 @@
     </div>
 
     <script src="{{ asset('js/script.js') }}"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var searchInput = document.getElementById("search-input");
-            var companyFilter = document.getElementById("company-filter");
-            var locationFilter = document.getElementById("location-filter");
-            var resetButton = document.getElementById("reset-filter");
-            var emptyResetButton = document.getElementById("empty-reset");
-            var cards = Array.prototype.slice.call(document.querySelectorAll(".job-card"));
-            var chips = Array.prototype.slice.call(document.querySelectorAll(".filter-chip"));
-            var emptyState = document.getElementById("empty-state");
-            var resultCount = document.getElementById("results-count");
-            var filterSummary = document.getElementById("filter-summary");
-            var activeType = "";
-            var fadeTimers = new WeakMap();
+ <script>
+    // FIX: matikan animation setelah selesai, supaya transisi hover
+    // (job-card keangkat) bisa jalan normal — nggak ketiban animation lagi.
+    (function () {
+        document.querySelectorAll(".reveal-onscroll").forEach(function (el) {
+            el.addEventListener("animationend", function () {
+                el.style.animation = "none";
+            }, { once: true });
+        });
+    })();
 
-            function filterJobs() {
-                var query = searchInput.value.trim().toLowerCase();
-                var company = companyFilter.value;
-                var location = locationFilter.value;
-                var count = 0;
+    document.addEventListener("DOMContentLoaded", function() {
+        var searchInput = document.getElementById("search-input");
+        var companyFilter = document.getElementById("company-filter");
+        var locationFilter = document.getElementById("location-filter");
+        var resetButton = document.getElementById("reset-filter");
+        var emptyResetButton = document.getElementById("empty-reset");
+        var cards = Array.prototype.slice.call(document.querySelectorAll(".job-card"));
+        var chips = Array.prototype.slice.call(document.querySelectorAll(".filter-chip"));
+        var emptyState = document.getElementById("empty-state");
+        var resultCount = document.getElementById("results-count");
+        var filterSummary = document.getElementById("filter-summary");
+        var activeType = "";
+        var fadeTimers = new WeakMap();
 
-                cards.forEach(function(card) {
-                    var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
-                    var matchesCompany = !company || card.dataset.company === company;
-                    var matchesLocation = !location || card.dataset.location === location;
-                    var matchesType = !activeType || card.dataset.type === activeType;
-                    var matches = matchesQuery && matchesCompany && matchesLocation && matchesType;
+        cards.forEach(function(card) {
+            var targetUrl = card.dataset.href;
+            if (!targetUrl) return;
+            card.addEventListener("click", function(e) {
+                if (e.target.closest("a")) return;
+                window.location.href = targetUrl;
+            });
+        });
 
-                    if (fadeTimers.has(card)) {
-                        clearTimeout(fadeTimers.get(card));
-                        fadeTimers.delete(card);
-                    }
+        function filterJobs() {
+            var query = searchInput.value.trim().toLowerCase();
+            var company = companyFilter.value;
+            var location = locationFilter.value;
+            var count = 0;
 
-                    if (matches) {
-                        card.classList.remove("is-hidden");
-                        requestAnimationFrame(function() {
-                            card.classList.remove("is-fading");
-                        });
-                        count += 1;
-                    } else if (!card.classList.contains("is-hidden")) {
-                        card.classList.add("is-fading");
-                        var timer = setTimeout(function() {
-                            card.classList.add("is-hidden");
-                        }, 260);
-                        fadeTimers.set(card, timer);
-                    }
-                });
+            cards.forEach(function(card) {
+                var matchesQuery = !query || card.dataset.search.indexOf(query) !== -1;
+                var matchesCompany = !company || card.dataset.company === company;
+                var matchesLocation = !location || card.dataset.location === location;
+                var matchesType = !activeType || card.dataset.type === activeType;
+                var matches = matchesQuery && matchesCompany && matchesLocation && matchesType;
 
-                var filters = [];
-                if (query) filters.push('"' + searchInput.value.trim() + '"');
-                if (company) filters.push(company);
-                if (location) filters.push(location);
-                if (activeType) filters.push(activeType);
+                if (fadeTimers.has(card)) {
+                    clearTimeout(fadeTimers.get(card));
+                    fadeTimers.delete(card);
+                }
 
-                resultCount.textContent = "Menampilkan " + count + " lowongan";
-                filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") :
-                    "Semua peluang aktif";
-                emptyState.classList.toggle("is-visible", count === 0);
-            }
-
-            function resetFilters() {
-                searchInput.value = "";
-                companyFilter.value = "";
-                locationFilter.value = "";
-                activeType = "";
-
-                chips.forEach(function(chip) {
-                    chip.classList.remove("is-active");
-                    chip.setAttribute("aria-pressed", "false");
-                });
-
-                filterJobs();
-            }
-
-            searchInput.addEventListener("input", filterJobs);
-            companyFilter.addEventListener("change", filterJobs);
-            locationFilter.addEventListener("change", filterJobs);
-
-            chips.forEach(function(chip) {
-                chip.setAttribute("aria-pressed", "false");
-                chip.addEventListener("click", function() {
-                    activeType = activeType === chip.dataset.type ? "" : chip.dataset.type;
-                    chips.forEach(function(item) {
-                        var isActive = item.dataset.type === activeType;
-                        item.classList.toggle("is-active", isActive);
-                        item.setAttribute("aria-pressed", String(isActive));
+                if (matches) {
+                    card.classList.remove("is-hidden");
+                    requestAnimationFrame(function() {
+                        card.classList.remove("is-fading");
                     });
-                    filterJobs();
-                });
+                    count += 1;
+                } else if (!card.classList.contains("is-hidden")) {
+                    card.classList.add("is-fading");
+                    var timer = setTimeout(function() {
+                        card.classList.add("is-hidden");
+                    }, 260);
+                    fadeTimers.set(card, timer);
+                }
             });
 
-            resetButton.addEventListener("click", resetFilters);
-            emptyResetButton.addEventListener("click", resetFilters);
+            var filters = [];
+            if (query) filters.push('"' + searchInput.value.trim() + '"');
+            if (company) filters.push(company);
+            if (location) filters.push(location);
+            if (activeType) filters.push(activeType);
+
+            resultCount.textContent = "Menampilkan " + count + " lowongan";
+            filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") :
+                "Semua peluang aktif";
+            emptyState.classList.toggle("is-visible", count === 0);
+        }
+
+        function resetFilters() {
+            searchInput.value = "";
+            companyFilter.value = "";
+            locationFilter.value = "";
+            activeType = "";
+
+            chips.forEach(function(chip) {
+                chip.classList.remove("is-active");
+                chip.setAttribute("aria-pressed", "false");
+            });
 
             filterJobs();
+        }
+
+        searchInput.addEventListener("input", filterJobs);
+        companyFilter.addEventListener("change", filterJobs);
+        locationFilter.addEventListener("change", filterJobs);
+
+        chips.forEach(function(chip) {
+            chip.setAttribute("aria-pressed", "false");
+            chip.addEventListener("click", function() {
+                activeType = activeType === chip.dataset.type ? "" : chip.dataset.type;
+                chips.forEach(function(item) {
+                    var isActive = item.dataset.type === activeType;
+                    item.classList.toggle("is-active", isActive);
+                    item.setAttribute("aria-pressed", String(isActive));
+                });
+                filterJobs();
+            });
         });
-    </script>
+
+        resetButton.addEventListener("click", resetFilters);
+        emptyResetButton.addEventListener("click", resetFilters);
+
+        filterJobs();
+    });
+</script>
+</script>
 </body>
 
 </html>
