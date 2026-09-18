@@ -948,37 +948,6 @@
                 @endif
             </tbody>
         </table>
-
-
-    @if ($table_key !== 'alumnis')
-    <div class="pagination-wrapper">
-        <div>Menampilkan {{ $rows->count() }} data di halaman ini.</div>
-
-        @if ($rows->hasPages())
-            <nav class="pagination" aria-label="Pagination">
-                @if ($rows->onFirstPage())
-                    <span class="page-item disabled" aria-disabled="true">Previous</span>
-                @else
-                    <a class="page-item" href="{{ $rows->previousPageUrl() }}" rel="prev">Previous</a>
-                @endif
-
-                @foreach ($rows->getUrlRange(max(1, $rows->currentPage() - 1), min($rows->lastPage(), $rows->currentPage() + 1)) as $page => $url)
-                    @if ($page == $rows->currentPage())
-                        <span class="page-item active" aria-current="page">{{ $page }}</span>
-                    @else
-                        <a class="page-item" href="{{ $url }}">{{ $page }}</a>
-                    @endif
-                @endforeach
-
-                @if ($rows->hasMorePages())
-                    <a class="page-item" href="{{ $rows->nextPageUrl() }}" rel="next">Next</a>
-                @else
-                    <span class="page-item disabled" aria-disabled="true">Next</span>
-                @endif
-            </nav>
-        @endif
-    </div>
-    @endif
 </div>
 
 <div class="delete-modal-backdrop" id="deleteModalBackdrop" aria-hidden="true" hidden>
