@@ -8,6 +8,14 @@
     <!-- CSS File Calls -->
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    <style>
+      /* card jadi <a>, defaultnya inline -> jadiin block + hilangin underline/warna default link */
+      a.card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+      }
+    </style>
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
@@ -137,13 +145,17 @@
 
     <div class="album-grid">
       @forelse($albums as $index => $album)
-      <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}" data-title="{{ strtolower($album->title) }}">
+      <a href="{{ route('album.show', $album->slug) }}"
+         class="card"
+         id="c{{ $album->id }}"
+         data-category="{{ $album->category }}"
+         data-title="{{ strtolower($album->title) }}">
         <div class="card-photo">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-        
+
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
@@ -156,9 +168,9 @@
           @if($album->description)
             <p class="card-desc">{{ \Illuminate\Support\Str::limit($album->description, 90) }}</p>
           @endif
-          <a href="{{ route('album.show', $album->slug) }}" class="view-btn">Lihat Album</a>
+          <span class="view-btn">Lihat Album</span>
         </div>
-      </div>
+      </a>
       @empty
       <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
         <p style="font-size: 18px; font-weight:700;">Belum ada album kenangan.</p>
