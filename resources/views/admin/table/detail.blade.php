@@ -206,7 +206,7 @@
             @if($field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                 @if($key === 'company_logo')
                     <div style="margin-bottom: 16px; display: flex; justify-content: center;">
-                        <x-company-logo :logo="$row->$col" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
+                        <x-company-logo :logo="$row->$key" :name="$row->company_name ?? ($row->company ?? ($row->title ?? 'Perusahaan'))" size="80" option="initials" />
                     </div>
                     @php $hasImage = true; @endphp
                 @elseif(!empty($row->$key))
