@@ -125,9 +125,9 @@ class TableController extends Controller
                 'table' => 'albums',
                 'list_columns' => ['cover_photo', 'title', 'category', 'target_generation'],
                 'fields' => [
-                    'title' => ['label' => 'Nama Album Galeri', 'type' => 'text', 'required' => true],
+                    'title' => ['label' => 'Nama Album', 'type' => 'text', 'required' => true],
                     'cover_photo' => ['label' => 'Foto Sampul Album', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 500KB'],
-                    'category' => ['label' => 'Jenis Kegiatan (Indoor/Outdoor)', 'type' => 'text', 'required' => true],
+                    'category' => ['label' => 'Jenis Kegiatan', 'type' => 'text', 'required' => true],
                     'subtitle_label' => ['label' => 'Label Sub-Keterangan', 'type' => 'text', 'required' => true],
                     'target_generation' => ['label' => 'Target Angkatan', 'type' => 'text', 'required' => true],
                     'description' => ['label' => 'Keterangan Singkat Album', 'type' => 'textarea', 'required' => true],

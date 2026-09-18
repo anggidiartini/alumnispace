@@ -138,7 +138,7 @@
             <thead>
                 <tr>
                     <th>Nama Pengelola</th>
-                    <th>Alamat Email</th>
+                    <th>Email</th>
                     <th>No. Telepon / WA</th>
                     <th>Tingkat Otoritas</th>
                     <th>Status</th>
