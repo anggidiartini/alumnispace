@@ -302,7 +302,7 @@
     flex-shrink: 0;
     min-height: 44px;
     padding: 11px 22px;
-    background-color: #7bbde8;
+    background-color: #ffffff;
     color: #0a4174;
     border: 3px solid #0a4174;
     border-radius: 9999px;
@@ -1057,8 +1057,13 @@ select:focus-visible {
     }
 
     .avatar-preview-wrap {
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-form > .profile-section-full:first-of-type .profile-section-title {
+        text-align: center;
     }
 
     .avatar-modal {
