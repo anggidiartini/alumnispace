@@ -810,7 +810,9 @@
                 @if($rows->count() > 0)
                     @foreach($rows as $row)
                         @php
-                            $rowNumber = ($loop->index + 1) + ($rows->perPage() * ($rows->currentPage() - 1));
+                            $rowNumber = ($rows instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                                ? ($loop->index + 1) + ($rows->perPage() * ($rows->currentPage() - 1))
+                                : ($loop->index + 1);
                             $isEventSoldOut = false;
                             if ($table_key === 'event') {
                                 $evTotalRow = (int) ($row->quota ?? 0);
