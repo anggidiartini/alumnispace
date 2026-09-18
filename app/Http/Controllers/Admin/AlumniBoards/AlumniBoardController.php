@@ -72,7 +72,7 @@ class AlumniBoardController extends Controller
             ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
             ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
             ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
-            ->select('alumni_committees.*', 'users.name as alumni_name', 'committee_periods.period_name', 'committee_periods.start_date', 'committee_periods.finish_date')
+            ->select('alumni_committees.*', 'users.name as alumni_name', 'alumni_profiles.avatar', 'alumni_profiles.study_status', 'alumni_profiles.graduation_year', 'alumni_profiles.profession', 'committee_periods.period_name', 'committee_periods.start_date', 'committee_periods.finish_date')
             ->orderByDesc('alumni_committees.id');
     }
 

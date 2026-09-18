@@ -40,22 +40,49 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::findOrFail($id);
+        $registrations = \App\Models\EventRegistration::with('user')
+            ->where('event_id', $id)
+            ->latest()
+            ->get();
+        $totalQuota = (int) ($event->quota ?? 0);
+        $usedQuota = $event->used_quota;
+        $remainingQuota = $event->remaining_quota;
+        $percentFilled = $totalQuota > 0 ? min(100, round(($usedQuota / $totalQuota) * 100)) : 0;
+
         $this->shareSidebarCounts();
 
-        return view('admin.events.show', compact('event'));
+        return view('admin.events.show', compact('event', 'registrations', 'totalQuota', 'usedQuota', 'remainingQuota', 'percentFilled'));
     }
 
     public function edit($id)
     {
         $event = Event::findOrFail($id);
+        $currSold = (int) DB::table('event_registrations')
+            ->where('event_id', $id)
+            ->where('status', '!=', 'cancelled')
+            ->sum('quantity');
+
         $this->shareSidebarCounts();
 
-        return view('admin.events.form', compact('event'));
+        return view('admin.events.form', compact('event', 'currSold'));
     }
 
     public function update(Request $request, $id)
     {
         $event = Event::findOrFail($id);
+
+        if ($request->has('quota')) {
+            $newQuota = (int) $request->input('quota');
+            $usedQuota = (int) DB::table('event_registrations')
+                ->where('event_id', $id)
+                ->where('status', '!=', 'cancelled')
+                ->sum('quantity');
+
+            if ($newQuota < $usedQuota) {
+                return back()->withInput()->with('error', "Nilai Kuota Peserta tidak bisa diubah menjadi {$newQuota} kursi karena sudah ada {$usedQuota} tiket/kuota yang telah terjual.");
+            }
+        }
+
         $event->fill($this->validatedData($request));
         $event->save();
 
