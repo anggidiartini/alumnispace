@@ -320,6 +320,14 @@ document.addEventListener("DOMContentLoaded", function() {
     var status = "Upcoming";
     var fadeTimers = new WeakMap();
 
+    // Label tampilan (Bahasa Indonesia) untuk tiap nilai status internal,
+    // dipakai di ringkasan filter ("Filter: ...") supaya tidak menampilkan
+    // nilai mentah seperti "Upcoming" / "Completed".
+    var statusLabels = {
+        "Upcoming": "Yang Akan Datang",
+        "Completed": "Selesai"
+    };
+
     function scrollToEvents() {
         eventSection.scrollIntoView({
             behavior: "smooth",
@@ -364,10 +372,10 @@ document.addEventListener("DOMContentLoaded", function() {
         var filters = [];
         if (query) filters.push('"' + searchInput.value.trim() + '"');
         if (category !== "all") filters.push(category);
-        if (status !== "all") filters.push(status);
+        if (status !== "all") filters.push(statusLabels[status] || status);
 
-        resultCount.textContent = "Menampilkan " + visible + " event";
-        filterSummary.textContent = filters.length ? "Filter: " + filters.join(" · ") : "Semua event aktif";
+        resultCount.textContent = "Menampilkan " + visible + " acara";
+        filterSummary.textContent = filters.length ? filters.join(" · ") : "Semua event aktif";
         emptyState.classList.toggle("is-visible", visible === 0);
     }
 
