@@ -13,9 +13,20 @@ class AlumniBoardController extends Controller
     public function index()
     {
         $boards = $this->boardQuery()->get();
+        $today = now()->toDateString();
+        $activePeriod = DB::table('committee_periods')
+            ->whereDate('start_date', '<=', $today)
+            ->where(function ($query) use ($today) {
+                $query->whereNull('finish_date')
+                    ->orWhereDate('finish_date', '>=', $today);
+            })
+            ->orderByDesc('start_date')
+            ->orderByDesc('id')
+            ->first();
+
         $this->shareSidebarCounts();
 
-        return view('admin.alumni-boards.index', compact('boards'));
+        return view('admin.alumni-boards.index', compact('boards', 'activePeriod'));
     }
 
     public function create()
@@ -44,7 +55,7 @@ class AlumniBoardController extends Controller
 
     public function edit($id)
     {
-        $board = DB::table('alumni_committees')->where('id', $id)->firstOrFail();
+        $board = $this->boardQuery()->where('alumni_committees.id', $id)->firstOrFail();
         $this->shareSidebarCounts();
         $alumni = $this->alumniOptions();
         $periods = DB::table('committee_periods')->orderByDesc('id')->get();
@@ -72,7 +83,7 @@ class AlumniBoardController extends Controller
             ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
             ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
             ->join('committee_periods', 'alumni_committees.committee_period_id', '=', 'committee_periods.id')
-            ->select('alumni_committees.*', 'users.name as alumni_name', 'alumni_profiles.avatar', 'alumni_profiles.study_status', 'alumni_profiles.graduation_year', 'alumni_profiles.profession', 'committee_periods.period_name', 'committee_periods.start_date', 'committee_periods.finish_date')
+            ->select('alumni_committees.*', 'users.name as alumni_name', 'alumni_profiles.avatar', 'alumni_profiles.major', 'alumni_profiles.company', 'alumni_profiles.city', 'alumni_profiles.phone_number', 'alumni_profiles.bio', 'alumni_profiles.study_status', 'alumni_profiles.graduation_year', 'alumni_profiles.profession', 'committee_periods.period_name', 'committee_periods.start_date', 'committee_periods.finish_date')
             ->orderByDesc('alumni_committees.id');
     }
 

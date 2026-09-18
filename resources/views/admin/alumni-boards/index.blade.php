@@ -31,6 +31,38 @@
         color: var(--text-muted, #64748b);
         margin: 0;
     }
+    .active-period-banner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 12px 14px;
+        border: 1px solid #bfdbfe;
+        border-radius: 10px;
+        background: #eff6ff;
+        color: #1e3a8a;
+        font-family: inherit;
+    }
+    .active-period-icon {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 32px;
+        border-radius: 8px;
+        background: #dbeafe;
+        color: #2563eb;
+    }
+    .active-period-label {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+    .active-period-name { display: block; font-size: 14px; font-weight: 800; }
+    .active-period-dates { display: block; margin-top: 3px; color: #475569; font-size: 11px; }
     .btn-add { 
         background: var(--color-primary, #0a4174); 
         color: #fff; 
@@ -68,6 +100,18 @@
         border-color: var(--color-primary, #0a4174); 
         color: var(--color-primary, #0a4174); 
     }
+    .status-filter-wrap { position: relative; display: inline-flex; margin-left: 6px; }
+    .status-filter-button { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 26px; height: 24px; padding: 0 6px; border: 1.5px solid var(--border-color, #d0e1f0); border-radius: 6px; background: #fff; color: var(--color-primary, #0a4174); cursor: pointer; }
+    .status-filter-button:hover, .status-filter-button.is-active { background: var(--color-primary, #0a4174); color: #fff; border-color: var(--color-primary, #0a4174); }
+    .status-filter-menu { position: fixed; z-index: 99999; display: none; width: 230px; padding: 10px 8px; border: 1px solid rgba(15, 23, 42, .12); border-radius: 12px; background: #fff; box-shadow: 0 14px 34px rgba(10, 65, 116, .18); text-align: left; }
+    .status-filter-menu.show { display: block; }
+    .status-filter-section { padding: 2px 4px; }
+    .status-filter-title { display: flex; align-items: center; gap: 6px; padding: 4px 6px 6px; color: var(--color-primary, #0a4174); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .status-filter-option { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px; border: 0; border-radius: 7px; background: transparent; color: var(--text-main, #0a4174); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left; }
+    .status-filter-option:hover { background: rgba(10, 65, 116, .08); }
+    .status-filter-divider { height: 1px; margin: 8px 4px; background: var(--border-color, #d0e1f0); }
+    .status-filter-check { accent-color: var(--color-primary, #0a4174); width: 15px; height: 15px; }
+    .status-filter-reset { margin-left: auto; border: 0; background: transparent; color: var(--text-muted, #527597); cursor: pointer; font: inherit; font-size: 11px; font-weight: 600; }
     
     /* Table Base */
     .data-table { 
@@ -566,6 +610,23 @@
         </div>
     </div>
 
+    <div class="active-period-banner" aria-label="Periode kepengurusan yang sedang aktif">
+        <span class="active-period-icon"><i class="fa-solid fa-calendar-check"></i></span>
+        <div>
+            <span class="active-period-label">Periode yang sedang aktif</span>
+            @if ($activePeriod)
+                <span class="active-period-name">{{ $activePeriod->period_name }}</span>
+                <span class="active-period-dates">
+                    {{ \Carbon\Carbon::parse($activePeriod->start_date)->locale('id')->translatedFormat('d F Y') }}
+                    s/d
+                    {{ $activePeriod->finish_date ? \Carbon\Carbon::parse($activePeriod->finish_date)->locale('id')->translatedFormat('d F Y') : 'sekarang' }}
+                </span>
+            @else
+                <span class="active-period-name">Belum ada periode aktif</span>
+            @endif
+        </div>
+    </div>
+
     <table id="alumniBoardsDataTable" class="data-table display nowrap" style="width:100%">
         <thead>
             <tr>
@@ -591,7 +652,29 @@
                 <th>
                     <div class="dt-th-box">
                         <span class="dt-th-title">Status</span>
-                        <span class="dt-sort-arrow"></span>
+                        <span class="status-filter-wrap">
+                            <button type="button" class="status-filter-button" id="status-filter-button" title="Urutkan dan filter status" aria-label="Urutkan dan filter status">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+                            <div class="status-filter-menu" id="status-filter-menu">
+                                <div class="status-filter-section">
+                                    <div class="status-filter-title"><i class="fa-solid fa-arrow-down-up-across-line"></i> Urutan Kolom</div>
+                                    <button type="button" class="status-filter-option" data-order="asc"><span>↑</span> Ascending (A-Z / Terkecil)</button>
+                                    <button type="button" class="status-filter-option" data-order="desc"><span>↓</span> Descending (Z-A / Terbesar)</button>
+                                </div>
+                                <div class="status-filter-divider"></div>
+                                <div class="status-filter-section">
+                                    <div class="status-filter-title"><i class="fa-solid fa-filter"></i> Filter Status <button type="button" class="status-filter-reset">Reset</button></div>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check status-select-all" checked> Pilih Semua</label>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check status-value" value="Aktif" checked> Aktif</label>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check status-value" value="Tidak Aktif" checked> Tidak Aktif</label>
+                                </div>
+                            </div>
+                        </span>
                     </div>
                 </th>
                 <th style="text-align: center; width: 220px;">AKSI</th>
@@ -622,7 +705,7 @@
                     <td>
                         @php $st = $board->study_status ?? 'Aktif'; @endphp
                         <span style="background-color: {{ $st === 'Aktif' ? '#d1fae5' : '#fee2e2' }}; color: {{ $st === 'Aktif' ? '#065f46' : '#991b1b' }}; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid {{ $st === 'Aktif' ? '#a7f3d0' : '#fecaca' }};">
-                            {{ $st }}
+                            {{ $st === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
                         </span>
                     </td>
                     <td style="text-align: center;">
@@ -718,6 +801,50 @@
                     }
                 },
                 order: []
+            });
+
+            const statusColumn = dt.column(4);
+            const statusButton = $('#status-filter-button');
+            const statusMenu = $('#status-filter-menu');
+
+            statusButton.on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $('.status-filter-menu').not(statusMenu).removeClass('show');
+                const rect = statusButton[0].getBoundingClientRect();
+                statusMenu.css({ top: rect.bottom + 6, left: Math.max(12, rect.left - 190) }).toggleClass('show');
+            });
+
+            statusMenu.on('click', function (event) { event.stopPropagation(); });
+            $(document).on('click', function () { statusMenu.removeClass('show'); });
+
+            statusMenu.on('click', '[data-order]', function () {
+                statusColumn.order($(this).data('order')).draw();
+                statusMenu.removeClass('show');
+            });
+
+            const applyStatusFilter = function () {
+                const selected = statusMenu.find('.status-value:checked').map(function () { return $.fn.dataTable.util.escapeRegex(this.value); }).get();
+                const regex = selected.length
+                    ? '(' + selected.map(function (value) { return '(?:>\\s*' + value + '\\s*<|^\\s*' + value + '\\s*$)'; }).join('|') + ')'
+                    : '^$|__NOMATCH__';
+                statusColumn.search(regex, true, false).draw();
+                statusButton.toggleClass('is-active', selected.length !== 2);
+            };
+
+            statusMenu.on('change', '.status-select-all', function () {
+                statusMenu.find('.status-value').prop('checked', this.checked);
+                applyStatusFilter();
+            });
+            statusMenu.on('change', '.status-value', function () {
+                const values = statusMenu.find('.status-value');
+                const checked = statusMenu.find('.status-value:checked');
+                statusMenu.find('.status-select-all').prop('checked', checked.length === values.length);
+                applyStatusFilter();
+            });
+            statusMenu.on('click', '.status-filter-reset', function () {
+                statusMenu.find('.status-select-all, .status-value').prop('checked', true);
+                applyStatusFilter();
             });
         }
 

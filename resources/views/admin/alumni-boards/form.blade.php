@@ -171,6 +171,32 @@
                     @endforeach
                 </select>
             </div>
+
+            @if(isset($board))
+                <div class="form-header" style="margin-top: 26px; margin-bottom: 18px; padding-bottom: 10px;">
+                    <h3 style="font-size: 15px; font-weight: 800; color: #0a4174; margin: 0 0 4px;">Informasi Lengkap Alumni</h3>
+                    <p style="font-size: 12px; color: #527597; margin: 0;">Data profil ditampilkan sebagai referensi. Perubahannya dilakukan dari halaman Data Alumni.</p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
+                    @foreach([
+                        'Jurusan' => $board->major ?? '-',
+                        'Perusahaan / Instansi' => $board->company ?? '-',
+                        'Kota Domisili' => $board->city ?? '-',
+                        'Nomor WhatsApp' => $board->phone_number ?? '-',
+                        'Tahun Kelulusan' => $board->graduation_year ?? '-',
+                        'Profesi Saat Ini' => $board->profession ?? '-',
+                    ] as $label => $value)
+                        <div style="padding: 12px; border: 1px solid #d0e1f0; border-radius: 8px; background: #f4f8fb;">
+                            <span style="display: block; margin-bottom: 4px; color: #527597; font-size: 10px; font-weight: 700; text-transform: uppercase;">{{ $label }}</span>
+                            <strong style="color: #0a4174; font-size: 13px;">{{ $value }}</strong>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="form-group" style="margin-top: 14px;">
+                    <label class="form-label">Biografi</label>
+                    <div style="padding: 12px 14px; border: 1px solid #d0e1f0; border-radius: 8px; background: #f4f8fb; color: #0a4174; font-size: 13px; line-height: 1.6; white-space: pre-line;">{{ $board->bio ?? '-' }}</div>
+                </div>
+            @endif
         </div>
 
         <!-- KOLOM KANAN: INFORMASI PENDUKUNG & SUBMIT -->

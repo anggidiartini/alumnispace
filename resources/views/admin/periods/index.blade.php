@@ -23,8 +23,27 @@
     .period-detail { background: #ecfdf5; color: #047857; }
     .period-edit { background: #eff6ff; color: #1d4ed8; }
     .period-delete { background: #fef2f2; color: #b91c1c; }
+    .period-status { display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .period-status-active { background: #d1fae5; border: 1px solid #a7f3d0; color: #047857; }
+    .period-status-inactive { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; }
+    .status-filter-wrap { position: relative; display: inline-flex; margin-left: 6px; }
+    .status-filter-button { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 24px; padding: 0 6px; border: 1.5px solid var(--border-color); border-radius: 6px; background: #fff; color: var(--color-primary); cursor: pointer; }
+    .status-filter-button:hover, .status-filter-button.is-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+    .status-filter-menu { position: fixed; z-index: 99999; display: none; width: 230px; padding: 10px 8px; border: 1px solid rgba(15, 23, 42, .12); border-radius: 12px; background: #fff; box-shadow: 0 14px 34px rgba(10, 65, 116, .18); text-align: left; }
+    .status-filter-menu.show { display: block; }
+    .status-filter-section { padding: 2px 4px; }
+    .status-filter-title { display: flex; align-items: center; gap: 6px; padding: 4px 6px 6px; color: var(--color-primary); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .status-filter-title button { margin-left: auto; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; font: inherit; font-size: 11px; }
+    .status-filter-option { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px; border: 0; border-radius: 7px; background: transparent; color: var(--text-main); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; text-align: left; }
+    .status-filter-option:hover { background: rgba(10, 65, 116, .08); }
+    .status-filter-check { accent-color: var(--color-primary); width: 15px; height: 15px; }
+    .status-filter-divider { height: 1px; margin: 8px 4px; background: var(--border-color); }
     .period-empty { padding: 38px 15px !important; color: var(--text-muted) !important; text-align: center !important; }
 </style>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
 <div class="period-card">
     @if (session('success'))
@@ -37,7 +56,7 @@
             <p>Tambahkan dan lihat periode yang bisa dipilih saat mengisi data Pengurus Alumni.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <a href="{{ route('admin.table.index', 'alumni_boards') }}" class="period-button-secondary">
+            <a href="{{ route('admin.alumni-boards.index', 'alumni_boards') }}" class="period-button-secondary">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Pengurus Alumni
             </a>
             <a href="{{ route('admin.committee-periods.create') }}" class="period-button-primary">
@@ -47,13 +66,37 @@
     </div>
 
     <div class="period-table-wrap">
-        <table class="period-table">
+        <table id="periodsDataTable" class="period-table display">
             <thead>
                 <tr>
                     <th style="width: 70px;">No</th>
                     <th>Nama Periode</th>
                     <th>Tanggal Mulai</th>
                     <th>Tanggal Selesai</th>
+                    <th>
+                        Status
+                        <span class="status-filter-wrap">
+                            <button type="button" class="status-filter-button" id="period-status-filter-button" title="Urutkan dan filter status" aria-label="Urutkan dan filter status">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true">
+                                    <line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                            </button>
+                            <div class="status-filter-menu" id="period-status-filter-menu">
+                                <div class="status-filter-section">
+                                    <div class="status-filter-title"><i class="fa-solid fa-arrow-down-up-across-line"></i> Urutan Kolom</div>
+                                    <button type="button" class="status-filter-option" data-period-order="asc">↑ &nbsp; Ascending (A-Z / Terkecil)</button>
+                                    <button type="button" class="status-filter-option" data-period-order="desc">↓ &nbsp; Descending (Z-A / Terbesar)</button>
+                                </div>
+                                <div class="status-filter-divider"></div>
+                                <div class="status-filter-section">
+                                    <div class="status-filter-title"><i class="fa-solid fa-filter"></i> Filter Status <button type="button" class="period-status-reset">Reset</button></div>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check period-status-all" checked> Pilih Semua</label>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check period-status-value" value="Aktif" checked> Aktif</label>
+                                    <label class="status-filter-option"><input type="checkbox" class="status-filter-check period-status-value" value="Tidak Aktif" checked> Tidak Aktif</label>
+                                </div>
+                            </div>
+                        </span>
+                    </th>
                     <th style="width: 250px;">Aksi</th>
                 </tr>
             </thead>
@@ -64,6 +107,12 @@
                         <td><strong>{{ $period->period_name }}</strong></td>
                         <td>{{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}</td>
                         <td>{{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}</td>
+                        <td>
+                            <span class="period-status {{ $period->is_active ? 'period-status-active' : 'period-status-inactive' }}">
+                                <i class="fa-solid {{ $period->is_active ? 'fa-circle-check' : 'fa-circle-minus' }}"></i>
+                                {{ $period->is_active ? 'Aktif' : 'Tidak Aktif' }}
+                            </span>
+                        </td>
                         <td>
                             <div class="period-actions">
                                 <a href="{{ route('admin.committee-periods.show', $period->id) }}" class="period-button period-detail" title="Lihat detail periode">
@@ -81,10 +130,76 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="period-empty">Belum ada periode kepengurusan.</td></tr>
+                    <tr><td colspan="6" class="period-empty">Belum ada periode kepengurusan.</td></tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    $(function () {
+        const tableElement = $('#periodsDataTable');
+        if (!tableElement.length || !tableElement.find('tbody tr').length) return;
+
+        const table = tableElement.DataTable({
+            dom: '<"dt-controls-bar"lf><"table-responsive"t><"dt-bottom-bar"ip>',
+            pageLength: 10,
+            ordering: true,
+            language: {
+                search: '',
+                searchPlaceholder: 'Cari periode...',
+                lengthMenu: 'Tampilkan _MENU_ data',
+                zeroRecords: 'Data tidak ditemukan',
+                info: 'Menampilkan _TOTAL_ data',
+                paginate: { previous: 'Sebelumnya', next: 'Berikutnya' }
+            },
+            columnDefs: [{ targets: [0, -1], orderable: false, searchable: false }]
+        });
+
+        const statusColumn = table.column(4);
+        const button = $('#period-status-filter-button');
+        const menu = $('#period-status-filter-menu');
+
+        button.on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const rect = button[0].getBoundingClientRect();
+            menu.css({ top: rect.bottom + 6, left: Math.max(12, rect.left - 190) }).toggleClass('show');
+        });
+        menu.on('click', function (event) { event.stopPropagation(); });
+        $(document).on('click', function () { menu.removeClass('show'); });
+
+        menu.on('click', '[data-period-order]', function () {
+            statusColumn.order($(this).data('period-order')).draw();
+            menu.removeClass('show');
+        });
+
+        const applyStatusFilter = function () {
+            const selected = menu.find('.period-status-value:checked').map(function () {
+                return $.fn.dataTable.util.escapeRegex(this.value);
+            }).get();
+            const regex = selected.length
+                ? '(' + selected.map(function (value) { return '(?:>\\s*' + value + '\\s*<|^\\s*' + value + '\\s*$)'; }).join('|') + ')'
+                : '^$|__NOMATCH__';
+            statusColumn.search(regex, true, false).draw();
+            button.toggleClass('is-active', selected.length !== 2);
+        };
+
+        menu.on('change', '.period-status-all', function () {
+            menu.find('.period-status-value').prop('checked', this.checked);
+            applyStatusFilter();
+        });
+        menu.on('change', '.period-status-value', function () {
+            const values = menu.find('.period-status-value');
+            const checked = menu.find('.period-status-value:checked');
+            menu.find('.period-status-all').prop('checked', checked.length === values.length);
+            applyStatusFilter();
+        });
+        menu.on('click', '.period-status-reset', function () {
+            menu.find('.period-status-all, .period-status-value').prop('checked', true);
+            applyStatusFilter();
+        });
+    });
+</script>
 @endsection

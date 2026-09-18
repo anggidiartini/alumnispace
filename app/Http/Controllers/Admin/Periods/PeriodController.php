@@ -27,13 +27,24 @@ class PeriodController extends Controller
 
     public function index()
     {
+        $today = now()->toDateString();
+        $activePeriod = DB::table('committee_periods')
+            ->whereDate('start_date', '<=', $today)
+            ->orderByDesc('start_date')
+            ->orderByDesc('id')
+            ->first();
+
         $periods = DB::table('committee_periods')
             ->orderByDesc('id')
-            ->get();
+            ->get()
+            ->map(function ($period) use ($activePeriod) {
+                $period->is_active = $activePeriod && (int) $period->id === (int) $activePeriod->id;
+                return $period;
+            });
 
         $this->shareSidebarCounts();
 
-        return view('admin.periods.index', compact('periods'));
+        return view('admin.periods.index', compact('periods', 'activePeriod'));
     }
 
     public function create()

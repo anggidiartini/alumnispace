@@ -38,12 +38,15 @@
         flex-wrap: wrap;
     }
     .info-group {
-        margin-bottom: 18px;
-        padding-bottom: 14px;
-        border-bottom: 1px solid #f4f8fb;
+        min-height: 82px;
+        margin-bottom: 14px;
+        padding: 16px;
+        border: 1px solid #d0e1f0;
+        border-radius: 10px;
+        background: #f8fbfe;
     }
     .info-group:last-of-type {
-        border-bottom: none;
+        margin-bottom: 0;
     }
     .info-label { 
         font-weight: 700; 
@@ -60,6 +63,10 @@
         font-size: 14px;
         line-height: 1.6; 
     }
+    .profile-info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .profile-info-box { min-height: 68px; padding: 12px; border: 1px solid #d0e1f0; border-radius: 8px; background: #fff; }
+    .profile-info-box .info-label { margin-bottom: 5px; }
+    @media (max-width: 600px) { .profile-info-grid { grid-template-columns: 1fr; } }
     .btn-back { 
         display: inline-flex; 
         align-items: center; 
@@ -146,6 +153,21 @@
                     {{ $board->finish_date ? \Carbon\Carbon::parse($board->finish_date)->locale('id')->translatedFormat('d M Y') : 'Sekarang' }}
                 </div>
             </div>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">Informasi Kontak dan Profil Alumni</span>
+            <div class="profile-info-grid">
+                <div class="profile-info-box"><span class="info-label">Jurusan</span><div class="info-value">{{ $board->major ?? '-' }}</div></div>
+                <div class="profile-info-box"><span class="info-label">Perusahaan / Instansi</span><div class="info-value">{{ $board->company ?? '-' }}</div></div>
+                <div class="profile-info-box"><span class="info-label">Kota Domisili</span><div class="info-value">{{ $board->city ?? '-' }}</div></div>
+                <div class="profile-info-box"><span class="info-label">Nomor WhatsApp</span><div class="info-value">{{ $board->phone_number ?? '-' }}</div></div>
+            </div>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">Biografi</span>
+            <div class="info-value" style="white-space: pre-line;">{{ $board->bio ?? '-' }}</div>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 18px;">
