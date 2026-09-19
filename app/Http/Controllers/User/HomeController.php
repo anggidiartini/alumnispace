@@ -22,7 +22,7 @@ class HomeController extends Controller
         })->first()?->user;
 
         $jobs = JobVacancy::where('is_active', true)->latest()->take(10)->get();
-        $alumni = AlumniProfile::with('user')->latest()->take(8)->get();
+        $alumni = AlumniProfile::with('user')->where('study_status', 'Aktif')->latest()->take(8)->get();
         $events = Event::latest('event_date')->take(3)->get();
         $albums = Album::latest()->take(4)->get();
         $testimonials = Testimonial::where('is_featured', true)->latest()->take(3)->get();

@@ -1320,10 +1320,11 @@
                     this.style.color = '#b91c1c';
                 }
 
-                fetch(`{{ route('admin.update-status') }}`, {
+                fetch(`{{ route('admin.update-status', [], false) }}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ id: id, table: table, column: column, value: newValue })

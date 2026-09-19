@@ -851,7 +851,7 @@
                 this.style.background = newColors.bg;
                 this.style.color = newColors.color;
 
-                fetch(`{{ route('admin.update-status') }}`, {
+                fetch(`{{ route('admin.update-status', [], false) }}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

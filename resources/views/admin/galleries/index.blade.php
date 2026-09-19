@@ -1358,7 +1358,7 @@
                     this.style.color = '#b91c1c';
                 }
 
-                fetch(`{{ route('admin.update-status') }}`, {
+                fetch(`{{ route('admin.update-status', [], false) }}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

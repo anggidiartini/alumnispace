@@ -10,7 +10,7 @@ class AlumniDirectoryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = AlumniProfile::with('user');
+        $query = AlumniProfile::with('user')->where('study_status', 'Aktif');
 
         if ($request->filled('generation')) {
             $query->where('graduation_year', $request->generation);
