@@ -21,15 +21,15 @@ class JobVacancyController extends Controller
         return [
             'title' => 'Lowongan Kerja',
             'table' => 'job_vacancies',
-            // Tambahkan kolom detail baru di dalam array list_columns ini:
+
             'list_columns' => [
                 'company_logo', 
                 'company_name', 
                 'title', 
                 'job_type', 
-                'workplace_type', // Kolom baru: Sistem Kerja
-                'location',       // Kolom baru: Lokasi Penempatan
-                'salary_display', // Kolom baru: Informasi Gaji
+                'workplace_type', 
+                'location',       
+                'salary_display', 
                 'is_active'
             ],
             'fields' => [
