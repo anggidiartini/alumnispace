@@ -101,7 +101,48 @@
             </section>
 
             <!-- KATALOG ACARA — semua konten kini menggunakan data-reveal dengan animasi "tuing" -->
-            <section id="event" class="page-width catalog" aria-labelledby="catalog-title">
+            <section id="event" class="catalog" aria-labelledby="catalog-title">
+                <!-- Ornamen kiri (6) -->
+                <div class="deco-asset catalog-deco cd-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+                <div class="deco-asset catalog-deco cd-l2 reveal-onscroll" style="animation-delay:.08s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset catalog-deco cd-l3 reveal-onscroll" style="animation-delay:.16s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+                </div>
+                <div class="deco-asset catalog-deco cd-l4 reveal-onscroll" style="animation-delay:.24s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+                </div>
+                <div class="deco-asset catalog-deco cd-l5 reveal-onscroll" style="animation-delay:.32s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                </div>
+                <div class="deco-asset catalog-deco cd-l6 reveal-onscroll" style="animation-delay:.4s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+                </div>
+
+                <!-- Ornamen kanan (6) -->
+                <div class="deco-asset catalog-deco cd-r1 reveal-onscroll" style="animation-delay:.05s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                </div>
+                <div class="deco-asset catalog-deco cd-r2 reveal-onscroll" style="animation-delay:.13s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                </div>
+                <div class="deco-asset catalog-deco cd-r3 reveal-onscroll" style="animation-delay:.21s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+                </div>
+                <div class="deco-asset catalog-deco cd-r4 reveal-onscroll" style="animation-delay:.29s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                </div>
+                <div class="deco-asset catalog-deco cd-r5 reveal-onscroll" style="animation-delay:.37s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+                </div>
+                <div class="deco-asset catalog-deco cd-r6 reveal-onscroll" style="animation-delay:.45s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                </div>
+
+                <div class="page-width">
                 <div class="section-heading data-reveal">
                     <div>
                         <p class="section-kicker">Katalog acarat</p>
@@ -205,6 +246,7 @@
                         </section>
                     </div>
                 </div>
+                </div>
             </section>
 
             <!-- BOTTOM CTA -->
@@ -259,6 +301,14 @@
     <script src="{{ asset('js/script.js') }}"></script>
 <script>
 (function () {
+    // GUARD: kalau script ini kebetulan ke-load/ke-run dua kali (mis. ada
+    // <script> lain yang juga inisialisasi reveal-observer untuk .data-reveal,
+    // atau halaman di-refresh sebagian lewat navigasi tanpa full reload),
+    // observer kedua jangan dibuat lagi — supaya animasi "tuing" di
+    // card/section nggak restart dobel.
+    if (window.__acRevealInit) return;
+    window.__acRevealInit = true;
+
     var prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -276,7 +326,7 @@
     var observer = new IntersectionObserver(
         function (entries, obs) {
             entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && !entry.target.classList.contains("is-visible")) {
                     entry.target.classList.add("is-visible");
                     obs.unobserve(entry.target);
 
