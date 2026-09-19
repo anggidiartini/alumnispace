@@ -582,15 +582,10 @@
                     <td style="font-weight: 500; text-align: left; padding-left: 20px;">{{ $article->title }}</td>
                     <td>{{ $article->category }}</td>
                     <td>
-                        @if($article->is_published)
-                            <span style="background-color: #d1fae5; color: #065f46; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #a7f3d0;">
-                                Diterbitkan
-                            </span>
-                        @else
-                            <span style="background-color: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #e2e8f0;">
-                                Draf
-                            </span>
-                        @endif
+                        <select class="status-dropdown" data-id="{{ $article->id }}" data-table="articles" data-column="is_published" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $article->is_published ? '#ecfdf5' : '#fef2f2' }}; color: {{ $article->is_published ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                            <option value="1" {{ $article->is_published ? 'selected' : '' }}>● Diterbitkan</option>
+                            <option value="0" {{ !$article->is_published ? 'selected' : '' }}>● Draf</option>
+                        </select>
                     </td>
                     <td>
                         {{ $article->published_at ? \Carbon\Carbon::parse($article->published_at)->locale('id')->translatedFormat('d F Y') : ($article->created_at ? $article->created_at->locale('id')->translatedFormat('d F Y') : '-') }}
@@ -756,6 +751,60 @@
                 }, 280);
             });
         }
+
+        // Generic Status Dropdown Handler
+        document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', function(e) {
+                if (e.detail === 'revert') {
+                    if (this.value == '1' || this.value === 'Aktif') {
+                        this.style.background = '#ecfdf5';
+                        this.style.color = '#047857';
+                    } else {
+                        this.style.background = '#fef2f2';
+                        this.style.color = '#b91c1c';
+                    }
+                    return;
+                }
+
+                const id = this.getAttribute('data-id');
+                const table = this.getAttribute('data-table');
+                const column = this.getAttribute('data-column');
+                const newValue = this.value;
+                const isNumericToggle = (newValue == '1' || newValue == '0');
+                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Tidak Aktif' : 'Aktif');
+                
+                if (newValue == '1' || newValue === 'Aktif') {
+                    this.style.background = '#ecfdf5';
+                    this.style.color = '#047857';
+                } else {
+                    this.style.background = '#fef2f2';
+                    this.style.color = '#b91c1c';
+                }
+
+                fetch(`{{ route('admin.update-status') }}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message || 'Gagal mengubah status.');
+                        this.value = originalValue;
+                        this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan.');
+                    this.value = originalValue;
+                    this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                });
+            });
+        });
     });
 </script>
 @endsection

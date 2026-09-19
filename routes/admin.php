@@ -105,6 +105,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::put('/content/{id}', [ContentManagementController::class, 'update'])->name('content.update');
     Route::delete('/content/{id}', [ContentManagementController::class, 'destroy'])->name('content.destroy');
     Route::put('/settings', [ContentManagementController::class, 'updateSettings'])->name('settings.update');
+    Route::patch('/update-status', [ContentManagementController::class, 'updateStatus'])->name('update-status');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

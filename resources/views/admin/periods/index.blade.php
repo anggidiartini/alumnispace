@@ -107,18 +107,21 @@
                         <td><strong>{{ $period->period_name }}</strong></td>
                         <td>{{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}</td>
                         <td>{{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}</td>
-                       <td>
     <select class="status-dropdown" 
             data-id="{{ $period->id }}" 
+            data-table="committee_periods"
+            data-column="is_active"
             style="padding: 6px 10px; 
                    border-radius: 6px; 
                    border: 1px solid #d0e1f0; 
+                   background: {{ $period->is_active == 1 ? '#ecfdf5' : '#fef2f2' }}; 
+                   color: {{ $period->is_active == 1 ? '#047857' : '#b91c1c' }}; 
                    font-weight: 600; 
                    outline: none; 
                    cursor: pointer;">
         
-        <option value="1" {{ $period->is_active == 1 ? 'selected' : '' }}>Aktif</option>
-        <option value="0" {{ $period->is_active == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+        <option value="1" {{ $period->is_active == 1 ? 'selected' : '' }}>● Aktif</option>
+        <option value="0" {{ $period->is_active == 0 ? 'selected' : '' }}>● Tidak Aktif</option>
     </select>
 </td>
 
@@ -209,36 +212,59 @@
             menu.find('.period-status-all, .period-status-value').prop('checked', true);
             applyStatusFilter();
         });
-        $(function () {
-    // 1. Fungsi untuk mengubah warna dropdown berdasarkan value (1 atau 0)
-    function updateDropdownColor(element) {
-        const value = $(element).val();
-        if (value == "1") {
-            $(element).css({
-                'background-color': '#ecfdf5',
-                'color': '#047857'
+        // Generic Status Dropdown Handler
+        document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', function(e) {
+                if (e.detail === 'revert') {
+                    if (this.value == '1' || this.value === 'Aktif') {
+                        this.style.background = '#ecfdf5';
+                        this.style.color = '#047857';
+                    } else {
+                        this.style.background = '#fef2f2';
+                        this.style.color = '#b91c1c';
+                    }
+                    return;
+                }
+
+                const id = this.getAttribute('data-id');
+                const table = this.getAttribute('data-table');
+                const column = this.getAttribute('data-column');
+                const newValue = this.value;
+                const isNumericToggle = (newValue == '1' || newValue == '0');
+                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Tidak Aktif' : 'Aktif');
+                
+                if (newValue == '1' || newValue === 'Aktif') {
+                    this.style.background = '#ecfdf5';
+                    this.style.color = '#047857';
+                } else {
+                    this.style.background = '#fef2f2';
+                    this.style.color = '#b91c1c';
+                }
+
+                fetch(`{{ route('admin.update-status') }}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message || 'Gagal mengubah status.');
+                        this.value = originalValue;
+                        this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan.');
+                    this.value = originalValue;
+                    this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                });
             });
-        } else {
-            $(element).css({
-                'background-color': '#fef2f2',
-                'color': '#b91c1c'
-            });
-        }
-    }
-
-    // 2. Jalankan perubahan warna saat user mengganti pilihan dropdown
-    $(document).on('change', '.status-dropdown', function () {
-        updateDropdownColor(this);
-        
-        // Ambil data ID dan Status Baru untuk dikirim ke Database
-        const periodId = $(this).data('id');
-        const newStatus = $(this).val();
-
-        // DI SINI: Anda bisa memasukkan fungsi $.ajax jika ingin langsung menyimpannya ke database
-        console.log('ID Periode:', periodId, 'diubah menjadi:', newStatus);
-    });
-});
-
+        });
     });
 </script>
 @endsection

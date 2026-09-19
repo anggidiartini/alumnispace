@@ -198,4 +198,30 @@ class ContentManagementController extends Controller
 
         return back()->with('status', "Seksi '{$key}' berhasil dihapus.");
     }
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'table' => 'required|string',
+            'id' => 'required|integer',
+            'column' => 'required|string',
+            'value' => 'required'
+        ]);
+
+        $allowedTables = ['alumni_profiles', 'job_vacancies', 'alumni_committees', 'committee_periods', 'page_contents', 'galleries', 'events', 'articles', 'albums', 'site_settings'];
+        
+        if (!in_array($request->table, $allowedTables)) {
+            return response()->json(['success' => false, 'message' => 'Tabel tidak diizinkan.']);
+        }
+
+        $updated = DB::table($request->table)->where('id', $request->id)->update([
+            $request->column => $request->value
+        ]);
+
+        if ($updated) {
+            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Data tidak ditemukan atau tidak ada perubahan.']);
+    }
 }

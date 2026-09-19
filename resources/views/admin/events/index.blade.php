@@ -636,27 +636,29 @@
                         @endif
                     </td>
                     <td>
+                        @php
+                            $bg = '#eff6ff'; $color = '#1d4ed8'; // Default upcoming
+                            if(in_array($stVal, ['completed', 'ended', 'selesai'])) {
+                                $bg = '#f1f5f9'; $color = '#475569';
+                            } elseif(in_array($stVal, ['ongoing', 'berlangsung'])) {
+                                $bg = '#ecfdf5'; $color = '#065f46';
+                            } elseif(in_array($stVal, ['cancelled', 'dibatalkan'])) {
+                                $bg = '#fef2f2'; $color = '#991b1b';
+                            }
+                        @endphp
                         @if($isSoldOut)
-                            <span style="background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);">
-                                <i class="fa-solid fa-circle-exclamation" style="font-size: 10px; color: #ef4444;"></i> Penuh (Sold Out)
-                            </span>
-                        @elseif(in_array($stVal, ['completed', 'ended', 'selesai']))
-                            <span style="background-color: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #e2e8f0;">
-                                Selesai
-                            </span>
-                        @elseif(in_array($stVal, ['ongoing', 'berlangsung']))
-                            <span style="background-color: #ecfdf5; color: #065f46; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #a7f3d0;">
-                                Berlangsung
-                            </span>
-                        @elseif(in_array($stVal, ['cancelled', 'dibatalkan']))
-                            <span style="background-color: #fef2f2; color: #991b1b; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #fecaca;">
-                                Dibatalkan
-                            </span>
-                        @else
-                            <span style="background-color: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid #bfdbfe;">
-                                Segera Hadir
-                            </span>
+                            <div style="margin-bottom: 6px;">
+                                <span style="background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);">
+                                    <i class="fa-solid fa-circle-exclamation" style="font-size: 10px; color: #ef4444;"></i> Penuh (Sold Out)
+                                </span>
+                            </div>
                         @endif
+                        <select class="status-dropdown event-status" data-id="{{ $event->id }}" data-table="events" data-column="status" data-original="{{ $stVal }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $bg }}; color: {{ $color }}; font-weight: 600; outline: none; cursor: pointer;">
+                            <option value="upcoming" {{ in_array($stVal, ['upcoming', 'segera hadir']) ? 'selected' : '' }}>● Segera Hadir</option>
+                            <option value="ongoing" {{ in_array($stVal, ['ongoing', 'berlangsung']) ? 'selected' : '' }}>● Berlangsung</option>
+                            <option value="completed" {{ in_array($stVal, ['completed', 'ended', 'selesai']) ? 'selected' : '' }}>● Selesai</option>
+                            <option value="cancelled" {{ in_array($stVal, ['cancelled', 'dibatalkan']) ? 'selected' : '' }}>● Dibatalkan</option>
+                        </select>
                     </td>
                     <td style="text-align: center;">
                         <div class="action-badge">
@@ -819,6 +821,60 @@
                 }, 280);
             });
         }
+
+        // Event Status Dropdown Handler
+        document.querySelectorAll('.event-status').forEach(dropdown => {
+            dropdown.addEventListener('change', function(e) {
+                const colors = {
+                    'upcoming': { bg: '#eff6ff', color: '#1d4ed8' },
+                    'ongoing': { bg: '#ecfdf5', color: '#065f46' },
+                    'completed': { bg: '#f1f5f9', color: '#475569' },
+                    'cancelled': { bg: '#fef2f2', color: '#991b1b' }
+                };
+
+                if (e.detail === 'revert') {
+                    const original = this.getAttribute('data-original');
+                    const c = colors[original] || colors['upcoming'];
+                    this.style.background = c.bg;
+                    this.style.color = c.color;
+                    this.value = original;
+                    return;
+                }
+
+                const id = this.getAttribute('data-id');
+                const table = this.getAttribute('data-table');
+                const column = this.getAttribute('data-column');
+                const newValue = this.value;
+                const originalValue = this.getAttribute('data-original');
+                
+                const newColors = colors[newValue] || colors['upcoming'];
+                this.style.background = newColors.bg;
+                this.style.color = newColors.color;
+
+                fetch(`{{ route('admin.update-status') }}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message || 'Gagal mengubah status.');
+                        this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                    } else {
+                        this.setAttribute('data-original', newValue);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan.');
+                    this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                });
+            });
+        });
     });
 </script>
 @endsection
