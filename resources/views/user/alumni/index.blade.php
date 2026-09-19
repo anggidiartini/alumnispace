@@ -44,21 +44,17 @@
           <div class="hero-stats">
             <div class="stat-card" style="background: rgb(255, 255, 255);">
               <p class="stat-label">Alumni terdaftar</p>
-              <p class="stat-value">{{ $alumni->count() }}</p>
+              <p class="stat-value">{{ $totalActiveAlumni ?? $alumni->count() }}</p>
             </div>
             <div class="stat-card" style="background: rgb(255, 240, 168);">
               <p class="stat-label">Rentang angkatan</p>
               <p class="stat-value">
-                @if($alumni->count())
-                  {{ $alumni->min('graduation_year') }}–{{ $alumni->max('graduation_year') }}
-                @else
-                  -
-                @endif
+                {{ $yearRange ?? '-' }}
               </p>
             </div>
             <div class="stat-card" style="background: rgb(204, 239, 227);">
               <p class="stat-label">Kota terhubung</p>
-              <p class="stat-value">{{ $alumni->pluck('city')->filter()->unique()->count() }}</p>
+              <p class="stat-value">{{ $connectedCitiesCount ?? 0 }}</p>
             </div>
           </div>
         </div>
@@ -91,28 +87,28 @@
         <p id="result-count" aria-live="polite" class="result-count"></p>
       </div>
 
-      <form id="filter-form" class="filter-form reveal-onscroll" novalidate>
+      <form id="filter-form" action="{{ route('alumni.index') }}" method="GET" class="filter-form reveal-onscroll" novalidate>
         <div class="filter-grid">
           <div class="icon-field">
             <label class="filter-label" for="search-input" style="color: rgb(49, 87, 127);">Cari alumni</label>
             <i data-lucide="search"></i>
-            <input id="search-input" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi">
+            <input id="search-input" name="search" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi" value="{{ request('search') }}">
           </div>
           <div>
             <label class="filter-label" for="year-filter" style="color: rgb(49, 87, 127);">Angkatan</label>
-            <select id="year-filter" class="filter-control">
+            <select id="year-filter" name="generation" class="filter-control">
               <option value="">Semua angkatan</option>
-              @foreach($alumni->pluck('graduation_year')->filter()->unique()->sort() as $year)
-                <option value="{{ $year }}">{{ $year }}</option>
+              @foreach($generations as $year)
+                <option value="{{ $year }}" {{ request('generation') == $year ? 'selected' : '' }}>{{ $year }}</option>
               @endforeach
             </select>
           </div>
           <div>
             <label class="filter-label" for="city-filter" style="color: rgb(49, 87, 127);">Kota domisili</label>
-            <select id="city-filter" class="filter-control">
+            <select id="city-filter" name="city" class="filter-control">
               <option value="">Semua kota</option>
-              @foreach($alumni->pluck('city')->filter()->unique()->sort() as $city)
-                <option value="{{ $city }}">{{ $city }}</option>
+              @foreach($cities as $city)
+                <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
               @endforeach
             </select>
           </div>
@@ -221,33 +217,66 @@
   const resultCount = document.getElementById("result-count");
   const emptyState = document.getElementById("empty-state");
   const startState = document.getElementById("start-state");
-  const cards = Array.from(grid.querySelectorAll(".directory-card"));
-  const totalCount = cards.length;
+  let totalCount = {{ $totalActiveAlumni ?? $alumni->count() }};
   let toastTimer;
+  let searchDebounceTimer;
+  let activeAbortController = null;
 
   function hasActiveQuery() {
     return searchInput.value.trim() !== "" || yearFilter.value !== "" || cityFilter.value !== "";
   }
 
-  function getFilteredCards() {
-    const query = searchInput.value.trim().toLocaleLowerCase("id");
-    const year = yearFilter.value;
-    const city = cityFilter.value;
-
-    return cards.filter(card => {
-      const matchingText = !query || card.dataset.search.includes(query);
-      const matchingYear = !year || card.dataset.year === year;
-      const matchingCity = !city || card.dataset.city === city;
-      return matchingText && matchingYear && matchingCity;
-    });
+  function escapeHtml(text) {
+    if (!text) return "";
+    return text.toString()
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
-  function renderDirectory(animate = true) {
+  function buildCardHtml(item) {
+    const avatarHtml = item.avatar_url
+      ? `<img class="card-avatar" loading="lazy" src="${escapeHtml(item.avatar_url)}" alt="Foto profil ${escapeHtml(item.name)}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-avatar avatar-initial',textContent:'${escapeHtml(item.initials)}'}))">`
+      : `<div class="card-avatar avatar-initial" aria-label="Foto profil ${escapeHtml(item.name)}">${escapeHtml(item.initials)}</div>`;
+
+    const badgeHtml = item.graduation_year
+      ? `<span class="badge">Angkatan ${escapeHtml(item.graduation_year)}</span>`
+      : ``;
+
+    const cityHtml = item.city
+      ? `<p class="meta-row"><i data-lucide="map-pin" width="14"></i> ${escapeHtml(item.city)}</p>`
+      : ``;
+
+    const quoteHtml = item.bio
+      ? `<p class="card-quote">“${escapeHtml(item.bio)}”</p>`
+      : ``;
+
+    return `
+      <article class="directory-card reveal-onscroll"
+               data-name="${escapeHtml(item.name)}"
+               data-year="${escapeHtml(item.graduation_year || '')}"
+               data-city="${escapeHtml(item.city || '')}"
+               data-search="${escapeHtml(((item.name || '') + ' ' + (item.profession || '')).toLowerCase())}">
+        <div class="card-top-row">
+          ${avatarHtml}
+          ${badgeHtml}
+        </div>
+        <a class="card-name-link" href="${escapeHtml(item.profile_url)}">${escapeHtml(item.name)}</a>
+        <p class="card-role">${escapeHtml(item.profession || '-')}</p>
+        ${cityHtml}
+        ${quoteHtml}
+        <a class="profile-link" href="${escapeHtml(item.profile_url)}">
+          Lihat Profil <i data-lucide="arrow-right" width="15"></i>
+        </a>
+      </article>
+    `;
+  }
+
+  async function performRealtimeSearch(animate = true) {
     if (!hasActiveQuery()) {
-      cards.forEach(card => {
-        card.hidden = true;
-        card.style.display = "none";
-      });
+      grid.innerHTML = "";
       grid.classList.add("hidden");
       emptyState.classList.add("hidden");
       startState.classList.remove("hidden");
@@ -256,29 +285,61 @@
     }
 
     startState.classList.add("hidden");
-    grid.classList.remove("hidden");
 
-    const filtered = getFilteredCards();
-    const visibleSet = new Set(filtered);
+    if (activeAbortController) {
+      activeAbortController.abort();
+    }
+    activeAbortController = new AbortController();
 
-    cards.forEach(card => {
-      const isVisible = visibleSet.has(card);
-      card.hidden = !isVisible;
-      card.style.display = isVisible ? "" : "none";
-    });
+    const params = new URLSearchParams();
+    if (searchInput.value.trim()) params.append("search", searchInput.value.trim());
+    if (yearFilter.value) params.append("generation", yearFilter.value);
+    if (cityFilter.value) params.append("city", cityFilter.value);
 
-    filtered.forEach((card, index) => {
-      grid.appendChild(card);
-      if (animate) {
-        card.style.animation = "none";
-        requestAnimationFrame(() => {
-          card.style.animation = `cardIn .42s ${index * 35}ms both`;
-        });
+    const newRelativePathQuery = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+    window.history.replaceState(null, "", newRelativePathQuery);
+
+    try {
+      const response = await fetch(`{{ route('alumni.index') }}?${params.toString()}`, {
+        headers: {
+          "Accept": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        signal: activeAbortController.signal
+      });
+
+      if (!response.ok) throw new Error("Network response was not ok");
+      const result = await response.json();
+
+      if (result.total_active !== undefined) {
+        totalCount = result.total_active;
       }
-    });
 
-    resultCount.textContent = `${filtered.length} dari ${totalCount} alumni ditemukan`;
-    emptyState.classList.toggle("hidden", filtered.length !== 0);
+      const items = result.data || [];
+
+      if (items.length === 0) {
+        grid.innerHTML = "";
+        grid.classList.add("hidden");
+        emptyState.classList.remove("hidden");
+        resultCount.textContent = `0 dari ${totalCount} alumni ditemukan`;
+      } else {
+        emptyState.classList.add("hidden");
+        grid.classList.remove("hidden");
+        grid.innerHTML = items.map(buildCardHtml).join("");
+        resultCount.textContent = `${items.length} dari ${totalCount} alumni ditemukan`;
+
+        if (animate) {
+          const newCards = grid.querySelectorAll(".directory-card");
+          newCards.forEach((card, index) => {
+            card.style.animation = `cardIn .42s ${index * 35}ms both`;
+          });
+        }
+        lucide.createIcons();
+      }
+    } catch (err) {
+      if (err.name === "AbortError") return;
+      console.error("Gagal memuat data pencarian alumni:", err);
+    }
   }
 
   function showToast(message) {
@@ -291,33 +352,45 @@
 
   document.getElementById("filter-form").addEventListener("submit", event => {
     event.preventDefault();
-    renderDirectory();
+    performRealtimeSearch();
   });
 
-  searchButton.addEventListener("click", () => renderDirectory());
+  searchButton.addEventListener("click", () => performRealtimeSearch());
+
   searchInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
       event.preventDefault();
-      renderDirectory();
+      performRealtimeSearch();
     }
   });
+
   searchInput.addEventListener("input", () => {
-    if (!hasActiveQuery()) renderDirectory();
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+      performRealtimeSearch();
+    }, 280);
   });
 
   [yearFilter, cityFilter].forEach(control => {
-    control.addEventListener("change", () => renderDirectory());
+    control.addEventListener("change", () => performRealtimeSearch());
   });
 
   document.getElementById("reset-button").addEventListener("click", () => {
     searchInput.value = "";
     yearFilter.value = "";
     cityFilter.value = "";
-    renderDirectory();
+    window.history.replaceState(null, "", window.location.pathname);
+    performRealtimeSearch();
     showToast("Filter sudah dikembalikan ke awal.");
   });
 
-  renderDirectory(false);
+  if (hasActiveQuery()) {
+    performRealtimeSearch(false);
+  } else {
+    grid.classList.add("hidden");
+    startState.classList.remove("hidden");
+  }
+
   lucide.createIcons();
 </script>
 

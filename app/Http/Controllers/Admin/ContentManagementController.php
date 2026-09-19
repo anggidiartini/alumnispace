@@ -211,17 +211,51 @@ class ContentManagementController extends Controller
         $allowedTables = ['alumni_profiles', 'job_vacancies', 'alumni_committees', 'committee_periods', 'page_contents', 'galleries', 'events', 'articles', 'albums', 'site_settings'];
         
         if (!in_array($request->table, $allowedTables)) {
-            return response()->json(['success' => false, 'message' => 'Tabel tidak diizinkan.']);
+            return response()->json(['success' => false, 'message' => 'Tabel tidak diizinkan.'], 403);
         }
 
-        $updated = DB::table($request->table)->where('id', $request->id)->update([
-            $request->column => $request->value
-        ]);
-
-        if ($updated) {
-            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.']);
+        if (!\Schema::hasTable($request->table) || !\Schema::hasColumn($request->table, $request->column)) {
+            return response()->json(['success' => false, 'message' => 'Kolom atau tabel tidak ditemukan.'], 404);
         }
 
-        return response()->json(['success' => false, 'message' => 'Data tidak ditemukan atau tidak ada perubahan.']);
+        $val = $request->value;
+
+        // Normalisasi untuk enum study_status pada alumni_profiles ('Aktif' dan 'Non-aktif')
+        if ($request->column === 'study_status') {
+            $check = strtolower(trim((string)$val));
+            if (in_array($check, ['tidak aktif', 'non-aktif', 'non_aktif', 'non aktif', '0'])) {
+                $val = 'Non-aktif';
+            } elseif (in_array($check, ['aktif', '1'])) {
+                $val = 'Aktif';
+            }
+        }
+
+        // Normalisasi untuk boolean / integer status
+        if (in_array($request->column, ['is_active', 'is_published', 'is_featured', 'is_online', 'is_verified'])) {
+            $val = ($val == '1' || $val === 'true' || $val === 'Aktif') ? 1 : 0;
+        }
+
+        $exists = DB::table($request->table)->where('id', $request->id)->exists();
+        if (!$exists) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
+        }
+
+        $updateData = [$request->column => $val];
+        if (\Schema::hasColumn($request->table, 'updated_at')) {
+            $updateData['updated_at'] = now();
+        }
+
+        try {
+            DB::table($request->table)->where('id', $request->id)->update($updateData);
+
+            if ($request->table === 'alumni_profiles') {
+                \Cache::forget('public_alumni_directory');
+            }
+
+            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.', 'value' => $val]);
+        } catch (\Throwable $e) {
+            \Log::error('UpdateStatus error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Gagal memperbarui status: ' . $e->getMessage()], 500);
+        }
     }
 }

@@ -79,9 +79,11 @@ class AlbumController extends Controller
             'target_generation' => 'nullable|string|max:50',
             'description' => 'nullable|string',
             'is_featured' => 'nullable|boolean',
+            'status' => 'nullable|boolean',
         ]);
 
         $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['status'] = $request->boolean('status');
 
         if ($request->hasFile('cover_photo')) {
             $file = $request->file('cover_photo');

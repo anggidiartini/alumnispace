@@ -706,7 +706,7 @@
                         @php $st = $board->study_status ?? 'Aktif'; @endphp
                         <select class="status-dropdown" data-id="{{ $board->alumni_profile_id }}" data-table="alumni_profiles" data-column="study_status" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $st === 'Aktif' ? '#ecfdf5' : '#fef2f2' }}; color: {{ $st === 'Aktif' ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
                             <option value="Aktif" {{ $st === 'Aktif' ? 'selected' : '' }}>● Aktif</option>
-                            <option value="Tidak Aktif" {{ $st !== 'Aktif' ? 'selected' : '' }}>● Tidak Aktif</option>
+                            <option value="Non-aktif" {{ $st !== 'Aktif' ? 'selected' : '' }}>● Tidak Aktif</option>
                         </select>
                     </td>
                     <td style="text-align: center;">
@@ -934,7 +934,7 @@
                 const column = this.getAttribute('data-column');
                 const newValue = this.value;
                 const isNumericToggle = (newValue == '1' || newValue == '0');
-                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Tidak Aktif' : 'Aktif');
+                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Non-aktif' : 'Aktif');
                 
                 if (newValue == '1' || newValue === 'Aktif') {
                     this.style.background = '#ecfdf5';
@@ -948,14 +948,21 @@
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) {
-                        alert(data.message || 'Gagal mengubah status.');
+                .then(async response => {
+                    let data = null;
+                    try {
+                        data = await response.json();
+                    } catch (e) {}
+                    return { ok: response.ok, data: data };
+                })
+                .then(result => {
+                    if (!result.ok || !result.data || !result.data.success) {
+                        alert((result.data && result.data.message) ? result.data.message : 'Gagal mengubah status.');
                         this.value = originalValue;
                         this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
                     }

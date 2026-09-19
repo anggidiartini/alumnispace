@@ -116,7 +116,10 @@
                 <h2 style="font-size: 20px; font-weight: 800; color: #0a4174; margin: 0 0 4px 0;">Detail Album Galeri</h2>
                 <p style="font-size: 12px; color: #527597; margin: 0;">Rincian data koleksi album foto dokumentasi alumni.</p>
             </div>
-            <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="background-color: {{ $album->status ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)' }}; color: {{ $album->status ? '#065f46' : '#991b1b' }}; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 12px;">
+                    <i class="fa-solid fa-circle" style="font-size: 8px;"></i> {{ $album->status ? 'Aktif' : 'Tidak Aktif' }}
+                </span>
                 <span style="background-color: #eff6ff; color: #1d4ed8; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: 12px; border: 1px solid #bfdbfe;">
                     <i class="fa-regular fa-images"></i> {{ $album->photos_count }} Foto
                 </span>
