@@ -859,9 +859,10 @@
                                             {{ $statusVal === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
                                         </span>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'toggle')
-                                        <span style="background-color: {{ $row->$col ? '#d1fae5' : '#fee2e2' }}; color: {{ $row->$col ? '#065f46' : '#991b1b' }}; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 11px;">
-                                            {{ $mapping['fields'][$col]['options'][$row->$col] ?? ($row->$col ? 'Buka' : 'Tutup') }}
-                                        </span>
+                                        <select class="status-dropdown" data-id="{{ $row->id }}" data-table="{{ $mapping['table'] }}" data-column="{{ $col }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $row->$col ? '#ecfdf5' : '#fef2f2' }}; color: {{ $row->$col ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                                            <option value="1" {{ $row->$col ? 'selected' : '' }}>● {{ $mapping['fields'][$col]['options'][1] ?? 'Aktif' }}</option>
+                                            <option value="0" {{ !$row->$col ? 'selected' : '' }}>● {{ $mapping['fields'][$col]['options'][0] ?? 'Tidak Aktif' }}</option>
+                                        </select>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'date' && !empty($row->$col))
                                         {{ strtolower(\Carbon\Carbon::parse($row->$col)->locale('id')->translatedFormat('d F Y')) }}
                                     
@@ -1302,6 +1303,59 @@
                 }, 280);
             });
         }
+
+        // Generic Status Dropdown Handler
+        document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', function(e) {
+                if (e.detail === 'revert') {
+                    if (this.value == '1') {
+                        this.style.background = '#ecfdf5';
+                        this.style.color = '#047857';
+                    } else {
+                        this.style.background = '#fef2f2';
+                        this.style.color = '#b91c1c';
+                    }
+                    return;
+                }
+
+                const id = this.getAttribute('data-id');
+                const table = this.getAttribute('data-table');
+                const column = this.getAttribute('data-column');
+                const newValue = this.value;
+                const originalValue = newValue == '1' ? '0' : '1';
+                
+                if (newValue == '1') {
+                    this.style.background = '#ecfdf5';
+                    this.style.color = '#047857';
+                } else {
+                    this.style.background = '#fef2f2';
+                    this.style.color = '#b91c1c';
+                }
+
+                fetch(`{{ route('admin.update-status') }}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message || 'Gagal mengubah status.');
+                        this.value = originalValue;
+                        this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan.');
+                    this.value = originalValue;
+                    this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                });
+            });
+        });
     });
 </script>
 @endsection
