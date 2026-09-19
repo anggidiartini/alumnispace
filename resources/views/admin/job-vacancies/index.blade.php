@@ -11,6 +11,25 @@
     .btn-add { background: var(--color-primary); color: #fff; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-dark); }
     .btn-period { background: #fff; color: var(--color-primary); padding: 10px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-color); }
     .btn-period:hover { background: var(--bg-main); border-color: var(--color-primary); color: var(--color-primary); }
+    .btn-outline { 
+        background: #fff; 
+        color: var(--color-primary, #0a4174); 
+        padding: 10px 16px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-size: 13px; 
+        font-weight: 600; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        border: 1px solid var(--border-color, #e2e8f0); 
+        transition: all 0.15s ease;
+    }
+    .btn-outline:hover {
+        background: var(--bg-main, #f8fafc);
+        border-color: var(--color-primary, #0a4174);
+        color: var(--color-primary, #0a4174);
+    }
     .table-responsive { width: 100%; overflow-x: auto; }
     
     /* Style Tabel Melebar Penuh */
@@ -763,6 +782,9 @@
                     <i class="fa-solid fa-calendar-days"></i> Kelola Periode
                 </a>
             @endif
+            <a href="{{ route('admin.job-vacancies.export') }}" class="btn-outline">
+                <i class="fa-solid fa-file-export"></i> Ekspor Rekap Lowongan
+            </a>
             <a href="{{ route('admin.job-vacancies.create') }}" class="btn-add">
                 <i class="fa-solid fa-plus"></i> Tambah Data
             </a>

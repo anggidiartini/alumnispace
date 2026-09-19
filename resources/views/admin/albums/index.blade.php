@@ -582,7 +582,21 @@
                     <td style="font-weight: 500;">{{ $album->title }}</td>
                     <td>{{ $album->category }}</td>
                     <td>{{ $album->target_generation ?? '-' }}</td>
-                    <td style="font-weight: 600;">{{ $album->photos_count }}</td>
+                    <td style="text-align: center;">
+                        @if($album->cover_photo)
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                <img src="{{ asset($album->cover_photo) }}" alt="Cover" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color, #e2e8f0);">
+                                <span style="font-size: 11px; font-weight: 600; color: var(--text-muted, #64748b);">{{ $album->photos_count }} item</span>
+                            </div>
+                        @else
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                <div style="width: 48px; height: 48px; background: #f4f8fb; border: 1px dashed var(--border-color, #e2e8f0); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 16px;">
+                                    <i class="fa-regular fa-image"></i>
+                                </div>
+                                <span style="font-size: 11px; font-weight: 600; color: var(--text-muted, #64748b);">{{ $album->photos_count }} item</span>
+                            </div>
+                        @endif
+                    </td>
                     <td style="text-align: center;">
                         <div class="action-badge">
                             <a href="{{ route('admin.albums.show', $album->id) }}" class="btn-action btn-detail">

@@ -35,6 +35,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/alumnis', [AlumniController::class, 'index'])->name('alumnis.index');
     Route::get('/alumnis/create', [AlumniController::class, 'create'])->name('alumnis.create');
     Route::post('/alumnis', [AlumniController::class, 'store'])->name('alumnis.store');
+    Route::get('/alumnis/export', [AlumniController::class, 'export'])->name('alumnis.export');
+    Route::post('/alumnis/import', [AlumniController::class, 'import'])->name('alumnis.import');
     Route::get('/alumnis/{id}', [AlumniController::class, 'show'])->name('alumnis.show');
     Route::get('/alumnis/{id}/edit', [AlumniController::class, 'edit'])->name('alumnis.edit');
     Route::put('/alumnis/{id}', [AlumniController::class, 'update'])->name('alumnis.update');
@@ -43,6 +45,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/job-vacancies', [JobVacancyController::class, 'index'])->name('job-vacancies.index');
     Route::get('/job-vacancies/create', [JobVacancyController::class, 'create'])->name('job-vacancies.create');
     Route::post('/job-vacancies', [JobVacancyController::class, 'store'])->name('job-vacancies.store');
+    Route::get('/job-vacancies/export', [JobVacancyController::class, 'export'])->name('job-vacancies.export');
+    Route::get('/job-vacancies/{id}/export-applications', [JobVacancyController::class, 'exportApplications'])->name('job-vacancies.export-applications');
     Route::get('/job-vacancies/{id}', [JobVacancyController::class, 'show'])->name('job-vacancies.show');
     Route::get('/job-vacancies/{id}/edit', [JobVacancyController::class, 'edit'])->name('job-vacancies.edit');
     Route::put('/job-vacancies/{id}', [JobVacancyController::class, 'update'])->name('job-vacancies.update');
@@ -60,6 +64,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
     Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
     Route::post('/events', [EventController::class, 'store'])->name('events.store');
+    Route::get('/events/export', [EventController::class, 'export'])->name('events.export');
+    Route::get('/events/{id}/export-registrations', [EventController::class, 'exportRegistrations'])->name('events.export-registrations');
     Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
     Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
     Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');

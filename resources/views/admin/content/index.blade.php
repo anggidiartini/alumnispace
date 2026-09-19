@@ -288,12 +288,29 @@
     </div>
 
     <div class="cms-list">
+      @php
+          $sectionNames = [
+              'hero_section' => 'Bagian Banner Utama (Paling Atas)',
+              'about_section' => 'Bagian Tentang Kami',
+              'alumni_section' => 'Bagian Data & Statistik Alumni',
+              'event_section' => 'Bagian Agenda & Acara',
+              'job_section' => 'Bagian Lowongan Kerja',
+              'gallery_section' => 'Bagian Galeri Foto',
+              'footer_section' => 'Bagian Bawah (Footer)',
+              'contact_section' => 'Bagian Kontak & Info',
+              'testimonial_section' => 'Bagian Testimoni',
+              'news_section' => 'Bagian Berita & Artikel',
+              'cta_footer' => 'Bagian Ajakan Tindakan (Bawah)',
+              'hero_banner' => 'Bagian Banner Promo Utama',
+              'locked_teaser' => 'Bagian Teaser Konten (Belum Login)'
+          ];
+      @endphp
       @foreach($contents as $content)
       <div class="cms-card">
         <div class="card-header">
           <div>
-            <span class="card-key">{{ $content->section_key }}</span>
-            <span class="card-slug">Halaman: /{{ $content->page_slug }}</span>
+            <span class="card-key">{{ $sectionNames[$content->section_key] ?? ucwords(str_replace('_', ' ', $content->section_key)) }}</span>
+            <span class="card-slug">Lokasi: Halaman Utama (Beranda)</span>
           </div>
           <span class="status-badge {{ $content->is_active ? 'active' : 'inactive' }}">
             <span class="status-dot {{ $content->is_active ? 'active' : 'inactive' }}"></span>

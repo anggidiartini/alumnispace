@@ -92,6 +92,23 @@
         transition: background 0.15s ease;
     }
     .btn-edit-direct:hover { background-color: #08335c; color: white; }
+    .btn-export-direct { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center;
+        gap: 6px; 
+        text-decoration: none; 
+        padding: 12px; 
+        background-color: #10b981; 
+        color: white; 
+        font-size: 13px; 
+        font-weight: 700; 
+        border-radius: 8px; 
+        width: 100%;
+        margin-top: 10px;
+        transition: background 0.15s ease;
+    }
+    .btn-export-direct:hover { background-color: #059669; color: white; }
     .img-sidebar-preview { 
         width: 100%; 
         max-height: 220px; 
@@ -352,6 +369,9 @@
         @endif
 
         <span class="info-label" style="margin-top: 10px;">Aksi Pengelola</span>
+        <a href="{{ route('admin.events.export-registrations', $event->id) }}" class="btn-export-direct" style="margin-top: 0; margin-bottom: 10px;">
+            <i class="fa-solid fa-file-excel"></i> Ekspor Data Peserta
+        </a>
         <a href="{{ route('admin.events.edit', $event->id) }}" class="btn-edit-direct">
             <i class="fa-solid fa-pen-to-square"></i> Sunting Acara
         </a>

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EventsExport;
+use App\Exports\EventRegistrationsExport;
 
 class EventController extends Controller
 {
@@ -140,5 +143,17 @@ class EventController extends Controller
             'galleries' => Schema::hasTable('album_photos') ? DB::table('album_photos')->count() : 0,
             'contents' => Schema::hasTable('page_contents') ? DB::table('page_contents')->count() : 0,
         ]);
+    }
+
+    public function export()
+    {
+        return Excel::download(new EventsExport, 'Rekap_Acara_' . date('Ymd_His') . '.xlsx');
+    }
+
+    public function exportRegistrations($id)
+    {
+        $event = Event::findOrFail($id);
+        $filename = 'Pendaftar_' . Str::slug($event->title) . '_' . date('Ymd_His') . '.xlsx';
+        return Excel::download(new EventRegistrationsExport($id), $filename);
     }
 }

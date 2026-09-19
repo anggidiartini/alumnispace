@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AlumnisExport;
+use App\Imports\AlumnisImport;
 
 class AlumniController extends Controller
 {
@@ -211,5 +214,24 @@ class AlumniController extends Controller
         DB::table('alumni_profiles')->where('id', $id)->delete();
 
         return redirect()->route('admin.alumnis.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new AlumnisExport, 'Data_Alumni_' . date('Ymd_His') . '.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'import_file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            Excel::import(new AlumnisImport, $request->file('import_file'));
+            return redirect()->route('admin.alumnis.index')->with('success', 'Data alumni berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.alumnis.index')->with('error', 'Gagal mengimpor data: ' . $e->getMessage());
+        }
     }
 }

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\JobVacanciesExport;
+use App\Exports\JobApplicationsExport;
+use App\Models\JobVacancy;
 
 class JobVacancyController extends Controller
 {
@@ -173,5 +177,17 @@ class JobVacancyController extends Controller
         DB::table($mapping['table'])->where('id', $id)->delete();
 
         return redirect()->route('admin.job-vacancies.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new JobVacanciesExport, 'Rekap_Lowongan_Kerja_' . date('Ymd_His') . '.xlsx');
+    }
+
+    public function exportApplications($id)
+    {
+        $job = JobVacancy::findOrFail($id);
+        $filename = 'Pelamar_' . Str::slug($job->title) . '_' . date('Ymd_His') . '.xlsx';
+        return Excel::download(new JobApplicationsExport($id), $filename);
     }
 }

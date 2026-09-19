@@ -90,6 +90,23 @@
         border-radius: 8px; 
         width: 100%;
     }
+    .btn-export-direct { 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center;
+        gap: 6px; 
+        text-decoration: none; 
+        padding: 12px; 
+        background-color: #10b981; 
+        color: white; 
+        font-size: 13px; 
+        font-weight: 700; 
+        border-radius: 8px; 
+        width: 100%;
+        margin-bottom: 10px;
+        transition: background 0.15s ease;
+    }
+    .btn-export-direct:hover { background-color: #059669; color: white; }
     .img-sidebar-preview { 
         width: 100%; 
         max-height: 220px; 
@@ -206,7 +223,7 @@
             @if($field['type'] === 'file' || in_array($key, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                 @if($key === 'company_logo')
                     <div style="margin-bottom: 16px; display: flex; justify-content: center;">
-                        <x-company-logo :logo="$row->$col" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
+                        <x-company-logo :logo="$row->$key" :name="$row->company_name ?? 'Perusahaan'" size="80" option="initials" />
                     </div>
                     @php $hasImage = true; @endphp
                 @elseif(!empty($row->$key))
@@ -222,7 +239,10 @@
             </div>
         @endif
 
-        <span class="info-label">Aksi Pengelola</span>
+        <span class="info-label" style="margin-top: 10px;">Aksi Pengelola</span>
+        <a href="{{ route('admin.job-vacancies.export-applications', $row->id) }}" class="btn-export-direct" style="margin-top: 0;">
+            <i class="fa-solid fa-file-excel"></i> Ekspor Data Pelamar
+        </a>
         <a href="{{ route('admin.job-vacancies.edit', $row->id) }}" class="btn-edit-direct">
             <i class="fa-solid fa-pen-to-square"></i> Sunting Data
         </a>

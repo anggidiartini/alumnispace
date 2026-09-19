@@ -763,6 +763,14 @@
                     <i class="fa-solid fa-calendar-days"></i> Kelola Periode
                 </a>
             @endif
+            @if ($table_key === 'alumnis')
+                <a href="{{ route('admin.alumnis.export') }}" class="btn-period">
+                    <i class="fa-solid fa-file-export"></i> Ekspor
+                </a>
+                <button type="button" class="btn-period" onclick="document.getElementById('importModal').classList.add('is-open')" style="cursor: pointer;">
+                    <i class="fa-solid fa-file-import"></i> Impor
+                </button>
+            @endif
             <a href="{{ route('admin.alumnis.create') }}" class="btn-add">
                 <i class="fa-solid fa-plus"></i> Tambah Data
             </a>
@@ -1282,4 +1290,23 @@
         }
     });
 </script>
+<!-- Modal Import -->
+<div id="importModal" class="delete-modal-backdrop">
+    <div class="delete-modal">
+        <div class="delete-modal-icon" style="background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0284c7; box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.14);">
+            <i class="fa-solid fa-file-excel"></i>
+        </div>
+        <h3>Impor Data Alumni</h3>
+        <p>Silakan unggah file Excel (.xlsx, .xls, .csv) yang berisi data alumni. Pastikan header kolom memiliki nama yang sesuai.</p>
+        
+        <form action="{{ route('admin.alumnis.import') }}" method="POST" enctype="multipart/form-data" style="margin-top: 15px;">
+            @csrf
+            <input type="file" name="import_file" required accept=".xlsx, .xls, .csv" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px;">
+            <div class="delete-modal-actions">
+                <button type="button" class="btn-cancel" onclick="document.getElementById('importModal').classList.remove('is-open')">Batal</button>
+                <button type="submit" class="btn-delete-confirm" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); box-shadow: 0 10px 20px rgba(2, 132, 199, 0.22);">Impor Data</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

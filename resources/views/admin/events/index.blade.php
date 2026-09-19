@@ -49,6 +49,25 @@
         background: #08335c;
         color: #fff;
     }
+    .btn-outline { 
+        background: #fff; 
+        color: var(--color-primary, #0a4174); 
+        padding: 10px 16px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-size: 13px; 
+        font-weight: 600; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        border: 1px solid var(--border-color, #e2e8f0); 
+        transition: all 0.15s ease;
+    }
+    .btn-outline:hover {
+        background: var(--bg-main, #f8fafc);
+        border-color: var(--color-primary, #0a4174);
+        color: var(--color-primary, #0a4174);
+    }
     
     /* Table Base */
     .data-table { 
@@ -538,6 +557,9 @@
             <p>Gunakan halaman ini untuk memantau atau memperbarui susunan berkas informasi website.</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <a href="{{ route('admin.events.export') }}" class="btn-outline">
+                <i class="fa-solid fa-file-export"></i> Ekspor Rekap Acara
+            </a>
             <a href="{{ route('admin.events.create') }}" class="btn-add">
                 <i class="fa-solid fa-plus"></i> Tambah Data
             </a>
