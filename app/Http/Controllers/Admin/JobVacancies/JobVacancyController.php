@@ -16,12 +16,22 @@ use App\Models\JobVacancy;
 
 class JobVacancyController extends Controller
 {
-    private function getMapping()
+        private function getMapping()
     {
         return [
             'title' => 'Lowongan Kerja',
             'table' => 'job_vacancies',
-            'list_columns' => ['company_logo', 'company_name', 'title', 'job_type', 'is_active'],
+            // Tambahkan kolom detail baru di dalam array list_columns ini:
+            'list_columns' => [
+                'company_logo', 
+                'company_name', 
+                'title', 
+                'job_type', 
+                'workplace_type', // Kolom baru: Sistem Kerja
+                'location',       // Kolom baru: Lokasi Penempatan
+                'salary_display', // Kolom baru: Informasi Gaji
+                'is_active'
+            ],
             'fields' => [
                 'company_name' => ['label' => 'Nama Perusahaan', 'type' => 'text', 'required' => true],
                 'company_logo' => ['label' => 'Logo Perusahaan', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 300KB (Disarankan rasio kotak 1:1)'],
@@ -48,6 +58,7 @@ class JobVacancyController extends Controller
             ]
         ];
     }
+
 
     private function shareSidebarCounts()
     {
