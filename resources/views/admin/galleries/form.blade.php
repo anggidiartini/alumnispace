@@ -230,8 +230,12 @@
                         
                         @if($field['type'] === 'file')
                             <input type="file" name="{{ $key }}" class="form-control" accept="image/*" onchange="previewImage(this, 'side-preview-{{ $key }}')">
-                            <div style="margin-top: 8px; text-align: center;">
-                                <img id="side-preview-{{ $key }}" src="{{ (isset($row) && !empty($row->$key)) ? (Str::startsWith($row->$key, 'http') ? $row->$key : asset($row->$key)) : asset('assets/images/no-image.png') }}" style="width: 100%; max-height: 140px; border-radius: 6px; object-fit: cover; border: 1px solid #d0e1f0;" alt="Pratinjau">
+                            <div style="margin-top: 8px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                                <img id="side-preview-{{ $key }}" 
+                                     src="{{ (isset($row) && !empty($row->$key)) ? (Str::startsWith($row->$key, 'http') ? $row->$key : asset($row->$key)) : asset('assets/images/no-image.png') }}" 
+                                     style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($row) && !empty($row->$key)) ? 'cover' : 'contain' }};" 
+                                     alt="Pratinjau"
+                                     onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.png') }}';">
                             </div>
 
                         @elseif($field['type'] === 'select' || $field['type'] === 'toggle' || $key === 'study_status' || $key === 'status')
@@ -260,7 +264,10 @@
         const preview = document.getElementById(previewId);
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            reader.onload = function(e) { preview.src = e.target.result; }
+            reader.onload = function(e) { 
+                preview.src = e.target.result;
+                preview.style.objectFit = 'cover';
+            }
             reader.readAsDataURL(input.files[0]);
         }
     }
