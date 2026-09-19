@@ -23,8 +23,8 @@ class ContentManagementController extends Controller
             'graduations' => \Schema::hasTable('alumni_profiles') ? \DB::table('alumni_profiles')->distinct('graduation_year')->count('graduation_year') : 0,
             'schoolclasses' => 0,
             'alumni_achievements' => 0,
-            'board_periods' => 0,
-            'alumni_boards' => 0,
+            'board_periods' => \Schema::hasTable('committee_periods') ? \DB::table('committee_periods')->count() : 0,
+            'alumni_boards' => \Schema::hasTable('alumni_committees') ? \DB::table('alumni_committees')->count() : 0,
             'job_categories' => 0,
             'job_vacancies' => \Schema::hasTable('job_vacancies') ? \DB::table('job_vacancies')->count() : 0,
             'articles' => \Schema::hasTable('articles') ? \DB::table('articles')->count() : 0,
@@ -59,7 +59,7 @@ class ContentManagementController extends Controller
     public function dashboard()
     {
         $count = [
-            'alumni' => \Schema::hasTable('albums') ? \App\Models\Album::count() : 0,
+            'alumni' => \Schema::hasTable('alumni_profiles') ? \App\Models\AlumniProfile::count() : 0,
             'event' => \Schema::hasTable('events') ? \App\Models\Event::count() : 0,
             'job_vacancy' => \Schema::hasTable('job_vacancies') ? \App\Models\JobVacancy::count() : 0,
             'Article' => \Schema::hasTable('articles') ? \App\Models\Article::count() : 0,

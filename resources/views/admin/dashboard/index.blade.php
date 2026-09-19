@@ -411,7 +411,7 @@
                     </svg>
                     Grafik Pengunjung Hari Ini (24 Jam)
                 </h3>
-                <p class="chart-subtitle">Statistik pengunjung unik (guest/unauthenticated) per jam dari 00:00 s/d 23:00</p>
+                <p class="chart-subtitle">Statistik pengunjung per jam dari 00:00 s/d 23:00</p>
             </div>
 
             <div class="chart-header-right">

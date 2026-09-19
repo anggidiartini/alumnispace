@@ -26,7 +26,19 @@ class JobVacancyController extends Controller
                 'company_name' => ['label' => 'Nama Perusahaan', 'type' => 'text', 'required' => true],
                 'company_logo' => ['label' => 'Logo Perusahaan', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas: 300KB (Disarankan rasio kotak 1:1)'],
                 'title' => ['label' => 'Posisi Lowongan', 'type' => 'text', 'required' => true],
-                'job_type' => ['label' => 'Sifat Pekerjaan', 'type' => 'text', 'required' => true],
+                'job_type' => [
+                    'label' => 'Sifat Pekerjaan',
+                    'type' => 'select',
+                    'required' => true,
+                    'options' => [
+                        'Full-Time' => 'Full-Time',
+                        'Part-Time' => 'Part-Time',
+                        'Freelance' => 'Freelance',
+                        'Remote' => 'Remote',
+                        'Magang' => 'Magang',
+                        'Kontrak' => 'Kontrak',
+                    ]
+                ],
                 'workplace_type' => ['label' => 'Sistem Kerja', 'type' => 'text', 'required' => true],
                 'location' => ['label' => 'Lokasi Penempatan', 'type' => 'text', 'required' => true],
                 'salary_display' => ['label' => 'Informasi Gaji', 'type' => 'text', 'required' => true],
@@ -177,6 +189,29 @@ class JobVacancyController extends Controller
         DB::table($mapping['table'])->where('id', $id)->delete();
 
         return redirect()->route('admin.job-vacancies.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function updateJobType(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'job_type' => 'required|string|in:Full-Time,Part-Time,Freelance,Remote,Magang,Kontrak'
+        ]);
+
+        $job = DB::table('job_vacancies')->where('id', $id)->first();
+        if (!$job) {
+            return response()->json(['success' => false, 'message' => 'Lowongan tidak ditemukan.'], 404);
+        }
+
+        DB::table('job_vacancies')->where('id', $id)->update([
+            'job_type' => $validated['job_type'],
+            'updated_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sifat pekerjaan berhasil diperbarui menjadi ' . $validated['job_type'] . '.',
+            'job_type' => $validated['job_type']
+        ]);
     }
 
     public function export()

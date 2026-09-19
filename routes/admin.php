@@ -50,6 +50,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/job-vacancies/{id}', [JobVacancyController::class, 'show'])->name('job-vacancies.show');
     Route::get('/job-vacancies/{id}/edit', [JobVacancyController::class, 'edit'])->name('job-vacancies.edit');
     Route::put('/job-vacancies/{id}', [JobVacancyController::class, 'update'])->name('job-vacancies.update');
+    Route::patch('/job-vacancies/{id}/update-job-type', [JobVacancyController::class, 'updateJobType'])->name('job-vacancies.update-job-type');
     Route::delete('/job-vacancies/{id}', [JobVacancyController::class, 'destroy'])->name('job-vacancies.destroy');
 
     Route::get('/alumni-boards', [AlumniBoardController::class, 'index'])->name('alumni-boards.index');

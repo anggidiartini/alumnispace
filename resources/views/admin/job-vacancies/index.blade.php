@@ -302,6 +302,132 @@
         color: #15803d;
         flex-shrink: 0;
     }
+    .alert-error {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1300;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 260px;
+        max-width: min(420px, calc(100vw - 32px));
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(254, 242, 242, 0.98), rgba(254, 226, 226, 0.98));
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        color: #991b1b;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 18px 40px rgba(153, 27, 27, 0.15);
+        opacity: 0;
+        transform: translateY(-12px);
+        transition: opacity 0.22s ease, transform 0.22s ease;
+        pointer-events: none;
+    }
+    .alert-error.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .alert-error .toast-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.15);
+        display: grid;
+        place-items: center;
+        color: #dc2626;
+        flex-shrink: 0;
+    }
+
+    /* ========================================================
+       DROPDOWN SIFAT PEKERJAAN (INLINE TABLE DROPDOWN)
+       ======================================================== */
+    .job-type-select-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .job-type-select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: #f0f7ff;
+        color: #0a4174;
+        border: 1.5px solid #b9daf2;
+        border-radius: 20px;
+        padding: 5px 28px 5px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.2s ease;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230a4174' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        line-height: 1.4;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .job-type-select:hover {
+        border-color: #0a4174;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(10, 65, 116, 0.15);
+    }
+    .job-type-select:focus {
+        border-color: #0a4174;
+        box-shadow: 0 0 0 3px rgba(123, 189, 232, 0.4);
+    }
+    .job-type-select[data-type="Full-Time"] {
+        background-color: #ecfdf5;
+        color: #065f46;
+        border-color: #a7f3d0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23065f46' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select[data-type="Part-Time"] {
+        background-color: #f0f9ff;
+        color: #0369a1;
+        border-color: #bae6fd;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230369a1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select[data-type="Freelance"] {
+        background-color: #fffbeb;
+        color: #92400e;
+        border-color: #fde68a;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2392400e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select[data-type="Remote"] {
+        background-color: #faf5ff;
+        color: #6b21a8;
+        border-color: #e9d5ff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b21a8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select[data-type="Magang"] {
+        background-color: #fff7ed;
+        color: #9a3412;
+        border-color: #fed7aa;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239a3412' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select[data-type="Kontrak"] {
+        background-color: #f8fafc;
+        color: #334155;
+        border-color: #cbd5e1;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+    .job-type-select.is-saving {
+        opacity: 0.6;
+        pointer-events: none;
+        cursor: wait;
+    }
+    .job-type-select.is-saved {
+        animation: pulseJobTypeSaved 0.65s ease;
+    }
+    @keyframes pulseJobTypeSaved {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.08); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.35); }
+        100% { transform: scale(1); }
+    }
+
     .preview-img-mini { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color); display: inline-block; vertical-align: middle; }
 
     /* ========================================================
@@ -837,7 +963,7 @@
                                               <tr class="data-row">
                             <td class="col-number-data">{{ $rowNumber }}</td>
                             @foreach($mapping['list_columns'] as $col)
-                                <td data-col="{{ $col }}">
+                                <td data-col="{{ $col }}" @if($col === 'job_type') data-search="{{ $row->job_type }}" data-order="{{ $row->job_type }}" @endif>
                                   @if(in_array($col, ['avatar', 'thumbnail', 'photo_path', 'cover_photo', 'company_logo']))
                                       @if($col === 'company_logo')
                                           <x-company-logo :logo="$row->$col" :name="$row->company_name ?? ($row->title ?? 'Perusahaan')" size="40" option="initials" />
@@ -848,6 +974,20 @@
                                           <span style="color: var(--text-muted); font-style: italic;">Tidak ada foto</span>
                                       @endif
 
+                                    @elseif($col === 'job_type')
+                                        <div class="job-type-select-wrap">
+                                            <select class="job-type-select" 
+                                                    data-id="{{ $row->id }}" 
+                                                    data-original="{{ $row->job_type }}"
+                                                    data-type="{{ $row->job_type }}"
+                                                    title="Ubah Sifat Pekerjaan">
+                                                @foreach(['Full-Time', 'Part-Time', 'Freelance', 'Remote', 'Magang', 'Kontrak'] as $typeOption)
+                                                    <option value="{{ $typeOption }}" {{ ($row->job_type === $typeOption) ? 'selected' : '' }}>
+                                                        {{ $typeOption }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     @elseif($col === 'study_status')
                                         <!-- Penyelamat status jika di halaman pengurus alumni agar tidak eror properti -->
                                         @php
@@ -1009,8 +1149,10 @@
 
                         // Extract clean unique text values
                         const uniqueValues = [];
-                        column.data().each(function (value) {
-                            const text = $('<div>').html(value).text().trim();
+                        column.nodes().each(function (cell) {
+                            const searchAttr = $(cell).attr('data-search');
+                            const selectedOption = $(cell).find('select option:selected').text().trim();
+                            const text = (searchAttr || selectedOption || $(cell).text()).trim();
                             if (text && text !== '-' && !uniqueValues.includes(text)) {
                                 uniqueValues.push(text);
                             }
@@ -1302,6 +1444,85 @@
                 }, 280);
             });
         }
+
+        // ========================================================
+        // INLINE EDIT SIFAT PEKERJAAN (AJAX QUICK UPDATE)
+        // ========================================================
+        function showToastNotification(type, message) {
+            const isError = type === 'error';
+            const existing = document.getElementById('dynamicToast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'dynamicToast';
+            toast.className = isError ? 'alert-error' : 'alert-success';
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            toast.innerHTML = `
+                <span class="toast-icon">
+                    <i class="fa-solid ${isError ? 'fa-triangle-exclamation' : 'fa-circle-check'}"></i>
+                </span>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+
+            requestAnimationFrame(function () {
+                toast.classList.add('is-visible');
+            });
+
+            setTimeout(function () {
+                toast.classList.remove('is-visible');
+                setTimeout(function () {
+                    toast.remove();
+                }, 250);
+            }, 2800);
+        }
+
+        $(document).on('change', '.job-type-select', function () {
+            const select = $(this);
+            const id = select.data('id');
+            const newType = select.val();
+            const originalType = select.attr('data-original');
+            const td = select.closest('td');
+
+            select.addClass('is-saving');
+
+            $.ajax({
+                url: `/admin/job-vacancies/${id}/update-job-type`,
+                type: 'PATCH',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    job_type: newType
+                },
+                success: function (response) {
+                    select.removeClass('is-saving').addClass('is-saved');
+                    select.attr('data-type', newType);
+                    select.attr('data-original', newType);
+
+                    // Update DataTables cell attributes & cache
+                    td.attr('data-search', newType).attr('data-order', newType);
+                    if ($.fn.DataTable.isDataTable('#alumniDataTable')) {
+                        const dtInstance = $('#alumniDataTable').DataTable();
+                        dtInstance.cell(td).invalidate();
+                    }
+
+                    setTimeout(function () {
+                        select.removeClass('is-saved');
+                    }, 700);
+
+                    showToastNotification('success', response.message || 'Sifat pekerjaan berhasil diperbarui.');
+                },
+                error: function (xhr) {
+                    select.removeClass('is-saving');
+                    select.val(originalType);
+                    select.attr('data-type', originalType);
+                    const msg = xhr.responseJSON && xhr.responseJSON.message 
+                        ? xhr.responseJSON.message 
+                        : 'Gagal memperbarui sifat pekerjaan.';
+                    showToastNotification('error', msg);
+                }
+            });
+        });
     });
 </script>
 @endsection

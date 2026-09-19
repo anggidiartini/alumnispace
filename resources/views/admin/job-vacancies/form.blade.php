@@ -165,7 +165,7 @@
                    KODE LAMA BAWAAN TEMANMU (UNTUK ENTITAS LAINNYA)
                    ======================================================== --}}
                 {{-- Lewati kolom gambar dan seleksi status untuk ditaruh di sebelah kanan --}}
-                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $field['type'] === 'select' || $key === 'study_status' || $key === 'status')
+                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $key === 'is_active' || $key === 'study_status' || $key === 'status')
                     @continue
                 @endif
 
@@ -179,6 +179,13 @@
 
                     @if($field['type'] === 'textarea')
                         <textarea name="{{ $key }}" rows="5" class="form-control" placeholder="Masukkan {{ $field['label'] }}..." {{ $isRequired }} {{ $isReadonly }}>{{ isset($row) ? $row->$key : '' }}</textarea>
+                    @elseif($field['type'] === 'select')
+                        <select name="{{ $key }}" class="form-control" {{ $isRequired }}>
+                            <option value="">-- Pilih {{ $field['label'] }} --</option>
+                            @foreach($field['options'] as $val => $optLabel)
+                                <option value="{{ $val }}" {{ (isset($row) && $row->$key == $val) ? 'selected' : '' }}>{{ $optLabel }}</option>
+                            @endforeach
+                        </select>
                     @elseif($key === 'graduation_year')
                         <input type="number" name="{{ $key }}" class="form-control" min="1901" max="2100" value="{{ isset($row) ? $row->$key : date('Y') }}" required>
                     @else
@@ -195,7 +202,7 @@
             </div>
 
             @foreach($mapping['fields'] as $key => $field)
-                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $field['type'] === 'select' || $key === 'study_status' || $key === 'status')
+                @if($field['type'] === 'file' || $field['type'] === 'toggle' || $key === 'is_active' || $key === 'study_status' || $key === 'status')
                     
                     <div class="form-group">
                         <label class="form-label">{{ $field['label'] }}</label>
