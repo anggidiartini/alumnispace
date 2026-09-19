@@ -544,10 +544,12 @@
         </div>
     </div>
 
-    <table id="articlesDataTable" class="data-table display nowrap" style="width:100%">
+        <table id="articlesDataTable" class="data-table display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th class="col-number-header">NO</th>
+                <!-- Tambahkan Kepala Kolom Thumbnail -->
+                <th style="width: 80px;">Thumbnail</th> 
                 <th>
                     <div class="dt-th-box">
                         <span class="dt-th-title">Judul Artikel</span>
@@ -579,6 +581,16 @@
             @forelse($articles as $article)
                 <tr class="data-row">
                     <td class="col-number-data">{{ $loop->iteration }}</td>
+                    
+                    <!-- Tambahkan Data Baris Gambar Thumbnail -->
+                    <td>
+                        @if(!empty($article->thumbnail))
+                            <img src="{{ asset($article->thumbnail) }}" class="preview-img-mini" alt="Thumbnail" style="width: 50px; height: 50px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color, #e2e8f0);" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://w3.org\' width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2394a3b8\' stroke-width=\'1.5\'><rect width=\'18\' height=\'18\' x=\'3\' y=\'3\' rx=\'2\'/><circle cx=\'9\' cy=\'9\' r=\'2\'/><path d=\'m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\'/></svg>';">
+                        @else
+                            <span style="color: var(--text-muted, #64748b); font-style: italic; font-size: 11px;">Tidak ada foto</span>
+                        @endif
+                    </td>
+
                     <td style="font-weight: 500; text-align: left; padding-left: 20px;">{{ $article->title }}</td>
                     <td>{{ $article->category }}</td>
                     <td>
@@ -610,13 +622,15 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted)">
+                    <!-- Sesuaikan colspan menjadi 7 kolom -->
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted)">
                         Belum ada riwayat data yang ditambahkan.
                     </td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+
 </div>
 
 <div class="delete-modal-backdrop" id="deleteModalBackdrop" aria-hidden="true" hidden>
@@ -653,7 +667,7 @@
         // ========================================================
         // DATATABLES INITIALIZATION & CONFIGURATION
         // ========================================================
-        const tableElement = $('#articlesDataTable');
+            const tableElement = $('#articlesDataTable');
         if (tableElement.length && tableElement.find('tbody tr.data-row').length > 0) {
             const dt = tableElement.DataTable({
                 dom: '<"dt-controls-bar"lf><"table-responsive"t><"dt-bottom-bar"ip>',
@@ -665,7 +679,8 @@
                 info: true,
                 autoWidth: false,
                 columnDefs: [
-                    { targets: [0, -1], orderable: false, searchable: false },
+                    // Kolom NO (0), Thumbnail (1), dan AKSI (-1) dikecualikan dari fitur sorting & search
+                    { targets: [0, 1, -1], orderable: false, searchable: false },
                     { targets: '_all', className: 'dt-center' }
                 ],
                 language: {
