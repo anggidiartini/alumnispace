@@ -572,6 +572,12 @@
                         <span class="dt-sort-arrow"></span>
                     </div>
                 </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Status</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
                 <th style="text-align: center; width: 220px;">AKSI</th>
             </tr>
         </thead>
@@ -598,6 +604,12 @@
                         @endif
                     </td>
                     <td style="text-align: center;">
+                        <select class="status-dropdown" data-id="{{ $album->id }}" data-table="albums" data-column="status" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $album->status ? '#ecfdf5' : '#fef2f2' }}; color: {{ $album->status ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                            <option value="1" {{ $album->status ? 'selected' : '' }}>● Aktif</option>
+                            <option value="0" {{ !$album->status ? 'selected' : '' }}>● Tidak Aktif</option>
+                        </select>
+                    </td>
+                    <td style="text-align: center;">
                         <div class="action-badge">
                             <a href="{{ route('admin.albums.show', $album->id) }}" class="btn-action btn-detail">
                                 <i class="fa-solid fa-eye"></i> Detail
@@ -617,7 +629,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted)">
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted)">
                         Belum ada riwayat data yang ditambahkan.
                     </td>
                 </tr>
@@ -758,6 +770,61 @@
                 }, 280);
             });
         }
+
+        // ========================================================
+        // STATUS DROPDOWN HANDLER (AJAX PATCH)
+        // ========================================================
+        document.querySelectorAll('.status-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('change', function (e) {
+                if (e.detail === 'revert') {
+                    if (this.value == '1') {
+                        this.style.background = '#ecfdf5';
+                        this.style.color = '#047857';
+                    } else {
+                        this.style.background = '#fef2f2';
+                        this.style.color = '#b91c1c';
+                    }
+                    return;
+                }
+
+                const id = this.getAttribute('data-id');
+                const table = this.getAttribute('data-table');
+                const column = this.getAttribute('data-column');
+                const newValue = this.value;
+                const originalValue = newValue == '1' ? '0' : '1';
+
+                if (newValue == '1') {
+                    this.style.background = '#ecfdf5';
+                    this.style.color = '#047857';
+                } else {
+                    this.style.background = '#fef2f2';
+                    this.style.color = '#b91c1c';
+                }
+
+                fetch(`{{ route('admin.update-status') }}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert(data.message || 'Gagal mengubah status.');
+                        this.value = originalValue;
+                        this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan jaringan.');
+                    this.value = originalValue;
+                    this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
+                });
+            });
+        });
     });
 </script>
 @endsection

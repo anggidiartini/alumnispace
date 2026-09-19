@@ -207,6 +207,15 @@
                 </label>
             </div>
 
+            <div class="form-group" style="margin-top: 14px;">
+                <label class="form-label">Status Album</label>
+                <select name="status" class="form-control">
+                    <option value="1" @selected(old('status', $album->status ?? 1) == 1)>Aktif</option>
+                    <option value="0" @selected(old('status', $album->status ?? 1) == 0)>Tidak Aktif</option>
+                </select>
+                <div class="field-hint">Album non-aktif tidak akan ditampilkan di halaman publik.</div>
+            </div>
+
             <div style="margin-top: 24px;">
                 <button type="submit" class="btn-submit">Simpan Album</button>
                 <a href="{{ route('admin.albums.index') }}" class="btn-cancel">Batalkan</a>
