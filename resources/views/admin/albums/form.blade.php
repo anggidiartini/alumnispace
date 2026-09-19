@@ -195,8 +195,12 @@
                 <label class="form-label">Foto Sampul (Cover)</label>
                 <input type="file" name="cover_photo" class="form-control" accept="image/jpeg,image/png,image/jpg" onchange="previewCover(this)">
                 <div class="field-hint">Format: JPG, JPEG, PNG (Maks 500KB)</div>
-                <div style="margin-top: 10px; text-align: center;">
-                    <img id="coverPreview" src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'60\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23cbd5e1\' stroke-width=\'1.5\'><rect width=\'18\' height=\'18\' x=\'3\' y=\'3\' rx=\'2\'/><circle cx=\'9\' cy=\'9\' r=\'2\'/><path d=\'m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\'/></svg>' }}" style="width: 100%; max-height: 140px; border-radius: 8px; object-fit: cover; border: 1px solid #d0e1f0; background: #f8fafc;" alt="Pratinjau">
+                <div style="margin-top: 10px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                    <img id="coverPreview" 
+                         src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : asset('assets/images/no-image.png') }}" 
+                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($album) && !empty($album->cover_photo)) ? 'cover' : 'contain' }};" 
+                         alt="Pratinjau"
+                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.png') }}';">
                 </div>
             </div>
 
@@ -229,7 +233,10 @@
         const preview = document.getElementById('coverPreview');
         if (input.files && input.files[0]) {
             const reader = new FileReader();
-            reader.onload = function(e) { preview.src = e.target.result; }
+            reader.onload = function(e) { 
+                preview.src = e.target.result;
+                preview.style.objectFit = 'cover';
+            }
             reader.readAsDataURL(input.files[0]);
         }
     }
