@@ -16,8 +16,8 @@ class LandingController extends Controller
     public function index()
     {
         $stats = [
-            'total_alumni' => AlumniProfile::count() ?: 5000,
-            'total_generations' => AlumniProfile::distinct('graduation_year')->count('graduation_year') ?: 25,
+            'total_alumni' => AlumniProfile::active()->count() ?: 5000,
+            'total_generations' => AlumniProfile::active()->distinct('graduation_year')->count('graduation_year') ?: 25,
             'total_jobs' => JobVacancy::where('is_active', true)->count() ?: 150,
             'total_events' => Event::count() ?: 40,
         ];
