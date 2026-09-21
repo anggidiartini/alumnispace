@@ -908,6 +908,9 @@
                     <i class="fa-solid fa-calendar-days"></i> Kelola Periode
                 </a>
             @endif
+            <a href="{{ route('admin.categories.index', ['type' => 'job_vacancies']) }}" class="btn-outline">
+                <i class="fa-solid fa-tags"></i> Kelola Kategori
+            </a>
             <a href="{{ route('admin.job-vacancies.export') }}" class="btn-outline">
                 <i class="fa-solid fa-file-export"></i> Ekspor Rekap Lowongan
             </a>

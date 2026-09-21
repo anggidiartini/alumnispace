@@ -12,11 +12,8 @@ use App\Http\Controllers\Admin\JobVacancies\JobVacancyController;
 use App\Http\Controllers\Admin\Galleries\GalleryController;
 use App\Http\Controllers\Admin\Admins\AdminController;
 use App\Http\Controllers\Admin\Periods\PeriodController;
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\AchievementController;
-=======
 use \App\Http\Controllers\Admin\Categories\CategoryController;
->>>>>>> 24c0034a26e7dd155badbf9fe67d1d3d4cb66aeb
 
 Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [ContentManagementController::class, 'dashboard'])->name('dashboard');

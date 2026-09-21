@@ -170,35 +170,39 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 6px 12px;
-        border-radius: 6px;
+        padding: 7px 14px;
+        border-radius: 8px;
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
-        border: 1px solid transparent;
+        border: 1.5px solid transparent;
         font-family: inherit;
+        text-decoration: none;
     }
     .btn-action-text:hover {
         transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
     }
     .btn-detail-style {
         background: rgba(16, 185, 129, 0.08);
         color: #059669;
-        border-color: rgba(16, 185, 129, 0.25);
+        border-color: rgba(16, 185, 129, 0.5);
     }
     .btn-detail-style:hover {
         background: #059669;
         color: #ffffff;
+        border-color: #059669;
     }
     .btn-edit-style {
         background: rgba(59, 130, 246, 0.08);
         color: #2563eb;
-        border-color: rgba(59, 130, 246, 0.25);
+        border-color: rgba(59, 130, 246, 0.5);
     }
     .btn-edit-style:hover {
         background: #2563eb;
         color: #ffffff;
+        border-color: #2563eb;
     }
 
     /* Toast */

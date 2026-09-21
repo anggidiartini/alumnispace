@@ -557,6 +557,9 @@
             <p>Gunakan halaman ini untuk memantau atau memperbarui susunan berkas informasi website.</p>
         </div>
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <a href="{{ route('admin.categories.index', ['type' => 'events']) }}" class="btn-outline">
+                <i class="fa-solid fa-tags"></i> Kelola Kategori
+            </a>
             <a href="{{ route('admin.events.export') }}" class="btn-outline">
                 <i class="fa-solid fa-file-export"></i> Ekspor Rekap Acara
             </a>
