@@ -4,41 +4,187 @@
 
 @section('content')
 <style>
-    .period-button-primary, .period-button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 15px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
-    .period-button-primary { border: 1px solid var(--border-dark); background: var(--color-primary); color: #fff; box-shadow: 0 4px 8px rgba(10, 65, 116, .15); }
-    .period-button-secondary { border: 1px solid var(--border-color); background: #fff; color: var(--color-primary); }
-    .period-button-primary:hover, .period-button-secondary:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(10, 65, 116, .16); }
+    .form-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+        align-items: start;
+        width: 100%;
+    }
+    .form-card-main {
+        background: #ffffff;
+        border: 1px solid #d0e1f0;
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 4px 15px rgba(10, 65, 116, 0.04);
+    }
+    .form-card-sidebar {
+        background: #ffffff;
+        border: 1px solid #d0e1f0;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(10, 65, 116, 0.04);
+        position: sticky;
+        top: 24px;
+    }
+    .form-header {
+        margin-bottom: 24px;
+        border-bottom: 1px solid #d0e1f0;
+        padding-bottom: 16px;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 18px;
+    }
+    .form-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #0a4174;
+        letter-spacing: 0.5px;
+    }
+    .form-control {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #d0e1f0;
+        border-radius: 8px;
+        background: #f4f8fb;
+        color: #0a4174;
+        font-family: inherit;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .form-control:focus {
+        border-color: #2563eb;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .required-star { color: #ef4444; margin-left: 2px; }
+    .field-hint { font-size: 11px; color: #64748b; margin-top: 2px; }
+    .btn-submit {
+        background: #0a4174;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 13px;
+        width: 100%;
+        transition: background 0.15s ease;
+    }
+    .btn-submit:hover { background: #08335c; }
+    .btn-cancel {
+        background: transparent;
+        color: #527597;
+        border: 1px solid #d0e1f0;
+        padding: 10px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        transition: all 0.15s ease;
+    }
+    .btn-cancel:hover { background: #f8fafc; color: #0a4174; }
+    .btn-delete {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 13px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+    .btn-delete:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
+    @media (max-width: 992px) {
+        .form-layout-grid { grid-template-columns: 1fr; }
+        .form-card-sidebar { position: static; }
+    }
 </style>
-<div class="crud-card-full" style="max-width: 760px;">
-    <div class="table-header">
-        <div>
-            <h2 style="font-size: 18px; font-weight: 700;">Edit Periode Kepengurusan</h2>
-            <p style="font-size: 12px; color: var(--text-muted);">Perbarui informasi periode di bawah ini.</p>
-        </div>
-        <a href="{{ route('admin.committee-periods.index') }}" class="period-button-secondary">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
-        </a>
-    </div>
 
-    <form method="POST" action="{{ route('admin.committee-periods.update', $period->id) }}" style="display: grid; gap: 16px;">
-        @csrf
-        @method('PUT')
-        <div>
-            <label for="period_name" style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--text-main);">Nama Periode</label>
-            <input id="period_name" name="period_name" type="text" value="{{ old('period_name', $period->period_name) }}" maxlength="100" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+<form method="POST" action="{{ route('admin.committee-periods.update', $period->id) }}">
+    @csrf
+    @method('PUT')
+
+    @if($errors->any())
+        <div style="padding: 14px 18px; border-radius: 10px; background-color: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: 13px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;">
+            <i class="fa-solid fa-triangle-exclamation" style="margin-top: 3px; font-size: 16px;"></i>
+            <ul style="margin: 0; padding-left: 18px;">
+                @foreach($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
         </div>
-        <div>
-            <label for="start_date" style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--text-main);">Tanggal Mulai</label>
-            <input id="start_date" name="start_date" type="date" value="{{ old('start_date', $period->start_date) }}" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+    @endif
+
+    <div class="form-layout-grid">
+        <!-- KIRI: DATA PERIODE -->
+        <div class="form-card-main">
+            <div class="form-header">
+                <h2 style="font-size: 20px; font-weight: 800; color: #0a4174; margin: 0 0 4px 0;">
+                    Edit Periode Kepengurusan
+                </h2>
+                <p style="font-size: 12px; color: #527597; margin: 0;">Perbarui informasi periode kepengurusan di bawah ini.</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="period_name">Nama Periode <span class="required-star">*</span></label>
+                <input class="form-control" id="period_name" name="period_name" type="text"
+                    maxlength="100" placeholder="Contoh: Periode 2026 – 2029"
+                    value="{{ old('period_name', $period->period_name) }}" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                    <label class="form-label" for="start_date">Tanggal Mulai <span class="required-star">*</span></label>
+                    <input class="form-control" id="start_date" name="start_date" type="date"
+                        value="{{ old('start_date', $period->start_date) }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="finish_date">Tanggal Selesai</label>
+                    <input class="form-control" id="finish_date" name="finish_date" type="date"
+                        value="{{ old('finish_date', $period->finish_date) }}">
+                    <span class="field-hint">Kosongkan jika periode masih berjalan.</span>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="finish_date" style="display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; color: var(--text-main);">Tanggal Selesai</label>
-            <input id="finish_date" name="finish_date" type="date" value="{{ old('finish_date', $period->finish_date) }}" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px;">
+
+        <!-- KANAN: AKSI -->
+        <div class="form-card-sidebar">
+            <div class="form-header" style="margin-bottom: 16px; padding-bottom: 8px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #0a4174; margin: 0;">Aksi</h3>
+            </div>
+            <p style="font-size: 12px; color: #527597; margin: 0 0 16px 0; line-height: 1.6;">
+                Pastikan data sudah benar sebelum menyimpan perubahan.
+            </p>
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Simpan Perubahan
+            </button>
+            <a href="{{ route('admin.committee-periods.index') }}" class="btn-cancel">
+                <i class="fa-solid fa-arrow-left me-1"></i> Batal
+            </a>
         </div>
-        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px;">
-            <a href="{{ route('admin.committee-periods.index') }}" class="btn-action btn-detail">Batal</a>
-            <button type="submit" class="period-button-primary"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
-        </div>
-    </form>
-</div>
+    </div>
+</form>
+
+<!-- Konfirmasi hapus terpisah dari form utama -->
+<form id="deleteForm" method="POST" action="{{ route('admin.committee-periods.destroy', $period->id) }}" style="display:none;">
+    @csrf
+    @method('DELETE')
+</form>
+
 @endsection

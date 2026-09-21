@@ -3,6 +3,7 @@
 @section('page_title', 'Periode Kepengurusan')
 
 @section('content')
+
 <style>
     .period-card { width: 100%; background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,.02); }
     .period-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -12,20 +13,38 @@
     .period-button-primary { border: 1px solid var(--border-dark); background: var(--color-primary); color: #fff; box-shadow: 0 4px 8px rgba(10, 65, 116, .15); }
     .period-button-secondary { border: 1px solid var(--border-color); background: #fff; color: var(--color-primary); }
     .period-button-primary:hover, .period-button-secondary:hover { transform: translateY(-1px); box-shadow: 0 6px 12px rgba(10, 65, 116, .16); }
-    .period-table-wrap { overflow-x: auto; border: 1px solid var(--border-color); border-radius: 10px; }
-    .period-table { width: 100%; border-collapse: collapse; color: var(--text-main); font-size: 13px; }
-    .period-table th { padding: 13px 15px; background: var(--bg-main); border-bottom: 2px solid var(--border-color); text-align: left; font-size: 11px; text-transform: uppercase; }
+    /* GANTI DUA KELAS CSS INI */
+.period-table-wrap { 
+    overflow-x: auto; 
+    width: 100%; 
+    margin-bottom: 0; 
+}
+.period-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    color: var(--text-main); 
+    font-size: 13px; 
+    border: 1px solid var(--border-color); 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+
+     .period-table th { padding: 13px 15px; background: var(--bg-main); border-bottom: 2px solid var(--border-color); text-align: left; font-size: 11px; text-transform: uppercase; }
     .period-table td { padding: 14px 15px; border-bottom: 1px solid var(--border-color); }
     .period-table tr:last-child td { border-bottom: 0; }
     .period-alert { margin-bottom: 18px; padding: 12px 15px; border: 1px solid #86efac; border-radius: 8px; background: #ecfdf5; color: #166534; font-size: 13px; font-weight: 600; }
     .period-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .period-button { display: inline-flex; align-items: center; gap: 5px; padding: 7px 10px; border: 0; border-radius: 7px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; text-decoration: none; }
-    .period-detail { background: #ecfdf5; color: #047857; }
-    .period-edit { background: #eff6ff; color: #1d4ed8; }
-    .period-delete { background: #fef2f2; color: #b91c1c; }
     .period-status { display: inline-flex; align-items: center; gap: 5px; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
     .period-status-active { background: #d1fae5; border: 1px solid #a7f3d0; color: #047857; }
     .period-status-inactive { background: #f1f5f9; border: 1px solid #cbd5e1; color: #64748b; }
+     .period-button { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border: 1.5px solid transparent; border-radius: 8px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.15s ease; }
+    .period-button:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.10); }
+    .period-detail { background: rgba(16, 185, 129, 0.08); color: #059669; border-color: rgba(16, 185, 129, 0.5); }
+    .period-detail:hover { background: #059669; color: #fff; border-color: #059669; }
+    .period-edit { background: rgba(59, 130, 246, 0.08); color: #2563eb; border-color: rgba(59, 130, 246, 0.5); }
+    .period-edit:hover { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .period-delete { background: rgba(239, 68, 68, 0.08); color: #b91c1c; border-color: rgba(239, 68, 68, 0.5); }
+    .period-delete:hover { background: #ef4444; color: #fff; border-color: #ef4444; }
     .status-filter-wrap { position: relative; display: inline-flex; margin-left: 6px; }
     .status-filter-button { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 24px; padding: 0 6px; border: 1.5px solid var(--border-color); border-radius: 6px; background: #fff; color: var(--color-primary); cursor: pointer; }
     .status-filter-button:hover, .status-filter-button.is-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
@@ -39,6 +58,52 @@
     .status-filter-check { accent-color: var(--color-primary); width: 15px; height: 15px; }
     .status-filter-divider { height: 1px; margin: 8px 4px; background: var(--border-color); }
     .period-empty { padding: 38px 15px !important; color: var(--text-muted) !important; text-align: center !important; }
+
+    /* ==================== PENYESUAIAN HEADER STRUKTUR UTK HALAMAN INDEX ==================== */
+    .dataTables_wrapper .dt-custom-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; width: 100%; }
+    .dataTables_wrapper .dataTables_length { font-size: 13px; color: #64748b; }
+     .dataTables_wrapper .dataTables_length select { padding: 6px 32px 6px 12px !important; border: 1px solid var(--border-color) !important; border-radius: 6px !important; background: #fff url("data:image/svg+xml,%3csvg xmlns='http://w3.org' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") no-repeat right 8px center/16px 16px !important; outline: none; margin: 0 8px !important; color: var(--text-main); font-weight: 600; cursor: pointer; appearance: none; -webkit-appearance: none; }
+    
+    .dataTables_wrapper .custom-search-wrapper { position: relative; display: inline-flex; align-items: center; }
+    .dataTables_wrapper .custom-search-wrapper input[type="search"] { padding: 8px 12px 8px 36px !important; border: 1px solid var(--border-color) !important; border-radius: 8px !important; background-color: #fff !important; font-size: 13px !important; width: 210px !important; outline: none; color: var(--text-main); transition: border-color 0.15s ease, box-shadow 0.15s ease; box-sizing: border-box; }
+    .dataTables_wrapper .custom-search-wrapper input[type="search"]::placeholder { color: #a0aec0; }
+    .dataTables_wrapper .custom-search-wrapper input[type="search"]:focus { border-color: var(--color-primary) !important; box-shadow: 0 0 0 3px rgba(10, 65, 116, 0.06); }
+    .dataTables_wrapper .custom-search-wrapper .search-icon { position: absolute; left: 14px; color: #a0aec0; font-size: 12px; pointer-events: none; z-index: 10; }
+    
+    .dataTables_wrapper table.dataTable.no-footer { border-bottom: none !important; }
+    .dataTables_wrapper table.dataTable { border-collapse: collapse !important; }
+    .dataTables_wrapper .dt-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 12px; width: 100%; }
+    .dataTables_wrapper .dataTables_info { padding-top: 0 !important; }
+    .dataTables_wrapper .dataTables_paginate { padding-top: 0 !important; }
+        /* ==================== KUSTOMISASI WARNA TOMBOL ANGKA HALAMAN ==================== */
+    /* Kotak angka yang sedang aktif/dipilih */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background: var(--color-primary) !important;
+        color: #fff !important;
+        border: 1px solid var(--color-primary) !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+        font-weight: 700 !important;
+    }
+
+    /* Kotak angka lain saat diarahkan kursor (hover) */
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: rgba(10, 65, 116, 0.08) !important;
+        color: var(--color-primary) !important;
+        border: 1px solid transparent !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+    }
+
+    /* Tombol Sebelumnya & Berikutnya saat diarahkan kursor */
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.next:hover {
+        background: transparent !important;
+        color: var(--color-primary) !important;
+        border: 1px solid transparent !important;
+    }
+
 </style>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
@@ -65,6 +130,7 @@
         </div>
     </div>
 
+    <!-- Pembungkus tabel diisolasi hanya untuk tabel saja -->
     <div class="period-table-wrap">
         <table id="periodsDataTable" class="period-table display">
             <thead>
@@ -107,24 +173,13 @@
                         <td><strong>{{ $period->period_name }}</strong></td>
                         <td>{{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}</td>
                         <td>{{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}</td>
-    <select class="status-dropdown" 
-            data-id="{{ $period->id }}" 
-            data-table="committee_periods"
-            data-column="is_active"
-            style="padding: 6px 10px; 
-                   border-radius: 6px; 
-                   border: 1px solid #d0e1f0; 
-                   background: {{ $period->is_active == 1 ? '#ecfdf5' : '#fef2f2' }}; 
-                   color: {{ $period->is_active == 1 ? '#047857' : '#b91c1c' }}; 
-                   font-weight: 600; 
-                   outline: none; 
-                   cursor: pointer;">
-        
-        <option value="1" {{ $period->is_active == 1 ? 'selected' : '' }}>● Aktif</option>
-        <option value="0" {{ $period->is_active == 0 ? 'selected' : '' }}>● Tidak Aktif</option>
-    </select>
-</td>
-
+                        <td>
+                            @if($period->is_active)
+                                <span class="period-status period-status-active"><i class="fa-solid fa-circle-check"></i> Aktif</span>
+                            @else
+                                <span class="period-status period-status-inactive"><i class="fa-solid fa-circle-minus"></i> Tidak Aktif</span>
+                            @endif
+                        </td>
                         <td>
                             <div class="period-actions">
                                 <a href="{{ route('admin.committee-periods.show', $period->id) }}" class="period-button period-detail" title="Lihat detail periode">
@@ -133,11 +188,11 @@
                                 <a href="{{ route('admin.committee-periods.edit', $period->id) }}" class="period-button period-edit" title="Edit periode">
                                     <i class="fa-solid fa-pen-to-square"></i> Edit
                                 </a>
-                            <form method="POST" action="{{ route('admin.committee-periods.destroy', $period->id) }}" onsubmit="return confirm('Hapus periode ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="period-button period-delete" title="Hapus periode"><i class="fa-solid fa-trash-can"></i> Hapus</button>
-                            </form>
+                                <form method="POST" action="{{ route('admin.committee-periods.destroy', $period->id) }}" onsubmit="return confirm('Hapus periode ini?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="period-button period-delete" title="Hapus periode"><i class="fa-solid fa-trash-can"></i> Hapus</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -146,8 +201,8 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
-</div>
+    </div> <!-- Batas penutup div wrapper tabel -->
+</div> <!-- Batas penutup div .period-card utama halaman -->
 
 <script>
     $(function () {
@@ -155,20 +210,26 @@
         if (!tableElement.length || !tableElement.find('tbody tr').length) return;
 
         const table = tableElement.DataTable({
-            dom: '<"dt-controls-bar"lf><"table-responsive"t><"dt-bottom-bar"ip>',
+            dom: '<"dt-custom-header"lf>rt<"dt-bottom-bar"ip>',
             pageLength: 10,
             ordering: true,
             language: {
                 search: '',
-                searchPlaceholder: 'Cari periode...',
+                searchPlaceholder: 'Cari data...',
                 lengthMenu: 'Tampilkan _MENU_ data',
                 zeroRecords: 'Data tidak ditemukan',
-                info: 'Menampilkan _TOTAL_ data',
+                info: 'Menampilkan _TOTAL_ data di halaman ini',
                 paginate: { previous: 'Sebelumnya', next: 'Berikutnya' }
             },
             columnDefs: [{ targets: [0, -1], orderable: false, searchable: false }]
         });
 
+        // Pasang class custom dan icon kaca pembesar
+        const searchContainer = $('.dataTables_filter');
+        searchContainer.addClass('custom-search-wrapper');
+        searchContainer.prepend('<i class="fa-solid fa-magnifying-glass search-icon"></i>');
+
+        // --- FILTER STATUS DROPDOWN (BAWAAN PERIODE) ---
         const statusColumn = table.column(4);
         const button = $('#period-status-filter-button');
         const menu = $('#period-status-filter-menu');
@@ -212,7 +273,8 @@
             menu.find('.period-status-all, .period-status-value').prop('checked', true);
             applyStatusFilter();
         });
-        // Generic Status Dropdown Handler
+
+        // --- GENERIC STATUS DROPDOWN HANDLER ---
         document.querySelectorAll('.status-dropdown').forEach(dropdown => {
             dropdown.addEventListener('change', function(e) {
                 if (e.detail === 'revert') {
@@ -268,4 +330,5 @@
         });
     });
 </script>
+
 @endsection
