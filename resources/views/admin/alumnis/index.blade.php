@@ -840,10 +840,11 @@
                                             $statusVal = ($table_key === 'alumni_boards') 
                                                 ? DB::table('alumni_profiles')->where('id', $row->alumni_profile_id)->value('study_status') 
                                                 : ($row->$col ?? 'Aktif');
+                                            $isAktif = ($statusVal === 'Aktif');
                                         @endphp
-                                        <select class="status-dropdown" data-id="{{ ($table_key === 'alumni_boards') ? $row->alumni_profile_id : $row->id }}" data-table="alumni_profiles" data-column="study_status" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $statusVal === 'Aktif' ? '#ecfdf5' : '#fef2f2' }}; color: {{ $statusVal === 'Aktif' ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
-                                            <option value="Aktif" {{ $statusVal === 'Aktif' ? 'selected' : '' }}>● Aktif</option>
-                                            <option value="Tidak Aktif" {{ $statusVal !== 'Aktif' ? 'selected' : '' }}>● Tidak Aktif</option>
+                                        <select class="status-dropdown" data-id="{{ ($table_key === 'alumni_boards') ? $row->alumni_profile_id : $row->id }}" data-table="alumni_profiles" data-column="study_status" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $isAktif ? '#ecfdf5' : '#fef2f2' }}; color: {{ $isAktif ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                                            <option value="Aktif" {{ $isAktif ? 'selected' : '' }}>● Aktif</option>
+                                            <option value="Non-aktif" {{ !$isAktif ? 'selected' : '' }}>● Tidak Aktif</option>
                                         </select>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'toggle')
                                         <select class="status-dropdown" data-id="{{ $row->id }}" data-table="{{ $mapping['table'] }}" data-column="{{ $col }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $row->$col ? '#ecfdf5' : '#fef2f2' }}; color: {{ $row->$col ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
@@ -1310,7 +1311,7 @@
                 const column = this.getAttribute('data-column');
                 const newValue = this.value;
                 const isNumericToggle = (newValue == '1' || newValue == '0');
-                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Tidak Aktif' : 'Aktif');
+                const originalValue = isNumericToggle ? (newValue == '1' ? '0' : '1') : (newValue === 'Aktif' ? 'Non-aktif' : 'Aktif');
                 
                 if (newValue == '1' || newValue === 'Aktif') {
                     this.style.background = '#ecfdf5';
@@ -1329,10 +1330,16 @@
                     },
                     body: JSON.stringify({ id: id, table: table, column: column, value: newValue })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) {
-                        alert(data.message || 'Gagal mengubah status.');
+                .then(async response => {
+                    let data = null;
+                    try {
+                        data = await response.json();
+                    } catch (e) {}
+                    return { ok: response.ok, data: data };
+                })
+                .then(result => {
+                    if (!result.ok || !result.data || !result.data.success) {
+                        alert((result.data && result.data.message) ? result.data.message : 'Gagal mengubah status.');
                         this.value = originalValue;
                         this.dispatchEvent(new CustomEvent('change', { detail: 'revert' }));
                     }

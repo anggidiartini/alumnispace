@@ -999,7 +999,7 @@
                                             {{ $statusVal === 'Aktif' ? 'Aktif' : 'Tidak Aktif' }}
                                         </span>
                                     @elseif(isset($mapping['fields'][$col]['type']) && $mapping['fields'][$col]['type'] === 'toggle')
-                                        <select class="status-dropdown" data-id="{{ $row->id }}" data-table="{{ $mapping['table'] }}" data-column="{{ $col }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $row->$col ? '#ecfdf5' : '#fef2f2' }}; color: {{ $row->$col ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                                        <select class="status-dropdown" data-id="{{ $row->id }}" data-table="{{ $mapping['table'] }}" data-column="{{ $col }}" data-original="{{ $row->$col ? '1' : '0' }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $row->$col ? '#ecfdf5' : '#fef2f2' }}; color: {{ $row->$col ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
                                             <option value="1" {{ $row->$col ? 'selected' : '' }}>● {{ $mapping['fields'][$col]['options'][1] ?? 'Aktif' }}</option>
                                             <option value="0" {{ !$row->$col ? 'selected' : '' }}>● {{ $mapping['fields'][$col]['options'][0] ?? 'Tidak Aktif' }}</option>
                                         </select>
@@ -1521,6 +1521,51 @@
                         ? xhr.responseJSON.message 
                         : 'Gagal memperbarui sifat pekerjaan.';
                     showToastNotification('error', msg);
+                }
+            });
+        });
+
+        // INLINE UPDATE STATUS LOWONGAN (BUKA/TUTUP)
+        $(document).on('change', '.status-dropdown[data-column="is_active"]', function () {
+            const select = $(this);
+            const originalValue = select.attr('data-original');
+            const newValue = select.val();
+
+            const updateStyle = function (value) {
+                const isOpen = String(value) === '1';
+                select.css({
+                    background: isOpen ? '#ecfdf5' : '#fef2f2',
+                    color: isOpen ? '#047857' : '#b91c1c'
+                });
+            };
+
+            select.prop('disabled', true);
+
+            $.ajax({
+                url: '{{ route('admin.update-status', [], false) }}',
+                type: 'PATCH',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: select.data('id'),
+                    table: select.data('table'),
+                    column: select.data('column'),
+                    value: newValue
+                },
+                success: function (response) {
+                    select.attr('data-original', newValue);
+                    updateStyle(newValue);
+                    showToastNotification('success', response.message || 'Status lowongan berhasil diperbarui.');
+                },
+                error: function (xhr) {
+                    select.val(originalValue);
+                    updateStyle(originalValue);
+                    const message = xhr.responseJSON && xhr.responseJSON.message
+                        ? xhr.responseJSON.message
+                        : 'Gagal memperbarui status lowongan.';
+                    showToastNotification('error', message);
+                },
+                complete: function () {
+                    select.prop('disabled', false);
                 }
             });
         });

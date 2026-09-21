@@ -22,7 +22,7 @@ class HomeController extends Controller
         })->first()?->user;
 
         $jobs = JobVacancy::where('is_active', true)->latest()->take(10)->get();
-        $alumni = AlumniProfile::with('user')->where('study_status', 'Aktif')->latest()->take(8)->get();
+        $alumni = AlumniProfile::with('user')->latest()->take(8)->get();
         $events = Event::latest('event_date')->take(3)->get();
         $albums = Album::latest()->take(4)->get();
         $testimonials = Testimonial::where('is_featured', true)->latest()->take(3)->get();
@@ -30,6 +30,10 @@ class HomeController extends Controller
         $pengurus = DB::table('alumni_committees')
     ->join('alumni_profiles', 'alumni_committees.alumni_profile_id', '=', 'alumni_profiles.id')
     ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+    ->where(function ($query) {
+        $query->where('alumni_profiles.study_status', '!=', 'Non-aktif')
+            ->orWhereNull('alumni_profiles.study_status');
+    })
     ->select(
         'alumni_committees.id',
         'alumni_committees.position',
@@ -41,8 +45,8 @@ class HomeController extends Controller
 
 
         $stats = [
-            'total_alumni' => AlumniProfile::count() ?: 2540,
-            'total_generations' => AlumniProfile::distinct('graduation_year')->count('graduation_year') ?: 45,
+            'total_alumni' => AlumniProfile::active()->count() ?: 2540,
+            'total_generations' => AlumniProfile::active()->distinct('graduation_year')->count('graduation_year') ?: 45,
             'total_jobs' => JobVacancy::where('is_active', true)->count() ?: 180,
             'total_countries' => 35,
         ];

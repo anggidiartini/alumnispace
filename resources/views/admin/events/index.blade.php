@@ -4,63 +4,63 @@
 
 @section('content')
 <style>
-    .crud-card-full { 
-        width: 100%; 
-        background: var(--bg-card, #ffffff); 
-        border: 1px solid var(--border-color, #e2e8f0); 
-        border-radius: 12px; 
-        padding: 24px; 
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
+    .crud-card-full {
+        width: 100%;
+        background: var(--bg-card, #ffffff);
+        border: 1px solid var(--border-color, #e2e8f0);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
     }
-    .table-header { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        margin-bottom: 20px; 
+    .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
         gap: 16px;
         flex-wrap: wrap;
     }
     .table-header h2 {
-        font-size: 18px; 
-        font-weight: 700; 
+        font-size: 18px;
+        font-weight: 700;
         color: var(--color-primary, #0a4174);
         margin: 0 0 4px 0;
     }
     .table-header p {
-        font-size: 12px; 
+        font-size: 12px;
         color: var(--text-muted, #64748b);
         margin: 0;
     }
-    .btn-add { 
-        background: var(--color-primary, #0a4174); 
-        color: #fff; 
-        padding: 10px 16px; 
-        border-radius: 6px; 
-        text-decoration: none; 
-        font-size: 13px; 
-        font-weight: 600; 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 8px; 
-        border: 1px solid var(--border-dark, #08335c); 
+    .btn-add {
+        background: var(--color-primary, #0a4174);
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border-dark, #08335c);
         transition: all 0.15s ease;
     }
     .btn-add:hover {
         background: #08335c;
         color: #fff;
     }
-    .btn-outline { 
-        background: #fff; 
-        color: var(--color-primary, #0a4174); 
-        padding: 10px 16px; 
-        border-radius: 6px; 
-        text-decoration: none; 
-        font-size: 13px; 
-        font-weight: 600; 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 8px; 
-        border: 1px solid var(--border-color, #e2e8f0); 
+    .btn-outline {
+        background: #fff;
+        color: var(--color-primary, #0a4174);
+        padding: 10px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--border-color, #e2e8f0);
         transition: all 0.15s ease;
     }
     .btn-outline:hover {
@@ -68,35 +68,35 @@
         border-color: var(--color-primary, #0a4174);
         color: var(--color-primary, #0a4174);
     }
-    
+
     /* Table Base */
-    .data-table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        text-align: center; 
-        font-size: 13px; 
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 13px;
     }
-    .data-table th { 
-        background: var(--bg-main, #f8fafc); 
-        padding: 14px 16px; 
-        color: var(--text-main, #1e293b); 
-        font-weight: 700; 
-        border-bottom: 2px solid var(--border-color, #e2e8f0); 
-        text-transform: uppercase; 
-        font-size: 11px; 
-        text-align: center; 
+    .data-table th {
+        background: var(--bg-main, #f8fafc);
+        padding: 14px 16px;
+        color: var(--text-main, #1e293b);
+        font-weight: 700;
+        border-bottom: 2px solid var(--border-color, #e2e8f0);
+        text-transform: uppercase;
+        font-size: 11px;
+        text-align: center;
         position: relative;
     }
-    .data-table td { 
-        padding: 14px 16px; 
-        border-bottom: 1px solid var(--border-color, #e2e8f0); 
-        color: var(--text-main, #1e293b); 
-        max-width: 250px; 
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-        white-space: nowrap; 
-        vertical-align: middle; 
-        text-align: center; 
+    .data-table td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--border-color, #e2e8f0);
+        color: var(--text-main, #1e293b);
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+        text-align: center;
     }
 
     /* Suppress DataTables default duplicate arrow pseudo-elements */
@@ -155,19 +155,19 @@
     th.sorting_disabled .dt-sort-arrow {
         display: none !important;
     }
-    
+
     /* Kolom Nomor Urut Khusus */
-    .col-number-header { 
-        width: 60px; 
-        text-align: center; 
+    .col-number-header {
+        width: 60px;
+        text-align: center;
     }
-    .col-number-data { 
-        text-align: center; 
-        font-weight: 700; 
-        color: var(--text-muted, #64748b); 
-        background-color: rgba(244, 248, 251, 0.5); 
+    .col-number-data {
+        text-align: center;
+        font-weight: 700;
+        color: var(--text-muted, #64748b);
+        background-color: rgba(244, 248, 251, 0.5);
     }
-    
+
     /* Tombol Aksi */
     .action-badge {
         display: inline-flex;
@@ -578,7 +578,43 @@
                 </th>
                 <th>
                     <div class="dt-th-box">
+                        <span class="dt-th-title">Kategori Kegiatan</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Badge / Tag</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
                         <span class="dt-th-title">Tanggal Kegiatan</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Keterangan Waktu</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Jenis Lokasi</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Venue / Tempat</span>
+                        <span class="dt-sort-arrow"></span>
+                    </div>
+                </th>
+                <th>
+                    <div class="dt-th-box">
+                        <span class="dt-th-title">Deskripsi Lengkap</span>
                         <span class="dt-sort-arrow"></span>
                     </div>
                 </th>
@@ -608,13 +644,43 @@
                     $evRem = max(0, $evTotal - $evUsed);
                     $isSoldOut = ($evTotal > 0 && $evRem <= 0);
                     $stVal = strtolower($event->status ?? 'upcoming');
+
+                    // Keterangan waktu (sama seperti halaman detail, fallback ke jam mulai - selesai)
+                    $evTime = $event->time_display;
+                    if (empty($evTime)) {
+                        $evStart = $event->start_time ? substr($event->start_time, 0, 5) : null;
+                        $evEnd   = $event->end_time ? substr($event->end_time, 0, 5) : null;
+                        $evTime  = ($evStart && $evEnd) ? ($evStart . ' - ' . $evEnd) : ($evStart ?: ($evEnd ?: '-'));
+                    }
+
+                    // Warna badge jenis lokasi
+                    $locType = strtolower($event->location_type ?? 'offline');
+                    $locStyle = match ($locType) {
+                        'online' => ['#eff6ff', '#1d4ed8', '#bfdbfe'],
+                        'hybrid' => ['#f5f3ff', '#6d28d9', '#ddd6fe'],
+                        default  => ['#ecfdf5', '#065f46', '#a7f3d0'],
+                    };
                 @endphp
                 <tr class="data-row {{ $isSoldOut ? 'event-row-sold-out' : '' }}" @if($isSoldOut) style="background-color: rgba(254, 242, 242, 0.55);" @endif>
                     <td class="col-number-data">{{ $loop->iteration }}</td>
                     <td style="font-weight: 500;">{{ $event->title }}</td>
+                    <td><strong>{{ $event->category ?: '-' }}</strong></td>
+                    <td>
+                        @if(!empty($event->badge_tag))
+                            <span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;">{{ $event->badge_tag }}</span>
+                        @else
+                            <span style="color: #94a3b8;">-</span>
+                        @endif
+                    </td>
                     <td>
                         {{ $event->event_date ? \Carbon\Carbon::parse($event->event_date)->locale('id')->translatedFormat('d F Y') : '-' }}
                     </td>
+                    <td>{{ $evTime }}</td>
+                    <td>
+                        <span style="background: {{ $locStyle[0] }}; color: {{ $locStyle[1] }}; border: 1px solid {{ $locStyle[2] }}; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;">{{ ucfirst($locType) }}</span>
+                    </td>
+                    <td title="{{ $event->venue }}">{{ $event->venue ?: '-' }}</td>
+                    <td title="{{ $event->description }}">{{ $event->description ?: '-' }}</td>
                     <td>
                         @if($evTotal > 0)
                             <div style="font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
@@ -680,7 +746,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted)">
+                    <td colspan="12" style="text-align: center; padding: 40px; color: var(--text-muted)">
                         Belum ada riwayat data yang ditambahkan.
                     </td>
                 </tr>
@@ -846,7 +912,7 @@
                 const column = this.getAttribute('data-column');
                 const newValue = this.value;
                 const originalValue = this.getAttribute('data-original');
-                
+
                 const newColors = colors[newValue] || colors['upcoming'];
                 this.style.background = newColors.bg;
                 this.style.color = newColors.color;
@@ -855,6 +921,7 @@
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ id: id, table: table, column: column, value: newValue })

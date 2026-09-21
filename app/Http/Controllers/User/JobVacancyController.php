@@ -40,7 +40,10 @@ class JobVacancyController extends Controller
      */
     public function show($slug)
     {
-        $job = JobVacancy::with('company')->where('slug', $slug)->firstOrFail();
+        $job = JobVacancy::where('is_active', true)
+            ->with('company')
+            ->where('slug', $slug)
+            ->firstOrFail();
 
 
         $relatedJobs = JobVacancy::where('is_active', true)
@@ -57,7 +60,7 @@ class JobVacancyController extends Controller
 
     public function apply(Request $request, $id)
     {
-        $job = JobVacancy::findOrFail($id);
+        $job = JobVacancy::where('is_active', true)->findOrFail($id);
 
         // FIX: sebelumnya kalau user belum login, tidak ada JobApplication yang
         // dibuat tapi response tetap "berhasil". Sekarang dicek eksplisit dulu.

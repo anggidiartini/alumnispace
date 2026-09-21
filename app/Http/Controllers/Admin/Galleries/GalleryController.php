@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
+use App\Services\ImageOptimizerService;
+
 class GalleryController extends Controller
 {
     private function getMapping()
@@ -19,7 +21,7 @@ class GalleryController extends Controller
             'list_columns' => ['caption', 'photo_path'],
             'fields' => [
                 'caption' => ['label' => 'Keterangan Gambar', 'type' => 'text', 'required' => true],
-                'photo_path' => ['label' => 'Foto Kenangan', 'type' => 'file', 'required' => false, 'hint' => 'Maks berkas berkas: 500KB'],
+                'photo_path' => ['label' => 'Foto Kenangan', 'type' => 'file', 'required' => false, 'hint' => 'Format: JPG, PNG, WEBP, HEIC (Maks output ~500KB)'],
             ]
         ];
     }
@@ -79,7 +81,7 @@ class GalleryController extends Controller
 
         $rules = [];
         if ($request->hasFile('photo_path')) {
-            $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
+            $rules['photo_path'] = 'file|mimes:jpeg,png,jpg,webp,heic,heif|max:15360';
         }
 
         if (!empty($rules)) {
@@ -90,9 +92,7 @@ class GalleryController extends Controller
         foreach ($mapping['fields'] as $fieldName => $config) {
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
                 $file = $request->file($fieldName);
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $insertData[$fieldName] = 'uploads/' . $filename;
+                $insertData[$fieldName] = ImageOptimizerService::optimizePhoto($file, 'albums/photos');
             } elseif ($request->has($fieldName)) {
                 $insertData[$fieldName] = $request->input($fieldName);
             }
@@ -102,13 +102,16 @@ class GalleryController extends Controller
         if (in_array('user_id', $allFields)) {
             $insertData['user_id'] = Auth::id();
         }
+        if (in_array('uploaded_by', $allFields)) {
+            $insertData['uploaded_by'] = Auth::id();
+        }
         if (in_array('posted_by', $allFields)) {
             $insertData['posted_by'] = Auth::id();
         }
 
         DB::table($tableName)->insert($insertData);
 
-        return redirect()->route('admin.galleries.index')->with('success', 'Data berhasil disimpan.');
+        return redirect()->route('admin.galleries.index')->with('success', 'Foto galeri berhasil disimpan dan dioptimasi.');
     }
 
     public function edit($id)
@@ -130,20 +133,23 @@ class GalleryController extends Controller
 
         $rules = [];
         if ($request->hasFile('photo_path')) {
-            $rules['photo_path'] = 'image|mimes:jpeg,png,jpg|max:500';
+            $rules['photo_path'] = 'file|mimes:jpeg,png,jpg,webp,heic,heif|max:15360';
         }
 
         if (!empty($rules)) {
             $request->validate($rules);
         }
 
+        $currentRow = DB::table($mapping['table'])->where('id', $id)->first();
+
         $updateData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
+                if ($currentRow && !empty($currentRow->$fieldName)) {
+                    ImageOptimizerService::deleteFile($currentRow->$fieldName);
+                }
                 $file = $request->file($fieldName);
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $updateData[$fieldName] = 'uploads/' . $filename;
+                $updateData[$fieldName] = ImageOptimizerService::optimizePhoto($file, 'albums/photos');
             } elseif ($request->has($fieldName)) {
                 $updateData[$fieldName] = $request->input($fieldName);
             }
@@ -151,14 +157,19 @@ class GalleryController extends Controller
 
         DB::table($mapping['table'])->where('id', $id)->update($updateData);
 
-        return redirect()->route('admin.galleries.index')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('admin.galleries.index')->with('success', 'Foto galeri berhasil diperbarui dan dioptimasi.');
     }
 
     public function destroy($id)
     {
         $mapping = $this->getMapping();
+        $row = DB::table($mapping['table'])->where('id', $id)->first();
+        if ($row && !empty($row->photo_path)) {
+            ImageOptimizerService::deleteFile($row->photo_path);
+        }
+
         DB::table($mapping['table'])->where('id', $id)->delete();
 
-        return redirect()->route('admin.galleries.index')->with('success', 'Data berhasil dihapus.');
+        return redirect()->route('admin.galleries.index')->with('success', 'Foto galeri berhasil dihapus.');
     }
 }
