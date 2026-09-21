@@ -126,36 +126,33 @@
             </span>
         </div>
 
-        <div class="info-grid">
+               <div class="info-grid">
             <div class="info-box full">
                 <span class="info-label">Nama Periode</span>
                 <div class="info-value">{{ $period->period_name }}</div>
             </div>
-           <div class="info-box">
-    <span class="info-label">Tanggal Mulai</span>
-    <div class="info-value">
-        <!-- Ditambahkan fungsi \Carbon\Carbon::parse agar string dikonversi ke objek Carbon -->
-        {{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}
-    </div>
-</div>
-<div class="info-box">
-    <span class="info-label">Tanggal Selesai</span>
-    <div class="info-value">
-        <!-- Ditambahkan fungsi \Carbon\Carbon::parse agar string dikonversi ke objek Carbon -->
-        {{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}
-    </div>
-</div>
-
+            <div class="info-box">
+                <span class="info-label">Tanggal Mulai</span>
+                <div class="info-value">
+                    {{ $period->start_date ? \Carbon\Carbon::parse($period->start_date)->locale('id')->translatedFormat('d F Y') : '-' }}
+                </div>
+            </div>
+            <div class="info-box">
+                <span class="info-label">Tanggal Selesai</span>
+                <div class="info-value">
+                    {{ $period->finish_date ? \Carbon\Carbon::parse($period->finish_date)->locale('id')->translatedFormat('d F Y') : 'Masih Berjalan' }}
+                </div>
+            </div>
             <div class="info-box">
                 <span class="info-label">Dibuat</span>
                 <div class="info-value" style="font-size: 13px;">
-                    {{ $period->created_at ? $period->created_at->locale('id')->translatedFormat('d F Y, H:i') : '-' }}
+                    {{ $period->created_at ? \Carbon\Carbon::parse($period->created_at)->locale('id')->translatedFormat('d F Y, H:i') : '-' }}
                 </div>
             </div>
             <div class="info-box">
                 <span class="info-label">Terakhir Diperbarui</span>
                 <div class="info-value" style="font-size: 13px;">
-                    {{ $period->updated_at ? $period->updated_at->locale('id')->translatedFormat('d F Y, H:i') : '-' }}
+                    {{ $period->updated_at ? \Carbon\Carbon::parse($period->updated_at)->locale('id')->translatedFormat('d F Y, H:i') : '-' }}
                 </div>
             </div>
         </div>
