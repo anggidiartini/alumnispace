@@ -547,6 +547,7 @@ input:focus-visible {
 
 .catalog {
     position: relative;
+    width: 100%;
     padding-bottom: 5rem;
 }
 
@@ -1084,6 +1085,19 @@ input:focus-visible {
 
 /* =========================================================
    ANIMASI "TUING" UNTUK KONTEN (persis sama dgn lowongan.css)
+
+   FIX "animasi dobel":
+   Sebelumnya .is-visible langsung set opacity:1 + transform:none,
+   tapi animasinya cuma pakai fill-mode "forwards" + animation-delay.
+   Akibatnya selama masa delay, elemen sudah tampil penuh (bahkan
+   ikut kena transition opacity/transform dari card), lalu begitu
+   delay habis, animasi mulai dari keyframe 0% (opacity 0, geser
+   bawah) => elemen "hilang" lalu muncul lagi = kelihatan dobel.
+
+   Solusi: fill-mode diganti "both" supaya selama delay elemen
+   ditahan di keyframe 0% (tetap tersembunyi), jadi cuma ada SATU
+   kali animasi masuk. opacity:1 / transform:none tetap dipertahankan
+   sebagai state akhir saat JS mematikan animation setelah selesai.
    ========================================================= */
 
 .data-reveal {
@@ -1093,7 +1107,9 @@ input:focus-visible {
 }
 
 .data-reveal.is-visible {
-    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 1; /* state akhir setelah animasi dimatikan oleh JS */
+    transform: none;
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both; /* was: forwards */
     animation-delay: var(--reveal-delay, 0s);
 }
 
@@ -1137,4 +1153,72 @@ input:focus-visible {
 
 #beranda.hero-section {
     padding-top: 4rem;
+}
+
+/* ---------- ornamen kiri-kanan sepanjang section KATALOG ACARA ----------
+   6 ornamen di kiri (cd-l1..cd-l6) dan 6 di kanan (cd-r1..cd-r6),
+   ditebar dari atas sampai bawah section supaya nggak numpuk cuma
+   di hero. Ikon & animasi (wiggle/floaty/floaty-slow) sengaja
+   divariasikan biar nggak keliatan copy-paste identik. */
+.catalog-deco {
+    opacity: 0.75;
+}
+
+/* Posisi kiri-kanan sengaja "selang-seling": jarak dari tepi
+   (left/right) dibuat naik-turun antar item, bukan angka yang
+   nambah rata, biar susunannya nggak kelihatan baris lurus. */
+.cd-l1 {
+    left: 4px;
+    top: 2%;
+}
+.cd-l2 {
+    left: 46px;
+    top: 17%;
+}
+.cd-l3 {
+    left: 2px;
+    top: 34%;
+}
+.cd-l4 {
+    left: 40px;
+    top: 52%;
+}
+.cd-l5 {
+    left: 6px;
+    top: 71%;
+}
+.cd-l6 {
+    left: 36px;
+    top: 90%;
+}
+
+.cd-r1 {
+    right: 6px;
+    top: 8%;
+}
+.cd-r2 {
+    right: 44px;
+    top: 25%;
+}
+.cd-r3 {
+    right: 4px;
+    top: 43%;
+}
+.cd-r4 {
+    right: 38px;
+    top: 61%;
+}
+.cd-r5 {
+    right: 8px;
+    top: 79%;
+}
+.cd-r6 {
+    right: 42px;
+    top: 97%;
+}
+
+@media (max-width: 1400px) {
+    .catalog-deco {
+        opacity: 0.55;
+    }
 }

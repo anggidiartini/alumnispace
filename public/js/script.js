@@ -576,6 +576,31 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 /* ------------------------------------------------------------------
+ * Carousel Pengurus: geser track lewat tombol panah kiri/kanan
+ * ------------------------------------------------------------------ */
+(function () {
+    const track = document.getElementById("pengurus-track");
+    const prevBtn = document.getElementById("pengurus-prev");
+    const nextBtn = document.getElementById("pengurus-next");
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const getScrollStep = () => {
+        const firstCard = track.querySelector(".pengurus-card");
+        if (!firstCard) return 236;
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        return firstCard.offsetWidth + gap;
+    };
+
+    prevBtn.addEventListener("click", () => {
+        track.scrollBy({ left: -getScrollStep(), behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+        track.scrollBy({ left: getScrollStep(), behavior: "smooth" });
+    });
+})();
+
+/* ------------------------------------------------------------------
  * Galeri: pasang foto dari data-bg attribute
  * ------------------------------------------------------------------ */
 document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {

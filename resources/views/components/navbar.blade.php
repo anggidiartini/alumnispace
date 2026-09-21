@@ -27,7 +27,7 @@
 
       <!-- Event (menuju index event) -->
       <a href="{{ route('event.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Agenda Event" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
-        <span>Event</span>
+        <span>Acara</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
@@ -132,7 +132,7 @@
       </a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" href="{{ route('event.index') }}">
-        <span>Event</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+        <span>Acara</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" href="{{ route('album.index') }}">

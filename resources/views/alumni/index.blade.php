@@ -137,20 +137,15 @@
                    data-search="{{ strtolower($item->user->name.' '.$item->profession) }}">
             <div class="card-top-row">
               @php
-                $words = preg_split('/\s+/', trim($item->user->name));
-                $initials = strtoupper(mb_substr($words[0] ?? '', 0, 1) . mb_substr($words[1] ?? '', 0, 1));
                 $hasAvatarFile = !empty($item->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->avatar);
+                $avatarSrc = $hasAvatarFile
+                    ? asset('storage/'.$item->avatar)
+                    : asset('assets/images/default-avatar.jpg');
               @endphp
-              @if($hasAvatarFile)
-                <img class="card-avatar" loading="lazy"
-                     src="{{ asset('storage/'.$item->avatar) }}"
-                     alt="Foto profil {{ $item->user->name }}"
-                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-avatar avatar-initial',textContent:'{{ $initials }}'}))">
-              @else
-                <div class="card-avatar avatar-initial" aria-label="Foto profil {{ $item->user->name }}">
-                  {{ $initials }}
-                </div>
-              @endif
+              <img class="card-avatar" loading="lazy"
+                   src="{{ $avatarSrc }}"
+                   alt="Foto profil {{ $item->user->name }}"
+                   onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
 
               @if($item->graduation_year)
                 <span class="badge">Angkatan {{ $item->graduation_year }}</span>

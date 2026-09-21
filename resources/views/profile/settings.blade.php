@@ -64,33 +64,41 @@
         <div class="profile-section profile-section-full">
             <h2 class="profile-section-title">Foto Profil</h2>
 
-          <div class="profile-field profile-field-avatar">
-            <div class="avatar-preview-wrap">
+          <div class="profile-photo-row">
+            <div class="profile-field profile-field-avatar">
+              <div class="avatar-preview-wrap">
 
-              <button type="button" class="avatar-click-area" id="avatar-click-area" aria-label="Ubah foto profil">
-                <img
-                  src="{{ $profile->avatar ? asset('storage/' . $profile->avatar) . '?v=' . $profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
-                  alt="Avatar"
-                  class="avatar-preview"
-                  id="avatar-preview"
-                  onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
-                >
+                <button type="button" class="avatar-click-area" id="avatar-click-area" aria-label="Ubah foto profil">
+                  <img
+                    src="{{ $profile->avatar ? asset('storage/' . $profile->avatar) . '?v=' . $profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                    alt="Avatar"
+                    class="avatar-preview"
+                    id="avatar-preview"
+                    onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                  >
 
-                <span class="avatar-edit-badge" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 20h9"></path>
-                    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
-                  </svg>
-                </span>
-              </button>
+                  <span class="avatar-edit-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 20h9"></path>
+                      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                    </svg>
+                  </span>
+                </button>
 
-              <span class="avatar-hint">Klik foto untuk mengganti atau menghapus.</span>
+                <span class="avatar-hint">Klik foto untuk mengganti atau menghapus.</span>
 
-              {{-- Input file asli, disembunyikan secara visual, dipicu dari dalam modal --}}
-              <input type="file" name="avatar" id="avatar-input" accept="image/*" class="avatar-file-input">
-              {{-- Penanda untuk backend: 1 = hapus foto saat disimpan --}}
-              <input type="hidden" name="remove_avatar" id="remove_avatar" value="0">
+                {{-- Input file asli, disembunyikan secara visual, dipicu dari dalam modal --}}
+                <input type="file" name="avatar" id="avatar-input" accept="image/*" class="avatar-file-input">
+                {{-- Penanda untuk backend: 1 = hapus foto saat disimpan --}}
+                <input type="hidden" name="remove_avatar" id="remove_avatar" value="0">
+              </div>
             </div>
+
+            {{-- Sementara belum diarahkan kemana-mana — tinggal ganti jadi <a href="..."> kalau halaman/route-nya udah siap --}}
+            <button type="button" class="yearbook-btn">
+              
+              Digital Yearbook
+            </button>
           </div>
         </div>
 
@@ -103,8 +111,28 @@
               <input type="text" value="{{ $user->name }}" disabled>
             </div>
             <div class="profile-field">
-              <label>Email</label>
-              <input type="text" value="{{ $user->email }}" disabled>
+              <label for="email">Email</label>
+              <input type="email" name="email" id="email"
+                     value="{{ old('email', $user->email) }}"
+                     data-original-email="{{ $user->email }}">
+            </div>
+            <div class="profile-field profile-field-full" id="current-password-group" style="display: none;">
+              <label for="current_password">Password Saat Ini</label>
+              <div class="password-input-wrap">
+                <input type="password" name="current_password" id="current_password"
+                       placeholder="Masukkan password saat ini untuk konfirmasi" autocomplete="current-password">
+                <button type="button" class="password-toggle-btn" id="current_password-toggle" aria-label="Tampilkan password">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-eye-off">
+                    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.68 19.68 0 0 1 4.22-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a19.5 19.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-eye" style="display: none;">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <span class="field-hint">Wajib diisi karena kamu mengubah email — untuk verifikasi bahwa ini benar akunmu.</span>
             </div>
           </div>
         </div>
@@ -183,28 +211,80 @@
           </div>
         </div>
 
-        {{-- PRESTASI --}}
+        {{-- PRESTASI (list dinamis, ganti dari textarea) --}}
         <div class="profile-section">
           <h2 class="profile-section-title">Prestasi</h2>
-          <div class="profile-grid">
-            <div class="profile-field profile-field-full">
-              <label for="achievements">Daftar Prestasi</label>
-              <textarea name="achievements" id="achievements" rows="3"
-                        placeholder="Ceritakan pencapaianmu, satu per baris">{{ old('achievements', $profile->achievements) }}</textarea>
-            </div>
+
+          <div class="achievement-list" id="achievement-list">
+            @php
+                $oldAchievements = old('achievements');
+                if ($oldAchievements) {
+                    $achievementItems = $oldAchievements;
+                } else {
+                    $achievementItems = $profile->achievements
+                        ? preg_split('/\r\n|\r|\n/', trim($profile->achievements))
+                        : [];
+                }
+            @endphp
+
+            @forelse ($achievementItems as $item)
+              <div class="achievement-row">
+                <input type="text" name="achievements[]" value="{{ $item }}" placeholder="Contoh: Juara 1 Olimpiade Matematika 2023">
+                <button type="button" class="achievement-remove" aria-label="Hapus">&times;</button>
+              </div>
+            @empty
+              <div class="achievement-row">
+                <input type="text" name="achievements[]" value="" placeholder="Contoh: Juara 1 Olimpiade Matematika 2023">
+                <button type="button" class="achievement-remove" aria-label="Hapus">&times;</button>
+              </div>
+            @endforelse
           </div>
+
+          <button type="button" class="achievement-add-btn" id="achievement-add-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Tambah Prestasi
+          </button>
         </div>
 
         {{-- RIWAYAT ORGANISASI --}}
         <div class="profile-section">
           <h2 class="profile-section-title">Riwayat Organisasi</h2>
-          <div class="profile-grid">
-            <div class="profile-field profile-field-full">
-              <label for="organization_role">Pengalaman Organisasi</label>
-              <textarea name="organization_role" id="organization_role" rows="3"
-                        placeholder="Contoh: Ketua OSIS 2019/2020">{{ old('organization_role', $profile->organization_role) }}</textarea>
-            </div>
+
+          <div class="achievement-list" id="organization-list">
+            @php
+                $oldOrganizations = old('organization_role');
+                if ($oldOrganizations) {
+                    $organizationItems = $oldOrganizations;
+                } else {
+                    $organizationItems = $profile->organization_role
+                        ? preg_split('/\r\n|\r|\n/', trim($profile->organization_role))
+                        : [];
+                }
+            @endphp
+
+            @forelse ($organizationItems as $item)
+              <div class="achievement-row">
+                <input type="text" name="organization_role[]" value="{{ $item }}" placeholder="Contoh: Ketua OSIS 2019/2020">
+                <button type="button" class="achievement-remove" aria-label="Hapus">&times;</button>
+              </div>
+            @empty
+              <div class="achievement-row">
+                <input type="text" name="organization_role[]" value="" placeholder="Contoh: Ketua OSIS 2019/2020">
+                <button type="button" class="achievement-remove" aria-label="Hapus">&times;</button>
+              </div>
+            @endforelse
           </div>
+
+          <button type="button" class="achievement-add-btn" id="organization-add-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Tambah Pengalaman Organisasi
+          </button>
         </div>
 
         {{-- BIO --}}
@@ -400,6 +480,110 @@
       setAvatarPreview(DEFAULT_AVATAR_URL, false);
       closeModal();
     });
+  })();
+
+  // List dinamis reusable: dipakai buat Prestasi & Riwayat Organisasi
+  // (tombol tambah & hapus per baris, sama-sama pakai class .achievement-row)
+  function setupDynamicList(listId, addBtnId, inputName, placeholder) {
+    var list = document.getElementById(listId);
+    var addBtn = document.getElementById(addBtnId);
+    if (!list || !addBtn) return;
+
+    function makeRow(value) {
+      var row = document.createElement('div');
+      row.className = 'achievement-row';
+
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.name = inputName;
+      input.value = value || '';
+      input.placeholder = placeholder;
+
+      var removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'achievement-remove';
+      removeBtn.setAttribute('aria-label', 'Hapus');
+      removeBtn.innerHTML = '&times;';
+
+      row.appendChild(input);
+      row.appendChild(removeBtn);
+      return row;
+    }
+
+    addBtn.addEventListener('click', function () {
+      var rows = list.querySelectorAll('.achievement-row');
+      var lastInput = rows[rows.length - 1].querySelector('input');
+
+      // Kalau box terakhir masih kosong, jangan nambah baru — fokus ke situ aja
+      if (lastInput.value.trim() === '') {
+        lastInput.focus();
+        return;
+      }
+
+      var row = makeRow('');
+      list.appendChild(row);
+      row.querySelector('input').focus();
+    });
+
+    list.addEventListener('click', function (e) {
+      if (e.target.classList.contains('achievement-remove')) {
+        var rows = list.querySelectorAll('.achievement-row');
+        if (rows.length > 1) {
+          e.target.closest('.achievement-row').remove();
+        } else {
+          e.target.closest('.achievement-row').querySelector('input').value = '';
+        }
+      }
+    });
+  }
+
+  setupDynamicList('achievement-list', 'achievement-add-btn', 'achievements[]', 'Contoh: Juara 1 Olimpiade Matematika 2023');
+  setupDynamicList('organization-list', 'organization-add-btn', 'organization_role[]', 'Contoh: Ketua OSIS 2019/2020');
+
+  // Tombol ikon mata di field password — toggle lihat/sembunyikan isi password
+  (function () {
+    var toggleBtn = document.getElementById('current_password-toggle');
+    var pwInput = document.getElementById('current_password');
+    if (!toggleBtn || !pwInput) return;
+
+    var eyeIcon = toggleBtn.querySelector('.icon-eye');
+    var eyeOffIcon = toggleBtn.querySelector('.icon-eye-off');
+
+    toggleBtn.addEventListener('mousedown', function (e) {
+      // preventDefault di sini penting: supaya klik ke tombol ini TIDAK bikin
+      // field password kehilangan fokus duluan (yang biasanya memicu dropdown
+      // saran autofill browser nutup & "makan" klik pertama, jadi kerasa
+      // harus double klik). Dengan ini, toggle langsung kena di klik pertama.
+      e.preventDefault();
+
+      var isHidden = pwInput.type === 'password';
+      pwInput.type = isHidden ? 'text' : 'password';
+      // Mata kebuka = huruf kelihatan (type text), mata coret = huruf disembunyikan (type password)
+      eyeIcon.style.display = isHidden ? '' : 'none';
+      eyeOffIcon.style.display = isHidden ? 'none' : '';
+      toggleBtn.setAttribute('aria-label', isHidden ? 'Sembunyikan password' : 'Tampilkan password');
+    });
+  })();
+
+  // Field "Password Saat Ini" cuma muncul kalau email diubah dari nilai aslinya
+  (function () {
+    var emailInput = document.getElementById('email');
+    var pwGroup = document.getElementById('current-password-group');
+    if (!emailInput || !pwGroup) return;
+
+    var originalEmail = emailInput.dataset.originalEmail || '';
+
+    function toggle() {
+      if (emailInput.value.trim() !== originalEmail) {
+        pwGroup.style.display = '';
+      } else {
+        pwGroup.style.display = 'none';
+        document.getElementById('current_password').value = '';
+      }
+    }
+
+    emailInput.addEventListener('input', toggle);
+    toggle(); // jaga-jaga kalau reload gara-gara validasi gagal, emailnya udah beda dari semula
   })();
 
   // Animasi section muncul saat discroll ke viewport (bukan langsung semua saat load)

@@ -171,7 +171,7 @@
 
       <div class="album-grid">
         @forelse($articles as $article)
-          <div class="card" id="c{{ $article->id }}" data-category="{{ $article->category }}" data-title="{{ strtolower($article->title) }}">
+          <a href="{{ route('artikel.show', $article->slug) }}" class="card" id="c{{ $article->id }}" data-category="{{ $article->category }}" data-title="{{ strtolower($article->title) }}">
             <div class="card-photo">
               <span class="cat-pill">{{ ucfirst($article->category) }}</span>
               <span class="card-symbol">✳</span>
@@ -190,9 +190,9 @@
                 {{ $article->published_at?->translatedFormat('d F Y') ?? $article->created_at->translatedFormat('d F Y') }}
               </div>
               <p class="card-desc">{{ \Illuminate\Support\Str::limit($article->excerpt, 90) }}</p>
-              <a href="{{ route('artikel.show', $article->slug) }}" class="view-btn">Baca Artikel</a>
+              <span class="view-btn">Baca Artikel</span>
             </div>
-          </div>
+          </a>
         @empty
           <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
             <p style="font-size: 18px; font-weight:700;">Belum ada artikel.</p>
