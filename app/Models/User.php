@@ -84,6 +84,11 @@ class User extends Authenticatable
         return $this->hasMany(Testimonial::class);
     }
 
+    public function achievements(): HasMany
+    {
+        return $this->hasMany(AlumniAchievement::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

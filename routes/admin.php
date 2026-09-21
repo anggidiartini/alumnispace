@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\JobVacancies\JobVacancyController;
 use App\Http\Controllers\Admin\Galleries\GalleryController;
 use App\Http\Controllers\Admin\Admins\AdminController;
 use App\Http\Controllers\Admin\Periods\PeriodController;
+use App\Http\Controllers\Admin\AchievementController;
 
 Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [ContentManagementController::class, 'dashboard'])->name('dashboard');
@@ -41,6 +42,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::get('/alumnis/{id}/edit', [AlumniController::class, 'edit'])->name('alumnis.edit');
     Route::put('/alumnis/{id}', [AlumniController::class, 'update'])->name('alumnis.update');
     Route::delete('/alumnis/{id}', [AlumniController::class, 'destroy'])->name('alumnis.destroy');
+
+    Route::post('/achievements', [AchievementController::class, 'store'])->name('achievements.store');
+    Route::delete('/achievements/{id}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
 
     Route::get('/job-vacancies', [JobVacancyController::class, 'index'])->name('job-vacancies.index');
     Route::get('/job-vacancies/create', [JobVacancyController::class, 'create'])->name('job-vacancies.create');

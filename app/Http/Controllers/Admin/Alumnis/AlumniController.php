@@ -77,8 +77,10 @@ class AlumniController extends Controller
 
         if (!$row) abort(404);
 
+        $achievements = \App\Models\AlumniAchievement::where('user_id', $row->user_id)->orderBy('date', 'desc')->get();
+
         $this->shareSidebarCounts();
-        return view('admin.alumnis.show', compact('row', 'mapping', 'table_key'));
+        return view('admin.alumnis.show', compact('row', 'mapping', 'table_key', 'achievements'));
     }
 
     public function create()

@@ -10,7 +10,6 @@ class AlumniAchievement extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'place',
         'date',
         'type',
         'status',

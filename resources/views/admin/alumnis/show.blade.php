@@ -195,6 +195,110 @@
                 </div>
             </div>
         @endforeach
+
+        <!-- ========================================================
+             FITUR PRESTASI & PENGHARGAAN ALUMNI
+             ======================================================== -->
+        @if($table_key === 'alumnis')
+        <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid #d0e1f0;">
+            <div class="detail-header" style="margin-bottom: 16px; padding-bottom: 0; border: none;">
+                <div>
+                    <h2 style="font-size: 18px; font-weight: 800; color: #0a4174;"><i class="fa-solid fa-trophy" style="color: #f59e0b; margin-right: 8px;"></i> Daftar Penghargaan & Prestasi</h2>
+                    <p style="font-size: 12px; color: #527597;">Kelola data penghargaan yang diraih oleh alumni ini.</p>
+                </div>
+            </div>
+
+            <!-- Tabel Daftar Prestasi -->
+            @if(isset($achievements) && $achievements->count() > 0)
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-bottom: 24px;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <thead style="background: #f1f5f9; border-bottom: 1px solid #e2e8f0;">
+                            <tr>
+                                <th style="padding: 12px 16px; text-align: left; color: #475569; font-weight: 600;">Nama Penghargaan</th>
+                                <th style="padding: 12px 16px; text-align: left; color: #475569; font-weight: 600;">Tanggal</th>
+                                <th style="padding: 12px 16px; text-align: left; color: #475569; font-weight: 600;">Tingkat</th>
+                                <th style="padding: 12px 16px; text-align: left; color: #475569; font-weight: 600;">Status</th>
+                                <th style="padding: 12px 16px; text-align: center; color: #475569; font-weight: 600;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($achievements as $ach)
+                                <tr style="border-bottom: 1px solid #e2e8f0; {{ $loop->last ? 'border-bottom: none;' : '' }}">
+                                    <td style="padding: 12px 16px; font-weight: 600; color: #0f172a;">{{ $ach->name }}</td>
+                                    <td style="padding: 12px 16px; color: #475569;">{{ \Carbon\Carbon::parse($ach->date)->translatedFormat('d M Y') }}</td>
+                                    <td style="padding: 12px 16px; color: #475569;">{{ ucfirst($ach->type) }}</td>
+                                    <td style="padding: 12px 16px;">
+                                        <span style="background-color: {{ $ach->status ? '#ecfdf5' : '#fef2f2' }}; color: {{ $ach->status ? '#047857' : '#b91c1c' }}; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">
+                                            {{ $ach->status ? 'Aktif' : 'Tidak Aktif' }}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 12px 16px; text-align: center;">
+                                        <form action="{{ route('admin.achievements.destroy', $ach->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus prestasi ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="background: none; border: none; color: #ef4444; cursor: pointer; padding: 4px; border-radius: 4px;" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div style="background: #f4f8fb; border: 1px dashed #d0e1f0; padding: 20px; text-align: center; border-radius: 8px; font-size: 13px; color: #527597; margin-bottom: 24px;">
+                    Belum ada data prestasi yang tercatat untuk alumni ini.
+                </div>
+            @endif
+
+            <!-- Form Tambah Prestasi -->
+            <div style="background: #ffffff; border: 1px solid #d0e1f0; border-radius: 12px; padding: 20px;">
+                <h3 style="font-size: 14px; font-weight: 700; color: #0a4174; margin-bottom: 16px; margin-top:0;"><i class="fa-solid fa-plus-circle"></i> Tambah Prestasi Baru</h3>
+                <form action="{{ route('admin.achievements.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="alumni_profile_id" value="{{ $row->id }}">
+                    
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: #527597; margin-bottom: 6px; text-transform: uppercase;">Nama Penghargaan *</label>
+                            <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #d0e1f0; border-radius: 8px; font-size: 13px;" placeholder="Misal: Juara 1 UI/UX Design">
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: #527597; margin-bottom: 6px; text-transform: uppercase;">Tanggal/Tahun *</label>
+                            <input type="date" name="date" required style="width: 100%; padding: 10px; border: 1px solid #d0e1f0; border-radius: 8px; font-size: 13px;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: #527597; margin-bottom: 6px; text-transform: uppercase;">Tingkat *</label>
+                            <select name="type" required style="width: 100%; padding: 10px; border: 1px solid #d0e1f0; border-radius: 8px; font-size: 13px;">
+                                <option value="">Pilih Tingkat...</option>
+                                <option value="internasional">Internasional</option>
+                                <option value="nasional">Nasional</option>
+                                <option value="provinsi">Provinsi</option>
+                                <option value="kabupaten">Kabupaten/Kota</option>
+                                <option value="kecamatan">Kecamatan</option>
+                                <option value="lokal">Lokal / Kampus</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 11px; font-weight: 700; color: #527597; margin-bottom: 6px; text-transform: uppercase;">Status *</label>
+                            <select name="status" required style="width: 100%; padding: 10px; border: 1px solid #d0e1f0; border-radius: 8px; font-size: 13px;">
+                                <option value="1">Aktif</option>
+                                <option value="0">Tidak Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right;">
+                        <button type="submit" style="background-color: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);">
+                            <i class="fa-solid fa-save"></i> Simpan Prestasi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        @endif
     </div>
 
     <!-- KOLOM KANAN: MEDIA FOTO & AKSI UTAMA -->
