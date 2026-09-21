@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Albums;
 
 use App\Http\Controllers\Controller;
 use App\Models\Album;
+use App\Models\AlbumCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -16,15 +17,17 @@ class AlbumController extends Controller
     {
         $albums = Album::withCount('photos')->latest()->get();
         $this->shareSidebarCounts();
+        $categories = AlbumCategory::where('status', 1)->get();
 
         return view('admin.albums.index', compact('albums'));
     }
 
-    public function create()
+       public function create()
     {
         $this->shareSidebarCounts();
+        $categories = AlbumCategory::where('status', 1)->get();
 
-        return view('admin.albums.form');
+        return view('admin.albums.form', compact('categories'));
     }
 
     public function store(Request $request)
@@ -42,12 +45,13 @@ class AlbumController extends Controller
         return view('admin.albums.show', compact('album'));
     }
 
-    public function edit($id)
+       public function edit($id)
     {
         $album = Album::findOrFail($id);
         $this->shareSidebarCounts();
+        $categories = AlbumCategory::where('status', 1)->get();
 
-        return view('admin.albums.form', compact('album'));
+        return view('admin.albums.form', compact('album', 'categories'));
     }
 
     public function update(Request $request, $id)
