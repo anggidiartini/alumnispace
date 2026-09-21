@@ -239,9 +239,7 @@
                 <label class="form-label">Status Acara <span class="required-star">*</span></label>
                 <select name="status" class="form-control" required>
                     <option value="upcoming" @selected(old('status', $event->status ?? 'upcoming') === 'upcoming')>Segera Hadir</option>
-                    <option value="ongoing" @selected(old('status', $event->status ?? '') === 'ongoing')>Berlangsung</option>
                     <option value="completed" @selected(old('status', $event->status ?? '') === 'completed')>Selesai</option>
-                    <option value="cancelled" @selected(old('status', $event->status ?? '') === 'cancelled')>Dibatalkan</option>
                 </select>
             </div>
 

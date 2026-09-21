@@ -1,10 +1,9 @@
 @php
     // Catatan: sesuaikan nilai string status ini dengan enum/kolom status
-    // yang benar-benar dipakai di tabel events (mis. upcoming / ongoing / completed).
+    // yang benar-benar dipakai di tabel events (upcoming / completed).
     $statusValue   = strtolower((string) $event->status);
     $isCompleted   = in_array($statusValue, ['completed', 'ended', 'selesai']);
     $isUpcoming    = in_array($statusValue, ['upcoming', 'open', 'akan datang']);
-    $isOngoing     = in_array($statusValue, ['ongoing', 'berlangsung']);
 
     $quota         = (int) ($event->quota ?? 0);
     $registered    = (int) ($event->registered_count ?? 0);

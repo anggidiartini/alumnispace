@@ -115,7 +115,7 @@ class EventController extends Controller
             'description' => 'required|string',
             'registration_link' => 'nullable|url|max:255',
             'quota' => 'nullable|integer|min:1',
-            'status' => 'required|in:upcoming,ongoing,completed,cancelled',
+            'status' => 'required|in:upcoming,completed',
         ]);
 
         if ($request->hasFile('banner_image')) {

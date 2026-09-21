@@ -706,10 +706,6 @@
                             $bg = '#eff6ff'; $color = '#1d4ed8'; // Default upcoming
                             if(in_array($stVal, ['completed', 'ended', 'selesai'])) {
                                 $bg = '#f1f5f9'; $color = '#475569';
-                            } elseif(in_array($stVal, ['ongoing', 'berlangsung'])) {
-                                $bg = '#ecfdf5'; $color = '#065f46';
-                            } elseif(in_array($stVal, ['cancelled', 'dibatalkan'])) {
-                                $bg = '#fef2f2'; $color = '#991b1b';
                             }
                         @endphp
                         @if($isSoldOut)
@@ -721,9 +717,7 @@
                         @endif
                         <select class="status-dropdown event-status" data-id="{{ $event->id }}" data-table="events" data-column="status" data-original="{{ $stVal }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $bg }}; color: {{ $color }}; font-weight: 600; outline: none; cursor: pointer;">
                             <option value="upcoming" {{ in_array($stVal, ['upcoming', 'segera hadir']) ? 'selected' : '' }}>● Segera Hadir</option>
-                            <option value="ongoing" {{ in_array($stVal, ['ongoing', 'berlangsung']) ? 'selected' : '' }}>● Berlangsung</option>
                             <option value="completed" {{ in_array($stVal, ['completed', 'ended', 'selesai']) ? 'selected' : '' }}>● Selesai</option>
-                            <option value="cancelled" {{ in_array($stVal, ['cancelled', 'dibatalkan']) ? 'selected' : '' }}>● Dibatalkan</option>
                         </select>
                     </td>
                     <td style="text-align: center;">
@@ -893,9 +887,7 @@
             dropdown.addEventListener('change', function(e) {
                 const colors = {
                     'upcoming': { bg: '#eff6ff', color: '#1d4ed8' },
-                    'ongoing': { bg: '#ecfdf5', color: '#065f46' },
                     'completed': { bg: '#f1f5f9', color: '#475569' },
-                    'cancelled': { bg: '#fef2f2', color: '#991b1b' }
                 };
 
                 if (e.detail === 'revert') {

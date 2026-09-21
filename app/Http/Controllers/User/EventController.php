@@ -15,7 +15,7 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Event::query();
+        $query = Event::whereIn('status', ['upcoming', 'completed']);
 
         if ($request->filled('category') && $request->category !== 'all') {
             $query->where('category', $request->category);
@@ -35,21 +35,23 @@ class EventController extends Controller
             return $event;
         });
         
-        $totalEvents = Event::count();
+        $totalEvents = Event::whereIn('status', ['upcoming', 'completed'])->count();
 
         return view('user.event.index', compact('events', 'totalEvents'));
     }
 
     public function show($slug)
     {
-        $event = Event::where('slug', $slug)->first();
+        $event = Event::whereIn('status', ['upcoming', 'completed'])
+            ->where('slug', $slug)
+            ->first();
 
         if (!$event && is_numeric($slug)) {
-            $event = Event::find($slug);
+            $event = Event::whereIn('status', ['upcoming', 'completed'])->find($slug);
         }
 
         if (!$event) {
-            $event = Event::firstOrFail();
+            abort(404);
         }
         
         return view('user.event.detail', compact('event'));
@@ -82,8 +84,8 @@ class EventController extends Controller
                 $lockedEvent = Event::where('id', $id)->lockForUpdate()->firstOrFail();
 
                 $statusLower = strtolower($lockedEvent->status);
-                if (in_array($statusLower, ['completed', 'ended', 'selesai', 'cancelled'])) {
-                    throw new \Exception('Pendaftaran ditutup karena event ini sudah selesai atau dibatalkan.');
+                if ($statusLower !== 'upcoming') {
+                    throw new \Exception('Pendaftaran ditutup karena event ini sudah selesai.');
                 }
 
                 $usedQuota = (int) $lockedEvent->registrations()

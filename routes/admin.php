@@ -12,7 +12,11 @@ use App\Http\Controllers\Admin\JobVacancies\JobVacancyController;
 use App\Http\Controllers\Admin\Galleries\GalleryController;
 use App\Http\Controllers\Admin\Admins\AdminController;
 use App\Http\Controllers\Admin\Periods\PeriodController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\AchievementController;
+=======
+use \App\Http\Controllers\Admin\Categories\CategoryController;
+>>>>>>> 24c0034a26e7dd155badbf9fe67d1d3d4cb66aeb
 
 Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [ContentManagementController::class, 'dashboard'])->name('dashboard');
@@ -102,14 +106,16 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::put('/galleries/{id}', [GalleryController::class, 'update'])->name('galleries.update');
     Route::delete('/galleries/{id}', [GalleryController::class, 'destroy'])->name('galleries.destroy');
 
-
-
     Route::get('/content', [ContentManagementController::class, 'index'])->name('content.index');
     Route::post('/content', [ContentManagementController::class, 'store'])->name('content.store');
     Route::put('/content/{id}', [ContentManagementController::class, 'update'])->name('content.update');
     Route::delete('/content/{id}', [ContentManagementController::class, 'destroy'])->name('content.destroy');
     Route::put('/settings', [ContentManagementController::class, 'updateSettings'])->name('settings.update');
     Route::patch('/update-status', [ContentManagementController::class, 'updateStatus'])->name('update-status');
+
+    Route::get('categories/{type}', [\App\Http\Controllers\Admin\Categories\CategoryController::class, 'index'])->name('categories.index');
+    Route::post('categories/{type}', [\App\Http\Controllers\Admin\Categories\CategoryController::class, 'store'])->name('categories.store');
+    Route::put('categories/{type}/{id}', [\App\Http\Controllers\Admin\Categories\CategoryController::class, 'update'])->name('categories.update');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

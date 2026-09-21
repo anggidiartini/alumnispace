@@ -184,13 +184,21 @@
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div class="form-group">
-                    <label class="form-label">Jenis Kegiatan (Kategori) <span class="required-star">*</span></label>
-                    <select name="category" class="form-control" required>
-                        <option value="outdoor" @selected(old('category', $album->category ?? 'outdoor') === 'outdoor')>Outdoor</option>
-                        <option value="indoor" @selected(old('category', $album->category ?? '') === 'indoor')>Indoor</option>
-                    </select>
-                </div>
+               <div class="form-group">
+    <label class="form-label">Jenis Kegiatan (Kategori) <span class="required-star">*</span></label>
+    <select name="category" class="form-control" required>
+        <option value="" disabled {{ old('category', $album->category ?? '') ? '' : 'selected' }}>
+            -- Pilih Kategori --
+        </option>
+        
+        @foreach($categories as $cat)
+            <option value="{{ $cat->name }}" @selected(old('category', $album->category ?? '') == $cat->name)>
+                {{ $cat->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
                 <div class="form-group">
                     <label class="form-label">Target Angkatan</label>
                     <input type="text" name="target_generation" class="form-control" value="{{ old('target_generation', $album->target_generation ?? '') }}" placeholder="Contoh: Angkatan 2020 / Semua Angkatan">
