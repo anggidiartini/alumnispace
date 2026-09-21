@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
+use App\Models\AlbumPhoto;
+use App\Services\ImageOptimizerService;
+use Illuminate\Support\Facades\Auth;
+
 class AlbumController extends Controller
 {
     public function index()
@@ -32,14 +36,29 @@ class AlbumController extends Controller
 
     public function store(Request $request)
     {
-        $album = Album::create($this->validatedData($request));
+        $data = $this->validatedData($request);
+        $album = Album::create($data);
 
-        return redirect()->route('admin.albums.index')->with('success', 'Album berhasil disimpan.');
+        // Simpan foto-foto isi album jika ada yang diunggah
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photoFile) {
+                if ($photoFile && $photoFile->isValid()) {
+                    $photoPath = ImageOptimizerService::optimizePhoto($photoFile, 'albums/photos');
+                    $album->photos()->create([
+                        'uploaded_by' => Auth::id(),
+                        'photo_path' => $photoPath,
+                        'caption' => $album->title,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.albums.index')->with('success', 'Album dan foto dokumentasi berhasil disimpan.');
     }
 
     public function show($id)
     {
-        $album = Album::withCount('photos')->findOrFail($id);
+        $album = Album::withCount('photos')->with('photos')->findOrFail($id);
         $this->shareSidebarCounts();
 
         return view('admin.albums.show', compact('album'));
@@ -47,7 +66,7 @@ class AlbumController extends Controller
 
        public function edit($id)
     {
-        $album = Album::findOrFail($id);
+        $album = Album::with('photos')->findOrFail($id);
         $this->shareSidebarCounts();
         $categories = AlbumCategory::where('status', 1)->get();
 
@@ -57,26 +76,67 @@ class AlbumController extends Controller
     public function update(Request $request, $id)
     {
         $album = Album::findOrFail($id);
-        $album->update($this->validatedData($request));
+        $data = $this->validatedData($request, $album);
+        $album->update($data);
+
+        // Hapus foto yang ditandai untuk dihapus pada saat edit
+        if ($request->filled('delete_photos') && is_array($request->delete_photos)) {
+            $photosToDelete = AlbumPhoto::where('album_id', $album->id)
+                ->whereIn('id', $request->delete_photos)
+                ->get();
+
+            foreach ($photosToDelete as $p) {
+                ImageOptimizerService::deleteFile($p->photo_path);
+                $p->delete();
+            }
+        }
+
+        // Tambah foto dokumentasi baru jika ada
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photoFile) {
+                if ($photoFile && $photoFile->isValid()) {
+                    $photoPath = ImageOptimizerService::optimizePhoto($photoFile, 'albums/photos');
+                    $album->photos()->create([
+                        'uploaded_by' => Auth::id(),
+                        'photo_path' => $photoPath,
+                        'caption' => $album->title,
+                    ]);
+                }
+            }
+        }
 
         return redirect()->route('admin.albums.index')->with('success', 'Album berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
-        Album::findOrFail($id)->delete();
+        $album = Album::with('photos')->findOrFail($id);
 
-        return redirect()->route('admin.albums.index')->with('success', 'Album berhasil dihapus.');
+        // Hapus berkas cover dari disk
+        ImageOptimizerService::deleteFile($album->cover_photo);
+
+        // Hapus berkas foto-foto galeri dari disk
+        foreach ($album->photos as $photo) {
+            ImageOptimizerService::deleteFile($photo->photo_path);
+        }
+        $album->photos()->delete();
+        $album->delete();
+
+        return redirect()->route('admin.albums.index')->with('success', 'Album dan seluruh foto terkait berhasil dihapus.');
     }
 
-    private function validatedData(Request $request): array
+    private function validatedData(Request $request, ?Album $currentAlbum = null): array
     {
         $validated = $request->validate([
             'title' => 'required|string|max:150',
             'category' => 'required|string|max:50',
             'subtitle_label' => 'nullable|string|max:100',
             'sticker_tag' => 'nullable|string|max:50',
-            'cover_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:500',
+            'cover_photo' => 'nullable|file|mimes:jpeg,png,jpg,webp,heic,heif|max:15360',
+            'photos' => 'nullable|array',
+            'photos.*' => 'nullable|file|mimes:jpeg,png,jpg,webp,heic,heif|max:15360',
+            'delete_photos' => 'nullable|array',
+            'delete_photos.*' => 'integer',
             'event_date' => 'nullable|date',
             'date_display' => 'nullable|string|max:100',
             'location' => 'nullable|string|max:150',
@@ -90,14 +150,19 @@ class AlbumController extends Controller
         $validated['status'] = $request->boolean('status');
 
         if ($request->hasFile('cover_photo')) {
-            $file = $request->file('cover_photo');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-            $extension = $file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename . '.' . $extension);
-            $validated['cover_photo'] = 'uploads/' . $filename . '.' . $extension;
+            // Hapus cover lama jika ada cover pengganti
+            if ($currentAlbum && $currentAlbum->cover_photo) {
+                ImageOptimizerService::deleteFile($currentAlbum->cover_photo);
+            }
+
+            // Kompres dan konversi otomatis menjadi .webp (maks ~50 KB)
+            $coverPath = ImageOptimizerService::optimizeThumbnail($request->file('cover_photo'), 'albums/covers');
+            $validated['cover_photo'] = $coverPath;
         } else {
             unset($validated['cover_photo']);
         }
+
+        unset($validated['photos'], $validated['delete_photos']);
 
         return $validated;
     }
