@@ -202,7 +202,7 @@
                                     </div>
 
                                     <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} ·
-                                        {{ $job->created_at->diffForHumans() }}</p>
+                                        {{ $job->created_at?->diffForHumans() ?? 'Tanggal belum tersedia' }}</p>
                                     <p class="job-description">
                                         {{ \Illuminate\Support\Str::limit($job->description, 100) }}</p>
 

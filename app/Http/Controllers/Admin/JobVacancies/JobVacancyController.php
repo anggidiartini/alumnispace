@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\JobVacanciesExport;
 use App\Exports\JobApplicationsExport;
 use App\Models\JobVacancy;
+use App\Services\ImageOptimizerService;
 
 class JobVacancyController extends Controller
 {
@@ -57,6 +58,21 @@ class JobVacancyController extends Controller
                 'is_active' => ['label' => 'Status', 'type' => 'toggle', 'required' => true, 'options' => [1 => 'Buka', 0 => 'Tutup']],
             ]
         ];
+    }
+
+    private function storeCompanyLogo(Request $request): ?string
+    {
+        if (!$request->hasFile('company_logo')) {
+            return null;
+        }
+
+        return ImageOptimizerService::processAndSave(
+            $request->file('company_logo'),
+            'company-logos',
+            300 * 1024,
+            1200,
+            85
+        );
     }
 
 
@@ -115,7 +131,7 @@ class JobVacancyController extends Controller
 
         $rules = [];
         if ($request->hasFile('company_logo')) {
-            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
+            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg,webp|max:2048';
         }
 
         if (!empty($rules)) {
@@ -125,10 +141,7 @@ class JobVacancyController extends Controller
         $insertData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
-                $file = $request->file($fieldName);
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $insertData[$fieldName] = 'uploads/' . $filename;
+                $insertData[$fieldName] = $this->storeCompanyLogo($request);
             } elseif ($request->has($fieldName)) {
                 $insertData[$fieldName] = $request->input($fieldName);
             }
@@ -170,26 +183,32 @@ class JobVacancyController extends Controller
 
         $rules = [];
         if ($request->hasFile('company_logo')) {
-            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg|max:300';
+            $rules['company_logo'] = 'image|mimes:jpeg,png,jpg,webp|max:2048';
         }
 
         if (!empty($rules)) {
             $request->validate($rules);
         }
 
+        $existingJob = DB::table('job_vacancies')->where('id', $id)->first();
+        if (!$existingJob) {
+            abort(404);
+        }
+
         $updateData = [];
         foreach ($mapping['fields'] as $fieldName => $config) {
             if ($config['type'] === 'file' && $request->hasFile($fieldName)) {
-                $file = $request->file($fieldName);
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads'), $filename);
-                $updateData[$fieldName] = 'uploads/' . $filename;
+                $updateData[$fieldName] = $this->storeCompanyLogo($request);
             } elseif ($request->has($fieldName)) {
                 $updateData[$fieldName] = $request->input($fieldName);
             }
         }
 
         DB::table($mapping['table'])->where('id', $id)->update($updateData);
+
+        if (!empty($updateData['company_logo']) && $existingJob->company_logo !== $updateData['company_logo']) {
+            ImageOptimizerService::deleteFile($existingJob->company_logo);
+        }
 
         return redirect()->route('admin.job-vacancies.index')->with('success', 'Data berhasil diperbarui.');
     }
