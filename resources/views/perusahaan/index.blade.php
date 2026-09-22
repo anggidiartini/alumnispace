@@ -21,13 +21,7 @@
                 {{-- Detail Info Perusahaan --}}
                 <div class="grid-paper" style="padding: 2rem; margin-bottom: 2rem; position: relative; overflow: hidden;">
                     <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="company-avatar" style="width: 80px; height: 80px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-size: 2rem; font-weight: bold; color: #4a5568;">
-                            @if(!empty($companyProfile->company_logo))
-                                <img src="{{ $companyProfile->company_logo }}" alt="Logo {{ $companyProfile->company_name }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
-                            @else
-                                {{ $companyProfile->initials }}
-                            @endif
-                        </div>
+                        <x-company-logo :logo="$companyProfile->company_logo ?? null" :name="$companyProfile->company_name ?? 'Perusahaan'" size="80" option="initials" />
                         <div>
                             <h1 style="margin: 0; font-size: 2rem; font-family: 'Fredoka', sans-serif; color: var(--ink);">{{ $companyProfile->company_name }}</h1>
                             <p style="margin: 0.2rem 0 0; color: #4a5568; font-weight: 500;">Kategori: {{ $companyProfile->category ?? '-' }}</p>
@@ -73,7 +67,7 @@
                                 <span class="job-badge">{{ $job->category }}</span><span class="job-symbol">✳</span>
                             </div>
                             <a class="job-title-link" href="{{ route('lowongan.index', $job->slug) }}">{{ $job->title }}</a>
-                            <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at->diffForHumans() }}</p>
+                            <p class="job-meta">{{ $job->location }} · {{ $job->job_type }} · {{ $job->created_at?->diffForHumans() ?? 'Tanggal belum tersedia' }}</p>
                             <p class="job-description">{{ \Illuminate\Support\Str::limit($job->description, 120) }}</p>
                             <a class="apply-button custom-pill-btn" href="{{ route('lowongan.index', $job->slug) }}">Lihat Detail</a>
                         </article>

@@ -69,7 +69,7 @@
               @endif
 
               @if($profile->created_at)
-                <p class="ad-meta-row" style="color: #64748b;"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at->diffForHumans() }}</p>
+                <p class="ad-meta-row" style="color: #64748b;"><i data-lucide="clock" width="16"></i> Bergabung {{ $profile->created_at?->diffForHumans() ?? 'Tanggal belum tersedia' }}</p>
               @endif
             </div>
 
