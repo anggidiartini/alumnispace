@@ -1,332 +1,842 @@
 /* =========================================================
-   Tambahan struktur khusus halaman Detail Perusahaan.
-   Semua warna/tombol/card/animasi diambil dari home.css —
-   card sekarang pakai card-v1..v4 (sama kayak home), bukan
-   warna sendiri, biar nyambung visualnya.
+   public/css/detail-perusahaan.css
+   Diseragamkan dengan design system detail-lowongan.css:
+   variabel warna, font DM Sans + Fredoka, tag/tombol pill
+   dengan shadow bawah, blob dekorasi, grid-paper background.
+
+   Navbar & footer TIDAK punya CSS di sini — halaman pakai
+   <x-navbar /> dan <x-footer />, sudah ditangani navbar.css.
+
+   REVISI: card "Tentang Perusahaan" & "Alamat" dipisah jadi
+   2 kolom berdampingan (main-layout jadi grid 2 kolom di
+   desktop, 1 kolom di mobile) — sebelumnya numpuk 1 kolom.
+
+   REVISI 2: dekorasi blob abstrak (.decor / .decor-one..four)
+   diganti ornamen ikon (bus, jam, lampu, alat tulis, papan
+   tulis) — asetnya disamakan dengan detail-lowongan.css.
+   Sekarang ada 6 ornamen di kiri + 6 di kanan, tersebar dari
+   hero sampai bagian bawah halaman, dengan animasi masuk
+   "tuing" (lewat class reveal-onscroll, sama seperti elemen
+   lain di halaman ini) ditambah animasi gerak floaty/wiggle.
    ========================================================= */
 
-.dc-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 1.5rem 0 1rem;
-    font-weight: 700;
-    font-size: 14px;
-    color: #153563;
+:root {
+    --ink: #203b68;
+    --blue: #6f9fe8;
+    --blue-deep: #2e72ec;
+    --soft: #e7f0ff;
+    --pink: #f5dce8;
+    --pink-strong: #ffb2d2;
+    --yellow: #f8edb8;
+    --lemon: #fff06b;
+    --coral: #ff9466;
+    --lav: #cfc6ff;
+    --sky: #9fdcff;
+    --mint: #aaf0d1;
+    --cream: #fffaf0;
+    --muted: #355277;
+    --wa-green: #25d366;
+    --wa-green-deep: #14893f;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    min-width: 320px;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: "DM Sans", sans-serif;
+    color: var(--ink);
+    background-color: var(--cream);
+    background-image:
+        linear-gradient(rgba(46, 114, 236, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 114, 236, 0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Fredoka", sans-serif;
+    margin: 0;
+}
+p {
+    margin: 0;
+}
+a {
+    color: inherit;
     text-decoration: none;
 }
-.dc-back-link:hover { color: #2e72ec; }
+button {
+    font: inherit;
+    cursor: pointer;
+}
+img {
+    display: block;
+    max-width: 100%;
+}
 
-.dc-hero {
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+}
+
+/* ---------- SHELL & DEKORASI (blob, disamakan job-hero-blob) ---------- */
+.site-shell {
+    width: 100%;
     position: relative;
     overflow: hidden;
-    border: 2px solid #fff;
-    border-radius: 2rem;
-    box-shadow: 0 20px 25px -5px rgba(21,53,99,.15), 0 8px 10px -6px rgba(21,53,99,.1);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-@media (min-width: 768px) {
-    .dc-hero { padding: 2rem; }
 }
 
-.dc-hero__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.75rem; align-items: center; margin-top: 0.5rem; }
-.dc-hero__row { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1rem; }
-
-.dc-logo-frame {
-    width: 96px; height: 96px; flex-shrink: 0;
-    display: grid; place-items: center; overflow: hidden;
-    border: 2px solid #153563; border-radius: 26px 22px 27px 20px;
-    background: #ffd9e7;
-    box-shadow: 5px 6px 0 rgba(21,53,99,.12);
-    transform: rotate(-3deg);
-}
-.dc-logo-frame img { width: 82px; height: 82px; border-radius: 18px; object-fit: cover; transform: rotate(3deg); }
-
-.dc-meta-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    border: 1.25px solid rgba(21,53,99,.3);
-    border-radius: 999px; background: #fff;
-    padding: 7px 12px; font-size: 12.5px; font-weight: 700; color: #355277;
-}
-
-.dc-hero__visual { display: flex; justify-content: center; }
-.dc-hero__visual-card { width: 100%; max-width: 300px; border-radius: 22px; border: 2px solid #153563; background: #fff; padding: 8px; }
-.dc-hero__visual-card img { width: 100%; height: 160px; border-radius: 15px; object-fit: cover; display: block; }
-.dc-hero__visual-caption { margin: 8px 4px 2px; padding: 10px 12px; border-radius: 14px; background: #eaf3ff; font-size: 12px; font-weight: 800; color: #153563; }
-
-.dc-hero__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px dashed rgba(21,53,99,.25); }
-
-.dc-icon-unsaved { display: block; }
-.dc-icon-saved { display: none; }
-.dc-bookmark-btn.is-saved { background: #fff0a9; }
-.dc-bookmark-btn.is-saved .dc-icon-saved { display: block; }
-.dc-bookmark-btn.is-saved .dc-icon-unsaved { display: none; }
-
-/* dekorasi hero — posisi hero-deco-jam / hero-deco-lampu dan aset-jam/aset-lampu
-   sudah didefinisikan di home.css, dipakai lagi di sini biar identitasnya sama */
-
-.dc-section-head { margin-bottom: 1.1rem; display: flex; align-items: center; gap: .65rem; }
-.dc-section-head h2 { font-size: 1.35rem; font-weight: 800; color: #153563; margin: 0; font-family: "Fredoka", sans-serif; }
-
-/* ---------- ICON BADGE (belum ada definisinya sebelumnya) ---------- */
-.dc-icon-badge {
-    display: inline-grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    flex-shrink: 0;
-}
-.dc-badge-pink     { background: #fdf0f5; color: #e77aa4; }
-.dc-badge-lavender { background: #eef0fb; color: #6f6fc7; }
-.dc-badge-sun      { background: #fffbe9; color: #d9a520; }
-.dc-badge-mint     { background: #eaf9f1; color: #2f9e6b; }
-.dc-badge-peach    { background: #fff1e8; color: #e8875a; }
-.dc-badge-sky      { background: #eaf3ff; color: #2e72ec; }
-
-/* ---------- VARIAN WARNA CARD — border atas + background tint,
-   diambil dari warna badge ikon yang sudah ada (dc-badge-*) ---------- */
-/* ---------- VARIAN WARNA CARD — pink/biru/kuning sesuai root variables ---------- */
-.dc-card {
-    background: #ffffff;
-    border-top: 6px solid transparent;
-}
-
-.dc-card--pink,
-.dc-card--mint {
-    border-top-color: var(--pink);
-    background: color-mix(in srgb, var(--pink) 35%, #ffffff);
-}
-
-.dc-card--lavender,
-.dc-card--sky {
-    border-top-color: var(--blue);
-    background: color-mix(in srgb, var(--soft) 55%, #ffffff);
-}
-
-.dc-card--sun,
-.dc-card--peach {
-    border-top-color: var(--yellow);
-    background: color-mix(in srgb, var(--yellow) 35%, #ffffff);
-}
-
-/* ---------- Card lowongan di dalam detail perusahaan — override
-   card-v1..v4 dari home.css yang solid, ganti jadi tint lembut ---------- */
-.dc-job.card-v1 {
-    border: 1.4px solid rgba(21, 53, 99, .12);
-    border-top: 6px solid var(--blue);
-    background: color-mix(in srgb, var(--soft) 45%, #ffffff);
-}
-
-.dc-job.card-v2 {
-    border: 1.4px solid rgba(21, 53, 99, .12);
-    border-top: 6px solid var(--pink);
-    background: color-mix(in srgb, var(--pink) 30%, #ffffff);
-}
-
-.dc-job.card-v3 {
-    border: 1.4px solid rgba(21, 53, 99, .12);
-    border-top: 6px solid var(--yellow);
-    background: color-mix(in srgb, var(--yellow) 30%, #ffffff);
-}
-
-.dc-job.card-v4 {
-    border: 1.4px solid rgba(21, 53, 99, .12);
-    border-top: 6px solid var(--blue);
-    background: color-mix(in srgb, var(--soft) 30%, #ffffff);
-}
-.dc-card:hover {
-    transform: translateY(-6px) scale(1.005);
-    box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
-}
-
-.dc-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
-.dc-info-row { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 0.7rem; align-items: start; }
-.dc-info-row--full { grid-column: 1 / -1; }
-.dc-info-icon { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,.7); color: #153563; }
-.dc-info-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .03em; color: #66758d; margin: 0 0 3px; }
-.dc-info-value { font-weight: 700; color: #153563; margin: 0; }
-
-/* ---------- JOB CARD — samain sama gaya job-card di home (card-v + hover lift) ---------- */
-.dc-job {
-    border: 1.4px solid rgba(21,53,99,.12);
-    border-radius: 18px;
-    padding: 1.1rem 1.2rem;
-    transition: transform .25s ease, box-shadow .25s ease;
-}
-.dc-job:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 26px rgba(29, 74, 146, 0.14);
-}
-.dc-job__top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.9rem; }
-.dc-job__title { font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.05rem; margin: 0.5rem 0 0.2rem; color: #153563; }
-.dc-job__meta { font-size: 0.8rem; font-weight: 600; color: #355277; margin: 0; }
-.dc-job__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; flex-shrink: 0; }
-.dc-job__detail { display: none; border-top: 1px dashed rgba(21,53,99,.25); margin-top: 0.9rem; padding-top: 0.75rem; }
-.dc-job.is-expanded .dc-job__detail { display: block; }
-.dc-job__detail p { font-size: 0.85rem; line-height: 1.6; color: #355277; margin: 0; }
-
-.dc-map {
+.page-frame {
+    width: min(100% - 2.5rem, 1180px);
+    margin: 0 auto;
     position: relative;
-    aspect-ratio: 4 / 3;
-    margin-top: 0.5rem;
-    border: 1.5px solid #153563; border-radius: 1.25rem; overflow: hidden;
-    background:
-        linear-gradient(29deg, transparent 46%, #cfe6c9 47%, #cfe6c9 52%, transparent 53%),
-        linear-gradient(109deg, transparent 44%, #f2d894 45%, #f2d894 49%, transparent 50%),
-        #eff9ee;
-}
-.dc-map__pin { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -100%); color: #eb6c87; }
-
-@media (max-width: 991px) {
-    .dc-hero__grid { grid-template-columns: 1fr; }
-    .dc-hero__visual { order: -1; }
-    .dc-hero__visual-card { max-width: 100%; }
-    .dc-info-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 640px) {
-    .dc-hero__row { flex-direction: column; align-items: flex-start; }
-    .dc-hero__actions .custom-pill-btn,
-    .dc-hero__actions .custom-white-pill-btn { flex: 1; justify-content: center; }
+    z-index: 2;
 }
 
-/* =========================================================
-   VANILLA CSS UTILITIES — pengganti class Tailwind
-   ========================================================= */
-
-.dc-container { max-width: 80rem; margin-inline: auto; padding-inline: 1rem; }
-@media (min-width: 768px) {
-    .dc-container { padding-inline: 2rem; }
+.blob {
+    border-radius: 48% 52% 40% 60% / 55% 40% 60% 45%;
 }
 
-.dc-hero-title { font-size: 1.875rem; font-weight: 700; color: #153563; line-height: 1.2; margin: 0; }
-@media (min-width: 768px) {
-    .dc-hero-title { font-size: 2.25rem; }
+/* ---------- animasi masuk "tuing" — identik halaman lain ---------- */
+@keyframes tuingIn {
+    0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
-.dc-hero-tagline { color: #355277; font-size: 1rem; line-height: 1.7; max-width: 36rem; margin: .5rem 0 1rem; }
-
-.dc-main-grid { display: flex; flex-direction: column; gap: 1.5rem; padding-bottom: 4rem; }
-@media (min-width: 768px) {
-    .dc-main-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: flex-start; }
-    .dc-order-1 { order: 1; }
-    .dc-order-2 { order: 2; }
+.reveal-onscroll {
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+}
+.reveal-onscroll.in-view {
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal-onscroll {
+        opacity: 1;
+        transform: none;
+        animation: none !important;
+    }
 }
 
-.dc-btn-lg { padding: .75rem 1.5rem; }
-
-.dc-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
-
-.dc-pill { display: inline-flex; align-items: center; padding: .25rem .75rem; border-radius: 999px; }
-
-/* ---------- tombol kontak: email biru, WhatsApp hijau (samain sama FAB WA home) ---------- */
-.dc-contact-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: .65rem 1.1rem; border-radius: 999px;
-    font-weight: 700; font-size: .85rem;
-    text-decoration: none; margin-top: .4rem;
-    border: 2px solid #153563;
-    box-shadow: 0 6px 0 #153563;
-    transition: transform .15s ease, box-shadow .15s ease;
+/* ---------- toast ---------- */
+.toast {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translate(-50%, 12px);
+    z-index: 50;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 14px 24px rgba(29, 74, 146, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
 }
-.dc-contact-btn:hover { transform: translateY(3px); box-shadow: 0 3px 0 #153563; }
-
-.dc-contact-btn--email {
-    background-color: #eaf3ff;
-    color: #153563;
-    border-color: #2e72ec;
-    box-shadow: 0 6px 0 #2e72ec;
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
 }
-.dc-contact-btn--email:hover { box-shadow: 0 3px 0 #2e72ec; }
 
-.dc-contact-btn--wa {
-    background-color: #d6f3df;
-    color: #146c3a;
-    border-color: #25d366;
-    box-shadow: 0 6px 0 #25d366;
+/* ---------- tombol kembali ke atas ---------- */
+.back-to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 45;
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    box-shadow: 0 6px 0 var(--ink);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        background-color 0.2s ease;
 }
-.dc-contact-btn--wa:hover { box-shadow: 0 3px 0 #25d366; }
+.back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    background: var(--yellow);
+}
+.back-to-top svg {
+    width: 20px;
+    height: 20px;
+}
 
-/* tombol Lamar via WhatsApp di card lowongan */
-.job-card-actions .apply-button {
+/* ---------- tombol salin alamat (kecil, di sebelah judul Alamat) ---------- */
+.copy-address-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: .5rem 1rem;
-    font-size: .8rem;
-    font-weight: 700;
+    gap: 0.35rem;
+    border: none;
+    background: var(--soft);
+    color: var(--blue-deep);
     border-radius: 999px;
-    text-decoration: none;
-    background-color: #d6f3df;
-    color: #146c3a;
-    border: 2px solid #146c3a;
-    box-shadow: 0 6px 0 #146c3a;
-    transition: transform .15s ease, box-shadow .15s ease;
-}
-.job-card-actions .apply-button:hover {
-    transform: translateY(3px);
-    box-shadow: 0 3px 0 #146c3a;
-}
-
-/* layout helpers */
-.dc-flex { display: flex; }
-.dc-flex-wrap { flex-wrap: wrap; }
-.dc-flex-col { flex-direction: column; }
-.dc-gap-2 { gap: .5rem; }
-.dc-gap-3 { gap: .75rem; }
-.dc-gap-6 { gap: 1.5rem; }
-.dc-items-start { align-items: flex-start; }
-.dc-items-end { align-items: flex-end; }
-.dc-items-center { align-items: center; }
-.dc-justify-between { justify-content: space-between; }
-.dc-self-center { align-self: center; }
-.dc-w-full { width: 100%; }
-
-/* spacing helpers */
-.dc-mb-1 { margin-bottom: .25rem; }
-.dc-mb-2 { margin-bottom: .5rem; }
-.dc-mb-3 { margin-bottom: .75rem; }
-.dc-mb-4 { margin-bottom: 1rem; }
-.dc-mt-2 { margin-top: .5rem; }
-.dc-mt-3 { margin-top: .75rem; }
-
-/* text helpers */
-.dc-text-xs { font-size: .75rem; }
-.dc-text-sm { font-size: .875rem; }
-.dc-font-bold { font-weight: 700; }
-.dc-uppercase { text-transform: uppercase; }
-.dc-tracking-wide { letter-spacing: .025em; }
-.dc-underline { text-decoration: underline; }
-.dc-leading-relaxed { line-height: 1.7; }
-
-/* warna teks & background */
-.dc-c-navy { color: #153563; }
-.dc-c-blue { color: #2e72ec; }
-.dc-c-body { color: #355277; }
-.dc-c-muted { color: #66758d; }
-.dc-bg-mint { background: #cce8de; }
-.dc-bg-white-70 { background: rgba(255,255,255,.7); }
-
-/* toast */
-#toast {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 1.5rem;
-    z-index: 70;
-    background: #153563;
-    color: #fff;
-    border-radius: 999px;
-    padding: .75rem 1.25rem;
-    font-size: .875rem;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+.copy-address-btn:hover {
+    background: var(--yellow);
+    color: #9b6900;
+    transform: translateY(-2px);
+}
+.copy-address-btn svg {
+    width: 14px;
+    height: 14px;
 }
 
-@media (prefers-reduced-motion: reduce), (max-width: 768px) {
-    .dc-hero .floaty,
-    .dc-hero .floaty-slow,
-    #lowongan .floaty,
-    #lowongan .floaty-slow {
+/* ---------- ornamen kecil kiri-kanan (bus, jam, papan tulis, lampu, alat
+   tulis) — asetnya disamakan dengan detail-lowongan.css. 6 di kiri + 6 di
+   kanan, tersebar dari hero sampai bawah halaman. Animasi masuk pakai
+   class reveal-onscroll (tuing) yang sudah dipakai elemen lain di
+   halaman ini; animasi gerak idle pakai floaty/floaty-slow/wiggle. ---------- */
+.deco-asset {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+.deco-asset img {
+    display: block;
+    opacity: 0.7;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+.aset-jam,
+.aset-bus,
+.aset-papantulis,
+.aset-lampu,
+.aset-alattulis {
+    width: 90px;
+    transform: rotate(0deg);
+}
+
+.floaty {
+    animation: floaty 4s ease-in-out infinite;
+}
+.floaty-slow {
+    animation: floaty 5s ease-in-out 0.6s infinite;
+}
+.wiggle {
+    animation: wiggle 3.2s ease-in-out infinite;
+}
+@keyframes floaty {
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* posisi 6 ornamen kiri + 6 kanan, disebar dari hero sampai footer.
+   Bagian atas (l1-l3 / r1-r3) dijangkarkan dari atas (top), bagian
+   bawah (l4-l6 / r4-r6) dijangkarkan dari bawah (bottom) supaya tetap
+   rapi walau panjang halaman berubah (mis. jumlah lowongan beda-beda). */
+.dp-deco-l1 {
+    left: 3%;
+    top: 3rem;
+}
+.dp-deco-l2 {
+    left: -1rem;
+    top: 13rem;
+}
+.dp-deco-l3 {
+    left: 4%;
+    top: 26rem;
+}
+.dp-deco-l4 {
+    left: -0.5rem;
+    bottom: 34rem;
+}
+.dp-deco-l5 {
+    left: 3.5%;
+    bottom: 20rem;
+}
+.dp-deco-l6 {
+    left: -1.2rem;
+    bottom: 6rem;
+}
+
+.dp-deco-r1 {
+    right: 3%;
+    top: 7rem;
+}
+.dp-deco-r2 {
+    right: -1rem;
+    top: 18rem;
+}
+.dp-deco-r3 {
+    right: 4%;
+    top: 30rem;
+}
+.dp-deco-r4 {
+    right: -0.5rem;
+    bottom: 30rem;
+}
+.dp-deco-r5 {
+    right: 3.5%;
+    bottom: 16rem;
+}
+.dp-deco-r6 {
+    right: -1.2rem;
+    bottom: 3rem;
+}
+
+/* Responsif: ornamen samar di layar medium, hilang di HP/tablet biar
+   konten gak sempit/numpuk — sama seperti detail-lowongan.css */
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+@media (max-width: 900px) {
+    .deco-asset {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce), (max-width: 900px) {
+    .floaty,
+    .floaty-slow,
+    .wiggle {
         animation: none !important;
+    }
+}
+
+/* ---------- BACK LINK ---------- */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 1.75rem 0 1rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+.back-link svg {
+    width: 18px;
+    height: 18px;
+}
+.back-link:hover {
+    color: var(--blue-deep);
+}
+
+/* ---------- tag / pills (identik detail-lowongan) ---------- */
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--soft);
+    color: var(--ink);
+}
+.industry-badge {
+    background: var(--lemon);
+    color: #7a5c00;
+}
+.demo-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--pink-strong);
+    color: #a83366;
+    white-space: nowrap;
+}
+.job-tag {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    margin-bottom: 0.9rem;
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    background: var(--soft);
+    color: var(--blue-deep);
+}
+
+/* ---------- tombol pill seragam (identik custom-white-pill-btn) ---------- */
+.button {
+    min-height: 2.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.3rem;
+    background-color: #ffffff;
+    color: #0a4174;
+    border: 3px solid #0a4174;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    box-shadow: 0 6px 0 #0a4174;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+.button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+.button:hover {
+    background-color: #fae588;
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 #0a4174;
+}
+.button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #0a4174;
+}
+.button-secondary {
+    background-color: #ffffff;
+    color: #0a4174;
+}
+.button-wide {
+    width: 100%;
+}
+
+/* ---------- HERO PERUSAHAAN (disamakan job-hero) ---------- */
+.company-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: linear-gradient(
+        155deg,
+        var(--sky) 0%,
+        var(--cream) 50%,
+        var(--sky) 130%
+    );
+    border: 2px solid #fff;
+    box-shadow: 0 14px 35px rgba(29, 74, 146, 0.12);
+    padding: 1.75rem;
+}
+.company-hero::after {
+    content: "";
+    position: absolute;
+    right: -2.5rem;
+    bottom: -2.5rem;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 48% 52% 40% 60% / 55% 40% 60% 45%;
+    background: var(--pink-strong);
+    opacity: 0.55;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.company-avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    border: 2px solid var(--ink);
+    background: var(--yellow);
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--ink);
+}
+.company-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-copy {
+    min-width: 0;
+    flex: 1;
+}
+.hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.company-name {
+    margin: 0.75rem 0 0.2rem;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    line-height: 1.1;
+    color: var(--ink);
+}
+.company-meta {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+/* ---------- SOSIAL / KONTAK ---------- */
+.connect-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.hero-social-list {
+    margin-top: 1rem;
+}
+.social-link {
+    width: 2.6rem;
+    height: 2.6rem;
+    display: grid;
+    place-items: center;
+    border-radius: 0.9rem;
+    background: var(--soft);
+    color: var(--blue-deep);
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+.social-link:hover {
+    background: var(--yellow);
+    color: #9b6900;
+    transform: translateY(-2px);
+}
+.social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    stroke: currentColor;
+}
+.social-link .instagram-icon,
+.social-link .mail-icon {
+    fill: none;
+    stroke-width: 2;
+}
+
+/* ---------- FAKTA SINGKAT (disamakan summary-grid / summary-card) ---------- */
+.facts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+    margin: 1.5rem 0 2rem;
+}
+.fact-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid rgba(29, 74, 146, 0.08);
+    border-radius: 1.4rem;
+    box-shadow: 0 10px 24px rgba(29, 74, 146, 0.08);
+    padding: 1.1rem;
+    overflow: hidden;
+}
+.fact-card:before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--sky);
+}
+.fact-card:nth-child(2):before {
+    background: var(--pink-strong);
+}
+.fact-card:nth-child(3):before {
+    background: var(--lav);
+}
+.fact-card:nth-child(4):before {
+    background: var(--lemon);
+}
+.fact-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-weight: 700;
+}
+.fact-value {
+    margin-top: 0.25rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    color: var(--ink);
+}
+
+/* ---------- LAYOUT UTAMA: Tentang Perusahaan & Alamat jadi 2 kolom ---------- */
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.content-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border: 1px solid rgba(29, 74, 146, 0.08);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 24px rgba(29, 74, 146, 0.08);
+    padding: 1.4rem 1.4rem 1.4rem 1.6rem;
+    overflow: hidden;
+}
+.content-card:before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--sky);
+}
+.content-card.address-card:before {
+    background: var(--pink-strong);
+}
+
+.section-title {
+    margin: 0 0 0.9rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+.section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+}
+.section-title-row .section-title {
+    margin-bottom: 0;
+}
+
+.body-copy {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.address-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+.address-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    color: var(--muted);
+}
+.address-line svg {
+    width: 20px;
+    flex-shrink: 0;
+    color: var(--blue-deep);
+}
+.address-card .button {
+    margin-top: auto;
+}
+
+/* ---------- LOWONGAN DARI PERUSAHAAN (disamakan related-card) ---------- */
+.jobs-section {
+    margin-top: 2rem;
+    padding-bottom: 3rem;
+}
+.section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+.section-header .section-title {
+    margin-bottom: 0;
+}
+
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+.job-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid rgba(29, 74, 146, 0.08);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 24px rgba(29, 74, 146, 0.08);
+    padding: 1.4rem;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.job-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(29, 74, 146, 0.13);
+}
+.job-title {
+    margin: 0 0 0.9rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+}
+.job-details {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.job-details span {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+.job-card .button {
+    margin-top: auto;
+}
+
+.empty-state {
+    padding: 1.4rem;
+    border: 2px dashed var(--blue);
+    border-radius: 1.1rem;
+    background: var(--soft);
+    color: var(--muted);
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (min-width: 640px) {
+    .facts-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .jobs-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 900px) {
+    .main-layout {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .jobs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .page-frame {
+        width: min(100% - 2rem, 1180px);
+    }
+    .company-hero,
+    .content-card {
+        padding: 1.4rem;
+    }
+    .hero-content {
+        align-items: flex-start;
+    }
+    .company-avatar {
+        width: 4.2rem;
+        height: 4.2rem;
+        border-radius: 1.1rem;
+        font-size: 1.4rem;
+    }
+    .facts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .jobs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .facts-grid {
+        gap: 0.6rem;
+    }
+    .fact-card {
+        padding: 0.85rem;
+    }
+    .company-name {
+        font-size: 1.7rem;
+    }
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }

@@ -8,12 +8,34 @@
     <!-- CSS File Calls -->
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    <style>
+      /* card jadi <a>, defaultnya inline -> jadiin block + hilangin underline/warna default link */
+      a.card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+      }
+    </style>
 </head>
 <body data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}">
 
 <x-user-navbar />
 
 <div class="section-blue">
+
+  <!-- ornamen aset kiri-kanan, samain kaya home -->
+  <div class="deco-asset alb-hero-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+  </div>
+  <div class="deco-asset alb-hero-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-hero-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-hero-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
 
   <!-- doodles -->
   <div class="doodle" style="top:60px;left:6%;--r:-10deg;" id="doodle-star">
@@ -25,21 +47,20 @@
     <div class="hero-inner">
 
       <div class="hero-copy">
-        <div class="greet-badge"> OUR MEMORIES</div>
-        <h1 class="title">
+        <div class="greet-badge reveal-pop" style="--pop-delay:0s"> OUR MEMORIES</div>
+        <h1 class="title reveal-pop" style="--pop-delay:.1s">
           Tentang Kita, Tentang Momen yang Nggak Akan Terulang Lagi
         </h1>
-        <p class="subtitle">
+        <p class="subtitle reveal-pop" style="--pop-delay:.2s">
           Potongan kecil dari hari-hari yang pernah kita jalani bersama,
           sekarang jadi cerita yang akan selalu kita simpan.
         </p>
-        <button class="hero-cta" id="scroll-to-album">
+        <button class="hero-cta reveal-pop" id="scroll-to-album" style="--pop-delay:.3s">
           Lihat Album
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2c3e50" stroke-width="2.6"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
         </button>
       </div>
 
-      <div class="photo-stack" aria-label="Kumpulan foto kenangan">
+      <div class="photo-stack reveal-pop" aria-label="Kumpulan foto kenangan" style="--pop-delay:.15s">
         <div class="polaroid one" data-caption="momen kecil ">
           <img src="{{ asset('assets/images/foto-1.png') }}" alt="Momen kenangan pertama">
         </div>
@@ -69,11 +90,51 @@
 
 <div class="section-yellow" id="album-section">
 
+  <div class="deco-asset alb-grid-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+  </div>
+  <div class="deco-asset alb-grid-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-grid-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-grid-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
+  <div class="deco-asset alb-grid-l3 reveal-onscroll" style="transition-delay:.2s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+  </div>
+  <div class="deco-asset alb-grid-r3 reveal-onscroll" style="transition-delay:.2s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+  </div>
+  <div class="deco-asset alb-grid-l4 reveal-onscroll" style="transition-delay:.3s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+  </div>
+  <div class="deco-asset alb-grid-r4 reveal-onscroll" style="transition-delay:.3s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+  </div>
+
   <div class="wrap">
     <div class="section-head reveal-pop">
-      <h2>Pilih Album <span class="marker">Kamu</span></h2>
+      <h2>Pilih Album kamu</h2>
       <div class="count">{{ count($albums) }} albums</div>
     </div>
+
+    <!-- SEARCH BAR: cari nama album, kerja pas tombol "Cari" diklik (atau Enter). Minimal 4 huruf. -->
+    <div class="album-search-bar reveal-fade" style="--pop-delay:.15s">
+      <div class="album-search-field">
+        <label class="sr-only" for="album-search">Cari nama album</label>
+        <input type="text" id="album-search" placeholder="Cari nama album..." autocomplete="off">
+      </div>
+      <button type="button" id="album-search-btn" class="album-search-submit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+        </svg>
+        Cari
+      </button>
+    </div>
+    <p id="album-search-hint" class="album-search-hint" style="display:none;">Ketik minimal 4 huruf dulu ya, biar hasil carinya pas </p>
 
     <div class="filter-bar">
       <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
@@ -84,13 +145,17 @@
 
     <div class="album-grid">
       @forelse($albums as $index => $album)
-      <div class="card" id="c{{ $album->id }}" data-category="{{ $album->category }}">
+      <a href="{{ route('album.show', $album->slug) }}"
+         class="card"
+         id="c{{ $album->id }}"
+         data-category="{{ $album->category }}"
+         data-title="{{ strtolower($album->title) }}">
         <div class="card-photo">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
         </div>
-        
+
         <div class="card-body">
           <h3>{{ $album->title }}</h3>
           <div class="label">{{ $album->subtitle_label ?? $album->target_generation }}</div>
@@ -103,17 +168,20 @@
           @if($album->description)
             <p class="card-desc">{{ \Illuminate\Support\Str::limit($album->description, 90) }}</p>
           @endif
-          <a href="{{ route('album.show', $album->slug) }}" class="view-btn">View Album
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+          <span class="view-btn">Lihat Album</span>
         </div>
-      </div>
+      </a>
       @empty
       <div style="grid-column: 1 / -1; text-align:center; padding: 40px;">
         <p style="font-size: 18px; font-weight:700;">Belum ada album kenangan.</p>
       </div>
       @endforelse
     </div>
+
+    <!-- Pesan saat pencarian tidak menemukan hasil -->
+    <p id="album-search-empty" class="album-search-empty" style="display:none;">
+      Nggak ada album dengan nama itu. Coba kata kunci lain, yuk.
+    </p>
   </div>
 
 </div>
@@ -175,7 +243,7 @@
     });
   });
 
-  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / STATUS ----------
+  // ---------- SCROLL REVEAL UNTUK HEADING / FILTER BAR / STATUS / SEARCH ----------
   var popEls = document.querySelectorAll('.reveal-pop, .reveal-fade');
   var popIo = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -187,24 +255,117 @@
   }, { threshold: 0.2 });
   popEls.forEach(function(el){ popIo.observe(el); });
 
-  // ---------- FILTER BUTTONS ----------
+  // ---------- SEARCH (nama album, minimal 4 huruf) + FILTER KATEGORI — jalan bareng ----------
   var filterBtns = document.querySelectorAll('.filter-btn');
   var filterLabel = document.getElementById('filter-label');
+  var searchInput = document.getElementById('album-search');
+  var searchBtn = document.getElementById('album-search-btn');
+  var emptyMsg = document.getElementById('album-search-empty');
+  var hintMsg = document.getElementById('album-search-hint');
   var labelText = { all: 'semua album', indoor: 'album Indoor', outdoor: 'album Outdoor' };
+  var activeFilter = 'all';
+  var activeKeyword = '';
+  var MIN_CHARS = 4;
+
+  function shake(el){
+    if (!el) return;
+    el.classList.remove('shake');
+    // force reflow biar animasi bisa diulang walau diklik berkali-kali beruntun
+    void el.offsetWidth;
+    el.classList.add('shake');
+  }
+
+  function applyFilterOnly(){
+    var visibleCount = 0;
+    cards.forEach(function(card){
+      var show = activeFilter === 'all' || card.dataset.category === activeFilter;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+    filterLabel.textContent = labelText[activeFilter];
+    if (emptyMsg) emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+  }
+
+  // Menjalankan pencarian + filter kategori sekaligus.
+  // Baru dijalankan ketika tombol "Cari" diklik (atau tekan Enter),
+  // dan hanya kalau ketikannya sudah minimal 4 huruf.
+  function runSearch(){
+    var raw = searchInput ? searchInput.value.trim() : '';
+
+    if (raw.length > 0 && raw.length < MIN_CHARS) {
+      if (hintMsg) hintMsg.style.display = 'block';
+      shake(searchInput);
+      shake(searchBtn);
+      return;
+    }
+
+    if (hintMsg) hintMsg.style.display = 'none';
+    activeKeyword = raw.toLowerCase();
+
+    var visibleCount = 0;
+    cards.forEach(function(card){
+      var matchCategory = activeFilter === 'all' || card.dataset.category === activeFilter;
+      var matchTitle = !activeKeyword || (card.dataset.title || '').indexOf(activeKeyword) !== -1;
+      var show = matchCategory && matchTitle;
+      card.classList.toggle('filtered-out', !show);
+      if (show) visibleCount++;
+    });
+
+    if (activeKeyword) {
+      filterLabel.textContent = 'hasil pencarian "' + activeKeyword + '"';
+      if (searchBtn) searchBtn.classList.add('is-active');
+    } else {
+      filterLabel.textContent = labelText[activeFilter];
+      if (searchBtn) searchBtn.classList.remove('is-active');
+    }
+
+    if (emptyMsg) {
+      emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+  }
 
   filterBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       filterBtns.forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
-      var filter = btn.dataset.filter;
-      filterLabel.textContent = labelText[filter];
-
-      cards.forEach(function(card){
-        var match = filter === 'all' || card.dataset.category === filter;
-        card.classList.toggle('filtered-out', !match);
-      });
+      activeFilter = btn.dataset.filter;
+      if (activeKeyword) {
+        runSearch();
+      } else {
+        applyFilterOnly();
+      }
     });
   });
+
+  if (searchBtn) {
+    searchBtn.addEventListener('click', function(){
+      runSearch();
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        runSearch();
+      }
+    });
+
+    // Kalau kolom cari dikosongin lagi, langsung balik tampilkan sesuai filter aktif
+    // dan matikan status aktif tombol + sembunyikan hint.
+    searchInput.addEventListener('input', function(){
+      if (this.value.trim() === '') {
+        if (hintMsg) hintMsg.style.display = 'none';
+        if (activeKeyword !== '') {
+          activeKeyword = '';
+          if (searchBtn) searchBtn.classList.remove('is-active');
+          applyFilterOnly();
+        }
+      } else if (this.value.trim().length >= MIN_CHARS && hintMsg) {
+        hintMsg.style.display = 'none';
+      }
+    });
+  }
 
   // Heart pop on polaroid click
   document.querySelectorAll('.polaroid').forEach(function(p){

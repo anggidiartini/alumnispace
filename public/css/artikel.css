@@ -6,6 +6,98 @@
    (.card, .filter-btn, .view-btn, .hero, dst) masih diambil dari album.css.
    ========================================= */
 
+/* ---------- BACKGROUND GARIS-GARIS TIPIS BIRU MUDA (khusus halaman DETAIL artikel) ----------
+   Nyontek gaya detail-event.css temen: pola grid garis halus, bukan gambar,
+   murni linear-gradient 1px diulang. Cuma kena .detail-page-wrap (halaman detail),
+   halaman index (.section-yellow biasa) tetap pakai background dot/gradient asli.
+   background-color disamain persis kayak punya temen (--cream / #fffdf6). */
+.detail-page-wrap {
+    background-color: #fffdf6;
+    background-image:
+        linear-gradient(rgba(46, 114, 236, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(46, 114, 236, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: 0 0;
+    background-repeat: repeat;
+}
+
+/* ---------- BACK-LINK: disamain PERSIS kayak punya temen (detail-event.css) ----------
+   Ini nimpa .back-link punya album.css (yang cuma teks + font Baloo2 + animasi
+   heroTextIn). File ini di-load SESUDAH album.css jadi otomatis menang.
+   Struktur & properti CSS di bawah ini sengaja disalin 1:1 dari detail-event.css
+   milik temen: inline-flex + icon, font-weight 800, ukuran & spacing sama,
+   TANPA animasi masuk (punya temen juga statis, nggak ada bounce). */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+    margin-bottom: -0.5rem;
+    color: #152b54;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+    animation: none;
+}
+.back-link svg,
+.back-link i {
+    flex-shrink: 0;
+}
+.back-link:hover {
+    color: #2e72ec;
+    text-decoration: underline;
+}
+
+/* ---------- HILANGKAN GARIS BAWAH DI SEMUA TOMBOL/LINK HALAMAN ARTIKEL ---------- */
+#article-detail a,
+#article-detail a:hover,
+#article-detail a:visited,
+#article-detail a *,
+.related-grid .card,
+.related-grid .card *,
+#article-section .card,
+#article-section .card *,
+.hero-cta,
+.hero-latest-card,
+.hero-latest-card *,
+.hero-latest-link,
+.sidebar-item,
+.sidebar-item *,
+.view-btn {
+    text-decoration: none !important;
+}
+
+/* ---------- SUPAYA TOMBOL "BACA ARTIKEL" SEJAJAR DI SEMUA CARD (TIDAK NAIK TURUN) ---------- */
+#article-section .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* PENTING: card yang lagi disembunyikan oleh search/filter (.filtered-out)
+   harus tetap none, jangan sampai ketiban aturan display:flex di atas */
+#article-section .card.filtered-out {
+    display: none !important;
+}
+
+#article-section .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#article-section .card-desc {
+    flex: 1;
+}
+
+#article-section .view-btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
 /* ---------- PAGINATION ---------- */
 .pagination-bar {
     display: flex;
@@ -20,7 +112,7 @@
 }
 
 .page-btn {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 13.5px;
     min-width: 42px;
@@ -35,7 +127,10 @@
     color: var(--btn-border);
     text-decoration: none;
     box-shadow: 0 6px 0 var(--btn-border);
-    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .page-btn:hover {
@@ -50,7 +145,7 @@
 }
 
 .page-btn.disabled {
-    opacity: .4;
+    opacity: 0.4;
     pointer-events: none;
     box-shadow: 0 6px 0 var(--btn-border);
 }
@@ -95,7 +190,34 @@
     color: var(--ink-soft);
     font-weight: 600;
     margin-bottom: 14px;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
+}
+
+/* =========================================================
+   HERO ARTIKEL (SECTION 1) — DISAMAKAN dgn tata letak
+   section 1 EVENT (event.css: .hero-section & .hero-layout).
+   .hero & .hero-inner aslinya didefinisikan di album.css (dipakai
+   bareng sama halaman album); di sini kita timpa 3 hal biar
+   proporsinya identik dengan punya event:
+   1) padding vertikal section  → 4rem atas / 5.5rem bawah (persis
+      nilai efektif #beranda.hero-section punya event)
+   2) rasio kolom kiri:kanan    → 1.05fr : 0.95fr (bukan 1fr : 420-520px)
+   3) gap antar kolom           → 2.5rem/40px (bukan 55px)
+   4) min-height dilepas        → tinggi section jadi natural
+      ngikutin konten, sama kayak punya event (tidak dipatok 500px)
+   File ini di-load SESUDAH album.css jadi otomatis menang (specificity sama). */
+.hero {
+    padding: 64px 40px 88px;
+}
+
+.hero-inner {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    min-height: 0;
+}
+
+.hero-copy {
+    max-width: 576px; /* disamakan dgn max-width 36rem punya .hero-copy event */
 }
 
 /* ---------- KARTU "ARTIKEL TERBARU" DI HERO (pengganti photo-stack) ---------- */
@@ -109,11 +231,13 @@
     box-shadow: 8px 8px 0 var(--btn-border);
     text-decoration: none;
     transform: rotate(2.5deg);
-    animation: floatUpDown 4.6s ease-in-out infinite;
-    transition: transform .3s ease, box-shadow .3s ease;
+    animation: heroCardFloat 4.6s ease-in-out infinite;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
     justify-self: end;
     width: 100%;
-    max-width: 360px;
+    max-width: 460px; /* dibesarkan dari 420px biar area fotonya lebih lega */
 }
 
 .hero-latest-card:hover {
@@ -129,19 +253,24 @@
     z-index: 5;
     background: var(--jc-ink, #203b68);
     color: #fff;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 12.5px;
     font-weight: 700;
     padding: 8px 14px;
     border-radius: 999px;
     border: 2.5px solid #fff;
-    box-shadow: 0 6px 14px rgba(44, 62, 80, .25);
+    box-shadow: 0 6px 14px rgba(44, 62, 80, 0.25);
     transform: rotate(10deg);
     animation: stickerWiggle 3s ease-in-out infinite;
 }
 
+/* FOTO KARTU HERO: dulu tingginya dipatok 150px sehingga foto kepotong
+   (object-fit: cover mangkas atas-bawah). Sekarang tingginya ngikut
+   rasio 4:3, jadi foto tampil lebih besar & utuh proporsinya. */
 .hero-latest-top {
-    height: 150px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    min-height: 220px;
     border-radius: 17px 17px 0 0;
     display: flex;
     align-items: center;
@@ -154,21 +283,31 @@
 .hero-latest-top::after {
     content: "";
     position: absolute;
-    inset: 10px;
-    border: 2px solid rgba(255, 255, 255, .5);
+    inset: 14px; /* dari 10px, biar frame putih nggak terlalu nempel ke foto */
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
 }
 
-.hero-latest-top--blue { background: var(--jc-blue, #6f9fe8); }
-.hero-latest-top--pink { background: #d98aa8; }
-.hero-latest-top--yellow { background: #d9b23c; }
-.hero-latest-top--ink { background: var(--jc-ink, #203b68); }
+.hero-latest-top--blue {
+    background: var(--jc-blue, #6f9fe8);
+}
+.hero-latest-top--pink {
+    background: #d98aa8;
+}
+.hero-latest-top--yellow {
+    background: #d9b23c;
+}
+.hero-latest-top--ink {
+    background: var(--jc-ink, #203b68);
+}
 
-.hero-latest-body { padding: 18px 20px 22px; }
+.hero-latest-body {
+    padding: 18px 20px 22px;
+}
 
 .hero-latest-cat {
     display: inline-block;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 12px;
     font-weight: 700;
     color: var(--jc-blue, #6f9fe8);
@@ -179,7 +318,7 @@
 }
 
 .hero-latest-title {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.22;
@@ -188,7 +327,7 @@
 }
 
 .hero-latest-desc {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 14px;
     line-height: 1.55;
     color: var(--ink-soft);
@@ -203,18 +342,31 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 14px;
     font-weight: 700;
     color: var(--btn-border);
 }
 
 @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr !important; }
-    .hero-latest-card { justify-self: center; margin: 24px auto 0; }
+    .hero-inner {
+        grid-template-columns: 1fr !important;
+    }
+    .hero-latest-card {
+        justify-self: center;
+        margin: 24px auto 0;
+    }
 }
 
-/* =========================================
+/* Di layar kecil kartunya jangan kelewat tinggi */
+@media (max-width: 600px) {
+    .hero-latest-top {
+        aspect-ratio: 16 / 10;
+        min-height: 180px;
+    }
+}
+
+/* =========================================================
    DETAIL ARTIKEL — badge+judul+tanggal di atas, cover full-width,
    lalu 2 kolom: konten kiri + sidebar kanan (Terkait & Terbaru).
    Warna & komponen sengaja disamakan dgn detail album (.cat-pill,
@@ -235,7 +387,7 @@
 }
 
 .article-title {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 34px;
     line-height: 1.18;
@@ -248,7 +400,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 13.5px;
     font-weight: 600;
     color: var(--ink-soft);
@@ -267,7 +419,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: photoPopIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .article-cover img {
@@ -279,7 +430,7 @@
 
 .article-cover .no-cover-icon {
     padding: 60px 0;
-    opacity: .35;
+    opacity: 0.35;
     color: var(--jc-ink);
 }
 
@@ -300,32 +451,45 @@
 }
 
 .article-prose {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 15.5px;
     line-height: 1.85;
     color: var(--ink-soft);
 }
 
-.article-prose p { margin: 0 0 18px; }
+.article-prose p {
+    margin: 0 0 18px;
+}
 .article-prose h2,
 .article-prose h3 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     color: var(--ink);
     margin: 26px 0 12px;
     line-height: 1.3;
 }
-.article-prose h2 { font-size: 22px; }
-.article-prose h3 { font-size: 18px; }
+.article-prose h2 {
+    font-size: 22px;
+}
+.article-prose h3 {
+    font-size: 18px;
+}
 .article-prose ul,
-.article-prose ol { margin: 0 0 18px 22px; }
-.article-prose li { margin-bottom: 6px; }
+.article-prose ol {
+    margin: 0 0 18px 22px;
+}
+.article-prose li {
+    margin-bottom: 6px;
+}
 .article-prose img {
     width: 100%;
     border-radius: 14px;
     margin: 10px 0 20px;
     display: block;
 }
-.article-prose a { color: var(--home-blue); font-weight: 600; }
+.article-prose a {
+    color: var(--home-blue);
+    font-weight: 600;
+}
 .article-prose blockquote {
     border-left: 5px solid var(--home-yellow-strong);
     background: var(--home-blue-soft);
@@ -353,7 +517,7 @@
 }
 
 .sidebar-title {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 600;
     font-size: 18px;
     color: var(--ink);
@@ -378,7 +542,9 @@
     padding-bottom: 6px;
 }
 
-.sidebar-item:hover { transform: translateX(3px); }
+.sidebar-item:hover {
+    transform: translateX(3px);
+}
 
 .sidebar-thumb {
     flex: none;
@@ -400,7 +566,9 @@
     display: block;
 }
 
-.sidebar-text { min-width: 0; }
+.sidebar-text {
+    min-width: 0;
+}
 
 .cat-pill.mini {
     position: static;
@@ -411,7 +579,7 @@
 }
 
 .sidebar-item-title {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-weight: 700;
     font-size: 13.5px;
     line-height: 1.3;
@@ -424,7 +592,7 @@
 }
 
 .sidebar-item-date {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: "Baloo 2", sans-serif;
     font-size: 11.5px;
     color: var(--ink-soft);
     font-weight: 500;
@@ -439,15 +607,28 @@
         flex-direction: row;
         overflow-x: auto;
     }
-    .sidebar-block { flex: 1; min-width: 260px; }
+    .sidebar-block {
+        flex: 1;
+        min-width: 260px;
+    }
 }
 
 @media (max-width: 600px) {
-    .article-title { font-size: 26px; }
-    .article-body-card { padding: 22px 18px; }
-    .article-cover { min-height: 200px; }
-    .article-cover img { max-height: 260px; }
-    .article-sidebar-col { flex-direction: column; }
+    .article-title {
+        font-size: 26px;
+    }
+    .article-body-card {
+        padding: 22px 18px;
+    }
+    .article-cover {
+        min-height: 200px;
+    }
+    .article-cover img {
+        max-height: 260px;
+    }
+    .article-sidebar-col {
+        flex-direction: column;
+    }
 }
 /* =========================================================
    Floating action row: back-to-top & WhatsApp — 1:1 sama
@@ -465,8 +646,12 @@
     gap: 0.75rem;
 }
 
-#wa-widget { order: 1; }
-#back-to-top { order: 2; }
+#wa-widget {
+    order: 1;
+}
+#back-to-top {
+    order: 2;
+}
 
 #back-to-top {
     display: grid;
@@ -476,14 +661,17 @@
     flex-shrink: 0;
     border: 0;
     border-radius: 9999px;
-    background: #153563;
+    background: #6f9fe8;
     color: #fff;
     box-shadow: 0 12px 24px rgba(21, 53, 99, 0.25);
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transform: translateY(12px) scale(0.9);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
 }
 
 #back-to-top.show {
@@ -502,7 +690,9 @@
 }
 
 .wa-pulse {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     animation: wa-pulse-ring 2.6s ease-out infinite;
 }
 
@@ -511,9 +701,15 @@
 }
 
 @keyframes wa-pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
-    70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
 }
 
 #wa-button {
@@ -522,7 +718,7 @@
     height: 3.5rem;
     width: 3.5rem;
     border-radius: 9999px;
-    background: #25D366;
+    background: #25d366;
     color: #fff;
     box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
 }
@@ -544,7 +740,10 @@
     opacity: 0;
     transform: translateY(10px) scale(0.95);
     visibility: hidden;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
     pointer-events: none;
     z-index: 5;
 }
@@ -611,4 +810,202 @@
         height: 2.5rem;
         width: 2.5rem;
     }
+}
+
+/* =========================================
+   ARTIKEL.CSS — Ornamen Dekorasi (10 Kiri, 10 Kanan)
+   Animasi float/wiggle disamakan namanya dgn album.css biar konsisten,
+   tapi definisi keyframe dikasih nama unik (floatUpDownDeco dkk) biar
+   gak bentrok sama floatUpDown punya album.css (dipakai buat hati/doodle).
+   ========================================= */
+
+.deco-asset {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes heroCardFloat {
+    0%,
+    100% {
+        transform: rotate(2.5deg) translateY(0);
+    }
+    50% {
+        transform: rotate(1deg) translateY(-10px);
+    }
+}
+
+@keyframes floatUpDownDeco {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+@keyframes floatSlowDeco {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+@keyframes wiggleDeco {
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* Disamain persis kaya animasi floaty/floaty-slow/wiggle di album.css
+   (durasi & easing sama: floaty 4s, floaty-slow 5s delay .6s, wiggle 3.2s) */
+.deco-asset .floaty {
+    animation: floatUpDownDeco 4s ease-in-out infinite;
+}
+.deco-asset .floaty-slow {
+    animation: floatSlowDeco 5s ease-in-out 0.6s infinite;
+}
+.deco-asset .wiggle {
+    animation: wiggleDeco 3.2s ease-in-out infinite;
+}
+
+@media (max-width: 1024px) {
+    .deco-asset {
+        display: none;
+    }
+}
+
+/* =========================================
+   REVEAL ANIMATION — disamakan 1:1 dengan album.css
+   (popBounceIn utk card & reveal-pop, fadeUp utk reveal-fade)
+   ========================================= */
+
+@keyframes popBounceIn {
+    0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.85);
+    }
+    55% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.05);
+    }
+    80% {
+        transform: translateY(2px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* .reveal-pop & .card sudah didefinisikan base state-nya di album.css,
+   di sini cuma nambahin elemen KHUSUS halaman artikel yang butuh reveal
+   bergaya sama (bounce) supaya semuanya konsisten dgn album */
+.article-head,
+.article-cover,
+.article-body-card,
+.sidebar-block {
+    opacity: 0;
+    transform: translateY(28px) scale(0.85);
+}
+
+.article-head.in-view,
+.article-cover.in-view,
+.article-body-card.in-view,
+.sidebar-block.in-view {
+    animation: popBounceIn 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.article-head.popped,
+.article-cover.popped,
+.article-body-card.popped,
+.sidebar-block.popped {
+    animation: none;
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .deco-asset .floaty,
+    .deco-asset .floaty-slow,
+    .deco-asset .wiggle {
+        animation: none !important;
+    }
+}
+
+/* Perbaikan badge kategori agar panjangnya pas sesuai teks */
+.article-head .cat-pill,
+.hero-latest-cat,
+.cat-pill.mini {
+    display: inline-flex !important;
+    width: fit-content !important;
+    max-width: max-content;
+    align-items: center;
+}
+
+/* Memaksa badge kategori agar panjangnya pas sesuai teks */
+.greet-badge.small {
+    display: inline-flex !important;
+    width: fit-content !important;
+    max-width: max-content !important;
+}
+
+/* =========================================
+   CARD "ARTIKEL TERKAIT" & "BACA JUGA" DI HALAMAN DETAIL —
+   sekarang markup-nya sudah PERSIS pakai class .card yang sama
+   kayak di index (lihat album.css), jadi otomatis dapet:
+   - border-radius, top-border-accent, soft shadow, hover lift
+   - siklus 4 warna (biru/pink/kuning/navy) via nth-of-type
+   - cat-pill, card-symbol, date badge, view-btn yang identik
+   Cuma butuh 2 penyesuaian kecil di bawah ini karena card ini
+   dibungkus <a> (link ke artikel), bukan <div> kayak di index.
+   ========================================= */
+.related-grid.album-grid {
+    padding-bottom: 0;
+}
+.related-grid.album-grid .card {
+    cursor: pointer;
+}
+
+/* ---------- SUPAYA TOMBOL "BACA ARTIKEL" SEJAJAR DI CARD TERKAIT/TERBARU
+   (HALAMAN DETAIL) — sama seperti perbaikan #article-section di atas,
+   card di sini tingginya dulu ikut isi excerpt masing-masing (naik-turun),
+   jadi tombolnya nggak sejajar antar card. Sekarang card dibuat flex-column
+   setinggi grid-nya, isi deskripsi ambil sisa ruang, tombol didorong ke
+   paling bawah (margin-top: auto) supaya rata di semua card. ---------- */
+.related-grid.album-grid .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.related-grid.album-grid .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.related-grid.album-grid .card-desc {
+    flex: 1;
+}
+.related-grid.album-grid .view-btn {
+    margin-top: auto;
+    align-self: flex-start;
 }

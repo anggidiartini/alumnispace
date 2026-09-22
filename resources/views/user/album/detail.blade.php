@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — {{ $album->title }}</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/event.css') }}?v={{ file_exists(public_path('css/event.css')) ? filemtime(public_path('css/event.css')) : time() }}">
+    
     <link rel="stylesheet" href="{{ asset('css/album.css') }}?v={{ file_exists(public_path('css/album.css')) ? filemtime(public_path('css/album.css')) : time() }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 </head>
@@ -14,19 +18,32 @@
 
 <div class="section-yellow detail-page-wrap">
 
-  <!-- doodles, biar senada sama hero index -->
-  <div class="doodle" style="top:110px;left:3%;--r:-8deg;">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="#f2b600"><path d="M12 1l2.9 7.3L22 11l-7.1 2.7L12 21l-2.9-7.3L2 11l7.1-2.7z"/></svg>
+  <div class="deco-asset alb-detail-l1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-  <div class="doodle" style="top:60%;right:2%;--r:10deg;color:var(--home-pink-strong);font-size:24px;">♡</div>
+  <div class="deco-asset alb-detail-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+  </div>
+  <div class="deco-asset alb-detail-r1 reveal-onscroll" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+  </div>
+  <div class="deco-asset alb-detail-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
+    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+  </div>
+
 
   <div class="wrap">
 
-    <a href="{{ route('album.index') }}" class="back-link">&larr; Kembali ke Album</a>
+    <!-- Back-link: disamain PERSIS kayak "Kembali ke Artikel" di detail artikel —
+         pakai icon arrow-left + flex layout, statis tanpa animasi masuk. -->
+    <a href="{{ route('album.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Album
+    </a>
 
     <div class="detail-grid">
       <div class="detail-photo-col">
-        <div class="detail-photo">
+        <div class="detail-photo reveal-pop" style="--pop-delay:.1s">
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">
             {{ ucfirst($album->category) }}
           </span>
@@ -35,28 +52,34 @@
         </div>
       </div>
 
+      <!-- ====== FIX: wrapper .info-card DIHAPUS di sini ======
+           Sebelumnya kolom kanan dibungkus <div class="info-card">, yang
+           bikin muncul box biru (background var(--home-blue-soft) + border
+           navy + shadow) dari class .info-card di album.css.
+           Sekarang badge/judul/meta/quote langsung ditaruh di
+           .detail-info-col, PERSIS seperti struktur di halaman detail
+           artikel (artikel/show.blade.php) yang tidak pakai .info-card
+           sama sekali — jadi tidak ada box biru lagi. -->
       <div class="detail-info-col">
-        <div class="info-card">
-          <div class="greet-badge small">
-            <span>✦</span> {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
-          </div>
+        <div class="greet-badge small reveal-pop" style="--pop-delay:.15s">
+             {{ $album->subtitle_label ?? $album->target_generation ?? 'MEMORI' }}
+        </div>
 
-          <h1 class="marker-title">{{ $album->title }}</h1>
+        <h1 class="marker-title reveal-pop" style="--pop-delay:.25s">{{ $album->title }}</h1>
 
-          <div class="meta-row">
-            <span class="meta-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              {{ $album->date_display }}
-            </span>
-            <span class="meta-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
-              {{ $album->location }}
-            </span>
-          </div>
+        <div class="meta-row reveal-pop" style="--pop-delay:.35s">
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            {{ $album->date_display }}
+          </span>
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.2"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            {{ $album->location }}
+          </span>
+        </div>
 
-          <div class="desc-quote">
-            <p class="detail-desc">{{ $album->description }}</p>
-          </div>
+        <div class="desc-quote reveal-pop" style="--pop-delay:.45s">
+          <p class="detail-desc">{{ $album->description }}</p>
         </div>
       </div>
     </div>
@@ -68,7 +91,7 @@
     ========================================================== --}}
     @if(isset($album->photos) && $album->photos->count())
     <div class="gallery-head reveal-pop">
-      <h2>Galeri <span class="marker">Foto</span></h2>
+      <h2>Galeri Foto</span></h2>
       <div class="count">{{ $album->photos->count() }} foto</div>
     </div>
 
@@ -111,10 +134,7 @@
           <div class="related-body">
             <div class="label">{{ $related->subtitle_label ?? $related->target_generation }}</div>
             <h3>{{ $related->title }}</h3>
-            <a href="{{ route('album.show', $related->slug) }}" class="view-btn">
-              View Album
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a4174" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
+            <a href="{{ route('album.show', $related->slug) }}" class="view-btn">View Album</a>
           </div>
         </div>
       @endforeach
@@ -135,28 +155,29 @@
     </div>
 
 <x-user-footer />
-<!-- Floating action buttons -->
-<div id="fab-row" class="fab-row">
-    <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
-        <i data-lucide="arrow-up" width="20" height="20"></i>
-    </button>
 
-    <div id="wa-widget">
-        <div id="wa-bubble" class="wa-bubble">
-            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
-                <p class="wa-bubble-title">Ada pertanyaan?</p>
-                <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
-                        data-lucide="x" width="16" height="16"></i></button>
+<!-- Floating action buttons: back-to-top & WhatsApp -->
+    <div id="fab-row" class="fab-row">
+        <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
+            <i data-lucide="arrow-up" width="20" height="20"></i>
+        </button>
+
+        <div id="wa-widget">
+            <div id="wa-bubble" class="wa-bubble">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                    <p class="wa-bubble-title">Ada pertanyaan?</p>
+                    <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
+                            data-lucide="x" width="16" height="16"></i></button>
+                </div>
+                <p class="wa-bubble-text">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+                <p class="wa-bubble-number">+62 812-3456-7890</p>
             </div>
-            <p class="wa-bubble-text">Hubungi pengurus kami via WhatsApp 👋</p>
-            <p class="wa-bubble-number">+62 812-3456-7890</p>
+            <a id="wa-button" href="https://wa.me/6281234567890?text=Halo%20Ruang%20Kenangan" target="_blank"
+                rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+                <i data-lucide="message-circle" width="26" height="26"></i>
+            </a>
         </div>
-        <a id="wa-button" href="https://wa.me/6281234567890?text=Halo" target="_blank"
-            rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
-            <i data-lucide="message-circle" width="26" height="26"></i>
-        </a>
     </div>
-</div>
 <script>
 (function(){
   // ---------- SCROLL REVEAL UNTUK RELATED-HEAD / RELATED-CARD / GALLERY-HEAD / GALLERY-ITEM ----------
@@ -175,6 +196,40 @@
       el.addEventListener('animationend', function(e){
         if(e.animationName === 'popBounceIn'){ el.classList.add('popped'); }
       });
+    });
+  }
+
+  // ---------- ICONS (Lucide) ----------
+  if (window.lucide) { lucide.createIcons(); }
+
+  // ---------- BACK TO TOP ----------
+  var backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', function(){
+      if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+    backToTop.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ---------- WHATSAPP BUBBLE ----------
+  var waButton = document.getElementById('wa-button');
+  var waBubble = document.getElementById('wa-bubble');
+  var waBubbleClose = document.getElementById('wa-bubble-close');
+
+  if (waButton && waBubble) {
+    waButton.addEventListener('mouseenter', function(){
+      waBubble.classList.add('show');
+    });
+  }
+  if (waBubbleClose) {
+    waBubbleClose.addEventListener('click', function(){
+      waBubble.classList.remove('show');
     });
   }
 
