@@ -21,10 +21,7 @@
                     dan tumbuh bersama lewat komunitas, karier, hingga agenda reuni.
                 </p>
 
-                <form class="as-footer__subscribe" onsubmit="return false;">
-                    <input type="email" placeholder="Email kamu" required>
-                    <button type="submit">Gabung</button>
-                </form>
+
             </div>
 
             <div class="as-footer__columns">
@@ -50,13 +47,13 @@
                 </div>
 
                 <div class="as-footer__col">
-                    <h5 class="as-footer__col-title">Artikel Terbaru</h5>
-                    <ul class="as-footer__links">
-                        <li><a href="{{ route('artikel.index') }}">Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</a></li>
-                        <li><a href="{{ route('artikel.index') }}">Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</a></li>
-                        <li><a href="{{ route('artikel.index') }}">Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</a></li>
-                    </ul>
-                </div>
+    <h5 class="as-footer__col-title">Artikel Terbaru</h5>
+    <ul class="as-footer__links">
+        <li><a href="{{ route('artikel.show', 'peresmian-gedung-baru-lab-komputer') }}">Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</a></li>
+        <li><a href="{{ route('artikel.show', 'tips-lolos-interview-kerja-unicorn') }}">Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</a></li>
+        <li><a href="{{ route('artikel.show', 'persiapan-grand-reunion-2027') }}">Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</a></li>
+    </ul>
+</div>
 
             </div>
         </div>
@@ -73,6 +70,7 @@
                 <a href="mailto:hello@alumnispace.id">Email</a>
             </div>
         </div>
+
 
     </div>
 </footer>

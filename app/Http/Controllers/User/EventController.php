@@ -136,6 +136,14 @@ class EventController extends Controller
             $nomorWaPanitia = $nomorBersih;
         }
 
+        try {
+            if ($user && !empty($user->email)) {
+                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\EventRegisteredNotification($registration));
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Gagal kirim email event: " . $e->getMessage());
+        }
+
         $pesanTeks = "Halo Panitia, saya telah mendaftar di Event ini dan ingin konfirmasi pendaftaran.\n\n"
                    . "📄 *DATA PENDAFTARAN*\n"
                    . "• Nama: " . $registration->name . "\n"

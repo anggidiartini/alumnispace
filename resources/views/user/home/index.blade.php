@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
   <link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
   <link rel="stylesheet" href="{{ asset('css/footer.css') }}?v={{ file_exists(public_path('css/footer.css')) ? filemtime(public_path('css/footer.css')) : time() }}">
+
   @auth
   <script>
     localStorage.setItem("ac_logged_in", "true");
@@ -46,7 +47,7 @@
         <div class="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <div class="relative z-10 reveal">
             @auth
-            <p class="mb-4 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
+            <p class="mb-1 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
               <span></span> Selamat datang, {{ Auth::user()->name }}! (Alumni Terverifikasi)
             </p>
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Ruang temu kita semua.' }}</h1>
@@ -201,42 +202,79 @@
 
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
-      <p class="mb-3 inline-block rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Struktur Organisasi</p>
+      <!-- Pengurus -->
+<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
       <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
     </div>
 
   </div>
 
 
-  <!-- Container Scroll menggunakan class dari home.css -->
-  <div class="pengurus-track mt-10">
-    @forelse($pengurus ?? [] as $index => $item)
-    <article class="reveal-onscroll pengurus-card card-v{{ ($index % 4) + 1 }}">
+    <!-- Container Scroll menggunakan class dari home.css -->
+  <div class="pengurus-carousel-wrap mt-10">
+    <button type="button" id="pengurus-prev" class="pengurus-arrow pengurus-arrow--prev focus-ring" aria-label="Geser ke kiri">
+      <i data-lucide="chevron-left" class="h-5 w-5"></i>
+    </button>
 
-  <div class="pengurus-photo-wrap border border-blue-100">
-    @php
-      $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
-      $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
-      $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
-      $srcFoto = $fotoPengurus
-          ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
-          : asset('assets/images/default-avatar.png');
-    @endphp
+    <div class="pengurus-track" id="pengurus-track">
+      @forelse($pengurus ?? [] as $index => $item)
+      <article class="reveal-onscroll pengurus-card card-v{{ ($index % 4) + 1 }}">
 
-    <img src="{{ $srcFoto }}" alt="{{ $namaPengurus }}" onclick="openPengurusLightbox('{{ $srcFoto }}')">
-  </div>
+        <div class="pengurus-photo-wrap border border-blue-100">
+          @php
+            $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
+            $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
+            $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
+            $srcFoto = $fotoPengurus
+                ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
+                : asset('assets/images/default-avatar.png');
 
-  <div class="mt-4 text-center">
-    <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">{{ $namaPengurus }}</h3>
-    <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
-  </div>
+            // Ambil ID alumni_profile asli lewat id pengurus (alumni_committees.id)
+            $alumniProfileId = \Illuminate\Support\Facades\DB::table('alumni_committees')
+                ->where('id', $item->id)
+                ->value('alumni_profile_id');
 
-</article>
-    @empty
-      <div class="w-full py-8 text-center text-sm text-[#355277]">
-        Data pengurus belum tersedia.
-      </div>
-    @endforelse
+            $alumniTerkait = $alumniProfileId
+                ? \App\Models\AlumniProfile::find($alumniProfileId)
+                : null;
+          @endphp
+
+          <img src="{{ $srcFoto }}" alt="{{ $namaPengurus }}" onclick="openPengurusLightbox({{ $index }})">
+        </div>
+
+        <div class="mt-4 text-center">
+          <h3 class="text-base font-bold text-[#153563] truncate" title="{{ $namaPengurus }}">
+            @if($alumniTerkait)
+              <a href="{{ route('alumni.show', $alumniTerkait->slug ?? $alumniTerkait->id) }}" class="unstyled-link focus-ring">{{ $namaPengurus }}</a>
+            @else
+              {{ $namaPengurus }}
+            @endif
+          </h3>
+          <p class="mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide truncate" title="{{ $jabatanPengurus }}">{{ $jabatanPengurus }}</p>
+
+          @if($alumniTerkait)
+            <a href="{{ route('alumni.show', $alumniTerkait->slug ?? $alumniTerkait->id) }}"
+               class="focus-ring card-btn custom-white-pill-btn mt-4 block w-full">
+                Lihat Detail Pengurus
+            </a>
+          @else
+            <span class="card-btn custom-white-pill-btn mt-4 block w-full opacity-50 cursor-not-allowed">
+                Profil Tidak Tersedia
+            </span>
+          @endif
+        </div>
+
+      </article>
+      @empty
+        <div class="w-full py-8 text-center text-sm text-[#355277]">
+          Data pengurus belum tersedia.
+        </div>
+      @endforelse
+    </div>
+
+    <button type="button" id="pengurus-next" class="pengurus-arrow pengurus-arrow--next focus-ring" aria-label="Geser ke kanan">
+      <i data-lucide="chevron-right" class="h-5 w-5"></i>
+    </button>
   </div>
 </section>
       <!-- GATED TEASER (HANYA MUNCUL KETIKA BELUM LOGIN) -->
@@ -312,9 +350,10 @@
   <div class="mt-8 flex flex-wrap gap-3 rounded-[1.5rem] border border-blue-100 bg-[#f8fbff] p-3 reveal-onscroll">
     <!-- Search Bar Cari Nama Alumni -->
     <div class="flex-1 min-w-[240px]">
-      <label class="sr-only" for="alumni-search">Cari nama alumni</label>
-      <input type="text" id="alumni-search" placeholder="Cari nama alumni..." class="focus-ring w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
-    </div>
+  <label class="sr-only" for="alumni-search">Cari nama alumni</label>
+  <input type="text" id="alumni-search" placeholder="Cari nama alumni..." class="focus-ring w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm font-semibold text-[#153563]">
+  <p id="alumni-search-hint" class="alumni-search-hint" style="display:none;">Ketik minimal 4 huruf dulu ya, biar hasil carinya pas</p>
+</div>
 
     <!-- Filter Angkatan (Tanpa "Semua Angkatan") -->
     <label class="sr-only" for="year-filter">Filter angkatan</label>
@@ -349,17 +388,23 @@
     @foreach($alumni ?? [] as $index => $alum)
     <article class="alumni-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-5 shadow-sm" data-name="{{ strtolower($alum->user?->name ?? '') }}" data-year="{{ $alum->graduation_year }}" data-field="{{ str_contains(strtolower($alum->profession ?? ''), 'engineer') || str_contains(strtolower($alum->profession ?? ''), 'tech') ? 'teknologi' : (str_contains(strtolower($alum->profession ?? ''), 'designer') || str_contains(strtolower($alum->profession ?? ''), 'creator') ? 'kreatif' : 'sosial') }}" style="display: none;">
       <div class="flex items-start justify-between">
-        @if($alum->avatar)
-          <img src="{{ $alum->avatar }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100">
-        @else
-          <span class="grid h-14 w-14 place-items-center rounded-2xl bg-[#a8d3ff] font-bold text-[#153563]">{{ strtoupper(substr($alum->user?->name ?? 'A', 0, 2)) }}</span>
-        @endif
+        <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring">
+          @php
+            $alumHasAvatar = !empty($alum->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($alum->avatar);
+            $alumAvatarSrc = $alumHasAvatar
+                ? asset('storage/'.$alum->avatar)
+                : asset('assets/images/default-avatar.jpg');
+          @endphp
+          <img src="{{ $alumAvatarSrc }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100" onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
+        </a>
         <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
       </div>
-      <h3 class="mt-5 text-xl font-bold text-[#153563]">{{ $alum->user?->name ?? 'Alumni' }}</h3>
+            <h3 class="mt-5 text-xl font-bold text-[#153563]">
+              <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="unstyled-link focus-ring">{{ $alum->user?->name ?? 'Alumni' }}</a>
+            </h3>
       <p class="mt-1 text-sm text-[#355277]">{{ $alum->profession ?? 'Alumni Member' }}</p>
       <p class="mt-3 text-sm font-medium text-[#153563]">📍 {{ $alum->city ?? 'Indonesia' }}</p>
-      <a href="{{ route('alumni.index') }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
+      <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring card-btn custom-white-pill-btn block w-full">Sapa Profil</a>
     </article>
     @endforeach
   </div>
@@ -502,22 +547,26 @@
           <!-- Menggunakan Grid 3 kolom persis seperti lowongan -->
           <div class="grid gap-6 md:grid-cols-3">
   @forelse($articles ?? [] as $index => $article)
-  <div class="card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+  <div class="article-card card-v{{ ($index % 4) + 1 }} rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
     <div>
       <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50">
         <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563] shadow-sm">
           {{ ucfirst($article->category) }}
         </span>
-        @if($article->thumbnail)
-          <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
-        @else
-          <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
-            <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
-          </div>
-        @endif
+        <a href="{{ route('artikel.show', $article->slug) }}" class="focus-ring block h-full w-full">
+          @if($article->thumbnail)
+            <img src="{{ asset($article->thumbnail) }}" alt="{{ $article->title }}" class="w-full h-full object-cover">
+          @else
+            <div class="flex items-center justify-center w-full h-full bg-blue-50/50">
+              <i data-lucide="newspaper" class="w-10 h-10 text-[#153563]/40"></i>
+            </div>
+          @endif
+        </a>
       </div>
 
-      <h3 class="text-xl font-bold text-[#153563] leading-snug">{{ $article->title }}</h3>
+      <h3 class="text-xl font-bold text-[#153563] leading-snug">
+        <a href="{{ route('artikel.show', $article->slug) }}" class="unstyled-link focus-ring">{{ $article->title }}</a>
+      </h3>
 
       <div class="flex items-center gap-1.5 mt-2.5 text-xs font-semibold text-[#355277]">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
@@ -536,7 +585,7 @@
     </div>
   </div>
   @empty
-  <div class="card-v1 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
+  <div class="article-card card-v1 rounded-[1.75rem] p-6 shadow-sm border flex flex-col justify-between reveal-onscroll">
     <div>
       <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4 shadow-sm bg-white/50 flex items-center justify-center">
         <span class="absolute top-3 left-3 z-10 rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Kabar Kampus</span>
@@ -560,109 +609,130 @@
         </div>
       </section>
 
-      <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
-      <section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
+                  <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
+<section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
   <div class="deco-asset album-jam reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset album-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
   </div>
-        <div class="mx-auto max-w-7xl px-5 md:px-8">
-          <div class="reveal-onscroll">
-            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Album komunitas</p>
-            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
-            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="reveal-onscroll">
+      <!-- Album -->
+      <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Album komunitas</p>
+      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Kenangan yang tersimpan rapi.</h2>
+      <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Koleksi album foto kenangan masa sekolah khusus untuk alumni yang sudah login.</p>
+    </div>
+    <div class="mt-9 grid gap-5 md:grid-cols-3">
+      @forelse(collect($albums ?? [])->take(3) as $index => $album)
+      <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6 flex h-full flex-col justify-between">
+        <div>
+          <div class="relative mb-4 h-40 w-full overflow-hidden rounded-2xl bg-white/50 shadow-sm">
+            <a href="{{ route('album.show', $album->slug) }}" class="focus-ring block h-full w-full">
+              <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}" class="h-full w-full object-cover">
+            </a>
           </div>
-          <div class="mt-9 grid gap-5 md:grid-cols-4">
-            @forelse($albums ?? [] as $index => $album)
-            <article class="pop-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.75rem] p-6">
-              <span class="text-4xl">📸</span>
-              <h3 class="mt-6 text-2xl font-bold text-[#153563]">{{ $album->title }}</h3>
-              <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
-              <a href="{{ route('album.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Buka Album</a>
-            </article>
-            @empty
-            <p class="text-sm text-[#355277]">Belum ada album foto.</p>
-            @endforelse
-          </div>
-          <div class="mt-6 text-right reveal-onscroll">
-            <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-          </div>
+          <h3 class="text-2xl font-bold text-[#153563]">
+            <a href="{{ route('album.show', $album->slug) }}" class="unstyled-link focus-ring">{{ $album->title }}</a>
+          </h3>
+          <p class="mt-2 text-sm text-[#355277]">{{ $album->subtitle_label ?? $album->target_generation }} · {{ $album->location }}</p>
         </div>
-      </section>
+        <a href="{{ route('album.show', $album->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block self-start mt-6">Buka Album</a>
+      </article>
+      @empty
+      <p class="text-sm text-[#355277]">Belum ada album foto.</p>
+      @endforelse
+    </div>
+    <div class="mt-6 text-right reveal-onscroll">
+      <a href="{{ route('album.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+    </div>
+  </div>
+</section>
 
-      <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
-      <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
+                        <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
+<section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset lowongan-papantulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
   <div class="deco-asset lowongan-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
   </div>
-        <div class="reveal-onscroll">
-          <p class="mb-3 inline-flex rounded-full bg-[#eaf3ff] px-4 py-2 text-sm font-bold text-[#153563]">Karier &amp; peluang</p>
-          <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Lowongan pilihan untukmu.</h2>
-          <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Info bursa kerja & magang terverifikasi dari perusahaan partner alumni.</p>
+  <div class="reveal-onscroll">
+    <!-- Lowongan -->
+    <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Karier &amp; peluang</p>
+    <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Lowongan pilihan untukmu.</h2>
+    <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Info bursa kerja & magang terverifikasi dari perusahaan partner alumni.</p>
+  </div>
+  <div class="mt-9 grid gap-4 md:grid-cols-3">
+    @forelse(collect($jobs ?? [])->take(3) as $index => $job)
+    <article class="job-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.5rem] p-5 shadow-sm flex h-full flex-col justify-between">
+      <div>
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h4 class="text-xl font-bold text-[#153563]">
+              <a href="{{ route('lowongan.show', $job->slug) }}" class="unstyled-link focus-ring">{{ $job->title }}</a>
+            </h4>
+            <p class="mt-1 text-[#355277] text-sm">{{ $job->company_name }} • ({{ $job->alumni_contact ?? 'Alumni Partner' }})</p>
+          </div>
+          <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#2e72ec]">{{ $job->job_type }}</span>
         </div>
-        <div class="mt-9 grid gap-4 md:grid-cols-3">
-          @forelse(collect($jobs ?? [])->take(3) as $index => $job)
-          <article class="job-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.5rem] p-5 shadow-sm">
-            <div class="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h4 class="text-xl font-bold text-[#153563]">{{ $job->title }}</h4>
-                <p class="mt-1 text-[#355277] text-sm">{{ $job->company_name }} • ({{ $job->alumni_contact ?? 'Alumni Partner' }})</p>
-              </div>
-              <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#2e72ec]">{{ $job->job_type }}</span>
-            </div>
-            <p class="mt-4 text-sm text-[#355277]">{{ $job->location }} · <strong>{{ $job->salary_display }}</strong></p>
-            <a href="{{ route('lowongan.show', $job->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Lamar Sekarang</a>
-          </article>
-          @empty
-          <p class="text-sm text-[#355277]">Belum ada lowongan kerja aktif.</p>
-          @endforelse
-        </div>
-        <div class="mt-6 text-right reveal-onscroll">
-          <a href="{{ route('lowongan.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-        </div>
-      </section>
-
-      <!-- FITUR 4: AGENDA EVENT (GATED) -->
-      <section id="event" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#eaf3ff] grid-paper-dark py-20">
+        <p class="mt-4 text-sm text-[#355277]">{{ $job->location }} · <strong>{{ $job->salary_display }}</strong></p>
+      </div>
+      <a href="{{ route('lowongan.show', $job->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block self-start mt-6">Lamar Sekarang</a>
+    </article>
+    @empty
+    <p class="text-sm text-[#355277]">Belum ada lowongan kerja aktif.</p>
+    @endforelse
+  </div>
+  <div class="mt-6 text-right reveal-onscroll">
+    <a href="{{ route('lowongan.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+  </div>
+</section>
+                 <!-- FITUR 4: AGENDA EVENT (GATED) -->
+<section id="event" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#eaf3ff] grid-paper-dark py-20">
   <div class="deco-asset event-alattulis reveal-onscroll" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
   </div>
   <div class="deco-asset event-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
     <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
   </div>
-        <div class="mx-auto max-w-7xl px-5 md:px-8">
-          <div class="reveal-onscroll">
-            <p class="mb-3 inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-[#153563]">Agenda komunitas</p>
-            <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Jangan sampai ketinggalan momennya.</h2>
-            <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Meetup, webinar, dan reuni seru yang hanya bisa diikuti alumni login.</p>
-          </div>
-          <div class="mt-9 grid gap-4 md:grid-cols-3">
-            @forelse($events ?? [] as $index => $event)
-            <article class="event-card card-v{{ ($index % 4) + 1 }} reveal-onscroll flex gap-4 rounded-[1.5rem] p-5 shadow-sm">
-              <div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-white text-center">
+  <div class="mx-auto max-w-7xl px-5 md:px-8">
+    <div class="reveal-onscroll">
+      <!-- Event -->
+      <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Agenda komunitas</p>
+      <h2 class="text-4xl font-bold text-[#153563] md:text-5xl">Jangan sampai ketinggalan momennya.</h2>
+      <p class="mt-3 max-w-xl text-sm leading-relaxed text-[#355277]">Meetup, webinar, dan reuni seru yang hanya bisa diikuti alumni login.</p>
+    </div>
+    <div class="mt-9 grid gap-4 md:grid-cols-3">
+      @forelse($events ?? [] as $index => $event)
+      <article class="event-card card-v{{ ($index % 4) + 1 }} reveal-onscroll rounded-[1.5rem] p-5 shadow-sm flex h-full flex-col justify-between">
+        <div>
+          <div class="relative mb-4 h-36 w-full overflow-hidden rounded-2xl bg-white/70 shadow-sm">
+            <a href="{{ route('event.show', $event->slug) }}" class="focus-ring block h-full w-full">
+              <img src="{{ $event->banner_image ?? asset('assets/images/foto-1.png') }}" alt="{{ $event->title }}" class="h-full w-full object-cover">
+              <div class="absolute top-3 left-3 z-10 grid place-items-center rounded-xl bg-white px-2.5 py-1.5 text-center shadow-sm">
                 <span class="font-bold text-[#153563]" style="line-height:1">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}<br>{{ strtoupper(\Carbon\Carbon::parse($event->event_date)->format('M')) }}</span>
               </div>
-              <div class="min-w-0">
-                <span class="text-xs font-bold text-[#c8517d]">{{ strtoupper($event->category) }}</span>
-                <h4 class="mt-1 text-xl font-bold text-[#153563] truncate">{{ $event->title }}</h4>
-                <p class="mt-1 text-sm text-[#355277]">{{ $event->time_display ?? ($event->venue ?? 'Online') }}</p>
-                <a href="{{ route('event.index') }}" class="focus-ring card-btn custom-white-pill-btn inline-block">Ikuti Event</a>
-              </div>
-            </article>
-            @empty
-            <p class="text-sm text-[#355277]">Belum ada agenda event mendatang.</p>
-            @endforelse
+            </a>
           </div>
-          <div class="mt-6 text-right reveal-onscroll">
-            <a href="{{ route('event.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
-          </div>
+          <span class="text-xs font-bold text-[#c8517d]">{{ strtoupper($event->category) }}</span>
+          <h4 class="mt-1 text-xl font-bold text-[#153563] truncate">
+            <a href="{{ route('event.show', $event->slug) }}" class="unstyled-link focus-ring">{{ $event->title }}</a>
+          </h4>
+          <p class="mt-1 text-sm text-[#355277]">{{ $event->time_display ?? ($event->venue ?? 'Online') }}</p>
         </div>
-      </section>
+        <a href="{{ route('event.show', $event->slug) }}" class="focus-ring card-btn custom-white-pill-btn inline-block self-start mt-6">Ikuti Event</a>
+      </article>
+      @empty
+      <p class="text-sm text-[#355277]">Belum ada agenda event mendatang.</p>
+      @endforelse
+    </div>
+    <div class="mt-6 text-right reveal-onscroll">
+      <a href="{{ route('event.index') }}" class="text-sm font-bold text-[#153563] hover:underline">Lihat Selengkapnya</a>
+    </div>
+  </div>
+</section>
     </main>
 
     <x-user-footer />
@@ -698,7 +768,13 @@
   <button id="lightbox-close" type="button" class="lightbox-close" aria-label="Tutup">
     <i data-lucide="x" class="h-6 w-6"></i>
   </button>
+  <button id="lightbox-prev" type="button" class="lightbox-nav lightbox-nav--prev" aria-label="Foto sebelumnya">
+    <i data-lucide="chevron-left" class="h-6 w-6"></i>
+  </button>
   <img id="lightbox-img" class="lightbox-img" src="" alt="Preview foto">
+  <button id="lightbox-next" type="button" class="lightbox-nav lightbox-nav--next" aria-label="Foto berikutnya">
+    <i data-lucide="chevron-right" class="h-6 w-6"></i>
+  </button>
 </div>
 
 

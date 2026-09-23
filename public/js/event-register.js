@@ -192,3 +192,135 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (window.lucide) window.lucide.createIcons();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    var originalForm = document.getElementById("erForm");
+    
+    if (originalForm) {
+        var customForm = originalForm.cloneNode(true);
+        originalForm.parentNode.replaceChild(customForm, originalForm);
+
+        var currentSubmitBtn = document.getElementById("erSubmitBtn");
+        var currentFormError = document.getElementById("erFormError");
+        var currentStepForm = document.getElementById("erStepForm");
+        var currentStepSuccess = document.getElementById("erStepSuccess");
+        var currentSuccessMsg = document.getElementById("erSuccessMessage");
+        var currentDoneBtn = document.getElementById("erDoneBtn");
+
+        function clearCustomFieldErrors() {
+            customForm.querySelectorAll(".er-error").forEach(function (el) { el.textContent = ""; });
+            customForm.querySelectorAll(".er-field").forEach(function (el) { el.classList.remove("has-error"); });
+            if (currentFormError) {
+                currentFormError.hidden = true;
+                currentFormError.textContent = "";
+            }
+        }
+
+        customForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            clearCustomFieldErrors();
+
+            var customConfig = window.EventDetailConfig || {};
+            if (!customConfig.registerUrl) {
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = "URL pendaftaran belum tersedia. Hubungi admin.";
+                }
+                return;
+            }
+
+            var customPayload = {
+                name: customForm.name.value.trim(),
+                email: customForm.email.value.trim(),
+                phone: customForm.phone.value.trim()
+            };
+
+            if (currentSubmitBtn) {
+                currentSubmitBtn.disabled = true;
+                currentSubmitBtn.classList.add("is-loading");
+            }
+
+            fetch(customConfig.registerUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": customConfig.csrfToken || ""
+                },
+                body: JSON.stringify(customPayload)
+            })
+            .then(function (response) {
+                return response.json().catch(function () { return {}; }).then(function (data) {
+                    return { ok: response.ok, status: response.status, data: data };
+                });
+            })
+            .then(function (result) {
+                if (currentSubmitBtn) {
+                    currentSubmitBtn.disabled = false;
+                    currentSubmitBtn.classList.remove("is-loading");
+                }
+
+                if (result.ok) {
+                    if (currentStepForm) currentStepForm.hidden = true;
+                    if (currentStepSuccess) currentStepSuccess.hidden = false;
+
+                    if (currentSuccessMsg) {
+                        currentSuccessMsg.innerHTML = "Pendaftaran berhasil! Email notifikasi pendaftar baru telah terkirim ke panitia. <br><br><strong>Kamu akan dialihkan otomatis ke WhatsApp panitia dalam 2 detik untuk masuk grup...</strong>";
+                    }
+
+                    if (currentDoneBtn) {
+                        currentDoneBtn.type = "button"; 
+                        currentDoneBtn.addEventListener("click", function() {
+                            if (result.data && result.data.whatsapp_url) {
+                                window.location.href = result.data.whatsapp_url;
+                            }
+                        });
+                    }
+
+                    if (result.data && result.data.whatsapp_url) {
+                        setTimeout(function () {
+                            window.location.href = result.data.whatsapp_url;
+                        }, 2500);
+                    }
+
+                    if (window.lucide) window.lucide.createIcons();
+                    return;
+                }
+
+                if (result.status === 422 && result.data && result.data.errors) {
+                    Object.keys(result.data.errors).forEach(function (field) {
+                        var target = customForm.querySelector('[data-error-for="' + field + '"]');
+                        if (target) {
+                            target.textContent = result.data.errors[field][0];
+                            var wrap = target.closest(".er-field");
+                            if (wrap) wrap.classList.add("has-error");
+                        }
+                    });
+                    return;
+                }
+
+                if (result.status === 401 && customConfig.loginUrl) {
+                    window.location.href = customConfig.loginUrl;
+                    return;
+                }
+
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = (result.data && result.data.message)
+                        ? result.data.message
+                        : "Terjadi kesalahan saat mendaftar. Silakan coba lagi.";
+                }
+            })
+            .catch(function () {
+                if (currentSubmitBtn) {
+                    currentSubmitBtn.disabled = false;
+                    currentSubmitBtn.classList.remove("is-loading");
+                }
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = "Gagal menghubungi server. Periksa koneksi internet kamu.";
+                }
+            });
+        });
+    }
+});

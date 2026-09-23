@@ -1,6 +1,6 @@
 <header class="custom-header">
   <nav class="custom-nav-container" aria-label="Navigasi utama">
-   <a href="#beranda" class="custom-logo" data-target="#beranda">
+   <a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="custom-logo" data-target="#beranda">
   <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space" class="logo-spin" style="height: 2.25rem; width: auto;">
   <span class="logo-text">Alumni Space</span>
 </a>
@@ -27,7 +27,7 @@
 
       <!-- Event (menuju index event) -->
       <a href="{{ route('event.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Agenda Event" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
-        <span>Event</span>
+        <span>Acara</span>
         @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
       </a>
 
@@ -106,14 +106,15 @@
             <a href="{{ route('profile.settings') }}" class="profile-dropdown-settings-btn">
               <i data-lucide="settings" class="icon-sm"></i> Setting Profile
             </a>
+
+            <form action="{{ route('logout') }}" method="POST" class="profile-dropdown-logout-form">
+              @csrf
+              <button type="submit" class="profile-dropdown-logout-btn">
+                <i data-lucide="log-out" class="icon-sm"></i> Keluar
+              </button>
+            </form>
           </div>
         </div>
-        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-          @csrf
-          <button type="submit" class="btn-outline-danger" title="Keluar">
-            <i data-lucide="log-out" class="icon-sm"></i> <span class="hide-mobile text-xs">Keluar</span>
-          </button>
-        </form>
       </div>
       @endguest
 
@@ -126,7 +127,7 @@
   <!-- Menu Mobile (Disederhanakan jadi 6 menu utama) -->
   <div id="mobile-nav" class="mobile-nav-container">
     <div class="mobile-nav-content">
-      <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="#beranda" data-target="#beranda">Beranda</a>
+      <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" data-target="#beranda">Beranda</a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" href="{{ route('alumni.index') }}">
         <span>Alumni</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
@@ -137,7 +138,7 @@
       </a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" href="{{ route('event.index') }}">
-        <span>Event</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+        <span>Acara</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
       <a class="mobile-link flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" href="{{ route('album.index') }}">
@@ -149,13 +150,7 @@
       <div class="mobile-auth-footer" style="margin-top: 1.5rem;">
         @guest
         <a href="{{ route('login') }}" class="btn-primary-block">Masuk / Login</a>
-        @else
-        <form action="{{ route('logout') }}" method="POST">
-          @csrf
-          <button type="submit" class="btn-outline-block">
-            <i data-lucide="log-out" class="icon-sm"></i> Keluar ({{ Auth::user()->name }})
-          </button>
-        </form>
+
         @endguest
       </div>
     </div>

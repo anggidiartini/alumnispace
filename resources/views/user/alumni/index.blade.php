@@ -8,9 +8,10 @@
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/alumni.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/alumni.css')) : time() }}">
-<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/alumni.css')) ? filemtime(public_path('css/home.css')) : time() }}">
+
 </head>
 <body class="alumni-page-body" data-isGuest="{{ auth()->guest() ? 'true' : 'false' }}" style="background: #f7fbff;">
 
@@ -89,7 +90,7 @@
 
       <form id="filter-form" action="{{ route('alumni.index') }}" method="GET" class="filter-form reveal-onscroll" novalidate>
         <div class="filter-grid">
-          <div class="icon-field">
+          <div>
             <label class="filter-label" for="search-input" style="color: rgb(49, 87, 127);">Cari alumni</label>
             <i data-lucide="search"></i>
             <input id="search-input" name="search" class="filter-control" type="search" autocomplete="off" placeholder="Cari nama atau profesi" value="{{ request('search') }}">
@@ -130,20 +131,15 @@
                    data-search="{{ strtolower($item->user->name.' '.$item->profession) }}">
             <div class="card-top-row">
               @php
-                $words = preg_split('/\s+/', trim($item->user->name));
-                $initials = strtoupper(mb_substr($words[0] ?? '', 0, 1) . mb_substr($words[1] ?? '', 0, 1));
                 $hasAvatarFile = !empty($item->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->avatar);
+                $avatarSrc = $hasAvatarFile
+                    ? asset('storage/'.$item->avatar)
+                    : asset('assets/images/default-avatar.jpg');
               @endphp
-              @if($hasAvatarFile)
-                <img class="card-avatar" loading="lazy"
-                     src="{{ asset('storage/'.$item->avatar) }}"
-                     alt="Foto profil {{ $item->user->name }}"
-                     onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-avatar avatar-initial',textContent:'{{ $initials }}'}))">
-              @else
-                <div class="card-avatar avatar-initial" aria-label="Foto profil {{ $item->user->name }}">
-                  {{ $initials }}
-                </div>
-              @endif
+              <img class="card-avatar" loading="lazy"
+                   src="{{ $avatarSrc }}"
+                   alt="Foto profil {{ $item->user->name }}"
+                   onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
 
               @if($item->graduation_year)
                 <span class="badge">Angkatan {{ $item->graduation_year }}</span>

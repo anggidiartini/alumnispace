@@ -1,0 +1,1 @@
+<x-user-navbar {{ $attributes }} />

@@ -4,33 +4,6 @@
     Variabel dari controller:
     - $job          : JobVacancy
     - $relatedJobs  : Collection<JobVacancy> (opsional)
-
-    Disesuaikan dengan field yang BENERAN ada di model JobVacancy:
-    posted_by, title, slug, company_name, company_logo, alumni_contact,
-    job_type, workplace_type, category, highlight_badge, location,
-    salary_display, salary_type, description, requirements, skills_tags,
-    application_link, application_email, deadline, is_active.
-
-    Model belum punya company_description / company_maps_url /
-    company_website / company_instagram / company_linkedin, jadi
-    field-field itu DIHAPUS dari view ini (dulu sempat ditulis di
-    comment lama tapi belum pernah ada kolomnya).
-
-    Tombol "Lamar Sekarang" dihitung langsung di sini ($applyUrl):
-    pakai application_link kalau ada, kalau kosong fallback ke
-    mailto:application_email, kalau dua-duanya kosong tombolnya
-    nonaktif. Kalau mau lebih rapi, ini bisa dipindah jadi accessor
-    getApplyUrlAttribute() di model JobVacancy — tinggal bilang ke
-    temenmu yang pegang model.
-
-    "Tentang perusahaan" (avatar + nama) dibuat jadi link ke halaman
-    detail perusahaan (route perusahaan.index). Karena JobVacancy
-    CUMA nyimpen company_name (string, bukan relasi ke tabel
-    companies), slug perusahaan di-generate dari Str::slug(company_name).
-    Ini cuma asumsi sementara — kalau slug company_name nggak match
-    persis sama slug di tabel companies, linknya bisa 404. Solusi
-    jangka panjang: tambah kolom company_id / company_slug di
-    job_vacancies biar link-nya pasti akurat.
 --}}
 @php
     $applyUrl = $job->application_link ?: ($job->application_email ? 'mailto:' . $job->application_email : null);
@@ -38,10 +11,6 @@
     $companySlug = Str::slug($job->company_name);
     $companyUrl = route('perusahaan.index', $companySlug);
 
-    // Fallback lamar via WhatsApp kalau application_link & application_email
-    // dua-duanya kosong. Nomor ini sementara di-hardcode — kalau nanti mau
-    // dibikin dinamis, tinggal ganti jadi kolom baru di JobVacancy
-    // (misal `whatsapp_contact`) dan pakai itu sebagai fallback-nya.
     $waFallbackNumber = '6287780341780';
     $waFallbackUrl =
         'https://wa.me/' .
@@ -64,9 +33,9 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" defer></script>
 
     <link rel="stylesheet"
-        href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
-    <link rel="stylesheet"
-        href="{{ asset('css/detail-lowongan.css') }}?v={{ file_exists(public_path('css/detail-lowongan.css')) ? filemtime(public_path('css/detail-lowongan.css')) : time() }}">
+        href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
+    <link rel="stylesheet" href="{{ asset('css/detail-lowongan.css') }}?v={{ file_exists(public_path('css/detail-lowongan.css')) ? filemtime(public_path('css/detail-lowongan.css')) : time() }}">
 </head>
 
 <body>
@@ -76,10 +45,28 @@
 
         <main id="top">
 
-
-
             {{-- ================= HERO ================= --}}
             <section class="page-width reveal-onscroll hero-section-top">
+                <section class="page-width reveal-onscroll hero-section-top">
+
+    <a href="{{ route('lowongan.index') }}" class="back-link">
+        <i data-lucide="arrow-left" width="18" height="18"></i>
+        Kembali ke Lowongan
+    </a>
+
+             <div class="deco-asset dl-hero-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                </div>
+                <div class="deco-asset dl-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                </div>
+                <div class="deco-asset dl-hero-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset dl-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                </div>
+
                 <div class="job-hero grid-paper">
                     <div class="job-hero-blob job-hero-blob-1 blob" aria-hidden="true"></div>
                     <div class="job-hero-blob job-hero-blob-2 blob" aria-hidden="true"></div>
@@ -106,8 +93,8 @@
                             </div>
 
                             <h1 class="job-title">{{ $job->title }}</h1>
-                            <a href="{{ $companyUrl }}"
-                                class="job-company job-company-link">{{ $job->company_name }}</a>
+                            {{-- Memakai route('perusahaan.index') yang sudah dipastikan aman --}}
+                            <a href="{{ $companyUrl }}" class="job-company job-company-link">{{ $job->company_name }}</a>
 
                             <div class="job-meta">
                                 @if (!empty($job->location))
@@ -184,6 +171,19 @@
             </section>
 
             <section class="page-width detail-grid">
+                 <div class="deco-asset dl-grid-l1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                </div>
+                <div class="deco-asset dl-grid-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                </div>
+                <div class="deco-asset dl-grid-r1 reveal-onscroll" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                </div>
+                <div class="deco-asset dl-grid-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                </div>
+
                 <div class="detail-main">
 
                     <section class="detail-card reveal-onscroll">
@@ -285,8 +285,23 @@
                 </aside>
             </section>
 
-            @if (isset($relatedJobs) && $relatedJobs->count())
+            {{-- Lowongan Serupa --}}
+            @if(isset($relatedJobs) && $relatedJobs->count())
                 <section class="page-width related-wrap reveal-onscroll">
+
+                <div class="deco-asset dl-related-l1 reveal-onscroll" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+                    </div>
+                    <div class="deco-asset dl-related-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                    </div>
+                    <div class="deco-asset dl-related-r1 reveal-onscroll" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                    </div>
+                    <div class="deco-asset dl-related-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
+                        <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+                    </div>
+
                     <div class="related-head">
                         <div>
                             <p class="section-kicker">Jelajahi peluang lain</p>
@@ -295,12 +310,10 @@
                     </div>
 
                     <div class="related-grid">
-                        @foreach ($relatedJobs as $i => $related)
-                            @php
-                                $colors = ['blue', 'pink', 'yellow'];
-                                $color = $colors[$i % 3];
-                            @endphp
-                            <a href="{{ route('lowongan.index', $related->slug) }}" class="related-card">
+                        @foreach($relatedJobs as $i => $related)
+                            @php $colors = ['blue', 'pink', 'yellow']; $color = $colors[$i % 3]; @endphp
+                            {{-- Diperbaiki ke route lowongan.show agar mengarah ke detail lowongan yang bersangkutan --}}
+                            <a href="{{ route('lowongan.show', $related->slug) }}" class="related-card">
                                 <div class="related-icon related-icon-{{ $color }}">
                                     <i data-lucide="briefcase" width="20" height="20"></i>
                                 </div>
@@ -324,10 +337,8 @@
         <x-user-footer />
     </div>
 
-    <div id="toast" class="toast" role="status"></div>
-
     <div id="fab-row" class="fab-row">
-        <button id="back-to-top" type="button" aria-label="Kembali ke atas">
+        <button id="back-to-top" type="button" class="focus-ring" aria-label="Kembali ke atas">
             <i data-lucide="arrow-up" width="20" height="20"></i>
         </button>
 
@@ -342,16 +353,15 @@
                 <p class="wa-bubble-number">+62 812-3456-7890</p>
             </div>
             <a id="wa-button"
-                href="https://wa.me/6281234567890?text=Halo%20Alumni%20Space%2C%20saya%20mau%20tanya%20soal%20lowongan%20{{ urlencode($job->title) }}"
-                target="_blank" rel="noopener" class="wa-pulse" aria-label="Hubungi kami via WhatsApp">
+                href="https://wa.me/6281234567890?text=Halo%20Alumni%20Space"
+                target="_blank"
+                rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
                 <i data-lucide="message-circle" width="26" height="26"></i>
             </a>
         </div>
     </div>
 
-    <script
-        src="{{ asset('js/detail-lowongan.js') }}?v={{ file_exists(public_path('js/detail-lowongan.js')) ? filemtime(public_path('js/detail-lowongan.js')) : time() }}"
-        defer></script>
+    <script src="{{ asset('js/detail-lowongan.js') }}?v={{ file_exists(public_path('js/detail-lowongan.js')) ? filemtime(public_path('js/detail-lowongan.js')) : time() }}" defer></script>
 </body>
 
 </html>

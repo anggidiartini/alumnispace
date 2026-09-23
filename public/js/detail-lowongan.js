@@ -93,7 +93,22 @@ function initRevealOnScroll() {
         { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
 
-    items.forEach((el) => observer.observe(el));
+    // Stagger otomatis per grup (elemen dgn parent yang sama), biar
+    // urutan "tuing"-nya kerasa gantian — samain kaya home.
+    const groups = new Map();
+    items.forEach((el) => {
+        const parent = el.parentElement;
+        if (!groups.has(parent)) groups.set(parent, []);
+        groups.get(parent).push(el);
+    });
+    groups.forEach((els) => {
+        els.forEach((el, i) => {
+            if (!el.style.animationDelay) {
+                el.style.animationDelay = `${Math.min(i * 0.16, 0.8)}s`;
+            }
+            observer.observe(el);
+        });
+    });
 }
 
 /* =========================================================

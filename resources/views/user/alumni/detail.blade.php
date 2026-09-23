@@ -6,29 +6,44 @@
 <title>{{ $profile->user->name }} — Alumni Space</title>
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 <link rel="stylesheet" href="{{ asset('css/detail-alumni.css') }}?v={{ file_exists(public_path('css/detail-alumni.css')) ? filemtime(public_path('css/detail-alumni.css')) : time() }}">
-<link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ file_exists(public_path('css/home.css')) ? filemtime(public_path('css/home.css')) : time() }}">
 </head>
 <body class="alumni-page-body ad-body">
 
-<x-user-navbar  />
+<x-user-navbar />
 
 <main>
   <section class="ad-section dot-grid">
+
+    {{-- ORNAMEN LATAR BELAKANG (Di luar card, menempel di background dengan animasi masuk) --}}
+    <div class="ornament-wrapper" aria-hidden="true">
+      <!-- Sisi Kiri (1 - 5) -->
+      <img src="{{ asset('assets/images/deco-bus.png') }}" class="ornament orn-left-1" alt="">
+      <img src="{{ asset('assets/images/deco-jam.png') }}" class="ornament orn-left-2" alt="">
+      <img src="{{ asset('assets/images/deco-papantulis.png') }}" class="ornament orn-left-3" alt="">
+      <img src="{{ asset('assets/images/deco-alattulis.png') }}" class="ornament orn-left-4" alt="">
+      <img src="{{ asset('assets/images/deco-lampu.png') }}" class="ornament orn-left-5" alt="">
+
+      <!-- Sisi Kanan (6 - 10) -->
+      <img src="{{ asset('assets/images/deco-lampu.png') }}" class="ornament orn-right-1" alt="">
+      <img src="{{ asset('assets/images/deco-alattulis.png') }}" class="ornament orn-right-2" alt="">
+      <img src="{{ asset('assets/images/deco-papantulis.png') }}" class="ornament orn-right-3" alt="">
+      <img src="{{ asset('assets/images/deco-jam.png') }}" class="ornament orn-right-4" alt="">
+      <img src="{{ asset('assets/images/deco-bus.png') }}" class="ornament orn-right-5" alt="">
+    </div>
+
     <div class="ad-container">
 
-<a href="{{ route('alumni.index') }}" class="ad-back-link" style="margin-bottom: 1.25rem;">
-  <i data-lucide="arrow-left" width="16"></i> Kembali ke Alumni
-</a>
+      <a href="{{ route('alumni.index') }}" class="ad-back-link animate-target" style="margin-bottom: 1.25rem;">
+        <i data-lucide="arrow-left" width="16"></i> Kembali ke Alumni
+      </a>
 
-      {{-- Hero card: cuma info utama (angkatan, nama, profesi, foto) --}}
-      <article class="ad-hero-card">
-        <span class="hero-shape shape-yellow" style="width:180px;height:180px;top:-70px;right:-50px;left:auto;"></span>
-        <span class="hero-shape shape-pink" style="width:150px;height:150px;bottom:-60px;right:60px;left:auto;top:auto;"></span>
-
+      {{-- Hero card alumni --}}
+      <article class="ad-hero-card animate-target">
         <div class="ad-hero-top">
           <div class="ad-hero-info">
             @if($profile->graduation_year)
@@ -87,12 +102,12 @@
         $hasDetailBoxes = $profile->current_university || $profile->achievements || $profile->organization_role;
       @endphp
 
-      {{-- Riwayat Pendidikan / Prestasi / Organisasi (kiri) + Sosmed (kanan) --}}
+      {{-- Riwayat Pendidikan / Prestasi / Organisasi (kiri) + Sosmed & Kontak (kanan) --}}
       @if($hasDetailBoxes || $activeSocials->isNotEmpty())
       <div class="ad-detail-grid">
         <div class="ad-detail-left">
           @if($profile->current_university)
-          <div class="ad-detail-card">
+          <div class="ad-detail-card animate-target">
             <h3 class="ad-detail-title">
               <i data-lucide="graduation-cap" width="18"></i> Riwayat Pendidikan
             </h3>
@@ -105,7 +120,7 @@
           @endif
 
           @if($profile->achievements)
-          <div class="ad-detail-card">
+          <div class="ad-detail-card animate-target">
             <h3 class="ad-detail-title">
               <i data-lucide="award" width="18"></i> Prestasi
             </h3>
@@ -119,7 +134,7 @@
           @endif
 
           @if($profile->organization_role)
-          <div class="ad-detail-card">
+          <div class="ad-detail-card animate-target">
             <h3 class="ad-detail-title">
               <i data-lucide="users" width="18"></i> Riwayat Organisasi
             </h3>
@@ -134,7 +149,7 @@
         </div>
 
         <div class="ad-detail-right">
-          <div class="ad-detail-card ad-detail-card-sosmed">
+          <div class="ad-detail-card ad-detail-card-sosmed animate-target">
             <h3 class="ad-detail-title">
               <i data-lucide="share-2" width="18"></i> Sosmed
             </h3>
@@ -180,20 +195,18 @@
             @endif
           </div>
 
-          <div class="ad-detail-card" style="margin-top:1.25rem;">
+          @if($profile->phone_number)
+          <div class="ad-detail-card animate-target">
             <h3 class="ad-detail-title">
               <i data-lucide="contact" width="18"></i> Info Kontak
             </h3>
-
-            @if($profile->phone_number)
-              <p class="ad-contact-row"><i data-lucide="phone" width="16"></i> {{ $profile->phone_number }}</p>
-            @endif
+            <p class="ad-contact-row"><i data-lucide="phone" width="16"></i> {{ $profile->phone_number }}</p>
           </div>
+          @endif
         </div>
       </div>
       @endif
 
-      </div>
     </div>
   </section>
 </main>
@@ -228,33 +241,71 @@
         </a>
     </div>
 </div>
+
 <script src="{{ asset('js/script.js') }}"></script>
 <script>
   lucide.createIcons();
 
-  const toast = document.getElementById('toast');
-  let toastTimer;
-  function showToast(message) {
-    document.getElementById('toast-text').textContent = message;
-    toast.classList.add('is-visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 3400);
-  }
+  // Script animasi masuk "tuling-tuling" (bouncy spring) untuk ornamen dan kartu
+  document.addEventListener("DOMContentLoaded", function () {
+      const animatedElements = document.querySelectorAll(".ornament, .animate-target");
 
-  document.getElementById('share-profile-button')?.addEventListener('click', async () => {
-    const url = window.location.href;
-    try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(url);
-        showToast('Tautan profil berhasil disalin.');
-      } else {
-        showToast('Bagikan tautan profil ini kepada teman alumnimu.');
-      }
-    } catch {
-      showToast('Bagikan tautan profil ini kepada teman alumnimu.');
-    }
+      const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1
+      };
+
+      const bouncyObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                  setTimeout(() => {
+                      entry.target.classList.add("animate-bouncy");
+                  }, index * 60); // Jeda berjenjang agar masuknya bergantian mulus
+
+                  observer.unobserve(entry.target);
+              }
+          });
+      }, observerOptions);
+
+      animatedElements.forEach(el => {
+          bouncyObserver.observe(el);
+      });
   });
 </script>
+
+<style>
+/* Style tambahan untuk kelas animasi bouncy ala halaman Home */
+@keyframes bouncyPopup {
+    0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.6);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.04);
+    }
+    80% {
+        transform: translateY(4px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Kondisi awal sebelum elemen masuk viewport */
+.ornament,
+.animate-target {
+    opacity: 0;
+    transform: translateY(40px) scale(0.6);
+}
+
+/* Kelas yang dipicu oleh Javascript saat elemen terlihat */
+.animate-bouncy {
+    animation: bouncyPopup 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+</style>
 
 </body>
 </html>
