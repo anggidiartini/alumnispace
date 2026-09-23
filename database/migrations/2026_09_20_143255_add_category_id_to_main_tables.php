@@ -15,56 +15,44 @@ return new class extends Migration
         Schema::table('albums', function (Blueprint $table) {
             if (!Schema::hasColumn('albums', 'category_id')) {
                 $table->bigInteger('category_id')->unsigned()->nullable()->after('id');
-            } else {
-                $table->bigInteger('category_id')->unsigned()->nullable()->change();
+                $table->foreign('category_id')
+                      ->references('id')->on('album_categories')
+                      ->onDelete('set null')
+                      ->onUpdate('cascade');
             }
-            
-            $table->foreign('category_id')
-                  ->references('id')->on('album_categories')
-                  ->onDelete('set null')
-                  ->onUpdate('cascade');
         });
 
         // 2. Relasi di Tabel Job Vacancies
         Schema::table('job_vacancies', function (Blueprint $table) {
             if (!Schema::hasColumn('job_vacancies', 'category_id')) {
                 $table->bigInteger('category_id')->unsigned()->nullable()->after('id');
-            } else {
-                $table->bigInteger('category_id')->unsigned()->nullable()->change();
+                $table->foreign('category_id')
+                      ->references('id')->on('job_categories')
+                      ->onDelete('set null')
+                      ->onUpdate('cascade');
             }
-            
-            $table->foreign('category_id')
-                  ->references('id')->on('job_categories')
-                  ->onDelete('set null')
-                  ->onUpdate('cascade');
         });
 
         // 3. Relasi di Tabel Companies
         Schema::table('companies', function (Blueprint $table) {
             if (!Schema::hasColumn('companies', 'category_id')) {
                 $table->bigInteger('category_id')->unsigned()->nullable()->after('id');
-            } else {
-                $table->bigInteger('category_id')->unsigned()->nullable()->change();
+                $table->foreign('category_id')
+                      ->references('id')->on('company_categories')
+                      ->onDelete('set null')
+                      ->onUpdate('cascade');
             }
-            
-            $table->foreign('category_id')
-                  ->references('id')->on('company_categories')
-                  ->onDelete('set null')
-                  ->onUpdate('cascade');
         });
 
         // 4. Relasi di Tabel Events
         Schema::table('events', function (Blueprint $table) {
             if (!Schema::hasColumn('events', 'category_id')) {
                 $table->bigInteger('category_id')->unsigned()->nullable()->after('id');
-            } else {
-                $table->bigInteger('category_id')->unsigned()->nullable()->change();
+                $table->foreign('category_id')
+                      ->references('id')->on('event_categories')
+                      ->onDelete('set null')
+                      ->onUpdate('cascade');
             }
-            
-            $table->foreign('category_id')
-                  ->references('id')->on('event_categories')
-                  ->onDelete('set null')
-                  ->onUpdate('cascade');
         });
     }
 

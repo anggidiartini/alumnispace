@@ -9,18 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('job_categories', function (Blueprint $table) {
-        $table->id();
-        $table->string('name', 100);
-        $table->string('slug', 120)->unique();
-        $table->string('icon', 100)->nullable();
-        $table->text('description')->nullable();
-        $table->boolean('status')->default(true);
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        if (!Schema::hasTable('job_categories')) {
+            Schema::create('job_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string('name', 100);
+                $table->string('slug', 120)->unique();
+                $table->string('icon', 100)->nullable();
+                $table->text('description')->nullable();
+                $table->boolean('status')->default(true);
+                $table->timestamps();
+            });
+        }
+    }
 
 
     /**

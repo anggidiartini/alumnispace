@@ -9,17 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('album_categories', function (Blueprint $table) {
-        $table->id(); // Ini otomatis bigint UNSIGNED
-        $table->string('name', 100);
-        $table->string('slug', 120)->unique();
-        $table->text('description')->nullable();
-        $table->boolean('status')->default(true);
-        $table->timestamps(); // Ini otomatis membuat created_at & updated_at
-    });
-}
+    public function up(): void
+    {
+        if (!Schema::hasTable('album_categories')) {
+            Schema::create('album_categories', function (Blueprint $table) {
+                $table->id();
+                $table->string('name', 100);
+                $table->string('slug', 120)->unique();
+                $table->text('description')->nullable();
+                $table->boolean('status')->default(true);
+                $table->timestamps();
+            });
+        }
+    }
 
     /**
      * Reverse the migrations.
