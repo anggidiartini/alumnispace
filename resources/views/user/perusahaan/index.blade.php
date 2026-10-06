@@ -25,6 +25,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet"
         href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
     <link rel="stylesheet"
@@ -263,7 +264,46 @@
                 <path d="M12 19V5M5 12l7-7 7 7"></path>
             </svg>
         </button>
+
+    <!-- Floating action buttons -->
+
+        <div id="wa-widget">
+            <div id="wa-bubble" class="wa-bubble">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem;">
+                    <p class="wa-bubble-title">Ada pertanyaan?</p>
+                    <button id="wa-bubble-close" type="button" class="wa-bubble-close" aria-label="Tutup"><i
+                            data-lucide="x" width="16" height="16"></i></button>
+                </div>
+                <p class="wa-bubble-text">Hubungi pengurus alumni kami via WhatsApp 👋</p>
+                <p class="wa-bubble-number">+62 812-3456-7890</p>
+            </div>
+            <a id="wa-button" href="https://wa.me/6281234567890?text=Halo%20Alumni%20Space" target="_blank"
+                rel="noopener" class="wa-pulse focus-ring" aria-label="Hubungi kami via WhatsApp">
+                <i data-lucide="message-circle" width="26" height="26"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal notifikasi "harus login" -->
+    <div id="auth-modal-overlay" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
+                <i data-lucide="x" class="h-5 w-5"></i>
+            </button>
+            <span class="auth-modal-icon">
+                <i data-lucide="lock" class="h-7 w-7"></i>
+            </span>
+            <h3 class="auth-modal-title">Yah, masih terkunci</h3>
+            <p class="auth-modal-text">
+                Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
+            </p>
+            <div class="auth-modal-actions">
+                <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
+                <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
+            </div>
+        </div>
     </div>
 </body>
+
 
 </html>
