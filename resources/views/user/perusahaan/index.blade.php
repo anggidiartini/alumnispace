@@ -102,13 +102,13 @@
                 <div class="dc-hero__grid">
                     <div class="dc-hero__main">
                         <div class="dc-hero__row">
-                            <div class="dc-logo-frame floaty-slow">
-                                <img src="{{ $logoUrl ?? asset('assets/anggi/imagedefault.png') }}" alt="Logo {{ $companyProfile->name }}">
+                            <div class="dc-logo-frame">
+                                <img src="{{ $logoUrl ?? asset('assets/anggi/imageperusahaan.png') }}" alt="Logo {{ $companyProfile->name }}">
                             </div>
                             <div class="dc-hero__heading">
                                 <div class="dc-flex dc-flex-wrap dc-gap-2 dc-mb-2">
                                     <span class="dc-pill dc-text-xs dc-font-bold dc-bg-mint dc-c-navy">{{ $companyProfile->category ?? 'Perusahaan' }}</span>
-                                    @if(!empty($companyProfile->industry))
+                                    @if(!$isBlank($companyProfile->industry ?? null) && strtolower(trim((string) $companyProfile->industry)) !== 'lainnya')
                                         <span class="dc-text-sm dc-font-bold dc-c-blue dc-self-center">{{ $companyProfile->industry }}</span>
                                     @endif
                                 </div>
@@ -118,10 +118,6 @@
 
                         @if(!empty($companyProfile->tagline) || !empty($companyProfile->description))
                             <p class="dc-hero-tagline">{{ $companyProfile->tagline ?? \Illuminate\Support\Str::limit($companyProfile->description, 140) }}</p>
-                        @endif
-
-                        @if ($industry || $locationDisplay)
-                            <p class="company-meta">{{ collect([$industry, $locationDisplay])->filter()->implode(' · ') }}</p>
                         @endif
 
                         @if ($linkedin || $facebook || $hasWhatsapp || $instagram || $email || $website)
@@ -215,7 +211,7 @@
                                 <p class="body-copy">{{ $address ?? '-' }}</p>
                             </div>
                             <a class="button button-secondary button-wide"
-                                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($mapsQuery) }}"
+                                href="{{ (!empty($companyProfile->maps_url) && str_starts_with($companyProfile->maps_url, 'http')) ? $companyProfile->maps_url : 'https://www.google.com/maps/search/?api=1&query=' . urlencode($mapsQuery) }}"
                                 target="_blank" rel="noopener noreferrer">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <circle cx="12" cy="12" r="3"></circle><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path>

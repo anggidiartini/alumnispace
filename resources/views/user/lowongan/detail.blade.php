@@ -228,7 +228,7 @@
                 <aside class="company-panel reveal-onscroll">
                     <div class="company-body">
                         <a href="{{ $companyUrl }}" class="company-head company-head-link">
-                            <x-company-logo :logo="$job->company_logo" :name="$job->company_name" size="64" option="initials" />
+                            <x-company-logo :logo="optional($job->company)->logo" :name="$job->company_name" size="64" option="initials" />
 
                             <div>
                                 <h3 class="company-kicker">Tentang perusahaan</h3>

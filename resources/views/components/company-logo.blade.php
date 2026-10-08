@@ -26,7 +26,7 @@
     $iconSize = max(16, round($size * 0.48));
     $radius = max(6, round($size * 0.2));
 
-    $defaultLogoUrl = asset('assets/anggi/imagedefault.png');
+    $defaultLogoUrl = asset('assets/anggi/imageperusahaan.png');
     $isRemoteLogo = !empty($logo) && \Illuminate\Support\Str::startsWith($logo, ['http://', 'https://']);
     $isStoredLogo = !empty($logo) && !$isRemoteLogo && file_exists(public_path($logo));
     $logoUrl = ($isRemoteLogo || $isStoredLogo) ? ($isRemoteLogo ? $logo : asset($logo)) : $defaultLogoUrl;
