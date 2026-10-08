@@ -56,10 +56,16 @@
             : null;
 
         $industry = $companyProfile->industry ?? $companyProfile->category ?? null;
+        $isBlank = fn ($v) => $v === null || in_array(trim((string) $v), ['', '-'], true);
+        // $location & $address dipakai kartu Lokasi dan kartu Alamat: tampil apa adanya (termasuk "-").
         $location = $companyProfile->location ?? $companyProfile->city ?? null;
+        // $locationDisplay hanya untuk teks meta di hero: nilai "-" / kosong disaring.
+        $locationDisplay = !$isBlank($companyProfile->location ?? null) ? $companyProfile->location : (!$isBlank($companyProfile->city ?? null) ? $companyProfile->city : null);
         $workType = $companyProfile->work_type ?? null;
         $about = $companyProfile->description ?? $companyProfile->about ?? null;
         $address = $companyProfile->address ?? $location;
+        // Kata pencarian Google Maps: alamat bila berisi nilai nyata, selain itu nama perusahaan.
+        $mapsQuery = !$isBlank($address) ? $address : $companyProfile->name;
         $website = $companyProfile->website ?? $companyProfile->website_url ?? null;
         $email = $companyProfile->email ?? null;
         $linkedin = $companyProfile->linkedin ?? $companyProfile->linkedin_url ?? null;
@@ -87,6 +93,10 @@
 
             {{-- HERO --}}
             <section class="dc-hero grid-paper reveal-onscroll">
+                <span class="dc-hero-blob dc-hero-blob-1 blob" aria-hidden="true"></span>
+                <span class="dc-hero-blob dc-hero-blob-2 blob" aria-hidden="true"></span>
+                <span class="dc-hero-blob dc-hero-blob-3 blob" aria-hidden="true"></span>
+
                 <span class="badge-dashed-pill dc-pill dc-text-xs dc-font-bold dc-mb-4">Partner perusahaan pilihan alumni</span>
 
                 <div class="dc-hero__grid">
@@ -109,20 +119,9 @@
                         @if(!empty($companyProfile->tagline) || !empty($companyProfile->description))
                             <p class="dc-hero-tagline">{{ $companyProfile->tagline ?? \Illuminate\Support\Str::limit($companyProfile->description, 140) }}</p>
                         @endif
-                    </div>
 
-                    <div class="hero-copy">
-                        <div class="hero-badges">
-                            <span class="eyebrow">Perusahaan Partner Alumni</span>
-                            @if ($industry)
-                                <span class="eyebrow industry-badge">{{ $industry }}</span>
-                            @endif
-                        </div>
-
-                        <h1 id="company-name" class="company-name">{{ $companyProfile->name }}</h1>
-
-                        @if ($industry || $location)
-                            <p class="company-meta">{{ collect([$industry, $location])->filter()->implode(' · ') }}</p>
+                        @if ($industry || $locationDisplay)
+                            <p class="company-meta">{{ collect([$industry, $locationDisplay])->filter()->implode(' · ') }}</p>
                         @endif
 
                         @if ($linkedin || $facebook || $hasWhatsapp || $instagram || $email || $website)
@@ -196,11 +195,11 @@
                     <p class="body-copy">{{ $about ?? ($companyProfile->name . ' adalah perusahaan mitra alumni yang membuka peluang karier untuk komunitas Alumni Space.') }}</p>
                 </section>
 
-                @if ($address)
+                {{-- Kartu Alamat selalu tampil (tanpa kondisi penyembunyi) --}}
                     <section class="content-card address-card reveal-onscroll" aria-labelledby="address-title">
                         <div class="section-title-row">
                             <h2 id="address-title" class="section-title">Alamat</h2>
-                            <button type="button" id="copy-address-btn" class="copy-address-btn" data-address="{{ $address }}">
+                            <button type="button" id="copy-address-btn" class="copy-address-btn" data-address="{{ $address ?? '-' }}">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <rect x="9" y="9" width="12" height="12" rx="2"></rect>
                                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -213,10 +212,10 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle>
                                 </svg>
-                                <p class="body-copy">{{ $address }}</p>
+                                <p class="body-copy">{{ $address ?? '-' }}</p>
                             </div>
                             <a class="button button-secondary button-wide"
-                                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($address) }}"
+                                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($mapsQuery) }}"
                                 target="_blank" rel="noopener noreferrer">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <circle cx="12" cy="12" r="3"></circle><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path>
@@ -225,14 +224,12 @@
                             </a>
                         </div>
                     </section>
-                @endif
             </div>
 
             <!-- LOWONGAN DARI PERUSAHAAN INI -->
             <section class="jobs-section" aria-labelledby="jobs-title">
                 <div class="section-header">
                     <h2 id="jobs-title" class="section-title">Lowongan dari perusahaan ini</h2>
-                    <span class="demo-pill">{{ $jobs->count() }} lowongan aktif</span>
                 </div>
 
                 @if ($jobs->isEmpty())

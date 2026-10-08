@@ -36,13 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. Tombol Back to Top
     const backToTopBtn = document.getElementById("back-to-top");
     if (backToTopBtn) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.style.display = "grid";
-            } else {
-                backToTopBtn.style.display = "none";
-            }
-        });
+        // Tampil lewat kelas .show (CSS .back-to-top.show), sama seperti script.js
+        const toggleBackToTop = () =>
+            backToTopBtn.classList.toggle("show", window.scrollY > 420);
+        window.addEventListener("scroll", toggleBackToTop, { passive: true });
+        toggleBackToTop();
 
         backToTopBtn.addEventListener("click", () => {
             window.scrollTo({ top: 0, behavior: "smooth" });

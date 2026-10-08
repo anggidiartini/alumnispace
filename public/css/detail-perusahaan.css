@@ -172,39 +172,58 @@ a:focus-visible {
 }
 
 /* ---------- tombol kembali ke atas ---------- */
+/* Gaya disamakan dengan #back-to-top di home.css / album.css (bulat biru, di bawah widget WA).
+   Muncul lewat kelas .show yang di-toggle detail-perusahaan.js saat scrollY > 420. */
 .back-to-top {
     position: fixed;
     right: 1.25rem;
     bottom: 1.25rem;
-    z-index: 45;
-    width: 3rem;
-    height: 3rem;
+    z-index: 65;
     display: grid;
     place-items: center;
-    border-radius: 999px;
-    background: #fff;
-    color: var(--ink);
-    border: 3px solid var(--ink);
-    box-shadow: 0 6px 0 var(--ink);
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: 9999px;
+    background: #6f9fe8;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(21, 53, 99, 0.25);
+    cursor: pointer;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transform: translateY(10px);
+    transform: translateY(12px) scale(0.9);
     transition:
-        opacity 0.3s ease,
-        transform 0.3s ease,
-        background-color 0.2s ease;
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
 }
 .back-to-top.show {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 .back-to-top:hover {
-    background: var(--yellow);
+    transform: translateY(-3px) scale(1.05);
 }
 .back-to-top svg {
     width: 20px;
     height: 20px;
+}
+@media (min-width: 768px) {
+    .back-to-top {
+        right: 2rem;
+        bottom: 2rem;
+        width: 3rem;
+        height: 3rem;
+    }
+}
+@media (max-width: 360px) {
+    .back-to-top {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }
 
 /* ---------- tombol salin alamat (kecil, di sebelah judul Alamat) ---------- */
@@ -609,6 +628,14 @@ a:focus-visible {
 .fact-card:nth-child(4):before {
     background: var(--lemon);
 }
+/* Kartu terakhir memanjang sampai tepi kanan saat grid 4 kolom (>=721px; di bawahnya grid 2 kolom,
+   jadi span tidak dipakai agar tidak membuat kolom implisit). Hasil: 1 kartu span 4, 2 kartu span 3,
+   3 kartu span 2, 4 kartu tetap 1. */
+@media (min-width: 721px) {
+    .fact-card:last-child:nth-child(1) { grid-column: span 4; }
+    .fact-card:last-child:nth-child(2) { grid-column: span 3; }
+    .fact-card:last-child:nth-child(3) { grid-column: span 2; }
+}
 .fact-label {
     display: block;
     font-size: 0.72rem;
@@ -854,6 +881,8 @@ a:focus-visible {
     overflow: hidden;
     border: 2px solid #fff;
     border-radius: 2rem;
+    /* latar gradasi disamakan dengan .job-hero di detail-lowongan.css */
+    background: linear-gradient(155deg, var(--sky) 0%, var(--cream) 50%, var(--sky) 130%);
     box-shadow: 0 20px 25px -5px rgba(21,53,99,.15), 0 8px 10px -6px rgba(21,53,99,.1);
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -861,8 +890,28 @@ a:focus-visible {
 @media (min-width: 768px) {
     .dc-hero { padding: 2rem; }
 }
+/* isi hero di atas blob dekoratif */
+.dc-hero > *:not(.dc-hero-blob) { position: relative; }
 
-.dc-hero__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.75rem; align-items: center; margin-top: 0.5rem; }
+/* ornamen bulatan (kuning, pink, lavender) — disalin dari .job-hero-blob-1/2/3 di detail-lowongan.css */
+.dc-hero-blob {
+    position: absolute;
+    opacity: 0.85;
+    pointer-events: none;
+    animation: heroBlobFloat 6s ease-in-out infinite;
+}
+.dc-hero-blob-1 { right: -3rem; top: -3rem; width: 10rem; height: 10rem; background: var(--lemon); }
+.dc-hero-blob-2 { right: 6rem; bottom: -1rem; width: 6rem; height: 6rem; background: var(--pink-strong); animation-delay: -2s; }
+.dc-hero-blob-3 { right: 20%; top: 1.5rem; width: 3.5rem; height: 3.5rem; background: var(--lav); animation-delay: -4s; }
+@keyframes heroBlobFloat {
+    50% { transform: translateY(10px) rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .dc-hero-blob { animation: none; }
+}
+
+/* satu kolom: blok hero-copy lama sudah digabung ke .dc-hero__main */
+.dc-hero__grid { display: grid; grid-template-columns: 1fr; gap: 1.75rem; align-items: center; margin-top: 0.5rem; }
 .dc-hero__row { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1rem; }
 /* dc-hero__main & dc-hero__heading tidak punya CSS di riwayat; min-width:0 mencegah overflow flex/grid */
 .dc-hero__main,
@@ -895,10 +944,6 @@ a:focus-visible {
 .dc-c-blue { color: #2e72ec; }
 .dc-bg-mint { background: #cce8de; }
 
-@media (max-width: 720px) {
-    .dc-hero__grid { grid-template-columns: 1fr; }
-}
-
 /* =========================================================
    TAMBALAN SEMENTARA — disalin/diadaptasi dari public/css/home.css.
    Halaman ini tidak memuat home.css, padahal view user/perusahaan/index.blade.php
@@ -928,8 +973,17 @@ a:focus-visible {
 #wa-widget {
     position: fixed;
     right: 1.25rem;
-    bottom: 5rem; /* 1.25rem + 3rem (back-to-top) + 0.75rem jarak */
-    z-index: 46;
+    bottom: 4.75rem; /* 1.25rem + 2.75rem (back-to-top) + 0.75rem jarak */
+    z-index: 65;
+}
+@media (min-width: 768px) {
+    #wa-widget {
+        right: 2rem;
+        bottom: 5.75rem; /* 2rem + 3rem (back-to-top) + 0.75rem jarak */
+    }
+}
+@media (max-width: 360px) {
+    #wa-widget { bottom: 4.5rem; /* 1.25rem + 2.5rem + 0.75rem */ }
 }
 #wa-button {
     display: grid;
@@ -942,6 +996,9 @@ a:focus-visible {
     color: #fff;
     box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
     overflow: visible;
+}
+@media (max-width: 360px) {
+    #wa-button { height: 3rem; width: 3rem; }
 }
 /* Bubble disembunyikan di awal; detail-perusahaan.js menampilkannya (display:block) setelah 1,5 detik */
 #wa-bubble {
@@ -1035,13 +1092,5 @@ a:focus-visible {
    jadi modal tidak pernah bisa dibuka; tanpa CSS ia tampil sebagai teks polos. */
 #auth-modal-overlay,
 .auth-modal-overlay {
-    display: none;
-}
-
-/* --- nama perusahaan ganda ---
-   Blok hero lama (.hero-copy) masih memuat <h1 class="company-name"> padahal hero
-   baru (.dc-hero) sudah menampilkan nama. Hanya <h1> kedua yang disembunyikan;
-   markup tidak dihapus, dan ikon sosial, badge, serta .company-meta tetap tampil. */
-.dc-hero .hero-copy .company-name {
     display: none;
 }
