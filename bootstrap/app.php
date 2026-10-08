@@ -13,9 +13,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->encryptCookies(except: [
+            'visitor_id',
+        ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\TrackVisitor::class,
+        ]);
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
         ]);
+        $middleware->redirectGuestsTo(fn (Request $request) => $request->is('admin') || $request->is('admin/*') ? route('admin.login') : route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

@@ -23,12 +23,12 @@ class ContentManagementController extends Controller
             'graduations' => \Schema::hasTable('alumni_profiles') ? \DB::table('alumni_profiles')->distinct('graduation_year')->count('graduation_year') : 0,
             'schoolclasses' => 0,
             'alumni_achievements' => 0,
-            'board_periods' => 0,
-            'alumni_boards' => 0,
+            'board_periods' => \Schema::hasTable('committee_periods') ? \DB::table('committee_periods')->count() : 0,
+            'alumni_boards' => \Schema::hasTable('alumni_committees') ? \DB::table('alumni_committees')->count() : 0,
             'job_categories' => 0,
             'job_vacancies' => \Schema::hasTable('job_vacancies') ? \DB::table('job_vacancies')->count() : 0,
             'articles' => \Schema::hasTable('articles') ? \DB::table('articles')->count() : 0,
-            'event' => \Schema::hasTable('events') ? \DB::table('events')->count() : 0,
+            'events' => \Schema::hasTable('events') ? \DB::table('events')->count() : 0,
             'albums' => \Schema::hasTable('albums') ? \DB::table('albums')->count() : 0,
             'galleries' => \Schema::hasTable('album_photos') ? \DB::table('album_photos')->count() : 0,
             'contents' => \Schema::hasTable('page_contents') ? \DB::table('page_contents')->count() : 0
@@ -59,7 +59,7 @@ class ContentManagementController extends Controller
     public function dashboard()
     {
         $count = [
-            'alumni' => \Schema::hasTable('albums') ? \App\Models\Album::count() : 0,
+            'alumni' => \Schema::hasTable('alumni_profiles') ? \App\Models\AlumniProfile::count() : 0,
             'event' => \Schema::hasTable('events') ? \App\Models\Event::count() : 0,
             'job_vacancy' => \Schema::hasTable('job_vacancies') ? \App\Models\JobVacancy::count() : 0,
             'Article' => \Schema::hasTable('articles') ? \App\Models\Article::count() : 0,
@@ -71,19 +71,10 @@ class ContentManagementController extends Controller
         $recentTestimonials = \Schema::hasTable('testimonials') ? \DB::table('testimonials')->latest()->take(5)->get() : collect();
         $recentPrestasi = collect(); 
 
-        $statistikHariIni = \Schema::hasTable('visitors') ? \DB::table('visitors')->whereDate('created_at', today())
-            ->selectRaw('HOUR(created_at) as jam, COUNT(*) as total')
-            ->groupBy('jam')
-            ->orderBy('jam', 'asc')
-            ->get() : collect();
-
-        $labels = [];
-        $data = [];
-
-        foreach ($statistikHariIni as $row) {
-            $labels[] = sprintf('%02d:00', $row->jam);
-            $data[] = $row->total;
-        }
+        $statsToday = app(\App\Http\Controllers\Api\VisitorStatsController::class)->hourlyToday()->getData(true);
+        $labels = $statsToday['labels'] ?? [];
+        $data = $statsToday['data'] ?? [];
+        $maxData = $statsToday['max'] ?? 10;
 
         $this->shareSidebarCounts();
 
@@ -95,7 +86,8 @@ class ContentManagementController extends Controller
             'recentTestimonials',
             'recentPrestasi',
             'labels',  
-            'data'    
+            'data',
+            'maxData'
         ));
     }
 
@@ -205,5 +197,65 @@ class ContentManagementController extends Controller
         }
 
         return back()->with('status', "Seksi '{$key}' berhasil dihapus.");
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'table' => 'required|string',
+            'id' => 'required|integer',
+            'column' => 'required|string',
+            'value' => 'required'
+        ]);
+
+        $allowedTables = ['alumni_profiles', 'job_vacancies', 'alumni_committees', 'committee_periods', 'page_contents', 'galleries', 'events', 'articles', 'albums', 'site_settings'];
+        
+        if (!in_array($request->table, $allowedTables)) {
+            return response()->json(['success' => false, 'message' => 'Tabel tidak diizinkan.'], 403);
+        }
+
+        if (!\Schema::hasTable($request->table) || !\Schema::hasColumn($request->table, $request->column)) {
+            return response()->json(['success' => false, 'message' => 'Kolom atau tabel tidak ditemukan.'], 404);
+        }
+
+        $val = $request->value;
+
+        // Normalisasi untuk enum study_status pada alumni_profiles ('Aktif' dan 'Non-aktif')
+        if ($request->column === 'study_status') {
+            $check = strtolower(trim((string)$val));
+            if (in_array($check, ['tidak aktif', 'non-aktif', 'non_aktif', 'non aktif', '0'])) {
+                $val = 'Non-aktif';
+            } elseif (in_array($check, ['aktif', '1'])) {
+                $val = 'Aktif';
+            }
+        }
+
+        // Normalisasi untuk boolean / integer status
+        if (in_array($request->column, ['is_active', 'is_published', 'is_featured', 'is_online', 'is_verified'])) {
+            $val = ($val == '1' || $val === 'true' || $val === 'Aktif') ? 1 : 0;
+        }
+
+        $exists = DB::table($request->table)->where('id', $request->id)->exists();
+        if (!$exists) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.'], 404);
+        }
+
+        $updateData = [$request->column => $val];
+        if (\Schema::hasColumn($request->table, 'updated_at')) {
+            $updateData['updated_at'] = now();
+        }
+
+        try {
+            DB::table($request->table)->where('id', $request->id)->update($updateData);
+
+            if ($request->table === 'alumni_profiles') {
+                \Cache::forget('public_alumni_directory');
+            }
+
+            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.', 'value' => $val]);
+        } catch (\Throwable $e) {
+            \Log::error('UpdateStatus error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Gagal memperbarui status: ' . $e->getMessage()], 500);
+        }
     }
 }

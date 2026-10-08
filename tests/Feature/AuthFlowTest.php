@@ -19,7 +19,7 @@ class AuthFlowTest extends TestCase
             'email' => 'kanya.salsabila@alumni.id',
             'password' => Hash::make('password123'),
             'role' => 'alumni',
-            'status' => 'active',
+            'is_active' => true,
         ]);
     }
     public function test_login_page_renders_properly(): void
@@ -75,5 +75,35 @@ class AuthFlowTest extends TestCase
         $guestHomeResponse->assertStatus(200);
         $guestHomeResponse->assertSee('locked-teaser');
         $guestHomeResponse->assertSee('data-auth-link');
+    }
+
+    public function test_inactive_account_cannot_login_until_reactivated(): void
+    {
+        $admin = User::create([
+            'name' => 'Anjani Bajra',
+            'email' => 'anjani@example.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+            'is_active' => false,
+        ]);
+
+        $inactiveResponse = $this->from('/admin-login')->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password123',
+        ]);
+
+        $inactiveResponse->assertRedirect('/admin-login');
+        $inactiveResponse->assertSessionHasErrors('email');
+        $this->assertGuest();
+
+        $admin->update(['is_active' => true]);
+
+        $activeResponse = $this->post('/login', [
+            'email' => $admin->email,
+            'password' => 'password123',
+        ]);
+
+        $activeResponse->assertRedirect(route('admin.dashboard'));
+        $this->assertAuthenticatedAs($admin->fresh());
     }
 }

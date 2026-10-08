@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var payload = {
             name: form.name.value.trim(),
             email: form.email.value.trim(),
-            phone: form.phone.value.trim()
+            phone: form.phone.value.trim(),
+            quantity: form.quantity ? parseInt(form.quantity.value) || 1 : 1
         };
 
         submitBtn.disabled = true;
@@ -106,7 +107,53 @@ document.addEventListener("DOMContentLoaded", function () {
                     stepSuccess.hidden = false;
                     successMessage.textContent = (result.data && result.data.message)
                         ? result.data.message
-                        : "Kami sudah mengirim email konfirmasi berisi link WhatsApp untuk konfirmasi ke panitia. Silakan cek inbox (atau folder spam) kamu.";
+                        : "Pendaftaran berhasil! Mengalihkan ke WhatsApp panitia untuk konfirmasi...";
+
+                    // Update live quota on page
+                    if (result.data && typeof result.data.registered_count !== 'undefined') {
+                        var newUsed = result.data.used_quota || result.data.registered_count;
+                        var totalQ = result.data.total_quota || config.quota;
+                        var remaining = typeof result.data.remaining_quota !== 'undefined' ? result.data.remaining_quota : Math.max(0, totalQ - newUsed);
+                        
+                        var quotaCountEl = document.querySelector("[data-role='quota-count']");
+                        var remainingEl = document.querySelector("[data-role='remaining-count']");
+                        var infoQuotaEl = document.querySelector("[data-role='info-quota']");
+                        var progressFillEl = document.querySelector(".progress-fill");
+
+                        if (quotaCountEl) quotaCountEl.textContent = newUsed + " / " + totalQ;
+                        if (infoQuotaEl) infoQuotaEl.innerHTML = '<span>' + newUsed + '</span> dari ' + totalQ + ' peserta <small style="display: block; font-size: 11px; color: ' + (remaining > 0 ? '#166534' : '#991b1b') + '; font-weight: 700;">(Sisa ' + remaining + ' kursi)</small>';
+                        if (remainingEl) remainingEl.textContent = remaining > 0 ? remaining + " kursi tersisa" : "Kuota telah terpenuhi";
+                        if (progressFillEl && totalQ > 0) progressFillEl.style.width = Math.min(100, Math.round((newUsed / totalQ) * 100)) + "%";
+
+                        if (remaining <= 0) {
+                            if (registerBtn) {
+                                registerBtn.disabled = true;
+                                registerBtn.textContent = "Kuota Penuh";
+                            }
+                            var sidebarBtn = document.getElementById("registerBtnSidebar");
+                            if (sidebarBtn) {
+                                sidebarBtn.disabled = true;
+                                sidebarBtn.textContent = "Kuota Penuh";
+                            }
+                        }
+                    }
+
+                    // Add direct WhatsApp button if present
+                    if (result.data && result.data.whatsapp_url) {
+                        var existingWa = document.getElementById("erWaBtn");
+                        if (!existingWa && doneBtn && doneBtn.parentElement) {
+                            var waBtn = document.createElement("a");
+                            waBtn.id = "erWaBtn";
+                            waBtn.className = "primary-button";
+                            waBtn.style.cssText = "display: block; margin-top: 12px; margin-bottom: 8px; text-align: center; text-decoration: none; background: #25D366; color: white;";
+                            waBtn.target = "_blank";
+                            waBtn.rel = "noopener";
+                            waBtn.textContent = "💬 Hubungi WA Panitia Sekarang";
+                            waBtn.href = result.data.whatsapp_url;
+                            doneBtn.parentElement.insertBefore(waBtn, doneBtn);
+                        }
+                    }
+
                     if (window.lucide) window.lucide.createIcons();
                     return;
                 }
@@ -144,4 +191,136 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (window.lucide) window.lucide.createIcons();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var originalForm = document.getElementById("erForm");
+    
+    if (originalForm) {
+        var customForm = originalForm.cloneNode(true);
+        originalForm.parentNode.replaceChild(customForm, originalForm);
+
+        var currentSubmitBtn = document.getElementById("erSubmitBtn");
+        var currentFormError = document.getElementById("erFormError");
+        var currentStepForm = document.getElementById("erStepForm");
+        var currentStepSuccess = document.getElementById("erStepSuccess");
+        var currentSuccessMsg = document.getElementById("erSuccessMessage");
+        var currentDoneBtn = document.getElementById("erDoneBtn");
+
+        function clearCustomFieldErrors() {
+            customForm.querySelectorAll(".er-error").forEach(function (el) { el.textContent = ""; });
+            customForm.querySelectorAll(".er-field").forEach(function (el) { el.classList.remove("has-error"); });
+            if (currentFormError) {
+                currentFormError.hidden = true;
+                currentFormError.textContent = "";
+            }
+        }
+
+        customForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            clearCustomFieldErrors();
+
+            var customConfig = window.EventDetailConfig || {};
+            if (!customConfig.registerUrl) {
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = "URL pendaftaran belum tersedia. Hubungi admin.";
+                }
+                return;
+            }
+
+            var customPayload = {
+                name: customForm.name.value.trim(),
+                email: customForm.email.value.trim(),
+                phone: customForm.phone.value.trim()
+            };
+
+            if (currentSubmitBtn) {
+                currentSubmitBtn.disabled = true;
+                currentSubmitBtn.classList.add("is-loading");
+            }
+
+            fetch(customConfig.registerUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": customConfig.csrfToken || ""
+                },
+                body: JSON.stringify(customPayload)
+            })
+            .then(function (response) {
+                return response.json().catch(function () { return {}; }).then(function (data) {
+                    return { ok: response.ok, status: response.status, data: data };
+                });
+            })
+            .then(function (result) {
+                if (currentSubmitBtn) {
+                    currentSubmitBtn.disabled = false;
+                    currentSubmitBtn.classList.remove("is-loading");
+                }
+
+                if (result.ok) {
+                    if (currentStepForm) currentStepForm.hidden = true;
+                    if (currentStepSuccess) currentStepSuccess.hidden = false;
+
+                    if (currentSuccessMsg) {
+                        currentSuccessMsg.innerHTML = "Pendaftaran berhasil! Email notifikasi pendaftar baru telah terkirim ke panitia. <br><br><strong>Kamu akan dialihkan otomatis ke WhatsApp panitia dalam 2 detik untuk masuk grup...</strong>";
+                    }
+
+                    if (currentDoneBtn) {
+                        currentDoneBtn.type = "button"; 
+                        currentDoneBtn.addEventListener("click", function() {
+                            if (result.data && result.data.whatsapp_url) {
+                                window.location.href = result.data.whatsapp_url;
+                            }
+                        });
+                    }
+
+                    if (result.data && result.data.whatsapp_url) {
+                        setTimeout(function () {
+                            window.location.href = result.data.whatsapp_url;
+                        }, 2500);
+                    }
+
+                    if (window.lucide) window.lucide.createIcons();
+                    return;
+                }
+
+                if (result.status === 422 && result.data && result.data.errors) {
+                    Object.keys(result.data.errors).forEach(function (field) {
+                        var target = customForm.querySelector('[data-error-for="' + field + '"]');
+                        if (target) {
+                            target.textContent = result.data.errors[field][0];
+                            var wrap = target.closest(".er-field");
+                            if (wrap) wrap.classList.add("has-error");
+                        }
+                    });
+                    return;
+                }
+
+                if (result.status === 401 && customConfig.loginUrl) {
+                    window.location.href = customConfig.loginUrl;
+                    return;
+                }
+
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = (result.data && result.data.message)
+                        ? result.data.message
+                        : "Terjadi kesalahan saat mendaftar. Silakan coba lagi.";
+                }
+            })
+            .catch(function () {
+                if (currentSubmitBtn) {
+                    currentSubmitBtn.disabled = false;
+                    currentSubmitBtn.classList.remove("is-loading");
+                }
+                if (currentFormError) {
+                    currentFormError.hidden = false;
+                    currentFormError.textContent = "Gagal menghubungi server. Periksa koneksi internet kamu.";
+                }
+            });
+        });
+    }
 });

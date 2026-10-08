@@ -179,6 +179,7 @@ class UserAndProfileSeeder extends Seeder
                     'bio' => $data['bio'] ?? 'Alumni berdedikasi dan siap saling mendukung.',
                     'is_online' => $data['is_online'] ?? true,
                     'is_verified' => $data['is_verified'] ?? true,
+                    'study_status' => 'Aktif',
                     'linkedin_url' => $data['linkedin_url'] ?? null,
                     'instagram_url' => $data['instagram_url'] ?? null,
                     'github_url' => $data['github_url'] ?? null,

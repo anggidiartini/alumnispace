@@ -14,7 +14,7 @@ body {
     z-index: 9999; /* Z-index tinggi agar selalu berada di atas elemen lain */
     border-bottom: 1px solid #dbeafe;
     background-color: rgba(255, 253, 247, 0.95);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
     font-family: "DM Sans", sans-serif;
 }
 
@@ -235,6 +235,18 @@ body {
     color: #ffffff;
 }
 
+.user-avatar-photo {
+    overflow: hidden;
+    padding: 0;
+}
+
+.user-avatar-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .btn-outline-danger {
     display: flex;
     align-items: center;
@@ -370,4 +382,187 @@ html,
 body {
     overflow-x: hidden;
     max-width: 100%;
+}
+
+/* ---------- ACTIVE STATE (halaman yang sedang dibuka) — garis bawah saja ---------- */
+.nav-link-btn.active {
+    position: relative;
+    color: #0a4174;
+}
+
+.nav-link-btn.active::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    background-color: #2e72ec;
+    border-radius: 2px;
+}
+
+.mobile-link.active {
+    position: relative;
+    color: #0a4174;
+    font-weight: 700;
+}
+
+.mobile-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.15rem;
+    height: 2px;
+    background-color: #2e72ec;
+    border-radius: 2px;
+}
+/* ========== PROFILE DROPDOWN ========== */
+.profile-dropdown-wrap {
+    position: relative;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    width: 260px;
+    background: #ffffff;
+    border-radius: 1.25rem;
+    border: 1px solid #dbeafe;
+    box-shadow: 0 16px 32px rgba(21, 53, 99, 0.15);
+    padding: 1.1rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+    z-index: 9998;
+}
+
+.profile-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-dropdown-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-dropdown-avatar-placeholder {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2e72ec;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.profile-dropdown-text {
+    min-width: 0;
+}
+
+.profile-dropdown-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #153563;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-dropdown-email {
+    font-size: 0.75rem;
+    color: #6f89ab;
+    margin: 0.1rem 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-dropdown-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.85rem;
+}
+
+.profile-modal-chip {
+    background: #eaf3ff;
+    color: #153563;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+}
+
+.profile-dropdown-settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    margin-top: 0.9rem;
+    padding: 0.65rem;
+    border-radius: 9999px;
+    background: #2e72ec;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.profile-dropdown-settings-btn:hover {
+    background: #255bc4;
+}
+
+/* Tombol Logout — sekarang di dalam profile-dropdown, di bawah tombol Setting Profile */
+.profile-dropdown-logout-form {
+    margin-top: 0.5rem;
+}
+
+.profile-dropdown-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem;
+    border-radius: 9999px;
+    border: 2px solid #f3b4b4;
+    background: #ffffff;
+    color: #b42318;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.profile-dropdown-logout-btn:hover {
+    background: #fef2f2;
+    border-color: #e88f8f;
+}
+
+@media (max-width: 480px) {
+    .profile-dropdown {
+        right: -1rem;
+        width: 230px;
+    }
 }

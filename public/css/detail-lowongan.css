@@ -11,6 +11,11 @@
    .company-head-link — dulu elemen ini <p>/<div> polos,
    sekarang jadi <a> yang mengarah ke halaman detail
    perusahaan, jadi butuh state hover/focus yang jelas.
+
+   REVISI 2: posisi ornamen kanan-kiri (.dl-hero-*, .dl-grid-*,
+   .dl-related-*) diubah pakai offset NEGATIF supaya ornamen
+   keluar dari kotak .page-width (1180px) ke ruang kosong
+   kiri-kanan, bukan nempel di dalam card.
    ========================================================= */
 
 :root {
@@ -93,16 +98,94 @@ img {
     border-radius: 48% 52% 40% 60% / 55% 40% 60% 45%;
 }
 
+/* ---------- Animasi masuk "tuing" — disamakan dgn halaman home ---------- */
+@keyframes tuingIn {
+    0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(28px);
-    transition:
-        opacity 0.8s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.8s cubic-bezier(0.16, 0.84, 0.44, 1);
+    transform: translateY(35px) scale(0.92);
 }
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translateY(0);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ---------- ornamen kecil kiri-kanan (jam, bus, papan tulis, lampu, alat tulis) ---------- */
+.deco-asset {
+    position: absolute;
+    z-index: 40;
+    pointer-events: none;
+}
+.deco-asset img {
+    display: block;
+    opacity: 0.7;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+.aset-jam,
+.aset-bus,
+.aset-papantulis,
+.aset-lampu,
+.aset-alattulis {
+    width: 110px;
+    transform: rotate(0deg);
+}
+
+.floaty {
+    animation: floaty 4s ease-in-out infinite;
+}
+.floaty-slow {
+    animation: floaty 5s ease-in-out 0.6s infinite;
+}
+.wiggle {
+    animation: wiggle 3.2s ease-in-out infinite;
+}
+@keyframes floaty {
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+@keyframes wiggle {
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
+}
+
+/* Responsif: ornamen samar di layar medium, hilang di HP biar konten gak sempit/numpuk */
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+@media (max-width: 767px) {
+    .deco-asset {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .floaty,
+    .floaty-slow,
+    .wiggle {
+        animation: none !important;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -248,13 +331,16 @@ img {
 
 /* tombol dalam baris aksi hero (Simpan Lowongan + Lamar/WA) dibuat
    seragam ukurannya biar rapi berdampingan, samain kayak tombol
-   apply/detail di card listing lowongan */
+   apply/detail di card listing lowongan.
+   REVISI 3: tombol WA di hero jangan ikut stretch penuh (flex 0 0 auto),
+   biar teksnya diperpendek jadi ringkas dan otomatis nempel ke kanan
+   lewat justify-content pada .job-hero-actions. */
 .job-hero-actions .custom-white-pill-btn,
 .job-hero-actions .custom-pill-btn,
 .job-hero-actions .whatsapp-pill-btn {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     font-size: 0.85rem;
-    padding: 0.65rem 1rem;
+    padding: 0.65rem 1.1rem;
     white-space: nowrap;
 }
 
@@ -342,8 +428,13 @@ img {
     position: relative;
     overflow: hidden;
     border-radius: 1.75rem;
-    background: linear-gradient(120deg, #ffffff 0%, #f6fbff 55%, #fff8db 100%);
-    border: 2px solid #fff;
+    background: linear-gradient(
+        155deg,
+        var(--sky) 0%,
+        var(--cream) 50%,
+        var(--sky) 130%
+    );
+
     box-shadow: 0 14px 35px rgba(29, 74, 146, 0.12);
     padding: 1.75rem;
 }
@@ -448,6 +539,7 @@ img {
 .job-hero-actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 0.75rem;
     width: 100%;
     position: relative;
@@ -514,6 +606,7 @@ img {
     padding: 2rem 0;
     align-items: start;
     grid-template-columns: 1fr;
+    position: relative;
 }
 
 .detail-main {
@@ -755,6 +848,7 @@ img {
 
 .related-wrap {
     padding: 1rem 0 3.5rem;
+    position: relative;
 }
 .related-head {
     margin-bottom: 1.5rem;
@@ -848,173 +942,6 @@ img {
     transform: translate(-50%, 0);
 }
 
-/* =========================================================
-   Floating action row: back-to-top & WhatsApp
-   ========================================================= */
-
-.fab-row {
-    position: fixed;
-    right: 1.25rem;
-    bottom: 1.25rem;
-    z-index: 65;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-#back-to-top {
-    display: grid;
-    place-items: center;
-    height: 2.75rem;
-    width: 2.75rem;
-    flex-shrink: 0;
-    border: 0;
-    border-radius: 9999px;
-    background: var(--ink);
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px) scale(0.9);
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
-}
-#back-to-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
-#back-to-top:hover {
-    transform: translateY(-3px) scale(1.05);
-}
-
-#wa-widget {
-    position: relative;
-    flex-shrink: 0;
-}
-
-.wa-pulse {
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    animation: wa-pulse-ring 2.6s ease-out infinite;
-}
-.wa-pulse:hover {
-    transform: scale(1.08);
-}
-
-@keyframes wa-pulse-ring {
-    0% {
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
-    }
-    70% {
-        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-    }
-}
-
-#wa-button {
-    display: grid;
-    place-items: center;
-    height: 3.5rem;
-    width: 3.5rem;
-    border-radius: 9999px;
-    background: #25d366;
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
-}
-
-#wa-bubble {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
-    margin-bottom: 0.75rem;
-    width: 15rem;
-    border-radius: 1.25rem;
-    background: #fff;
-    padding: 1rem;
-    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
-}
-
-.wa-bubble {
-    transform-origin: bottom right;
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-    visibility: hidden;
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
-    pointer-events: none;
-    z-index: 5;
-}
-.wa-bubble.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.wa-bubble-title {
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--ink);
-}
-.wa-bubble-close {
-    border: 0;
-    background: none;
-    padding: 0.15rem;
-    color: var(--muted);
-    cursor: pointer;
-}
-.wa-bubble-text {
-    margin: 0.4rem 0 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: var(--muted);
-}
-.wa-bubble-number {
-    margin: 0.5rem 0 0;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--blue-deep);
-}
-
-@media (min-width: 768px) {
-    .fab-row {
-        right: 2rem;
-        bottom: 2rem;
-    }
-    #back-to-top {
-        height: 3rem;
-        width: 3rem;
-    }
-}
-
-@media (max-width: 767px) {
-    .wa-bubble {
-        width: 14.5rem;
-    }
-}
-
-@media (max-width: 360px) {
-    #wa-button {
-        height: 3rem;
-        width: 3rem;
-    }
-    #back-to-top {
-        height: 2.5rem;
-        width: 2.5rem;
-    }
-}
-
 /* ---------- responsive ---------- */
 
 @media (min-width: 640px) {
@@ -1051,11 +978,110 @@ img {
 }
 
 .hero-section-top {
-    padding-top: 5rem;
+    padding-top: 1.25rem;
+    position: relative;
 }
 
 @media (max-width: 767px) {
     .hero-section-top {
-        padding-top: 4rem;
+        padding-top: 1rem;
     }
+}
+
+/* ---------- posisi ornamen kanan-kiri: hero, detail-grid, related-wrap ----------
+   Offset dibuat NEGATIF supaya ornamen keluar dari kotak .page-width
+   (max 1180px) menuju ruang kosong kiri-kanan, bukan menempel di
+   dalam card/konten. */
+/* ---------- posisi ornamen kanan-kiri: hero, detail-grid, related-wrap ---------- */
+.dl-hero-l1 {
+    left: -120px; /* sebelumnya -70px */
+    top: 18%;
+}
+.dl-hero-l2 {
+    left: -90px; /* sebelumnya -40px */
+    bottom: 8%;
+}
+.dl-hero-r1 {
+    right: -120px; /* sebelumnya -70px */
+    top: 14%;
+}
+.dl-hero-r2 {
+    right: -90px; /* sebelumnya -40px */
+    bottom: 10%;
+}
+
+.dl-grid-l1 {
+    left: -130px; /* sebelumnya -80px */
+    top: 4%;
+}
+.dl-grid-l2 {
+    left: -100px; /* sebelumnya -50px */
+    bottom: 6%;
+}
+.dl-grid-r1 {
+    right: -130px; /* sebelumnya -80px */
+    top: 10%;
+}
+.dl-grid-r2 {
+    right: -100px; /* sebelumnya -50px */
+    bottom: 4%;
+}
+
+.dl-related-l1 {
+    left: -120px; /* sebelumnya -70px */
+    top: 10%;
+}
+.dl-related-l2 {
+    left: -90px; /* sebelumnya -40px */
+    bottom: 8%;
+}
+.dl-related-r1 {
+    right: -120px; /* sebelumnya -70px */
+    top: 12%;
+}
+.dl-related-r2 {
+    right: -90px; /* sebelumnya -40px */
+    bottom: 6%;
+}
+
+/* Di layar sempit, ruang kosong kiri-kanan .page-width sudah habis
+   (lebar section ~= lebar layar), jadi ornamen disembunyikan semua
+   biar tidak numpuk/tabrakan dengan konten. */
+@media (max-width: 1360px) {
+    .dl-hero-l1,
+    .dl-hero-l2,
+    .dl-hero-r1,
+    .dl-hero-r2,
+    .dl-grid-l1,
+    .dl-grid-l2,
+    .dl-grid-r1,
+    .dl-grid-r2,
+    .dl-related-l1,
+    .dl-related-l2,
+    .dl-related-r1,
+    .dl-related-r2 {
+        display: none;
+    }
+}
+/* ---------- back-link "Kembali ke Lowongan" ---------- */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem; /* sebelumnya 1.5rem */
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-decoration: none;
+    position: relative;
+    z-index: 2;
+}
+.back-link svg,
+.back-link i {
+    flex-shrink: 0;
+}
+.back-link:hover,
+.back-link:focus-visible {
+    color: var(--blue-deep);
+    text-decoration: underline;
 }

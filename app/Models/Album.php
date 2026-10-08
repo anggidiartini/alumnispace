@@ -24,11 +24,13 @@ class Album extends Model
         'target_generation',
         'description',
         'is_featured',
+        'status',
     ];
 
     protected $casts = [
         'event_date' => 'date',
         'is_featured' => 'boolean',
+        'status' => 'boolean',
     ];
 
     protected static function boot()

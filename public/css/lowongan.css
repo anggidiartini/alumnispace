@@ -1,13 +1,6 @@
 /* =========================================================
    lowongan.css — disamakan dengan home.css supaya satu bahasa
    desain: warna, font, tombol, dan animasi section identik.
-   Class dasar (variabel, blob, checker, reveal-onscroll, wa,
-   back-to-top, custom-pill-btn, dst) di-mirror 1:1 dari home.css
-   supaya kalau dua-duanya di-load, tidak saling tabrakan.
-
-   Catatan: navbar & footer TIDAK punya CSS di sini lagi —
-   halaman ini pakai <x-navbar /> dan <x-footer /> (style-nya
-   sudah ditangani navbar.css / komponennya sendiri).
    ========================================================= */
 
 :root {
@@ -55,13 +48,6 @@ a {
 .page-wrap,
 .site-shell {
     width: 100%;
-    /* overflow-x: hidden sengaja TIDAK dipasang di sini lagi.
-       Kalau dipasang di elemen pembungkus yang menaungi
-       .filter-panel, browser diam-diam mengubah overflow-y
-       jadi "auto" di elemen ini juga, sehingga posisi "sticky"
-       pada .filter-panel jadi terjebak di dalam kotak ini dan
-       tidak lagi ikut turun saat halaman di-scroll. Cukup
-       diset di html/body saja (sudah di atas). */
 }
 
 .page-width {
@@ -69,7 +55,7 @@ a {
     margin: 0 auto;
 }
 
-/* ---------- shared decorative patterns (dari home.css) ---------- */
+/* ---------- shared decorative patterns ---------- */
 
 .grid-paper {
     background-image:
@@ -86,7 +72,11 @@ a {
         linear-gradient(45deg, transparent 75%, #dceaff 75%),
         linear-gradient(-45deg, transparent 75%, #dceaff 75%);
     background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+    background-position:
+        0 0,
+        0 10px,
+        10px -10px,
+        -10px 0;
 }
 
 .blob {
@@ -98,8 +88,13 @@ a {
 }
 
 @keyframes drift {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(12px, -14px) rotate(8deg); }
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(12px, -14px) rotate(8deg);
+    }
 }
 
 .spin-slow {
@@ -116,8 +111,12 @@ a {
 }
 
 @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .wiggle {
@@ -125,8 +124,13 @@ a {
 }
 
 @keyframes wiggle {
-    0%, 100% { transform: rotate(6deg); }
-    50% { transform: rotate(-4deg); }
+    0%,
+    100% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-4deg);
+    }
 }
 
 .floaty {
@@ -138,31 +142,86 @@ a {
 }
 
 @keyframes floaty {
-    50% { transform: translateY(-10px) rotate(2deg); }
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+@keyframes tuingIn {
+    0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.92);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.02);
+    }
+    80% {
+        transform: translateY(4px) scale(0.99);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .reveal {
-    animation: rise 0.6s both;
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes rise {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Scroll reveal per-section, sama seperti home — sedikit
-   diperlambat & di-stagger otomatis lewat JS (transition-delay). */
 .reveal-onscroll {
     opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.9s cubic-bezier(0.16, 0.84, 0.44, 1),
-        transform 0.9s cubic-bezier(0.16, 0.84, 0.44, 1);
+    transform: translateY(35px) scale(0.92);
 }
 
 .reveal-onscroll.in-view {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1;               /* TAMBAHAN */
+    transform: none;          /* TAMBAHAN */
+    animation: tuingIn 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ---------- ornamen kecil kiri-kanan ---------- */
+.deco-asset {
+    position: absolute;
+    z-index: 30;
+    pointer-events: none;
+}
+.deco-asset img {
+    display: block;
+    opacity: 0.85;
+    filter: drop-shadow(0 6px 10px rgba(29, 74, 146, 0.15));
+}
+.aset-jam,
+.aset-bus,
+.aset-papantulis,
+.aset-lampu,
+.aset-alattulis {
+    width: 105px;
+    transform: rotate(0deg);
+}
+
+.aset-alattulis {
+    transform: translate(-10px, -15px) rotate(0deg);
+}
+
+@media (max-width: 1200px) {
+    .deco-asset {
+        opacity: 0.8;
+    }
+}
+@media (max-width: 767px) {
+    .deco-asset {
+        display: none;
+    }
+}
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+    .floaty,
+    .floaty-slow,
+    .wiggle {
+        animation: none !important;
+    }
 }
 
 .focus-ring:focus-visible,
@@ -175,7 +234,9 @@ input:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
@@ -183,7 +244,7 @@ input:focus-visible {
     }
 }
 
-/* ---------- tombol seragam (sama persis dgn home) ---------- */
+/* ---------- tombol seragam ---------- */
 
 .custom-pill-btn,
 .primary-button,
@@ -195,7 +256,10 @@ input:focus-visible {
     border-radius: 9999px;
     font-weight: 700;
     box-shadow: 0 6px 0 #0a4174;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -232,7 +296,10 @@ input:focus-visible {
     border-radius: 9999px;
     font-weight: 700;
     box-shadow: 0 6px 0 #0a4174;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -257,34 +324,6 @@ input:focus-visible {
     box-shadow: 0 3px 0 #0a4174;
 }
 
-.custom-yellow-pill-btn {
-    background-color: #fff0a9;
-    color: #0a4174;
-    border: 3px solid #0a4174;
-    border-radius: 9999px;
-    font-weight: 700;
-    box-shadow: 0 6px 0 #0a4174;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    cursor: pointer;
-    padding: 0.85rem 1.4rem;
-}
-
-.custom-yellow-pill-btn:hover {
-    background-color: #fae588;
-    transform: translateY(-3px);
-    box-shadow: 0 9px 0 #0a4174;
-}
-
-.custom-yellow-pill-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 0 #0a4174;
-}
-
 .badge-dashed-pill,
 .eyebrow {
     background-color: #f9f6bd;
@@ -297,7 +336,7 @@ input:focus-visible {
     font-size: 0.85rem;
 }
 
-/* ---------- hero (blob + checker, seirama home) ---------- */
+/* ---------- hero section ---------- */
 
 .hero-section {
     width: 100%;
@@ -384,9 +423,16 @@ input:focus-visible {
     border-radius: 50%;
 }
 
-.avatar-dot:first-child { margin-left: 0; background: var(--pink); }
-.avatar-dot:nth-child(2) { background: var(--yellow); }
-.avatar-dot:nth-child(3) { background: var(--blue); }
+.avatar-dot:first-child {
+    margin-left: 0;
+    background: var(--pink);
+}
+.avatar-dot:nth-child(2) {
+    background: var(--yellow);
+}
+.avatar-dot:nth-child(3) {
+    background: var(--blue);
+}
 
 .hero-board {
     position: relative;
@@ -422,7 +468,9 @@ input:focus-visible {
     padding: 1.5rem;
     background: white;
     box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .preview-card:hover {
@@ -463,8 +511,6 @@ input:focus-visible {
     background: var(--blue);
 }
 
-/* Sticker "Ada peluang baru!" — didorong lebih ke bawah supaya
-   tidak mepet dengan progress bar di atasnya */
 .hero-note {
     position: absolute;
     right: -1rem;
@@ -481,6 +527,7 @@ input:focus-visible {
 
 .jobs-section {
     padding-bottom: 5rem;
+    position: relative;
 }
 
 .section-heading {
@@ -522,8 +569,6 @@ input:focus-visible {
     grid-template-columns: 270px minmax(0, 1fr);
 }
 
-/* Filter tetap di kiri (sesuai layout ini) & dibuat sticky
-   supaya terasa interaktif saat menggulir daftar lowongan */
 .filter-panel {
     height: fit-content;
     border-radius: 1.75rem;
@@ -562,7 +607,9 @@ input:focus-visible {
     padding: 0.78rem;
     background: white;
     color: var(--ink);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .field-control:focus-visible {
@@ -601,7 +648,11 @@ input:focus-visible {
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .filter-chip:hover {
@@ -655,7 +706,10 @@ input:focus-visible {
     padding: 1.4rem;
     background: white;
     box-shadow: 0 12px 28px rgba(29, 74, 146, 0.09);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease,
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease,
         opacity 0.3s ease;
 }
 
@@ -664,7 +718,6 @@ input:focus-visible {
     box-shadow: 0 18px 35px rgba(29, 74, 146, 0.13);
 }
 
-/* Fade halus saat kartu difilter, bukan hilang tiba-tiba */
 .job-card.is-fading {
     opacity: 0;
     transform: scale(0.96);
@@ -675,52 +728,51 @@ input:focus-visible {
     display: none;
 }
 
-/* Palet job-card berputar dari 4 warna root, tetap lembut & konsisten */
-#jobs-grid .job-card:nth-child(4n+1) {
+#jobs-grid .job-card:nth-child(4n + 1) {
     border-top-color: var(--blue);
     background: color-mix(in srgb, var(--soft) 55%, #ffffff);
 }
-#jobs-grid .job-card:nth-child(4n+1) .job-badge {
+#jobs-grid .job-card:nth-child(4n + 1) .job-badge {
     background: var(--soft);
     color: var(--ink);
 }
-#jobs-grid .job-card:nth-child(4n+1) .job-symbol {
+#jobs-grid .job-card:nth-child(4n + 1) .job-symbol {
     color: var(--blue);
 }
 
-#jobs-grid .job-card:nth-child(4n+2) {
+#jobs-grid .job-card:nth-child(4n + 2) {
     border-top-color: var(--pink);
     background: color-mix(in srgb, var(--pink) 40%, #ffffff);
 }
-#jobs-grid .job-card:nth-child(4n+2) .job-badge {
+#jobs-grid .job-card:nth-child(4n + 2) .job-badge {
     background: var(--pink);
     color: var(--ink);
 }
-#jobs-grid .job-card:nth-child(4n+2) .job-symbol {
+#jobs-grid .job-card:nth-child(4n + 2) .job-symbol {
     color: #c8517d;
 }
 
-#jobs-grid .job-card:nth-child(4n+3) {
+#jobs-grid .job-card:nth-child(4n + 3) {
     border-top-color: var(--yellow);
     background: color-mix(in srgb, var(--yellow) 40%, #ffffff);
 }
-#jobs-grid .job-card:nth-child(4n+3) .job-badge {
+#jobs-grid .job-card:nth-child(4n + 3) .job-badge {
     background: var(--yellow);
     color: var(--ink);
 }
-#jobs-grid .job-card:nth-child(4n+3) .job-symbol {
+#jobs-grid .job-card:nth-child(4n + 3) .job-symbol {
     color: #9d7800;
 }
 
-#jobs-grid .job-card:nth-child(4n+4) {
+#jobs-grid .job-card:nth-child(4n + 4) {
     border-top-color: var(--ink);
     background: color-mix(in srgb, var(--blue) 16%, #ffffff);
 }
-#jobs-grid .job-card:nth-child(4n+4) .job-badge {
+#jobs-grid .job-card:nth-child(4n + 4) .job-badge {
     background: var(--blue);
     color: #ffffff;
 }
-#jobs-grid .job-card:nth-child(4n+4) .job-symbol {
+#jobs-grid .job-card:nth-child(4n + 4) .job-symbol {
     color: var(--ink);
 }
 
@@ -758,8 +810,6 @@ input:focus-visible {
 .job-title-link:hover {
     text-decoration: underline;
 }
-
-/* ---------- baris logo + nama perusahaan, tepat di bawah judul ---------- */
 
 .company-row {
     display: flex;
@@ -802,8 +852,6 @@ input:focus-visible {
 .job-description {
     line-height: 1.6;
 }
-
-/* ---------- dua tombol aksi: Lamar via WhatsApp + Detail Lowongan ---------- */
 
 .job-card-actions {
     display: flex;
@@ -861,10 +909,10 @@ input:focus-visible {
     font-size: 1.5rem;
 }
 
-/* ---------- share vacancy banner (pengganti ticket-banner) ---------- */
+/* ---------- share vacancy banner ---------- */
 
 .share-banner {
-    grid-column: 1 / -1;   /* <-- tambahin baris ini */
+    grid-column: 1 / -1;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -876,7 +924,7 @@ input:focus-visible {
     border-radius: 2rem;
     overflow: hidden;
     color: white;
-    background: linear-gradient(135deg, #2e72ec, #1d4ed8);
+    background: #6f9fe8;
 }
 
 .share-banner-orb {
@@ -924,7 +972,7 @@ input:focus-visible {
     position: relative;
     z-index: 1;
     white-space: nowrap;
-    background-color: #ffd84a;
+    background-color: #fffef8;
     box-shadow: 0 6px 0 #0a4174;
 }
 
@@ -944,157 +992,7 @@ input:focus-visible {
     }
 }
 
-/* =========================================================
-   Floating action row: back-to-top & WhatsApp — disamakan
-   1:1 dengan tampilan home (posisi, ukuran, warna #153563 /
-   hijau WA), pakai class supaya tidak perlu inline style lagi.
-   ========================================================= */
-
-.fab-row {
-    position: fixed;
-    right: 1.25rem;
-    bottom: 1.25rem;
-    z-index: 65;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-/* WA di atas, back-to-top di bawahnya — urutan HTML tidak diubah,
-   cukup dibalik posisinya lewat flex order */
-#wa-widget { order: 1; }
-#back-to-top { order: 2; }
-
-#back-to-top {
-    display: grid;
-    place-items: center;
-    height: 2.75rem;
-    width: 2.75rem;
-    flex-shrink: 0;
-    border: 0;
-    border-radius: 9999px;
-    background: #153563;
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(21, 53, 99, 0.25);
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px) scale(0.9);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-}
-
-#back-to-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-}
-
-#back-to-top:hover {
-    transform: translateY(-3px) scale(1.05);
-}
-
-#wa-widget {
-    position: relative;
-    flex-shrink: 0;
-}
-
-.wa-pulse {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    animation: wa-pulse-ring 2.6s ease-out infinite;
-}
-
-.wa-pulse:hover {
-    transform: scale(1.08);
-}
-
-@keyframes wa-pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
-    70% { box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-}
-
-#wa-button {
-    display: grid;
-    place-items: center;
-    height: 3.5rem;
-    width: 3.5rem;
-    border-radius: 9999px;
-    background: #25D366;
-    color: #fff;
-    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
-}
-
-#wa-bubble {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
-    margin-bottom: 0.75rem;
-    width: 15rem;
-    border-radius: 1.25rem;
-    background: #fff;
-    padding: 1rem;
-    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
-}
-
-.wa-bubble {
-    transform-origin: bottom right;
-    opacity: 0;
-    transform: translateY(10px) scale(0.95);
-    visibility: hidden;
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.wa-bubble.show {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    visibility: visible;
-    pointer-events: auto;
-}
-
-.wa-bubble-title {
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--ink);
-}
-
-.wa-bubble-close {
-    border: 0;
-    background: none;
-    padding: 0.15rem;
-    color: #355277;
-    cursor: pointer;
-}
-
-.wa-bubble-text {
-    margin: 0.4rem 0 0;
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #355277;
-}
-
-.wa-bubble-number {
-    margin: 0.5rem 0 0;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #2e72ec;
-}
-
 /* ---------- responsive ---------- */
-
-@media (min-width: 768px) {
-    .fab-row {
-        right: 2rem;
-        bottom: 2rem;
-    }
-    #back-to-top {
-        height: 3rem;
-        width: 3rem;
-    }
-}
 
 @media (max-width: 900px) {
     .hero-layout,
@@ -1139,32 +1037,6 @@ input:focus-visible {
     .job-card-actions .detail-button {
         width: 100%;
     }
-
-    .ticket-content {
-        grid-template-columns: 1fr;
-    }
-
-    .ticket-copy {
-        padding-right: 0;
-    }
-
-    .ticket-banner::before,
-    .ticket-banner::after {
-        top: 34%;
-        left: auto;
-    }
-
-    .ticket-banner::before { right: -1rem; }
-    .ticket-banner::after { bottom: auto; left: -1rem; }
-
-    .ticket-divider {
-        top: 34%;
-        right: 1rem;
-        bottom: auto;
-        left: 1rem;
-        border-top: 2px dashed rgba(255, 255, 255, 0.75);
-        border-left: 0;
-    }
 }
 
 @media (max-width: 430px) {
@@ -1185,5 +1057,115 @@ input:focus-visible {
     #back-to-top {
         height: 2.5rem;
         width: 2.5rem;
+    }
+}
+
+/* ---------- posisi ornamen kanan-kiri: hero & daftar lowongan (Digeser pol ke tepi layar paling luar) ---------- */
+.lw-hero-l1 {
+    left: 10px;
+    top: 14%;
+}
+.lw-hero-l2 {
+    left: 15px;
+    bottom: 10%;
+}
+.lw-hero-r1 {
+    right: 10px;
+    top: 10%;
+}
+.lw-hero-r2 {
+    right: 15px;
+    bottom: 12%;
+}
+
+/* Ornamen section bawah (jobs-section) ditarik mentok keluar di ujung kiri & kanan viewport */
+.lw-jobs-l1 {
+    left: -25px;
+    top: 2%;
+}
+.lw-jobs-l2 {
+    left: -20px;
+    top: 24%;
+}
+.lw-jobs-l3 {
+    left: -15px;
+    top: 48%;
+}
+.lw-jobs-l4 {
+    left: -20px;
+    top: 72%;
+}
+.lw-jobs-l5 {
+    left: -15px;
+    top: 93%;
+}
+
+.lw-jobs-r1 {
+    right: -15px;
+    top: 5%;
+}
+.lw-jobs-r2 {
+    right: -20px;
+    top: 28%;
+}
+.lw-jobs-r3 {
+    right: -15px;
+    top: 52%;
+}
+.lw-jobs-r4 {
+    right: -20px;
+    top: 76%;
+}
+.lw-jobs-r5 {
+    right: -15px;
+    top: 96%;
+}
+
+@media (max-width: 1400px) {
+    .lw-jobs-l1 {
+        left: -25px;
+    }
+    .lw-jobs-l2 {
+        left: -30px;
+    }
+    .lw-jobs-l3 {
+        left: -25px;
+    }
+    .lw-jobs-l4 {
+        left: -30px;
+    }
+    .lw-jobs-l5 {
+        left: -25px;
+    }
+
+    .lw-jobs-r1 {
+        right: -25px;
+    }
+    .lw-jobs-r2 {
+        right: -30px;
+    }
+    .lw-jobs-r3 {
+        right: -25px;
+    }
+    .lw-jobs-r4 {
+        right: -30px;
+    }
+    .lw-jobs-r5 {
+        right: -25px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .lw-jobs-l1,
+    .lw-jobs-l2,
+    .lw-jobs-l3,
+    .lw-jobs-l4,
+    .lw-jobs-l5,
+    .lw-jobs-r1,
+    .lw-jobs-r2,
+    .lw-jobs-r3,
+    .lw-jobs-r4,
+    .lw-jobs-r5 {
+        display: none;
     }
 }

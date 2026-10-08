@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Ngobrol Bareng Alumni">
+  <rect width="96" height="96" rx="22" fill="#f5c542"/>
+  <path d="M18 18 H78 A8 8 0 0 1 86 26 V58 A8 8 0 0 1 78 66 H48 L32 80 V66 H18 A8 8 0 0 1 10 58 V26 A8 8 0 0 1 18 18 Z" fill="#ffffff" opacity=".55"/>
+  <text x="48" y="50" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#153563">NB</text>
+</svg>

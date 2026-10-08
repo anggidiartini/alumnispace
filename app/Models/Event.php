@@ -72,9 +72,29 @@ class Event extends Model
         return "{$start} – {$end} WITA";
     }
 
-    public function getRegisteredCountAttribute()
+    public function getUsedQuotaAttribute(): int
     {
-        return $this->registrations()->where('status', 'registered')->count();
+        return (int) $this->registrations()->where('status', '!=', 'cancelled')->sum('quantity');
+    }
+
+    public function getRemainingQuotaAttribute(): int
+    {
+        $total = (int) ($this->quota ?? 0);
+        if ($total <= 0) {
+            return 0;
+        }
+        return max(0, $total - $this->used_quota);
+    }
+
+    public function getIsFullAttribute(): bool
+    {
+        $total = (int) ($this->quota ?? 0);
+        return $total > 0 && $this->used_quota >= $total;
+    }
+
+    public function getRegisteredCountAttribute(): int
+    {
+        return $this->used_quota;
     }
 
 

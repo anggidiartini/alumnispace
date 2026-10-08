@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Matchora Brand">
+  <rect width="96" height="96" rx="22" fill="#ffd9e7"/>
+  <path d="M48 8 L88 48 L48 88 L8 48 Z" fill="#fff0a9" stroke="#153563" stroke-width="4" stroke-linejoin="round"/>
+  <text x="48" y="59" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#153563">MB</text>
+</svg>

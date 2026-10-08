@@ -13,8 +13,16 @@ class EventRegistration extends Model
     protected $fillable = [
         'event_id',
         'user_id',
+        'quantity',
+        'name',
+        'email',
+        'phone',
         'ticket_code',
         'status',
+    ];
+
+    protected $casts = [
+        'quantity' => 'integer',
     ];
 
     public function event(): BelongsTo

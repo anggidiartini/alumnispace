@@ -59,11 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * ------------------------------------------------------------------ */
     const AUTH_KEY = "ac_logged_in";
     const AUTH_EMAIL_KEY = "ac_user_email";
-    const isServerLoggedIn = document.querySelector('meta[name="user-logged-in"]')?.content === "true";
-    if (isServerLoggedIn) {
-        localStorage.setItem(AUTH_KEY, "true");
-    }
-    let isLoggedIn = isServerLoggedIn || localStorage.getItem(AUTH_KEY) === "true";
+    let isLoggedIn = localStorage.getItem(AUTH_KEY) === "true";
 
     const guestActions = document.getElementById("guest-actions");
     const userActions = document.getElementById("user-actions");
@@ -73,24 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileLogoutBtn = document.getElementById("mobile-logout-btn");
     const lockedTeaser = document.getElementById("locked-teaser");
     const authSections = [...document.querySelectorAll(".auth-section")];
+    const lockIcons = [
+        ...document.querySelectorAll('[data-auth-link] i[data-lucide="lock"]'),
+    ];
 
     const applyAuthState = ({ animate = false } = {}) => {
-        isLoggedIn = document.querySelector('meta[name="user-logged-in"]')?.content === "true" || localStorage.getItem(AUTH_KEY) === "true";
         const email = localStorage.getItem(AUTH_EMAIL_KEY) || "";
 
         if (isLoggedIn) {
-<<<<<<< HEAD
-            guestActions?.classList.add("hidden");
-            userActions?.classList.remove("hidden");
-            userActions?.classList.add("flex");
-            mobileOpenLogin?.classList.add("hidden");
-            mobileLogoutBtn?.classList.remove("hidden");
-            mobileLogoutBtn?.classList.add("flex");
-            if (userEmailLabel && email) userEmailLabel.textContent = email.split("@")[0];
-            if (userAvatar && email) userAvatar.textContent = email[0].toUpperCase();
-
-            lockedTeaser?.classList.add("hidden-teaser");
-=======
             if (guestActions) guestActions.classList.add("hidden");
             if (userActions) {
                 userActions.classList.remove("hidden");
@@ -111,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (lockedTeaser) lockedTeaser.classList.add("hidden-teaser");
->>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
             authSections.forEach((section, i) => {
                 if (!section.classList.contains("unlocked")) {
                     if (animate) {
@@ -120,17 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     section.classList.add("unlocked");
                 }
             });
+            lockIcons.forEach(
+                (icon) => icon.closest("[data-lucide]") && icon.remove(),
+            );
         } else {
-<<<<<<< HEAD
-            guestActions?.classList.remove("hidden");
-            userActions?.classList.add("hidden");
-            userActions?.classList.remove("flex");
-            mobileOpenLogin?.classList.remove("hidden");
-            mobileLogoutBtn?.classList.add("hidden");
-            mobileLogoutBtn?.classList.remove("flex");
-
-            lockedTeaser?.classList.remove("hidden-teaser");
-=======
             if (guestActions) guestActions.classList.remove("hidden");
             if (userActions) {
                 userActions.classList.add("hidden");
@@ -143,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (lockedTeaser) lockedTeaser.classList.remove("hidden-teaser");
->>>>>>> 255644a6abfc8bcbeec192ab8d3c04ab31a5e94a
             authSections.forEach((section) =>
                 section.classList.remove("unlocked"),
             );
@@ -176,20 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
         isLoggedIn = false;
         localStorage.setItem(AUTH_KEY, "false");
         localStorage.removeItem(AUTH_EMAIL_KEY);
-
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "/logout";
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-        if (csrfToken) {
-            const csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "_token";
-            csrfInput.value = csrfToken;
-            form.appendChild(csrfInput);
-        }
-        document.body.appendChild(form);
-        form.submit();
+        applyAuthState();
+        showToast("Kamu telah keluar dari akun.");
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     document.getElementById("logout-btn")?.addEventListener("click", doLogout);
@@ -199,27 +165,108 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ------------------------------------------------------------------
-     * Filter alumni berdasarkan angkatan & bidang
+     * Filter alumni berdasarkan Nama, Angkatan, & Bidang (Versi Baru)
      * ------------------------------------------------------------------ */
+    const searchInput = document.getElementById("alumni-search");
     const yearFilter = document.getElementById("year-filter");
     const fieldFilter = document.getElementById("field-filter");
-    const filterAlumni = () => {
-        let shown = 0;
-        document.querySelectorAll("#alumni-list article").forEach((card) => {
-            const okay =
-                (yearFilter.value === "all" ||
-                    card.dataset.year === yearFilter.value) &&
-                (fieldFilter.value === "all" ||
-                    card.dataset.field === fieldFilter.value);
-            card.classList.toggle("hidden", !okay);
-            if (okay) shown++;
-        });
-        document
-            .getElementById("alumni-empty")
-            .classList.toggle("hidden", shown !== 0);
+    const searchButton = document.getElementById("alumni-search-btn");
+    const alumniListContainer = document.getElementById("alumni-list");
+    const alumniEmptyMessage = document.getElementById("alumni-empty");
+    const searchHint = document.getElementById("alumni-search-hint");
+
+    const MIN_SEARCH_CHARS = 4;
+
+    const updateSearchHint = () => {
+        if (!searchInput || !searchHint) return;
+        const len = searchInput.value.trim().length;
+        searchHint.style.display =
+            len > 0 && len < MIN_SEARCH_CHARS ? "block" : "none";
     };
-    yearFilter?.addEventListener("change", filterAlumni);
-    fieldFilter?.addEventListener("change", filterAlumni);
+
+    if (alumniListContainer) {
+        const alumniCards =
+            alumniListContainer.querySelectorAll(".alumni-card");
+
+        const filterAlumniCards = () => {
+            const rawQuery = searchInput ? searchInput.value.trim() : "";
+            const query = rawQuery.toLowerCase();
+            const selectedYear = yearFilter ? yearFilter.value : "";
+            const selectedField = fieldFilter ? fieldFilter.value : "all";
+
+            // Kalau huruf yang diketik belum sampai 4, tahan dulu pencariannya
+            if (query.length > 0 && query.length < MIN_SEARCH_CHARS) {
+                updateSearchHint();
+                return;
+            }
+            updateSearchHint();
+
+            // Jika search bar kosong DAN tahun belum dipilih, sembunyikan semua list
+            if (query === "" && selectedYear === "") {
+                alumniCards.forEach((card) => (card.style.display = "none"));
+                if (alumniEmptyMessage) {
+                    alumniEmptyMessage.textContent =
+                        "Silakan ketik nama alumni atau pilih angkatan, lalu klik tombol Cari untuk mulai mencari.";
+                    alumniEmptyMessage.style.display = "block";
+                }
+                return;
+            }
+
+            let visibleCount = 0;
+
+            alumniCards.forEach((card) => {
+                const name = card.getAttribute("data-name") || "";
+                const year = card.getAttribute("data-year") || "";
+                const field = card.getAttribute("data-field") || "";
+
+                const matchesQuery = query === "" || name.includes(query);
+                const matchesYear =
+                    selectedYear === "" || year === selectedYear;
+                const matchesField =
+                    selectedField === "all" || field === selectedField;
+
+                if (matchesQuery && matchesYear && matchesField) {
+                    card.style.display = "block";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            if (alumniEmptyMessage) {
+                if (visibleCount === 0) {
+                    alumniEmptyMessage.textContent =
+                        "Belum ada alumni yang sesuai dengan pencarianmu.";
+                    alumniEmptyMessage.style.display = "block";
+                } else {
+                    alumniEmptyMessage.style.display = "none";
+                }
+            }
+        };
+
+        // Filter baru jalan kalau tombol "Cari" diklik, atau user menekan
+        // Enter di kolom teksnya -- bukan langsung tiap kali diketik/diganti.
+        searchButton?.addEventListener("click", filterAlumniCards);
+        searchInput?.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                filterAlumniCards();
+            }
+        });
+
+        // Notif "minimal 4 huruf" muncul realtime tiap ngetik, dan tetap
+        // jalanin logika lama: kalau dikosongin lagi (dihapus sampai blank)
+        // sementara belum ada angkatan yang dipilih, langsung sembunyikan
+        // card-nya otomatis -- gak perlu nunggu klik Cari lagi.
+        searchInput?.addEventListener("input", () => {
+            updateSearchHint();
+            const isEmpty = searchInput.value.trim() === "";
+            const noYearSelected = !yearFilter || yearFilter.value === "";
+            if (isEmpty && noYearSelected) {
+                filterAlumniCards();
+            }
+        });
+    }
 
     /* ------------------------------------------------------------------
      * Tab media (Artikel / Galeri)
@@ -306,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
     );
 
     const observeReveals = () => {
@@ -321,8 +368,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         groups.forEach((els) => {
             els.forEach((el, i) => {
-                if (!el.style.transitionDelay) {
-                    el.style.transitionDelay = `${Math.min(i * 0.09, 0.45)}s`;
+                if (!el.style.animationDelay) {
+                    el.style.animationDelay = `${Math.min(i * 0.16, 0.8)}s`;
                 }
                 revealObserver.observe(el);
             });
@@ -339,7 +386,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const suffix = el.dataset.suffix || "";
         const numberEl = el.querySelector(".stat-number");
         if (!numberEl) return;
-        const duration = 1400;
+        const duration = 2400;
         const start = performance.now();
         const step = (now) => {
             const progress = Math.min((now - start) / duration, 1);
@@ -408,30 +455,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const isGuest = document.body.getAttribute("data-isGuest") === "true";
-
-    document.addEventListener("click", function (e) {
-        const authTrigger = e.target.closest("[data-auth-link]");
-
-        if (authTrigger && isGuest) {
-            e.preventDefault();
-            e.stopPropagation();
-            const label =
-                authTrigger.getAttribute("data-auth-label") || "halaman ini";
-            if (
-                confirm(
-                    "Anda harus masuk terlebih dahulu untuk mengakses " +
-                        label +
-                        ". Lanjut ke halaman login?",
-                )
-            ) {
-                window.location.href = "/login";
-            }
-        }
-    });
-});
-
 /* ------------------------------------------------------------------
  * Carousel testimoni (versi sliding, landscape)
  * ------------------------------------------------------------------ */
@@ -446,6 +469,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const hasClones = total > 1;
     let current = 0;
+    let isAnimating = false;
+    let settleTimer = null;
 
     if (hasClones) {
         const firstClone = originals[0].cloneNode(true);
@@ -498,9 +523,32 @@ document.addEventListener("DOMContentLoaded", function () {
         dots.forEach((dot, i) => dot.classList.toggle("is-active", i === idx));
     }
 
+    /* Lompat instan balik ke posisi "asli" kalau lagi berhenti di kartu
+     * kloningan, lalu buka kunci supaya geseran berikutnya bisa diproses.
+     * Ini yang bikin carousel nonstop -- nggak akan pernah "habis" walau
+     * tombolnya dipencet cepat berkali-kali. */
+    function settleLoop() {
+        if (hasClones) {
+            if (current === 0) {
+                current = total;
+                render(true);
+            } else if (current === cards.length - 1) {
+                current = 1;
+                render(true);
+            }
+        }
+        isAnimating = false;
+    }
+
     function goTo(displayIndex) {
+        if (isAnimating) return; // abaikan klik selagi masih animasi jalan
+        isAnimating = true;
         current = displayIndex;
         render(false);
+        clearTimeout(settleTimer);
+        // fallback: kalau transitionend gak sempat nembak (mis. transisi
+        // keinterupsi), tetap reset setelah durasi transisi CSS (0.55s)
+        settleTimer = setTimeout(settleLoop, 650);
     }
 
     document
@@ -511,14 +559,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ?.addEventListener("click", () => goTo(current + 1));
 
     track.addEventListener("transitionend", (e) => {
-        if (e.propertyName !== "transform" || !hasClones) return;
-        if (current === 0) {
-            current = total;
-            render(true);
-        } else if (current === cards.length - 1) {
-            current = 1;
-            render(true);
-        }
+        if (e.propertyName !== "transform") return;
+        clearTimeout(settleTimer);
+        settleLoop();
     });
 
     window.addEventListener("resize", () => render(true));
@@ -533,8 +576,196 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 
 /* ------------------------------------------------------------------
+ * Carousel Pengurus: geser track lewat tombol panah kiri/kanan
+ * ------------------------------------------------------------------ */
+(function () {
+    const track = document.getElementById("pengurus-track");
+    const prevBtn = document.getElementById("pengurus-prev");
+    const nextBtn = document.getElementById("pengurus-next");
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const getScrollStep = () => {
+        const firstCard = track.querySelector(".pengurus-card");
+        if (!firstCard) return 236;
+        const gap = parseFloat(getComputedStyle(track).gap) || 0;
+        return firstCard.offsetWidth + gap;
+    };
+
+    prevBtn.addEventListener("click", () => {
+        track.scrollBy({ left: -getScrollStep(), behavior: "smooth" });
+    });
+
+    nextBtn.addEventListener("click", () => {
+        track.scrollBy({ left: getScrollStep(), behavior: "smooth" });
+    });
+})();
+
+/* ------------------------------------------------------------------
  * Galeri: pasang foto dari data-bg attribute
  * ------------------------------------------------------------------ */
 document.querySelectorAll(".galeri-photo[data-bg]").forEach((el) => {
     el.style.backgroundImage = `url(${el.dataset.bg})`;
+});
+
+/* ------------------------------------------------------------------
+ * Lightbox: klik foto (kolase "Tentang", galeri, pengurus) buat preview
+ * besar, dengan navigasi geser (prev/next) per grup galeri.
+ * ------------------------------------------------------------------ */
+(function () {
+    const overlay = document.getElementById("lightbox-overlay");
+    const overlayImg = document.getElementById("lightbox-img");
+    const closeBtn = document.getElementById("lightbox-close");
+    const prevBtn = document.getElementById("lightbox-prev");
+    const nextBtn = document.getElementById("lightbox-next");
+    if (!overlay || !overlayImg) return;
+
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    const updateNavVisibility = () => {
+        const show = currentGallery.length > 1;
+        if (prevBtn) prevBtn.style.display = show ? "grid" : "none";
+        if (nextBtn) nextBtn.style.display = show ? "grid" : "none";
+    };
+
+    const renderCurrent = () => {
+        const item = currentGallery[currentIndex];
+        if (!item) return;
+        overlayImg.src = item.src;
+        overlayImg.alt = item.alt || "Preview foto";
+    };
+
+    const openLightbox = (gallery, startIndex) => {
+        currentGallery = gallery;
+        currentIndex = startIndex;
+        renderCurrent();
+        updateNavVisibility();
+        overlay.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+    };
+
+    const closeLightbox = () => {
+        overlay.classList.remove("is-open");
+        document.body.style.overflow = "";
+    };
+
+    const goPrev = () => {
+        if (currentGallery.length < 2) return;
+        currentIndex =
+            (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+        renderCurrent();
+    };
+
+    const goNext = () => {
+        if (currentGallery.length < 2) return;
+        currentIndex = (currentIndex + 1) % currentGallery.length;
+        renderCurrent();
+    };
+
+    // Foto kolase "Tentang" (<img> biasa) — satu galeri berisi semua fotonya
+    const kolaseImgs = Array.from(
+        document.querySelectorAll(".kolase-img-box img"),
+    );
+    const kolaseGallery = kolaseImgs.map((img) => ({
+        src: img.src,
+        alt: img.alt,
+    }));
+    kolaseImgs.forEach((img, i) => {
+        img.addEventListener("click", () => openLightbox(kolaseGallery, i));
+    });
+
+    // Foto galeri (div dengan data-bg) — satu galeri berisi semua foto galeri
+    const galeriEls = Array.from(
+        document.querySelectorAll(".galeri-photo[data-bg]"),
+    );
+    const galeriGallery = galeriEls.map((el) => ({
+        src: el.dataset.bg,
+        alt: "Galeri foto",
+    }));
+    galeriEls.forEach((el, i) => {
+        el.addEventListener("click", () => openLightbox(galeriGallery, i));
+    });
+
+    closeBtn?.addEventListener("click", closeLightbox);
+    prevBtn?.addEventListener("click", goPrev);
+    nextBtn?.addEventListener("click", goNext);
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+        if (!overlay.classList.contains("is-open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") goPrev();
+        if (e.key === "ArrowRight") goNext();
+    });
+
+    // Diekspos supaya openPengurusLightbox() (dipanggil dari onclick HTML)
+    // bisa pakai lightbox yang sama, termasuk navigasi geser-nya.
+    window.__lightboxOpen = openLightbox;
+})();
+
+/* ------------------------------------------------------------------
+ * Lightbox foto pengurus (dipanggil lewat onclick di HTML).
+ * Menerima index item yang diklik, lalu bangun galeri dari semua
+ * foto pengurus yang ada di halaman supaya bisa digeser prev/next.
+ * ------------------------------------------------------------------ */
+function openPengurusLightbox(index) {
+    const imgs = Array.from(
+        document.querySelectorAll(".pengurus-photo-wrap img"),
+    );
+    const gallery = imgs.map((img) => ({ src: img.src, alt: img.alt }));
+
+    if (typeof window.__lightboxOpen === "function") {
+        window.__lightboxOpen(gallery, index);
+        return;
+    }
+
+    // fallback kalau IIFE lightbox di atas belum sempat siap
+    document.getElementById("lightbox-img").src = gallery[index]?.src || "";
+    document.getElementById("lightbox-overlay").classList.add("is-open");
+}
+
+/* ------------------------------------------------------------------
+ * Modal "harus login" utk link/tombol yang ditandai data-auth-link
+ * ------------------------------------------------------------------ */
+document.addEventListener("DOMContentLoaded", function () {
+    const isGuest = document.body.getAttribute("data-isGuest") === "true";
+
+    const authModalOverlay = document.getElementById("auth-modal-overlay");
+    const authModalLabel = document.getElementById("auth-modal-label");
+    const authModalCancel = document.getElementById("auth-modal-cancel");
+    const authModalClose = document.getElementById("auth-modal-close");
+
+    function openAuthModal(label) {
+        authModalLabel.textContent = label;
+        authModalOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeAuthModal() {
+        authModalOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", function (e) {
+        const authTrigger = e.target.closest("[data-auth-link]");
+
+        if (authTrigger && isGuest) {
+            e.preventDefault();
+            e.stopPropagation();
+            const label =
+                authTrigger.getAttribute("data-auth-label") || "halaman ini";
+            openAuthModal(label);
+        }
+    });
+
+    authModalCancel.addEventListener("click", closeAuthModal);
+    authModalClose.addEventListener("click", closeAuthModal);
+    authModalOverlay.addEventListener("click", function (e) {
+        if (e.target === authModalOverlay) closeAuthModal();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && authModalOverlay.classList.contains("active"))
+            closeAuthModal();
+    });
 });

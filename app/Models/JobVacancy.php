@@ -14,6 +14,7 @@ class JobVacancy extends Model
 
     protected $fillable = [
         'posted_by',
+        'company_id',
         'title',
         'slug',
         'company_name',
@@ -40,6 +41,7 @@ class JobVacancy extends Model
     ];
 
     protected $casts = [
+        'company_id' => 'integer',
         'skills_tags' => 'array',
         'is_active' => 'boolean',
         'deadline' => 'date',

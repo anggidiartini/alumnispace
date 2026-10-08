@@ -9,38 +9,42 @@
 .er-overlay {
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: 999999;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.25rem;
-    background: rgba(16, 34, 64, .55);
+    overflow-y: auto;
+    padding: 6.5rem 1.5rem 2rem; /* padding-top ekstra: jaga jarak dari navbar */
+    background: rgba(16, 34, 64, 0.55);
     backdrop-filter: blur(2px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity .25s ease, visibility .25s ease;
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
 }
 
-.er-overlay.is-open {
+.er-overlay.is-open,
+.er-overlay.show {
     opacity: 1;
     visibility: visible;
 }
 
 .er-modal {
     position: relative;
-    width: 100%;
-    max-width: 26rem;
-    max-height: 90vh;
+    width: min(94%, 60rem);
+    max-width: none;
+    max-height: calc(100vh - 6rem);
     overflow-y: auto;
     background: #fff;
     border-radius: 1.75rem;
-    padding: 2rem 1.75rem;
-    box-shadow: 0 25px 60px rgba(16, 34, 64, .35);
-    transform: translateY(16px) scale(.97);
-    transition: transform .25s ease;
+    padding: 1.75rem 3rem;
+    box-shadow: 0 25px 60px rgba(16, 34, 64, 0.35);
+    transform: translateY(16px) scale(0.97);
+    transition: transform 0.25s ease;
 }
-
-.er-overlay.is-open .er-modal {
+.er-overlay.is-open .er-modal,
+.er-overlay.show .er-modal {
     transform: translateY(0) scale(1);
 }
 
@@ -59,107 +63,167 @@
     display: grid;
     place-items: center;
     cursor: pointer;
-    transition: background-color .2s ease;
+    transition: background-color 0.2s ease;
 }
 
-.er-close:hover { background: #dbe7fb; }
+.er-close:hover {
+    background: #dbe7fb;
+}
 
 .er-title {
     font-family: "Fredoka", sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: #203b68;
-    margin: 0 0 .4rem;
+    margin: 0 0 0.3rem;
     padding-right: 2rem;
+    line-height: 1.25;
 }
 
 .er-sub {
-    font-size: .9rem;
+    font-size: 0.85rem;
     color: #355277;
-    line-height: 1.5;
-    margin: 0 0 1.25rem;
+    line-height: 1.45;
+    margin: 0;
 }
 
-.er-form { display: grid; gap: .65rem; }
+/* Layout 2 kolom: judul+deskripsi di kiri, form di kanan.
+   Bikin modal jadi landscape (lebar) bukan portrait (tinggi). */
+#erStepForm {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 0 2.5rem;
+    align-items: start;
+}
+
+#erStepForm .er-title {
+    grid-column: 1;
+    grid-row: 1;
+}
+#erStepForm .er-sub {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+}
+#erStepForm .er-form {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+.er-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem 1.5rem;
+}
+.er-form .er-field:nth-child(3),
+.er-form .er-form-error,
+.er-form .er-submit {
+    grid-column: 1 / -1;
+}
+
+.er-field {
+    min-width: 0;
+}
 
 .er-field label {
     display: block;
-    font-size: .85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: #203b68;
-    margin-bottom: .3rem;
+    margin-bottom: 0.2rem;
 }
 
 .er-field input {
     width: 100%;
     border: 1px solid #cddbea;
-    border-radius: .85rem;
-    padding: .7rem .85rem;
-    font-size: .9rem;
+    border-radius: 0.85rem;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.9rem;
     color: #203b68;
     font-family: "DM Sans", sans-serif;
-    transition: border-color .2s ease, box-shadow .2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
-
 .er-field input:focus-visible {
     outline: none;
     border-color: #6f9fe8;
-    box-shadow: 0 0 0 3px rgba(111, 159, 232, .25);
+    box-shadow: 0 0 0 3px rgba(111, 159, 232, 0.25);
 }
 
-.er-field.has-error input { border-color: #e0577c; }
+.er-field.has-error input {
+    border-color: #e0577c;
+}
 
 .er-error {
     display: block;
-    min-height: .8rem;
-    margin-top: .2rem;
-    font-size: .75rem;
+    min-height: 0.8rem;
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #c8355e;
 }
 
 .er-form-error {
     margin: 0;
-    padding: .65rem .85rem;
-    border-radius: .75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.75rem;
     background: #fdeaef;
     color: #c8355e;
-    font-size: .82rem;
+    font-size: 0.82rem;
     font-weight: 600;
 }
 
 .er-submit {
     width: 100%;
-    margin-top: .25rem;
+    margin-top: 0;
+    padding: 0.7rem 1.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: .5rem;
+    gap: 0.5rem;
 }
 
-.er-submit:disabled { opacity: .75; cursor: not-allowed; }
+.er-submit:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
 
-.er-submit.is-loading .er-submit-label { opacity: .55; }
+.er-submit.is-loading .er-submit-label {
+    opacity: 0.55;
+}
 
-.er-spinner { display: none; }
+.er-spinner {
+    display: none;
+}
 
 .er-submit.is-loading .er-spinner {
     display: inline-block;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, .5);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-top-color: #fff;
-    animation: er-spin .7s linear infinite;
+    animation: er-spin 0.7s linear infinite;
 }
 
-@keyframes er-spin { to { transform: rotate(360deg); } }
+@keyframes er-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
 /* ---------- step sukses ---------- */
 
-#erStepSuccess { text-align: center; }
-#erStepSuccess .er-title { padding-right: 0; }
-#erStepSuccess .er-submit { margin-top: 1.25rem; }
+#erStepSuccess {
+    text-align: center;
+}
+#erStepSuccess .er-title {
+    padding-right: 0;
+}
+#erStepSuccess .er-submit {
+    margin-top: 1.25rem;
+}
 
 .er-success-icon {
     width: 3.5rem;
@@ -172,6 +236,30 @@
     place-items: center;
 }
 
-@media (max-width: 480px) {
-    .er-modal { padding: 1.6rem 1.25rem; border-radius: 1.4rem; }
+@media (max-width: 640px) {
+    .er-modal {
+        padding: 1.6rem 1.25rem;
+        border-radius: 1.4rem;
+    }
+    #erStepForm {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    #erStepForm .er-title,
+    #erStepForm .er-sub,
+    #erStepForm .er-form {
+        grid-column: 1;
+    }
+    #erStepForm .er-sub {
+        grid-row: 2;
+    }
+    #erStepForm .er-form {
+        grid-row: 3;
+        grid-template-columns: 1fr;
+    }
+    .er-form .er-field:nth-child(3),
+    .er-form .er-form-error,
+    .er-form .er-submit {
+        grid-column: 1;
+    }
 }
