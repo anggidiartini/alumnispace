@@ -52,7 +52,7 @@
         $logoField = $companyProfile->logo ?? $companyProfile->company_logo ?? null;
         $hasLogoFile = !empty($logoField) && (str_contains($logoField, '/') || str_contains($logoField, '.'));
         $logoUrl = $hasLogoFile
-            ? (str_starts_with($logoField, 'http') ? $logoField : asset('storage/' . $logoField))
+            ? (str_starts_with($logoField, 'http') ? $logoField : (file_exists(public_path($logoField)) ? asset($logoField) : asset('storage/' . $logoField)))
             : null;
 
         $industry = $companyProfile->industry ?? $companyProfile->category ?? null;
@@ -93,7 +93,7 @@
                     <div class="dc-hero__main">
                         <div class="dc-hero__row">
                             <div class="dc-logo-frame floaty-slow">
-                                <img src="{{ !empty($companyProfile->logo) ? asset('storage/' . $companyProfile->logo) : asset('assets/anggi/imagedefault.png') }}" alt="Logo {{ $companyProfile->name }}">
+                                <img src="{{ $logoUrl ?? asset('assets/anggi/imagedefault.png') }}" alt="Logo {{ $companyProfile->name }}">
                             </div>
                             <div class="dc-hero__heading">
                                 <div class="dc-flex dc-flex-wrap dc-gap-2 dc-mb-2">

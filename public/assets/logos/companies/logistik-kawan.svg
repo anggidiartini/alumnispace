@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Logistik Kawan">
+  <rect width="96" height="96" rx="22" fill="#4fb58f"/>
+  <path d="M8 74 H88 M8 82 H70" stroke="#cce8de" stroke-width="4" stroke-linecap="round"/>
+  <path d="M14 22 L34 12 L54 22 L34 32 Z" fill="#cce8de" opacity=".8"/>
+  <text x="48" y="60" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#153563">LK</text>
+</svg>

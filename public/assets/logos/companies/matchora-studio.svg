@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Matchora Studio">
+  <rect width="96" height="96" rx="22" fill="#a8d3ff"/>
+  <path d="M0 62 A48 48 0 0 0 96 62 V96 H0 Z" fill="#ffd9e7"/>
+  <circle cx="74" cy="22" r="10" fill="#fff0a9"/>
+  <text x="48" y="56" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#153563">MS</text>
+</svg>

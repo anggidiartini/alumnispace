@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Antares Organizer">
+  <rect width="96" height="96" rx="22" fill="#153563"/>
+  <circle cx="48" cy="48" r="36" fill="none" stroke="#cce8de" stroke-width="5"/>
+  <circle cx="48" cy="12" r="5" fill="#fff0a9"/>
+  <text x="48" y="58" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">AO</text>
+</svg>

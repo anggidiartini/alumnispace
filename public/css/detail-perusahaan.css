@@ -840,3 +840,208 @@ a:focus-visible {
         flex-direction: column;
     }
 }
+
+/* =========================================================
+   HERO "dc-*" — dipulihkan dari commit b5a1b1d^ (public/css/detail-perusahaan.css).
+   Markup hero di user/perusahaan/index.blade.php memakai kelas dc-*, tetapi
+   commit b5a1b1d menghapus CSS-nya sehingga logo default (1200x1200) tampil
+   selebar kolom. Blok ini hanya memuat kelas yang dipakai hero; kelas dc-*
+   lain (dc-card, dc-job, dst.) sengaja tidak ikut dipulihkan.
+   Aman dipindah atau dibuang tim: semua selector berawalan "dc-".
+   ========================================================= */
+.dc-hero {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #fff;
+    border-radius: 2rem;
+    box-shadow: 0 20px 25px -5px rgba(21,53,99,.15), 0 8px 10px -6px rgba(21,53,99,.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+    .dc-hero { padding: 2rem; }
+}
+
+.dc-hero__grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.75rem; align-items: center; margin-top: 0.5rem; }
+.dc-hero__row { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+/* dc-hero__main & dc-hero__heading tidak punya CSS di riwayat; min-width:0 mencegah overflow flex/grid */
+.dc-hero__main,
+.dc-hero__heading { min-width: 0; }
+
+.dc-logo-frame {
+    width: 96px; height: 96px; flex-shrink: 0;
+    display: grid; place-items: center; overflow: hidden;
+    border: 2px solid #153563; border-radius: 26px 22px 27px 20px;
+    background: #ffd9e7;
+    box-shadow: 5px 6px 0 rgba(21,53,99,.12);
+    transform: rotate(-3deg);
+}
+.dc-logo-frame img { width: 82px; height: 82px; border-radius: 18px; object-fit: cover; transform: rotate(3deg); }
+
+.dc-hero-title { font-size: 1.875rem; font-weight: 700; color: #153563; line-height: 1.2; margin: 0; }
+.dc-hero-tagline { color: #355277; font-size: 1rem; line-height: 1.7; max-width: 36rem; margin: .5rem 0 1rem; }
+.dc-pill { display: inline-flex; align-items: center; padding: .25rem .75rem; border-radius: 999px; }
+
+.dc-flex { display: flex; }
+.dc-flex-wrap { flex-wrap: wrap; }
+.dc-gap-2 { gap: .5rem; }
+.dc-self-center { align-self: center; }
+.dc-mb-2 { margin-bottom: .5rem; }
+.dc-mb-4 { margin-bottom: 1rem; }
+.dc-text-xs { font-size: .75rem; }
+.dc-text-sm { font-size: .875rem; }
+.dc-font-bold { font-weight: 700; }
+.dc-c-navy { color: #153563; }
+.dc-c-blue { color: #2e72ec; }
+.dc-bg-mint { background: #cce8de; }
+
+@media (max-width: 720px) {
+    .dc-hero__grid { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   TAMBALAN SEMENTARA — disalin/diadaptasi dari public/css/home.css.
+   Halaman ini tidak memuat home.css, padahal view user/perusahaan/index.blade.php
+   memakai .deco-dot, widget WhatsApp, dan modal login yang CSS-nya hanya ada di sana.
+   Pindahkan ke tempat yang semestinya (atau buang) saat pemuatan CSS halaman
+   ini dirapikan oleh tim.
+   ========================================================= */
+
+/* --- dekorasi bulat (home.css baris ~1731-1741) ---
+   Tanpa ini, tiga div .deco-dot di awal halaman mengalir sebagai blok biasa
+   dan menimbulkan ruang kosong ±320px di atas halaman. */
+.deco-dot {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 1;
+}
+.section-deco-host {
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- widget WhatsApp (diadaptasi dari home.css baris ~2152-2275) ---
+   Di home.css widget berada di dalam .fab-row; di halaman ini #wa-widget
+   berdiri sendiri, jadi dibuat fixed di pojok kanan bawah, DI ATAS tombol
+   .back-to-top (fixed bottom 1.25rem, tinggi 3rem) supaya tidak menumpuk. */
+#wa-widget {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 5rem; /* 1.25rem + 3rem (back-to-top) + 0.75rem jarak */
+    z-index: 46;
+}
+#wa-button {
+    display: grid;
+    place-items: center;
+    position: relative;
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 9999px;
+    background: #25d366;
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(29, 74, 146, 0.25);
+    overflow: visible;
+}
+/* Bubble disembunyikan di awal; detail-perusahaan.js menampilkannya (display:block) setelah 1,5 detik */
+#wa-bubble {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 0.75rem;
+    width: 15rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 20px 45px rgba(29, 74, 146, 0.2);
+}
+.wa-bubble-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #203b68;
+}
+.wa-bubble-close {
+    border: 0;
+    background: none;
+    padding: 0.15rem;
+    color: #355277;
+    cursor: pointer;
+}
+.wa-bubble-text {
+    margin: 0.4rem 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #355277;
+}
+.wa-bubble-number {
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #2e72ec;
+}
+
+/* animasi pulse (home.css baris ~467-500) */
+.wa-pulse {
+    position: relative;
+    transition: transform 0.2s ease;
+}
+.wa-pulse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(37, 211, 102, 0.55);
+    animation: wa-pulse-ring 2.6s ease-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+.wa-pulse:hover {
+    transform: scale(1.08);
+}
+@keyframes wa-pulse-ring {
+    0% { transform: scale(1); opacity: 0.55; }
+    70% { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .wa-pulse::after { animation: none; }
+}
+
+/* Cadangan ikon: halaman ini tidak memanggil lucide.createIcons(), sehingga
+   <i data-lucide="..."> tetap kosong. Aturan ini hanya berlaku selama <i> belum
+   diganti lucide menjadi <svg> (setelah diganti, selector ini tidak cocok lagi). */
+#wa-button > i[data-lucide],
+.wa-bubble-close > i[data-lucide] {
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask: var(--wa-icon) center / contain no-repeat;
+    mask: var(--wa-icon) center / contain no-repeat;
+}
+#wa-button > i[data-lucide="message-circle"] {
+    width: 26px;
+    height: 26px;
+    --wa-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.9 20A9 9 0 1 0 4 16.1L2 22Z'/%3E%3C/svg%3E");
+}
+.wa-bubble-close > i[data-lucide="x"] {
+    width: 16px;
+    height: 16px;
+    --wa-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E");
+}
+
+/* --- modal login: disembunyikan sepenuhnya ---
+   Tidak ada pemicu (data-auth-link) dan script.js tidak dimuat di halaman ini,
+   jadi modal tidak pernah bisa dibuka; tanpa CSS ia tampil sebagai teks polos. */
+#auth-modal-overlay,
+.auth-modal-overlay {
+    display: none;
+}
+
+/* --- nama perusahaan ganda ---
+   Blok hero lama (.hero-copy) masih memuat <h1 class="company-name"> padahal hero
+   baru (.dc-hero) sudah menampilkan nama. Hanya <h1> kedua yang disembunyikan;
+   markup tidak dihapus, dan ikon sosial, badge, serta .company-meta tetap tampil. */
+.dc-hero .hero-copy .company-name {
+    display: none;
+}

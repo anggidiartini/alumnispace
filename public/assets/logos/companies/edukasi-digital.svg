@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Logo Edukasi Digital">
+  <rect width="96" height="96" rx="22" fill="#f7a8c4"/>
+  <path d="M74 8 V28 M64 18 H84" stroke="#2e72ec" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="18" cy="80" r="8" fill="#fff0a9"/>
+  <text x="48" y="58" text-anchor="middle" font-family="Fredoka, 'DM Sans', Arial, sans-serif" font-size="28" font-weight="700" fill="#153563">ED</text>
+</svg>
