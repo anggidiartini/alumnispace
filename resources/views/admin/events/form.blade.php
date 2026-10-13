@@ -227,11 +227,11 @@
                 <input type="file" name="banner_image" class="form-control" accept="image/jpeg,image/png,image/jpg" onchange="previewBanner(this)">
                 <div class="field-hint">Format: JPG, JPEG, PNG (Maks 500KB)</div>
                 <div style="margin-top: 10px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; align-items: center; justify-content: center;">
-                    <img id="bannerPreview" 
-                         src="{{ (isset($event) && !empty($event->banner_image)) ? asset($event->banner_image) : asset('assets/images/no-image.png') }}" 
-                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($event) && !empty($event->banner_image)) ? 'cover' : 'contain' }};" 
+                    <img id="bannerPreview"
+                         src="{{ (isset($event) && !empty($event->banner_image)) ? asset($event->banner_image) : asset('assets/images/no-image.webp') }}"
+                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($event) && !empty($event->banner_image)) ? 'cover' : 'contain' }};"
                          alt="Pratinjau Banner"
-                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.png') }}';">
+                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.webp') }}';">
                 </div>
             </div>
 

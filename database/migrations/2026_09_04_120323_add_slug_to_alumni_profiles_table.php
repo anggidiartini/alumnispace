@@ -16,6 +16,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('alumni_profiles', function (Blueprint $table) {
+            $table->dropUnique(['slug']);
             $table->dropColumn('slug');
         });
     }

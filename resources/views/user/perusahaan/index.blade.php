@@ -22,6 +22,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $companyProfile->name }} | Alumni Space</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
@@ -103,7 +105,7 @@
                     <div class="dc-hero__main">
                         <div class="dc-hero__row">
                             <div class="dc-logo-frame">
-                                <img src="{{ $logoUrl ?? asset('assets/anggi/imageperusahaan.png') }}" alt="Logo {{ $companyProfile->name }}">
+                                <img src="{{ $logoUrl ?? asset('assets/anggi/imageperusahaan.webp') }}" alt="Logo {{ $companyProfile->name }}">
                             </div>
                             <div class="dc-hero__heading">
                                 <div class="dc-flex dc-flex-wrap dc-gap-2 dc-mb-2">
@@ -123,33 +125,40 @@
                         @if ($linkedin || $facebook || $hasWhatsapp || $instagram || $email || $website)
                             <ul class="connect-list hero-social-list" aria-label="Kontak perusahaan">
                                 @if ($linkedin)
-                                    <li><a class="social-link" href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
                                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5H3.3V21h3.2zM4.9 3A1.9 1.9 0 1 0 5 6.8 1.9 1.9 0 0 0 4.9 3zM21 13.8c0-3.8-2-5.6-4.7-5.6-2.2 0-3.1 1.2-3.7 2v-1.7H9.4V21h3.2v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.9 2 3.3V21H21z"></path></svg>
                                     </a></li>
                                 @endif
                                 @if ($facebook)
-                                    <li><a class="social-link" href="{{ $facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="{{ $facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
                                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.5 1.6-1.5H17V3.7c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.2H8v3.1h2.6v8z"></path></svg>
                                     </a></li>
                                 @endif
                                 @if ($hasWhatsapp)
-                                    <li><a class="social-link" href="https://wa.me/{{ $phoneDigits }}?text={{ urlencode('Halo, saya ingin bertanya seputar ' . $companyProfile->name . ' di Alumni Space.') }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 2.7 18L1.5 22.5l4.7-1.2A11.8 11.8 0 1 0 20.5 3.5zm-8.4 16a9.7 9.7 0 0 1-4.9-1.3l-.3-.2-2.8.7.7-2.7-.2-.3a9.7 9.7 0 1 1 7.5 3.8zm5.3-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2s-.8 1-1 1.2c-.2.2-.4.2-.7.1-1.8-.9-3-2.4-3.5-3.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6 0-.2-.4-1.8-.6-2.4-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.5s-1.2 1.2-1.2 2.9 1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.8 5.2.8.4 1.5.6 2 .7.9.3 1.7.2 2.3.1.7-.1 1.8-.7 2.1-1.4.3-.7.3-1.3.2-1.4z"></path></svg>
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="https://wa.me/{{ $phoneDigits }}?text={{ urlencode('Halo, saya ingin bertanya seputar ' . $companyProfile->name . ' di Alumni Space.') }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
+                                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9l-5.05.9" />
+                                            <path d="M9 10a.5.5 0 0 0 1 0v-1a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
+                                        </svg>
                                     </a></li>
                                 @endif
                                 @if ($instagram)
-                                    <li><a class="social-link" href="{{ $instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="{{ $instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
                                         <svg class="instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.4" cy="6.6" r="1"></circle></svg>
                                     </a></li>
                                 @endif
                                 @if ($email)
-                                    <li><a class="social-link" href="mailto:{{ $email }}" aria-label="Email perusahaan" title="Email perusahaan">
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="mailto:{{ $email }}" aria-label="Email perusahaan" title="Email perusahaan">
                                         <svg class="mail-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
                                     </a></li>
                                 @endif
                                 @if ($website)
-                                    <li><a class="social-link" href="{{ $website }}" target="_blank" rel="noopener noreferrer" aria-label="Website perusahaan" title="Website perusahaan">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"></path></svg>
+                                    <li><a class="social-link w-10 h-10 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center" href="{{ $website }}" target="_blank" rel="noopener noreferrer" aria-label="Website perusahaan" title="Website perusahaan">
+                                        <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                        </svg>
                                     </a></li>
                                 @endif
                             </ul>

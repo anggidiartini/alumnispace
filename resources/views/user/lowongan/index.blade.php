@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alumni Space Career Hub</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
@@ -36,16 +38,16 @@
             <!-- HERO -->
             <section class="hero-section grid-paper" aria-labelledby="hero-title">
                 <div class="deco-asset lw-hero-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset lw-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
                 </div>
                 <div class="deco-asset lw-hero-r1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
                 </div>
                 <div class="deco-asset lw-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
                 </div>
                 <div class="blob blob-drift"
                     style="position:absolute; left:-4rem; top:1rem; width:9rem; height:9rem; background:var(--pink); opacity:.7; z-index:0;"
@@ -109,36 +111,36 @@
             <section class="jobs-section" aria-labelledby="jobs-title">
                 <!-- ornamen kiri (5) -->
                 <div class="deco-asset lw-jobs-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset lw-jobs-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
                 </div>
                 <div class="deco-asset lw-jobs-l3 reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
                 </div>
                 <div class="deco-asset lw-jobs-l4 reveal-onscroll" style="animation-delay:.2s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu wiggle">
                 </div>
                 <div class="deco-asset lw-jobs-l5 reveal-onscroll" style="animation-delay:.25s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
                 </div>
 
                 <!-- ornamen kanan (5) -->
                 <div class="deco-asset lw-jobs-r1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
                 </div>
                 <div class="deco-asset lw-jobs-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset lw-jobs-r3 reveal-onscroll" style="animation-delay:.15s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
                 </div>
                 <div class="deco-asset lw-jobs-r4 reveal-onscroll" style="animation-delay:.2s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
                 </div>
                 <div class="deco-asset lw-jobs-r5 reveal-onscroll" style="animation-delay:.25s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
                 </div>
 
                 <!-- Konten section, sekarang dibungkus page-width miliknya sendiri -->

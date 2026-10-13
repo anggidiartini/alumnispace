@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — {{ $album->title }}</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 
@@ -19,16 +21,16 @@
 <div class="section-yellow detail-page-wrap">
 
   <div class="deco-asset alb-detail-l1 reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset alb-detail-l2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
   </div>
   <div class="deco-asset alb-detail-r1 reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
   </div>
   <div class="deco-asset alb-detail-r2 reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
   </div>
 
 
@@ -47,7 +49,7 @@
           <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">
             {{ ucfirst($album->category) }}
           </span>
-          <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}">
+          <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $album->title }}">
           <span class="detail-sticker">{{ $album->date_display ? \Illuminate\Support\Str::limit($album->date_display, 9, '') : '✦' }}</span>
         </div>
       </div>
@@ -87,7 +89,7 @@
     {{-- =========================================================
          GALERI FOTO ALBUM (banyak foto + lightbox)
          Kolom foto: album_photos.photo_path
-         Contoh isi: assets/images/foto-1.png
+         Contoh isi: assets/images/foto-1.webp
     ========================================================== --}}
     @if(isset($album->photos) && $album->photos->count())
     <div class="gallery-head reveal-pop">
@@ -129,7 +131,7 @@
             <span class="cat-pill {{ $related->category === 'outdoor' ? 'outdoor' : '' }}">
               {{ ucfirst($related->category) }}
             </span>
-            <img src="{{ asset($related->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $related->title }}">
+            <img src="{{ asset($related->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $related->title }}">
           </div>
           <div class="related-body">
             <div class="label">{{ $related->subtitle_label ?? $related->target_generation }}</div>

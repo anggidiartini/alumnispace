@@ -302,11 +302,11 @@
                 <input type="file" id="coverCameraInput" capture="environment" class="form-control" accept="image/*,image/heic,image/heif" style="display: none;" onchange="handleCoverCamera(this)">
 
                 <div style="margin-top: 12px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <img id="coverPreview" 
-                         src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : asset('assets/images/no-image.png') }}" 
-                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($album) && !empty($album->cover_photo)) ? 'cover' : 'contain' }};" 
+                    <img id="coverPreview"
+                         src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : asset('assets/images/no-image.webp') }}"
+                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($album) && !empty($album->cover_photo)) ? 'cover' : 'contain' }};"
                          alt="Pratinjau"
-                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.png') }}';">
+                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.webp') }}';">
                     <div id="coverInfoText" style="font-size: 11px; color: #64748b; margin-top: 6px;"></div>
                 </div>
             </div>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>memori. — {{ $article->title }}</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <link rel="stylesheet" href="{{ asset('css/album.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
@@ -20,67 +22,67 @@
 
   <!-- ================= KIRI (10 ORNAMEN) ================= -->
   <div class="deco-asset" style="top: 50px; left: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty" style="width: 75px;">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="floaty" style="width: 75px;">
   </div>
   <div class="deco-asset" style="top: 350px; left: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="wiggle" style="width: 85px;">
   </div>
   <div class="deco-asset" style="top: 700px; left: 2.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="floaty-slow" style="width: 70px;">
   </div>
   <div class="deco-asset" style="top: 1050px; left: 1%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="wiggle" style="width: 100px;">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="wiggle" style="width: 100px;">
   </div>
   <div class="deco-asset" style="top: 1420px; left: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty" style="width: 95px;">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="floaty" style="width: 95px;">
   </div>
   <div class="deco-asset" style="top: 1800px; left: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty-slow" style="width: 75px;">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="floaty-slow" style="width: 75px;">
   </div>
   <div class="deco-asset" style="top: 2180px; left: 2.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="wiggle" style="width: 85px;">
   </div>
   <div class="deco-asset" style="top: 2550px; left: 1%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 100px;">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="floaty" style="width: 100px;">
   </div>
   <div class="deco-asset" style="top: 2920px; left: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty-slow" style="width: 70px;">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="floaty-slow" style="width: 70px;">
   </div>
   <div class="deco-asset" style="bottom: 80px; left: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="wiggle" style="width: 95px;">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="wiggle" style="width: 95px;">
   </div>
 
 
   <!-- ================= KANAN (10 ORNAMEN) ================= -->
   <div class="deco-asset" style="top: 100px; right: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty-slow" style="width: 100px;">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="floaty-slow" style="width: 100px;">
   </div>
   <div class="deco-asset" style="top: 450px; right: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="wiggle" style="width: 95px;">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="wiggle" style="width: 95px;">
   </div>
   <div class="deco-asset" style="top: 820px; right: 2.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="floaty" style="width: 75px;">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="floaty" style="width: 75px;">
   </div>
   <div class="deco-asset" style="top: 1180px; right: 1%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="wiggle" style="width: 70px;">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="wiggle" style="width: 70px;">
   </div>
   <div class="deco-asset" style="top: 1560px; right: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="floaty-slow" style="width: 85px;">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="floaty-slow" style="width: 85px;">
   </div>
   <div class="deco-asset" style="top: 1950px; right: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="floaty" style="width: 100px;">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="floaty" style="width: 100px;">
   </div>
   <div class="deco-asset" style="top: 2320px; right: 2.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="wiggle" style="width: 75px;">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="wiggle" style="width: 75px;">
   </div>
   <div class="deco-asset" style="top: 2690px; right: 1%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="floaty-slow" style="width: 95px;">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="floaty-slow" style="width: 95px;">
   </div>
   <div class="deco-asset" style="top: 3050px; right: 2%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="wiggle" style="width: 85px;">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="wiggle" style="width: 85px;">
   </div>
   <div class="deco-asset" style="bottom: 100px; right: 1.5%;" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="floaty" style="width: 70px;">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="floaty" style="width: 70px;">
   </div>
 
 

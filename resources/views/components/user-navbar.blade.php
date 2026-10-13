@@ -1,7 +1,7 @@
 <header class="custom-header">
   <nav class="custom-nav-container" aria-label="Navigasi utama">
    <a href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" class="custom-logo" data-target="#beranda">
-  <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space" class="logo-spin" style="height: 2.25rem; width: auto;">
+  <img src="{{ asset('assets/images/logo-as.webp') }}" alt="Alumni Space" class="logo-spin" style="height: 2.25rem; width: auto;">
   <span class="logo-text">Alumni Space</span>
 </a>
 
@@ -63,9 +63,9 @@
           <button type="button" id="profile-trigger" class="user-badge" aria-haspopup="true" aria-expanded="false">
             <span class="user-avatar user-avatar-photo">
               <img
-                src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.webp') }}"
                 alt="Avatar"
-                onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'"
               >
             </span>
             <span class="hide-mobile">{{ Auth::user()->name }}</span>
@@ -75,9 +75,9 @@
             <div class="profile-dropdown-header">
               <div class="profile-dropdown-avatar">
                 <img
-                  src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                  src="{{ Auth::user()->profile && Auth::user()->profile->avatar ? asset('storage/' . Auth::user()->profile->avatar) . '?v=' . Auth::user()->profile->updated_at?->timestamp : asset('assets/images/default-avatar.webp') }}"
                   alt="Avatar"
-                  onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                  onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'"
                 >
               </div>
               <div class="profile-dropdown-text">

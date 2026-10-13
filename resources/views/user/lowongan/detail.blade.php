@@ -26,6 +26,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $job->title }} - {{ $job->company_name }} | Alumni Space Career Hub</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
@@ -55,16 +57,16 @@
     </a>
 
              <div class="deco-asset dl-hero-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty">
                 </div>
                 <div class="deco-asset dl-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
                 </div>
                 <div class="deco-asset dl-hero-r1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
                 </div>
                 <div class="deco-asset dl-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
 
                 <div class="job-hero grid-paper">
@@ -172,16 +174,16 @@
 
             <section class="page-width detail-grid">
                  <div class="deco-asset dl-grid-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
                 </div>
                 <div class="deco-asset dl-grid-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
                 </div>
                 <div class="deco-asset dl-grid-r1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
                 </div>
                 <div class="deco-asset dl-grid-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty">
                 </div>
 
                 <div class="detail-main">
@@ -290,16 +292,16 @@
                 <section class="page-width related-wrap reveal-onscroll">
 
                 <div class="deco-asset dl-related-l1 reveal-onscroll" aria-hidden="true">
-                        <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+                        <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty-slow">
                     </div>
                     <div class="deco-asset dl-related-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                        <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                        <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu wiggle">
                     </div>
                     <div class="deco-asset dl-related-r1 reveal-onscroll" aria-hidden="true">
-                        <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                        <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty">
                     </div>
                     <div class="deco-asset dl-related-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                        <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+                        <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
                     </div>
 
                     <div class="related-head">

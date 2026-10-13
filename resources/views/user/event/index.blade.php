@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Album Kenangan & Dokumentasi</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
@@ -38,16 +40,16 @@
             <!-- HERO (TIDAK DIUBAH) -->
             <section id="beranda" class="hero-section grid-paper" aria-labelledby="hero-title">
                 <div class="deco-asset lw-hero-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset lw-hero-l2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
                 </div>
                 <div class="deco-asset lw-hero-r1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
                 </div>
                 <div class="deco-asset lw-hero-r2 reveal-onscroll" style="animation-delay:.1s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
                 </div>
                 <div class="hero-blob-pink blob blob-drift" aria-hidden="true"></div>
                 <span class="hero-orb-yellow spin-slow" aria-hidden="true"></span>
@@ -88,7 +90,7 @@
                     <div class="hero-visual hero-pop-right">
                         <div class="hero-visual-backdrop checker blob blob-drift" aria-hidden="true"></div>
                         <div class="hero-photo-frame">
-                            <img loading="lazy" src="{{ asset('assets/images/antares.png') }}"
+                            <img loading="lazy" src="{{ asset('assets/images/antares.webp') }}"
                                 alt="Antares, maskot Alumni Space">
                             <div class="hero-photo-caption">
                                 <strong>Momen yang lebih dari sekadar hadir</strong>
@@ -104,42 +106,42 @@
             <section id="event" class="catalog" aria-labelledby="catalog-title">
                 <!-- Ornamen kiri (6) -->
                 <div class="deco-asset catalog-deco cd-l1 reveal-onscroll" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
                 </div>
                 <div class="deco-asset catalog-deco cd-l2 reveal-onscroll" style="animation-delay:.08s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
                 </div>
                 <div class="deco-asset catalog-deco cd-l3 reveal-onscroll" style="animation-delay:.16s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+                    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty">
                 </div>
                 <div class="deco-asset catalog-deco cd-l4 reveal-onscroll" style="animation-delay:.24s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
                 </div>
                 <div class="deco-asset catalog-deco cd-l5 reveal-onscroll" style="animation-delay:.32s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
                 </div>
                 <div class="deco-asset catalog-deco cd-l6 reveal-onscroll" style="animation-delay:.4s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty">
                 </div>
 
                 <!-- Ornamen kanan (6) -->
                 <div class="deco-asset catalog-deco cd-r1 reveal-onscroll" style="animation-delay:.05s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty">
                 </div>
                 <div class="deco-asset catalog-deco cd-r2 reveal-onscroll" style="animation-delay:.13s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu wiggle">
                 </div>
                 <div class="deco-asset catalog-deco cd-r3 reveal-onscroll" style="animation-delay:.21s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+                    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty-slow">
                 </div>
                 <div class="deco-asset catalog-deco cd-r4 reveal-onscroll" style="animation-delay:.29s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam wiggle">
                 </div>
                 <div class="deco-asset catalog-deco cd-r5 reveal-onscroll" style="animation-delay:.37s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+                    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty">
                 </div>
                 <div class="deco-asset catalog-deco cd-r6 reveal-onscroll" style="animation-delay:.45s" aria-hidden="true">
-                    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+                    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
                 </div>
 
                 <div class="page-width">

@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alumni Space — Direktori Alumni</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -23,16 +25,16 @@
     <span class="hero-shape shape-yellow"></span>
     <span class="hero-shape shape-mint"></span>
     <div class="deco-asset alumni-hero-papantulis reveal-onscroll" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+      <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty">
     </div>
     <div class="deco-asset alumni-hero-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+      <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
     </div>
     <div class="deco-asset alumni-hero-jam reveal-onscroll" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+      <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam wiggle">
     </div>
     <div class="deco-asset alumni-hero-bus reveal-onscroll" style="transition-delay:.15s" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+      <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
     </div>
     <div class="hero-container">
       <div class="hero-grid">
@@ -63,7 +65,7 @@
         <div class="hero-photo-outer reveal" style="animation-delay:.15s">
 
           <div class="hero-photo-frame">
-            <img loading="lazy" src="{{ asset('assets/images/image9.png') }}" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
+            <img loading="lazy" src="{{ asset('assets/images/image9.webp') }}" alt="A happy group of diverse college students posing cheerfully outside a modern building.">
           </div>
 
         </div>
@@ -73,10 +75,10 @@
 
   <section id="direktori" class="directory-section">
     <div class="deco-asset alumni-direktori-alattulis reveal-onscroll" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+      <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
     </div>
     <div class="deco-asset alumni-direktori-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-      <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+      <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam wiggle">
     </div>
     <div id="directory-shell" class="directory-shell">
       <div class="directory-header reveal-onscroll">
@@ -134,12 +136,12 @@
                 $hasAvatarFile = !empty($item->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->avatar);
                 $avatarSrc = $hasAvatarFile
                     ? asset('storage/'.$item->avatar)
-                    : asset('assets/images/default-avatar.jpg');
+                    : asset('assets/images/default-avatar.webp');
               @endphp
               <img class="card-avatar" loading="lazy"
                    src="{{ $avatarSrc }}"
                    alt="Foto profil {{ $item->user->name }}"
-                   onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
+                   onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'">
 
               @if($item->graduation_year)
                 <span class="badge">Angkatan {{ $item->graduation_year }}</span>

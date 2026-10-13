@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ $profile->user->name }} — Alumni Space</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -22,18 +24,18 @@
     {{-- ORNAMEN LATAR BELAKANG (Di luar card, menempel di background dengan animasi masuk) --}}
     <div class="ornament-wrapper" aria-hidden="true">
       <!-- Sisi Kiri (1 - 5) -->
-      <img src="{{ asset('assets/images/deco-bus.png') }}" class="ornament orn-left-1" alt="">
-      <img src="{{ asset('assets/images/deco-jam.png') }}" class="ornament orn-left-2" alt="">
-      <img src="{{ asset('assets/images/deco-papantulis.png') }}" class="ornament orn-left-3" alt="">
-      <img src="{{ asset('assets/images/deco-alattulis.png') }}" class="ornament orn-left-4" alt="">
-      <img src="{{ asset('assets/images/deco-lampu.png') }}" class="ornament orn-left-5" alt="">
+      <img src="{{ asset('assets/images/deco-bus.webp') }}" class="ornament orn-left-1" alt="">
+      <img src="{{ asset('assets/images/deco-jam.webp') }}" class="ornament orn-left-2" alt="">
+      <img src="{{ asset('assets/images/deco-papantulis.webp') }}" class="ornament orn-left-3" alt="">
+      <img src="{{ asset('assets/images/deco-alattulis.webp') }}" class="ornament orn-left-4" alt="">
+      <img src="{{ asset('assets/images/deco-lampu.webp') }}" class="ornament orn-left-5" alt="">
 
       <!-- Sisi Kanan (6 - 10) -->
-      <img src="{{ asset('assets/images/deco-lampu.png') }}" class="ornament orn-right-1" alt="">
-      <img src="{{ asset('assets/images/deco-alattulis.png') }}" class="ornament orn-right-2" alt="">
-      <img src="{{ asset('assets/images/deco-papantulis.png') }}" class="ornament orn-right-3" alt="">
-      <img src="{{ asset('assets/images/deco-jam.png') }}" class="ornament orn-right-4" alt="">
-      <img src="{{ asset('assets/images/deco-bus.png') }}" class="ornament orn-right-5" alt="">
+      <img src="{{ asset('assets/images/deco-lampu.webp') }}" class="ornament orn-right-1" alt="">
+      <img src="{{ asset('assets/images/deco-alattulis.webp') }}" class="ornament orn-right-2" alt="">
+      <img src="{{ asset('assets/images/deco-papantulis.webp') }}" class="ornament orn-right-3" alt="">
+      <img src="{{ asset('assets/images/deco-jam.webp') }}" class="ornament orn-right-4" alt="">
+      <img src="{{ asset('assets/images/deco-bus.webp') }}" class="ornament orn-right-5" alt="">
     </div>
 
     <div class="ad-container">
@@ -81,7 +83,7 @@
           <div class="ad-hero-avatar-wrap">
             <img
               class="ad-hero-avatar"
-              src="{{ $profile->avatar ? asset('storage/'.$profile->avatar) : asset('assets/images/default-avatar.jpg') }}"
+              src="{{ $profile->avatar ? asset('storage/'.$profile->avatar) : asset('assets/images/default-avatar.webp') }}"
               alt="Foto profil {{ $profile->user->name }}"
               onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($profile->user->name) }}&background=eaf4ff&color=2e75dd&size=256'">
           </div>

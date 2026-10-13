@@ -19,7 +19,7 @@
         ? (\Illuminate\Support\Str::startsWith($event->banner_image, ['http://', 'https://'])
             ? $event->banner_image
             : asset('storage/' . $event->banner_image))
-        : asset('images/event-placeholder.jpg');
+        : asset('assets/images/no-image.webp');
 
     // Galeri dokumentasi: pakai relasi $event->galleries kalau relasinya
     // sudah didefinisikan di Model Event. Kalau belum ada (relasi/tabel
@@ -49,10 +49,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $event->title }} — Alumni Space</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+    <style>[x-cloak] { display: none !important; }</style>
     <link rel="stylesheet"
         href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
     <link rel="stylesheet"
@@ -285,42 +289,42 @@
              Masuk pakai animasi "tuing" (data-reveal, sama seperti section lain)
              lalu bergerak terus lewat floaty / wiggle. --}}
             <div class="deco-asset de-l1" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+                <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty">
             </div>
             <div class="deco-asset de-l2" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+                <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam wiggle">
             </div>
             <div class="deco-asset de-l3" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt=""
+                <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt=""
                     class="aset-alattulis floaty-slow">
             </div>
             <div class="deco-asset de-l4" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt=""
+                <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt=""
                     class="aset-papantulis floaty">
             </div>
             <div class="deco-asset de-l5" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu wiggle">
+                <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu wiggle">
             </div>
             <div class="deco-asset de-l6" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+                <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
             </div>
 
             <div class="deco-asset de-r1" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt=""
+                <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt=""
                     class="aset-alattulis wiggle">
             </div>
             <div class="deco-asset de-r2" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt=""
+                <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt=""
                     class="aset-papantulis floaty-slow">
             </div>
             <div class="deco-asset de-r3" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+                <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
             </div>
             <div class="deco-asset de-r4" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+                <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
             </div>
             <div class="deco-asset de-r5" data-reveal aria-hidden="true">
-                <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+                <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
             </div>
 
         </main>
@@ -340,16 +344,16 @@
          lewat window.EventDetailConfig.registerUrl (lihat script di bawah).
          Setelah sukses, backend yang mengirim email berisi link WA konfirmasi
          ke panitia — di sini cuma menampilkan pesan konfirmasinya. ================= --}}
-        <div class="er-overlay" id="erOverlay" aria-hidden="true">
+        <div class="er-overlay" id="erOverlay" aria-hidden="true" x-data="{ isSubmitted: false }" @click.self="isSubmitted = false" @keydown.escape.window="isSubmitted = false">
             <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="erTitle">
-                <button type="button" class="er-close" id="erClose" aria-label="Tutup">&times;</button>
+                <button type="button" class="er-close" id="erClose" aria-label="Tutup" @click="isSubmitted = false">&times;</button>
 
-                <div class="er-step" id="erStepForm">
+                <div class="er-step" id="erStepForm" x-show="!isSubmitted">
                     <h2 id="erTitle" class="er-title">Daftar {{ $event->title }}</h2>
                     <p class="er-sub">Isi data di bawah ini untuk mengamankan kursimu. Link konfirmasi ke panitia akan
                         dikirim lewat email.</p>
 
-                    <form id="erForm" class="er-form" novalidate>
+                    <form id="erForm" class="er-form" novalidate @submit="isSubmitted = true">
                         <div class="er-field">
                             <label for="erName">Nama Lengkap</label>
                             <input type="text" id="erName" name="name"
@@ -372,7 +376,7 @@
 
                         <p class="er-form-error" id="erFormError" hidden></p>
 
-                        <button type="submit" class="primary-button er-submit" id="erSubmitBtn">
+                        <button type="submit" class="primary-button er-submit" id="erSubmitBtn" @click="isSubmitted = true">
                             <span class="er-submit-label">Daftar Sekarang</span>
                             <span class="er-spinner" aria-hidden="true"></span>
                         </button>
@@ -380,7 +384,7 @@
                 </div>
 
 
-                <div class="er-step" id="erStepSuccess" hidden>
+                <div class="er-step" id="erStepSuccess" x-show="isSubmitted" x-cloak>
                     <div class="er-success-icon" aria-hidden="true"><i data-lucide="mail-check" width="34"
                             height="34"></i></div>
                     <h2 class="er-title">Pendaftaran Berhasil!</h2>
@@ -388,7 +392,7 @@
                         Kami sudah mengirim email konfirmasi berisi link WhatsApp untuk konfirmasi ke panitia. Silakan
                         cek inbox (atau folder spam) kamu.
                     </p>
-                    <button type="button" class="primary-button er-submit" id="erDoneBtn">Oke, Mengerti</button>
+                    <button type="button" class="primary-button er-submit" id="erDoneBtn" @click="isSubmitted = false">Oke, Mengerti</button>
                 </div>
             </div>
         </div>

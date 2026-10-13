@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alumni Space — Dashboard & Portal Alumni</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
@@ -30,16 +32,16 @@
       <!-- HERO SECTION -->
       <section id="beranda" class="grid-paper relative isolate overflow-hidden">
   <div class="deco-asset hero-deco-jam reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset hero-deco-bus reveal-onscroll" style="transition-delay:.15s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
   </div>
   <div class="deco-asset hero-deco-papantulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
   </div>
   <div class="deco-asset hero-deco-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
   </div>
         <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
 <div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
@@ -91,7 +93,7 @@
                 </div>
                 <div class="absolute inset-[18px] overflow-hidden bg-white"
                      style="clip-path: polygon(50% 0%, 65% 5%, 78% 2%, 88% 12%, 98% 22%, 95% 35%, 100% 50%, 95% 65%, 98% 78%, 88% 88%, 78% 98%, 65% 95%, 50% 100%, 35% 95%, 22% 98%, 12% 88%, 2% 78%, 5% 65%, 0% 50%, 5% 35%, 2% 22%, 12% 12%, 22% 2%, 35% 5%);">
-                    <img src="{{ asset('assets/images/foto04.png') }}"
+                    <img src="{{ asset('assets/images/foto04.webp') }}"
                          alt="Alumni Spotlight"
                          class="h-full w-full object-cover">
                 </div>
@@ -106,13 +108,13 @@
       <!-- TENTANG KAMI -->
       <section id="tentang" class="relative isolate overflow-hidden">
   <div class="deco-asset tentang-alattulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
   </div>
   <div class="deco-asset tentang-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset tentang-bus reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty-slow">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty-slow">
   </div>
   <div class="blob blob-drift section-blob section-blob--pink section-blob--tr"></div>
 
@@ -124,12 +126,12 @@
             <div class="blob-bg"></div>
             <div class="kolase-grid">
               <div class="kolase-col">
-                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto01.png') }}" alt="Foto 1"></div>
-                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto02.png') }}" alt="Foto 2"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto01.webp') }}" alt="Foto 1"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto02.webp') }}" alt="Foto 2"></div>
               </div>
               <div class="kolase-col pt-4">
-                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto03.png') }}" alt="Foto 3"></div>
-                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto04.png') }}" alt="Foto 4"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto03.webp') }}" alt="Foto 3"></div>
+                <div class="kolase-img-box"><img src="{{ asset('assets/images/foto04.webp') }}" alt="Foto 4"></div>
               </div>
             </div>
             <div class="badge-hello">hello alumni!</div>
@@ -148,13 +150,13 @@
       <!-- STATISTIK -->
       <section id="statistik" class="relative overflow-hidden bg-[#eaf3ff] grid-paper-dark py-20">
   <div class="deco-asset statistik-papantulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty">
   </div>
   <div class="deco-asset statistik-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
   </div>
   <div class="deco-asset statistik-alattulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
   </div>
   <div class="blob blob-drift section-blob section-blob--pink section-blob--tl"></div>
 <div class="blob blob-drift section-blob section-blob--blue section-blob--br"></div>
@@ -190,20 +192,20 @@
             <!-- SECTION PENGURUS ALUMNI -->
 <section id="pengurus" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset pengurus-jam reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
   </div>
   <div class="deco-asset pengurus-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="deco-asset pengurus-papantulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty">
   </div>
 
 
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
       <!-- Pengurus -->
-<p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
+{{-- <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
       <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
     </div>
 
@@ -227,7 +229,7 @@
             $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
             $srcFoto = $fotoPengurus
                 ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
-                : asset('assets/images/default-avatar.png');
+                : asset('assets/images/default-avatar.webp');
 
             // Ambil ID alumni_profile asli lewat id pengurus (alumni_committees.id)
             $alumniProfileId = \Illuminate\Support\Facades\DB::table('alumni_committees')
@@ -270,7 +272,7 @@
           Data pengurus belum tersedia.
         </div>
       @endforelse
-    </div>
+    </div> --}}
 
     <button type="button" id="pengurus-next" class="pengurus-arrow pengurus-arrow--next focus-ring" aria-label="Geser ke kanan">
       <i data-lucide="chevron-right" class="h-5 w-5"></i>
@@ -281,10 +283,10 @@
       @guest
       <section id="locked-teaser" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
         <div class="deco-asset locked-teaser-bus reveal-onscroll" aria-hidden="true">
-          <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus floaty">
+          <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus floaty">
         </div>
         <div class="deco-asset locked-teaser-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-          <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+          <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
         </div>
         <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
 <div class="blob blob-drift section-blob section-blob--pink section-blob--br"></div>
@@ -330,13 +332,13 @@
       <!-- FITUR 1: DIREKTORI ALUMNI (GATED) -->
 <section id="alumni" class="auth-section @auth unlocked @endauth relative isolate bg-[#eaf3ff] grid-paper-dark py-20">
   <div class="deco-asset alumni-lampu reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
   </div>
   <div class="deco-asset alumni-alattulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
   </div>
   <div class="deco-asset alumni-jam reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam wiggle">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam wiggle">
   </div>
   <div class="mx-auto max-w-7xl px-5 md:px-8">
   <div class="flex flex-wrap items-end justify-between gap-6 reveal-onscroll">
@@ -393,9 +395,9 @@
             $alumHasAvatar = !empty($alum->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($alum->avatar);
             $alumAvatarSrc = $alumHasAvatar
                 ? asset('storage/'.$alum->avatar)
-                : asset('assets/images/default-avatar.jpg');
+                : asset('assets/images/default-avatar.webp');
           @endphp
-          <img src="{{ $alumAvatarSrc }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100" onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'">
+          <img src="{{ $alumAvatarSrc }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100" onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'">
         </a>
         <span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#153563]">Angkatan {{ $alum->graduation_year }}</span>
       </div>
@@ -417,13 +419,13 @@
       <!-- TESTIMONI -->
 <section id="testimoni" class="relative overflow-hidden bg-[#153563] py-20 text-white">
   <div class="deco-asset testimoni-bus reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="deco-asset testimoni-papantulis reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty">
   </div>
   <div class="deco-asset testimoni-lampu reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty-slow">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty-slow">
   </div>
 
   <div class="mx-auto max-w-6xl px-5 text-center md:px-8">
@@ -486,13 +488,13 @@
       <!-- SECTION 1: GALERI (KOLASE) -->
 <section id="galeri" class="relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset galeri-alattulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty">
   </div>
   <div class="deco-asset galeri-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty-slow">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty-slow">
   </div>
   <div class="deco-asset galeri-bus reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="blob blob-drift section-blob section-blob--blue section-blob--tl"></div>
 
@@ -504,21 +506,21 @@
   </div>
 
   <div class="mt-9 galeri-kolase-grid">
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image2.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image2.webp') }}">
     </div>
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image3.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image3.webp') }}">
 
     </div>
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image1.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image1.webp') }}">
 
     </div>
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image7.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image7.webp') }}">
 
     </div>
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image8.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image8.webp') }}">
 
     </div>
-    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image9.png') }}">
+    <div class="g-item pop-card galeri-photo flex items-end rounded-[1.75rem]" data-bg="{{ asset('assets/images/image9.webp') }}">
 
     </div>
   </div>
@@ -526,13 +528,13 @@
       <!-- SECTION 2: ARTIKEL -->
       <section id="artikel-section" class="relative isolate mx-auto max-w-7xl px-5 pb-32 md:px-8">
   <div class="deco-asset artikel-section-papantulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis wiggle">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis wiggle">
   </div>
   <div class="deco-asset artikel-section-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
   </div>
   <div class="deco-asset artikel-section-alattulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis floaty-slow">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis floaty-slow">
   </div>
   <div class="blob blob-drift section-blob section-blob--blue section-blob--tr"></div>
 <div class="blob blob-drift section-blob section-blob--pink section-blob--bl"></div>
@@ -612,10 +614,10 @@
                   <!-- FITUR 2: ALBUM KENANGAN (GATED) -->
 <section id="album" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#f5f9ff] grid-paper-dark py-20">
   <div class="deco-asset album-jam reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="deco-asset album-bus reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="aset-bus wiggle">
+    <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="aset-bus wiggle">
   </div>
   <div class="mx-auto max-w-7xl px-5 md:px-8">
     <div class="reveal-onscroll">
@@ -630,7 +632,7 @@
         <div>
           <div class="relative mb-4 h-40 w-full overflow-hidden rounded-2xl bg-white/50 shadow-sm">
             <a href="{{ route('album.show', $album->slug) }}" class="focus-ring block h-full w-full">
-              <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.png') }}" alt="{{ $album->title }}" class="h-full w-full object-cover">
+              <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $album->title }}" class="h-full w-full object-cover">
             </a>
           </div>
           <h3 class="text-2xl font-bold text-[#153563]">
@@ -653,10 +655,10 @@
                         <!-- FITUR 3: LOWONGAN KERJA (GATED) -->
 <section id="lowongan" class="auth-section @auth unlocked @endauth relative isolate mx-auto max-w-7xl px-5 py-20 md:px-8">
   <div class="deco-asset lowongan-papantulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="aset-papantulis floaty-slow">
+    <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="aset-papantulis floaty-slow">
   </div>
   <div class="deco-asset lowongan-lampu reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-lampu.png') }}" alt="" class="aset-lampu floaty">
+    <img src="{{ asset('assets/images/deco-lampu.webp') }}" alt="" class="aset-lampu floaty">
   </div>
   <div class="reveal-onscroll">
     <!-- Lowongan -->
@@ -692,10 +694,10 @@
                  <!-- FITUR 4: AGENDA EVENT (GATED) -->
 <section id="event" class="auth-section @auth unlocked @endauth relative isolate overflow-hidden bg-[#eaf3ff] grid-paper-dark py-20">
   <div class="deco-asset event-alattulis reveal-onscroll" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="aset-alattulis wiggle">
+    <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="aset-alattulis wiggle">
   </div>
   <div class="deco-asset event-jam reveal-onscroll" style="transition-delay:.1s" aria-hidden="true">
-    <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="aset-jam floaty">
+    <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="aset-jam floaty">
   </div>
   <div class="mx-auto max-w-7xl px-5 md:px-8">
     <div class="reveal-onscroll">
@@ -710,7 +712,7 @@
         <div>
           <div class="relative mb-4 h-36 w-full overflow-hidden rounded-2xl bg-white/70 shadow-sm">
             <a href="{{ route('event.show', $event->slug) }}" class="focus-ring block h-full w-full">
-              <img src="{{ $event->banner_image ?? asset('assets/images/foto-1.png') }}" alt="{{ $event->title }}" class="h-full w-full object-cover">
+              <img src="{{ $event->banner_image ?? asset('assets/images/foto-1.webp') }}" alt="{{ $event->title }}" class="h-full w-full object-cover">
               <div class="absolute top-3 left-3 z-10 grid place-items-center rounded-xl bg-white px-2.5 py-1.5 text-center shadow-sm">
                 <span class="font-bold text-[#153563]" style="line-height:1">{{ \Carbon\Carbon::parse($event->event_date)->format('d') }}<br>{{ strtoupper(\Carbon\Carbon::parse($event->event_date)->format('M')) }}</span>
               </div>

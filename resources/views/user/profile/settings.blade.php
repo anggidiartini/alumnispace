@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alumni Space — Profil Saya</title>
+  <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -18,16 +20,16 @@
 {{-- Ornamen dekoratif, disamakan gaya & animasinya dengan halaman Album.
      Fixed di pinggir viewport karena halaman ini satu section panjang. --}}
 <div class="deco-asset prof-deco-l1" aria-hidden="true">
-  <img src="{{ asset('assets/images/deco-jam.png') }}" alt="" class="prof-jam floaty">
+  <img src="{{ asset('assets/images/deco-jam.webp') }}" alt="" class="prof-jam floaty">
 </div>
 <div class="deco-asset prof-deco-l2" aria-hidden="true">
-  <img src="{{ asset('assets/images/deco-alattulis.png') }}" alt="" class="prof-alattulis wiggle">
+  <img src="{{ asset('assets/images/deco-alattulis.webp') }}" alt="" class="prof-alattulis wiggle">
 </div>
 <div class="deco-asset prof-deco-r1" aria-hidden="true">
-  <img src="{{ asset('assets/images/deco-bus.png') }}" alt="" class="prof-bus floaty-slow">
+  <img src="{{ asset('assets/images/deco-bus.webp') }}" alt="" class="prof-bus floaty-slow">
 </div>
 <div class="deco-asset prof-deco-r2" aria-hidden="true">
-  <img src="{{ asset('assets/images/deco-papantulis.png') }}" alt="" class="prof-papantulis wiggle">
+  <img src="{{ asset('assets/images/deco-papantulis.webp') }}" alt="" class="prof-papantulis wiggle">
 </div>
 
 <main>
@@ -70,11 +72,11 @@
 
                 <button type="button" class="avatar-click-area" id="avatar-click-area" aria-label="Ubah foto profil">
                   <img
-                    src="{{ $profile->avatar ? asset('storage/' . $profile->avatar) . '?v=' . $profile->updated_at?->timestamp : asset('assets/images/default-avatar.jpg') }}"
+                    src="{{ $profile->avatar ? asset('storage/' . $profile->avatar) . '?v=' . $profile->updated_at?->timestamp : asset('assets/images/default-avatar.webp') }}"
                     alt="Avatar"
                     class="avatar-preview"
                     id="avatar-preview"
-                    onerror="this.src='{{ asset('assets/images/default-avatar.jpg') }}'"
+                    onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'"
                   >
 
                   <span class="avatar-edit-badge" aria-hidden="true">
@@ -406,7 +408,7 @@
 <x-user-footer />
 
 <script>
-  var DEFAULT_AVATAR_URL = "{{ asset('assets/images/default-avatar.jpg') }}";
+  var DEFAULT_AVATAR_URL = "{{ asset('assets/images/default-avatar.webp') }}";
 
   function setAvatarPreview(content, isPlaceholder) {
     var old = document.getElementById('avatar-preview');

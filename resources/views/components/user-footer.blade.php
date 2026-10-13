@@ -8,7 +8,7 @@
 <div class="as-footer__brand">
     <div class="as-footer__logo-row">
         <span class="as-footer__logo-badge">
-            <img src="{{ asset('assets/images/logo-as.png') }}" alt="Alumni Space">
+            <img src="{{ asset('assets/images/logo-as.webp') }}" alt="Alumni Space">
         </span>
         <span class="as-footer__logo-text">Alumni Space</span>
     </div>

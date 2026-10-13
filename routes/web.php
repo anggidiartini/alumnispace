@@ -12,8 +12,8 @@ use App\Http\Controllers\User\ArticleController;
 use App\Http\Controllers\User\CompanyController;
 use App\Http\Controllers\User\ProfileController;
 // Landing & Intro
-// Landing & Intro - redirected to /home
-Route::redirect('/', '/home')->name('landing');
+Route::get('/', [HomeController::class, 'index'])->name('landing');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::redirect('/landing', '/home');
 Route::get('/opening', function () {
     return view('opening.index');
@@ -34,8 +34,7 @@ Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'
 
 // User Protected Group
 Route::middleware(['auth', 'role:alumni,user,admin,super_admin'])->group(function () {
-    // Authenticated Home / Dashboard
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Job Vacancies Apply
 
     // Job Vacancies Apply
     Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->name('lowongan.apply');
