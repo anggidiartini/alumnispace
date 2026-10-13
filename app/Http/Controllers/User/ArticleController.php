@@ -20,8 +20,10 @@ class ArticleController extends Controller
         }
 
         $articles = $query->latest()->paginate(9);
+        $categories = Article::whereNotNull('category')->distinct()->pluck('category');
+        $heroArticle = Article::latest()->first();
 
-        return view('user.artikel.index', compact('articles'));
+        return view('user.artikel.index', compact('articles', 'categories', 'heroArticle'));
     }
 
     public function show($slug)

@@ -145,12 +145,12 @@ class EventController extends Controller
         }
 
         $pesanTeks = "Halo Panitia, saya telah mendaftar di Event ini dan ingin konfirmasi pendaftaran.\n\n"
-                   . "📄 *DATA PENDAFTARAN*\n"
+                   . " *DATA PENDAFTARAN*\n"
                    . "• Nama: " . $registration->name . "\n"
                    . "• Event: " . $event->title . "\n"
                    . "• Jumlah Kuota Diambil: " . $registration->quantity . " kursi\n"
                    . "• Kode Tiket: " . $registration->ticket_code . "\n\n"
-                   . "Mohon kesediaannya untuk memverifikasi data saya dan *memasukkan saya ke grup WhatsApp resmi event* ini. Terima kasih! 🙏";
+                   . "Mohon kesediaannya untuk memverifikasi data saya dan *memasukkan saya ke grup WhatsApp resmi event* ini. Terima kasih!";
                    
         $whatsappUrl = "https://wa.me/" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
 

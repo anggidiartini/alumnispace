@@ -67,15 +67,15 @@ CREATE TABLE IF NOT EXISTS `album_photos` (
 -- Dumping data for table alumnispace.album_photos: ~9 rows (approximately)
 DELETE FROM `album_photos`;
 INSERT INTO `album_photos` (`id`, `album_id`, `uploaded_by`, `photo_path`, `caption`, `created_at`, `updated_at`) VALUES
-	(1, 1, NULL, 'assets/images/foto-1.png', 'Momen kebersamaan di villa', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(2, 1, NULL, 'assets/images/foto-2.png', 'Jalan-jalan santai sore', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(3, 1, NULL, 'assets/images/foto-3.png', 'Foto rame-rame sebelum pulang', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(4, 2, NULL, 'assets/images/foto-1.png', 'Penampilan band utama', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(5, 2, NULL, 'assets/images/foto-2.png', 'Sorak gembira penonton', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(6, 3, NULL, 'assets/images/foto-2.png', 'Ngobrol santai sore', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(7, 3, NULL, 'assets/images/foto-3.png', 'Sesi foto polaroid', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
-	(8, 4, NULL, 'assets/images/foto-1.png', 'Lempar toga bersama', '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
-	(9, 4, NULL, 'assets/images/foto-3.png', 'Foto keluarga dan sahabat', '2026-09-01 19:06:42', '2026-09-01 19:06:42');
+	(1, 1, NULL, 'assets/images/foto-1.webp', 'Momen kebersamaan di villa', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(2, 1, NULL, 'assets/images/foto-2.webp', 'Jalan-jalan santai sore', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(3, 1, NULL, 'assets/images/foto-3.webp', 'Foto rame-rame sebelum pulang', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(4, 2, NULL, 'assets/images/foto-1.webp', 'Penampilan band utama', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(5, 2, NULL, 'assets/images/foto-2.webp', 'Sorak gembira penonton', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(6, 3, NULL, 'assets/images/foto-2.webp', 'Ngobrol santai sore', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(7, 3, NULL, 'assets/images/foto-3.webp', 'Sesi foto polaroid', '2026-09-01 19:06:41', '2026-09-01 19:06:41'),
+	(8, 4, NULL, 'assets/images/foto-1.webp', 'Lempar toga bersama', '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
+	(9, 4, NULL, 'assets/images/foto-3.webp', 'Foto keluarga dan sahabat', '2026-09-01 19:06:42', '2026-09-01 19:06:42');
 
 -- Dumping structure for table alumnispace.alumni_profiles
 CREATE TABLE IF NOT EXISTS `alumni_profiles` (
@@ -142,9 +142,9 @@ CREATE TABLE IF NOT EXISTS `articles` (
 -- Dumping data for table alumnispace.articles: ~3 rows (approximately)
 DELETE FROM `articles`;
 INSERT INTO `articles` (`id`, `author_id`, `title`, `slug`, `category`, `thumbnail`, `excerpt`, `content`, `published_at`, `is_published`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni', 'peresmian-gedung-baru-lab-komputer', 'Sekolah', 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500', 'Fasilitas makin canggih buat adik-adik kelas belajar coding dan AI di sekolah.', 'Pembangunan laboratorium komputer baru di sekolah telah resmi selesai dan diresmikan berkat donasi dan kontribusi nyata dari berbagai angkatan alumni.', '2026-08-28 02:00:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
-	(2, 1, 'Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni', 'tips-lolos-interview-kerja-unicorn', 'Karier', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500', 'Bongkar rahasia HRD saat menyaring CV fresh graduate berpengalaman organisasi.', 'Simak kiat praktis dan strategi menghadapi interview user maupun HR di perusahaan teknologi terkemuka langsung dari pengalaman alumni senior kita.', '2026-08-25 06:00:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
-	(3, 1, 'Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!', 'persiapan-grand-reunion-2027', 'Reuni', 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500', 'Panitia angkatan 2010 siap mengguncang stadion utama dengan konsep festival musik.', 'Panitia gabungan lintas angkatan mulai mematangkan rencana reuni akbar terbesar dengan berbagai penampilan panggung, bazar kuliner, dan donor darah.', '2026-08-20 01:30:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42');
+	(1, 1, 'Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni', 'peresmian-gedung-baru-lab-komputer', 'Sekolah', 'assets/images/ftartikel.webp', 'Fasilitas makin canggih buat adik-adik kelas belajar coding dan AI di sekolah.', 'Pembangunan laboratorium komputer baru di sekolah telah resmi selesai dan diresmikan berkat donasi dan kontribusi nyata dari berbagai angkatan alumni.', '2026-08-28 02:00:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
+	(2, 1, 'Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni', 'tips-lolos-interview-kerja-unicorn', 'Karier', 'assets/images/ftartikel2.webp', 'Bongkar rahasia HRD saat menyaring CV fresh graduate berpengalaman organisasi.', 'Simak kiat praktis dan strategi menghadapi interview user maupun HR di perusahaan teknologi terkemuka langsung dari pengalaman alumni senior kita.', '2026-08-25 06:00:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42'),
+	(3, 1, 'Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!', 'persiapan-grand-reunion-2027', 'Reuni', 'assets/images/ftartikel3.webp', 'Panitia angkatan 2010 siap mengguncang stadion utama dengan konsep festival musik.', 'Panitia gabungan lintas angkatan mulai mematangkan rencana reuni akbar terbesar dengan berbagai penampilan panggung, bazar kuliner, dan donor darah.', '2026-08-20 01:30:00', 1, '2026-09-01 19:06:42', '2026-09-01 19:06:42');
 
 -- Dumping structure for table alumnispace.cache
 CREATE TABLE IF NOT EXISTS `cache` (
