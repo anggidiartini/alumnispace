@@ -197,11 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    /* ---------- Pendaftaran event via AJAX ---------- */
+    /* ---------- Pendaftaran event via AJAX (fallback bila tidak ada modal erOverlay) ---------- */
 
     const registerBtn = document.getElementById("registerBtn");
 
-    registerBtn?.addEventListener("click", () => {
+    if (!document.getElementById("erOverlay")) {
+        registerBtn?.addEventListener("click", () => {
         if (!config.registerUrl || registerBtn.disabled) return;
 
         const originalLabel = registerBtn.textContent;
@@ -276,7 +277,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 registerBtn.disabled = false;
                 registerBtn.textContent = originalLabel;
             });
-    });
+        });
+    }
 
     /* ---------- Lightbox galeri dokumentasi (untuk event yang sudah selesai) ---------- */
 

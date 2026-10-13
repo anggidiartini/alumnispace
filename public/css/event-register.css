@@ -87,6 +87,17 @@
     margin: 0;
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
+#erStepForm[hidden],
+#erStepSuccess[hidden],
+.er-step[hidden],
+.er-step[style*="display: none"] {
+    display: none !important;
+}
+
 /* Layout 2 kolom: judul+deskripsi di kiri, form di kanan.
    Bikin modal jadi landscape (lebar) bukan portrait (tinggi). */
 #erStepForm {

@@ -568,13 +568,14 @@ a:focus-visible {
     margin-top: 1rem;
 }
 .social-link {
-    width: 2.6rem;
-    height: 2.6rem;
-    display: grid;
-    place-items: center;
-    border-radius: 0.9rem;
-    background: var(--soft);
-    color: var(--blue-deep);
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    background: #eff6ff;
+    color: #2563eb;
     transition:
         transform 0.2s ease,
         background-color 0.2s ease;
@@ -588,11 +589,15 @@ a:focus-visible {
     width: 20px;
     height: 20px;
     fill: currentColor;
-    stroke: currentColor;
+    stroke: none;
 }
 .social-link .instagram-icon,
-.social-link .mail-icon {
+.social-link .mail-icon,
+.social-link .globe-icon,
+.social-link .whatsapp-icon,
+.social-link svg[fill="none"] {
     fill: none;
+    stroke: currentColor;
     stroke-width: 2;
 }
 

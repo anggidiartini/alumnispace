@@ -32,12 +32,28 @@ document.addEventListener("DOMContentLoaded", function () {
         formError.textContent = "";
     }
 
+    function syncAlpineState(isSub) {
+        var overlayEl = document.getElementById("erOverlay");
+        if (overlayEl && window.Alpine) {
+            try {
+                window.Alpine.$data(overlayEl).isSubmitted = isSub;
+            } catch (e) {}
+        }
+    }
+
     function openModal() {
         overlay.classList.add("is-open");
         overlay.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
+        syncAlpineState(false);
+        if (window._erWaRedirectTimer) {
+            clearInterval(window._erWaRedirectTimer);
+            window._erWaRedirectTimer = null;
+        }
         stepForm.hidden = false;
+        stepForm.style.display = "";
         stepSuccess.hidden = true;
+        stepSuccess.style.display = "none";
         clearFieldErrors();
         form.reset();
         setTimeout(function () {
@@ -50,6 +66,15 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.classList.remove("is-open");
         overlay.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+        syncAlpineState(false);
+        if (window._erWaRedirectTimer) {
+            clearInterval(window._erWaRedirectTimer);
+            window._erWaRedirectTimer = null;
+        }
+        stepForm.hidden = false;
+        stepForm.style.display = "";
+        stepSuccess.hidden = true;
+        stepSuccess.style.display = "none";
     }
 
     registerBtn.addEventListener("click", openModal);
@@ -103,11 +128,39 @@ document.addEventListener("DOMContentLoaded", function () {
                 submitBtn.classList.remove("is-loading");
 
                 if (result.ok) {
+                    syncAlpineState(true);
                     stepForm.hidden = true;
+                    stepForm.style.display = "none";
                     stepSuccess.hidden = false;
-                    successMessage.textContent = (result.data && result.data.message)
-                        ? result.data.message
-                        : "Pendaftaran berhasil! Mengalihkan ke WhatsApp panitia untuk konfirmasi...";
+                    stepSuccess.style.display = "block";
+                    // Automatic 3-second countdown and redirect to WhatsApp
+                    if (result.data && result.data.whatsapp_url) {
+                        var countdown = 3;
+                        var waUrl = result.data.whatsapp_url;
+
+                        successMessage.innerHTML = 'Pendaftaran berhasil! Mengalihkan otomatis ke WhatsApp panitia dalam <strong id="erCountdown" style="color: #2563eb; font-weight: 700;">' + countdown + '</strong> detik...';
+
+                        if (window._erWaRedirectTimer) {
+                            clearInterval(window._erWaRedirectTimer);
+                        }
+
+                        window._erWaRedirectTimer = setInterval(function () {
+                            countdown--;
+                            var countdownEl = document.getElementById("erCountdown");
+                            if (countdownEl) {
+                                countdownEl.textContent = countdown;
+                            }
+                            if (countdown <= 0) {
+                                clearInterval(window._erWaRedirectTimer);
+                                window._erWaRedirectTimer = null;
+                                window.location.href = waUrl;
+                            }
+                        }, 1000);
+                    } else {
+                        successMessage.textContent = (result.data && result.data.message)
+                            ? result.data.message
+                            : "Pendaftaran berhasil! Kami sudah mengirim email konfirmasi.";
+                    }
 
                     // Update live quota on page
                     if (result.data && typeof result.data.registered_count !== 'undefined') {
@@ -150,6 +203,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             waBtn.rel = "noopener";
                             waBtn.textContent = "💬 Hubungi WA Panitia Sekarang";
                             waBtn.href = result.data.whatsapp_url;
+                            waBtn.addEventListener("click", function () {
+                                if (window._erWaRedirectTimer) {
+                                    clearInterval(window._erWaRedirectTimer);
+                                    window._erWaRedirectTimer = null;
+                                }
+                            });
                             doneBtn.parentElement.insertBefore(waBtn, doneBtn);
                         }
                     }
@@ -160,6 +219,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Validasi gagal (422) — tampilkan pesan per field dari Laravel.
                 if (result.status === 422 && result.data && result.data.errors) {
+                    syncAlpineState(false);
+                    stepForm.hidden = false;
+                    stepForm.style.display = "";
+                    stepSuccess.hidden = true;
+                    stepSuccess.style.display = "none";
                     Object.keys(result.data.errors).forEach(function (field) {
                         var target = form.querySelector('[data-error-for="' + field + '"]');
                         if (target) {
@@ -191,136 +255,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (window.lucide) window.lucide.createIcons();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    var originalForm = document.getElementById("erForm");
-    
-    if (originalForm) {
-        var customForm = originalForm.cloneNode(true);
-        originalForm.parentNode.replaceChild(customForm, originalForm);
-
-        var currentSubmitBtn = document.getElementById("erSubmitBtn");
-        var currentFormError = document.getElementById("erFormError");
-        var currentStepForm = document.getElementById("erStepForm");
-        var currentStepSuccess = document.getElementById("erStepSuccess");
-        var currentSuccessMsg = document.getElementById("erSuccessMessage");
-        var currentDoneBtn = document.getElementById("erDoneBtn");
-
-        function clearCustomFieldErrors() {
-            customForm.querySelectorAll(".er-error").forEach(function (el) { el.textContent = ""; });
-            customForm.querySelectorAll(".er-field").forEach(function (el) { el.classList.remove("has-error"); });
-            if (currentFormError) {
-                currentFormError.hidden = true;
-                currentFormError.textContent = "";
-            }
-        }
-
-        customForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            clearCustomFieldErrors();
-
-            var customConfig = window.EventDetailConfig || {};
-            if (!customConfig.registerUrl) {
-                if (currentFormError) {
-                    currentFormError.hidden = false;
-                    currentFormError.textContent = "URL pendaftaran belum tersedia. Hubungi admin.";
-                }
-                return;
-            }
-
-            var customPayload = {
-                name: customForm.name.value.trim(),
-                email: customForm.email.value.trim(),
-                phone: customForm.phone.value.trim()
-            };
-
-            if (currentSubmitBtn) {
-                currentSubmitBtn.disabled = true;
-                currentSubmitBtn.classList.add("is-loading");
-            }
-
-            fetch(customConfig.registerUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json",
-                    "X-CSRF-TOKEN": customConfig.csrfToken || ""
-                },
-                body: JSON.stringify(customPayload)
-            })
-            .then(function (response) {
-                return response.json().catch(function () { return {}; }).then(function (data) {
-                    return { ok: response.ok, status: response.status, data: data };
-                });
-            })
-            .then(function (result) {
-                if (currentSubmitBtn) {
-                    currentSubmitBtn.disabled = false;
-                    currentSubmitBtn.classList.remove("is-loading");
-                }
-
-                if (result.ok) {
-                    if (currentStepForm) currentStepForm.hidden = true;
-                    if (currentStepSuccess) currentStepSuccess.hidden = false;
-
-                    if (currentSuccessMsg) {
-                        currentSuccessMsg.innerHTML = "Pendaftaran berhasil! Email notifikasi pendaftar baru telah terkirim ke panitia. <br><br><strong>Kamu akan dialihkan otomatis ke WhatsApp panitia dalam 2 detik untuk masuk grup...</strong>";
-                    }
-
-                    if (currentDoneBtn) {
-                        currentDoneBtn.type = "button"; 
-                        currentDoneBtn.addEventListener("click", function() {
-                            if (result.data && result.data.whatsapp_url) {
-                                window.location.href = result.data.whatsapp_url;
-                            }
-                        });
-                    }
-
-                    if (result.data && result.data.whatsapp_url) {
-                        setTimeout(function () {
-                            window.location.href = result.data.whatsapp_url;
-                        }, 2500);
-                    }
-
-                    if (window.lucide) window.lucide.createIcons();
-                    return;
-                }
-
-                if (result.status === 422 && result.data && result.data.errors) {
-                    Object.keys(result.data.errors).forEach(function (field) {
-                        var target = customForm.querySelector('[data-error-for="' + field + '"]');
-                        if (target) {
-                            target.textContent = result.data.errors[field][0];
-                            var wrap = target.closest(".er-field");
-                            if (wrap) wrap.classList.add("has-error");
-                        }
-                    });
-                    return;
-                }
-
-                if (result.status === 401 && customConfig.loginUrl) {
-                    window.location.href = customConfig.loginUrl;
-                    return;
-                }
-
-                if (currentFormError) {
-                    currentFormError.hidden = false;
-                    currentFormError.textContent = (result.data && result.data.message)
-                        ? result.data.message
-                        : "Terjadi kesalahan saat mendaftar. Silakan coba lagi.";
-                }
-            })
-            .catch(function () {
-                if (currentSubmitBtn) {
-                    currentSubmitBtn.disabled = false;
-                    currentSubmitBtn.classList.remove("is-loading");
-                }
-                if (currentFormError) {
-                    currentFormError.hidden = false;
-                    currentFormError.textContent = "Gagal menghubungi server. Periksa koneksi internet kamu.";
-                }
-            });
-        });
-    }
 });
