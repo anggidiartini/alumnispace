@@ -14,10 +14,9 @@ use App\Http\Controllers\User\ProfileController;
 // Landing & Intro
 Route::get('/', [HomeController::class, 'index'])->name('landing');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::redirect('/landing', '/home');
-Route::get('/opening', function () {
-    return view('opening.index');
-})->name('opening');
+Route::redirect('/opening', '/home'); 
 
 use App\Http\Controllers\User\PasswordResetController;
 
