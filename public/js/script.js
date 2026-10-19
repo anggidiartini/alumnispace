@@ -733,39 +733,87 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const authModalOverlay = document.getElementById("auth-modal-overlay");
     const authModalLabel = document.getElementById("auth-modal-label");
-    const authModalCancel = document.getElementById("auth-modal-cancel");
-    const authModalClose = document.getElementById("auth-modal-close");
 
     function openAuthModal(label) {
-        authModalLabel.textContent = label;
-        authModalOverlay.classList.add("active");
-        document.body.style.overflow = "hidden";
+        if (authModalLabel) authModalLabel.textContent = label;
+        if (authModalOverlay) {
+            authModalOverlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+            window.lucide.createIcons();
+        }
     }
 
     function closeAuthModal() {
-        authModalOverlay.classList.remove("active");
-        document.body.style.overflow = "";
+        if (authModalOverlay) {
+            authModalOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+    }
+
+    // Auto-open modal if redirected to landing page with locked query parameter or pre-rendered active
+    const urlParams = new URLSearchParams(window.location.search);
+    const lockedParam = urlParams.get("locked");
+    if (lockedParam && !isGuest) {
+        let label = "Direktori Alumni";
+        if (lockedParam === "album") {
+            label = "Album Kenangan";
+        } else if (lockedParam === "lowongan") {
+            label = "Lowongan Kerja";
+        }
+        openAuthModal(label);
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, cleanUrl);
+    } else if (authModalOverlay && authModalOverlay.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+            window.lucide.createIcons();
+        }
     }
 
     document.addEventListener("click", function (e) {
         const authTrigger = e.target.closest("[data-auth-link]");
 
-        if (authTrigger && isGuest) {
+        if (authTrigger && (isGuest || authTrigger.hasAttribute("data-role-locked"))) {
+            const href = authTrigger.getAttribute("href") || "";
+            const isNavigatingAway = authTrigger.hasAttribute("data-role-locked") && href.includes("locked=");
+
+            // If user is on a different page, allow normal link navigation back to the landing page with ?locked=
+            if (isNavigatingAway) {
+                return;
+            }
+
             e.preventDefault();
             e.stopPropagation();
+
+            if (href === "#beranda") {
+                const berandaEl = document.getElementById("beranda");
+                if (berandaEl) {
+                    berandaEl.scrollIntoView({ behavior: "smooth" });
+                }
+            }
+
             const label =
                 authTrigger.getAttribute("data-auth-label") || "halaman ini";
             openAuthModal(label);
+            return;
+        }
+
+        if (e.target.closest("#auth-modal-cancel") || e.target.closest("#auth-modal-close")) {
+            e.preventDefault();
+            closeAuthModal();
+            return;
+        }
+
+        if (e.target === authModalOverlay) {
+            closeAuthModal();
         }
     });
 
-    authModalCancel.addEventListener("click", closeAuthModal);
-    authModalClose.addEventListener("click", closeAuthModal);
-    authModalOverlay.addEventListener("click", function (e) {
-        if (e.target === authModalOverlay) closeAuthModal();
-    });
     document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && authModalOverlay.classList.contains("active"))
+        if (e.key === "Escape" && authModalOverlay && authModalOverlay.classList.contains("active")) {
             closeAuthModal();
+        }
     });
 });

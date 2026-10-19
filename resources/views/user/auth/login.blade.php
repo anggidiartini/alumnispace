@@ -99,6 +99,10 @@
           <span id="btnLabel">Masuk</span>
         </button>
 
+        <div style="margin-top:20px; text-align:center; font-size:14px; color:#475569;">
+          Belum punya akun? <a href="{{ route('register') }}" style="color: #2e6fb0; font-weight: 600; text-decoration: none;">Daftar sekarang</a>
+        </div>
+
 
 
       </form>

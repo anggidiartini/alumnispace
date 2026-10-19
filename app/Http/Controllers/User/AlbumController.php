@@ -10,6 +10,10 @@ class AlbumController extends Controller
 {
     public function index(Request $request)
     {
+        if (auth()->check() && auth()->user()->role === 'user') {
+            return redirect()->route('home', ['locked' => 'album'])->with('locked_feature', 'Album Kenangan');
+        }
+
         $query = Album::where('status', 1)->with('photos');
 
         if ($request->filled('category') && $request->category !== 'all') {
@@ -24,6 +28,10 @@ class AlbumController extends Controller
 
     public function show($slug)
     {
+        if (auth()->check() && auth()->user()->role === 'user') {
+            return redirect()->route('home', ['locked' => 'album'])->with('locked_feature', 'Album Kenangan');
+        }
+
         $album = Album::where('status', 1)->with('photos')->where('slug', $slug)->firstOrFail();
         return view('user.album.detail', compact('album'));
     }

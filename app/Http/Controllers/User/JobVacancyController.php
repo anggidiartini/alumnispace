@@ -12,6 +12,10 @@ class JobVacancyController extends Controller
 {
     public function index(Request $request)
     {
+        if (auth()->check() && auth()->user()->role === 'user') {
+            return redirect()->route('home', ['locked' => 'lowongan'])->with('locked_feature', 'Lowongan Kerja');
+        }
+
         $query = JobVacancy::where('is_active', true);
 
         if ($request->filled('type') && $request->type !== 'all') {
@@ -40,6 +44,10 @@ class JobVacancyController extends Controller
      */
     public function show($slug)
     {
+        if (auth()->check() && auth()->user()->role === 'user') {
+            return redirect()->route('home', ['locked' => 'lowongan'])->with('locked_feature', 'Lowongan Kerja');
+        }
+
         $job = JobVacancy::where('is_active', true)
             ->with('company')
             ->where('slug', $slug)

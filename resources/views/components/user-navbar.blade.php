@@ -13,16 +13,26 @@
   <span>Beranda</span>
 </a>
 
+      @php
+        $isAlumniLocked = !Auth::check() || Auth::user()->role === 'user';
+        $isAlbumLocked = !Auth::check() || Auth::user()->role === 'user';
+        $isLowonganLocked = !Auth::check() || Auth::user()->role === 'user';
+        $isUserRole = Auth::check() && Auth::user()->role === 'user';
+        $alumniHref = $isUserRole ? (Request::routeIs('home') ? '#beranda' : route('home', ['locked' => 'alumni'])) : route('alumni.index');
+        $albumHref = $isUserRole ? (Request::routeIs('home') ? '#beranda' : route('home', ['locked' => 'album'])) : route('album.index');
+        $lowonganHref = $isUserRole ? (Request::routeIs('home') ? '#beranda' : route('home', ['locked' => 'lowongan'])) : route('lowongan.index');
+      @endphp
+
       <!-- Alumni (menuju index alumni) -->
-      <a href="{{ route('alumni.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Direktori Alumni" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ $alumniHref }}" class="nav-link-btn flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" @if($isAlumniLocked) data-auth-link data-auth-label="Direktori Alumni" @if($isUserRole) data-role-locked="true" @endif @endif style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Alumni</span>
-        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+        @if($isAlumniLocked)<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endif
       </a>
 
       <!-- Lowongan (menuju index lowongan) -->
-      <a href="{{ route('lowongan.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Lowongan Kerja" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ $lowonganHref }}" class="nav-link-btn flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" @if($isLowonganLocked) data-auth-link data-auth-label="Lowongan Kerja" @if($isUserRole) data-role-locked="true" @endif @endif style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Lowongan</span>
-        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+        @if($isLowonganLocked)<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endif
       </a>
 
       <!-- Event (menuju index event) -->
@@ -32,9 +42,9 @@
       </a>
 
       <!-- Album (menuju index album) -->
-      <a href="{{ route('album.index') }}" class="nav-link-btn flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" @guest data-auth-link data-auth-label="Album Foto" @endguest style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
+      <a href="{{ $albumHref }}" class="nav-link-btn flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" @if($isAlbumLocked) data-auth-link data-auth-label="Album Kenangan" @if($isUserRole) data-role-locked="true" @endif @endif style="text-decoration: none; font-weight: 600; color: #153563; display: inline-flex; align-items: center; gap: 4px;">
         <span>Album</span>
-        @guest<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endguest
+        @if($isAlbumLocked)<i data-lucide="lock" class="icon-lock" style="width: 14px; height: 14px;"></i>@endif
       </a>
 
       <!-- Artikel (menuju index artikel) -->
@@ -83,10 +93,13 @@
               <div class="profile-dropdown-text">
                 <p class="profile-dropdown-name">{{ Auth::user()->name }}</p>
                 <p class="profile-dropdown-email">{{ Auth::user()->email }}</p>
+                <span style="display:inline-block; margin-top:3px; font-size:11px; font-weight:700; text-transform:uppercase; color:#0a4174; background:#e0f2fe; padding:2px 8px; border-radius:4px;">
+                  {{ Auth::user()->role === 'alumni' ? 'Alumni' : (Auth::user()->role === 'user' ? 'Pengguna' : (Auth::user()->role === 'super_admin' ? 'Super Admin' : 'Admin')) }}
+                </span>
               </div>
             </div>
 
-            @if(Auth::user()->profile && (Auth::user()->profile->graduation_year || Auth::user()->profile->profession))
+            @if(Auth::user()->role !== 'user' && Auth::user()->profile && (Auth::user()->profile->graduation_year || Auth::user()->profile->profession))
               <div class="profile-dropdown-chips">
                 @if(Auth::user()->profile->graduation_year)
                   <span class="profile-modal-chip">Angkatan {{ Auth::user()->profile->graduation_year }}</span>
@@ -103,9 +116,11 @@
               </a>
             @endif
 
+            @if(Auth::user()->role !== 'user')
             <a href="{{ route('profile.settings') }}" class="profile-dropdown-settings-btn">
               <i data-lucide="settings" class="icon-sm"></i> Setting Profile
             </a>
+            @endif
 
             <form action="{{ route('logout') }}" method="POST" class="profile-dropdown-logout-form">
               @csrf
@@ -129,20 +144,20 @@
     <div class="mobile-nav-content">
       <a class="mobile-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ Request::routeIs('home') ? '#beranda' : route('home') . '#beranda' }}" data-target="#beranda">Beranda</a>
 
-      <a class="mobile-link flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" href="{{ route('alumni.index') }}">
-        <span>Alumni</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+      <a class="mobile-link flex-between {{ Request::routeIs('alumni.*') ? 'active' : '' }}" href="{{ $alumniHref }}" @if($isAlumniLocked) data-auth-link data-auth-label="Direktori Alumni" @if($isUserRole) data-role-locked="true" @endif @endif>
+        <span>Alumni</span> @if($isAlumniLocked)<i data-lucide="lock" class="icon-sm text-blue"></i>@endif
       </a>
 
-      <a class="mobile-link flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" href="{{ route('lowongan.index') }}">
-        <span>Lowongan</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+      <a class="mobile-link flex-between {{ Request::routeIs('lowongan.*') ? 'active' : '' }}" href="{{ $lowonganHref }}" @if($isLowonganLocked) data-auth-link data-auth-label="Lowongan Kerja" @if($isUserRole) data-role-locked="true" @endif @endif>
+        <span>Lowongan</span> @if($isLowonganLocked)<i data-lucide="lock" class="icon-sm text-blue"></i>@endif
       </a>
 
-      <a class="mobile-link flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" href="{{ route('event.index') }}">
+      <a class="mobile-link flex-between {{ Request::routeIs('event.*') ? 'active' : '' }}" href="{{ route('event.index') }}" @guest data-auth-link data-auth-label="Agenda Event" @endguest>
         <span>Acara</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
       </a>
 
-      <a class="mobile-link flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" href="{{ route('album.index') }}">
-        <span>Album</span> @guest<i data-lucide="lock" class="icon-sm text-blue"></i>@endguest
+      <a class="mobile-link flex-between {{ Request::routeIs('album.*') ? 'active' : '' }}" href="{{ $albumHref }}" @if($isAlbumLocked) data-auth-link data-auth-label="Album Kenangan" @if($isUserRole) data-role-locked="true" @endif @endif>
+        <span>Album</span> @if($isAlbumLocked)<i data-lucide="lock" class="icon-sm text-blue"></i>@endif
       </a>
 
       <a class="mobile-link {{ Request::routeIs('artikel.*') ? 'active' : '' }}" href="{{ route('artikel.index') }}">Artikel</a>

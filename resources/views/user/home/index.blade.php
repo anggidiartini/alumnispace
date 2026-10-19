@@ -50,12 +50,14 @@
           <div class="relative z-10 reveal">
             @auth
             <p class="mb-1 inline-flex rounded-full badge-dashed-pill px-4 py-2 text-sm font-bold">
-              <span></span> Selamat datang, {{ Auth::user()->name }}! (Alumni Terverifikasi)
+              <span></span> Selamat datang, {{ Auth::user()->name }}! ({{ Auth::user()->role === 'alumni' ? 'Alumni Terverifikasi' : (Auth::user()->role === 'user' ? 'Pengguna' : 'Administrator') }})
             </p>
             <h1 class="max-w-xl text-5xl font-bold leading-[.98] tracking-tight text-[#153563] md:text-7xl">{{ $contents['hero_banner']->title ?? 'Ruang temu kita semua.' }}</h1>
             <p class="mt-6 max-w-lg text-lg leading-relaxed text-[#355277]">{{ $contents['hero_banner']->subtitle ?? 'Seluruh fitur direktori, album kenangan, bursa lowongan, dan agenda gathering kini terbuka untukmu!' }}</p>
             <div class="mt-8 flex flex-wrap gap-3">
-              <a class="js-nav-link custom-pill-btn px-6 py-3.5 text-base" href="#alumni" data-target="#alumni">Buka Direktori Alumni</a>
+              @if(in_array(Auth::user()->role, ['alumni', 'admin', 'super_admin']))
+              <a class="js-nav-link custom-pill-btn px-6 py-3.5 text-base" href="{{ route('alumni.index') }}">Buka Direktori Alumni</a>
+              @endif
               <a class="js-nav-link custom-white-pill-btn px-6 py-3.5 text-base" href="#lowongan" data-target="#lowongan">Lihat Lowongan</a>
             </div>
             @else
@@ -205,7 +207,7 @@
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 reveal-onscroll">
     <div>
       <!-- Pengurus -->
-{{-- <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
+      <p class="mb-1 badge-dashed-pill px-4 py-2 text-sm font-bold">Struktur Organisasi</p>
       <h2 class="text-3xl font-bold text-[#153563] md:text-4xl">Pengurus & Dewan Pembina</h2>
     </div>
 
@@ -272,7 +274,7 @@
           Data pengurus belum tersedia.
         </div>
       @endforelse
-    </div> --}}
+    </div>
 
     <button type="button" id="pengurus-next" class="pengurus-arrow pengurus-arrow--next focus-ring" aria-label="Geser ke kanan">
       <i data-lucide="chevron-right" class="h-5 w-5"></i>
@@ -780,25 +782,6 @@
 </div>
 
 
-<!-- Modal notifikasi "harus login" -->
-<div id="auth-modal-overlay" class="auth-modal-overlay">
-  <div class="auth-modal-card">
-    <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup">
-      <i data-lucide="x" class="h-5 w-5"></i>
-    </button>
-    <span class="auth-modal-icon">
-      <i data-lucide="lock" class="h-7 w-7"></i>
-    </span>
-    <h3 class="auth-modal-title">Yah, masih terkunci</h3>
-    <p class="auth-modal-text">
-      Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.
-    </p>
-    <div class="auth-modal-actions">
-      <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
-      <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
-    </div>
-  </div>
-</div>
  <script src="{{ asset('js/script.js') }}"></script>
 
 </body>

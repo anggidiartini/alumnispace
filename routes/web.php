@@ -20,6 +20,10 @@ Route::get('/opening', function () {
 })->name('opening');
 
 use App\Http\Controllers\User\PasswordResetController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -28,23 +32,47 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout']); // Tambahan untuk memudahkan paksa logout dari URL
 
+// Registration (QA-014)
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredUserController::class, 'store']);
+});
+
+// Email Verification (QA-014)
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-email', EmailVerificationPromptController::class)->name('verification.notice');
+    Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
+    Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('throttle:6,1')->name('verification.send');
+    Route::get('/dashboard', function () {
+        if (Auth::check() && in_array(Auth::user()->role, ['admin', 'super_admin'])) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('home');
+    })->name('dashboard');
+});
+
 // Password Reset
 Route::get('/forgot-password', [PasswordResetController::class, 'request'])->name('password.request');
 Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
 
-// User Protected Group
+// User Protected Group (Fitur publik yang dapat diakses oleh user biasa maupun alumni)
 Route::middleware(['auth', 'role:alumni,user,admin,super_admin'])->group(function () {
-    // Job Vacancies Apply
-
     // Job Vacancies Apply
     Route::post('/lowongan/{id}/apply', [JobVacancyController::class, 'apply'])->name('lowongan.apply');
 
     // Events Register
     Route::match(['get', 'post'], '/event/{id}/register', [EventController::class, 'register'])->name('event.register');
+});
 
+// Alumni & Member Protected Group (Khusus Alumni dan Admin untuk mencegah kebocoran data anggota)
+Route::middleware(['auth', 'role:alumni,admin,super_admin'])->group(function () {
     // Profile Saya (Setting Profile Alumni)
     Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.settings');
     Route::put('/profile/settings', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Alumni Directory
+    Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
+    Route::get('/alumni/{slug}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
 });
 
 // Job Vacancies (Bursa Loker)
@@ -59,10 +87,6 @@ Route::get('/event/{slug}', [EventController::class, 'show'])->name('event.show'
 // Photo Albums & Memories
 Route::get('/album', [AlbumController::class, 'index'])->name('album.index');
 Route::get('/album/{slug}', [AlbumController::class, 'show'])->name('album.show');
-
-// Alumni Directory
-Route::get('/alumni', [AlumniDirectoryController::class, 'index'])->name('alumni.index');
-Route::get('/alumni/{slug}', [AlumniDirectoryController::class, 'show'])->name('alumni.show');
 
 //Articles
 Route::get('/artikel', [ArticleController::class, 'index'])->name('artikel.index');

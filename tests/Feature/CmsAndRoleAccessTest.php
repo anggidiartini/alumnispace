@@ -77,7 +77,7 @@ class CmsAndRoleAccessTest extends TestCase
     {
         $response = $this->actingAs($this->adminUser)->get('/admin/content');
         $response->assertStatus(200);
-        $response->assertSee('AlumniSpace CMS');
+        $response->assertSee('Konten Teks Halaman (CMS)');
         $response->assertSee('Judul Awal Komunitas');
     }
 

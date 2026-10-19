@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +27,18 @@ class User extends Authenticatable
         'password',
         'role',
         'is_active',
+        'status',
     ];
+
+    public function getStatusAttribute(): string
+    {
+        return $this->is_active ? 'active' : 'inactive';
+    }
+
+    public function setStatusAttribute($value): void
+    {
+        $this->attributes['is_active'] = in_array($value, [1, '1', true, 'active'], true);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

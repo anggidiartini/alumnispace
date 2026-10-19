@@ -69,19 +69,6 @@
     <div id="lightbox-counter" class="lightbox-counter"></div>
   </div>
 
-  <!-- Modal notifikasi "harus login" -->
-  <div id="auth-modal-overlay" class="auth-modal-overlay">
-    <div class="auth-modal-card">
-      <button id="auth-modal-close" type="button" class="auth-modal-close" aria-label="Tutup"><i data-lucide="x" class="h-5 w-5"></i></button>
-      <span class="auth-modal-icon"><i data-lucide="lock" class="h-7 w-7"></i></span>
-      <h3 class="auth-modal-title">Yah, masih terkunci</h3>
-      <p class="auth-modal-text">Kamu harus masuk dulu buat akses <strong id="auth-modal-label">fitur ini</strong>.</p>
-      <div class="auth-modal-actions">
-        <button id="auth-modal-cancel" type="button" class="auth-modal-btn-secondary">Nanti dulu</button>
-        <a id="auth-modal-confirm" href="{{ route('login') }}" class="auth-modal-btn-primary">Login sekarang</a>
-      </div>
-    </div>
-  </div>
 
   <script src="{{ asset('js/script.js') }}"></script>
   @stack('scripts')

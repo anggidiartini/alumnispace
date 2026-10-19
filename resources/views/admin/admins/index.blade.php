@@ -153,22 +153,30 @@
                     <td>{{ $admin->phone ?? '-' }}</td>
                     <td><span class="role-badge">{{ str_replace('_', ' ', $admin->role) }}</span></td>
                     <td>
-                        <select class="status-dropdown" data-id="{{ $admin->id }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $admin->is_active ? '#ecfdf5' : '#fef2f2' }}; color: {{ $admin->is_active ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
-                            <option value="1" {{ $admin->is_active ? 'selected' : '' }}>● Aktif</option>
-                            <option value="0" {{ !$admin->is_active ? 'selected' : '' }}>● Tidak Aktif</option>
-                        </select>
+                        @if($admin->role === 'super_admin' && Auth::user()->role !== 'super_admin')
+                            <span style="padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #f1f5f9; color: #64748b;">Terkunci</span>
+                        @else
+                            <select class="status-dropdown" data-id="{{ $admin->id }}" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #d0e1f0; background: {{ $admin->is_active ? '#ecfdf5' : '#fef2f2' }}; color: {{ $admin->is_active ? '#047857' : '#b91c1c' }}; font-weight: 600; outline: none; cursor: pointer;">
+                                <option value="1" {{ $admin->is_active ? 'selected' : '' }}>● Aktif</option>
+                                <option value="0" {{ !$admin->is_active ? 'selected' : '' }}>● Tidak Aktif</option>
+                            </select>
+                        @endif
                     </td>
                     <td>
-                        <a href="{{ route('admin.admins.edit', $admin->id) }}" class="btn-action btn-edit" title="Edit Admin">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                        <form action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun admin ini? Aksi ini tidak dapat dibatalkan.');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-action btn-delete" title="Hapus Admin">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </form>
+                        @if($admin->role === 'super_admin' && Auth::user()->role !== 'super_admin')
+                            <span style="font-size: 12px; color: #94a3b8; font-style: italic;">Otoritas Terbatas</span>
+                        @else
+                            <a href="{{ route('admin.admins.edit', $admin->id) }}" class="btn-action btn-edit" title="Edit Admin">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <form action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun admin ini? Aksi ini tidak dapat dibatalkan.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-action btn-delete" title="Hapus Admin">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

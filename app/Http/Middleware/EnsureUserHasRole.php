@@ -27,29 +27,26 @@ class EnsureUserHasRole
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
-            if (in_array('admin', $roles) || in_array('super_admin', $roles)) {
-                return redirect()->route('admin.login')->withErrors([
-                    'email' => 'Silakan masuk dengan akun Administrator.',
-                ]);
-            }
-
             return redirect()->route('login')->withErrors([
                 'email' => 'Silakan masuk terlebih dahulu.',
             ]);
         }
 
         if (!$user->is_active) {
+            $isAdminArea = $request->is('admin') || $request->is('admin/*') || in_array($user->role, ['admin', 'super_admin']);
             Auth::logout();
 
             if ($request->expectsJson()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+                    'message' => 'Akun Anda dinonaktifkan. Silakan hubungi administrator untuk informasi lebih lanjut.',
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            return redirect()->route('admin.login')->withErrors([
-                'email' => 'Akun Anda tidak aktif. Silakan hubungi administrator.',
+            $loginRoute = $isAdminArea ? 'admin.login' : 'login';
+
+            return redirect()->route($loginRoute)->withErrors([
+                'email' => 'Akun Anda dinonaktifkan. Silakan hubungi administrator untuk informasi lebih lanjut.',
             ]);
         }
 
@@ -66,8 +63,17 @@ class EnsureUserHasRole
                 ], Response::HTTP_FORBIDDEN);
             }
 
-            if (in_array('admin', $roles) || in_array('super_admin', $roles)) {
+            if ($request->is('admin') || $request->is('admin/*') || (!in_array('alumni', $roles) && !in_array('user', $roles))) {
                 abort(403, 'Akses Ditolak: Halaman ini hanya untuk Administrator.');
+            }
+
+            if (in_array('alumni', $roles) && !in_array('user', $roles)) {
+                if ($user->role === 'user') {
+                    $lockedFeature = $request->is('album*') ? 'Album Kenangan' : 'Direktori Alumni';
+                    $lockedParam = $request->is('album*') ? 'album' : 'alumni';
+                    return redirect()->route('home', ['locked' => $lockedParam])->with('locked_feature', $lockedFeature);
+                }
+                abort(403, 'Akses Ditolak: Halaman ini khusus untuk anggota Alumni.');
             }
 
             abort(403, 'Akses Ditolak: Anda tidak memiliki akses ke halaman ini.');

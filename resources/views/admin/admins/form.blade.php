@@ -178,7 +178,9 @@
                 <label class="form-label">Tingkat Hak Akses <span style="color:red;">*</span></label>
                 <select name="role" class="form-control" required style="padding: 10px 14px; background: #f4f8fb;">
                     <option value="admin" {{ (isset($admin) && $admin->role === 'admin') ? 'selected' : '' }}>Admin Standar (Operasional)</option>
+                    @if(Auth::user()->role === 'super_admin')
                     <option value="super_admin" {{ (isset($admin) && $admin->role === 'super_admin') ? 'selected' : '' }}>Super Admin (Akses Penuh)</option>
+                    @endif
                 </select>
             </div>
             

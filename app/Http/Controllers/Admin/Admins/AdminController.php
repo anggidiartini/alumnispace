@@ -58,6 +58,10 @@ class AdminController extends Controller
             'role' => 'required|in:admin,super_admin',
         ]);
 
+        if ($request->role === 'super_admin' && Auth::user()->role !== 'super_admin') {
+            abort(403, 'Akses Ditolak: Akun ber-role admin tidak diizinkan membuat kredensial Super Admin.');
+        }
+
         DB::table('users')->insert([
             'name' => $request->name,
             'email' => $request->email,
@@ -77,6 +81,10 @@ class AdminController extends Controller
         $admin = DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
         if (!$admin) abort(404);
 
+        if ($admin->role === 'super_admin' && Auth::user()->role !== 'super_admin') {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk mengelola akun Super Admin.');
+        }
+
         $this->shareSidebarCounts();
         return view('admin.admins.form', compact('admin'));
     }
@@ -85,6 +93,10 @@ class AdminController extends Controller
     {
         $admin = DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
         if (!$admin) abort(404);
+
+        if (($admin->role === 'super_admin' || $request->role === 'super_admin') && Auth::user()->role !== 'super_admin') {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk menetapkan atau mengubah akun Super Admin.');
+        }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -116,6 +128,10 @@ class AdminController extends Controller
         $admin = DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
         if (!$admin) abort(404);
 
+        if ($admin->role === 'super_admin' && Auth::user()->role !== 'super_admin') {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki wewenang untuk menghapus akun Super Admin.');
+        }
+
         if (Auth::id() == $id) {
             return redirect()->route('admin.admins.index')->with('error', 'Anda tidak bisa menghapus akun Anda sendiri.');
         }
@@ -128,6 +144,10 @@ class AdminController extends Controller
     {
         $admin = DB::table('users')->where('id', $id)->whereIn('role', ['admin', 'super_admin'])->first();
         if (!$admin) return response()->json(['success' => false, 'message' => 'Admin tidak ditemukan'], 404);
+
+        if ($admin->role === 'super_admin' && Auth::user()->role !== 'super_admin') {
+            return response()->json(['success' => false, 'message' => 'Anda tidak memiliki wewenang untuk mengubah status Super Admin.'], 403);
+        }
 
         if (Auth::id() == $id) {
             return response()->json(['success' => false, 'message' => 'Anda tidak bisa menonaktifkan akun Anda sendiri.'], 403);

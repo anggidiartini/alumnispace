@@ -36,13 +36,21 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $credentials['is_active'] = true;
 
         $remember = $request->boolean('remember');
 
-        if (Auth::attempt($credentials, $remember)) {
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+        if ($user && \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
+            if (!$user->is_active) {
+                return back()->withErrors([
+                    'email' => 'Akun Anda dinonaktifkan. Silakan hubungi administrator untuk informasi lebih lanjut.',
+                ])->onlyInput('email');
+            }
+
+            Auth::login($user, $remember);
             $request->session()->regenerate();
-            
+
             // Redirect based on role
             if (in_array(Auth::user()->role, ['admin', 'super_admin'])) {
                 return redirect()->intended(route('admin.dashboard'));
