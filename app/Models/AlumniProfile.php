@@ -72,10 +72,7 @@ class AlumniProfile extends Model
      * Scope query untuk hanya mengambil alumni berstatus aktif (menyembunyikan yang Tidak Aktif / Non-aktif).
      */
     public function scopeActive($query)
-    {
-        return $query->where(function ($q) {
-            $q->where('study_status', '!=', 'Non-aktif')
-              ->orWhereNull('study_status');
-        });
-    }
+{
+    return $query->where('study_status', 'Aktif');
+}
 }

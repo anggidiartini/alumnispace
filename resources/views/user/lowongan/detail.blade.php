@@ -119,12 +119,7 @@
                         </div>
 
                         <div class="job-hero-actions">
-                            <button type="button" id="save-button" class="custom-white-pill-btn"
-                                data-slug="{{ $job->slug }}" aria-pressed="false">
-                                <i data-lucide="bookmark" width="18" height="18"></i>
-                                <span class="save-label">Simpan Lowongan</span>
-                                <span class="saved-label">Tersimpan</span>
-                            </button>
+
 
                             @if ($applyUrl)
                                 <a href="{{ $applyUrl }}" target="_blank" rel="noopener" class="custom-pill-btn">

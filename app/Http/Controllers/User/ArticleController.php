@@ -10,42 +10,57 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::query();
+        // Hanya artikel yang sudah diterbitkan yang boleh tampil.
+        $query = Article::where('is_published', 1);
 
-        // Kolom di tabel bernama 'category', bukan 'kategori'.
-        // Nama parameter query string (?kategori=...) tetap boleh 'kategori',
-        // yang penting kolom yang di-where() harus 'category'.
-        if ($request->has('kategori') && $request->kategori != '') {
+        if ($request->filled('kategori')) {
             $query->where('category', $request->kategori);
         }
 
         $articles = $query->latest()->paginate(9);
-        $categories = Article::whereNotNull('category')->distinct()->pluck('category');
-        $heroArticle = Article::latest()->first();
 
-        return view('user.artikel.index', compact('articles', 'categories', 'heroArticle'));
+        $categories = Article::where('is_published', 1)
+            ->whereNotNull('category')
+            ->distinct()
+            ->pluck('category');
+
+        $heroArticle = Article::where('is_published', 1)
+            ->latest()
+            ->first();
+
+        return view('user.artikel.index', compact(
+            'articles',
+            'categories',
+            'heroArticle'
+        ));
     }
 
     public function show($slug)
     {
-        // Disamakan dengan pola AlbumController@show: pakai $slug manual +
-        // firstOrFail(), bukan route-model-binding, supaya cocok dengan
-        // parameter {slug} yang dipakai di routes/web.php.
-        $article = Article::where('slug', $slug)->firstOrFail();
+        // Artikel draf tidak bisa dibuka melalui URL detail.
+        $article = Article::where('slug', $slug)
+            ->where('is_published', 1)
+            ->firstOrFail();
 
-        // Artikel Terkait: kategori sama, exclude artikel yang lagi dibuka.
-        $relatedArticles = Article::where('category', $article->category)
+        // Artikel terkait hanya yang sudah diterbitkan.
+        $relatedArticles = Article::where('is_published', 1)
+            ->where('category', $article->category)
             ->where('id', '!=', $article->id)
             ->latest()
             ->take(3)
             ->get();
 
-        // Artikel Terbaru: terbaru secara umum, exclude artikel yang lagi dibuka.
-        $latestArticles = Article::where('id', '!=', $article->id)
+        // Artikel terbaru hanya yang sudah diterbitkan.
+        $latestArticles = Article::where('is_published', 1)
+            ->where('id', '!=', $article->id)
             ->latest()
             ->take(3)
             ->get();
 
-        return view('user.artikel.detail', compact('article', 'relatedArticles', 'latestArticles'));
+        return view('user.artikel.detail', compact(
+            'article',
+            'relatedArticles',
+            'latestArticles'
+        ));
     }
 }
