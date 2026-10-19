@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         submitBtn.disabled = true;
-        submitBtn.classList.add("is-loading");
+        // submitBtn.classList.add("is-loading");
 
         fetch(config.registerUrl, {
             method: "POST",
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(function (result) {
                 submitBtn.disabled = false;
-                submitBtn.classList.remove("is-loading");
+                // submitBtn.classList.remove("is-loading");
 
                 if (result.ok) {
                     syncAlpineState(true);

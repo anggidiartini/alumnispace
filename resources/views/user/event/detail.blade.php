@@ -353,36 +353,32 @@
                     <p class="er-sub">Isi data di bawah ini untuk mengamankan kursimu. Link konfirmasi ke panitia akan
                         dikirim lewat email.</p>
 
-                    <form id="erForm" class="er-form" novalidate @submit="isSubmitted = true">
-                        <div class="er-field">
-                            <label for="erName">Nama Lengkap</label>
-                            <input type="text" id="erName" name="name"
-                                value="{{ Auth::user()->name ?? '' }}" readonly required autocomplete="name">
-                            <span class="er-error" data-error-for="name"></span>
-                        </div>
-                        <div class="er-field">
-                            <label for="erEmail">Email</label>
-                            <input type="email" id="erEmail" name="email"
-                                value="{{ Auth::user()->email ?? '' }}" readonly required autocomplete="email">
-                            <span class="er-error" data-error-for="email"></span>
-                        </div>
-                        <div class="er-field">
-                            <label for="erPhone">No. WhatsApp</label>
-                            <input type="tel" id="erPhone" name="phone"
-                                value="{{ Auth::user()->phone ?? '' }}" required placeholder="08xxxxxxxxxx"
-                                autocomplete="tel">
-                            <span class="er-error" data-error-for="phone"></span>
-                        </div>
+<form id="erForm" class="er-form">
+    <div class="er-field">
+        <label for="erName">Nama Lengkap</label>
+        <input type="text" id="erName" name="name" value="{{ Auth::user()->name ?? '' }}" readonly required autocomplete="name">
+        <span class="er-error" data-error-for="name"></span>
+    </div>
+    <div class="er-field">
+        <label for="erEmail">Email</label>
+        <input type="email" id="erEmail" name="email" value="{{ Auth::user()->email ?? '' }}" readonly required autocomplete="email">
+        <span class="er-error" data-error-for="email"></span>
+    </div>
+    <div class="er-field">
+        <label for="erPhone">No. WhatsApp <span style="color: red;">*</span></label>
+        <!-- Tetap gunakan required -->
+        <input type="tel" id="erPhone" name="phone" value="{{ Auth::user()->phone ?? '' }}" required placeholder ="08xxxxxxxxxx" autocomplete="tel">
+        <span class="er-error" data-error-for="phone"></span>
+    </div>
 
-                        <p class="er-form-error" id="erFormError" hidden></p>
+    <p class="er-form-error" id="erFormError" hidden></p>
 
-                        <button type="submit" class="primary-button er-submit" id="erSubmitBtn" @click="isSubmitted = true">
-                            <span class="er-submit-label">Daftar Sekarang</span>
-                            <span class="er-spinner" aria-hidden="true"></span>
-                        </button>
-                    </form>
+    <button type="submit" class="primary-button er-submit" id="erSubmitBtn">
+        <span class="er-submit-label">Daftar Sekarang</span>
+        <span class="er-spinner" aria-hidden="true"></span>
+    </button>
+</form>
                 </div>
-
 
                 <div class="er-step" id="erStepSuccess" x-show="isSubmitted" x-cloak>
                     <div class="er-success-icon" aria-hidden="true"><i data-lucide="mail-check" width="34"

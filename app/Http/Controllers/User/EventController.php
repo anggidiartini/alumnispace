@@ -8,7 +8,6 @@ use App\Models\Event;
 use App\Models\EventRegistration;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
 use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
@@ -61,6 +60,21 @@ class EventController extends Controller
     {
         if (!Auth::check()) {
             return response()->json(['success' => false, 'message' => 'Kamu harus login terlebih dahulu.'], 401);
+        }
+
+        // =========================================================================
+        // PENGAMAN 1: Validasi agar user tidak bisa mendaftar ganda (Anti-Bug)
+        // =========================================================================
+        $sudahDaftar = EventRegistration::where('user_id', Auth::id())
+            ->where('event_id', $id)
+            ->where('status', '!=', 'cancelled')
+            ->exists();
+
+        if ($sudahDaftar) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Anda sudah terdaftar dalam event ini. Tidak dapat mendaftar ulang dengan akun yang sama.'
+            ], 422);
         }
 
         $validated = $request->validate([
@@ -123,24 +137,33 @@ class EventController extends Controller
 
         $event = Event::findOrFail($id);
 
+        // =========================================================================
+        // PENGAMAN 2: Penentuan Nomor WhatsApp Admin Dinamis & Fallback Aman
+        // =========================================================================
         $adminPusat = \App\Models\User::whereIn('role', ['admin', 'super_admin'])->first();
-        $nomorWaPanitia = '6281234567890'; 
+        $nomorWaPanitia = '6281234567890'; // Nomor cadangan default jika di DB kosong
 
         if ($adminPusat && !empty($adminPusat->phone)) {
             $nomorBersih = preg_replace('/[^0-9]/', '', $adminPusat->phone);
             
-            if (str_starts_with($nomorBersih, '0')) {
-                $nomorBersih = '62' . substr($nomorBersih, 1);
+            // Tambahan cek: Pastikan string nomor bersih tidak kosong setelah di-regex
+            if (!empty($nomorBersih)) {
+                if (str_starts_with($nomorBersih, '0')) {
+                    $nomorBersih = '62' . substr($nomorBersih, 1);
+                }
+                $nomorWaPanitia = $nomorBersih;
             }
-            
-            $nomorWaPanitia = $nomorBersih;
         }
 
+        // =========================================================================
+        // PENGAMAN 3: Cegah Loading Lama Akibat Timeout Sinkronisasi Mail SMTP
+        // =========================================================================
         try {
             if ($user && !empty($user->email)) {
                 \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\EventRegisteredNotification($registration));
             }
         } catch (\Throwable $e) {
+            // Jika mail server macet/salah env, sistem akan mencatat log tanpa menghentikan web (anti-freeze)
             \Illuminate\Support\Facades\Log::error("Gagal kirim email event: " . $e->getMessage());
         }
 
@@ -152,7 +175,7 @@ class EventController extends Controller
                    . "• Kode Tiket: " . $registration->ticket_code . "\n\n"
                    . "Mohon kesediaannya untuk memverifikasi data saya dan *memasukkan saya ke grup WhatsApp resmi event* ini. Terima kasih!";
                    
-        $whatsappUrl = "https://wa.me/" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
+        $whatsappUrl = "https://wa.me" . $nomorWaPanitia . "?text=" . urlencode($pesanTeks);
 
         $refreshed = $event->fresh();
 
@@ -168,6 +191,4 @@ class EventController extends Controller
             'whatsapp_url' => $whatsappUrl
         ]);
     }
-
 }
-
