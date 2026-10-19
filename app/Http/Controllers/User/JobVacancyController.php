@@ -48,9 +48,19 @@ class JobVacancyController extends Controller
 
         $relatedJobs = JobVacancy::where('is_active', true)
             ->where('id', '!=', $job->id)
-            ->where(function ($q) use ($job) {
-                $q->where('category', $job->category)
-                ->orWhere('job_type', $job->job_type);
+            ->when(!empty($job->category) || !empty($job->job_type), function ($query) use ($job) {
+                $query->where(function ($q) use ($job) {
+                    if (!empty($job->category)) {
+                        $q->where('category', $job->category);
+                    }
+                    if (!empty($job->job_type)) {
+                        if (!empty($job->category)) {
+                            $q->orWhere('job_type', $job->job_type);
+                        } else {
+                            $q->where('job_type', $job->job_type);
+                        }
+                    }
+                });
             })
             ->take(3)
             ->get();
