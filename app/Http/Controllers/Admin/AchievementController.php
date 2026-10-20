@@ -11,25 +11,52 @@ class AchievementController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'alumni_profile_id' => 'required|exists:alumni_profiles,id',
             'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'type' => 'required|string|max:255',
             'status' => 'required|boolean',
         ]);
 
-        $profile = AlumniProfile::findOrFail($request->alumni_profile_id);
+        $profile = AlumniProfile::findOrFail(
+            $validated['alumni_profile_id']
+        );
 
         AlumniAchievement::create([
             'user_id' => $profile->user_id,
-            'name' => $request->name,
-            'date' => $request->date,
-            'type' => $request->type,
-            'status' => $request->status,
+            'name' => $validated['name'],
+            'status' => $validated['status'],
+
+            // Kolom lama tetap dipertahankan.
+            // Sesuaikan nilainya jika kolom database wajib diisi.
+            'date' => now()->toDateString(),
+            'type' => '',
+            'place' => '',
         ]);
 
-        return back()->with('status', 'Penghargaan berhasil ditambahkan.');
+        return back()->with(
+            'status',
+            'Prestasi berhasil ditambahkan.'
+        );
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|boolean',
+        ]);
+
+        $achievement = AlumniAchievement::findOrFail($id);
+
+        $achievement->update([
+            'name' => $validated['name'],
+            'status' => $validated['status'],
+        ]);
+
+        return back()->with(
+            'status',
+            'Prestasi berhasil diperbarui.'
+        );
     }
 
     public function destroy($id)
@@ -37,6 +64,9 @@ class AchievementController extends Controller
         $achievement = AlumniAchievement::findOrFail($id);
         $achievement->delete();
 
-        return back()->with('status', 'Penghargaan berhasil dihapus.');
+        return back()->with(
+            'status',
+            'Prestasi berhasil dihapus.'
+        );
     }
 }

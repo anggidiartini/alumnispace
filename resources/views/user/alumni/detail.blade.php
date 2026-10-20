@@ -101,7 +101,9 @@
           'portfolio_url' => ['icon' => 'globe', 'label' => 'Portofolio'],
         ];
         $activeSocials = collect($socials)->filter(fn ($meta, $field) => !empty($profile->{$field}));
-        $hasDetailBoxes = $profile->current_university || $profile->achievements || $profile->organization_role;
+        $hasDetailBoxes = !empty($profile->current_university)
+    || (isset($achievements) && $achievements->isNotEmpty())
+    || !empty(trim($profile->organization_role ?? ''));
       @endphp
 
       {{-- Riwayat Pendidikan / Prestasi / Organisasi (kiri) + Sosmed & Kontak (kanan) --}}
@@ -121,33 +123,38 @@
           </div>
           @endif
 
-          @if($profile->achievements)
-          <div class="ad-detail-card animate-target">
-            <h3 class="ad-detail-title">
-              <i data-lucide="award" width="18"></i> Prestasi
-            </h3>
-            <ul class="ad-detail-list">
-              @foreach(preg_split('/\r\n|\r|\n/', trim($profile->achievements)) as $line)
-                @continue(trim($line) === '')
-                <li>{{ trim($line) }}</li>
-              @endforeach
-            </ul>
-          </div>
-          @endif
+         @if(isset($achievements) && $achievements->isNotEmpty())
+    <div class="ad-detail-card animate-target">
+        <h3 class="ad-detail-title">
+            <i data-lucide="award" width="18"></i> Prestasi
+        </h3>
 
-          @if($profile->organization_role)
-          <div class="ad-detail-card animate-target">
-            <h3 class="ad-detail-title">
-              <i data-lucide="users" width="18"></i> Riwayat Organisasi
-            </h3>
-            <ul class="ad-detail-list">
-              @foreach(preg_split('/\r\n|\r|\n/', trim($profile->organization_role)) as $line)
-                @continue(trim($line) === '')
-                <li>{{ trim($line) }}</li>
-              @endforeach
-            </ul>
-          </div>
-          @endif
+        <ul class="ad-detail-list">
+            @foreach($achievements as $achievement)
+                <li>{{ $achievement->name }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+@if(trim($profile->organization_role ?? '') !== '')
+    <div class="ad-detail-card animate-target">
+        <h3 class="ad-detail-title">
+            <i data-lucide="users" width="18"></i>
+            Riwayat Organisasi
+        </h3>
+
+        <ul class="ad-detail-list">
+            @foreach(preg_split('/\r\n|\r|\n/', trim($profile->organization_role)) as $line)
+                @if(trim($line) !== '')
+                    <li>{{ trim($line) }}</li>
+                @endif
+            @endforeach
+        </ul>
+    </div>
+@endif
+
         </div>
 
         <div class="ad-detail-right">

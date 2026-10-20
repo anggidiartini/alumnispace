@@ -45,7 +45,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin,super_admin'])->name('ad
     Route::delete('/alumnis/{id}', [AlumniController::class, 'destroy'])->name('alumnis.destroy');
 
     Route::post('/achievements', [AchievementController::class, 'store'])->name('achievements.store');
-    Route::delete('/achievements/{id}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
+Route::put('/achievements/{id}', [AchievementController::class, 'update'])->name('achievements.update');
+Route::delete('/achievements/{id}', [AchievementController::class, 'destroy'])->name('achievements.destroy');
 
     Route::get('/job-vacancies', [JobVacancyController::class, 'index'])->name('job-vacancies.index');
     Route::get('/job-vacancies/create', [JobVacancyController::class, 'create'])->name('job-vacancies.create');
