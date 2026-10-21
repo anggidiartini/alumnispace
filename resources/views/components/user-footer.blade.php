@@ -97,13 +97,23 @@
                 </div>
 
                 <div class="as-footer__col">
-    <h5 class="as-footer__col-title">Artikel Terbaru</h5>
-    <ul class="as-footer__links">
-        <li><a href="{{ route('artikel.show', 'peresmian-gedung-baru-lab-komputer') }}">Peresmian Gedung Baru Lab Komputer Hasil Donasi Alumni</a></li>
-        <li><a href="{{ route('artikel.show', 'tips-lolos-interview-kerja-unicorn') }}">Tips Lolos Interview Kerja di Perusahaan Unicorn ala Kakak Alumni</a></li>
-        <li><a href="{{ route('artikel.show', 'persiapan-grand-reunion-2027') }}">Persiapan Grand Reunion 2027: Bakal Ada Artis Tamu Spesial!</a></li>
-    </ul>
-</div>
+                    <h5 class="as-footer__col-title">Artikel Terbaru</h5>
+                    @php
+                        // Ambil 3 artikel terbit terbaru langsung dari database,
+                        // jadi judul/slug otomatis ikut berubah saat diedit di admin.
+                        $footerArticles = \App\Models\Article::where('is_published', true)
+                            ->latest('published_at')
+                            ->take(3)
+                            ->get(['title', 'slug']);
+                    @endphp
+                    <ul class="as-footer__links">
+                        @forelse($footerArticles as $footerArticle)
+                            <li><a href="{{ route('artikel.show', $footerArticle->slug) }}">{{ $footerArticle->title }}</a></li>
+                        @empty
+                            <li><a href="{{ route('artikel.index') }}">Lihat semua artikel</a></li>
+                        @endforelse
+                    </ul>
+                </div>
 
             </div>
         </div>
