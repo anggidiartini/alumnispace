@@ -229,9 +229,7 @@
             $fotoPengurus = $item->foto ?? $item->photo ?? $item->image ?? null;
             $namaPengurus = $item->nama ?? $item->name ?? 'Pengurus';
             $jabatanPengurus = $item->jabatan ?? $item->position ?? 'Anggota';
-            $srcFoto = $fotoPengurus
-                ? (Str::startsWith($fotoPengurus, ['http://', 'https://']) ? $fotoPengurus : asset('storage/' . $fotoPengurus))
-                : asset('assets/images/default-avatar.webp');
+            $srcFoto = $item->foto_url ?: asset('assets/images/default-avatar.webp');
 
             // Ambil ID alumni_profile asli lewat id pengurus (alumni_committees.id)
             $alumniProfileId = \Illuminate\Support\Facades\DB::table('alumni_committees')
@@ -394,10 +392,7 @@
       <div class="flex items-start justify-between">
         <a href="{{ route('alumni.show', $alum->slug ?? $alum->id) }}" class="focus-ring">
           @php
-            $alumHasAvatar = !empty($alum->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($alum->avatar);
-            $alumAvatarSrc = $alumHasAvatar
-                ? asset('storage/'.$alum->avatar)
-                : asset('assets/images/default-avatar.webp');
+            $alumAvatarSrc = $alum->avatar_url ?? asset('assets/images/default-avatar.webp');
           @endphp
           <img src="{{ $alumAvatarSrc }}" alt="{{ $alum->user?->name }}" class="h-14 w-14 rounded-2xl object-cover border border-blue-100" onerror="this.src='{{ asset('assets/images/default-avatar.webp') }}'">
         </a>

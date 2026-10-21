@@ -190,7 +190,13 @@
         <option value="" disabled {{ old('category', $album->category ?? '') ? '' : 'selected' }}>
             -- Pilih Kategori --
         </option>
-        
+
+        @php $currentCategory = old('category', $album->category ?? ''); @endphp
+        {{-- Album lama yang kategorinya belum/tidak ada di Kelola Kategori tetap bisa disimpan --}}
+        @if($currentCategory && !$categories->contains('name', $currentCategory))
+            <option value="{{ $currentCategory }}" selected>{{ $currentCategory }} (kategori lama)</option>
+        @endif
+
         @foreach($categories as $cat)
             <option value="{{ $cat->name }}" @selected(old('category', $album->category ?? '') == $cat->name)>
                 {{ $cat->name }}
@@ -344,9 +350,9 @@
             const file = input.files[0];
             const sizeKb = (file.size / 1024).toFixed(1);
             info.textContent = `${file.name} (${sizeKb} KB)`;
-            
+
             const reader = new FileReader();
-            reader.onload = function(e) { 
+            reader.onload = function(e) {
                 preview.src = e.target.result;
                 preview.style.objectFit = 'cover';
             }
@@ -382,7 +388,7 @@
         Array.from(files).forEach((file, index) => {
             const item = document.createElement('div');
             item.className = 'preview-photo-item';
-            
+
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
             item.appendChild(img);

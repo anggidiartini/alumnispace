@@ -79,9 +79,6 @@ class AlumniDirectoryController extends Controller
                         . mb_substr($words[1] ?? '', 0, 1)
                     );
 
-                    $hasAvatar = !empty($item->avatar)
-                        && \Illuminate\Support\Facades\Storage::disk('public')
-                            ->exists($item->avatar);
 
                     return [
                         'id' => $item->id,
@@ -94,9 +91,7 @@ class AlumniDirectoryController extends Controller
                         'bio' => $item->bio
                             ? \Illuminate\Support\Str::limit($item->bio, 60)
                             : null,
-                        'avatar_url' => $hasAvatar
-                            ? asset('storage/' . $item->avatar)
-                            : null,
+                        'avatar_url' => $item->avatar_url,
                         'initials' => $initials,
                         'profile_url' => route(
                             'alumni.show',

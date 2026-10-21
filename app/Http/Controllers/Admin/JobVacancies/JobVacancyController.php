@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\JobVacancies;
 
 use App\Http\Controllers\Controller;
+use App\Models\JobCategory;
 use App\Models\JobVacancy;
 use App\Services\ImageOptimizerService;
 use App\Exports\JobVacanciesExport;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JobVacancyController extends Controller
@@ -56,8 +58,9 @@ class JobVacancyController extends Controller
 
                 'category' => [
                     'label' => 'Kategori Pekerjaan',
-                    'type' => 'text',
-                    'required' => false,
+                    'type' => 'select',
+                    'required' => true,
+                    'options' => [],
                 ],
 
                 'skills_tags' => [
@@ -123,6 +126,18 @@ class JobVacancyController extends Controller
         ];
     }
 
+    /**
+     * Mengambil kategori lowongan yang aktif dari Kelola Kategori.
+     */
+    private function getActiveJobCategories(): array
+    {
+        return JobCategory::query()
+            ->where('status', 1)
+            ->orderBy('name')
+            ->pluck('name', 'name')
+            ->toArray();
+    }
+
     private function shareSidebarCounts()
     {
         $tables = [
@@ -160,7 +175,15 @@ class JobVacancyController extends Controller
             ],
 
             'title' => 'required|string|max:255',
-            'category' => 'nullable|string|max:255',
+
+            'category' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::exists('job_categories', 'name')
+                    ->where('status', 1),
+            ],
+
             'skills_tags' => 'nullable',
             'job_type' => 'required|string|in:Full-Time,Part-Time,Freelance,Remote,Magang,Kontrak',
             'workplace_type' => 'required|string|max:255',
@@ -250,6 +273,9 @@ class JobVacancyController extends Controller
     public function create()
     {
         $mapping = $this->getMapping();
+        $mapping['fields']['category']['options'] =
+            $this->getActiveJobCategories();
+
         $table_key = 'job_vacancies';
 
         $this->shareSidebarCounts();
@@ -335,6 +361,9 @@ class JobVacancyController extends Controller
     public function edit($id)
     {
         $mapping = $this->getMapping();
+        $mapping['fields']['category']['options'] =
+            $this->getActiveJobCategories();
+
         $table_key = 'job_vacancies';
 
         $row = DB::table($mapping['table'])

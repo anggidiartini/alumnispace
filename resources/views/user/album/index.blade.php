@@ -71,9 +71,9 @@
         </div>
         <div class="polaroid three" data-caption="never forget ">
           <img src="{{ asset('assets/images/foto-3.webp') }}" alt="Momen kenangan ketiga">
-          
+
         </div>
-        
+
 
         <div class="magnifier" aria-hidden="true">
           <img src="{{ asset('assets/icons/kacapembesar.webp') }}" alt="">
@@ -140,8 +140,12 @@
 
     <div class="filter-bar">
       <button class="filter-btn active reveal-pop" data-filter="all" style="--pop-delay:.05s">Semua</button>
-      <button class="filter-btn reveal-pop" data-filter="indoor" style="--pop-delay:.15s">Indoor</button>
-      <button class="filter-btn reveal-pop" data-filter="outdoor" style="--pop-delay:.25s">Outdoor</button>
+      @foreach($categories ?? [] as $i => $cat)
+      <button class="filter-btn reveal-pop"
+              data-filter="{{ \Illuminate\Support\Str::slug($cat->name) }}"
+              data-label="{{ $cat->name }}"
+              style="--pop-delay:{{ min(0.15 + ($i * 0.1), 0.6) }}s">{{ $cat->name }}</button>
+      @endforeach
     </div>
     <div class="filter-status reveal-fade" style="--pop-delay:.35s">Menampilkan <strong id="filter-label">semua album</strong></div>
 
@@ -150,10 +154,10 @@
       <a href="{{ route('album.show', $album->slug) }}"
          class="card"
          id="c{{ $album->id }}"
-         data-category="{{ $album->category }}"
+         data-category="{{ \Illuminate\Support\Str::slug($album->category) }}"
          data-title="{{ strtolower($album->title) }}">
         <div class="card-photo">
-          <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
+          <span class="cat-pill {{ strtolower($album->category) === 'outdoor' ? 'outdoor' : '' }}">{{ ucfirst($album->category) }}</span>
           <span class="card-symbol">✳</span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $album->title }}">
         </div>
@@ -264,7 +268,10 @@
   var searchBtn = document.getElementById('album-search-btn');
   var emptyMsg = document.getElementById('album-search-empty');
   var hintMsg = document.getElementById('album-search-hint');
-  var labelText = { all: 'semua album', indoor: 'album Indoor', outdoor: 'album Outdoor' };
+  var labelText = { all: 'semua album' };
+  filterBtns.forEach(function(b){
+    if (b.dataset.filter !== 'all') { labelText[b.dataset.filter] = 'album ' + (b.dataset.label || b.dataset.filter); }
+  });
   var activeFilter = 'all';
   var activeKeyword = '';
   var MIN_CHARS = 4;

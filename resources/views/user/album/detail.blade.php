@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('css/event.css') }}?v={{ file_exists(public_path('css/event.css')) ? filemtime(public_path('css/event.css')) : time() }}">
-    
+
     <link rel="stylesheet" href="{{ asset('css/album.css') }}?v={{ file_exists(public_path('css/album.css')) ? filemtime(public_path('css/album.css')) : time() }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}?v={{ file_exists(public_path('css/navbar.css')) ? filemtime(public_path('css/navbar.css')) : time() }}">
 </head>
@@ -46,7 +46,7 @@
     <div class="detail-grid">
       <div class="detail-photo-col">
         <div class="detail-photo reveal-pop" style="--pop-delay:.1s">
-          <span class="cat-pill {{ $album->category === 'outdoor' ? 'outdoor' : '' }}">
+          <span class="cat-pill {{ strtolower($album->category) === 'outdoor' ? 'outdoor' : '' }}">
             {{ ucfirst($album->category) }}
           </span>
           <img src="{{ asset($album->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $album->title }}">
@@ -128,7 +128,7 @@
       @foreach($relatedAlbums as $i => $related)
         <div class="related-card reveal-pop" style="--pop-delay: {{ $i * 0.15 }}s">
           <div class="related-photo">
-            <span class="cat-pill {{ $related->category === 'outdoor' ? 'outdoor' : '' }}">
+            <span class="cat-pill {{ strtolower($related->category) === 'outdoor' ? 'outdoor' : '' }}">
               {{ ucfirst($related->category) }}
             </span>
             <img src="{{ asset($related->cover_photo ?? 'assets/images/foto-1.webp') }}" alt="{{ $related->title }}">

@@ -164,6 +164,7 @@
                 <h2 style="font-size:20px;font-weight:800;color:#0a4174;margin:0 0 6px;">
                     {{ isset($row) ? 'Ubah Data Lowongan' : 'Tambah Data Lowongan' }}
                 </h2>
+
                 <p style="font-size:12px;color:#527597;margin:0;">
                     Lengkapi informasi lowongan pekerjaan di bawah ini.
                 </p>
@@ -171,7 +172,10 @@
 
             @if($errors->any())
                 <div style="background:#fef2f2;border:1px solid #fecaca;padding:12px;border-radius:8px;margin-bottom:18px;">
-                    <strong style="color:#991b1b;font-size:13px;">Periksa kembali isian berikut:</strong>
+                    <strong style="color:#991b1b;font-size:13px;">
+                        Periksa kembali isian berikut:
+                    </strong>
+
                     <ul style="margin:8px 0 0;padding-left:20px;color:#b91c1c;font-size:12px;">
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -187,64 +191,101 @@
 
                     @if($key === 'alumni_profile_id')
                         <div class="form-group">
-                            <label class="form-label">
-                                Nama Lengkap Alumni <span class="required-star">*</span>
+                            <label class="form-label" for="field-alumni_profile_id">
+                                Nama Lengkap Alumni
+                                <span class="required-star">*</span>
                             </label>
 
-                            <select name="alumni_profile_id" class="form-control" required>
+                            <select
+                                id="field-alumni_profile_id"
+                                name="alumni_profile_id"
+                                class="form-control"
+                                required
+                            >
                                 <option value="">-- Pilih Anggota Alumni --</option>
 
-                                @foreach(DB::table('alumni_profiles')
-                                    ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
-                                    ->select('alumni_profiles.id', 'users.name')
-                                    ->orderBy('users.name')
-                                    ->get() as $alumni)
+                                @foreach(
+                                    DB::table('alumni_profiles')
+                                        ->join('users', 'alumni_profiles.user_id', '=', 'users.id')
+                                        ->select('alumni_profiles.id', 'users.name')
+                                        ->orderBy('users.name')
+                                        ->get()
+                                    as $alumni
+                                )
                                     <option
                                         value="{{ $alumni->id }}"
-                                        {{ old('alumni_profile_id', $row->alumni_profile_id ?? '') == $alumni->id ? 'selected' : '' }}
+                                        {{ (string) old('alumni_profile_id', $row->alumni_profile_id ?? '') === (string) $alumni->id ? 'selected' : '' }}
                                     >
                                         {{ $alumni->name }}
                                     </option>
                                 @endforeach
                             </select>
+
+                            @error('alumni_profile_id')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     @endif
 
                     @if($key === 'position')
                         <div class="form-group">
-                            <label class="form-label">Jabatan Struktural <span class="required-star">*</span></label>
+                            <label class="form-label" for="field-position">
+                                Jabatan Struktural
+                                <span class="required-star">*</span>
+                            </label>
 
-                            <select name="position" class="form-control" required>
+                            <select
+                                id="field-position"
+                                name="position"
+                                class="form-control"
+                                required
+                            >
                                 <option value="">-- Pilih Jabatan --</option>
 
                                 @foreach($field['options'] ?? [] as $value => $label)
                                     <option
                                         value="{{ $value }}"
-                                        {{ old('position', $row->position ?? '') == $value ? 'selected' : '' }}
+                                        {{ (string) old('position', $row->position ?? '') === (string) $value ? 'selected' : '' }}
                                     >
                                         {{ $label }}
                                     </option>
                                 @endforeach
                             </select>
+
+                            @error('position')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     @endif
 
                     @if($key === 'committee_period_id')
                         <div class="form-group">
-                            <label class="form-label">Periode Kepengurusan <span class="required-star">*</span></label>
+                            <label class="form-label" for="field-committee_period_id">
+                                Periode Kepengurusan
+                                <span class="required-star">*</span>
+                            </label>
 
-                            <select name="committee_period_id" class="form-control" required>
+                            <select
+                                id="field-committee_period_id"
+                                name="committee_period_id"
+                                class="form-control"
+                                required
+                            >
                                 <option value="">-- Pilih Periode --</option>
 
                                 @foreach(DB::table('committee_periods')->orderByDesc('id')->get() as $period)
                                     <option
                                         value="{{ $period->id }}"
-                                        {{ old('committee_period_id', $row->committee_period_id ?? '') == $period->id ? 'selected' : '' }}
+                                        {{ (string) old('committee_period_id', $row->committee_period_id ?? '') === (string) $period->id ? 'selected' : '' }}
                                     >
                                         {{ $period->period_name }}
                                     </option>
                                 @endforeach
                             </select>
+
+                            @error('committee_period_id')
+                                <small class="form-error">{{ $message }}</small>
+                            @enderror
                         </div>
                     @endif
 
@@ -265,9 +306,11 @@
                     $isRequired = !empty($field['required']);
                     $isReadonly = !empty($field['readonly']);
 
-                    $currentValue = old($key, isset($row) ? ($row->$key ?? '') : '');
+                    $currentValue = old(
+                        $key,
+                        isset($row) ? ($row->$key ?? '') : ''
+                    );
 
-                    // Ubah JSON skills menjadi teks yang mudah diedit.
                     if ($key === 'skills_tags' && is_string($currentValue)) {
                         $decodedSkills = json_decode($currentValue, true);
 
@@ -302,7 +345,7 @@
                             Masukkan satu skill per baris. Kamu juga bisa memisahkannya dengan koma.
                         </small>
 
-                    {{-- TEXTAREA BIASA --}}
+                    {{-- TEXTAREA --}}
                     @elseif($fieldType === 'textarea')
                         <textarea
                             id="field-{{ $key }}"
@@ -314,25 +357,38 @@
                             {{ $isReadonly ? 'readonly' : '' }}
                         >{{ $currentValue }}</textarea>
 
-                    {{-- DROPDOWN --}}
+                    {{-- DROPDOWN, TERMASUK KATEGORI LOWONGAN --}}
                     @elseif($fieldType === 'select')
                         <select
                             id="field-{{ $key }}"
                             name="{{ $key }}"
                             class="form-control"
                             {{ $isRequired ? 'required' : '' }}
+                            {{ $isReadonly ? 'disabled' : '' }}
                         >
-                            <option value="">-- Pilih {{ $field['label'] ?? $key }} --</option>
+                            <option value="">
+                                -- Pilih {{ $field['label'] ?? $key }} --
+                            </option>
 
-                            @foreach($field['options'] ?? [] as $value => $label)
+                            @forelse($field['options'] ?? [] as $value => $label)
                                 <option
                                     value="{{ $value }}"
                                     {{ (string) $currentValue === (string) $value ? 'selected' : '' }}
                                 >
                                     {{ $label }}
                                 </option>
-                            @endforeach
+                            @empty
+                                <option value="" disabled>
+                                    Belum ada pilihan tersedia
+                                </option>
+                            @endforelse
                         </select>
+
+                        @if($key === 'category')
+                            <small class="field-hint">
+                                Pilihan kategori berasal dari menu Kelola Kategori. Kategori yang nonaktif tidak ditampilkan.
+                            </small>
+                        @endif
 
                     {{-- TAHUN KELULUSAN --}}
                     @elseif($key === 'graduation_year')
@@ -383,10 +439,10 @@
                     ($field['type'] ?? '') === 'toggle' ||
                     in_array($key, ['is_active', 'study_status', 'status'])
                 )
-
                     <div class="form-group">
                         <label class="form-label" for="field-{{ $key }}">
                             {{ $field['label'] ?? ucfirst(str_replace('_', ' ', $key)) }}
+
                             @if(!empty($field['required']))
                                 <span class="required-star">*</span>
                             @endif
@@ -400,6 +456,7 @@
                                 name="{{ $key }}"
                                 class="form-control"
                                 accept="image/*"
+                                {{ !empty($field['required']) && !isset($row) ? 'required' : '' }}
                                 onchange="previewImage(this, 'side-preview-{{ $key }}')"
                             >
 
@@ -410,7 +467,7 @@
                             <div style="margin-top:8px;text-align:center;background:#f8fafc;border:1px dashed #d0e1f0;border-radius:8px;padding:6px;min-height:120px;display:flex;align-items:center;justify-content:center;">
                                 <img
                                     id="side-preview-{{ $key }}"
-                                    src="{{ isset($row) && !empty($row->$key) ? (Str::startsWith($row->$key, ['http://', 'https://']) ? $row->$key : asset($row->$key)) : asset('assets/images/no-image.webp') }}"
+                                    src="{{ isset($row) && !empty($row->$key) ? (\Illuminate\Support\Str::startsWith($row->$key, ['http://', 'https://']) ? $row->$key : asset($row->$key)) : asset('assets/images/no-image.webp') }}"
                                     style="max-width:100%;max-height:140px;border-radius:6px;object-fit:contain;"
                                     alt="Pratinjau gambar"
                                     onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.webp') }}';"
@@ -435,6 +492,10 @@
                                 @endforeach
                             </select>
                         @endif
+
+                        @error($key)
+                            <small class="form-error">{{ $message }}</small>
+                        @enderror
                     </div>
                 @endif
             @endforeach

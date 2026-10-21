@@ -72,7 +72,50 @@ class AlumniProfile extends Model
      * Scope query untuk hanya mengambil alumni berstatus aktif (menyembunyikan yang Tidak Aktif / Non-aktif).
      */
     public function scopeActive($query)
-{
-    return $query->where('study_status', 'Aktif');
-}
+    {
+        return $query->where('study_status', 'Aktif');
+    }
+
+    /**
+     * Ubah path foto di database menjadi URL yang bisa dipakai di <img>.
+     * Dipakai juga oleh HomeController untuk data pengurus (query builder).
+     *
+     * Format dari admin: "uploads/xxx.jpg" (file ada di public/uploads).
+     * Tetap mendukung data lama: "storage/..." atau path storage:link, dan URL penuh.
+     * Mengembalikan null kalau file tidak ditemukan, sehingga view bisa pakai avatar default.
+     */
+    public static function resolveAvatarUrl(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        $path = ltrim(str_replace('\\', '/', $path), '/');
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        // Format dari admin: uploads/xxx.jpg
+        if (file_exists(public_path($path))) {
+            return asset($path);
+        }
+
+        // Cadangan untuk data lama yang disimpan lewat storage:link
+        $clean = preg_replace('#^storage/#', '', $path);
+
+        if (file_exists(public_path('storage/' . $clean))) {
+            return asset('storage/' . $clean);
+        }
+
+        return null;
+    }
+
+    /**
+     * Accessor: $alumni->avatar_url
+     */
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return static::resolveAvatarUrl($this->avatar);
+    }
 }

@@ -100,7 +100,12 @@ class HomeController extends Controller
 
         $pengurus = $pengurusQuery
             ->orderBy('alumni_committees.id')
-            ->get();
+            ->get()
+            ->map(function ($p) {
+                // Resolve foto pengurus (uploads/xxx.jpg) jadi URL yang valid
+                $p->foto_url = AlumniProfile::resolveAvatarUrl($p->foto);
+                return $p;
+            });
 
         $stats = [
             'total_alumni' => AlumniProfile::active()->count() ?: 2540,

@@ -133,10 +133,7 @@
                    data-search="{{ strtolower($item->user->name.' '.$item->profession) }}">
             <div class="card-top-row">
               @php
-                $hasAvatarFile = !empty($item->avatar) && \Illuminate\Support\Facades\Storage::disk('public')->exists($item->avatar);
-                $avatarSrc = $hasAvatarFile
-                    ? asset('storage/'.$item->avatar)
-                    : asset('assets/images/default-avatar.webp');
+                $avatarSrc = $item->avatar_url ?? asset('assets/images/default-avatar.webp');
               @endphp
               <img class="card-avatar" loading="lazy"
                    src="{{ $avatarSrc }}"
@@ -235,42 +232,76 @@
   }
 
   function buildCardHtml(item) {
-    const avatarHtml = item.avatar_url
-      ? `<img class="card-avatar" loading="lazy" src="${escapeHtml(item.avatar_url)}" alt="Foto profil ${escapeHtml(item.name)}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-avatar avatar-initial',textContent:'${escapeHtml(item.initials)}'}))">`
-      : `<div class="card-avatar avatar-initial" aria-label="Foto profil ${escapeHtml(item.name)}">${escapeHtml(item.initials)}</div>`;
+    const defaultAvatar =
+        "{{ asset('assets/images/default-avatar.webp') }}";
+
+    const avatarUrl = item.avatar_url || defaultAvatar;
+
+    const avatarHtml = `
+        <img
+            class="card-avatar"
+            loading="lazy"
+            src="${escapeHtml(avatarUrl)}"
+            alt="Foto profil ${escapeHtml(item.name)}"
+            onerror="this.onerror=null; this.src='${defaultAvatar}'"
+        >
+    `;
 
     const badgeHtml = item.graduation_year
-      ? `<span class="badge">Angkatan ${escapeHtml(item.graduation_year)}</span>`
-      : ``;
+        ? `<span class="badge">Angkatan ${escapeHtml(item.graduation_year)}</span>`
+        : '';
 
     const cityHtml = item.city
-      ? `<p class="meta-row"><i data-lucide="map-pin" width="14"></i> ${escapeHtml(item.city)}</p>`
-      : ``;
+        ? `<p class="meta-row">
+               <i data-lucide="map-pin" width="14"></i>
+               ${escapeHtml(item.city)}
+           </p>`
+        : '';
 
     const quoteHtml = item.bio
-      ? `<p class="card-quote">“${escapeHtml(item.bio)}”</p>`
-      : ``;
+        ? `<p class="card-quote">“${escapeHtml(item.bio)}”</p>`
+        : '';
 
     return `
-      <article class="directory-card reveal-onscroll"
-               data-name="${escapeHtml(item.name)}"
-               data-year="${escapeHtml(item.graduation_year || '')}"
-               data-city="${escapeHtml(item.city || '')}"
-               data-search="${escapeHtml(((item.name || '') + ' ' + (item.profession || '')).toLowerCase())}">
-        <div class="card-top-row">
-          ${avatarHtml}
-          ${badgeHtml}
-        </div>
-        <a class="card-name-link" href="${escapeHtml(item.profile_url)}">${escapeHtml(item.name)}</a>
-        <p class="card-role">${escapeHtml(item.profession || '-')}</p>
-        ${cityHtml}
-        ${quoteHtml}
-        <a class="profile-link" href="${escapeHtml(item.profile_url)}">
-          Lihat Profil <i data-lucide="arrow-right" width="15"></i>
-        </a>
-      </article>
+        <article
+            class="directory-card reveal-onscroll"
+            data-name="${escapeHtml(item.name)}"
+            data-year="${escapeHtml(item.graduation_year || '')}"
+            data-city="${escapeHtml(item.city || '')}"
+            data-search="${escapeHtml(
+                ((item.name || '') + ' ' + (item.profession || '')).toLowerCase()
+            )}"
+        >
+            <div class="card-top-row">
+                ${avatarHtml}
+                ${badgeHtml}
+            </div>
+
+            <a
+                class="card-name-link"
+                href="${escapeHtml(item.profile_url)}"
+            >
+                ${escapeHtml(item.name)}
+            </a>
+
+            <p class="card-role">
+                ${escapeHtml(item.profession || '-')}
+            </p>
+
+            ${cityHtml}
+
+            ${quoteHtml}
+
+            <a
+                class="profile-link"
+                href="${escapeHtml(item.profile_url)}"
+            >
+                Lihat Profil
+                <i data-lucide="arrow-right" width="15"></i>
+            </a>
+        </article>
     `;
-  }
+}
 
   async function performRealtimeSearch(animate = true) {
     if (!hasActiveQuery()) {

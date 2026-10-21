@@ -23,7 +23,7 @@ class AlbumController extends Controller
         $this->shareSidebarCounts();
         $categories = AlbumCategory::where('status', 1)->get();
 
-        return view('admin.albums.index', compact('albums'));
+        return view('admin.albums.index', compact('albums', 'categories'));
     }
 
        public function create()

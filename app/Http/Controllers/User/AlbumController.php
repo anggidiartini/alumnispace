@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
+use App\Models\AlbumCategory;
 
 class AlbumController extends Controller
 {
@@ -23,7 +24,10 @@ class AlbumController extends Controller
         $albums = $query->orderBy('event_date', 'desc')->get();
         $totalAlbums = Album::where('status', 1)->count();
 
-        return view('user.album.index', compact('albums', 'totalAlbums'));
+        // Kategori aktif dari Kelola Kategori (admin) untuk tombol filter
+        $categories = AlbumCategory::where('status', 1)->orderBy('name')->get();
+
+        return view('user.album.index', compact('albums', 'totalAlbums', 'categories'));
     }
 
     public function show($slug)
@@ -33,6 +37,15 @@ class AlbumController extends Controller
         }
 
         $album = Album::where('status', 1)->with('photos')->where('slug', $slug)->firstOrFail();
-        return view('user.album.detail', compact('album'));
+
+        // Album lainnya: yang sekategori didahulukan, sisanya diisi album terbaru
+        $relatedAlbums = Album::where('status', 1)
+            ->where('id', '!=', $album->id)
+            ->orderByRaw('category = ? desc', [$album->category])
+            ->orderBy('event_date', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('user.album.detail', compact('album', 'relatedAlbums'));
     }
 }

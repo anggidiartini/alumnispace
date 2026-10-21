@@ -6,8 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobCategory extends Model
 {
-    protected $table = 'job_categories'; // Sesuaikan jika nama tabel kamu job_vacancy_categories
-    protected $fillable = ['name', 'description', 'status'];
+    protected $table = 'job_categories';
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'status',
+    ];
 
     public function jobVacancies()
     {

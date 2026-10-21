@@ -3,49 +3,72 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\JobCategory;
 use App\Models\JobVacancy;
 use App\Models\JobApplication;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JobVacancyController extends Controller
 {
+    /**
+     * Menampilkan daftar lowongan aktif.
+     */
     public function index(Request $request)
     {
+        // Batasi akses halaman lowongan untuk role user biasa.
         if (auth()->check() && auth()->user()->role === 'user') {
-            return redirect()->route('home', ['locked' => 'lowongan'])->with('locked_feature', 'Lowongan Kerja');
+            return redirect()
+                ->route('home', ['locked' => 'lowongan'])
+                ->with('locked_feature', 'Lowongan Kerja');
         }
 
         $query = JobVacancy::where('is_active', true);
 
+        // Filter berdasarkan sifat pekerjaan.
         if ($request->filled('type') && $request->type !== 'all') {
             $query->where('job_type', $request->type);
         }
 
+        // Pencarian berdasarkan posisi, perusahaan, dan deskripsi.
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = trim($request->search);
+
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('company_name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('company_name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
 
-       $jobs = $query->with('company')->latest()->get();
+        $jobs = $query
+            ->with('company')
+            ->latest()
+            ->get();
+
         $totalActive = JobVacancy::where('is_active', true)->count();
 
-        return view('user.lowongan.index', compact('jobs', 'totalActive'));
+        // Ambil kategori aktif yang dikelola melalui menu Kelola Kategori.
+        $categories = JobCategory::where('status', 1)
+            ->orderBy('name')
+            ->get();
+
+        return view(
+            'user.lowongan.index',
+            compact('jobs', 'totalActive', 'categories')
+        );
     }
 
     /**
-     * Menampilkan detail satu lowongan berdasarkan slug.
-     * firstOrFail() otomatis melempar ModelNotFoundException -> Laravel
-     * mengubahnya jadi response 404 bawaan, jadi tidak perlu penanganan manual.
+     * Menampilkan detail lowongan berdasarkan slug.
      */
     public function show($slug)
     {
+        // Batasi akses halaman detail untuk role user biasa.
         if (auth()->check() && auth()->user()->role === 'user') {
-            return redirect()->route('home', ['locked' => 'lowongan'])->with('locked_feature', 'Lowongan Kerja');
+            return redirect()
+                ->route('home', ['locked' => 'lowongan'])
+                ->with('locked_feature', 'Lowongan Kerja');
         }
 
         $job = JobVacancy::where('is_active', true)
@@ -53,38 +76,54 @@ class JobVacancyController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-
+        // Cari lowongan lain yang memiliki kategori atau jenis pekerjaan
+        // yang sama. Kategori tetap menggunakan nama dari job_vacancies.
         $relatedJobs = JobVacancy::where('is_active', true)
             ->where('id', '!=', $job->id)
-            ->when(!empty($job->category) || !empty($job->job_type), function ($query) use ($job) {
-                $query->where(function ($q) use ($job) {
-                    if (!empty($job->category)) {
-                        $q->where('category', $job->category);
-                    }
+            ->where(function ($query) use ($job) {
+                if (!empty($job->category)) {
+                    $query->where('category', $job->category);
+
                     if (!empty($job->job_type)) {
-                        if (!empty($job->category)) {
-                            $q->orWhere('job_type', $job->job_type);
-                        } else {
-                            $q->where('job_type', $job->job_type);
-                        }
+                        $query->orWhere('job_type', $job->job_type);
                     }
-                });
+                } elseif (!empty($job->job_type)) {
+                    $query->where('job_type', $job->job_type);
+                } else {
+                    $query->whereRaw('1 = 0');
+                }
             })
+            ->latest()
             ->take(3)
             ->get();
 
-        return view('user.lowongan.detail', compact('job', 'relatedJobs'));
+        // Ambil data kategori untuk menampilkan deskripsinya di halaman detail.
+        $category = null;
+
+        if (!empty($job->category)) {
+            $category = JobCategory::where('name', $job->category)
+                ->where('status', 1)
+                ->first();
+        }
+
+        return view(
+            'user.lowongan.detail',
+            compact('job', 'relatedJobs', 'category')
+        );
     }
 
+    /**
+     * Mengirim lamaran untuk lowongan aktif.
+     */
     public function apply(Request $request, $id)
     {
-        $job = JobVacancy::where('is_active', true)->findOrFail($id);
+        $job = JobVacancy::where('is_active', true)
+            ->findOrFail($id);
 
-        // FIX: sebelumnya kalau user belum login, tidak ada JobApplication yang
-        // dibuat tapi response tetap "berhasil". Sekarang dicek eksplisit dulu.
         $user = Auth::user();
 
-        if (! $user) {
+        // Pengguna harus login sebelum melamar.
+        if (!$user) {
             if ($request->expectsJson()) {
                 return response()->json([
                     'message' => 'Silakan login terlebih dahulu untuk melamar pekerjaan ini.',
@@ -94,7 +133,10 @@ class JobVacancyController extends Controller
 
             return redirect()
                 ->route('login')
-                ->with('error', 'Silakan login terlebih dahulu untuk melamar pekerjaan ini.');
+                ->with(
+                    'error',
+                    'Silakan login terlebih dahulu untuk melamar pekerjaan ini.'
+                );
         }
 
         $request->validate([
@@ -102,8 +144,11 @@ class JobVacancyController extends Controller
             'portfolio_url' => 'nullable|url',
         ]);
 
-        // Cegah lamaran ganda dari user yang sama untuk lowongan yang sama
-        $alreadyApplied = JobApplication::where('job_vacancy_id', $job->id)
+        // Cegah pengguna melamar lowongan yang sama lebih dari sekali.
+        $alreadyApplied = JobApplication::where(
+            'job_vacancy_id',
+            $job->id
+        )
             ->where('applicant_id', $user->id)
             ->exists();
 
@@ -111,7 +156,9 @@ class JobVacancyController extends Controller
             $message = 'Kamu sudah pernah melamar untuk posisi ini.';
 
             if ($request->expectsJson()) {
-                return response()->json(['message' => $message], 409);
+                return response()->json([
+                    'message' => $message,
+                ], 409);
             }
 
             return back()->with('error', $message);
@@ -131,6 +178,9 @@ class JobVacancyController extends Controller
             ], 201);
         }
 
-        return back()->with('success', 'Lamaran berhasil dikirim ke perusahaan alumni!');
+        return back()->with(
+            'success',
+            'Lamaran berhasil dikirim ke perusahaan alumni!'
+        );
     }
 }
