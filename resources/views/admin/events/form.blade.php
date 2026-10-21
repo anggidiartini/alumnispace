@@ -165,16 +165,27 @@
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div class="form-group">
-                    <label class="form-label">Jam Mulai</label>
-                    <input type="time" name="start_time" class="form-control" value="{{ old('start_time', $event->start_time ?? '') }}">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Jam Selesai</label>
-                    <input type="time" name="end_time" class="form-control" value="{{ old('end_time', $event->end_time ?? '') }}">
-                </div>
-            </div>
+           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <div class="form-group">
+        <label class="form-label">Jam Mulai</label>
+        <input
+            type="time"
+            name="start_time"
+            class="form-control"
+            value="{{ old('start_time', isset($event->start_time) ? substr((string) $event->start_time, 0, 5) : '') }}"
+        >
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Jam Selesai</label>
+        <input
+            type="time"
+            name="end_time"
+            class="form-control"
+            value="{{ old('end_time', isset($event->end_time) ? substr((string) $event->end_time, 0, 5) : '') }}"
+        >
+    </div>
+</div>
 
             <div style="display: grid; grid-template-columns: 160px 1fr; gap: 16px;">
                 <div class="form-group">

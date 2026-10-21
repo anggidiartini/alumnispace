@@ -101,14 +101,25 @@ class EventController extends Controller
 
     private function validatedData(Request $request): array
     {
+        foreach (['start_time', 'end_time'] as $field) {
+            $time = $request->input($field);
+
+            if (is_string($time) && $time !== '') {
+                if (preg_match('/^\d{2}:\d{2}:\d{2}$/', $time)) {
+                    $request->merge([
+                        $field => substr($time, 0, 5),
+                    ]);
+                }
+            }
+        }
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:50',
             'badge_tag' => 'nullable|string|max:100',
             'banner_image' => 'nullable|image|mimes:jpeg,png,jpg|max:500',
             'event_date' => 'required|date',
-            'start_time' => 'nullable|date_format:H:i',
-            'end_time' => 'nullable|date_format:H:i|after_or_equal:start_time',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i',
             'time_display' => 'nullable|string|max:100',
             'location_type' => 'required|in:online,offline,hybrid',
             'venue' => 'nullable|string|max:255',
