@@ -5,6 +5,17 @@
     } catch (\Throwable $e) {
         $dbConnected = false;
     }
+     $pageTitle = trim(
+        $__env->yieldContent('page_title')
+        ?: $__env->yieldContent('title')
+        ?: 'AlumniSpace'
+    );
+
+    $pageTitle = html_entity_decode(
+        $pageTitle,
+        ENT_QUOTES | ENT_HTML5,
+        'UTF-8'
+    );
 @endphp
 
 <!DOCTYPE html>
@@ -12,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ trim($__env->yieldContent('page_title') ?: $__env->yieldContent('title') ?: 'AlumniSpace') }} - Panel Pengelola Portal</title>
+    <title>{{ $pageTitle }} - Panel Pengelola Portal</title>
   <link rel="icon" type="image/webp" href="{{ asset('images/logo-as.webp') }}">
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">

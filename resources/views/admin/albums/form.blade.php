@@ -184,7 +184,7 @@
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-               <div class="form-group">
+            <div class="form-group">
     <label class="form-label">Jenis Kegiatan (Kategori) <span class="required-star">*</span></label>
     <select name="category" class="form-control" required>
         <option value="" disabled {{ old('category', $album->category ?? '') ? '' : 'selected' }}>
@@ -291,31 +291,33 @@
                 <h3 style="font-size: 14px; font-weight: 700; color: #0a4174; margin: 0;">Foto Sampul & Opsi</h3>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Foto Sampul (Cover / Thumbnail)</label>
-                <div class="field-hint" style="margin-bottom: 8px;">Pilih foto dari galeri atau ambil langsung melalui kamera.</div>
+            
+<div class="form-group">
+    <label class="form-label">Foto Sampul (Cover / Thumbnail)</label>
 
-                <div class="upload-btn-group">
-                    <label for="coverPhotoInput" class="btn-action-upload">
-                        <i class="fa-regular fa-folder-open"></i> Galeri
-                    </label>
-                    <label for="coverCameraInput" class="btn-action-upload">
-                        <i class="fa-solid fa-camera"></i> Kamera
-                    </label>
-                </div>
+    <input
+        type="file"
+        id="coverPhotoInput"
+        name="cover_photo"
+        class="form-control"
+        accept="image/jpeg,image/png,image/jpg"
+        onchange="previewCover(this)"
+    >
 
-                <input type="file" id="coverPhotoInput" name="cover_photo" class="form-control" accept="image/*,image/heic,image/heif" style="display: none;" onchange="previewCover(this)">
-                <input type="file" id="coverCameraInput" capture="environment" class="form-control" accept="image/*,image/heic,image/heif" style="display: none;" onchange="handleCoverCamera(this)">
+    <div class="field-hint">Format: JPG, JPEG, PNG (Maks 500KB)</div>
+    <div id="coverError" style="font-size: 12px; color: #dc2626; margin-top: 5px;"></div>
 
-                <div style="margin-top: 12px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                    <img id="coverPreview"
-                         src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : asset('assets/images/no-image.webp') }}"
-                         style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($album) && !empty($album->cover_photo)) ? 'cover' : 'contain' }};"
-                         alt="Pratinjau"
-                         onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.webp') }}';">
-                    <div id="coverInfoText" style="font-size: 11px; color: #64748b; margin-top: 6px;"></div>
-                </div>
-            </div>
+    <div style="margin-top: 10px; text-align: center; background: #f8fafc; border: 1px dashed #d0e1f0; border-radius: 8px; padding: 6px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <img id="coverPreview"
+            src="{{ (isset($album) && !empty($album->cover_photo)) ? asset($album->cover_photo) : asset('assets/images/no-image.webp') }}"
+            style="max-width: 100%; max-height: 140px; border-radius: 6px; object-fit: {{ (isset($album) && !empty($album->cover_photo)) ? 'cover' : 'contain' }};"
+            alt="Pratinjau Cover"
+            onerror="this.onerror=null; this.src='{{ asset('assets/images/no-image.webp') }}';"
+        >
+        <div id="coverInfoText" style="font-size: 11px; color: #64748b; margin-top: 6px;"></div>
+    </div>
+</div>
+
 
             <div class="form-group" style="margin-top: 14px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 600; color: #0a4174;">
@@ -428,6 +430,44 @@
             });
             renderPhotosPreview();
         }
+    function previewCover(input) {
+        const preview = document.getElementById('coverPreview');
+        const info = document.getElementById('coverInfoText');
+        const error = document.getElementById('coverError');
+        const file = input.files[0];
+
+        error.textContent = '';
+        info.textContent = '';
+
+        if (!file) return;
+
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        const maxSize = 500 * 1024;
+
+        if (!allowedTypes.includes(file.type)) {
+            error.textContent = 'Format harus JPG, JPEG, atau PNG.';
+            input.value = '';
+            return;
+        }
+
+        if (file.size > maxSize) {
+            error.textContent = 'Ukuran foto maksimal 500 KB.';
+            input.value = '';
+            return;
+        }
+
+        info.textContent =
+            `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.objectFit = 'cover';
+        };
+
+        reader.readAsDataURL(file);
+    }
     }
 </script>
 @endsection

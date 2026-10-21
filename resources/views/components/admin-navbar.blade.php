@@ -2,7 +2,23 @@
     <div class="breadcrumb">
         <a href="/admin/dashboard"><i class="fa-solid fa-house"></i> Beranda</a>
         <i class="fa-solid fa-chevron-right" style="font-size: 10px; margin: 0 4px;"></i>
-        <span style="font-weight:600;">{{ trim($__env->yieldContent('page_title') ?: $__env->yieldContent('title') ?: 'Beranda') }}</span>
+        
+@php
+    $breadcrumbTitle = trim(
+        $__env->yieldContent('page_title')
+        ?: $__env->yieldContent('title')
+        ?: 'Beranda'
+    );
+
+    $breadcrumbTitle = html_entity_decode(
+        $breadcrumbTitle,
+        ENT_QUOTES | ENT_HTML5,
+        'UTF-8'
+    );
+@endphp
+
+<span style="font-weight:600;">{{ $breadcrumbTitle }}</span>
+
     </div>
     
     <div style="display: flex; gap: 12px; align-items: center;">
